@@ -1,0 +1,41 @@
+{
+	"name": "@dovenv/media",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Media configuration for dovenv",
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.js",
+	"module": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"scripts": {
+		"build": "unbuild",
+		"dev": "tsx examples/main.ts",
+		"preview": "node dist/bin.mjs",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"dependencies": {
+		"carbon-now-cli": "2.0.0",
+		"imagemin": "9.0.0",
+		"imagemin-gifsicle": "7.0.0",
+		"imagemin-jpegtran": "8.0.0",
+		"imagemin-optipng": "8.0.0",
+		"imagemin-pngquant": "10.0.0",
+		"imagemin-svgo": "11.0.1",
+		"imagemin-webp": "8.0.0",
+		"terminalizer": "0.12.0"
+	},
+	"devDependencies": {
+		"@types/imagemin-gifsicle": "7.0.4",
+		"@types/imagemin-jpegtran": "5.0.4",
+		"@types/imagemin-optipng": "5.2.4",
+		"@types/imagemin-svgo": "10.0.5",
+		"@types/imagemin-webp": "7.0.3",
+		"dovenv": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/utils": "workspace:*"
+	}
+}

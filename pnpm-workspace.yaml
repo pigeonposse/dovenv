@@ -1,0 +1,5 @@
+packages:
+  - 'packages/*'
+  - 'packages/plugin/*'
+  - 'packages/config/*'
+  - 'packages/templates/*'

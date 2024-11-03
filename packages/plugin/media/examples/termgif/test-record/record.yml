@@ -1,0 +1,138 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: zsh
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /Users/angelo/dovenv/packages/plugin/media
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 154
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 48
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Dovenv
+    style:
+      border: 0px black solid
+      # backgroundColor: gray
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "'FiraMono Nerd Font Propo', Menlo, Monaco, 'Courier New', Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "#1D1D1D"  #"transparent" # "#161616" # instead of transparent "transparent" #
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#161616"
+    red: "#cc0000"
+    green: "#4e9a06"
+    yellow: "#c4a000"
+    blue: "#3465a4"
+    magenta: "#75507b"
+    cyan: "#06989a"
+    white: "#d3d7cf"
+    brightBlack: "#555753"
+    brightRed: "#ef2929"
+    brightGreen: "#8ae234"
+    brightYellow: "#fce94f"
+    brightBlue: "#739fcf"
+    brightMagenta: "#ad7fa8"
+    brightCyan: "#34e2e2"
+    brightWhite: "#eeeeec"
+  
+# Records, feel free to edit them
+records:
+  - delay: 1841
+    content: "Restored session: domingo,  3 de noviembre de 2024, 18:51:51 CET\r\n"
+  - delay: 6
+    content: "\r\n"
+  - delay: 97
+    content: "\e[1m\e[32m                     \e[32m..'    \r\n                 ,xNMM.    \r\n               .OMMMMo    \r\n               lMM\"    \r\n     .;loddo:.  .olloddol;.    \r\n   cKMMMMMMMMMMNWMMMMMMMMMM0:    \r\n \e[33m.KMMMMMMMMMMMMMMMMMMMMMMMWd.    \r\n XMMMMMMMMMMMMMMMMMMMMMMMX.    \r\n\e[31m;MMMMMMMMMMMMMMMMMMMMMMMM:    \r\n:MMMMMMMMMMMMMMMMMMMMMMMM:    \r\n.MMMMMMMMMMMMMMMMMMMMMMMMX.    \r\n kMMMMMMMMMMMMMMMMMMMMMMMMWd.    \r\n \e[35m'XMMMMMMMMMMMMMMMMMMMMMMMMMMk    \r\n  'XMMMMMMMMMMMMMMMMMMMMMMMMK.    \r\n    \e[34mkMMMMMMMMMMMMMMMMMMMMMMd    \r\n     ;KMMMMMMMWXXWMMMMMMMk.    \r\n       \"cooc*\"    \"*coo'\"\e[0m\e[1G\e[16A\e[0m\e[?25l\e[?7l\e[34C\e[1m\e[32mangelo\e[0m@\e[1m\e[32mMacBook-Air-Angelo\e[0m\r\n\e[34C-------------------------\r\n\e[34C\e[0m\e[1m\e[33mOS\e[0m: \e[0mmacOS 15.0.1 24A348 arm64\r\n\e[34C\e[0m\e[1m\e[33mHost\e[0m: \e[0mMacBook Air (15-inch, M2, 2023)\r\n\e[34C\e[0m\e[1m\e[33mKernel\e[0m: \e[0m24.0.0\r\n\e[34C\e[0m\e[1m\e[33mUptime\e[0m: \e[0m28 days, 12 hours, 59 mins\r\n\e[34C\e[0m\e[1m\e[33mPackages\e[0m: \e[0m195 (brew), 1 (brew-cask)\r\n\e[34C\e[0m\e[1m\e[33mShell\e[0m: \e[0mzsh 5.9\r\n"
+  - delay: 19
+    content: "\e[34C\e[0m\e[1m\e[33mDisplay (Color LCD)\e[0m: \e[0m3420x2214 @ 60Hz (as 1710x1107) [Built-in]\r\n\e[34C\e[0m\e[1m\e[33mDE\e[0m: \e[0mAqua\r\n\e[34C\e[0m\e[1m\e[33mWM\e[0m: \e[0mQuartz Compositor\r\n\e[34C\e[0m\e[1m\e[33mWM Theme\e[0m: \e[0mPink (Dark)\r\n"
+  - delay: 8
+    content: "\e[34C\e[0m\e[1m\e[33mFont\e[0m: \e[0m.AppleSystemUIFont [System], Helvetica [User]\r\n\e[34C\e[0m\e[1m\e[33mCursor\e[0m: \e[0mFill - Black, Outline - White (32px)\r\n\e[34C\e[0m\e[1m\e[33mTerminal\e[0m: \e[0mnode\r\n"
+  - delay: 7
+    content: "\e[34C\e[0m\e[1m\e[33mCPU\e[0m: \e[0mApple M2 (8) @ 3,50 GHz\r\n"
+  - delay: 11
+    content: "\e[34C\e[0m\e[1m\e[33mGPU\e[0m: \e[0mApple M2 (10) [Integrated]\r\n\e[34C\e[0m\e[1m\e[33mMemory\e[0m: \e[0m12,95 GiB / 16,00 GiB (\e[91m81%\e[0m)\r\n\e[34C\e[0m\e[1m\e[33mSwap\e[0m: \e[0m2,66 GiB / 4,00 GiB (\e[93m67%\e[0m)\r\n\e[34C\e[0m\e[1m\e[33mDisk (\e]8;;file:///\e\\/\e]8;;\e\\)\e[0m: \e[0m188,16 GiB / 228,27 GiB (\e[91m82%\e[0m) - apfs [Read-only]\r\n\e[34C\e[0m\e[1m\e[33mLocal IP (en0)\e[0m: \e[0m192.168.1.138/24 *\r\n\e[34C\e[0m\e[1m\e[33mBattery\e[0m: \e[0m\e[32m100%\e[0m [AC connected]\r\n\e[34C\e[0m\e[1m\e[33mPower Adapter\e[0m: \e[0m70W USB-C Power Adapter \r\n\e[34C\e[0m\e[1m\e[33mLocale\e[0m: \e[0mes_ES.UTF-8\r\n\e[34C\r\n\e[34C\e[30m███\e[31m███\e[32m███\e[33m███\e[34m███\e[35m███\e[36m███\e[37m███\e[0m\r\n\e[34C\e[1;30;90m███\e[1;31;91m███\e[1;32;92m███\e[1;33;93m███\e[1;34;94m███\e[1;35;95m███\e[1;36;96m███\e[1;37;97m███\e[0m\r\n\e[?7h\e[?25h\r\n"
+  - delay: 32
+    content: "\e[0m\e[49m\e[39m\e[27m\e[24m\r\e[K\r\n\r\n\e[2A\e7\e[0m\e[49m\e[39m\e[0m\e[49m\e[37m\e[0m\e[37m\e[47m\e[38;5;232m \e[0m\e[38;5;232m\e[47m\e[47m\e[38;5;232m \e[0m\e[38;5;232m\e[47m\e[44m\e[37m\e[0m\e[37m\e[44m\e[44m\e[38;5;254m  \e[1m\e[38;5;254m\e[44m\e[38;5;255m~\e[0m\e[38;5;255m\e[44m\e[44m\e[38;5;254m/\e[1m\e[38;5;254m\e[44m\e[38;5;255mdovenv\e[0m\e[38;5;255m\e[44m\e[44m\e[38;5;254m/packages/plugin/\e[1m\e[38;5;254m\e[44m\e[38;5;255mmedia\e[0m\e[38;5;255m\e[44m\e[44m\e[38;5;254m\e[0m\e[38;5;254m\e[44m\e[44m\e[38;5;254m \e[0m\e[38;5;254m\e[44m\e[49m\e[34m\e[0m\e[34m\e[49m\e[39m                                                                                                   \e[0m\e[49m\e[37m\e[0m\e[37m\e[47m\e[30m 22:57:28\e[0m\e[30m\e[47m\e[47m\e[30m \e[0m\e[30m\e[47m\e[47m\e[30m \e[49m\e[37m\e[0m\e[37m\e[47m\e[30m\e[0m\e[30m\e[47m\e[49m\e[39m\r\n\e[0m\e[49m\e[38;5;76m❯\e[0m\e[38;5;76m\e[49m\e[38;5;76m\e[0m\e[38;5;76m\e[49m\e[30m\e[0m\e[30m\e[49m\e[39m \e[0m\e[49m\e[39m\e[?2004h"
+  - delay: 644
+    content: "\e[?25l\e8\e[0m\e[49m\e[39m\e[27m\e[24m\e[J\e]7;file://MacBook-Air-Angelo.local/Users/angelo/dovenv/packages/plugin/media\a\e]2;angelo@MacBook-Air-Angelo\a\e]1;../plugin/media\a\e]7;file://MacBook-Air-Angelo.local/Users/angelo/dovenv/packages/plugin/media\e\\\e[0m\e[38;5;254m\e[49m\e[39m\e[27m\e[24m\e[1m\e[7m%\e[27m\e[1m\e[0m                                                                                                                                                         \r\e[0m\e[49m\e[39m\e[27m\e[24m\e[K\r\e[0m\e[27m\e[24m\e[J\e[0m\e[49m\e[39m\r\n\e[A\e[0m\e[49m\e[37m\e[0m\e[37m\e[47m\e[38;5;232m \e[0m\e[38;5;232m\e[47m\e[47m\e[38;5;232m \e[0m\e[38;5;232m\e[47m\e[44m\e[37m\e[0m\e[37m\e[44m\e[44m\e[38;5;254m  \e[1m\e[38;5;254m\e[44m\e[38;5;255m~\e[0m\e[38;5;255m\e[44m\e[44m\e[38;5;254m/\e[1m\e[38;5;254m\e[44m\e[38;5;255mdovenv\e[0m\e[38;5;255m\e[44m\e[44m\e[38;5;254m/packages/plugin/\e[1m\e[38;5;254m\e[44m\e[38;5;255mmedia\e[0m\e[38;5;255m\e[44m\e[44m\e[38;5;254m\e[0m\e[38;5;254m\e[44m\e[44m\e[38;5;254m \e[0m\e[38;5;254m\e[44m\e[49m\e[34m\e[0m\e[34m\e[49m\e[39m                                                                                                   \e[0m\e[49m\e[37m\e[0m\e[37m\e[47m\e[30m 22:57:28\e[0m\e[30m\e[47m\e[47m\e[30m \e[0m\e[30m\e[47m\e[47m\e[30m \e[49m\e[37m\e[0m\e[37m\e[47m\e[30m\e[0m\e[30m\e[47m\e[49m\e[39m\r\n\e[0m\e[49m\e[38;5;76m❯\e[0m\e[38;5;76m\e[49m\e[38;5;76m\e[0m\e[38;5;76m\e[49m\e[30m\e[0m\e[30m\e[49m\e[39m \e[0m\e[49m\e[39m\e[K\e[?1h\e=\e[?25h\e[?2004h"
+  - delay: 2910
+    content: "\e[?2004l\r\r\n"
+  - delay: 19
+    content: "\r\nSaving session..."
+  - delay: 6
+    content: "completed.\r\n"

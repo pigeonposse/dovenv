@@ -1,0 +1,33 @@
+{
+	"name": "@dovenv/ai",
+	"version": "0.0.1",
+	"private": true,
+	"description": "AI configuration for dovenv",
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"scripts": {
+		"build": "unbuild",
+		"dev": "bun examples/main.ts",
+		"preview": "node dist/bin.mjs",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"dependencies": {
+		"@dovenv/eslint-config": "workspace:*",
+		"@dovenv/stylelint-config": "workspace:*",
+		"env-ai": "^0.4.0",
+		"eslint": "9.14.0",
+		"lint-staged": "15.2.10",
+		"stylelint": "16.10.0"
+	},
+	"devDependencies": {
+		"dovenv": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/utils": "workspace:*"
+	}
+}

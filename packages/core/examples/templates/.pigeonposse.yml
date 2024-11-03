@@ -1,0 +1,23 @@
+###############################################################################
+# FOR PIGEONPOSSE USAGE
+###############################################################################
+
+web:
+
+  - id: "{{pkg.name}}"
+    name: "{{pkg.name}}"
+    type: "library"
+    subtypes:
+      - Bin
+      - CLI
+      - Node
+    version: "{{version}}"
+    description: "{{pkg.description}}"
+    homepage: "{{pkg.homepage}}"
+    repo: "{{pkg.repository.url}}"
+    license: "{{pkg.extra.licenseUrl}}"
+    # logo: "https://raw.githubusercontent.com/pigeonposse/binarium/main/docs/public/logo.png"
+    # banner: "https://raw.githubusercontent.com/pigeonposse/binarium/main/docs/public/banner.png"
+    status: "active"
+
+###############################################################################

@@ -1,0 +1,28 @@
+{
+	"name": "dovenv",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Quickly and easily set up your environment for your code projects",
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.js",
+	"module": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"bin": {
+		"dovenv": "./dist/bin.mjs"
+	},
+	"scripts": {
+		"build": "unbuild",
+		"preview": "node dist/bin.mjs",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"dependencies": {
+		"@dovenv/utils": "workspace:*",
+		"update-notifier": "7.3.1"
+	},
+	"devDependencies": {
+		"@types/update-notifier": "6.0.8"
+	}
+}

@@ -1,0 +1,23 @@
+###############################################################################
+# FOR PIGEONPOSSE USAGE
+###############################################################################
+
+web:
+
+  - id: "dovenv-monorepo"
+    name: "dovenv-monorepo"
+    type: "library"
+    subtypes:
+      - Bin
+      - CLI
+      - Node
+    version: "0.0.1"
+    description: "Quickly and easily set up your environment for your code projects. Create documentation pages with zeroconfig, add beautiful commits, and much more."
+    homepage: "https://github.com/pigeonposse/dovenv"
+    repo: "https://github.com/pigeonposse/dovenv"
+    license: "https://github.com/pigeonposse/backan/blob/main/LICENSE"
+    # logo: "https://raw.githubusercontent.com/pigeonposse/binarium/main/docs/public/logo.png"
+    # banner: "https://raw.githubusercontent.com/pigeonposse/binarium/main/docs/public/banner.png"
+    status: "active"
+
+###############################################################################

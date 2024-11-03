@@ -1,0 +1,96 @@
+{
+	"name": "@dovenv/docs",
+	"version": "0.0.5",
+	"description": "Documentation utils for dovenv",
+	"homepage": "https://github.com/pigeonposse/dovenv",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/plugin/docs"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"bin": {
+		"dovenv-docs": "dist/cli.mjs"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "unbuild",
+		"build-preview": "node dist/cli.mjs --config config.js",
+		"dev": "tsx src/cli.ts dev --config config.js",
+		"example": "bun examples/main.ts",
+		"preview": "tsx src/cli.ts preview --config config.js",
+		"test": "playwright test"
+	},
+	"dependencies": {
+		"@dovenv/utils": "workspace:*",
+		"@fortawesome/vue-fontawesome": "3.0.8",
+		"@shikijs/vitepress-twoslash": "1.22.2",
+		"chroma-js": "3.1.2",
+		"markdown-it-container": "4.0.0",
+		"markdown-it-task-lists": "2.1.1",
+		"medium-zoom": "1.1.0",
+		"node-vibrant": "3.2.1-alpha.1",
+		"vite-plugin-full-reload": "1.2.0",
+		"vite-plugin-pwa": "0.20.5",
+		"vite-plugin-restart": "0.4.1",
+		"vitepress": "1.4.5",
+		"vitepress-plugin-group-icons": "1.3.0",
+		"vitepress-plugin-rss": "0.3.0",
+		"vue": "3.5.12",
+		"vue-social-sharing": "3.0.9"
+	},
+	"devDependencies": {
+		"@types/chroma-js": "2.4.4",
+		"@types/markdown-it-container": "2.0.10",
+		"dovenv": "workspace:*",
+		"vite-plugin-copy": "0.1.6"
+	},
+	"extra": {
+		"id": "dovenv",
+		"productName": "dovenv",
+		"shortDesc": "All in one web API builder",
+		"libraryUrl": "https://www.npmjs.com/package/dovenv",
+		"docsUrl": "https://dovenv.pigeonposse.com",
+		"collective": {
+			"id": "pigeonposse",
+			"name": "PigeonPosse",
+			"gh": "https://github.com/pigeonposse",
+			"about": "https://pigeonposse.com?popup=about",
+			"url": "https://pigeonposse.com",
+			"web": "https://pigeonposse.com",
+			"email": "dev@pigeonposse.com",
+			"socialUser": {
+				"twitter": "pigeonposse_",
+				"instagram": "pigeon.posse",
+				"medium": "pigeonposse"
+			},
+			"social": {
+				"twitter": "https://twitter.com/pigeonposse_",
+				"instagram": "https://www.instagram.com/pigeon.posse/",
+				"medium": "https://medium.com/@pigeonposse"
+			}
+		}
+	}
+}

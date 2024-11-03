@@ -1,0 +1,25 @@
+[tool.eslint]
+	extends = [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended"
+	]
+	parserOptions = { ecmaVersion = 2020, sourceType = "module" }
+
+[TBL.A.B.C]
+
+[rules]
+	no-console = "off"
+	no-debugger = "off"
+	no-multi-spaces = "error"
+	keyword-spacing = [
+		"error",
+		{ after = true }
+	]
+	object-curly-spacing = [
+		"error",
+		"always"
+	]
+	align-variables = [
+		"error",
+		"on"
+	]

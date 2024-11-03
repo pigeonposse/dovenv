@@ -1,0 +1,18 @@
+{
+	"hols": {
+		"rules": {
+			"no-underscore-dangle": "off",
+			"no-undef": "off"
+		}
+	},
+	"md": {
+		"jsonc/object-property-newline": {"foo": "bar"},
+		"jsonc/array-bracket-newline": [
+			"error",
+			"always"
+		],
+		"no-underscore-dangle": "off",
+		"no-undef": "off",
+		"BAD": 42
+	}
+}
