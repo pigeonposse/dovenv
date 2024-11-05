@@ -1,1 +1,1 @@
-# CLI de ai (`env-ai` wrapper)
+# AI plugin for dovenv

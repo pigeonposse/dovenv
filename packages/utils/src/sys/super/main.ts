@@ -90,10 +90,10 @@ export const isPath = ( str: string ) => {
  * @throws {Error} If the module cannot be found in the lookup paths.
  * @example
  *
- * const moduleDir = await getModulePath('@dovenv/utils')
+ * const moduleDir = await getModulePath({ moduleEntry: '@dovenv/utils' })
  * console.log(moduleDir) // returns: {workspace}/node_modules/@dovenv/utils
  *
- * const moduleFile = await getModulePath('@dovenv/utils', ['index.js'])
+ * const moduleFile = await getModulePath({ moduleEntry: '@dovenv/utils', paths: ['index.js'] })
  * console.log(moduleFile) // returns: {workspace}/node_modules/@dovenv/utils/index.js
  */
 export const getModulePath = async ( {
@@ -101,9 +101,9 @@ export const getModulePath = async ( {
 	moduleEntry,
 	paths,
 }:{
-	currentPath : string
-	moduleEntry : string
-	paths       : string[]
+	currentPath? : string
+	moduleEntry  : string
+	paths?       : string[]
 } ): Promise<string> => {
 
 	const packageName = moduleEntry.includes( '/' )

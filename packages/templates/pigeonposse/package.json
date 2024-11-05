@@ -1,0 +1,30 @@
+{
+	"name": "@dovenv/theme-pigeonposse",
+	"version": "0.0.1",
+	"private": true,
+	"description": "A dovenv configuration and tools for Pigeonposse team",
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"scripts": {
+		"build": "unbuild",
+		"dev": "tsx examples/main.ts",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"dependencies": {
+		"@dovenv/docs": "workspace:*",
+		"@dovenv/lint": "workspace:*",
+		"@dovenv/media": "workspace:*"
+	},
+	"devDependencies": {
+		"dovenv": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/utils": "workspace:*",
+		"dovenv": "workspace:*"
+	}
+}

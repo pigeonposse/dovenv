@@ -3,7 +3,6 @@ import {
 	color,
 	getMatch,
 } from '@dovenv/utils'
-import { defineConfig } from 'dovenv'
 
 import { generateCodeImage } from './code-image'
 import { runImageMin }       from './min'
@@ -13,9 +12,10 @@ import {
 	terminalGifCreateConfg,
 } from './terminal-gif'
 
-import type { CodeImageConfig } from './code-image'
-import type { ImageMinConfig }  from './min'
-import type { TermGifConfig }   from './terminal-gif'
+import type { CodeImageConfig }         from './code-image'
+import type { ImageMinConfig }          from './min'
+import type { TermGifConfig }           from './terminal-gif'
+import type { Config as DoveEnvConfig } from 'dovenv'
 
 const CMDS = {
 	codeImage : 'code-image',
@@ -41,7 +41,7 @@ const getKeys = ( avaliableKeys: string[], userkeyPattern?:  string[] ) => {
 
 export const config = ( conf?:  Config ) => {
 
-	return defineConfig( { custom : { media : {
+	const data: DoveEnvConfig = { custom : { media : {
 		desc : 'Media functionality for your workspace',
 		cmds : {
 			[CMDS.codeImage] : { desc: 'Generate code image' },
@@ -213,7 +213,9 @@ export const config = ( conf?:  Config ) => {
 			// throw new Error( 'Unexpected command provided. Use "code-image"' )
 
 		},
-	} } } )
+	} } }
+
+	return data
 
 }
 

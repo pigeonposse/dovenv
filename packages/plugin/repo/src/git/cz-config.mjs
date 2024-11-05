@@ -3,9 +3,7 @@
  * @description Cz-customizable config.
  * @see https://github.com/leoforfree/cz-customizable
  */
-const { extra } = require( '../package.json' )
-
-module.exports = {
+export default  {
 	types : [
 		{
 			value : ':sparkles: feat',
@@ -57,18 +55,45 @@ module.exports = {
 		},
 	],
 
-	scopes         : extra.scopes,
+	scopes : [
+		{ name: 'core' },
+		{ name: 'env' },
+		{ name: 'all' },
+	],
+
+	// usePreparedCommit: false, // to re-use commit from ./.git/COMMIT_EDITMSG
+	// allowTicketNumber: false,
+	// isTicketNumberRequired: false,
+	// ticketNumberPrefix: 'TICKET-',
+	// ticketNumberRegExp: '\\d{1,5}',
+
 	scopeOverrides : { fix : [
 		{ name: 'merge' },
 		{ name: 'style' },
 		{ name: 'test' },
 		{ name: 'hotfix' },
 	] },
-
+	// override the messages, defaults are as follows
+	messages : {
+		type          : 'Select the type of change that you\'re committing:',
+		scope         : '\nDenote the SCOPE of this change (optional):',
+		// used if allowCustomScopes is true
+		customScope   : 'Denote the SCOPE of this change:',
+		subject       : 'Write a SHORT, IMPERATIVE tense description of the change:\n',
+		body          : 'Provide a LONGER description of the change (optional). Use "|" to break new line:\n',
+		breaking      : 'List any BREAKING CHANGES (optional):\n',
+		footer        : 'List any ISSUES CLOSED by this change (optional). E.g.: #31, #34:\n',
+		confirmCommit : 'Are you sure you want to proceed with the commit above?',
+	},
 	allowCustomScopes    : true,
 	allowBreakingChanges : [ 'feat', 'fix' ],
 	// skip any questions you want
-	// skipQuestions: ['body'],
-	subjectLimit         : 100,
+	// skipQuestions: ['scope', 'body'],
+
+	// limit subject length
+	subjectLimit : 100,
+	// breaklineChar: '|', // It is supported for fields body and footer.
+	// footerPrefix : 'ISSUES CLOSED:'
+	// askForBreakingChangeFirst : true, // default is false
 }
 

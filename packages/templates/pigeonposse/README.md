@@ -1,3 +1,1 @@
-# Banda
-
-Esto seria una configracion para dovenv que agrupara todos los plugins
+# Pigeonposse team enviroment for dovenv

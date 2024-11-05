@@ -1,19 +1,24 @@
-import * as dovenvEslintConfig    from '@dovenv/eslint-config'
+// @ts-ignore
+import * as dovenvEslintConfig from '@dovenv/eslint-config'
+// @ts-ignore
 import * as dovenvStylelintConfig from '@dovenv/stylelint-config'
-import { defineConfig }           from 'dovenv'
 
-import {
-	runEslint,
-	runLintStaged,
-	runStylelint,
-} from './run'
+import { runCommitlint } from './commitlint'
+import { runEslint }     from './eslint'
+import { runLintStaged } from './staged'
+import { runStylelint }  from './style'
 
-import type stylelint from 'stylelint'
+import type { CommitlintConfig }        from './commitlint'
+import type { EslintConfig }            from './eslint'
+import type { LintStagedConfig }        from './staged'
+import type { StylelintConfig }         from './style'
+import type { Config as DoveEnvConfig } from 'dovenv'
 
-type Config = {
-	staged?    : Record<string, string>
-	stylelint? : stylelint.LinterOptions
-	eslint?    : string[]
+export type Config = {
+	staged?     : LintStagedConfig
+	stylelint?  : StylelintConfig
+	eslint?     : EslintConfig
+	commitlint? : CommitlintConfig
 }
 
 export {
@@ -22,10 +27,9 @@ export {
 	runStylelint,
 	dovenvEslintConfig,
 	dovenvStylelintConfig,
-	Config,
 }
 
-export const config = ( conf?: Config ) => defineConfig( { custom : {
+export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : {
 	'lint-staged' : {
 		desc : 'Lint staged files',
 		fn   : async ( ) => {
@@ -48,7 +52,7 @@ export const config = ( conf?: Config ) => defineConfig( { custom : {
 		},
 		fn : async ( { opts } ) => {
 
-			const config: stylelint.LinterOptions = {
+			const config: StylelintConfig = {
 				...conf?.stylelint,
 				...( opts?.files ? { files: opts?.files as string[] } : {} ),
 				...( opts?.fix ? { fix: true } : {} ),
@@ -64,6 +68,14 @@ export const config = ( conf?: Config ) => defineConfig( { custom : {
 		fn   : async () => {
 
 			await runEslint()
+
+		},
+	},
+	'commitlint' : {
+		desc : 'Lint commit messages',
+		fn   : async () => {
+
+			await runCommitlint( conf?.commitlint )
 
 		},
 	},

@@ -52,7 +52,7 @@ const runCli = async  ( args: string[] = [] ) => {
 	// 	} )
 
 	// } )
-	console.log( import.meta.url )
+	// console.log( import.meta.url )
 	await execModulePath( {
 		currentPath : import.meta.url,
 		moduleEntry : 'terminalizer',

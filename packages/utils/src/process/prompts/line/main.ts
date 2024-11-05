@@ -65,7 +65,7 @@ const printOptions = {
  * import { promptLine } from "@dovenv/utils"
  *
  * const answers = await promptLine({
- *     intro: 'clippo init',
+ *     intro: 'Dovenv init',
  *     outro: 'Succesfully finished 🌈',
  *     onCancel: p => {
  *         p.cancel('canceled 💔')
@@ -85,14 +85,21 @@ const printOptions = {
  *
  * console.log(answers.name, answers.age)
  */
-export async function promptLine( params: PromptLineParams ) {
+export async function promptLine<T>( params: PromptLineParams<T> ) {
+
+	if ( !params.onCancel ) params.onCancel = async p => {
+
+		p.cancel( 'canceled 💔' )
+		process.exit( 0 )
+
+	}
 
 	const promptCancel = {
 		...p,
 		number,
 		...printOptions,
 	}
-	const typePrompt   = ( props: PromptParams ) => enquirer2clack( props, () => params.onCancel( promptCancel ) )
+	const typePrompt   = ( props: PromptParams ) => enquirer2clack( props, () => params.onCancel?.( promptCancel ) )
 	const prompt       = {
 		...promptCancel,
 		typePrompt,
@@ -100,9 +107,10 @@ export async function promptLine( params: PromptLineParams ) {
 
 	if ( params.intro ) prompt.intro( params.intro )
 	const list    = await params.list( prompt )
-	const results = await prompt.group( list, { onCancel: () => params.onCancel( prompt ) } )
+	const results = await prompt.group<T>( list, { onCancel: () => params.onCancel?.( prompt ) } )
 
 	if ( params.outro ) prompt.outro( params.outro )
 	return results
 
 }
+

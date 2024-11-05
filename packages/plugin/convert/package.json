@@ -24,10 +24,10 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.js"
+		".": "./dist/main.mjs"
 	},
-	"main": "dist/main.js",
-	"module": "dist/main.js",
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"files": [
 		"dist"
@@ -39,8 +39,10 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"devDependencies": {
-		"@dovenv/docs": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"dovenv": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/utils": "workspace:*"
 	}
 }

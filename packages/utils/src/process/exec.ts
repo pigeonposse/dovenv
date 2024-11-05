@@ -270,10 +270,10 @@ export const execModulePath = async ( {
 	modulePath = [],
 	args = [],
 }:{
-	currentPath : string
-	moduleEntry : string
-	modulePath  : string[]
-	args        : string[]
+	currentPath? : string
+	moduleEntry  : string
+	modulePath?  : string[]
+	args?        : string[]
 } ) => {
 
 	const binPath = await getModulePath( {
@@ -387,5 +387,41 @@ export const execModulePathWithOutput = async ( {
 		} )
 
 	} )
+
+}
+
+export const existsLocalBin = async ( binName: string ) => {
+
+	const command = process.platform === 'win32' ? `where ${binName}` : `which ${binName}`
+
+	try {
+
+		await execChild( command )
+		return true
+
+	}
+	catch ( _e ) {
+
+		return false
+
+	}
+
+}
+export const existsLocalBins = async <Bin extends string>( binaries: Bin[] ): Promise<{ [key in Bin]: boolean }> => {
+
+	type Bins = { [key in Bin]: boolean }
+	const existingBinaries = {} as Bins
+
+	// Crea un array de promesas para cada binario
+	const checks = binaries.map( async bin => {
+
+		const exists = await existsLocalBin( bin )
+
+		existingBinaries[bin] = exists
+
+	} )
+
+	await Promise.all( checks )
+	return existingBinaries
 
 }

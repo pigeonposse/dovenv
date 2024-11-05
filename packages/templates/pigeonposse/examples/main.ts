@@ -2,6 +2,6 @@ import { build } from 'dovenv'
 
 await build( [
 	'-c',
-	'src/main.ts',
+	'examples/config.ts',
 	...process.argv.slice( 2 ),
 ] )

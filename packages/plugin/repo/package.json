@@ -16,17 +16,22 @@
 		"preview": "node dist/bin.mjs",
 		"test": "vitest run -r src --passWithNoTests"
 	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-customizable"
+		},
+		"cz-customizable": {
+			"config": ".dev/cz-config.cjs"
+		}
+	},
 	"dependencies": {
 		"@changesets/changelog-github": "0.5.0",
 		"@changesets/cli": "2.27.9",
-		"@commitlint/cli": "19.5.0",
-		"@types/node": "22.8.7",
+		"@commitlint/prompt": "^19.5.0",
 		"commitizen": "4.3.1",
-		"commitlint-config-gitmoji": "2.3.1",
 		"cz-customizable": "7.2.1",
-		"cz-emoji": "1.3.2-canary.2",
-		"git-cz": "4.9.0",
-		"husky": "9.1.6"
+		"husky": "9.1.6",
+		"inquirer": "^12.0.1"
 	},
 	"devDependencies": {
 		"dovenv": "workspace:*"

@@ -1,18 +1,13 @@
-import {
-	execProcess,
-	exec,
-} from '@dovenv/utils'
+import { exec } from '@dovenv/utils'
 
-export const updatePakageVersion = async ( ) => {
+import { Repo } from '../_super/main'
 
-	await execProcess( {
-		name : 'UPDATE',
-		on   : async ( ) => {
+export class UpdateVersion extends Repo {
 
-			await exec( 'changeset && changeset version' )
+	async run() {
 
-		},
+		await exec( 'changeset && changeset version' )
 
-	} )
+	}
 
 }

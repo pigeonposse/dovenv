@@ -1,5 +1,6 @@
 import { marked }         from 'marked'
 import { markedTerminal } from 'marked-terminal'
+import TurndownService    from 'turndown'
 
 import { readFile } from '../sys/super/main'
 
@@ -18,14 +19,14 @@ export const readMD = async ( path: string ): Promise<string> => {
 }
 
 /**
- * Reads a Markdown file from the specified path and prints its content.
+ * Reads a Markdown file from the specified path and converts it to a formatted string suitable for the terminal.
  * @param {string} path - The path to the Markdown file.
  * @returns {Promise<string>} - The formatted Markdown as a string.
  */
-export const printMDFromPath = async ( path: string ): Promise<string> => {
+export const formatMDForTerminalFromPath = async ( path: string ): Promise<string> => {
 
 	const content = await readFile( path, 'utf-8' )
-	return await printMD( content )
+	return await formatMDForTerminal( content )
 
 }
 
@@ -34,14 +35,29 @@ export const printMDFromPath = async ( path: string ): Promise<string> => {
  * @param {string} string - The Markdown string to convert.
  * @returns {string} - The converted HTML string.
  */
-export const mdToHTML = async  ( string: string ) => await marked( string )
+export const md2html = async  ( string: string ) => await marked( string )
+
+export const html2md = async ( html: string ) => {
+
+	const turndownService = new TurndownService()
+	return turndownService.turndown( html )
+
+}
+
+export const formatHTMLForTerminal = async ( string: string ): Promise<string> => {
+
+	string = await html2md( string )
+	marked.use( markedTerminal() as MarkedExtension )
+	return await marked.parse( string )
+
+}
 
 /**
- * Returns the Markdown to the terminal with formatting.
- * @param {string} string - The Markdown string to print.
- * @returns {Promise<string>} - The formatted Markdown as a string.
+ * Converts a Markdown string to a formatted string suitable for the terminal.
+ * @param {string} string - The Markdown string to convert.
+ * @returns {Promise<string>} - The formatted string as a promise.
  */
-export const printMD = async ( string: string ): Promise<string> => {
+export const formatMDForTerminal = async ( string: string ): Promise<string> => {
 
 	marked.use( markedTerminal() as MarkedExtension )
 	return await marked.parse( string )

@@ -6,6 +6,8 @@ import { rename }    from 'node:fs/promises'
 import { join }      from 'node:path'
 import { promisify } from 'node:util'
 
+export * from './download'
+
 /**
  * Checks if the user is authenticated to GitHub using the GitHub CLI.
  * @returns {boolean} True if the user is authenticated, false otherwise.

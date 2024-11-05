@@ -56,9 +56,9 @@ type PromptLineExecProps = PromptLineCancelProps & { typePrompt: <T>( props: Pro
 /**
  * Parameters for configuring a prompt line.
  */
-export type PromptLineParams = {
-	intro?   : string
-	outro?   : string
-	list     : ( prompt: PromptLineExecProps ) => Parameters<typeof p.group>[0]
-	onCancel : ( prompt: PromptLineCancelProps ) => Promise<void>
+export type PromptLineParams<T> = {
+	intro?    : string
+	outro?    : string
+	list      : ( prompt: PromptLineExecProps ) => p.PromptGroup<T> | Promise<p.PromptGroup<T>>
+	onCancel? : ( prompt: PromptLineCancelProps ) => Promise<void>
 }

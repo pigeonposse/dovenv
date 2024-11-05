@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "0.0.25",
+	"version": "0.0.1",
 	"description": "All in one web API builder. Create endpoints with type validations and OpenApi documentation, safely and quickly.",
 	"keywords": [
 		"backend",
@@ -43,7 +43,6 @@
 		"@stylistic/eslint-plugin": "2.9.0",
 		"@typescript-eslint/eslint-plugin": "8.11.0",
 		"@typescript-eslint/parser": "8.11.0",
-		"eslint": "9.13.0",
 		"eslint-plugin-align-assignments": "1.1.2",
 		"eslint-plugin-align-import": "1.0.0",
 		"eslint-plugin-canonical": "5.0.0",
@@ -70,7 +69,11 @@
 	},
 	"devDependencies": {
 		"@types/eslint__js": "8.42.3",
+		"eslint": "9.13.0",
 		"svelte": "4.2.19"
+	},
+	"peerDependencies": {
+		"eslint": "9.13.0"
 	},
 	"publishConfig": {
 		"access": "public",

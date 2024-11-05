@@ -41,7 +41,7 @@ export const generateCodeImage = async ( {
 			...( filename ? [ `--save-as ${filename}` ] : [] ),
 			...flags,
 		]
-
+		// @ts-ignore
 		await import( 'carbon-now-cli' )
 
 	}

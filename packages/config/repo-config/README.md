@@ -1,0 +1,1 @@
+# Configrtion for DOVENV repositories

@@ -9,7 +9,6 @@ export default defineBuildConfig( [
 			minify : true,
 			target : 'node20',
 		} },
-		// externals  : [ 'update-notifier' ],
 		failOnWarn : false,
 
 	},
