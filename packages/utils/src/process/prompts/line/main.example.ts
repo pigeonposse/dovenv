@@ -1,6 +1,5 @@
-import { color } from '@dovenv/utils'
-
 import { promptLine } from './main'
+import { color }      from '../../../styles/color'
 
 // log.verbose = true
 // log.error( 'es un error' )
@@ -25,39 +24,47 @@ const results = await promptLine( {
 			defaultValue : 'Angelo',
 		} ) as string,
 		notes : () => p.note( 'Welcome to clippo test', 'pigeonposse 🐦🌈' ),
-		table : () => p.table( [
-			[
-				'0A',
-				'0B',
-				'0C',
+		table : () => p.table( {
+			value : [
+				[
+					[
+						'0A',
+						'0B',
+						'0C',
+					],
+					[
+						'1A',
+						'1B',
+						'1C',
+					],
+					[
+						'2A',
+						'2B',
+						'2C',
+					],
+				],
 			],
-			[
-				'1A',
-				'1B',
-				'1C',
-			],
-			[
-				'2A',
-				'2B',
-				'2C',
-			],
-		] ),
-		columns : () => p.columns( [
-			{
-				version     : '0.0.1',
-				name        : 'mod1',
-				description : 'some description which happens to be far larger than the max',
-			},
-			{
-				version     : '0.2.0',
-				name        : 'module-two',
-				description : 'another description larger than the max',
-			},
-		], {
-			showHeaders : false,
-			minWidth    : 12,
-			config      : { description: { maxWidth: 30 } },
+			type : 'error',
 		} ),
+		columns : () => p.columns( { value : [
+			[
+				{
+					version     : '0.0.1',
+					name        : 'mod1',
+					description : 'some description which happens to be far larger than the max',
+				},
+				{
+					version     : '0.2.0',
+					name        : 'module-two',
+					description : 'another description larger than the max',
+				},
+			],
+			{
+				showHeaders : false,
+				minWidth    : 12,
+				config      : { description: { maxWidth: 30 } },
+			},
+		] } ),
 		form : () => p.typePrompt( 		{
 			type    : 'form',
 			message : 'Please provide the following information:',

@@ -5,24 +5,89 @@
 import {
 	execChild,
 	exec,
-	getModulePath,
-	getCurrentDir,
-	joinPath,
+	cache as initCache,
 } from '@dovenv/utils'
-// @ts-ignore
-import cz       from 'commitizen/dist/cli/git-cz'
-import inquirer from 'inquirer'
 
-import { Repo } from '../_super/main'
+import { Git } from './super'
 
-export type CommitConfig = {
-	/**
-	 * Commit opts
-	 * @see https://github.com/leoforfree/cz-customizable?tab=readme-ov-file#options
-	 */
-	config : Record<string, string> }
+type Commit = Exclude<RepoCommit['opts']['commit'], undefined>
+export class RepoCommit extends Git {
 
-export class RepoCommit extends Repo {
+	types: Commit['types'] = [
+		{
+			value : ':sparkles: feat',
+			title : '✨ feat',
+			desc  : 'Adding a new feature',
+		},
+		{
+			value : ':bug: fix',
+			title : '🐛 fix',
+			desc  : 'Fixing a bug',
+		},
+		{
+			value : ':memo: docs',
+			title : '📝 docs',
+			desc  : 'Add or update documentation',
+		},
+		{
+			value : ':lipstick: style',
+			title : '💄 style',
+			desc  : 'Add or update styles, UI, or UX',
+		},
+		{
+			value : ':recycle: refactor',
+			title : '♻️  refactor',
+			desc  : 'Code change that neither fixes a bug nor adds a feature',
+		},
+		{
+			value : ':zap: perf',
+			title : '⚡️ perf',
+			desc  : 'Code change that improves performance',
+		},
+		{
+			value : ':white_check_mark: test',
+			title : '✅ test',
+			desc  : 'Adding test cases',
+		},
+		{
+			value : ':truck: chore',
+			title : '🚚 chore',
+			desc  : 'Changes to the build process or auxiliary tools and libraries (e.g., documentation generation)',
+		},
+		{
+			value : ':rewind: revert',
+			title : '⏪️ revert',
+			desc  : 'Revert to a previous commit',
+		},
+		{
+			value : ':construction: wip',
+			title : '🚧 wip',
+			desc  : 'Work in progress',
+		},
+		{
+			value : ':construction_worker: build',
+			title : '👷 build',
+			desc  : 'Add or update related to build process',
+		},
+		{
+			value : ':green_heart: ci',
+			title : '💚 ci',
+			desc  : 'Add or update related to CI process',
+		},
+	]
+
+	scopes: Commit['scopes'] = [
+		{ value: 'core' },
+		{ value: 'env' },
+		{ value: 'all' },
+	]
+
+	async getList() {
+
+		const { stdout } = await execChild( 'git status --short' )
+		return stdout.trim().split( '\n' )
+
+	}
 
 	async isStageEmpty() {
 
@@ -31,46 +96,180 @@ export class RepoCommit extends Repo {
 
 	}
 
-	async exec( message: string ) {
+	async lint( message: string ) {
 
-		await exec( `git commit -m "${message}"` )
+		if ( !this.opts.commit?.lint ) return
+		const fn = this.config.custom?.commitlint?.fn
+		if ( !fn || !( typeof fn === 'function' ) ) {
+
+			console.warn( 'Commitlint not configured. Please install "@dovenv/lint" and set into configuration' )
+			return
+
+		}
+		else
+			await fn( {
+				cmds : [],
+				opts : {
+					message : message,
+					m       : message,
+				},
+				config : this.config,
+			} )
 
 	}
 
-	async prompt() {
+	async exec( message: string ) {
 
-		const cliPath    = await getModulePath( {
-			currentPath : import.meta.url,
-			moduleEntry : 'cz-customizable',
+		console.log()
+		await exec( `git commit -m "${message}"` )
+		console.log()
+
+	}
+
+	async ask() {
+
+		const types  = this.opts.commit?.types || this.types as RepoCommit['types']
+		const scopes = this.opts.commit?.scopes || this.scopes as RepoCommit['scopes']
+		const data   = {
+			types  : 'types',
+			scopes : 'scopes',
+			msg    : 'message',
+		}
+
+		const cache = await initCache( {
+			projectName : 'dovenv',
+			id          : 'commit',
+			values      : {
+				[data.types]  : types?.map( s => s.value ),
+				[data.scopes] : scopes?.map( s => s.value ),
+				[data.msg]    : '',
+			},
 		} )
-		const configPath = joinPath( getCurrentDir( import.meta.url ), 'cz-config.mjs' )
 
-		console.debug( {
-			cliPath,
-			configPath,
-		} )
+		await this.promptLine( {
+			outro    : 'Succesfully commited 🌈',
+			onCancel : p => {
 
-		cz.bootstrap( {
-			cliPath,
-			// this is new
+				p.cancel( 'Canceled 💔' )
+				process.exit( 0 )
 
-			config : { path: configPath },
+			},
+			list : async p => {
+
+				const prompt = {
+					type : async () => {
+
+						if ( types )
+							return await p.select( {
+								message : 'Select type of commit',
+								options : types.map( t => ( {
+									value : t.value,
+									label : t.title || t.value,
+									hint  : t.desc,
+								} ) ),
+								initialValue : types.some( t => t.value === cache[data.types] ) ? cache[data.types] : undefined,
+							} )
+
+						return undefined
+
+					},
+					scope : async () => {
+
+						if ( scopes )
+							return await p.select( {
+								message : 'Select scope of commit',
+								options : scopes.map( t => ( {
+									value : t.value,
+									label : t.title || t.value,
+									hint  : t.desc,
+								} ) ),
+								initialValue : scopes.some( t => t.value === cache[data.scopes] ) ? cache[data.scopes] : undefined,
+							} )
+
+						return undefined
+
+					},
+					message : async () => {
+
+						return await p.text( {
+							message      : 'Commit message',
+							initialValue : cache[data.scopes],
+						} )
+
+					},
+				}
+
+				return {
+					desc   : () => p.log.info( this.color.gray.dim( 'Prompt for commit message' ) ),
+					...prompt,
+					commit : async ( { results } ) => {
+
+						// @ts-ignore
+						const msg = results.message as string
+						// @ts-ignore
+						const scope = results.scope as string
+						// @ts-ignore
+						const type   = results.type as string
+						const setMsg = () => {
+
+							if ( !msg ) return
+							else if ( !scope && !type ) return msg
+							else if ( !scope ) return `${type}: ${msg}`
+							else if ( !type ) return `${scope}: ${msg}`
+							else return `${scope}(${type}): ${msg}`
+
+						}
+						try {
+
+							const message = setMsg()
+
+							if ( !message ) {
+
+								console.warn( 'Unexpected: Commit message is not defined' )
+								return
+
+							}
+							p.log.message( 'Commit message: ' + message )
+
+							await this.lint( message )
+							await this.exec( message )
+
+							cache.set( {
+								[data.types]  : type,
+								[data.scopes] : scope,
+								[data.msg]    : msg,
+							} )
+
+						}
+						catch ( e ) {
+
+							console.error( e )
+							p.cancel( 'Canceled 💔' )
+
+						}
+
+					},
+				}
+
+			},
 		} )
 
 	}
 
 	async run( ) {
 
+		await this.init()
+
 		const isEmpty = await this.isStageEmpty()
 		if ( isEmpty ) {
 
 			console.warn(
-				`Nothing to commit. Stage your changes via "git add" execute "commit" again`,
+				`Nothing to commit.\n\nStage your changes executing: ${this.color.dim.italic( 'dovenv git push' )}\nOr stage your changes manually using ${this.color.dim.italic( 'git add' )} and executing again: ${this.color.dim.italic( 'dovenv git commit' )}`,
 			)
 			return
 
 		}
-		await this.prompt()
+		await this.ask()
 
 	}
 

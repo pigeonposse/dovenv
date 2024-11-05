@@ -14,6 +14,7 @@ export default defineConfig( [
 		workspaceDir : async () => joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
 	} },
 	config( {
+		commit       : { lint: true },
 		repoURL      : 'https://github.com/pigeonposse/dovenv',
 		contributors : {
 			role : {

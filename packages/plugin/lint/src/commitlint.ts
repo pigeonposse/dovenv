@@ -33,7 +33,7 @@ const selectParserOpts = ( parserPreset: UserConfig['parserPreset'] ) => {
 
 }
 
-export const runCommitlint = async ( conf?: CommitlintConfig ) => {
+export const runCommitlint = async ( conf?: CommitlintConfig, userMsg?: string  ) => {
 
 	const defaultConfig: UserConfig = ( conf?.config )
 		? conf.config
@@ -51,7 +51,7 @@ export const runCommitlint = async ( conf?: CommitlintConfig ) => {
 	const config = await load( userConfig )
 	console.debug( 'config', config )
 
-	const result = await read( { edit: true } )
+	const result = userMsg ? [ userMsg ] : await read( { edit: true } )
 	console.debug( 'result', result )
 
 	const report = await lint( result[0], config.rules, {
@@ -62,13 +62,9 @@ export const runCommitlint = async ( conf?: CommitlintConfig ) => {
 	} )
 	console.debug( 'report', report )
 
-	if ( !report.valid ) {
-
-		const res = format( { results: [ report ] } )
-		console.log( res )
-
-	}
-	else console.log( '✨ Commit format is valid!' )
+	const res = format( { results: [ report ] } )
+	console.log( res )
+	if ( report.valid ) console.log( '✨ Commit format is valid!' )
 
 }
 

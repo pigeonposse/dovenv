@@ -2,17 +2,27 @@ import {
 	color,
 	existsLocalBin,
 	joinPath,
+	promptLineProps,
+	promptLine,
 } from '@dovenv/utils'
 
-import type { Config } from './types'
+import type { Config }                  from './types'
+import type { Config as DoveEnvConfig } from 'dovenv'
 
 export class Repo {
 
-	opts : Config
-	constructor( opts?: Config, consts?: Record<string, unknown> ) {
+	opts   : Config
+	config : DoveEnvConfig
+
+	protected color = color
+	protected prompt = promptLineProps
+	protected promptLine = promptLine
+
+	constructor( opts?: Config, config?: DoveEnvConfig ) {
 
 		try {
 
+			const consts = config?.const || undefined
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const pkg          = consts?.pkg && typeof consts?.pkg == 'object' ? consts?.pkg : {} as any
 			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : undefined
@@ -54,7 +64,8 @@ export class Repo {
 				...opts,
 				repoURL : `https://github.com/${opts.userID}/${opts.repoID}`,
 			}
-			this.opts = opts || {}
+			this.opts   = opts || {}
+			this.config = config || {}
 
 		}
 		catch ( e ) {
@@ -65,12 +76,22 @@ export class Repo {
 
 	}
 
-	async existsLocalGit() {
+	protected async existsLocalGit() {
 
 		return await existsLocalBin( 'git' )
 
 	}
 
-	color = color
+	async init() {
+
+		const git = await this.existsLocalGit()
+		if ( !git ) {
+
+			console.warn( 'Git is not installed or not detected.\n Git is required to run this command.\n Please Install git and try again' )
+			return
+
+		}
+
+	}
 
 }

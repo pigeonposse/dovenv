@@ -6,9 +6,9 @@
 import {
 	cache as initCache,
 	exec,
-	promptLine,
 } from '@dovenv/utils'
 
+import { RepoCommit }    from './commit'
 import { Repo }          from '../_super/main'
 import { Workflow }      from '../gh/workflow'
 import { UpdateVersion } from '../update/update-version'
@@ -17,13 +17,7 @@ export class RepoPush extends Repo {
 
 	async run( ) {
 
-		const existsGit = await this.existsLocalGit()
-		if ( !existsGit ) {
-
-			console.warn( 'Git is not installed or not detected.\n Git is required to run this command.\n Please Install git and try again' )
-			return
-
-		}
+		await this.init()
 
 		const data          = {
 			update   : 'update',
@@ -43,7 +37,7 @@ export class RepoPush extends Repo {
 			},
 		} )
 
-		const answers = await promptLine( {
+		const answers = await this.promptLine( {
 			outro    : 'Succesfully finished 🌈',
 			onCancel : p => {
 
@@ -79,7 +73,12 @@ export class RepoPush extends Repo {
 
 					if ( results[data.add] && results[data.origin] ) {
 
-						await exec( `git add ${results[data.add]} && pnpm cm && git push -f origin ${results[data.origin]}` )
+						console.log()
+						await exec( `git add ${results[data.add]}` )
+						const cm = new RepoCommit( this.opts, this.config )
+						await cm.run()
+						await exec( `git push -f origin ${results[data.origin]}` )
+						console.log()
 
 						p.log.success( `Successfully commit to ${this.opts.repoURL}\n` )
 

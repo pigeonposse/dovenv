@@ -79,14 +79,14 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 
 				if ( cmds?.includes( CMD.WORKFLOW ) ) {
 
-					const wf = new Workflow( conf, config?.const )
+					const wf = new Workflow( conf, config )
 					if ( opts?.list ) await wf.list()
 					else await wf.run()
 
 				}
 				else if ( cmds?.includes( CMD.REPOINFO ) ) {
 
-					const repo = new RepoInfo( conf, config?.const )
+					const repo = new RepoInfo( conf, config )
 					await repo.updateInfo()
 
 				}

@@ -37,6 +37,7 @@
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {
+		"@dovenv/lint": "workspace:*",
 		"@dovenv/utils": "workspace:*"
 	}
 }

@@ -8,7 +8,6 @@ import {
 	cache as initCache,
 	execChild,
 	getFilteredFileNames,
-	promptLine,
 	process,
 	joinPath,
 	joinUrl,
@@ -80,7 +79,7 @@ export class Workflow extends Repo {
 			},
 		} )
 
-		await promptLine( {
+		await this.promptLine( {
 			outro    : repoURL ? `✨ See action progress: ${joinUrl( repoURL, 'actions' )}` : 'Succesfully finished 🌈',
 			onCancel : p => {
 

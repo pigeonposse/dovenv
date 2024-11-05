@@ -7,6 +7,17 @@ import type {
 import type { PromptParams } from '../prompt/types'
 import type * as p           from '@clack/prompts'
 
+export const promptLineMethods = {
+	message : 'message',
+	info    : 'info',
+	success : 'success',
+	step    : 'step',
+	warn    : 'warn',
+	warning : 'warning',
+	error   : 'error',
+} as const
+export type PromptLineMethod = typeof promptLineMethods[keyof typeof promptLineMethods]
+
 /**
  * NUMBER.
  *
@@ -41,11 +52,20 @@ export type BoxParams = Parameters<typeof box>
 /**
  * Props for canceling a prompt line, including functions from various modules.
  */
-type PromptLineCancelProps = typeof p & {
-	number  : typeof number
-	table   : ( ...p: TableParams ) => void
-	box     : ( ...p: BoxParams ) => void
-	columns : ( ...p: ColumnsParams ) => void
+export type PromptLineCancelProps = typeof p & {
+	number : typeof number
+	table   : ( opts:{
+		value : TableParams
+		type? : PromptLineMethod
+	} ) => void
+	box     : ( opts:{
+		value : BoxParams
+		type? : PromptLineMethod
+	} ) => void
+	columns : ( opts:{
+		value : ColumnsParams
+		type? : PromptLineMethod
+	}  ) => void
 }
 
 /**

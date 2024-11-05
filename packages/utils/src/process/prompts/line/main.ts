@@ -1,7 +1,11 @@
 import * as p from '@clack/prompts'
 
-import number      from './number'
-import { symbol  } from './state'
+import number             from './number'
+import { symbol  }        from './state'
+import {
+	promptLineMethods,
+	type PromptLineParams,
+} from './types'
 import {
 	box,
 	columns,
@@ -9,14 +13,11 @@ import {
 }              from '../../../styles/main'
 import { prompt as promptEnquirer } from '../prompt/main'
 
-import type { State } from './state'
-import type {
-	BoxParams,
-	ColumnsParams,
-	PromptLineParams,
-	TableParams,
-} from './types'
-import type { PromptParams } from '../prompt/types'
+import type { State }                 from './state'
+import type { PromptLineCancelProps } from './types'
+import type { PromptParams }          from '../prompt/types'
+
+export const promptLineProps = p
 
 const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 
@@ -51,10 +52,16 @@ const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 
 }
 
-const printOptions = {
-	table   : ( ...innerParams: TableParams ) => p.log.message( table( ...innerParams ) ),
-	columns : ( ...innerParams: ColumnsParams ) => p.log.message( columns( ...innerParams ) ),
-	box     : ( ...innerParams: BoxParams ) => p.log.message( box( ...innerParams ) ),
+const printOptions: Pick<PromptLineCancelProps, 'table' | 'columns' | 'box'> = {
+	table : ( {
+		value, type = promptLineMethods.message,
+	} ) => p.log[type]( table( ...value ) ),
+	columns : ( {
+		value, type = promptLineMethods.message,
+	} ) => p.log[type]( columns( ...value ) ),
+	box : ( {
+		value, type = promptLineMethods.message,
+	} ) => p.log[type]( box( ...value ) ),
 }
 
 /**

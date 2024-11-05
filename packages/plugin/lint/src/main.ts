@@ -73,9 +73,14 @@ export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : {
 	},
 	'commitlint' : {
 		desc : 'Lint commit messages',
-		fn   : async () => {
+		opts : { message : {
+			desc  : 'Set your commit message here. If is not provided, it will be read the last commit message',
+			type  : 'string',
+			alias : 'm',
+		} },
+		fn : async ( { opts } ) => {
 
-			await runCommitlint( conf?.commitlint )
+			await runCommitlint( conf?.commitlint, opts?.message as string )
 
 		},
 	},

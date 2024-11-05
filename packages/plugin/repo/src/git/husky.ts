@@ -1,20 +1,20 @@
 import { execModulePath } from '@dovenv/utils'
 
-/* eslint-disable @stylistic/object-curly-newline */
-export type HuskyConfig = {
-	/**
-	 * The path to the .husky directory
-	 * @default '.dovenv/.husky'
-	 */
-	path : string
-}
-export const runHusky = async ( conf?: HuskyConfig ) => {
+import { Git } from './super'
 
-	await execModulePath( { currentPath : import.meta.url,
-		moduleEntry : 'husky',
-		modulePath  : [ 'bin.js' ],
-		args        : [ conf?.path ?? '.dovenv/.husky' ],
-	} )
-	console.log( '' ) // for make sure it's on a new line
+export class Husky extends Git {
+
+	async run( ) {
+
+		await this.init()
+		await execModulePath( {
+			currentPath : import.meta.url,
+			moduleEntry : 'husky',
+			modulePath  : [ 'bin.js' ],
+			args        : [ this.opts?.husky?.path ?? '.dovenv/.husky' ],
+		} )
+		console.log( '' ) // for make sure it's on a new line
+
+	}
 
 }

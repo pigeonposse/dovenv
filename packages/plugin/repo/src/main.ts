@@ -11,7 +11,7 @@ import { config as updateConfig }       from './update/main'
 import type { Config as GeneralConfig }      from './_super/types'
 import type { Role }                         from './contributors/fn'
 import type { Config as ContributorsConfig } from './contributors/main'
-import type { GitConfig }                    from './git/main'
+import type { GitConfig }                    from './git/types'
 
 type Config<I extends string, R extends Role<I>> = GeneralConfig & GitConfig & {
 	contributors?  : ContributorsConfig<I, R>
@@ -21,7 +21,9 @@ type Config<I extends string, R extends Role<I>> = GeneralConfig & GitConfig & {
 export const config = <Contr extends string, R extends Role<Contr>>( opts?: Config<Contr, R> ): DoveEnvConfig => {
 
 	const {
-		contributors, updateVersion, ...generalConf
+		contributors,
+		updateVersion,
+		...generalConf
 	} = opts || {}
 
 	return defineConfig( [
