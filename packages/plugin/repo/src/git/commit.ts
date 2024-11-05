@@ -77,9 +77,18 @@ export class RepoCommit extends Git {
 	]
 
 	scopes: Commit['scopes'] = [
-		{ value: 'core' },
-		{ value: 'env' },
-		{ value: 'all' },
+		{
+			value : 'core',
+			desc  : 'Core functionality of the application',
+		},
+		{
+			value : 'env',
+			desc  : 'Reference for workspace environment',
+		},
+		{
+			value : 'all',
+			desc  : 'Reference all changes affecting multiple scopes',
+		},
 	]
 
 	async getList() {
@@ -216,7 +225,7 @@ export class RepoCommit extends Git {
 							else if ( !scope && !type ) return msg
 							else if ( !scope ) return `${type}: ${msg}`
 							else if ( !type ) return `${scope}: ${msg}`
-							else return `${scope}(${type}): ${msg}`
+							else return `${type}(${scope}): ${msg}`
 
 						}
 						try {

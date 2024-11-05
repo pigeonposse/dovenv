@@ -1,3 +1,5 @@
+import { color } from '@dovenv/utils'
+
 import { RepoBranch } from './branch'
 import { RepoCommit } from './commit'
 import { Husky }      from './husky'
@@ -6,6 +8,22 @@ import { RepoPush }   from './push'
 import type { GitConfig }               from './types'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
+export const branch = {
+	list         : 'list',
+	current      : 'current',
+	change       : 'change',
+	create       : 'create',
+	delete       : 'delete',
+	switch       : 'switch',
+	createSwitch : 'create-switch',
+}
+export const CMD = {
+	commit : 'commit',
+	branch : 'branch',
+	push   : 'push',
+	pull   : 'pull',
+	husky  : 'husky',
+}
 export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 
 	const res: DoveEnvConfig['custom'] = { git : {
@@ -15,31 +33,31 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 			branch : {
 				desc : 'branch configuration',
 				opts : {
-					'list' : {
+					[branch.list] : {
 						desc : 'List branches',
 						type : 'boolean',
 					},
-					'current' : {
+					[branch.current] : {
 						desc : 'Show current branch',
 						type : 'boolean',
 					},
-					'change' : {
+					[branch.change] : {
 						desc : 'Change branch',
 						type : 'string',
 					},
-					'create' : {
+					[branch.create] : {
 						desc : 'Create branch',
 						type : 'string',
 					},
-					'delete' : {
+					[branch.delete] : {
 						desc : 'Delete branch',
 						type : 'string',
 					},
-					'switch' : {
+					[branch.switch] : {
 						desc : 'Switch branch',
 						type : 'string',
 					},
-					'create-switch' : {
+					[branch.createSwitch] : {
 						desc : 'Create and switch branch',
 						type : 'string',
 					},
@@ -53,18 +71,20 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 			cmds, config, opts,
 		} ) => {
 
-			if ( cmds?.includes( 'commit' ) ) {
+			const list = ( v:Record<string, string> ) => Object.values( v ).map( v => color.gray.dim.italic( v ) ).join( ', ' )
+
+			if ( cmds?.includes( CMD.commit ) ) {
 
 				const cm = new RepoCommit( conf, config )
 				await cm.run( )
 
 			}
-			else if ( cmds?.includes( 'pull' ) ) {
+			else if ( cmds?.includes( CMD.pull ) ) {
 
 				console.log( 'pull' )
 
 			}
-			else if ( cmds?.includes( 'branch' ) ) {
+			else if ( cmds?.includes( CMD.branch ) ) {
 
 				const br = new RepoBranch( conf, config )
 				if ( opts?.list ) await br.showAll()
@@ -73,26 +93,27 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 				else if ( opts?.create || opts?.create === '' ) await br.create( opts.create as string )
 				else if ( opts?.delete || opts?.delete === '' ) await br.delete( opts.delete as string )
 				else if ( opts?.switch || opts?.switch === '' ) await br.switch( opts.switch as string )
-				else if ( opts?.['create-switch'] || opts?.['create-switch'] === '' ) await br.createAndSwitch( opts.createAndSwitch as string )
-				else console.warn( 'No option provided. Use "list", "current", or "change"' )
+				else if ( opts?.[branch.createSwitch] || opts?.[branch.createSwitch] === '' ) await br.createAndSwitch( opts.createAndSwitch as string )
+				else console.warn( `No option provided. Use: ${list( branch )}` )
 
 			}
-			else if ( cmds?.includes( 'push' ) ) {
+			else if ( cmds?.includes( CMD.push ) ) {
 
 				const push = new RepoPush( conf, config )
 				await push.run()
 
 			}
-			else if ( cmds?.includes( 'husky' ) ) {
+			else if ( cmds?.includes( CMD.husky ) ) {
 
 				const husky = new Husky( conf, config )
 				await husky.run( )
 
 			}
-			else console.warn( 'No option provided. Use "commit", "pull", "push", or "husky"' )
+			else console.warn( `No option provided. Use: ${list( CMD )}` )
 
 		},
 	} }
+
 	return { custom: res }
 
 }

@@ -1,4 +1,5 @@
 
+import { config as lintConfig } from '@dovenv/lint'
 import {
 	getCurrentDir,
 	joinPath,
@@ -9,10 +10,12 @@ import pkg        from '../../../../package.json'
 import { config } from '../src/main'
 
 export default defineConfig( [
+
 	{ const : {
 		pkg,
 		workspaceDir : async () => joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
 	} },
+	lintConfig( { commitlint: { gitmoji: true } } ),
 	config( {
 		commit       : { lint: true },
 		repoURL      : 'https://github.com/pigeonposse/dovenv',
