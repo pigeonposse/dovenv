@@ -80,27 +80,22 @@ export class RepoPush extends Repo {
 						await exec( `git push -f origin ${results[data.origin]}` )
 						console.log()
 
-						p.log.success( `Successfully commit to ${this.opts.repoURL}\n` )
+						p.log.success( `Successfully pushed to ${this.opts.repoURL}\n` )
 
 					}
 
 				},
 				[data.workflow] : () => p.confirm( {
-					message      : 'Run workflow?',
+					message      : 'Do you want run GitHub workflow?',
 					initialValue : cache.get( data.workflow ) as boolean,
 				} ),
 				'last' : async ( { results } ) => {
 
-					const {
-						// @ts-ignore
-						update, add, origin, workflow,
-					} = results || {}
-
 					cache.set( {
-						update,
-						add,
-						origin,
-						workflow,
+						update   : results[data.update],
+						add      : results[data.add],
+						origin   : results[data.origin],
+						workflow : results[data.workflow],
 					} )
 					if ( !( results[data.workflow] ) ) return
 					const wf = new Workflow( this.opts, this.config )

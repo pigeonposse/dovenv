@@ -238,7 +238,7 @@ export class RepoCommit extends Git {
 								return
 
 							}
-							p.log.message( 'Commit message: ' + message )
+							p.log.info( 'Commit message: ' + message )
 
 							await this.lint( message )
 							await this.exec( message )
