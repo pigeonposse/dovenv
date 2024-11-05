@@ -14,6 +14,7 @@ import {
 	getPaths,
 	getDirectoryTreeFromPath,
 	box,
+	existsDir,
 } from '@dovenv/utils'
 
 import { Repo } from '../_super/main'
@@ -52,8 +53,14 @@ export class Workflow extends Repo {
 		const {
 			workflowDefaultInputs, workflowsDir, repoURL, repoID,
 		} = this.opts || {}
-		const dir = workflowsDir || joinPath( process.cwd(), '.github', 'workflows' )
+		const dir   = workflowsDir || joinPath( process.cwd(), '.github', 'workflows' )
+		const exist = await existsDir( dir )
+		if ( !exist ) {
 
+			console.warn( `Does not exist workflows directory: ${dir}` )
+			return
+
+		}
 		const fileNames = await getFilteredFileNames( {
 			path       : dir,
 			extensions : [ '.yml' ],

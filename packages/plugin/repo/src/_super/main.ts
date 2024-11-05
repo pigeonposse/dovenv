@@ -19,7 +19,7 @@ export class Repo {
 	protected prompt = promptLineProps
 	protected promptLine = promptLine
 	protected process = process
-	
+
 	constructor( opts?: Config, config?: DoveEnvConfig ) {
 
 		try {

@@ -80,7 +80,7 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 			else if ( cmds?.includes( 'push' ) ) {
 
 				const push = new RepoPush( conf, config )
-				push.run()
+				await push.run()
 
 			}
 			else if ( cmds?.includes( 'husky' ) ) {

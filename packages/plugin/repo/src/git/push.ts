@@ -37,7 +37,7 @@ export class RepoPush extends Repo {
 			},
 		} )
 
-		const answers = await this.promptLine( {
+		await this.promptLine( {
 			outro    : 'Succesfully finished 🌈',
 			onCancel : p => {
 
@@ -89,27 +89,26 @@ export class RepoPush extends Repo {
 					message      : 'Run workflow?',
 					initialValue : cache.get( data.workflow ) as boolean,
 				} ),
-				'workflow-res' : async ( { results } ) => {
+				'last' : async ( { results } ) => {
 
+					const {
+						// @ts-ignore
+						update, add, origin, workflow,
+					} = results || {}
+
+					cache.set( {
+						update,
+						add,
+						origin,
+						workflow,
+					} )
 					if ( !( results[data.workflow] ) ) return
-					const wf = new Workflow( this.opts )
+					const wf = new Workflow( this.opts, this.config )
 					await wf.run()
 
 				},
 			} ),
 
-		} )
-
-		const {
-			// @ts-ignore
-			update, add, origin, workflow,
-		} = answers
-
-		cache.set( {
-			update,
-			add,
-			origin,
-			workflow,
 		} )
 
 	}
