@@ -7,6 +7,45 @@ import { Git } from './super'
 
 export class RepoBranch extends Git {
 
+	async #askSelectBranch(): Promise<string> {
+
+		const all         = await this.getAll()
+		const res         = await this.prompt.select( {
+			message : 'Select branch of your repo',
+			options : all.map( b => ( {
+				value : b,
+				label : b,
+			} ) ),
+		} )
+		const isCancelled = this.prompt.isCancel( res )
+		if ( isCancelled ) {
+
+			this.prompt.cancel( 'Cancelled 💔' )
+			this.process.exit( 0 )
+
+		}
+		else if ( !res || typeof res !== 'string' ) throw new Error( 'Unexpected error: No branch selected' )
+
+		return res as string
+
+	}
+
+	async #askCreate(): Promise<string> {
+
+		const res         = await this.prompt.text( { message: 'Set new branch name' } )
+		const isCancelled = this.prompt.isCancel( res )
+		if ( isCancelled ) {
+
+			this.prompt.cancel( 'Cancelled 💔' )
+			this.process.exit( 0 )
+
+		}
+		else if ( !res || typeof res !== 'string' ) throw new Error( 'Unexpected error: No branch selected' )
+
+		return res as string
+
+	}
+
 	/**
 	 * Get the current branch name.
 	 * @returns {Promise<string>} - The name of the current branch.
@@ -26,35 +65,8 @@ export class RepoBranch extends Git {
 	async showCurrent() {
 
 		const res = await this.getCurrent()
-
-		console.log( this.color.cyan( icon.dot ) + ' ' + res )
-
-	}
-
-	async #askSelectBranch(): Promise<string> {
-
-		const all = await this.getAll()
-		const res = await this.prompt.select( {
-			message : 'Select branch of your repo',
-			options : all.map( b => ( {
-				value : b,
-				label : b,
-			} ) ),
-		} )
-
-		if ( !res || typeof res !== 'string' ) throw new Error( 'Unexpected error: No branch selected' )
-
-		return res as string
-
-	}
-
-	async #askCreate(): Promise<string> {
-
-		const res = await this.prompt.text( { message: 'Set new branch name' } )
-
-		if ( !res || typeof res !== 'string' ) throw new Error( 'Unexpected error: No branch selected' )
-
-		return res as string
+		this.prompt.note(  this.color.cyan( icon.dot ) + ' ' + res, 'Current branch' )
+		this.prompt.log.step( '' )
 
 	}
 
@@ -81,8 +93,10 @@ export class RepoBranch extends Git {
 	 */
 	async showAll( remote = true ) {
 
-		const res = await this.getAll( remote )
-		console.log( res.map( b => ( this.color.cyan( icon.dot ) + ' ' + b ) ).join( '\n' ) )
+		const res     = await this.getAll( remote )
+		const content = res.map( b => ( this.color.cyan( icon.dot ) + ' ' + b ) ).join( '\n' )
+		this.prompt.note(  content, 'All branches' )
+		this.prompt.log.step( '' )
 
 	}
 
@@ -100,11 +114,7 @@ export class RepoBranch extends Git {
 		const {
 			stdout, stderr,
 		} = await execChild( command )
-		if ( stderr ) {
-
-			throw new Error( `Error changing branch: ${stderr}` )
-
-		}
+		if ( stderr ) throw new Error( `Error changing branch: ${stderr}` )
 		console.log( `Switched to branch: ${stdout.trim()}` )
 
 	}

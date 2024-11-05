@@ -4,6 +4,7 @@ import {
 	joinPath,
 	promptLineProps,
 	promptLine,
+	process,
 } from '@dovenv/utils'
 
 import type { Config }                  from './types'
@@ -17,7 +18,8 @@ export class Repo {
 	protected color = color
 	protected prompt = promptLineProps
 	protected promptLine = promptLine
-
+	protected process = process
+	
 	constructor( opts?: Config, config?: DoveEnvConfig ) {
 
 		try {

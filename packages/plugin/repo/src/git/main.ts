@@ -39,7 +39,7 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 						desc : 'Switch branch',
 						type : 'string',
 					},
-					'create-and-switch' : {
+					'create-switch' : {
 						desc : 'Create and switch branch',
 						type : 'string',
 					},
@@ -69,11 +69,11 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 				const br = new RepoBranch( conf, config )
 				if ( opts?.list ) await br.showAll()
 				else if ( opts?.current ) await br.showCurrent()
-				else if ( opts?.change ) await br.change( opts.change as string )
-				else if ( opts?.create ) await br.create( opts.create as string )
-				else if ( opts?.delete ) await br.delete( opts.delete as string )
-				else if ( opts?.switch ) await br.switch( opts.switch as string )
-				else if ( opts?.createAndSwitch ) await br.createAndSwitch( opts.createAndSwitch as string )
+				else if ( opts?.change || opts?.change === '' ) await br.change( opts.change as string )
+				else if ( opts?.create || opts?.create === '' ) await br.create( opts.create as string )
+				else if ( opts?.delete || opts?.delete === '' ) await br.delete( opts.delete as string )
+				else if ( opts?.switch || opts?.switch === '' ) await br.switch( opts.switch as string )
+				else if ( opts?.['create-switch'] || opts?.['create-switch'] === '' ) await br.createAndSwitch( opts.createAndSwitch as string )
 				else console.warn( 'No option provided. Use "list", "current", or "change"' )
 
 			}
