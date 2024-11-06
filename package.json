@@ -1,7 +1,7 @@
 {
 	"name": "dovenv-monorepo",
 	"private": true,
-	"description": "Quickly and easily set up your environment for your code projects. Create documentation pages with zeroconfig, add beautiful commits, and much more.",
+	"description": "Toolkit for make your code workspace easier. Create documentation, add beautiful commits, lint and much more.",
 	"keywords": [
 		"env",
 		"devs",

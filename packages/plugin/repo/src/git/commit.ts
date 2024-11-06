@@ -206,10 +206,9 @@ export class RepoCommit extends Git {
 					},
 					message : async () => {
 
-						const msg    = await this.getLastCommit()
 						const result = await p.text( {
 							message      : 'Commit message',
-							placeholder  : msg,
+							placeholder  : cache.get( data.msg ),
 							initialValue : cache.get( data.msg ),
 						} ) as string
 

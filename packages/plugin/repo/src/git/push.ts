@@ -35,6 +35,7 @@ export class RepoPush extends Repo {
 		}
 		const cache       = await this._cache( 'push', defaultData )
 		const cached      = await cache.get()
+
 		await this.promptLine( {
 			outro    : 'Succesfully finished 🌈',
 			onCancel : p => {

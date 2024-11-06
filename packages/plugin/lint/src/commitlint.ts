@@ -1,9 +1,13 @@
-import format              from '@commitlint/format'
-import lint                from '@commitlint/lint'
-import load                from '@commitlint/load'
-import read                from '@commitlint/read'
-import { deepmergeCustom } from '@dovenv/utils'
-import gitEmojiConfig      from 'commitlint-config-gitmoji'
+import format       from '@commitlint/format'
+import lint         from '@commitlint/lint'
+import load         from '@commitlint/load'
+import read         from '@commitlint/read'
+import {
+	color,
+	deepmergeCustom,
+	promptLineProps,
+} from '@dovenv/utils'
+import gitEmojiConfig from 'commitlint-config-gitmoji'
 
 type UserConfig = Exclude<Parameters<typeof load>[0], undefined>
 const merge = deepmergeCustom<UserConfig>( { mergeArrays: false } )
@@ -54,7 +58,10 @@ export const runCommitlint = async ( conf?: CommitlintConfig, userMsg?: string  
 	const result = userMsg ? [ userMsg ] : await read( { edit: true } )
 	console.debug( 'result', result )
 
-	const report = await lint( result[0], config.rules, {
+	const cm = result[0]
+	promptLineProps.log.info( `Commit message to lint: ${color.gray.dim( cm )}` )
+
+	const report = await lint( cm, config.rules, {
 		parserOpts     : selectParserOpts( config.parserPreset ),
 		plugins        : config.plugins,
 		ignores        : config.ignores,
@@ -63,8 +70,15 @@ export const runCommitlint = async ( conf?: CommitlintConfig, userMsg?: string  
 	console.debug( 'report', report )
 
 	const res = format( { results: [ report ] } )
-	console.log( res )
-	if ( report.valid ) console.log( '✨ Commit format is valid!' )
+	console.debug( 'formated response', res )
+
+	if ( res && res !== '' ) promptLineProps.log.error( res )
+	if ( report.valid ) {
+
+		promptLineProps.log.success( '✨ Commit format is valid!' )
+		promptLineProps.log.message( '' )
+
+	}
 
 }
 

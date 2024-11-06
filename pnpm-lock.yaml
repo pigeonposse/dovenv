@@ -415,6 +415,9 @@ importers:
       '@commitlint/prompt':
         specifier: ^19.5.0
         version: 19.5.0(@types/node@22.8.7)(typescript@5.6.3)
+      '@dovenv/lint':
+        specifier: workspace:*
+        version: link:../lint
       '@dovenv/utils':
         specifier: workspace:*
         version: link:../../utils

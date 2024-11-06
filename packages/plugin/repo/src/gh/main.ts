@@ -1,8 +1,4 @@
-import {
-	downloadGitHubPath,
-	existsLocalBin,
-	isGitHubAuthenticated,
-} from '@dovenv/utils'
+import { downloadGitHubPath } from '@dovenv/utils'
 
 import { RepoInfo } from './repo-info'
 import { Workflow } from './workflow'
@@ -60,22 +56,6 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 
 			}
 			else {
-
-				const exitsGHBin = await existsLocalBin( 'gh' )
-				if ( !exitsGHBin ) {
-
-					console.warn( 'You must install gh binary for use `gh` commands. See: https://cli.github.com/' )
-					return
-
-				}
-
-				const isGhLoggedIn = await isGitHubAuthenticated()
-				if ( !isGhLoggedIn ) {
-
-					console.warn( 'You must login to GitHub for use gh commands. Use `gh auth login`.See: https://cli.github.com/manual/gh_auth_login' )
-					return
-
-				}
 
 				if ( cmds?.includes( CMD.WORKFLOW ) ) {
 

@@ -6,6 +6,7 @@ import {
 	promptLine,
 	process,
 	cache,
+	isGitHubAuthenticated,
 } from '@dovenv/utils'
 
 import type { Config }                  from './types'
@@ -28,7 +29,7 @@ export class Repo {
 			const consts = config?.const || undefined
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const pkg          = consts?.pkg && typeof consts?.pkg == 'object' ? consts?.pkg : {} as any
-			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : undefined
+			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : joinPath( process.cwd(), '.github', 'workflows' )
 
 			if ( !opts?.homepageURL && pkg.homepage ) opts = {
 				...opts,
@@ -49,7 +50,7 @@ export class Repo {
 			}
 			if ( !opts?.workflowsDir && workspaceDir ) opts = {
 				...opts,
-				workflowsDir : joinPath( workspaceDir, '.github', 'workflows' ),
+				workflowsDir : workspaceDir,
 			}
 			// @ts-ignore
 			if ( !opts?.repoID && pkg.extra && pkg.extra.repoID ) opts = {
@@ -82,6 +83,26 @@ export class Repo {
 	protected async existsLocalGit() {
 
 		return await existsLocalBin( 'git' )
+
+	}
+
+	async initGH() {
+
+		const exitsGHBin = await existsLocalBin( 'gh' )
+		if ( !exitsGHBin ) {
+
+			console.warn( 'You must install gh binary for use `gh` commands. See: https://cli.github.com/' )
+			return
+
+		}
+
+		const isGhLoggedIn = await isGitHubAuthenticated()
+		if ( !isGhLoggedIn ) {
+
+			console.warn( 'You must login to GitHub for use gh commands. Use `gh auth login`.See: https://cli.github.com/manual/gh_auth_login' )
+			return
+
+		}
 
 	}
 

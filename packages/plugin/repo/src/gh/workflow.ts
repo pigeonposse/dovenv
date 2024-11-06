@@ -49,10 +49,13 @@ export class Workflow extends Repo {
 
 	async run() {
 
+		await this.init()
+		await this.initGH()
+
 		const {
 			workflowDefaultInputs, workflowsDir, repoURL,
 		} = this.opts || {}
-		const dir   = workflowsDir || joinPath( process.cwd(), '.github', 'workflows' )
+		const dir   = workflowsDir as string
 		const exist = await existsDir( dir )
 		if ( !exist ) {
 

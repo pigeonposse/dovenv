@@ -3,6 +3,7 @@ import { color } from '@dovenv/utils'
 import { RepoBranch } from './branch'
 import { RepoCommit } from './commit'
 import { Husky }      from './husky'
+import { RepoPull }   from './pull'
 import { RepoPush }   from './push'
 
 import type { GitConfig }               from './types'
@@ -21,7 +22,7 @@ export const CMD = {
 	commit : 'commit',
 	branch : 'branch',
 	push   : 'push',
-	pull   : 'pull',
+	pull   : 'pr',
 	husky  : 'husky',
 }
 export const config = ( conf?: GitConfig ): DoveEnvConfig => {
@@ -81,7 +82,8 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 			}
 			else if ( cmds?.includes( CMD.pull ) ) {
 
-				console.log( 'pull' )
+				const pull = new RepoPull( conf, config )
+				await pull.run()
 
 			}
 			else if ( cmds?.includes( CMD.branch ) ) {

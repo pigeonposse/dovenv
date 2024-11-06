@@ -8,6 +8,9 @@ export class RepoInfo extends Repo {
 
 		try {
 
+			await this.init()
+			await this.initGH()
+
 			const {
 				repoURL, homepageURL, repoTags, repoDesc,
 			} = this.opts

@@ -11,7 +11,7 @@ export class RepoBranch extends Git {
 
 		const all         = await this.getAll( remote )
 		const res         = await this.prompt.select( {
-			message : 'Select branch of your repository',
+			message : 'Select branch of the repository',
 			options : all.map( b => ( {
 				value : b,
 				label : b,
@@ -116,7 +116,7 @@ export class RepoBranch extends Git {
 			stdout, stderr,
 		} = await execChild( command )
 		if ( stderr ) throw new Error( `Error changing branch: ${stderr}` )
-		console.log( `Switched to branch: ${stdout.trim()}` )
+		this.prompt.log.success( `Switched to branch: ${stdout.trim()}` )
 
 	}
 
@@ -134,7 +134,7 @@ export class RepoBranch extends Git {
 			throw new Error( `Error switching to branch: ${stderr}` )
 
 		}
-		console.log( `Switched to branch: ${branch}` )
+		this.prompt.log.success( `Switched to branch: ${branch}` )
 
 	}
 
@@ -152,7 +152,7 @@ export class RepoBranch extends Git {
 			throw new Error( `Error creating branch: ${stderr}` )
 
 		}
-		console.log( `Created branch: ${branch}` )
+		this.prompt.log.success( `Created branch: ${branch}` )
 
 	}
 
@@ -170,7 +170,7 @@ export class RepoBranch extends Git {
 			throw new Error( `Error creating and switching to branch: ${stderr}` )
 
 		}
-		console.log( `Created and switched to branch: ${branch}` )
+		this.prompt.log.success( `Created and switched to branch: ${branch}` )
 
 	}
 
@@ -190,7 +190,7 @@ export class RepoBranch extends Git {
 			throw new Error( `Error deleting branch: ${stderr}` )
 
 		}
-		console.log( `Deleted branch: ${branch}` )
+		this.prompt.log.success( `Deleted branch: ${branch}` )
 
 	}
 
