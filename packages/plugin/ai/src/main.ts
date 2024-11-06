@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 
 import { type Config as DoveEnvConfig } from 'dovenv'
 
@@ -5,27 +6,30 @@ import { run } from './run'
 
 import type { Config as EnvAiConfig } from 'env-ai'
 
-export type Config = { ai?: { [key: string]: EnvAiConfig } }
+export type Config = {
+	/** Configuration for local AI assistant chats */
+	chat? : {
+		[key: string] : EnvAiConfig
+	} }
 
 export { run }
 
 export const config = ( conf?: Config ) => {
 
-	const keys = Object.keys( conf?.ai || [] )
+	const keys = Object.keys( conf?.chat || [] )
 
 	const config: DoveEnvConfig =  { custom : { ai : {
 		desc : 'local AI assistant for your workspace',
 		opts : { key : {
 			// @ts-ignore
 			type    : 'choices',
-			//demandOption : true,
 			alias   : 'k',
 			choices : keys,
-			desc    : 'AI assistant',
+			desc    : 'Select a Local AI assistant config key',
 		} },
 		fn : async ( { opts } ) => {
 
-			const config = conf?.ai
+			const config = conf?.chat
 			const key    = opts?.key as string
 
 			if ( !key || typeof key !== 'string' ) {

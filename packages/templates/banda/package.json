@@ -25,6 +25,7 @@
 		"@dovenv/todo": "workspace:*"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {

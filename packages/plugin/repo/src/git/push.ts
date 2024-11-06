@@ -60,6 +60,7 @@ export class RepoPush extends Git {
 				} ),
 				'update-res' : async ( { results } ) => {
 
+					// @ts-ignore
 					if ( !results[data.update] ) return
 
 					const pkg = new Packages( this.opts )
@@ -70,12 +71,18 @@ export class RepoPush extends Git {
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
 				'add-res'     : async ( { results } ) => {
 
-					if ( results[data.add] && results[data.origin] ) {
+					const res = {
+						// @ts-ignore
+						[data.add]    : results[data.add] as string,
+						// @ts-ignore
+						[data.origin] : results[data.origin] as string,
+					}
+					if ( res[data.add] && res[data.origin] ) {
 
 						console.log()
-						await addInstance.exec( results[data.add] )
+						await addInstance.exec( res[data.add] )
 						await commitInstance.run()
-						await this.exec( results[data.origin] )
+						await this.exec( res[data.origin] )
 						console.log()
 
 						p.log.success( `Successfully pushed to ${this.opts.repoURL}\n` )
@@ -89,14 +96,19 @@ export class RepoPush extends Git {
 				} ),
 				'last' : async ( { results } ) => {
 
-					cache.set( {
-						[data.update]   : results[data.update],
-						[data.add]      : results[data.add],
-						[data.origin]   : results[data.origin],
-						[data.workflow] : results[data.workflow],
-					} )
+					const res = {
+						// @ts-ignore
+						[data.add]      : results[data.add] as string,
+						// @ts-ignore
+						[data.origin]   : results[data.origin] as string,
+						// @ts-ignore
+						[data.update]   : results[data.update] as boolean,
+						// @ts-ignore
+						[data.workflow] : results[data.workflow] as boolean,
+					}
+					cache.set( res )
 
-					if ( !( results[data.workflow] ) ) return
+					if ( !( res[data.workflow] ) ) return
 					const wf = new Workflow( this.opts, this.config )
 					await wf.run()
 

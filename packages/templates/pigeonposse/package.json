@@ -19,6 +19,7 @@
 		"@dovenv/theme-banda": "workspace:*"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {

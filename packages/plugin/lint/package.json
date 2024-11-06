@@ -12,7 +12,7 @@
 	"types": "dist/main.d.ts",
 	"scripts": {
 		"build": "unbuild",
-		"dev": "bun examples/main.ts",
+		"dev": "tsx examples/main.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
@@ -25,9 +25,11 @@
 		"commitlint-config-gitmoji": "2.3.1",
 		"eslint": "9.14.0",
 		"lint-staged": "15.2.10",
-		"stylelint": "16.10.0"
+		"stylelint": "16.10.0",
+		"stylelint-formatter-pretty": "^4.0.1"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {

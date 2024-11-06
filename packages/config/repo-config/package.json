@@ -6,6 +6,7 @@
 	"homepage": "https://dovenv.pigeonposse.com",
 	"type": "module",
 	"exports": {
+		"./unbuild": "./build.config.js",
 		"./tsconfig.json": "./tsconfig.json"
 	}
 }

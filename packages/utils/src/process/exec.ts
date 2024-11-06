@@ -92,7 +92,7 @@ export const execChild = async ( cmd: string ): Promise<{
 			else {
 
 				const data = {
-					error : new Error( `Command failed with code ${code}` ),
+					code,
 					stdout,
 					stderr,
 				}

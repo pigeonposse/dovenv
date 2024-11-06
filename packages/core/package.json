@@ -7,14 +7,15 @@
 	"exports": {
 		".": "./dist/main.mjs"
 	},
-	"main": "dist/main.js",
-	"module": "dist/main.js",
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"bin": {
 		"dovenv": "./dist/bin.mjs"
 	},
 	"scripts": {
 		"build": "unbuild",
+		"dev": "tsx src/bin.ts",
 		"preview": "node dist/bin.mjs",
 		"test": "vitest run -r src --passWithNoTests"
 	},
@@ -23,6 +24,7 @@
 		"update-notifier": "7.3.1"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"@types/update-notifier": "6.0.8"
 	}
 }

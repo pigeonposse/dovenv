@@ -1,14 +1,18 @@
-import { defineConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from 'dovenv'
 
-export const config = () => {
+type Config = boolean
 
-	return defineConfig( { custom : { convert : {
+export const config = ( conf?: Config ): DoveEnvConfig => {
+
+	return { custom : { convert : {
 		desc : 'Convert files from one format to another [coming soon]',
 		fn   : async (  ) => {
 
-			console.log( '[coming soon] Convert files from one format to another' )
+			console.log( '[coming soon]' )
+			console.debug( conf )
 
 		},
-	} } } )
+	} } }
 
 }
+

@@ -1,15 +1,24 @@
 
 export type Role<ID extends string = string> = {
 	[key in ID]: {
+		/** Name of the role */
 		name  : string
+		/** Emoji of the role */
 		emoji : string
 	}
 }
 export type Contributor<ID extends string = string> = {
+	/** Role id */
 	role       : ID
+	/**
+	  Github name id from user or organization.
+	 */
 	ghUsername : string // if user dont have a github profile, use organization profile
+	/** Contributor name */
 	name       : string
+	/** Contributor avatar url */
 	avatar?    : string
+	/** Contributor profile url */
 	url?       : string
 }
 

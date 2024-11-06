@@ -1,87 +1,85 @@
-// @ts-ignore
-import * as dovenvEslintConfig from '@dovenv/eslint-config'
-// @ts-ignore
-import * as dovenvStylelintConfig from '@dovenv/stylelint-config'
+import { Lint } from './lint'
 
-import { runCommitlint } from './commitlint'
-import { runEslint }     from './eslint'
-import { runLintStaged } from './staged'
-import { runStylelint }  from './style'
-
-import type { CommitlintConfig }        from './commitlint'
-import type { EslintConfig }            from './eslint'
-import type { LintStagedConfig }        from './staged'
-import type { StylelintConfig }         from './style'
+import type { Config }                  from './lint'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
-export type Config = {
-	staged?     : LintStagedConfig
-	stylelint?  : StylelintConfig
-	eslint?     : EslintConfig
-	commitlint? : CommitlintConfig
-}
+export * from './lint'
 
-export {
-	runEslint,
-	runLintStaged,
-	runStylelint,
-	dovenvEslintConfig,
-	dovenvStylelintConfig,
-}
+const CMDS = {
+	staged     : 'staged',
+	stylelint  : 'stylelint',
+	eslint     : 'eslint',
+	commitlint : 'commitlint',
+} as const
 
-export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : {
-	'lint-staged' : {
-		desc : 'Lint staged files',
-		fn   : async ( ) => {
-
-			await runLintStaged( conf?.staged )
-
-		},
-	},
-	'stylelint' : {
-		desc : 'Lint CSS files configuration',
-		opts : {
-			fix : {
-				desc : 'Fix stylelint errors',
-				type : 'boolean',
-			},
-			files : {
-				desc : 'Files to lint',
-				type : 'array',
+export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : { lint : {
+	desc : 'Linter Toolkit',
+	cmds : {
+		[CMDS.staged]    : { desc: 'Lint staged git files' },
+		[CMDS.stylelint] : {
+			desc : 'Lint CSS/SCSS/LESS/SASS/PostCSS files configuration',
+			opts : {
+				fix : {
+					desc : 'Fix stylelint errors',
+					type : 'boolean',
+				},
+				files : {
+					desc : 'Files to lint',
+					type : 'array',
+				},
 			},
 		},
-		fn : async ( { opts } ) => {
-
-			const config: StylelintConfig = {
-				...conf?.stylelint,
-				...( opts?.files ? { files: opts?.files as string[] } : {} ),
-				...( opts?.fix ? { fix: true } : {} ),
-			}
-
-			const lint = await runStylelint( config )
-			console.log( lint )
-
+		[CMDS.eslint]     : { desc: 'Lint JS/TS/MD/JSON/YAML.. files' },
+		[CMDS.commitlint] : {
+			desc : 'Lint commit messages',
+			opts : { message : {
+				desc  : 'Set your commit message here. If is not provided, it will be read the last commit message',
+				type  : 'string',
+				alias : 'm',
+			} },
+			examples : [
+				{
+					cmd  : `$0 lint ${CMDS.commitlint} --message "Message to commit"`,
+					desc : 'Lint commit specific message',
+				},
+				{
+					cmd  : `$0 lint ${CMDS.commitlint}`,
+					desc : 'Lint last commit last message',
+				},
+			],
 		},
 	},
-	'eslint' : {
-		desc : 'Lint JS/TS/MD/JSON/YAML.. files',
-		fn   : async () => {
-
-			await runEslint()
-
+	examples : [
+		{
+			cmd  : `$0 lint ${CMDS.stylelint}`,
+			desc : 'Lint css/postcss files',
 		},
-	},
-	'commitlint' : {
-		desc : 'Lint commit messages',
-		opts : { message : {
-			desc  : 'Set your commit message here. If is not provided, it will be read the last commit message',
-			type  : 'string',
-			alias : 'm',
-		} },
-		fn : async ( { opts } ) => {
-
-			await runCommitlint( conf?.commitlint, opts?.message as string )
-
+		{
+			cmd  : `$0 lint ${CMDS.eslint}`,
+			desc : 'Lint JS/TS/MD/JSON/YAML.. files',
 		},
+		{
+			cmd  : `$0 lint ${CMDS.commitlint}`,
+			desc : 'Lint commit message',
+		},
+		{
+			cmd  : `$0 lint ${CMDS.staged}`,
+			desc : 'Lint staged files',
+		},
+	],
+	fn : async ( {
+		opts, cmds,
+	} ) => {
+
+		const lint = new Lint( conf )
+		if ( cmds?.includes( CMDS.staged ) ) await lint.lintStaged(  )
+		else if ( cmds?.includes( CMDS.stylelint ) )
+			await lint.stylelint(  opts?.files as string[], opts?.fix as boolean )
+		else if ( cmds?.includes( CMDS.eslint ) )
+			await lint.eslint( )
+		else if ( cmds?.includes( CMDS.commitlint ) )
+			await lint.commitlint( opts?.message as string )
+		else console.warn( `No command provided. Use: ${Object.values( CMDS ).join( ', ' )}` )
+
 	},
-} } )
+} } } )

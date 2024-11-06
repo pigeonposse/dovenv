@@ -9,7 +9,27 @@ import {
 import type { Config as DoveEnvConfig } from 'dovenv'
 
 export type Config<ID extends string, R extends Role<ID>> = {
+	/**
+	 * Set contributor roles
+	 * @example
+	 * {
+	 *     owner: { name: 'Owner', emoji: '👑' },
+	 *     author: { name: 'Author', emoji: '👨‍💻' },
+	 *     dev: { name: 'Developer', emoji: '🤝' },
+	 *     organization: { name: 'Organization', emoji: '🏢' },
+	 *     sponsor: { name: 'Sponsor', emoji: '🤝' },
+	 *     translator: { name: 'Translator', emoji: '🌏' }
+	 * },
+	 */
 	role   : R
+	/**
+	 * Set contributor members
+	 * @example
+	 * [
+	 *     { ghUsername: 'angelespejo', name: 'Angelo', role: 'author' },
+	 *     { ghUsername: 'pigeonposse', name: 'PigeonPosse', role: 'organization' },
+	 *  ]
+	 */
 	member : Contributor<Extract<keyof R, string>>[]
 }
 

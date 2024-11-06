@@ -39,6 +39,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"dovenv": "workspace:*"
 	},

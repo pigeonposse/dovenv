@@ -11,7 +11,7 @@
 	"types": "dist/main.d.ts",
 	"scripts": {
 		"build": "unbuild",
-		"dev": "bun examples/main.ts",
+		"dev": "tsx examples/main.ts",
 		"preview": "node dist/bin.mjs",
 		"test": "vitest run -r src --passWithNoTests"
 	},
@@ -19,7 +19,11 @@
 		"env-ai": "0.4.0"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
+		"dovenv": "workspace:*"
+	},
+	"peerDependencies": {
 		"dovenv": "workspace:*"
 	}
 }

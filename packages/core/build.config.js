@@ -1,15 +1,17 @@
+import { config }            from '@dovenv/repo-config/unbuild'
 import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig( [
 	{
-		entries     : [ './src/main', './src/bin' ],
-		sourcemap   : false,
-		declaration : true,
-		rollup      : { esbuild : {
-			minify : true,
-			target : 'node20',
-		} },
-		failOnWarn : false,
-
+		...config,
+		entries   : [ './src/main', './src/bin' ],
+		externals : [
+			'zod',
+			'yargs',
+			'ora',
+			'deepmerge-ts',
+			'consola',
+		],
 	},
 ] )
+

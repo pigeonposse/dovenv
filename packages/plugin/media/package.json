@@ -7,8 +7,8 @@
 	"exports": {
 		".": "./dist/main.mjs"
 	},
-	"main": "dist/main.js",
-	"module": "dist/main.js",
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"scripts": {
 		"build": "unbuild",
@@ -27,6 +27,7 @@
 		"terminalizer": "0.12.0"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"@types/imagemin": "9.0.0",
 		"@types/imagemin-gifsicle": "7.0.4",

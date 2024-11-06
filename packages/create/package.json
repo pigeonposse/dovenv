@@ -1,5 +1,5 @@
 {
-	"name": "@dovenv/create",
+	"name": "create-dovenv",
 	"version": "0.0.1",
 	"private": true,
 	"description": "dovenv create projects",
@@ -15,14 +15,11 @@
 		"dev": "tsx examples/main.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
-	"dependencies": {
-		"leasot": "^14.4.0"
-	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*",
-		"dovenv": "workspace:*"
+		"@dovenv/utils": "workspace:*"
 	}
 }

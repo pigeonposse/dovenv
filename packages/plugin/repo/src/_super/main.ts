@@ -14,8 +14,8 @@ import type { Config as DoveEnvConfig } from 'dovenv'
 
 export class Repo {
 
-	opts   : Config
-	config : DoveEnvConfig
+	opts   : Config = {}
+	config : DoveEnvConfig = {}
 
 	protected color = color
 	protected prompt = promptLineProps
@@ -68,6 +68,7 @@ export class Repo {
 				...opts,
 				repoURL : `https://github.com/${opts.userID}/${opts.repoID}`,
 			}
+
 			this.opts   = opts || {}
 			this.config = config || {}
 

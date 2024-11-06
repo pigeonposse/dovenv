@@ -1,4 +1,5 @@
 import {
+	catchError,
 	createCli,
 	process,
 } from '@dovenv/utils'
@@ -17,7 +18,6 @@ import {
 import { Transform } from './transform/main'
 
 import type { CustomConfig } from './custom/main'
-import type { Config }       from './types'
 
 export const run = async ( argv: string[] ) => {
 
@@ -35,22 +35,22 @@ export const run = async ( argv: string[] ) => {
 				.alias( 'h', 'help' )
 				.alias( 'v', 'version' )
 				.option( 'config', {
-					alias    : 'c',
-					describe : 'Configuration file path',
-					type     : 'string',
+					alias : 'c',
+					desc  : 'Configuration file path',
+					type  : 'string',
 
 				} ).option( 'verbose', {
-					describe : 'Verbose mode',
-					type     : 'boolean',
+					desc : 'Verbose mode',
+					type : 'boolean',
 				} )
 
 			const defaultCmds: CustomConfig = {
 				check : {
 					desc : 'Make rules from your workspaces files and directories',
 					opts : { key : {
-						alias    : 'k',
-						describe : 'Set key patterns for check',
-						type     : 'array',
+						alias : 'k',
+						desc  : 'Set key patterns for check',
+						type  : 'array',
 					} },
 					fn : async argv => {
 
@@ -66,9 +66,9 @@ export const run = async ( argv: string[] ) => {
 						add  : { desc: 'Add new constant' },
 					},
 					opts : { key : {
-						alias    : 'k',
-						describe : 'Set key patterns of your constants for viewed',
-						type     : 'array',
+						alias : 'k',
+						desc  : 'Set key patterns of your constants for viewed',
+						type  : 'array',
 					} },
 					examples : [
 						{
@@ -90,9 +90,9 @@ export const run = async ( argv: string[] ) => {
 				transform : {
 					desc : 'Transform your workspaces files and directories',
 					opts : { key : {
-						alias    : 'k',
-						describe : 'Set key patterns of your transforms',
-						type     : 'array',
+						alias : 'k',
+						desc  : 'Set key patterns of your transforms',
+						type  : 'array',
 					} },
 					examples : [
 						{
@@ -115,7 +115,17 @@ export const run = async ( argv: string[] ) => {
 			}
 			const argv = await cli.argv
 
-			const config = await getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) as Config
+			const [ errorConfig, config ] = await catchError( getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) )
+
+			// Show help when is not set a config file and is not set a command
+			if ( ( argv.help && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
+			if ( errorConfig ) {
+
+				console.error( '\n\n' + errorConfig.message )
+				process.exit( 0 )
+
+			}
+
 			// @ts-ignore
 			process.env.DOVENV_CONFIG = config
 
@@ -134,6 +144,9 @@ export const run = async ( argv: string[] ) => {
 			)
 
 			await custom.run()
+
+			if ( !argv._.length ) cli.showHelp( 'log' )
+
 			return cli
 
 		},

@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import {
 	defineConfig,
 	type Config as DoveEnvConfig,
@@ -6,7 +7,7 @@ import {
 import { config as contributorsConfig } from './contributors/main'
 import { config as ghConfig }           from './gh/main'
 import { config as gitConfig }          from './git/main'
-import { config as updateConfig }       from './pkg/main'
+import { config as pkgConfig }          from './pkg/main'
 
 import type { Config as GeneralConfig }      from './_super/types'
 import type { Role }                         from './contributors/fn'
@@ -14,15 +15,13 @@ import type { Config as ContributorsConfig } from './contributors/main'
 import type { GitConfig }                    from './git/types'
 
 type Config<I extends string, R extends Role<I>> = GeneralConfig & GitConfig & {
-	contributors?  : ContributorsConfig<I, R>
-	updateVersion? : Parameters<typeof updateConfig>[0]
-}
+	/** Contributors configuration */
+	contributors? : ContributorsConfig<I, R> }
 
 export const config = <Contr extends string, R extends Role<Contr>>( opts?: Config<Contr, R> ): DoveEnvConfig => {
 
 	const {
 		contributors,
-		updateVersion,
 		...generalConf
 	} = opts || {}
 
@@ -30,7 +29,7 @@ export const config = <Contr extends string, R extends Role<Contr>>( opts?: Conf
 		contributorsConfig( contributors ),
 		ghConfig( generalConf ),
 		gitConfig( generalConf ),
-		updateConfig( updateVersion ),
+		pkgConfig( generalConf ),
 	] )
 
 }

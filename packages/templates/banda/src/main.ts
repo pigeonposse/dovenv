@@ -7,7 +7,7 @@ import { config as repoConfig }     from '@dovenv/repo'
 import { config as todoConfig }     from '@dovenv/todo'
 import { defineConfig }             from 'dovenv'
 
-type Config = {
+export type Config = {
 	media?    : Parameters<typeof mediaConfig>[0]
 	lint?     : Parameters<typeof lintConfig>[0]
 	docs?     : Parameters<typeof docsConfig>[0]

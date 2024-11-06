@@ -2,6 +2,7 @@
 import type { Config } from '../_super/types'
 
 export type GitConfig = Config & {
+	/** Commit configuration */
 	commit? : {
 		types? : Array<{
 			value  : string
@@ -20,8 +21,13 @@ export type GitConfig = Config & {
 		 */
 		lint? : boolean
 	}
+	/** Pull configuration */
 	pull?  : unknown
+	/**Push configuration */
 	push?  : unknown
+	/**Husky configuration
+	 * @link https://typicode.github.io/husky/
+	 */
 	husky?  : {
 		/**
 		 * The path to set the '.husky' directory

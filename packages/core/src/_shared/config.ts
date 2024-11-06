@@ -5,6 +5,8 @@ import {
 	joinPath,
 	process,
 	catchError,
+	icon,
+	color,
 } from '@dovenv/utils'
 
 const getValidatedConf = async ( path: string ) => {
@@ -36,28 +38,27 @@ const getDefaultConf = async () => {
 
 	}
 
-	throw new Error( 'Configuration route has not been provided.' )
+	throw new Error( color.red( `${icon.cross} Configuration:
+
+  Configuration path not found and not provided.
+		
+  ${icon.dot} You can create a configuration file in the following paths and it will be automatically detected: 
+
+${paths.map( p => `    ${icon.dot} ${color.dim.italic( p )}` ).join( '\n' )}
+
+  ${icon.dot} Or use a custom route with: ${color.dim.italic( '$0 --config <config-path>' )}
+  
+  ${icon.dot} For more information, see: ${color.underline.dim.italic( 'https://github.com/dovenv/dovenv' )}
+` ) )
 
 }
 
 export const getConfig = async ( path?: string ) => {
 
-	try {
+	if ( !path ) return await getDefaultConf()
 
-		if ( !path ) return await getDefaultConf()
+	path = resolvePath( path )
 
-		path = resolvePath( path )
-
-		return await getValidatedConf( path )
-
-	}
-	catch ( error ) {
-
-		//@ts-ignore
-		console.error( error.message )
-
-		process.exit( 0 )
-
-	}
+	return await getValidatedConf( path )
 
 }

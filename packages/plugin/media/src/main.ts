@@ -24,8 +24,11 @@ const CMDS = {
 	termGif   : 'termgif',
 } as const
 type Config = {
+	/** Configuration for create code images */
 	[CMDS.codeImage]? : { [key: string]: CodeImageConfig }
+	/** Configuration for minify images */
 	[CMDS.min]?       : { [key: string]: ImageMinConfig }
+	/** Configuration for create gifs of your terminal */
 	[CMDS.termGif]?   : { [key: string]: TermGifConfig }
 }
 
@@ -42,13 +45,14 @@ const getKeys = ( avaliableKeys: string[], userkeyPattern?:  string[] ) => {
 export const config = ( conf?:  Config ) => {
 
 	const data: DoveEnvConfig = { custom : { media : {
-		desc : 'Media functionality for your workspace',
+		desc : 'Media Tools for your workspace',
 		cmds : {
 			[CMDS.codeImage] : { desc: 'Generate code image' },
 			[CMDS.min]       : { desc: 'Minify images' },
 			[CMDS.qr]        : {
 				desc : 'Generate QR code in terminal',
 				opts : { input : {
+					desc         : 'Input to generate QR code',
 					alias        : 'i',
 					type         : 'string',
 					demandOption : true,

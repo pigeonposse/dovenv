@@ -39,7 +39,7 @@
 		"build": "unbuild",
 		"build-preview": "node dist/cli.mjs --config config.js",
 		"dev": "tsx src/cli.ts dev --config config.js",
-		"example": "bun examples/main.ts",
+		"example": "tsx examples/main.ts",
 		"preview": "tsx src/cli.ts preview --config config.js",
 		"test": "playwright test"
 	},
@@ -61,11 +61,11 @@
 		"vue-social-sharing": "3.0.9"
 	},
 	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"@types/chroma-js": "2.4.4",
 		"@types/markdown-it-container": "2.0.10",
-		"dovenv": "workspace:*",
-		"vite-plugin-copy": "0.1.6"
+		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"

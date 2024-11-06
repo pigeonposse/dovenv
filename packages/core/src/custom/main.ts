@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import {
 	color,
 	deepmergeCustom,
@@ -15,28 +16,38 @@ import type { createCli } from '@dovenv/utils'
 
 type CommandFn = ( data: ArgvParsed ) => Promise<void>
 type Cli = Awaited<ReturnType<typeof createCli>>
-type SetOpts = Parameters<Cli['options']>[0]
+type Opt = Parameters<Cli['option']>[0][number] & {
+	desc : string
+}
+type SetOpts = {
+	/** key of the option */
+	[key in string]: Opt
+}
 type SetCmds = {
-	[key in string]: {
-		desc  : string
-		opts? : SetOpts
-	}
+	/** Key of the command */
+	[key in string]: Cmd
 }
 
+type Cmd = {
+	/** Description of the command */
+	desc      : string
+	/** Options for the command if there are any */
+	opts?     : SetOpts
+	/** Commands for the command if there are any */
+	cmds?     : SetCmds
+	/** Examples of the command */
+	examples? : Examples
+}
+
+type Examples = {
+	/** Description of the example */
+	desc : string
+	/** Command to use */
+	cmd  : string
+}[]
 export type CustomConfig = {
-	[key in string]: {
-		/** Description of the command */
-		desc      : string
-		/** Options for the command if there are any */
-		opts?     : SetOpts
-		cmds?     : SetCmds
-		/** Examples of the command */
-		examples?: {
-			/** Description of the example */
-			desc : string
-			/** Command to use */
-			cmd  : string
-		}[]
+	/** Key of the command */
+	[key in string]: Cmd & {
 		/** Function to run the command */
 		fn : CommandFn
 	}
@@ -71,6 +82,22 @@ export class Custom extends Command {
 
 	}
 
+	#setCMDs( props: CustomConfig ) {
+
+		for ( const [ key, prop ] of Object.entries( props ) ) {
+
+			// @ts-ignore
+			this.cli.command( {
+				command : key,
+				desc    : prop.desc,
+				builder : async argv => await this.#builder( argv, prop ),
+				handler : async argv => await this.#handler( argv, key, prop ),
+			} )
+
+		}
+
+	}
+
 	async #builder( argv: Cli, prop: CustomConfig[number] ) {
 
 		if ( prop.opts ) {
@@ -81,26 +108,45 @@ export class Custom extends Command {
 		}
 		if ( prop.cmds ) {
 
-			// argv.group( Object.keys( prop.options ), 'Subcommands:' )
+			// if ( name ) argv.group( Object.keys( prop.cmds ), `Commands (${name}):` )
 			for ( const [ key, cmd ] of Object.entries( prop.cmds ) ) {
 
-				argv.command( key, cmd.desc, async argvChild => {
-
-					if ( cmd.opts ) argvChild.options( cmd.opts )
-
-					return argvChild
-
-				}, async argvChild => {
-
-					await this.#handler( argvChild, key, prop )
-
+				// @ts-ignore
+				argv.command( {
+					command : key,
+					desc    : cmd.desc,
+					builder : async argvChild => await this.#builder( argvChild, {
+						...cmd,
+						fn : prop.fn,
+					} ),
+					handler : async argvChild => await this.#handler( argvChild, key, prop ),
 				} )
+				// argv.command(
+				// 	key,
+				// 	cmd.desc,
+				// 	async argvChild => {
+
+				// 		await this.#builder( argvChild, {
+				// 			...prop,
+				// 			...cmd,
+				// 		} )
+
+				// 		return argvChild
+
+				// 	}, async argvChild => {
+
+				// 		await this.#handler( argvChild, key, prop )
+
+				// 	},
+				// )
 
 			}
 
 		}
 		if ( prop.examples )
 			prop.examples.forEach( example => argv.example( example.cmd, example.desc ) )
+
+		return argv
 
 	}
 
@@ -168,19 +214,7 @@ export class Custom extends Command {
 
 		}
 		this.validateSchema( this.props )
-
-		for ( const [ key, prop ] of Object.entries( this.props ) ) {
-
-			// @ts-ignore
-			this.cli.command( {
-				command : key,
-				desc    : prop.desc,
-
-				builder : async argv => await this.#builder( argv, prop ),
-				handler : async argv => await this.#handler( argv, key, prop ),
-			} )
-
-		}
+		this.#setCMDs( this.props )
 
 	}
 

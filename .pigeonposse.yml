@@ -12,7 +12,7 @@ web:
       - CLI
       - Node
     version: "0.0.1"
-    description: "Quickly and easily set up your environment for your code projects. Create documentation pages with zeroconfig, add beautiful commits, and much more."
+    description: "Toolkit for make your code workspace easier. Create documentation, add beautiful commits, lint and much more."
     homepage: "https://github.com/pigeonposse/dovenv"
     repo: "https://github.com/pigeonposse/dovenv"
     license: "https://github.com/pigeonposse/backan/blob/main/LICENSE"

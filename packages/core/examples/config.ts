@@ -11,11 +11,20 @@ import {
 	replacePlaceholders,
 	getPaths,
 	getBaseName,
+	getCharsNumFrom,
 } from '@dovenv/utils'
 
 import pkg              from '../../../package.json'
 import { version }      from '../package.json'
 import { defineConfig } from '../src/main'
+
+const workspaceDir   = ( v:string ) => joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', v )
+const wsPatternFiles = [
+	workspaceDir( '**/**' ),
+	'!' + workspaceDir( '**/node_modules/**' ),
+	'!' + workspaceDir( '**/dist/**' ),
+	'!' + workspaceDir( '**/build/**' ),
+]
 
 const setStructure = () => '\n' + box( setDirectoryTree(  { structure : {
 	'.vscode' : {
@@ -45,29 +54,100 @@ export default defineConfig( {
 			desc : 'Set structure for the workspace.',
 			fn   : async () => console.log( setStructure() ),
 		},
-		hello : {
+		greet : {
 			desc : 'Say hello to username',
+			cmds : {
+				hello : {
+					opts : { short : {
+						type : 'boolean',
+						desc : 'Say hello to username in short form',
+					} },
+					desc : 'Say hello to username',
+					cmds : {
+						es : { desc: 'Say hello to username in Spanish' },
+						en : { desc: 'Say hello to username in English' },
+					},
+					examples : [
+						{
+							desc : 'say hello to John in Spanish',
+							cmd  : '$0 greet hello es --name John',
+						},
+					],
+				},
+				bye : {
+					opts : { time : {
+						type  : 'boolean',
+						alias : 't',
+						desc  : 'Say goodbye to username in short form',
+					} },
+					desc : 'Say goodbye to username',
+					cmds : {
+						es : { desc: 'Say goodbye to username in Spanish' },
+						en : { desc: 'Say goodbye to username in English' },
+					},
+					examples : [
+						{
+							desc : 'say goodbye to John in Spanish',
+							cmd  : '$0 greet bye es --name John --time',
+						},
+					],
+				},
+			},
 			opts : {
 				name : {
-					type     : 'string',
-					alias    : 'n',
-					describe : 'Name of the user',
-					default  : 'John',
+					type    : 'string',
+					alias   : 'n',
+					desc    : 'Name of the user',
+					default : 'John',
 				},
 				secondName : {
-					type     : 'string',
-					alias    : 's',
-					describe : 'Second name of the user',
-					default  : 'Doe',
+					type    : 'string',
+					alias   : 's',
+					desc    : 'Second name of the user',
+					default : 'Doe',
 				},
 			},
 			examples : [
 				{
 					desc : 'say hello to John',
-					cmd  : '$0 hello --name=John',
+					cmd  : '$0 greet hello --name John',
+				},
+				{
+					desc : 'say Goodbye to John Doe',
+					cmd  : '$0 greet bye --name John --secondName Doe',
 				},
 			],
-			fn : async ( { opts } ) => console.log( `Hello ${opts?.name} ${opts?.secondName}` ),
+			fn : async ( {
+				opts, cmds,
+			} ) => {
+
+				const greet      = cmds?.includes( 'hello' )
+					? cmds?.includes( 'es' ) ? 'Hola' : 'Hello'
+					: cmds?.includes( 'es' ) ? 'Adios' : 'Goodbye'
+				const secondName = cmds?.includes( 'hello' ) && opts?.short ? '' : opts?.secondName
+				const time       = cmds?.includes( 'bye' ) && opts?.time ? '!!!' : ''
+
+				console.log( `${greet} ${opts?.name} ${secondName}${time}` )
+
+			},
+		},
+		filesNum : {
+			desc : 'Print files number from workspace',
+			fn   : async () => {
+
+				const res = await getPaths( wsPatternFiles )
+				console.log( res.length )
+
+			},
+		},
+		chars : {
+			desc : 'Print characters from workspace files',
+			fn   : async () => {
+
+				const res = await getCharsNumFrom( wsPatternFiles )
+				console.log( res )
+
+			},
 		},
 	},
 	const : {

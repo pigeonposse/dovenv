@@ -19,7 +19,8 @@ export class RepoPull extends Git {
 		catch ( e ) {
 
 			this.prompt.log.step( '' )
-			this.prompt.cancel( 'Error creating pull request:\n\n' + e.stderr || e.message )
+			// @ts-ignore
+			this.prompt.cancel( 'Error creating pull request:\n\n' + e?.stderr || e?.message )
 			return false
 
 		}
@@ -112,6 +113,7 @@ export class RepoPull extends Git {
 				},
 				run : async ( { results } ) => {
 
+					// @ts-ignore
 					const res = await this.#createPullRequest( results[data.title], results[data.body], results[data.base], results[data.open]  )
 					if ( !res ) this.process.exit( 0 )
 

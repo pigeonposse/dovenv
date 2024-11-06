@@ -1,3 +1,4 @@
+import { config }          from '@dovenv/repo-config/unbuild'
 import {
 	copyDir,
 	resolvePath as resolve,
@@ -6,6 +7,7 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig( [
 	{
+		...config,
 		entries : [
 			'./src/main',
 			'./src/cli',
@@ -14,16 +16,7 @@ export default defineBuildConfig( [
 				outDir : 'dist/.vitepress',
 			},
 		],
-
-		sourcemap   : false,
-		declaration : true,
-		rollup      : { esbuild : {
-			minify : false,
-			target : 'node20',
-
-		} },
-		failOnWarn : false,
-		hooks      : { 'build:done' : async () => {
+		hooks : { 'build:done' : async () => {
 
 			await copyDir( {
 				input  : resolve( 'src/.vitepress/theme' ),
@@ -31,6 +24,7 @@ export default defineBuildConfig( [
 			} )
 
 		} },
+		externals : [ 'dovenv' ],
 
 	},
 ] )
