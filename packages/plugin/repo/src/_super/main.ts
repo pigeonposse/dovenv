@@ -5,6 +5,7 @@ import {
 	promptLineProps,
 	promptLine,
 	process,
+	cache,
 } from '@dovenv/utils'
 
 import type { Config }                  from './types'
@@ -93,6 +94,16 @@ export class Repo {
 			return
 
 		}
+
+	}
+
+	protected async _cache<V extends Record<string, unknown>>( id: string, values: V ) {
+
+		return await cache( {
+			projectName : this.opts.repoID || 'dovenv',
+			id,
+			values      : values,
+		} )
 
 	}
 

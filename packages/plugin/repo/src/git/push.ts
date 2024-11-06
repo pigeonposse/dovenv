@@ -3,11 +3,9 @@
  * @description Add prompt for edit project TODO List.
  */
 
-import {
-	cache as initCache,
-	exec,
-} from '@dovenv/utils'
+import { exec } from '@dovenv/utils'
 
+import { RepoBranch }    from './branch'
 import { RepoCommit }    from './commit'
 import { Repo }          from '../_super/main'
 import { Workflow }      from '../gh/workflow'
@@ -19,24 +17,24 @@ export class RepoPush extends Repo {
 
 		await this.init()
 
-		const data          = {
+		const defaultBranch  = this.opts.defaultBranch || 'main'
+		const branchInstance = new RepoBranch( this.opts, this.config )
+		const commitInstance = new RepoCommit( this.opts, this.config )
+
+		const data        = {
 			update   : 'update',
 			add      : 'add',
 			origin   : 'origin',
 			workflow : 'workflow',
+		} as const
+		const defaultData = {
+			[data.update]   : false,
+			[data.add]      : '.',
+			[data.origin]   : defaultBranch,
+			[data.workflow] : false,
 		}
-		const defaultBranch = this.opts.defaultBranch || 'main'
-		const cache         = await initCache( {
-			projectName : 'dovenv',
-			id          : 'push',
-			values      : {
-				[data.update]   : false,
-				[data.add]      : '.',
-				[data.origin]   : defaultBranch,
-				[data.workflow] : false,
-			},
-		} )
-
+		const cache       = await this._cache( 'push', defaultData )
+		const cached      = await cache.get()
 		await this.promptLine( {
 			outro    : 'Succesfully finished 🌈',
 			onCancel : p => {
@@ -46,10 +44,10 @@ export class RepoPush extends Repo {
 
 			},
 			list : async p => ( {
-				'desc'        : () => p.log.info( this.color.gray.dim( 'Prompt for run workflow' ) ),
-				[data.update] : () => p.confirm( {
+				'desc'        : () => p.log.info( this.color.gray.dim( 'Push your repository' ) ),
+				[data.update] : async () => await p.confirm( {
 					message      : 'Do yo want update version?',
-					initialValue : cache.get( data.update ) as boolean,
+					initialValue : cached[data.update],
 				} ),
 				'update-res' : async ( { results } ) => {
 
@@ -59,24 +57,20 @@ export class RepoPush extends Repo {
 					await ver.run()
 
 				},
-				[data.add] : () => p.text( {
+				[data.add] : async () => await p.text( {
 					message      : 'Git add',
 					placeholder  : '.',
-					initialValue : cache.get( data.add ) as string,
+					initialValue : cached[data.add],
 				} ),
-				[data.origin] : () => p.text( {
-					message      : 'Add origin branch',
-					placeholder  : defaultBranch,
-					initialValue : cache.get( data.origin ) as string,
-				} ),
-				'add-res' : async ( { results } ) => {
+				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
+				'add-res'     : async ( { results } ) => {
 
 					if ( results[data.add] && results[data.origin] ) {
 
 						console.log()
 						await exec( `git add ${results[data.add]}` )
-						const cm = new RepoCommit( this.opts, this.config )
-						await cm.run()
+
+						await commitInstance.run()
 						await exec( `git push -f origin ${results[data.origin]}` )
 						console.log()
 
@@ -85,18 +79,19 @@ export class RepoPush extends Repo {
 					}
 
 				},
-				[data.workflow] : () => p.confirm( {
+				[data.workflow] : async () => await p.confirm( {
 					message      : 'Do you want run GitHub workflow?',
-					initialValue : cache.get( data.workflow ) as boolean,
+					initialValue : cached[data.workflow],
 				} ),
 				'last' : async ( { results } ) => {
 
 					cache.set( {
-						update   : results[data.update],
-						add      : results[data.add],
-						origin   : results[data.origin],
-						workflow : results[data.workflow],
+						[data.update]   : results[data.update],
+						[data.add]      : results[data.add],
+						[data.origin]   : results[data.origin],
+						[data.workflow] : results[data.workflow],
 					} )
+
 					if ( !( results[data.workflow] ) ) return
 					const wf = new Workflow( this.opts, this.config )
 					await wf.run()

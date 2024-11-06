@@ -5,7 +5,6 @@
 import {
 	execChild,
 	exec,
-	cache as initCache,
 } from '@dovenv/utils'
 
 import { Git } from './super'
@@ -98,6 +97,13 @@ export class RepoCommit extends Git {
 
 	}
 
+	async getLastCommit() {
+
+		const { stdout } = await execChild( 'git log -1 --pretty=%B' )
+		return stdout.trim()
+
+	}
+
 	async isStageEmpty() {
 
 		const { stdout } = await execChild( 'git diff --cached' )
@@ -137,23 +143,20 @@ export class RepoCommit extends Git {
 
 	async ask() {
 
-		const types  = this.opts.commit?.types || this.types as RepoCommit['types']
-		const scopes = this.opts.commit?.scopes || this.scopes as RepoCommit['scopes']
-		const data   = {
-			types  : 'types',
-			scopes : 'scopes',
-			msg    : 'message',
+		const types       = this.opts.commit?.types || this.types as RepoCommit['types']
+		const scopes      = this.opts.commit?.scopes || this.scopes as RepoCommit['scopes']
+		const data        = {
+			type  : 'type',
+			scope : 'scope',
+			msg   : 'message',
+		} as const
+		const defaultData = {
+			[data.type]  : undefined as string | undefined,
+			[data.scope] : undefined as string | undefined,
+			[data.msg]   : '',
 		}
-
-		const cache = await initCache( {
-			projectName : 'dovenv',
-			id          : 'commit',
-			values      : {
-				[data.types]  : types?.map( s => s.value ),
-				[data.scopes] : scopes?.map( s => s.value ),
-				[data.msg]    : '',
-			},
-		} )
+		const cache       = await this._cache( 'commit', defaultData )
+		const cached      = await cache.get()
 
 		await this.promptLine( {
 			outro    : 'Succesfully commited 🌈',
@@ -168,42 +171,50 @@ export class RepoCommit extends Git {
 				const prompt = {
 					type : async () => {
 
-						if ( types )
-							return await p.select( {
+						const result = ( types )
+							? await p.select( {
 								message : 'Select type of commit',
 								options : types.map( t => ( {
 									value : t.value,
 									label : t.title || t.value,
 									hint  : t.desc,
 								} ) ),
-								initialValue : types.some( t => t.value === cache[data.types] ) ? cache[data.types] : undefined,
-							} )
-
-						return undefined
+								initialValue : types.some( t => t.value === cached[data.type] ) ? cached[data.type] : undefined,
+							} ) as string
+							: undefined
+						cache.set( { [data.type]: result } )
+						return result
 
 					},
 					scope : async () => {
 
-						if ( scopes )
-							return await p.select( {
+						const result = ( scopes )
+							? await p.select( {
 								message : 'Select scope of commit',
 								options : scopes.map( t => ( {
 									value : t.value,
 									label : t.title || t.value,
 									hint  : t.desc,
 								} ) ),
-								initialValue : scopes.some( t => t.value === cache[data.scopes] ) ? cache[data.scopes] : undefined,
-							} )
+								initialValue : scopes.some( t => t.value === cached[data.scope] ) ? cached[data.scope] : undefined,
+							} ) as string
+							: undefined
 
-						return undefined
+						cache.set( { [data.scope]: result } )
+						return result
 
 					},
 					message : async () => {
 
-						return await p.text( {
+						const msg    = await this.getLastCommit()
+						const result = await p.text( {
 							message      : 'Commit message',
-							initialValue : cache[data.scopes],
-						} )
+							placeholder  : msg,
+							initialValue : cache.get( data.msg ),
+						} ) as string
+
+						cache.set( { [data.msg]: result } )
+						return result
 
 					},
 				}
@@ -238,16 +249,10 @@ export class RepoCommit extends Git {
 								return
 
 							}
-							p.log.info( 'Commit message: ' + message )
+							p.log.info( 'Commit total message: ' + message )
 
 							await this.lint( message )
 							await this.exec( message )
-
-							cache.set( {
-								[data.types]  : type,
-								[data.scopes] : scope,
-								[data.msg]    : msg,
-							} )
 
 						}
 						catch ( e ) {

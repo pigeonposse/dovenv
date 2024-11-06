@@ -5,7 +5,6 @@
  */
 
 import {
-	cache as initCache,
 	execChild,
 	getFilteredFileNames,
 	process,
@@ -51,7 +50,7 @@ export class Workflow extends Repo {
 	async run() {
 
 		const {
-			workflowDefaultInputs, workflowsDir, repoURL, repoID,
+			workflowDefaultInputs, workflowsDir, repoURL,
 		} = this.opts || {}
 		const dir   = workflowsDir || joinPath( process.cwd(), '.github', 'workflows' )
 		const exist = await existsDir( dir )
@@ -72,19 +71,16 @@ export class Workflow extends Repo {
 			return
 
 		}
-		const data = {
+		const data        = {
 			file   : 'file',
 			inputs : 'inputs',
+		} as const
+		const defaultData = {
+			[data.file]   : fileNames[0],
+			[data.inputs] : workflowDefaultInputs || '',
 		}
-
-		const cache = await initCache( {
-			projectName : repoID || 'dovenv',
-			id          : 'workflow',
-			values      : {
-				[data.file]   : fileNames[0],
-				[data.inputs] : workflowDefaultInputs || '',
-			},
-		} )
+		const cache       = await this._cache( 'workflow', defaultData )
+		const cached      = await cache.get()
 
 		await this.promptLine( {
 			outro    : repoURL ? `✨ See action progress: ${joinUrl( repoURL, 'actions' )}` : 'Succesfully finished 🌈',
@@ -102,10 +98,10 @@ export class Workflow extends Repo {
 						value,
 						label : value,
 					} ) ),
-					initialValue : cache.get( data.file ),
+					initialValue : cached[data.file],
 				} ),
 				[data.inputs] : async () => p.text( {
-					initialValue : cache.get( data.inputs ) as string,
+					initialValue : cached[data.inputs],
 					message      : `Set inputs for workflow in comma separed. Set empty to not use any inputs.`,
 				} ),
 				fn : async ( { results } ) => {
@@ -135,14 +131,12 @@ export class Workflow extends Repo {
 						}
 
 					}
-
+					cache.set( answers )
 					const createdWorkflow = await execChild( `gh workflow run ${answers.file}.yml ${formattedInputs}` )
 					if ( createdWorkflow.stderr ) throw Error( 'Error creating workflow' )
 
 					const result = await execChild( 'echo $(gh run list --limit 1 --json databaseId,url --jq \'.[0].url\')' )
 					if ( result.stdout && result.stdout.trim() !== '' ) p.log.info( `GitHub action url: ${result.stdout}` )
-
-					cache.set( answers )
 
 				},
 			} ),

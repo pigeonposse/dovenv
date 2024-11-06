@@ -7,15 +7,16 @@ import { Git } from './super'
 
 export class RepoBranch extends Git {
 
-	async #askSelectBranch(): Promise<string> {
+	async askSelectBranch( defaultValue?: string, remote = true ): Promise<string> {
 
-		const all         = await this.getAll()
+		const all         = await this.getAll( remote )
 		const res         = await this.prompt.select( {
-			message : 'Select branch of your repo',
+			message : 'Select branch of your repository',
 			options : all.map( b => ( {
 				value : b,
 				label : b,
 			} ) ),
+			initialValue : defaultValue && all.includes( defaultValue ) ? defaultValue : undefined,
 		} )
 		const isCancelled = this.prompt.isCancel( res )
 		if ( isCancelled ) {
@@ -108,7 +109,7 @@ export class RepoBranch extends Git {
 	 */
 	async change( branchName?: string, force = false ): Promise<void> {
 
-		const branch  = ( !branchName ) ? await this.#askSelectBranch() : branchName
+		const branch  = ( !branchName ) ? await this.askSelectBranch() : branchName
 		const command = force ? `git checkout -f ${branch}` : `git checkout ${branch}`
 
 		const {
@@ -126,7 +127,7 @@ export class RepoBranch extends Git {
 	 */
 	async switch( branchName?: string ): Promise<void> {
 
-		const branch     = ( !branchName ) ? await this.#askSelectBranch() : branchName
+		const branch     = ( !branchName ) ? await this.askSelectBranch() : branchName
 		const { stderr } = await execChild( `git switch ${branch}` )
 		if ( stderr ) {
 
@@ -181,7 +182,7 @@ export class RepoBranch extends Git {
 	 */
 	async delete( branchName?: string, force = false ): Promise<void> {
 
-		const branch     = ( !branchName ) ? await this.#askSelectBranch() : branchName
+		const branch     = ( !branchName ) ? await this.askSelectBranch() : branchName
 		const command    = force ? `git branch -D ${branch}` : `git branch -d ${branch}`
 		const { stderr } = await execChild( command )
 		if ( stderr ) {
