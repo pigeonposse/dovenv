@@ -9,8 +9,26 @@
 	"commit": false,
 	"fixed": [
 		[
+			"@dovenv/eslint-config",
+			"@dovenv/stylelint-config",
+
 			"dovenv",
-			"@dovenv/eslint-config"
+			"@dovenv/create",
+			"@dovenv/documentation",
+
+			"@dovenv/ai",
+			"@dovenv/convert",
+			"@dovenv/docs",
+			"@dovenv/examples",
+			"@dovenv/lint",
+			"@dovenv/media",
+			"@dovenv/repo",
+			"@dovenv/todo",
+
+			"@dovenv/theme-pigeonposse",
+			"@dovenv/theme-banda",
+
+			"@dovenv/utils"
 		]
 	],
 	"linked": [

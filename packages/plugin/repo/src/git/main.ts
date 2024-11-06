@@ -1,5 +1,6 @@
 import { color } from '@dovenv/utils'
 
+import { RepoAdd }    from './add'
 import { RepoBranch } from './branch'
 import { RepoCommit } from './commit'
 import { Husky }      from './husky'
@@ -19,6 +20,7 @@ export const branch = {
 	createSwitch : 'create-switch',
 }
 export const CMD = {
+	add    : 'add',
 	commit : 'commit',
 	branch : 'branch',
 	push   : 'push',
@@ -28,10 +30,11 @@ export const CMD = {
 export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 
 	const res: DoveEnvConfig['custom'] = { git : {
-		desc : 'Git commands',
+		desc : 'Git commands (add, commit, branch, pull, push...)',
 		cmds : {
-			commit : { desc: 'commit configuration' },
-			branch : {
+			[CMD.add]    : { desc: 'Add files to git' },
+			[CMD.commit] : { desc: 'Commit configuration' },
+			[CMD.branch] : {
 				desc : 'branch configuration',
 				opts : {
 					[branch.list] : {
@@ -64,9 +67,9 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 					},
 				},
 			},
-			pull  : { desc: 'Pull request configuration' },
-			push  : { desc: 'Push your project to a branch' },
-			husky : { desc: 'Husky configuration' },
+			[CMD.pull]  : { desc: 'Pull request configuration' },
+			[CMD.push]  : { desc: 'Push your code to a branch' },
+			[CMD.husky] : { desc: 'Husky configuration' },
 		},
 		fn : async ( {
 			cmds, config, opts,
@@ -78,6 +81,12 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 
 				const cm = new RepoCommit( conf, config )
 				await cm.run( )
+
+			}
+			else if ( cmds?.includes( CMD.add ) ) {
+
+				const add = new RepoAdd( conf, config )
+				add.run()
 
 			}
 			else if ( cmds?.includes( CMD.pull ) ) {

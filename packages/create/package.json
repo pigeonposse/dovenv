@@ -1,8 +1,8 @@
 {
-	"name": "@dovenv/theme-pigeonposse",
+	"name": "@dovenv/create",
 	"version": "0.0.1",
 	"private": true,
-	"description": "A dovenv configuration and tools for Pigeonposse team",
+	"description": "dovenv create projects",
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -16,7 +16,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@dovenv/theme-banda": "workspace:*"
+		"leasot": "^14.4.0"
 	},
 	"devDependencies": {
 		"dovenv": "workspace:*"

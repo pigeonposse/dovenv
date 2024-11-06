@@ -1,8 +1,8 @@
 {
-	"name": "@dovenv/theme-pigeonposse",
+	"name": "@dovenv/theme-banda",
 	"version": "0.0.1",
 	"private": true,
-	"description": "A dovenv configuration and tools for Pigeonposse team",
+	"description": "All in One dovenv tools for large and complete repositories",
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -16,7 +16,13 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@dovenv/theme-banda": "workspace:*"
+		"@dovenv/convert": "workspace:*",
+		"@dovenv/docs": "workspace:*",
+		"@dovenv/examples": "workspace:*",
+		"@dovenv/lint": "workspace:*",
+		"@dovenv/media": "workspace:*",
+		"@dovenv/repo": "workspace:*",
+		"@dovenv/todo": "workspace:*"
 	},
 	"devDependencies": {
 		"dovenv": "workspace:*"

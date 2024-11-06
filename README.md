@@ -11,11 +11,52 @@
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/dovenv?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/dovenv)
 
-> ⏳ Coming soon Quickly and easily set up your environment for your code projects. Create documentation pages with zeroconfig, add beautiful commits, and much more.
+> Currently in development
+> ⏳ Coming soon `beta` version.
 
 ## 📖 Description
 
-> comingsoon
+Toolkit to make your code workspace robust, easier and cleaner.
+
+Quickly and easily set up your environment for your code projects.
+
+- Check your local files/directories for have a solid structure in your workspace
+- Create constants for share without all workpaces files/directories
+- Make templates from your local files
+- Transform content from multiple files simultaneously
+
+- AI Plugin
+  - Use Local LLM chat with your workspace files
+
+- Docs Plugin
+  - Create documentation pages with zeroconfig
+
+- Lint Plugin
+  - lint JS/TS files
+  - Lint markdown files
+  - lint JSON/YAML/TOML.. files
+  - lint css files
+  - lint svelte files
+  - lint commits
+ ...
+
+- Media plugin
+  - Minify your local images
+  - Create gifs from your terminal
+  - Create beatifull code images from your code
+
+- Repo Plugin
+  - Create beautiful commits
+  - add, pull or push to any branch of your project quickly
+  - Update, and publish your package/s
+  - Change github page info from your code workspace
+  - Add a complete list of your contributors.
+  ...
+
+- Todo Plugin
+  - Make a control of your project todos.
+
+- Convert Plugin [coming soon]
 
 ## 🔑 Installation
 

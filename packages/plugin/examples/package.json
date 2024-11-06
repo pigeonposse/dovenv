@@ -1,8 +1,8 @@
 {
-	"name": "@dovenv/theme-pigeonposse",
+	"name": "@dovenv/examples",
 	"version": "0.0.1",
 	"private": true,
-	"description": "A dovenv configuration and tools for Pigeonposse team",
+	"description": "Tools for Examples files/directories for dovenv",
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -16,7 +16,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@dovenv/theme-banda": "workspace:*"
+		"leasot": "^14.4.0"
 	},
 	"devDependencies": {
 		"dovenv": "workspace:*"

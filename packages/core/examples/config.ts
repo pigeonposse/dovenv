@@ -29,57 +29,14 @@ const setStructure = () => '\n' + box( setDirectoryTree(  { structure : {
 	'LICENSE'          : null,
 	'package.json'     : null,
 	'README.md'        : null,
-} } ),
-{
+} } ), {
 	padding     : 1,
 	title       : 'Workspace Structure',
 	borderStyle : 'double',
 	borderColor : 'gray',
 	dimBorder   : true,
-},
-)
-// const tests        = {
-// 	template : {
-// 		pkg : {
-// 			input  : 'package.json',
-// 			output : [ 'packages/**/package.json', '!packages/**/node_modules/*' ],
-// 			// partials : {},
-// 		},
-// 		readme : {
-// 			input  : 'README.md',
-// 			output : [ 'README.md' ],
-// 		},
-// 	},
+} )
 
-// 	//after templates or include inside templates (?)
-// 	partials : {
-// 		pigeonposse : {},
-// 		reamde      : {
-// 			output  : 'README.md',
-// 			content : [],
-// 		},
-// 	},
-// 	transform : {
-// 		pkg : {
-// 			input  : 'package.json',
-// 			output : [ 'packages/**/package.json', '!packages/**/node_modules/*' ],
-// 			// fn: ( in, out ) => {
-// 			// 	return merge( out, in )
-// 			// }
-// 			// part: async (in: object, out) => {
-// 			// 	out.name = in.name
-// 			// 	out.repository = out.repository
-// 			// 	out.bugs = in.bugs
-
-// 			// 	return out
-// 			// },
-// 		},
-// 		readme : {
-// 			input  : 'package.json',
-// 			output : [ 'packages/**/package.json', '!packages/**/node_modules/*' ],
-// 		},
-// 	},
-// }
 export default defineConfig( {
 	name   : 'PROJECT WORKSPACE',
 	desc   : 'This is a project workspace example.',

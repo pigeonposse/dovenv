@@ -6,7 +6,7 @@ import {
 import { config as contributorsConfig } from './contributors/main'
 import { config as ghConfig }           from './gh/main'
 import { config as gitConfig }          from './git/main'
-import { config as updateConfig }       from './update/main'
+import { config as updateConfig }       from './pkg/main'
 
 import type { Config as GeneralConfig }      from './_super/types'
 import type { Role }                         from './contributors/fn'

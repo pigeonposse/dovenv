@@ -1,9 +1,9 @@
 import { execChild } from '@dovenv/utils'
 
 import { RepoBranch } from './branch'
-import { Repo }       from '../_super/main'
+import { Git }        from './super'
 
-export class RepoPull extends Repo {
+export class RepoPull extends Git {
 
 	async #createPullRequest( title: string, body: string, branch = 'main', open = false ) {
 

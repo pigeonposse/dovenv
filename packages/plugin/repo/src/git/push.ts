@@ -5,13 +5,20 @@
 
 import { exec } from '@dovenv/utils'
 
-import { RepoBranch }    from './branch'
-import { RepoCommit }    from './commit'
-import { Repo }          from '../_super/main'
-import { Workflow }      from '../gh/workflow'
-import { UpdateVersion } from '../update/update-version'
+import { RepoAdd }    from './add'
+import { RepoBranch } from './branch'
+import { RepoCommit } from './commit'
+import { Git }        from './super'
+import { Workflow }   from '../gh/workflow'
+import { Packages }   from '../pkg/fn'
 
-export class RepoPush extends Repo {
+export class RepoPush extends Git {
+
+	async exec( branch: string ) {
+
+		await exec( `git push -f origin ${branch}` )
+
+	}
 
 	async run( ) {
 
@@ -20,6 +27,7 @@ export class RepoPush extends Repo {
 		const defaultBranch  = this.opts.defaultBranch || 'main'
 		const branchInstance = new RepoBranch( this.opts, this.config )
 		const commitInstance = new RepoCommit( this.opts, this.config )
+		const addInstance    = new RepoAdd( this.opts, this.config )
 
 		const data        = {
 			update   : 'update',
@@ -54,25 +62,20 @@ export class RepoPush extends Repo {
 
 					if ( !results[data.update] ) return
 
-					const ver = new UpdateVersion( this.opts )
-					await ver.run()
+					const pkg = new Packages( this.opts )
+					await pkg.updateVersion()
 
 				},
-				[data.add] : async () => await p.text( {
-					message      : 'Git add',
-					placeholder  : '.',
-					initialValue : cached[data.add],
-				} ),
+				[data.add]    : async () => await addInstance.ask( cached[data.add] ),
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
 				'add-res'     : async ( { results } ) => {
 
 					if ( results[data.add] && results[data.origin] ) {
 
 						console.log()
-						await exec( `git add ${results[data.add]}` )
-
+						await addInstance.exec( results[data.add] )
 						await commitInstance.run()
-						await exec( `git push -f origin ${results[data.origin]}` )
+						await this.exec( results[data.origin] )
 						console.log()
 
 						p.log.success( `Successfully pushed to ${this.opts.repoURL}\n` )
