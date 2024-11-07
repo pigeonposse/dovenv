@@ -11,52 +11,64 @@
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/dovenv?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/dovenv)
 
-> Currently in development
-> ⏳ Coming soon `beta` version.
+> ⏳ Coming soon `beta` version. Currently in development!
 
 ## 📖 Description
 
 Toolkit to make your code workspace robust, easier and cleaner.
 
-Quickly and easily set up your environment for your code projects.
+__Simplify Your Development Workflow__.
 
-- Check your local files/directories for have a solid structure in your workspace
-- Create constants for share without all workpaces files/directories
-- Make templates from your local files
-- Transform content from multiple files simultaneously
+Get your code projects up and running quickly and easily with our comprehensive toolkit. Designed to make your workspace more robust, efficient, and organized, our toolkit offers a range of features to streamline your development process.
 
-- AI Plugin
-  - Use Local LLM chat with your workspace files
+### Workspace Setup and Organization
 
-- Docs Plugin
-  - Create documentation pages with zeroconfig
+* __Structure Checker__: Ensure your local files and directories have a solid structure
+* __Constant Creator__: Share constants across all workspace files and directories
+* __Template Maker__: Create templates from your local files
+* __Multi-File Transformer__: Transform content across multiple files simultaneously
 
-- Lint Plugin
-  - lint JS/TS files
-  - Lint markdown files
-  - lint JSON/YAML/TOML.. files
-  - lint css files
-  - lint svelte files
-  - lint commits
- ...
+### Plugins
 
-- Media plugin
-  - Minify your local images
-  - Create gifs from your terminal
-  - Create beatifull code images from your code
+#### AI Plugin
 
-- Repo Plugin
-  - Create beautiful commits
-  - add, pull or push to any branch of your project quickly
-  - Update, and publish your package/s
-  - Change github page info from your code workspace
-  - Add a complete list of your contributors.
-  ...
+* __Local LLM Chat__: Interact with your workspace files using a local Large Language Model (LLM)
 
-- Todo Plugin
-  - Make a control of your project todos.
+#### Docs Plugin
 
-- Convert Plugin [coming soon]
+* __Zero-Config Documentation__: Create documentation pages with ease
+
+#### Lint Plugin
+
+* __Multi-Language Linting__: Lint JavaScript, TypeScript, Markdown, JSON, YAML, TOML, CSS, Svelte, and commit messages
+  * lint JS/TS files
+  * Lint markdown files
+  * lint JSON/YAML/TOML.. files
+  * lint css files
+  * lint svelte files
+  * lint commits
+
+#### Media Plugin
+
+* __Image Minification__: Optimize your local images
+* __GIF Creation__: Create GIFs from your terminal
+* __Code Image Generation__: Turn your code into beautiful images
+
+#### Repo Plugin
+
+* __Commit Management__: Create beautiful commits and manage your repository with ease
+* __Branch Management__: Quickly add, pull, or push to any branch
+* __Package Management__: Update and publish your packages
+* __GitHub Page Management__: Update your GitHub page information from your code workspace
+* __Contributor Management__: Add a complete list of contributors to your project
+
+#### Todo Plugin
+
+* __Project Todo Management__: Keep track of your project's todos
+
+#### Convert Plugin (Coming Soon)
+
+* __File Conversion__: Convert files between different formats (coming soon)
 
 ## 🔑 Installation
 
@@ -70,7 +82,7 @@ yarn add dovenv
 
 ## 👨‍💻 Development
 
-**dovenv** is an open-source project and its development is open to anyone who wants to participate.
+__dovenv__ is an open-source project and its development is open to anyone who wants to participate.
 
 [![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/issues)
 [![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/pulls)
@@ -84,13 +96,13 @@ Help us to develop more interesting things.
 
 ## 📜 License
 
-This software is licensed with **[GPL-3.0](/LICENSE)**.
+This software is licensed with __[GPL-3.0](/LICENSE)__.
 
 [![Read more](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](/LICENSE)
 
 ## 🐦 About us
 
-*PigeonPosse* is a ✨ **code development collective** ✨ focused on creating practical and interesting tools that help developers and users enjoy a more agile and comfortable experience. Our projects cover various programming sectors and we do not have a thematic limitation in terms of projects.
+*PigeonPosse* is a ✨ __code development collective__ ✨ focused on creating practical and interesting tools that help developers and users enjoy a more agile and comfortable experience. Our projects cover various programming sectors and we do not have a thematic limitation in terms of projects.
 
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
 
@@ -115,25 +127,21 @@ This software is licensed with **[GPL-3.0](/LICENSE)**.
 </p>
 
 <!--
-██████╗ ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗██████╗  ██████╗ ███████╗███████╗███████╗                                           
-██╔══██╗██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔════╝                                           
-██████╔╝██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║██████╔╝██║   ██║███████╗███████╗█████╗                                             
-██╔═══╝ ██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║██╔═══╝ ██║   ██║╚════██║╚════██║██╔══╝                                             
-██║     ██║╚██████╔╝███████╗╚██████╔╝██║ ╚████║██║     ╚██████╔╝███████║███████║███████╗                                           
-╚═╝     ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝                                           
-                                                                                                                                   
-                                                                                                                                   
-                                                                                                                                   
-█████╗█████╗█████╗█████╗█████╗█████╗█████╗                                                                                         
-╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝                                                                                         
-                                                                                                                                   
-                                                                                                                                   
-                                                                                                                                   
-██████╗  ██████╗ ██╗   ██╗███████╗███╗   ██╗██╗   ██╗      ███╗   ███╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗ ███████╗██████╗  ██████╗ 
+██████╗ ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗██████╗  ██████╗ ███████╗███████╗███████╗
+██╔══██╗██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔════╝
+██████╔╝██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║██████╔╝██║   ██║███████╗███████╗█████╗
+██╔═══╝ ██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║██╔═══╝ ██║   ██║╚════██║╚════██║██╔══╝
+██║     ██║╚██████╔╝███████╗╚██████╔╝██║ ╚████║██║     ╚██████╔╝███████║███████║███████╗
+╚═╝     ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝
+
+█████╗█████╗█████╗█████╗█████╗█████╗█████╗
+╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝
+
+██████╗  ██████╗ ██╗   ██╗███████╗███╗   ██╗██╗   ██╗      ███╗   ███╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗ ███████╗██████╗  ██████╗
 ██╔══██╗██╔═══██╗██║   ██║██╔════╝████╗  ██║██║   ██║      ████╗ ████║██╔═══██╗████╗  ██║██╔═══██╗██╔══██╗██╔════╝██╔══██╗██╔═══██╗
 ██║  ██║██║   ██║██║   ██║█████╗  ██╔██╗ ██║██║   ██║█████╗██╔████╔██║██║   ██║██╔██╗ ██║██║   ██║██████╔╝█████╗  ██████╔╝██║   ██║
 ██║  ██║██║   ██║╚██╗ ██╔╝██╔══╝  ██║╚██╗██║╚██╗ ██╔╝╚════╝██║╚██╔╝██║██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══╝  ██╔═══╝ ██║   ██║
 ██████╔╝╚██████╔╝ ╚████╔╝ ███████╗██║ ╚████║ ╚████╔╝       ██║ ╚═╝ ██║╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║███████╗██║     ╚██████╔╝
-╚═════╝  ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝  ╚═══╝        ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ 
-                                                                                                                                   
+╚═════╝  ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝  ╚═══╝        ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝
+
 -->
