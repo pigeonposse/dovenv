@@ -11,25 +11,30 @@ import {
 	getDirName,
 	joinPath,
 	getObjectFromJSONFile,
+	resolvePath,
 } from '@dovenv/utils'
 
 import { mergeConfig } from './merge'
 import {
 	globals,
 	setGlobals,
-} from '../const'
+} from '../.vitepress/const'
 
 import type { DocsConfig } from './types'
 
-export const getConfig = async ( ) => {
+const _getGlobal = async ( path?: string ) => {
 
-	const path = globalThis[globals.DOVENV_DOCS_CONFIG_PATH]
 	if ( !path || typeof path !== 'string' ) {
 
 		console.error( 'A configuration route has not been provided.', { path } )
 		process.exit( 1 )
 
 	}
+
+	path                = resolvePath( path )
+	const existConfPath = await existsPath( path )
+	if ( !existConfPath ) throw new Error( `A configuration route [${path}] has not exist` )
+
 	const dir = getDirName( path )
 	const ext = getExtName( path )
 
@@ -46,20 +51,6 @@ export const getConfig = async ( ) => {
 	const pkg                            = exist ? await getObjectFromJSONFile<Record<string, unknown>>( pkgPath ) : undefined
 
 	const mergedConf = await mergeConfig( userConfig as DocsConfig, pkg, dir )
-	// console.log( {
-	// 	t      : 'userConfig',
-	// 	ver    : userConfig.version,
-	// 	pkgVer : pkg.version,
-	// 	name   : userConfig.name,
-	// } )
-	// console.log( {
-	// 	t    : 'mergedConf',
-	// 	ver  : mergedConf.config.version,
-	// 	name : mergedConf.config.name,
-
-	// } )
-
-	setGlobals( globals.DOVENV_DOCS_CONFIG, mergedConf.config )
 
 	if ( typeof userConfig === 'object' ) return {
 		default : mergedConf.default,
@@ -71,5 +62,11 @@ export const getConfig = async ( ) => {
 
 	console.error( 'Module has bad configuration.' )
 	process.exit( 1 )
+
+}
+export const setConfigGlobal = async ( path?: string  ) => {
+
+	const c = await _getGlobal( path )
+	setGlobals( globals.DOVENV_DOCS_CONFIG, c )
 
 }

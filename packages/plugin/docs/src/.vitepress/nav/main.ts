@@ -1,6 +1,6 @@
 import { getDownloads } from './get-releases'
 
-import type { DocsConfig } from '../config/types'
+import type { DocsConfig } from '../../config/types'
 
 type NavProps = {
 	conf   : DocsConfig

@@ -14,9 +14,15 @@ import type {
 import type { Config }    from '../types'
 import type { createCli } from '@dovenv/utils'
 
-type CommandFn = ( data: ArgvParsed ) => Promise<void>
+type ShowHelpFn = ( loglevel?: string ) => void
+type CommandFn = (
+	data: ArgvParsed & {
+		/** Print the usage data using the console function consoleLevel for printing. */
+		showHelp : ShowHelpFn
+	} ) => Promise<void>
 type Cli = Awaited<ReturnType<typeof createCli>>
 type Opt = Parameters<Cli['option']>[0][number] & {
+	/** Description of the option */
 	desc : string
 }
 type SetOpts = {
@@ -86,19 +92,21 @@ export class Custom extends Command {
 
 		for ( const [ key, prop ] of Object.entries( props ) ) {
 
+			const help = ( level?: string ) => this.cli.showHelp( level || 'log' )
 			// @ts-ignore
 			this.cli.command( {
 				command : key,
 				desc    : prop.desc,
-				builder : async argv => await this.#builder( argv, prop ),
-				handler : async argv => await this.#handler( argv, key, prop ),
+				// @ts-ignore
+				builder : async argv => await this.#builder( argv, prop, help ),
+				handler : async argv => await this.#handler( argv, key, prop, help ),
 			} )
 
 		}
 
 	}
 
-	async #builder( argv: Cli, prop: CustomConfig[number] ) {
+	async #builder( argv: Cli, prop: CustomConfig[number], showHelp: ShowHelpFn ) {
 
 		if ( prop.opts ) {
 
@@ -108,7 +116,6 @@ export class Custom extends Command {
 		}
 		if ( prop.cmds ) {
 
-			// if ( name ) argv.group( Object.keys( prop.cmds ), `Commands (${name}):` )
 			for ( const [ key, cmd ] of Object.entries( prop.cmds ) ) {
 
 				// @ts-ignore
@@ -118,27 +125,9 @@ export class Custom extends Command {
 					builder : async argvChild => await this.#builder( argvChild, {
 						...cmd,
 						fn : prop.fn,
-					} ),
-					handler : async argvChild => await this.#handler( argvChild, key, prop ),
+					}, showHelp ),
+					handler : async argvChild => await this.#handler( argvChild, key, prop, showHelp ),
 				} )
-				// argv.command(
-				// 	key,
-				// 	cmd.desc,
-				// 	async argvChild => {
-
-				// 		await this.#builder( argvChild, {
-				// 			...prop,
-				// 			...cmd,
-				// 		} )
-
-				// 		return argvChild
-
-				// 	}, async argvChild => {
-
-				// 		await this.#handler( argvChild, key, prop )
-
-				// 	},
-				// )
 
 			}
 
@@ -150,7 +139,7 @@ export class Custom extends Command {
 
 	}
 
-	async #handler( argv: ArgvPreParsed, name: string, prop: CustomConfig[number] ) {
+	async #handler( argv: ArgvPreParsed, name: string, prop: CustomConfig[number], showHelp: ShowHelpFn ) {
 
 		const {
 			_: cmds,
@@ -178,6 +167,7 @@ export class Custom extends Command {
 				cmds,
 				opts,
 				config : this.config,
+				showHelp,
 			} )
 
 			this.setTime( time.prettyStop() )

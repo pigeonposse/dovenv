@@ -1,5 +1,3 @@
-
-import type { DownloadData }   from '../nav/get-releases'
 import type { IconDefinition } from '@dovenv/utils'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
 import type {
@@ -183,9 +181,34 @@ export type DocsConfig = {
 		actionText? : string
 	}[]
 	/** Additional links to display in a special page. */
-	links     : Links
+	links    : Links
 	/** Data related to downloads and version releases. */
-	download  : DownloadData
+	download  : {
+		/**
+		 * Optional grouping of download items by category.
+		 * Each key in the object represents a group name and maps to a string label.
+		 * @example
+		 * {
+		 *   "extension": "extension",
+		 *   "app": "app",
+		 * }
+		 */
+		groups? : { [key: string]: string }
+		/**
+		 * Optional list of downloadable items, where each key represents an item identifier.
+		 * Each item includes details such as name, URL, and optionally a logo and type.
+		 */
+		items?: { [key: string]: {
+			/** Name of the downloadable item */
+			name  : string
+			/** URL to access the downloadable item */
+			url   : string
+			/** Optional URL for the logo or icon associated with the item */
+			logo? : string
+			/** Optional type/category of the item, e.g., "pdf", "image" */
+			type? : string
+		} }
+	}
 	/** VitePress user configuration for additional options. */
 	vitepress : UserConfig
 }

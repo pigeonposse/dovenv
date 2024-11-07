@@ -1,129 +1,117 @@
 
 import {
-	getCurrentDir,
-	joinPath,
-	resolvePath,
 	replaceOutputFromProcess,
 	process,
-	createCli,
-	existsPath,
 	rmDeprecationAlerts,
+	getCurrentDir,
+	joinPath,
+	isDev,
 } from '@dovenv/utils'
 
 import {
-	globals,
 	name,
-	setGlobals,
 	version,
 	vitepressVersion,
 } from './.vitepress/const'
+import { setConfigGlobal } from './config/main'
 
-export type { DocsConfig } from './.vitepress/config/types'
+type DocsParams = {
+	configPath? : string
+	debug?      : boolean
+}
 
-export const run = async ( {
-	argv = process.argv,
-	currentDir = import.meta.url,
-}: {
-	argv?       : string[]
-	currentDir? : string
-} ) => {
+/**
+ * Documentation class
+ *
+ * For `build`, `dev` and `preview` documentation pages
+ */
+export class Docs {
 
-	rmDeprecationAlerts()
+	opts : DocsParams
 
-	replaceOutputFromProcess( {
-		vitepress                : name,
-		[`v${vitepressVersion}`] : `v${version}`,
-		// 'vitepress v1.3.4' : `${name} v${version}`,
-		// '[vitepress]'      : `[${name}]`,
-	} )
+	constructor( opts: DocsParams ) {
 
-	const getConf = async ( configPath?: string ) => {
+		this.opts = opts
+
+		rmDeprecationAlerts()
+		replaceOutputFromProcess( {
+			vitepress                : name,
+			[`v${vitepressVersion}`] : `v${version}`,
+		} )
+
+		if ( !this.opts.debug ) console.debug = () => {}
+
+	}
+
+	async #runVipressCli( type: 'dev' | 'build' | 'preview',  flags?: string[] ) {
 
 		try {
 
-			let path = configPath
-			// console.log( 'path', path )
-			if ( !path ) throw new Error( 'A configuration route has not been provided.' )
+			await setConfigGlobal( this.opts.configPath )
+			const path = joinPath( getCurrentDir( import.meta.url ), isDev() ? '..' : '.' )
 
-			path        = resolvePath( path )
-			const exist = await existsPath( path )
-			if ( !exist ) throw new Error( `A configuration route [${path}] has not exist` )
+			const oldArgv = process.argv
+			process.argv  = [
+				...process.argv.slice( 0, 2 ),
+				type,
+				path,
+				...( flags ?? [] ),
+			]
 
-			setGlobals( globals.DOVENV_DOCS_CONFIG_PATH, path )
-
-			const srcPath = joinPath( getCurrentDir( currentDir ) )
-			return srcPath
+			console.debug( 'docs cli argv:', process.argv )
+			// @ts-ignore
+			await import( 'vitepress/dist/node/cli.js' )
+			process.argv = oldArgv
 
 		}
 		catch ( error ) {
 
 			//@ts-ignore
 			console.error( error.message )
-
 			process.exit( 0 )
 
 		}
 
 	}
 
-	await createCli( {
-		argv,
-		fn : async cli => {
+	/**
+	 * __Starts the development server__.
+	 *
+	 * This command is a wrapper of the `npx vitepress dev` command.
+	 * @param {string[]} [flags] Flags to pass to the underlying `vitepress dev`
+	 * command. The `--force` flag is always passed to ensure the server starts
+	 * without prompting the user.
+	 */
+	async dev( flags?: string[] ) {
 
-			cli
-				.option( 'config', {
-					alias    : 'c',
-					describe : 'Configuration file path',
-					type     : 'string',
-				} )
-				.command( 'build', 'Run the build process', () => {}, async argvChild => {
+		await this.#runVipressCli( 'dev', [ ...( flags ?? [] ), '--force' ] )
 
-					const path = await getConf( argvChild?.config )
+	}
 
-					process.argv = [
-						...process.argv.slice( 0, 2 ),
-						'build',
-						path,
-					]
+	/**
+	 * __Builds the documentation site__.
+	 *
+	 * This command is a wrapper of the `npx vitepress build` command.
+	 * @param {string[]} [flags] Flags to pass to the underlying `vitepress build`
+	 * command. This allows for customization and control over the build process.
+	 */
+	async build( flags?: string[] ) {
 
-					// @ts-ignore
-					await import( 'vitepress/dist/node/cli.js' )
+		await this.#runVipressCli( 'build', flags )
 
-				} )
-				.command( 'dev', 'Run the dev server', () => {}, async argvChild => {
+	}
 
-					const path = await getConf( argvChild?.config )
+	/**
+	 * __Starts the preview server__.
+	 *
+	 * This command is a wrapper of the `npx vitepress preview` command.
+	 * @param {string[]} [flags] Flags to pass to the underlying `vitepress preview`
+	 * command. This allows for customization and control over the preview process.
+	 */
+	async preview( flags?: string[] ) {
 
-					process.argv = [
-						...process.argv.slice( 0, 2 ),
-						'dev',
-						path,
-						'--force',
-					]
+		await this.#runVipressCli( 'preview', flags )
 
-					// @ts-ignore
-					await import( 'vitepress/dist/node/cli.js' )
-
-				} )
-				.command( 'preview', 'Run the preview server', () => {}, async argvChild => {
-
-					const path = await getConf( argvChild?.config )
-
-					process.argv = [
-						...process.argv.slice( 0, 2 ),
-						'preview',
-						path,
-					]
-
-					// @ts-ignore
-					await import( 'vitepress/dist/node/cli.js' )
-
-				} )
-				.demandCommand( 1, 'You need to specify a command (build, dev, or preview)' )
-
-			return cli
-
-		},
-	} )
+	}
 
 }

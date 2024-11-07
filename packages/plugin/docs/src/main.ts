@@ -1,16 +1,13 @@
 
-import {
-	config,
-	defineConfig,
-} from './config'
-import { run } from './run'
+import type { DocsConfig } from './config/types'
 
-import type { DocsConfig } from './.vitepress/config/types'
+export { config } from './plugin'
+export { Docs } from './run'
+export type { DocsConfig }
 
-export {
-	DocsConfig,
-	defineConfig,
-	config,
-	run,
-}
-
+/**
+ * Defines a configuration object for the documentation plugin.
+ * @param {DocsConfig} conf - The configuration object.
+ * @returns {DocsConfig} The defined configuration object.
+ */
+export const defineConfig = ( conf: DocsConfig ) => conf

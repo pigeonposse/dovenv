@@ -3,15 +3,9 @@
  * @description Get releases url.
  */
 
-export type DownloadData = {
-	groups? : { [key: string]: string }
-	items?: { [key: string]: {
-		name  : string
-		url   : string
-		logo? : string
-		type? : string
-	} }
-}
+import type { DocsConfig } from '../../config/types'
+
+export type DownloadData = DocsConfig['download']
 
 const setData = ( data: DownloadData['items'] ) => {
 

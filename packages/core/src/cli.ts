@@ -36,7 +36,7 @@ export const run = async ( argv: string[] ) => {
 				.alias( 'v', 'version' )
 				.option( 'config', {
 					alias : 'c',
-					desc  : 'Configuration file path',
+					desc  : 'Dovenv configuration file path',
 					type  : 'string',
 
 				} ).option( 'verbose', {

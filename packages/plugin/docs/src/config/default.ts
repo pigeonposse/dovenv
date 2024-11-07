@@ -9,7 +9,7 @@ import {
 	author,
 	funding,
 	bugs,
-} from '../../../package.json'
+} from '../../package.json'
 
 import type { DocsConfig } from './types'
 

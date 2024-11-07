@@ -68,7 +68,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : { lint : 
 		},
 	],
 	fn : async ( {
-		opts, cmds,
+		opts, cmds, showHelp,
 	} ) => {
 
 		const lint = new Lint( conf )
@@ -79,7 +79,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : { lint : 
 			await lint.eslint( )
 		else if ( cmds?.includes( CMDS.commitlint ) )
 			await lint.commitlint( opts?.message as string )
-		else console.warn( `No command provided. Use: ${Object.values( CMDS ).join( ', ' )}` )
+		else showHelp( )
 
 	},
 } } } )

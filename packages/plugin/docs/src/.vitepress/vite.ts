@@ -9,12 +9,11 @@ import { type UserConfig }     from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { RssPlugin }           from 'vitepress-plugin-rss'
 
-// import { setConfig }  from './config'
-import { globals }    from './const'
+import { getGlobals } from './const'
 import { setNav }     from './nav/main'
 import { setSidebar } from './sidebar/main'
 
-import type { DocsConfig } from './config/types'
+import type { DocsConfig } from '../config/types'
 
 export const vite: ( conf: DocsConfig, opts:{
 	srcDir           : string
@@ -84,7 +83,7 @@ export const vite: ( conf: DocsConfig, opts:{
 					if ( !config.vitepress.configDeps.includes( opts.configPath ) )config.vitepress.configDeps.push( opts.configPath )
 
 					const pages: string[] | undefined = 'VITEPRESS_CONFIG' in globalThis && globalThis.VITEPRESS_CONFIG.pages ? globalThis.VITEPRESS_CONFIG.pages : undefined
-					const conf                        = globalThis[globals.DOVENV_DOCS_CONFIG]
+					const conf                        = getGlobals( 'DOVENV_DOCS_CONFIG' ).config
 
 					const guide = pages?.filter( p => p.startsWith( 'guide/' ) )
 

@@ -128,7 +128,8 @@ export class RepoCommit extends Git {
 					message : message,
 					m       : message,
 				},
-				config : this.config,
+				config   : this.config,
+				showHelp : () => {},
 			} )
 
 	}

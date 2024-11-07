@@ -30,17 +30,16 @@
 	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"bin": {
-		"dovenv-docs": "dist/cli.mjs"
+		"dovenv-docs": "dist/bin.mjs"
 	},
 	"files": [
 		"dist"
 	],
 	"scripts": {
 		"build": "unbuild",
-		"build-preview": "node dist/cli.mjs --config config.js",
-		"dev": "tsx src/cli.ts dev --config config.js",
+		"build-preview": "node dist/bin.mjs -c examples/docs.config.js",
+		"dev": "tsx src/bin.ts dev -c examples/docs.config.js",
 		"example": "tsx examples/main.ts",
-		"preview": "tsx src/cli.ts preview --config config.js",
 		"test": "playwright test"
 	},
 	"dependencies": {

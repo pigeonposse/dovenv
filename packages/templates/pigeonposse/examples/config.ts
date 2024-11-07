@@ -16,7 +16,7 @@ const dovenvIn = await catchExecOutput( 'pnpm --help' )
 export default defineConfig( config( {
 	lint  : undefined,
 	media : {
-		'min' : {
+		min : {
 			images : {
 				input  : [ joinPath( imageFolder, '*' ) ],
 				output : joinPath( imageFolder, 'dest' ),
@@ -28,7 +28,7 @@ export default defineConfig( config( {
 				opts   : { gif: { optimizationLevel: 3 } },
 			},
 		},
-		'code-image' : {
+		codeimage : {
 			main : {
 				input : joinPath( exampleFolder, 'main.ts' ),
 				flags : [ '--interactive' ],
@@ -38,7 +38,7 @@ export default defineConfig( config( {
 				flags : [ '--interactive' ],
 			},
 		},
-		'termgif' : { test : {
+		termgif : { test : {
 			configPath : joinPath( termFolder, 'test.yml' ),
 			output     : joinPath( termFolder, 'test-record' ),
 		// command    : 'zsh',

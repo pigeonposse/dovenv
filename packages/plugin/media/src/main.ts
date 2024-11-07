@@ -18,7 +18,7 @@ import type { TermGifConfig }           from './terminal-gif'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
 const CMDS = {
-	codeImage : 'code-image',
+	codeImage : 'codeimage',
 	min       : 'min',
 	qr        : 'qr',
 	termGif   : 'termgif',
@@ -58,7 +58,28 @@ export const config = ( conf?:  Config ) => {
 					demandOption : true,
 				} },
 			},
-			[CMDS.termGif] : { desc: 'Creaate gifs of your terminal' },
+			[CMDS.termGif] : {
+				desc : 'Creaate gifs of your terminal',
+				cmds : {
+					config : { desc: 'Create a configuration file for your record' },
+					record : { desc: 'Record your terminal' },
+					render : { desc: 'Convert to gif' },
+				},
+				examples : [
+					{
+						cmd  : `$0 media ${CMDS.termGif} config`,
+						desc : 'Create configuration file',
+					},
+					{
+						cmd  : `$0 media ${CMDS.termGif} record -k <ID>`,
+						desc : 'Record your terminal',
+					},
+					{
+						cmd  : `$0 media ${CMDS.termGif} render -k <ID>`,
+						desc : 'Convert your term recording into a gif',
+					},
+				],
+			},
 		},
 		opts : { keys : {
 			type  : 'array',
@@ -66,11 +87,10 @@ export const config = ( conf?:  Config ) => {
 			desc  : 'pattern to match keys in configuration',
 		} },
 		fn : async ( {
-			opts, cmds,
+			opts, cmds, showHelp,
 		} ) => {
 
 			const userKeys = opts?.keys as string[] | undefined
-			const confKeys = Object.keys( CMDS )
 
 			if ( cmds?.includes( CMDS.codeImage ) ) {
 
@@ -164,13 +184,7 @@ export const config = ( conf?:  Config ) => {
 						await termToGif.render( )
 
 					}
-					// else if ( cmds?.includes( 'player' ) ) {
-
-					// 	console.log( `Creating player: [${key}]` )
-					// 	await termToGif.generatePlayer( )
-
-					// }
-					else console.warn( 'No command provided. Use "record" or "render"' )
+					else showHelp()
 
 				}
 
@@ -209,11 +223,10 @@ export const config = ( conf?:  Config ) => {
 					else console.warn( 'No termgif configuration provided' )
 
 				}
-				else
-					console.warn( `No subcommand provided. Use: ${color.dim.italic( 'init, config, generate, record' )}` )
+				else showHelp()
 
 			}
-			else console.warn( `No command provided. Use: ${color.dim.italic( confKeys?.join( ', ' ) || '' )}` )
+			else showHelp( )
 			// throw new Error( 'Unexpected command provided. Use "code-image"' )
 
 		},

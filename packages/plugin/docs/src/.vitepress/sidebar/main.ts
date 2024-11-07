@@ -3,7 +3,7 @@ import {
 	getDirName,
 } from '@dovenv/utils'
 
-import type { DocsConfig } from '../config/types'
+import type { DocsConfig } from '../../config/types'
 
 type SidebarProps = {
 	conf          : DocsConfig

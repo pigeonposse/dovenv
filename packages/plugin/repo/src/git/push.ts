@@ -85,7 +85,7 @@ export class RepoPush extends Git {
 						await this.exec( res[data.origin] )
 						console.log()
 
-						p.log.success( `Successfully pushed to ${this.opts.repoURL}\n` )
+						p.log.success( `Successfully pushed to ${this.opts.repoURL || '[no repoURL provided]'}\n` )
 
 					}
 

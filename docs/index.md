@@ -2,8 +2,8 @@
 layout: home
 hero:
   name: "DOVENV"
-  text: "Set up your custom environment for your code projects."
-  tagline: Create documentation pages with zeroconfig, create workspace task, add beautiful commits, and much more..
+  text: "Set up your custom environment for your code projects"
+  tagline: Create documentation pages with zeroconfig, create workspace task, add beautiful commits, and much more.
   image:
       src: /logo.png
       alt: DOVENV

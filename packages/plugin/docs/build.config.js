@@ -10,7 +10,7 @@ export default defineBuildConfig( [
 		...config,
 		entries : [
 			'./src/main',
-			'./src/cli',
+			'./src/bin',
 			{
 				input  : './src/.vitepress/config.ts',
 				outDir : 'dist/.vitepress',
@@ -25,7 +25,6 @@ export default defineBuildConfig( [
 
 		} },
 		externals : [ 'dovenv' ],
-
 	},
 ] )
 

@@ -16,10 +16,10 @@ import {
 	mergeConfig,
 } from 'vitepress'
 
-import { getConfig } from './config/main'
-import { markdown }  from './md'
-import { setNav }    from './nav/main'
-import { vite }      from './vite'
+import { getGlobals } from './const'
+import { markdown }   from './md'
+import { setNav }     from './nav/main'
+import { vite }       from './vite'
 
 const devMode = isDev()
 
@@ -28,26 +28,29 @@ const donateSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 
 export default async () => {
 
+	const c = getGlobals( 'DOVENV_DOCS_CONFIG' )
+	console.debug( 'DOVENV_DOCS_CONFIG', c )
 	const {
 		config: conf,
 		path: userPath,
 		dir: userDir,
-	} = await getConfig()
+	} = c
 
 	const docsDestTempPath = joinPath( userDir, conf.out, '.temp' )
 	const outDir           = joinPath( userDir, conf.out, 'docs' )
 	const cacheDir         = joinPath( userDir, conf.out, '.cache' )
 	const srcDir           = devMode ? joinPath( userDir, conf.in ) : docsDestTempPath
-	// console.log( {
-	// 	conf,
-	// 	userPath,
-	// 	userDir,
-	// 	docsDestTempPath,
-	// 	outDir,
-	// 	cacheDir,
-	// 	srcDir,
-	// 	devMode,
-	// } )
+
+	console.debug( {
+		userPath,
+		userDir,
+		docsDestTempPath,
+		outDir,
+		cacheDir,
+		srcDir,
+		devMode,
+	} )
+
 	const config = defineConfig( {
 		title         : `${conf.name} - ${conf.shortDesc}`,
 		titleTemplate : `:title - ${conf.name.toUpperCase()} Documentation`,

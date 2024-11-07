@@ -22,6 +22,7 @@
 		"husky": "9.1.6"
 	},
 	"devDependencies": {
+		"@dovenv/lint": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"dovenv": "workspace:*"
