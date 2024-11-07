@@ -9,6 +9,8 @@ const CMD = {
 	init    : 'init',
 } as const
 
+export { Packages }
+
 export const config = ( conf?: Config ): DoveEnvConfig => {
 
 	const res: DoveEnvConfig['custom'] = { pkg : {
@@ -19,7 +21,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 			[CMD.init]    : { desc: 'Init packages' },
 		},
 		fn : async ( {
-			config, cmds,
+			config, cmds, showHelp,
 		} ) => {
 
 			const pkg = new Packages( conf, config )
@@ -29,7 +31,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 				await pkg.publish()
 			else if ( cmds?.includes( CMD.init ) )
 				await pkg.init()
-			else console.warn( `No command provided. Use ${Object.values( CMD )}` )
+			else showHelp()
 
 		},
 	} }

@@ -1,3 +1,8 @@
+import {
+	box,
+	formatHTMLForTerminal,
+	getMatch,
+} from '@dovenv/utils'
 
 export type Role<ID extends string = string> = {
 	[key in ID]: {
@@ -22,36 +27,105 @@ export type Contributor<ID extends string = string> = {
 	url?       : string
 }
 
-export const contributorsToHtml = <
+export class Contributors<
 	ID extends string,
 	R extends Role<ID>,
->(
-	role: R,
-	member: Contributor<Extract<keyof R, string>>[],
-): string => {
+> {
 
-	return `<table><tbody><tr>${member
-		.map( ( m, index ) => {
+	opts
+	constructor( opts?: {
+		role   : R
+		member : Contributor<Extract<keyof R, string>>[]
+	} ) {
 
-			const profileUrl = m.url || `https://github.com/${m.ghUsername}`
-			const avatarUrl  = m.avatar || `https://github.com/${m.ghUsername}.png?s=75`
-			const memberRole = role[m.role] // Accedemos al rol directamente desde `roles`
+		if ( !opts || !opts.role || !opts.member ) throw new Error( 'No members or roles provided' )
+		this.opts = opts
 
-			return `
-				<td align="center" valign="top" width="11%">
-					<a href="${profileUrl}">
-						<img src="${avatarUrl}" width="75" height="75" alt="${m.name.trim()}'s Avatar">
-						<br />
-						${m.name.trim()}
-						<br />
-						<small>${memberRole?.emoji || ''} ${memberRole?.name || ''}</small>
-					</a>
-				</td>
-				${( index + 1 ) % 9 === 0 ? '</tr><tr>' : ''}
-			`
+	}
 
-		} )
-		.join( '' )}</tr></tbody></table>`
+	async getRoles() {
+
+		return this.opts.role
+
+	}
+
+	async getMembers() {
+
+		return this.opts.member
+
+	}
+
+	async filterByRole( role: ( keyof ID )[] ): Promise<{
+		role?   : R
+		member? : Contributor<Extract<keyof R, string>>[]
+	} | undefined > {
+
+		const roleIds = role as string[]
+		if ( !roleIds.length ) return undefined
+		const filteredRoles = Object.fromEntries(
+			Object.entries( this.opts.role ).filter( ( [ key ] ) => roleIds.includes( key ) ),
+		) as R
+		return {
+			role   : filteredRoles,
+			member : this.opts.member.filter( m => roleIds.includes( m.role ) ),
+		}
+
+	}
+
+	async filterByRolePattern( pattern: string[] ): Promise<{
+		role?   : R
+		member? : Contributor<Extract<keyof R, string>>[]
+	} | undefined > {
+
+		const roleIds = getMatch( Object.keys( this.opts.role ), pattern )
+		return this.filterByRole( roleIds as ( keyof ID )[] )
+
+	}
+
+	async getHtmlContent( opts?: {
+		role?   : R
+		member? : Contributor<Extract<keyof R, string>>[]
+	} ) {
+
+		const role   = opts?.role || this.opts.role
+		const member = opts?.member || this.opts.member
+
+		return `<h1>Contributors</h1>\n\n<table><tbody><tr>${member
+			.map( ( m, index ) => {
+
+				const profileUrl = m.url || `https://github.com/${m.ghUsername}`
+				const avatarUrl  = m.avatar || `https://github.com/${m.ghUsername}.png?s=75`
+				const memberRole = role[m.role] // Accedemos al rol directamente desde `roles`
+
+				return `
+					<td align="center" valign="top" width="11%">
+						<a href="${profileUrl}">
+							<img src="${avatarUrl}" width="75" height="75" alt="${m.name.trim()}'s Avatar">
+							<br />
+							${m.name.trim()}
+							<br />
+							<small>${memberRole?.emoji || ''} ${memberRole?.name || ''}</small>
+						</a>
+					</td>
+					${( index + 1 ) % 9 === 0 ? '</tr><tr>' : ''}
+				`
+
+			} )
+			.join( '' )}</tr></tbody></table>`
+
+	}
+
+	async showTerminalOutput( opts?: {
+		role?   : R
+		member? : Contributor<Extract<keyof R, string>>[]
+	} ) {
+
+		console.log( box( await formatHTMLForTerminal( await this.getHtmlContent( opts ) ), {
+			padding     : 1,
+			borderColor : 'black',
+			dimBorder   : true,
+		} ) )
+
+	}
 
 }
-

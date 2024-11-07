@@ -7,10 +7,10 @@ import {
 	exec,
 } from '@dovenv/utils'
 
-import { Git } from './super'
+import { GitSuper } from './super'
 
-type Commit = Exclude<RepoCommit['opts']['commit'], undefined>
-export class RepoCommit extends Git {
+type Commit = Exclude<GitCommit['opts']['commit'], undefined>
+export class GitCommit extends GitSuper {
 
 	types: Commit['types'] = [
 		{
@@ -144,8 +144,8 @@ export class RepoCommit extends Git {
 
 	async ask() {
 
-		const types       = this.opts.commit?.types || this.types as RepoCommit['types']
-		const scopes      = this.opts.commit?.scopes || this.scopes as RepoCommit['scopes']
+		const types       = this.opts.commit?.types || this.types as GitCommit['types']
+		const scopes      = this.opts.commit?.scopes || this.scopes as GitCommit['scopes']
 		const data        = {
 			type  : 'type',
 			scope : 'scope',
@@ -208,9 +208,10 @@ export class RepoCommit extends Git {
 					message : async () => {
 
 						const result = await p.text( {
-							message      : 'Commit message',
-							placeholder  : cache.get( data.msg ),
-							initialValue : cache.get( data.msg ),
+							message     : 'Commit message',
+							placeholder : cache.get( data.msg ),
+							// Disabled because it's for better user experience
+							//initialValue : cache.get( data.msg ),
 						} ) as string
 
 						cache.set( { [data.msg]: result } )

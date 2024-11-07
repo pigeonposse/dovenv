@@ -2,7 +2,7 @@ import { Repo } from '../_super/main'
 
 import type { GitConfig } from './types'
 
-export class Git extends Repo {
+export class GitSuper extends Repo {
 
 	opts : GitConfig
 	constructor( opts?: GitConfig, config?: Repo['config'] ) {

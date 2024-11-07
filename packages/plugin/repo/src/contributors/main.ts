@@ -1,7 +1,7 @@
-import { formatHTMLForTerminal } from '@dovenv/utils'
+import { catchError } from '@dovenv/utils'
 
 import {
-	contributorsToHtml,
+	Contributors,
 	type Contributor,
 	type Role,
 } from './fn'
@@ -32,26 +32,41 @@ export type Config<ID extends string, R extends Role<ID>> = {
 	 */
 	member : Contributor<Extract<keyof R, string>>[]
 }
-
+export { Contributors }
 export const config = <ID extends string, R extends Role<ID>> ( conf?: Config<ID, R> ): DoveEnvConfig => {
 
 	const res: DoveEnvConfig['custom'] = { contributors : {
-		desc : 'Contributors configuration',
-		cmds : { list: { desc: 'List contributors' } },
-		fn   : async ( { cmds } ) => {
+		desc : 'Toolkit for workspace contributors',
+		cmds : { list : {
+			desc : 'List workspace contributors',
+			opts : { role : {
+				type : 'array',
+				desc : 'Contributor role pattern',
+			} },
+		} },
+		fn : async ( {
+			cmds, showHelp, opts,
+		} ) => {
 
-			if ( cmds?.includes( 'list' ) ) {
+			const [ error, con ] = await catchError( ( async () => new Contributors( conf ) )() )
+			if ( error ) {
 
-				if ( conf?.member && conf.role ) {
-
-					// console.log( 'Contributors:' )
-					console.log( await formatHTMLForTerminal( `<h1>Contributors</h1>\n\n` + contributorsToHtml( conf.role, conf.member ) ) )
-
-				}
-				else console.warn( 'No members or roles provided' )
+				console.error( error.message )
+				return
 
 			}
-			else console.warn( 'No option provided. Use "list" to list contributors' )
+			if ( cmds?.includes( 'list' ) ) {
+
+				if ( opts?.role ) {
+
+					const members = await con.filterByRolePattern( opts.role as string[] )
+					await con.showTerminalOutput( members )
+
+				}
+				else await con.showTerminalOutput()
+
+			}
+			else showHelp()
 
 		},
 	} }

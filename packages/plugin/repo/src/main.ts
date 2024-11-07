@@ -4,15 +4,20 @@ import {
 	type Config as DoveEnvConfig,
 } from 'dovenv'
 
+import { type Role }                    from './contributors/fn'
 import { config as contributorsConfig } from './contributors/main'
 import { config as ghConfig }           from './gh/main'
 import { config as gitConfig }          from './git/main'
 import { config as pkgConfig }          from './pkg/main'
 
 import type { Config as GeneralConfig }      from './_super/types'
-import type { Role }                         from './contributors/fn'
 import type { Config as ContributorsConfig } from './contributors/main'
 import type { GitConfig }                    from './git/types'
+
+export * from './pkg/main'
+export * from './git/main'
+export * from './gh/main'
+export * from './contributors/main'
 
 type Config<I extends string, R extends Role<I>> = GeneralConfig & GitConfig & {
 	/** Contributors configuration */

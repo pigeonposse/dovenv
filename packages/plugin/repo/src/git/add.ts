@@ -1,8 +1,8 @@
 import { exec } from '@dovenv/utils'
 
-import { Git } from './super'
+import { GitSuper } from './super'
 
-export class RepoAdd extends Git {
+export class GitAdd extends GitSuper {
 
 	async ask( initialValue = '.' ) {
 

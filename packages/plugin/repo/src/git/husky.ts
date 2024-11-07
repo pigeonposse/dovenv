@@ -1,8 +1,8 @@
 import { execModulePath } from '@dovenv/utils'
 
-import { Git } from './super'
+import { GitSuper } from './super'
 
-export class Husky extends Git {
+export class Husky extends GitSuper {
 
 	async run( ) {
 

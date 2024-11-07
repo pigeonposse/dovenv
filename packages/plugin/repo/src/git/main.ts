@@ -1,16 +1,50 @@
 import { color } from '@dovenv/utils'
 
-import { RepoAdd }    from './add'
-import { RepoBranch } from './branch'
-import { RepoCommit } from './commit'
-import { Husky }      from './husky'
-import { RepoPull }   from './pull'
-import { RepoPush }   from './push'
+import { GitAdd }    from './add'
+import { GitBranch } from './branch'
+import { GitCommit } from './commit'
+import { Husky }     from './husky'
+import { GitPull }   from './pull'
+import { GitPush }   from './push'
+import { Repo }      from '../_super/main'
 
 import type { GitConfig }               from './types'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
-export const branch = {
+export {
+	GitAdd,
+	GitBranch,
+	GitCommit,
+	Husky,
+	GitPull,
+	GitPush,
+}
+
+export class Git extends Repo {
+
+	opts   : GitConfig
+	add    : GitAdd
+	branch : GitBranch
+	commit : GitCommit
+	husky  : Husky
+	pull   : GitPull
+	push   : GitPush
+
+	constructor( opts?: GitConfig, config?: Repo['config'] ) {
+
+		super( opts, config )
+		this.opts   = opts || {}
+		this.add    = new GitAdd( this.opts, this.config )
+		this.branch = new GitBranch( this.opts, this.config )
+		this.commit = new GitCommit( this.opts, this.config )
+		this.husky  = new Husky( this.opts, this.config )
+		this.pull   = new GitPull( this.opts, this.config )
+		this.push   = new GitPush( this.opts, this.config )
+
+	}
+
+}
+const branch = {
 	list         : 'list',
 	current      : 'current',
 	change       : 'change',
@@ -18,15 +52,16 @@ export const branch = {
 	delete       : 'delete',
 	switch       : 'switch',
 	createSwitch : 'create-switch',
-}
-export const CMD = {
+} as const
+const CMD    = {
 	add    : 'add',
 	commit : 'commit',
 	branch : 'branch',
 	push   : 'push',
 	pull   : 'pr',
 	husky  : 'husky',
-}
+} as const
+
 export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 
 	const res: DoveEnvConfig['custom'] = { git : {
@@ -72,55 +107,29 @@ export const config = ( conf?: GitConfig ): DoveEnvConfig => {
 			[CMD.husky] : { desc: 'Husky configuration' },
 		},
 		fn : async ( {
-			cmds, config, opts,
+			cmds, config, opts, showHelp,
 		} ) => {
 
 			const list = ( v:Record<string, string> ) => Object.values( v ).map( v => color.gray.dim.italic( v ) ).join( ', ' )
-
-			if ( cmds?.includes( CMD.commit ) ) {
-
-				const cm = new RepoCommit( conf, config )
-				await cm.run( )
-
-			}
-			else if ( cmds?.includes( CMD.add ) ) {
-
-				const add = new RepoAdd( conf, config )
-				add.run()
-
-			}
-			else if ( cmds?.includes( CMD.pull ) ) {
-
-				const pull = new RepoPull( conf, config )
-				await pull.run()
-
-			}
+			const git  = new Git( conf, config )
+			if ( cmds?.includes( CMD.commit ) ) await git.commit.run( )
+			else if ( cmds?.includes( CMD.add ) ) await git.add.run( )
+			else if ( cmds?.includes( CMD.pull ) ) await git.pull.run( )
 			else if ( cmds?.includes( CMD.branch ) ) {
 
-				const br = new RepoBranch( conf, config )
-				if ( opts?.list ) await br.showAll()
-				else if ( opts?.current ) await br.showCurrent()
-				else if ( opts?.change || opts?.change === '' ) await br.change( opts.change as string )
-				else if ( opts?.create || opts?.create === '' ) await br.create( opts.create as string )
-				else if ( opts?.delete || opts?.delete === '' ) await br.delete( opts.delete as string )
-				else if ( opts?.switch || opts?.switch === '' ) await br.switch( opts.switch as string )
-				else if ( opts?.[branch.createSwitch] || opts?.[branch.createSwitch] === '' ) await br.createAndSwitch( opts.createAndSwitch as string )
+				if ( opts?.list ) await git.branch.showAll()
+				else if ( opts?.current ) await git.branch.showCurrent()
+				else if ( opts?.change || opts?.change === '' ) await git.branch.change( opts.change as string )
+				else if ( opts?.create || opts?.create === '' ) await git.branch.create( opts.create as string )
+				else if ( opts?.delete || opts?.delete === '' ) await git.branch.delete( opts.delete as string )
+				else if ( opts?.switch || opts?.switch === '' ) await git.branch.switch( opts.switch as string )
+				else if ( opts?.[branch.createSwitch] || opts?.[branch.createSwitch] === '' ) await git.branch.createAndSwitch( opts.createAndSwitch as string )
 				else console.warn( `No option provided. Use: ${list( branch )}` )
 
 			}
-			else if ( cmds?.includes( CMD.push ) ) {
-
-				const push = new RepoPush( conf, config )
-				await push.run()
-
-			}
-			else if ( cmds?.includes( CMD.husky ) ) {
-
-				const husky = new Husky( conf, config )
-				await husky.run( )
-
-			}
-			else console.warn( `No option provided. Use: ${list( CMD )}` )
+			else if ( cmds?.includes( CMD.push ) ) await git.push.run()
+			else if ( cmds?.includes( CMD.husky ) ) await git.husky.run( )
+			else showHelp()
 
 		},
 	} }

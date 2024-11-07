@@ -12,6 +12,10 @@ const CMD = {
 	REPOINFO : 'repo-info',
 } as const
 
+export {
+	Workflow,
+	RepoInfo,
+}
 export const config = ( conf?: Config ): DoveEnvConfig => {
 
 	const res: DoveEnvConfig['custom'] = { gh : {
@@ -42,7 +46,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 			[CMD.REPOINFO] : { desc: 'Update repo info' },
 		},
 		fn : async ( {
-			cmds, opts, config,
+			cmds, opts, config, showHelp,
 		} ) => {
 
 			if ( cmds?.includes( CMD.DOWNLOAD ) )  {
@@ -55,23 +59,20 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 				else console.warn( 'You must provide an input and an output. Use --input and --output flags' )
 
 			}
-			else {
+			else if ( cmds?.includes( CMD.WORKFLOW ) ) {
 
-				if ( cmds?.includes( CMD.WORKFLOW ) ) {
-
-					const wf = new Workflow( conf, config )
-					if ( opts?.list ) await wf.list()
-					else await wf.run()
-
-				}
-				else if ( cmds?.includes( CMD.REPOINFO ) ) {
-
-					const repo = new RepoInfo( conf, config )
-					await repo.updateInfo()
-
-				}
+				const wf = new Workflow( conf, config )
+				if ( opts?.list ) await wf.list()
+				else await wf.run()
 
 			}
+			else if ( cmds?.includes( CMD.REPOINFO ) ) {
+
+				const repo = new RepoInfo( conf, config )
+				await repo.updateInfo()
+
+			}
+			else showHelp()
 
 		},
 	} }

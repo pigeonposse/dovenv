@@ -3,9 +3,9 @@ import {
 	icon,
 } from '@dovenv/utils'
 
-import { Git } from './super'
+import { GitSuper } from './super'
 
-export class RepoBranch extends Git {
+export class GitBranch extends GitSuper {
 
 	async askSelectBranch( defaultValue?: string, remote = true ): Promise<string> {
 

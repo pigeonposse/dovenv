@@ -5,14 +5,14 @@
 
 import { exec } from '@dovenv/utils'
 
-import { RepoAdd }    from './add'
-import { RepoBranch } from './branch'
-import { RepoCommit } from './commit'
-import { Git }        from './super'
-import { Workflow }   from '../gh/workflow'
-import { Packages }   from '../pkg/fn'
+import { GitAdd }    from './add'
+import { GitBranch } from './branch'
+import { GitCommit } from './commit'
+import { GitSuper }  from './super'
+import { Workflow }  from '../gh/workflow'
+import { Packages }  from '../pkg/fn'
 
-export class RepoPush extends Git {
+export class GitPush extends GitSuper {
 
 	async exec( branch: string ) {
 
@@ -25,9 +25,9 @@ export class RepoPush extends Git {
 		await this.init()
 
 		const defaultBranch  = this.opts.defaultBranch || 'main'
-		const branchInstance = new RepoBranch( this.opts, this.config )
-		const commitInstance = new RepoCommit( this.opts, this.config )
-		const addInstance    = new RepoAdd( this.opts, this.config )
+		const branchInstance = new GitBranch( this.opts, this.config )
+		const commitInstance = new GitCommit( this.opts, this.config )
+		const addInstance    = new GitAdd( this.opts, this.config )
 
 		const data        = {
 			update   : 'update',

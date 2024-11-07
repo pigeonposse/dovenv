@@ -23,6 +23,7 @@ const CMDS = {
 	qr        : 'qr',
 	termGif   : 'termgif',
 } as const
+
 type Config = {
 	/** Configuration for create code images */
 	[CMDS.codeImage]? : { [key: string]: CodeImageConfig }

@@ -5,6 +5,10 @@ export default defineBuildConfig( [
 	{
 		...config,
 		entries   : [ './src/main' ],
-		externals : [ 'dovenv' ],
+		externals : [
+			'dovenv',
+			'@clack/prompts',
+			'chalk',
+		],
 	},
 ] )

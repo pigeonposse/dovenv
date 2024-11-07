@@ -1,9 +1,9 @@
 import { execChild } from '@dovenv/utils'
 
-import { RepoBranch } from './branch'
-import { Git }        from './super'
+import { GitBranch } from './branch'
+import { GitSuper }  from './super'
 
-export class RepoPull extends Git {
+export class GitPull extends GitSuper {
 
 	async #createPullRequest( title: string, body: string, branch = 'main', open = false ) {
 
@@ -32,7 +32,7 @@ export class RepoPull extends Git {
 		await this.init()
 		await this.initGH()
 		const defaultBranch  = this.opts.defaultBranch || 'main'
-		const branchInstance = new RepoBranch( this.opts, this.config )
+		const branchInstance = new GitBranch( this.opts, this.config )
 		const data           = {
 			title : 'title',
 			body  : 'body',
