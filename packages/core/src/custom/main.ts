@@ -2,78 +2,28 @@
 import {
 	color,
 	deepmergeCustom,
-	validate,
 } from '@dovenv/utils'
 
+import { schema }  from './schema'
 import { Command } from '../_shared/cmd'
 
+import type { Cli,
+	CustomConfig,
+	ShowHelpFn } from './types'
 import type {
 	ArgvPreParsed,
-	ArgvParsed,
 } from '../_shared/types'
-import type { Config }    from '../types'
-import type { createCli } from '@dovenv/utils'
+import type { Config } from '../types'
 
-type ShowHelpFn = ( loglevel?: string ) => void
-type CommandFn = (
-	data: ArgvParsed & {
-		/** Print the usage data using the console function consoleLevel for printing. */
-		showHelp : ShowHelpFn
-	} ) => Promise<void>
-type Cli = Awaited<ReturnType<typeof createCli>>
-type Opt = Parameters<Cli['option']>[0][number] & {
-	/** Description of the option */
-	desc : string
-}
-type SetOpts = {
-	/** key of the option */
-	[key in string]: Opt
-}
-type SetCmds = {
-	/** Key of the command */
-	[key in string]: Cmd
+export type {
+	CustomConfig,
 }
 
-type Cmd = {
-	/** Description of the command */
-	desc      : string
-	/** Options for the command if there are any */
-	opts?     : SetOpts
-	/** Commands for the command if there are any */
-	cmds?     : SetCmds
-	/** Examples of the command */
-	examples? : Examples
-}
-
-type Examples = {
-	/** Description of the example */
-	desc : string
-	/** Command to use */
-	cmd  : string
-}[]
-export type CustomConfig = {
-	/** Key of the command */
-	[key in string]: Cmd & {
-		/** Function to run the command */
-		fn : CommandFn
-	}
-}
 export const mergeCustomConfig = deepmergeCustom<CustomConfig>( {} )
+
 export class Custom extends Command {
 
-	schema = validate.record(
-		validate.string(),
-		validate.object( {
-			desc     : validate.string(),
-			opts     : validate.object( {} ).optional(),
-			cmds     : validate.object( {} ).optional(),
-			examples : validate.array( validate.object( {
-				desc : validate.string(),
-				cmd  : validate.string(),
-			} ) ).optional(),
-			fn : validate.function().returns( validate.promise( validate.void() ) ),
-		} ).strict(  ),
-	)
+	schema = schema
 
 	props
 	cli
@@ -163,6 +113,9 @@ export class Custom extends Command {
 
 		try {
 
+			if ( prop.settings?.wrapConsole === false ) this.log.restoreConsole()
+			else this.log.wrapConsole()
+
 			await prop.fn( {
 				cmds,
 				opts,
@@ -170,10 +123,14 @@ export class Custom extends Command {
 				showHelp,
 			} )
 
+			// if ( prop.settings?.wrapConsole === false ) this.log.w()
+
 			this.setTime( time.prettyStop() )
 
 		}
 		catch ( e ) {
+
+			// if ( prop.settings?.wrapConsole === false ) this.log.wrapAll()
 
 			this.log.error( e )
 			this.setTime( time.prettyStop() )

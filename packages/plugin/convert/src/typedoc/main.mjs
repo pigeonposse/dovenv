@@ -1,6 +1,5 @@
 /**
  * Readme.
- *
  * @description Readme.
  */
 
@@ -9,12 +8,12 @@ import {
 	exec,
 	paths,
 	joinPath,
-	readJSON, 
-} from '@clippo/config/core'
+	readJSON,
+} from '@dovenv/utils'
 
 import {
 	ENV_KEY,
-	utils, 
+	utils,
 } from './consts.mjs'
 import { generateIndex } from './generate-index.mjs'
 
@@ -31,8 +30,8 @@ await execProcess( {
 			pkg      : joinPath( paths.utilsDir, name, 'package.json' ),
 			output   : joinPath( paths.documentationDir, 'guide', 'utils', name ),
 		} )
-		
-		let modules = []
+
+		const modules = []
 		for ( const mod of utils ) {
 
 			const c   = getProps( mod.id )
@@ -46,13 +45,13 @@ await execProcess( {
 
 			const customEnv = `${ENV_KEY.PROJECT_DIR}=${c.dir} ${ENV_KEY.PROJECT_ID}=${mod.id}`
 			await exec( `${customEnv} typedoc ${c.input} --out ${c.output} --tsconfig ${c.tsconfig} --options ${typedoc} --entryFileName index` )
- 
+
 		}
 
 		await generateIndex( {
 			modules,
 			indexPath,
 		} )
-	
+
 	},
 } )

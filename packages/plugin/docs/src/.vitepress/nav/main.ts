@@ -10,7 +10,7 @@ type NavProps = {
 }
 export const setNav = ( {
 	conf, guide, posts, links,
-}:NavProps ) => {
+}: NavProps ) => {
 
 	return [
 		// {
@@ -60,20 +60,20 @@ export const setNav = ( {
 				{
 					text  : conf.version,
 					items : [
-						...( conf.changelogUrl
+						...( conf?.changelogURL
 							? [
 								{
 									text : 'Changelog',
-									link : conf.changelogUrl,
+									link : conf.changelogURL,
 								},
 							]
 							: []
 						),
-						...( conf.contributingUrl
+						...( conf.contributingURL
 							? [
 								{
 									text : 'Contributing',
-									link : conf.contributingUrl,
+									link : conf.contributingURL,
 								},
 							]
 							: []

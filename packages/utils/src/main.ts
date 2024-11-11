@@ -18,4 +18,5 @@ export * from './md/main'
 export * from './validate/main'
 export * from './error/main'
 export * from './qr/main'
+export type * from './ts/main'
 

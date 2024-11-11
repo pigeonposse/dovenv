@@ -10,7 +10,7 @@ import {
 	ValidateError,
 }   from '../validate/main'
 
-import type { ValidateType } from '../validate/main'
+import type { ValidateAnyType } from '../validate/main'
 
 const ERROR_ID = {
 	INVALID_SCHEMA : 'INVALID_SCHEMA',
@@ -20,7 +20,7 @@ const ERROR_ID = {
 type ErrorID = typeof ERROR_ID[keyof typeof ERROR_ID]
 class ValidateSchemaError extends TypedError<ErrorID, { data: unknown }> {}
 
-const validateZod = async ( data: string | object, schema: ValidateType ) => {
+const validateZod = async ( data: string | object, schema: ValidateAnyType ) => {
 
 	const run               = async () => schema.parse( data )
 	const [ error, result ] = await catchError( run() )

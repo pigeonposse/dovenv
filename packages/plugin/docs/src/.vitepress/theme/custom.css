@@ -26,9 +26,6 @@ video,
 .pager-link {
 	border-radius: var(--pp-radius) !important;
 }
-.DocSearch-Button{
-	border-radius: var(--pp-radius)
-}
 .medium-zoom-overlay {
 	z-index: 20;
   }
@@ -193,6 +190,10 @@ div:not(.blocks) > div[class*='language-'],
 	background: transparent;
 	border-radius: 0 0 var(--pp-radius) var(--pp-radius) !important;
 }
+.vp-doc [class*='language-'] > span.lang {
+	padding: 5px;
+}
+
 .VPDocAsideOutline {
 	background-color: var(--vp-c-bg-soft);
 	backdrop-filter: blur(40px);
@@ -284,12 +285,114 @@ header .home .divider {
     --dm-modal-bg-color: var(--vp-c-bg-alt) !important;
     --dm-mask-bg-color: rgba(101, 108, 133, .8);
     --dm-divider-color: var(--vp-c-divider) !important;
-    --dm-highlight-color:var(--vp-c-brand-2) !important;
+    --dm-highlight-color: var(--vp-c-brand-2) !important;
 }
 .documate-button{
 	justify-content: flex-end;
 	padding: 2px 15px !important;
 	height: 100%;
 	border: 1px solid var(--vp-c-divider);
-	border-radius: 20px !important;
+	border-radius: var(--pp-radius) !important;
 }
+/* Table */
+table {
+	border-spacing: 0;
+    border-collapse: separate;
+    border-radius: var(--pp-radius);
+    border: 1px solid var(--vp-c-divider);
+    width: fit-content;
+}
+
+table th:not(:last-child),
+table td:not(:last-child) {
+ border-right: 1px solid var(--vp-c-divider);
+}
+
+/* Apply a border to the bottom of all but the last row */
+table>thead>tr:not(:last-child)>th,
+table>thead>tr:not(:last-child)>td,
+table>tbody>tr:not(:last-child)>th,
+table>tbody>tr:not(:last-child)>td,
+table>tfoot>tr:not(:last-child)>th,
+table>tfoot>tr:not(:last-child)>td,
+table>tr:not(:last-child)>td,
+table>tr:not(:last-child)>th,
+table>thead:not(:last-child),
+table>tbody:not(:last-child),
+table>tfoot:not(:last-child) {
+ border-bottom: 1px solid var(--vp-c-divider);
+}
+table tr {
+	background-color: var(--vp-c-bg-opacity) !important;
+}
+table th {
+	background-color: var(--vp-c-bg-alt) !important;
+}
+
+/* Sidebar */
+.VPNavBarTitle.has-sidebar .title {
+	border-color: transparent !important;
+}
+/* .VPSidebar .group {
+	background: var(--vp-c-bg-alt);
+	border: 1px solid var(--vp-c-divider) !important;
+    border-radius: var(--pp-radius);
+
+    margin: 10px 0;
+	padding: 10px 20px !important;
+	> div {
+		padding: 0 20px;
+	}
+	.VPSidebarItem {
+		padding: 0 !important;
+	}
+} */
+
+/* Search */
+.DocSearch-Button {
+	border: 1px solid var(--vp-c-divider);
+	border-radius: var(--pp-radius);
+}
+.DocSearch-Button:hover .vp-icon {
+	color: var(--vp-c-brand-1) !important;
+	transition: opacity 0.25s, color 0.25s !important;
+}
+
+/* exteranl link icon, carets etc */
+:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(.no-icon)::after, .vpi-chevron-right {
+	color: var(--vp-c-brand-1) !important;
+	opacity: 0.5 !important;
+}
+ .VPDocAsideOutline {
+	border: 1px solid var(--vp-c-divider);
+ }
+/* Switch */
+.VPSwitch {
+	border: 1px solid var(--vp-c-divider) !important;
+}
+.VPSwitch:hover {
+	border-color: var(--vp-c-brand-1) !important;
+}
+.VPSwitch:hover .icon > span {
+	color: var(--vp-c-brand-1) !important;
+	transition: opacity 0.25s, color 0.25s !important;
+}
+/* nav */
+.button:hover .vpi-chevron-down {
+	color: var(--vp-c-brand-1) !important;
+	transition: opacity 0.25s, color 0.25s !important;
+}
+
+/* svgs */
+.svg-donate:hover {
+	color: var(--vp-c-brand-1);
+	transition: color 0.45s, shadow 0.45s;
+	animation: 1.5s ease-in-out 0s infinite beat;
+	box-shadow: 0 0 20px 10px var(--pp-brand-shadow);
+}
+
+@keyframes beat {
+	0%, 50%, 100% { transform: scale(1, 1); }
+	30%, 80% { transform: scale(0.92, 0.95); }
+  }
+  

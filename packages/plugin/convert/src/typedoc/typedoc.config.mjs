@@ -1,6 +1,5 @@
 /**
  * Typedoc config.
- *
  * @see https://typedoc.org/options/output/
  * @see https://typedoc-plugin-markdown.org/docs/options/
  */
@@ -29,7 +28,7 @@ export default {
 	hidePageHeader        : true,
 	hidePageTitle         : true,
 	useCodeBlocks         : true,
-	expandObjects         : true, 
+	expandObjects         : true,
 	indexFormat           : 'list',
 	classPropertiesFormat : 'table',
 	typeDeclarationFormat : 'table',
@@ -38,5 +37,5 @@ export default {
 	outputFileStrategy    : 'modules',
 	expandParameters      : true,
 	flattenOutputFiles    : false,
-	
+
 }

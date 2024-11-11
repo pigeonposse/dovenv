@@ -23,7 +23,7 @@ await createCli( {
 			} )
 			.command( 'build', 'Run the build process', () => {}, async argvChild => {
 
-				const docs = new Docs( {
+				const docs = new Docs( undefined, {
 					configPath : argvChild.config,
 					debug      : argvChild.verbose,
 				} )
@@ -33,7 +33,7 @@ await createCli( {
 			} )
 			.command( 'dev', 'Run the dev server', () => {}, async argvChild => {
 
-				const docs = new Docs( {
+				const docs = new Docs( undefined, {
 					configPath : argvChild.config,
 					debug      : argvChild.verbose,
 				} )
@@ -43,7 +43,7 @@ await createCli( {
 			} )
 			.command( 'preview', 'Run the preview server', () => {}, async argvChild => {
 
-				const docs = new Docs( {
+				const docs = new Docs( undefined, {
 					configPath : argvChild.config,
 					debug      : argvChild.verbose,
 				} )

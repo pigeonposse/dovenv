@@ -5,24 +5,22 @@ import {
 	readFileSync,
 	readJSON,
 	readJSONSync,
-	writeFileSync, 
-} from '@clippo/config/core'
+	writeFileSync,
+} from '@dovenv/utils'
 import { MarkdownPageEvent } from 'typedoc-plugin-markdown'
 
-import { ENV_KEY }   from './consts.mjs'
+import { ENV_KEY }  from './consts.mjs'
 import {
 	readmeUtils,
-	readmeUtilsDocs, 
+	readmeUtilsDocs,
 } from '../templates/readme-utils.mjs'
 
 const mainPKG = await readJSON( joinPath( paths.workspacePkg ) )
 
 /**
  * Load [typedoc] plugin.
- *
  * @param {import('typedoc-plugin-markdown').MarkdownApplication} app - MarkdownApplication.
  * @example // nothing
- *
  */
 export function load( app ) {
 
@@ -31,25 +29,25 @@ export function load( app ) {
 		try {
 
 			console.log( 'MarkdownPageEvent.END triggered' )
-			const PKG_DIR          = joinPath( process.env[ ENV_KEY.PROJECT_DIR ], 'package.json' )
-			const PKG_README       = joinPath( process.env[ ENV_KEY.PROJECT_DIR ], 'README.md' )
-			const PKG_EXAMPLES_DIR = joinPath( process.env[ ENV_KEY.PROJECT_DIR ], 'examples' )
+			const PKG_DIR          = joinPath( process.env[ENV_KEY.PROJECT_DIR], 'package.json' )
+			const PKG_README       = joinPath( process.env[ENV_KEY.PROJECT_DIR], 'README.md' )
+			const PKG_EXAMPLES_DIR = joinPath( process.env[ENV_KEY.PROJECT_DIR], 'examples' )
 			const PKG              = readJSONSync( PKG_DIR )
 			const PKG_EXAMPLES     = getFilesSync( PKG_EXAMPLES_DIR )
 
 			let examples = ''
 			for ( let index = 0; index < PKG_EXAMPLES.length; index++ ) {
 
-				const PKG_EXAMPLE = PKG_EXAMPLES[ index ]
+				const PKG_EXAMPLE = PKG_EXAMPLES[index]
 				const type        = PKG_EXAMPLE.endsWith( 'js' ) ? 'js' : PKG_EXAMPLE.endsWith( 'ts' ) ? 'ts' : undefined
-				
-				if( type ){
+
+				if ( type ) {
 
 					const content = readFileSync( PKG_EXAMPLE )
 					examples      = '```' + type + ' twoslash\n' + content + '```\n'
-				
-				}	
-				
+
+				}
+
 			}
 			// console.log( examples )
 			const data     = {
@@ -58,7 +56,7 @@ export function load( app ) {
 				content  : page.contents,
 				examples : examples === '' ? undefined : examples,
 			}
-			const readme   = readmeUtils( data ) 
+			const readme   = readmeUtils( data )
 			const contents = readmeUtilsDocs( data )
 
 			// console.log( {
@@ -66,20 +64,21 @@ export function load( app ) {
 			// 	PKG_README,
 			// 	data,
 			// 	readme,
-			// 	contents, 
+			// 	contents,
 			// } )
-			
+
 			page.contents = contents
 			// page.contents += contents
 			writeFileSync( PKG_README, readme )
 			console.log( 'MarkdownPageEvent.END finished' )
-		
-		}catch( e ){
-			
-			console.log( e )
-	
+
 		}
-	
+		catch ( e ) {
+
+			console.log( e )
+
+		}
+
 	} )
 
 }

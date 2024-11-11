@@ -11,5 +11,5 @@ export const utils = [
 ]
 export const ENV_KEY = {
 	PROJECT_DIR : 'PROJECT_DIR',
-	PROJECT_ID  : 'PROJECT_ID', 
+	PROJECT_ID  : 'PROJECT_ID',
 }

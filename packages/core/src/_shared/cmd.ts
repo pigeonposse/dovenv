@@ -10,6 +10,7 @@ import {
 	icon,
 	getBooleanFlagValue,
 	getMatch,
+	formatValidationError,
 	// line,
 } from '@dovenv/utils'
 
@@ -88,8 +89,8 @@ export class Command {
 		}
 		catch ( error ) {
 
-			// @ts-ignore
-			console.error( `Config [${this.title}] has invalid Schema. Details: ${error.message}` )
+			console.error( color.red( `Configuration has invalid Schema` ) )
+			console.log( color.red(  icon.cross + ' ' ) + color.red.dim( formatValidationError( error ) ) )
 			return this.process.exit()
 
 		}

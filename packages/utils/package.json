@@ -62,7 +62,8 @@
 		"terminal-link": "3.0.0",
 		"turndown": "7.2.0",
 		"yargs": "17.7.2",
-		"zod": "3.23.8"
+		"zod": "3.23.8",
+		"zod-validation-error": "^3.4.0"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",

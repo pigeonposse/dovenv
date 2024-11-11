@@ -51,7 +51,7 @@
 		"build:core": "pnpm --filter @dovenv/utils build && pnpm --filter dovenv build",
 		"build:extra": "pnpm --filter create-dovenv build",
 		"build:plugins": "pnpm --filter './packages/plugin/**' build",
-		"build:templates": "pnpm --filter './packages/templates/**' build",
+		"build:themes": "pnpm --filter './packages/themes/**' build",
 		"t": "----------------------- TESTS ----------------------------",
 		"test": "pnpm run --sequential \"/test:.*/\"",
 		"test:unit": "vitest run src --passWithNoTests"

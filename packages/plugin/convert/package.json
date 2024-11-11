@@ -34,13 +34,18 @@
 	],
 	"scripts": {
 		"build": "unbuild",
-		"dev": "bun examples/main.ts",
+		"dev": "tsx examples/main.ts",
 		"preview": "node dist/bin.mjs",
 		"test": "vitest run -r src --passWithNoTests"
+	},
+	"dependencies": {
+		"jsdoc-to-markdown": "^9.0.5",
+		"openapi-to-md": "^1.0.24"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
+		"@types/jsdoc-to-markdown": "^7.0.6",
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {

@@ -1,53 +1,52 @@
-import {
-	copyDir,
-	joinPath,
-	removePathIfExist,
-} from '@dovenv/utils'
+// import {
+// 	copyDir,
+// 	removePathIfExist,
+// } from '@dovenv/utils'
 import { VitePWA }             from 'vite-plugin-pwa'
 import ViteRestart             from 'vite-plugin-restart'
 import { type UserConfig }     from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { RssPlugin }           from 'vitepress-plugin-rss'
 
-import { getGlobals } from './const'
+import {
+	getGlobals,
+	globals,
+	name,
+} from '../_shared/const'
 import { setNav }     from './nav/main'
 import { setSidebar } from './sidebar/main'
 
-import type { DocsConfig } from '../config/types'
+import type {
+	DocsData,
+	RequiredDocsConfig,
+} from '../config/types'
 
-export const vite: ( conf: DocsConfig, opts:{
-	srcDir           : string
-	docsDestTempPath : string
-	devMode          : boolean
-	configPath       : string
-} ) => UserConfig['vite'] = ( conf, opts ) => {
+export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['vite'] = ( conf, data ) => {
 
 	// const confRelative = relativePath( opts.srcDir, opts.configPath )
 
 	return {
 		server  : { fs: { strict: false } },
 		plugins : [
-			groupIconVitePlugin(),
-			RssPlugin( conf.rss ),
-			VitePWA( conf.pwa ),
+			// {
+			// 	name       : name + '--post-pre-build', // the name of your custom plugin. Could be anything.
+			// 	buildStart : async () => {
+
+			// 		if ( !data.devMode ) await copyDir( {
+			// 			input  : conf.in,
+			// 			output : data.tempDir,
+			// 		}  )
+			// 		// throw new Error( 'stop' )
+
+			// 	},
+			// 	buildEnd : async () => {
+
+			// 		// if ( !data.devMode ) await removePathIfExist( data.tempDir )
+
+			// 	},
+			// },
 			{
-				name       : 'dovenv--post-pre-build', // the name of your custom plugin. Could be anything.
-				buildStart : async () => {
-
-					if ( !opts.devMode ) await copyDir( {
-						input  : conf.in,
-						output : opts.docsDestTempPath,
-					}  )
-
-				},
-				buildEnd : async () => {
-
-					if ( !opts.devMode ) await removePathIfExist( opts.docsDestTempPath )
-
-				},
-			},
-			{
-				name : 'dovenv--listen-to-server',
+				name : name + '--listen-to-server',
 				configureServer( server ) {
 
 					const fsWatcher = server.watcher.add( '*.md' )
@@ -76,15 +75,22 @@ export const vite: ( conf: DocsConfig, opts:{
 
 				config( config ) {
 
-					const pkgPath = joinPath( opts.srcDir, 'package.json' )
 					// @ts-ignore: 	config.vitepress is not typed
-					if ( !config.vitepress.configDeps.includes( pkgPath ) ) config.vitepress.configDeps.push( pkgPath )
-					// @ts-ignore: 	config.vitepress is not typed
-					if ( !config.vitepress.configDeps.includes( opts.configPath ) )config.vitepress.configDeps.push( opts.configPath )
+					const configDeps = config.vitepress.configDeps
 
-					const pages: string[] | undefined = 'VITEPRESS_CONFIG' in globalThis && globalThis.VITEPRESS_CONFIG.pages ? globalThis.VITEPRESS_CONFIG.pages : undefined
-					const conf                        = getGlobals( 'DOVENV_DOCS_CONFIG' ).config
+					if ( data.packageConfig?.path  && !configDeps.includes( data.packageConfig?.path ) ) configDeps.push( data.packageConfig?.path )
+					if ( data.pathConfig?.path     && !configDeps.includes( data.pathConfig?.path ) ) configDeps.push( data.pathConfig?.path )
+					if ( data.fnConfig?.path        && !configDeps.includes( data.fnConfig?.path ) ) configDeps.push( data.fnConfig?.path )
+					console.debug( { configDeps } )
+					const pages = getGlobals( globals.VITEPRESS_CONFIG )?.pages
+					const conf  = getGlobals( globals.DOVENV_DOCS_CONFIG )
+					if ( !conf ) {
 
+						console.warn( 'Unexpected error: No config provided. Please restart the server and report this issue if persists.' )
+						return
+
+					}
+					console.debug( { docsPages: pages } )
 					const guide = pages?.filter( p => p.startsWith( 'guide/' ) )
 
 					const posts        = pages?.filter( p => p.startsWith( 'posts/' ) )
@@ -120,9 +126,12 @@ export const vite: ( conf: DocsConfig, opts:{
 				},
 
 			},
+			groupIconVitePlugin(),
+			...(  conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
+			...( conf.pwa === false ? [] : [ VitePWA( conf.pwa ) ] ),
 			ViteRestart( {
-				reload  : [ ...( conf.server.hotReloadFiles ? conf.server.hotReloadFiles : [] ) ],
-				restart : [ ...( conf.server.restartFiles ? conf.server.restartFiles : [] ) ],
+				reload  : [ ...( conf?.server?.hotReloadFiles ? conf.server.hotReloadFiles : [] ) ],
+				restart : [ ...( conf?.server?.restartFiles ? conf.server.restartFiles : [] ) ],
 			} ),
 		],
 	}

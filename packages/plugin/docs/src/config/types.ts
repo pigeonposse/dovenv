@@ -1,4 +1,7 @@
-import type { IconDefinition } from '@dovenv/utils'
+import type {
+	DeepNonNullable,
+	IconDefinition,
+} from '@dovenv/utils'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
 import type {
 	DefaultTheme,
@@ -23,144 +26,175 @@ type Links = ( Link | {
 	items : Link[]
 } )[]
 type Colors = {
-	text      : string
-	text2     : string
-	text3     : string
-	bg        : string
-	bgAlt     : string
-	bgSoft    : string
-	bgOpacity : string
-	shadow    : string
-	divider   : string
+	text?      : string
+	text2?     : string
+	text3?     : string
+	bg?        : string
+	bgAlt?     : string
+	bgSoft?    : string
+	bgOpacity? : string
+	shadow?    : string
+	divider?   : string
 }
+export type GetConfig = {
+	config : DocsConfig
+	path   : string
+	dir    : string
+}
+export type DocsData = {
+	root           : string
+	devMode        : boolean
+	srcDir         : string
+	outDir         : string
+	tempDir        : string
+	cacheDir       : string
+	defaultConfig  : RequiredDocsConfig
+	fnConfig?      : GetConfig
+	pathConfig?    : GetConfig
+	packageConfig? : GetConfig
+}
+
+export type RequiredDocsConfig = DocsConfig & {
+	in       : string
+	out      : string
+	docsPath : string
+	logo     : string
+	favicon  : string
+	name     : string
+	desc     : string
+	license  : { type: string }
+	styles   : DeepNonNullable<DocsConfig['styles']>
+	lang     : string
+}
+
 export type DocsConfig = {
 	/** Input directory for documentation files. */
-	in         : string
+	in?         : string
 	/** Output directory for the built documentation. */
-	out        : string
+	out?        : string
 	/** Logo URL for the documentation site. */
-	logo       : string
+	logo?       : string
 	/** Favicon URL for the documentation site. */
-	favicon    : string
+	favicon?    : string
 	/** Name of the project or documentation. */
-	name       : string
+	name?       : string
 	/** Short description of the project or documentation. */
-	desc       : string
+	desc?       : string
 	/** A shorter version of the description for better display. */
-	shortDesc  : string
+	shortDesc?  : string
 	/** URL of the project or documentation site. */
-	url        : string
+	url?        : string
 	/** Repository URL for the project. */
-	repoUrl    : string
+	repoURL?    : string
 	/** URL for the project's issue tracker or bug reports. */
-	bugsUrl    : string
+	bugsURL?    : string
 	/** URL for funding or sponsorship of the project. */
-	fundingUrl : string
+	fundingURL? : string
 	/** Additional URL for more resources or links related to the project. */
-	moreUrl    : string
+	moreURL?    : string
 	/** NPM package URL for the project. */
-	npmUrl     : string
+	npmURL?     : string
 	/** Language code for the documentation, e.g., 'en' for English. */
-	lang       : string
-	/** Path to the documentation files. */
-	docsPath   : string
+	lang?       : string
+	/** Path to the documentation files. Used for editLink in pages */
+	docsPath?   : string
 	/** License information for the project. */
-	license: {
+	license?: {
 		/** Type of license (e.g., MIT, GPL). */
-		type : string
+		type? : string
 		/** URL to the full license text. */
-		url  : string
+		url?  : string
 	}
 	/** Version of the project. */
-	version     : string
+	version?     : string
 	/** Array of previous versions of the project, each with a name and a URL. */
-	oldVersions: {
+	oldVersions?: {
 		/** The name or label of the old version, e.g., "v1.0", "Legacy". */
 		name : string
 		/** URL where the old version documentation */
 		url  : string
 	}[]
 	/** CHANGELOG url of the project. */
-	changelogUrl    : string
+	changelogURL?    : string
 	/** contributing url of the project. */
-	contributingUrl : string
+	contributingURL? : string
 	/** Custom styles for the documentation site. */
-	styles: {
+	styles?: {
 		/** Color scheme for the documentation site. */
-		color: {
+		color?: {
 			/** Primary color for the theme. */
-			primary   : string
+			primary?   : string
 			/** Secondary color for the theme. */
-			secondary : string
+			secondary? : string
 			/** Tertiary color for the theme. */
-			terciary  : string
+			terciary?  : string
 			/** Fourth color for the theme. */
-			fourth    : string
+			fourth?    : string
 			/** Dark mode colors for the theme. */
-			dark      : Colors
+			dark?      : Colors
 			/** Light mode colors for the theme. */
-			light     : Colors
+			light?     : Colors
 		}
 		/** Border radius for elements in the theme. */
-		radius : string
+		radius? : string
 	}
 	/** Open Graph meta tags for better link previews on social media. */
-	og: {
+	og?: {
 		/** Description for the Open Graph metadata. */
-		description    : string
+		description?    : string
 		/** Image URL for the Open Graph metadata. */
-		image          : string
+		image?          : string
 		/** Title for the Open Graph metadata. */
-		title          : string
+		title?          : string
 		/** URL for the site, used in Open Graph metadata. */
-		url            : string
+		url?            : string
 		/** Site name for Open Graph metadata. */
-		siteName       : string
+		siteName?       : string
 		/** Twitter account associated with the site. */
-		twitterAccount : string
+		twitterAccount? : string
 	}
 	/** Configuration options for RSS feed. */
-	rss    : RSSOptions
+	rss?    : RSSOptions
 	/** Configuration options for PWA (Progressive Web App) support. */
-	pwa    : Partial<VitePWAOptions>
+	pwa?    : Partial<VitePWAOptions> | false
 	/** Custom CSS for the documentation site. */
-	css    : string
+	css?    : string
 	/** Footer configuration with links and copyright information. */
-	footer: {
+	footer?: {
 		/** Links to various social platforms or contact methods. */
-		links: {
+		links?: {
 			/** Website link for the project or organization. */
-			web       : string
+			web?       : string
 			/** Email link for contacting the project or organization. */
-			email     : string
+			email?     : string
 			/** Twitter link for the project or organization. */
-			twitter   : string
+			twitter?   : string
 			/** Instagram link for the project or organization. */
-			instagram : string
+			instagram? : string
 			/** Medium link for articles or blogs related to the project. */
-			medium    : string
+			medium?    : string
 		}
 		/** Copyright information for the project. */
-		copy: {
+		copy?: {
 			/** Name to display in copyright notices. */
-			name : string
+			name? : string
 			/** URL for the copyright holder or organization. */
-			url  : string
+			url?  : string
 		}
 	}
 	/** Sidebar configuration for navigation within the documentation. */
-	sidebar : Sidebar
+	sidebar? : Sidebar
 	/** Navigation configuration for links at the top of the documentation. */
-	nav     : Nav
+	nav?     : Nav
 	/** Server-related configurations, including file watching settings. */
-	server: {
+	server?: {
 		/** Files that trigger a hot reload on changes. */
-		hotReloadFiles : string[]
+		hotReloadFiles? : string[]
 		/** Files that trigger a server restart on changes. */
-		restartFiles   : string[]
+		restartFiles?   : string[]
 	}
 	/** Contributors information including their details and social links. */
-	contributors: {
+	contributors?: {
 		/** Avatar image for the member. */
 		avatar      : string
 		/** Name of the member. */
@@ -181,9 +215,9 @@ export type DocsConfig = {
 		actionText? : string
 	}[]
 	/** Additional links to display in a special page. */
-	links    : Links
+	links?    : Links
 	/** Data related to downloads and version releases. */
-	download  : {
+	download?  : {
 		/**
 		 * Optional grouping of download items by category.
 		 * Each key in the object represents a group name and maps to a string label.
@@ -210,5 +244,5 @@ export type DocsConfig = {
 		} }
 	}
 	/** VitePress user configuration for additional options. */
-	vitepress : UserConfig
+	vitepress? : UserConfig
 }

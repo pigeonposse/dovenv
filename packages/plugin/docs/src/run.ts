@@ -3,17 +3,20 @@ import {
 	replaceOutputFromProcess,
 	process,
 	rmDeprecationAlerts,
-	getCurrentDir,
-	joinPath,
-	isDev,
 } from '@dovenv/utils'
 
+import { VITEPRESS_DIR } from './.vitepress/config'
 import {
+	getGlobals,
+	globals,
 	name,
+	setGlobals,
 	version,
 	vitepressVersion,
-} from './.vitepress/const'
-import { setConfigGlobal } from './config/main'
+} from './_shared/const'
+import { Config } from './config/main'
+
+import type { DocsConfig } from './main'
 
 type DocsParams = {
 	configPath? : string
@@ -27,15 +30,18 @@ type DocsParams = {
  */
 export class Docs {
 
-	opts : DocsParams
+	config : DocsConfig | undefined
+	opts   : DocsParams
 
-	constructor( opts: DocsParams ) {
+	constructor( conf?: DocsConfig, opts?: DocsParams ) {
 
-		this.opts = opts
+		this.config = conf || undefined
+		this.opts   = opts || {}
 
 		rmDeprecationAlerts()
 		replaceOutputFromProcess( {
 			vitepress                : name,
+			[`/.${name}`]            : `/.vitepress`,
 			[`v${vitepressVersion}`] : `v${version}`,
 		} )
 
@@ -47,11 +53,20 @@ export class Docs {
 
 		try {
 
-			await setConfigGlobal( this.opts.configPath )
-			const path = joinPath( getCurrentDir( import.meta.url ), isDev() ? '..' : '.' )
+			const dovenvConfigPath = getGlobals( globals.DOVENV_CONFIG_PATH )
+			const configInstance   = new Config( this.config, this.opts?.configPath  )
 
+			if ( dovenvConfigPath ) configInstance.fnPath = dovenvConfigPath
+
+			const config = await configInstance.getAll()
+
+			setGlobals( globals.DOVENV_DOCS_CONFIG, config.config )
+			setGlobals( globals.DOVENV_DOCS_DATA, config.data )
+
+			const path    = VITEPRESS_DIR
 			const oldArgv = process.argv
-			process.argv  = [
+
+			process.argv = [
 				...process.argv.slice( 0, 2 ),
 				type,
 				path,

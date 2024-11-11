@@ -1,5 +1,5 @@
 import { defineConfig } from '../packages/core/dist/main.mjs'
-import { config }       from '../packages/templates/banda/dist/main.mjs'
+import { config }       from '../packages/themes/banda/dist/main.mjs'
 import {
 	getCurrentDir,
 	getObjectFromJSONFile,
@@ -19,6 +19,13 @@ export default defineConfig( [
 		name : 'DOVENV WORKSPACE',
 		desc : 'ToolKit for dovenv repository that uses the "dovenv" core and "banda" template.',
 	},
-	config( { docs: { configPath: joinPath( currDir,  'docs.config.js' ) } },
+	config( { docs : {
+		in           : './docs',
+		out          : './build',
+		name         : 'dovenv',
+		desc         : 'Quickly and easily set up your environment for your code projects.',
+		changelogURL : 'https://github.com/pigeonposse/dovenv/blob/main/packages/core/CHANGELOG.md',
+		npmURL       : 'https://www.npmjs.com/package/dovenv',
+	} },
 	),
 ] )

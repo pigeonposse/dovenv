@@ -1,39 +1,31 @@
 import {
 	deepmergeCustom,
-	getDirName,
+	getBaseName,
 } from '@dovenv/utils'
 
-import type { DocsConfig } from '../../config/types'
+import type {
+	SetPath,
+	SidebarProps,
+} from './types'
 
-type SidebarProps = {
-	conf          : DocsConfig
-	guide?        : string[]
-	todo?         : string[]
-	contributors? : string
-	links?        : string
-}
+const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined )  => {
 
-type SetPath = ( title: string, path?: string, items?: ReturnedType, collapsed?: boolean ) => ReturnedType
-type ReturnedType = {
-	text   : string
-	link?  : string
-	items? : ReturnType<SetPath>
-}[]
-const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined )  => ( path
-	? [
-		items
-			? {
-				text      : title,
-				items     : items,
-				collapsed : collapsed !== undefined  && typeof collapsed === 'boolean' ? collapsed : undefined,
-			}
-			: {
-				text : title,
-				link : path,
-			},
+	if ( items ) return [
+		{
+			text      : title,
+			items     : items,
+			collapsed : collapsed !== undefined  && typeof collapsed === 'boolean' ? collapsed : undefined,
+		},
 	]
-	: []
-)
+	else if ( path ) return [
+		{
+			text : title,
+			link : path,
+		},
+	]
+	else return []
+
+}
 
 const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
 
@@ -102,32 +94,30 @@ const sidebarConstructor = ( {
 	conf, guide, contributors, todo,
 }: SidebarProps ) => {
 
-	const todoPath = todo && todo.length == 1 ? todo[0] : undefined
+	const todoPath = todo && todo.length === 1 ? todo[0] : undefined
 
 	const todoPaths = todo && todo.length > 1
-		? todo.forEach( d => setPath( getDirName( d ), d ) ) as ReturnedType | undefined
+		? todo.map( d => setPath( capitalize( getBaseName( d.replace( '.md', '' ) ) ), d ) ).flat()
 		: undefined
-
+	const todoRes   = setPath(
+		'Todo',
+		todoPath,
+		todoPaths,
+		true,
+	)
 	return [
 		...getGuide( guide, conf ),
 		{
 			text  : 'Contribute',
-			items : [
-				...setPath( 'Report issues', conf.bugsUrl ),
-				...setPath(
-					'Todo',
-					todoPath,
-					todoPaths,
-				),
-			],
+			items : [ ...setPath( 'Report issues', conf.bugsURL ), ...todoRes ],
 		},
 		{
 			text  : 'About',
 			items : [
 				...setPath( 'Contributors', contributors ),
-				...setPath( 'Changelog', conf.changelogUrl ),
-				...setPath( 'License', conf.license.url ),
-				...setPath( 'More projects', conf.moreUrl ),
+				...setPath( 'Changelog', conf.changelogURL ),
+				...setPath( 'License', conf.license?.url ),
+				...setPath( 'More projects', conf.moreURL ),
 			],
 		},
 	]

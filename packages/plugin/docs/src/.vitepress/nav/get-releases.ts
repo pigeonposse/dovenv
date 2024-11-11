@@ -5,7 +5,7 @@
 
 import type { DocsConfig } from '../../config/types'
 
-export type DownloadData = DocsConfig['download']
+export type DownloadData = NonNullable<DocsConfig['download']>
 
 const setData = ( data: DownloadData['items'] ) => {
 

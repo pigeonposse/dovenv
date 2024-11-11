@@ -42,7 +42,10 @@ export const getDirName = dirname
 export const getBaseName = basename
 export const isAbsolutePath = isAbsolute
 
-export { createWriteStream }
+export {
+	createWriteStream,
+	fileURLToPath,
+}
 
 /**
  * Find files and directories using glob patterns.

@@ -12,61 +12,137 @@ import {
 	joinPath,
 	getObjectFromJSONFile,
 	resolvePath,
+	isDev,
+	fileURLToPath,
 } from '@dovenv/utils'
 
-import { mergeConfig } from './merge'
-import {
-	globals,
-	setGlobals,
-} from '../.vitepress/const'
+import { setConfig }    from './merge'
+import { getPkgConfig } from './pkg'
 
-import type { DocsConfig } from './types'
+import type {
+	DocsConfig,
+	DocsData,
+	GetConfig,
+	RequiredDocsConfig,
+} from './types'
 
-const _getGlobal = async ( path?: string ) => {
+export class Config {
 
-	if ( !path || typeof path !== 'string' ) {
+	config      : DocsConfig | undefined
+	cwd         : string
+	configPath  : string | undefined
+	packagePath : string
+	fnPath      : string
 
-		console.error( 'A configuration route has not been provided.', { path } )
-		process.exit( 1 )
+	constructor( config?: DocsConfig, configPath?: string ) {
 
-	}
-
-	path                = resolvePath( path )
-	const existConfPath = await existsPath( path )
-	if ( !existConfPath ) throw new Error( `A configuration route [${path}] has not exist` )
-
-	const dir = getDirName( path )
-	const ext = getExtName( path )
-
-	if ( !( ext === '.mjs' || ext === '.js'  || ext === '.json' ) ) {
-
-		console.error( 'File type not supported. Use a .json, .mjs or .js file.' )
-		process.exit( 1 )
+		this.config      = config
+		this.configPath  = configPath
+		this.cwd         = process.cwd()
+		this.packagePath = joinPath( this.cwd, 'package.json' )
+		this.fnPath      = fileURLToPath( import.meta.url )
 
 	}
 
-	const { default: { ...userConfig } } = await import( path + `?update=${Date.now()}` )
-	const pkgPath                        = joinPath( dir, 'package.json' )
-	const exist                          = await existsPath( pkgPath )
-	const pkg                            = exist ? await getObjectFromJSONFile<Record<string, unknown>>( pkgPath ) : undefined
+	async getPathConfig(  ): Promise<GetConfig | undefined> {
 
-	const mergedConf = await mergeConfig( userConfig as DocsConfig, pkg, dir )
+		let path = this.configPath
 
-	if ( typeof userConfig === 'object' ) return {
-		default : mergedConf.default,
-		user    : mergedConf.user,
-		config  : mergedConf.config,
-		path,
-		dir,
+		if ( !path || typeof path !== 'string' ) return undefined
+
+		path                = resolvePath( path )
+		const existConfPath = await existsPath( path )
+		if ( !existConfPath ) throw new Error( `A configuration route [${path}] does not exist` )
+
+		const ext = getExtName( path )
+		const dir = getDirName( path )
+
+		if ( !( ext === '.mjs' || ext === '.js' || ext === '.json' ) ) {
+
+			console.error( 'File type not supported. Use a .json, .mjs, or .js file.' )
+			process.exit( 1 )
+
+		}
+
+		const { default: config } = await import( path + `?update=${Date.now()}` )
+
+		return {
+			config,
+			path,
+			dir,
+		}
+
 	}
 
-	console.error( 'Module has bad configuration.' )
-	process.exit( 1 )
+	async getPackageConfig(): Promise<GetConfig | undefined> {
 
-}
-export const setConfigGlobal = async ( path?: string  ) => {
+		const pkg = await existsPath( this.packagePath )
+			? await getObjectFromJSONFile<Record<string, unknown>>( this.packagePath )
+			: undefined
 
-	const c = await _getGlobal( path )
-	setGlobals( globals.DOVENV_DOCS_CONFIG, c )
+		if ( !pkg ) return undefined
+		const config = await getPkgConfig( pkg )
+
+		return {
+			dir  : getDirName( this.packagePath ),
+			path : this.packagePath,
+			config,
+		}
+
+	}
+
+	async getFnConfig( ): Promise<GetConfig | undefined> {
+
+		if ( !this.config ) return undefined
+		return {
+			config : this.config,
+			path   : this.fnPath,
+			dir    : getDirName( this.fnPath ),
+		}
+
+	}
+
+	async getAll(): Promise<{
+		config : RequiredDocsConfig
+		data   : DocsData
+	}> {
+
+		const pathConfig    = await this.getPathConfig( )
+		const packageConfig = await this.getPackageConfig( )
+		const fnConfig      = await this.getFnConfig( )
+
+		const root       = this.cwd
+		const devMode    = isDev()
+		const mergedConf = await setConfig( {
+			root,
+			fnConfig      : fnConfig?.config,
+			pathConfig    : pathConfig?.config,
+			packageConfig : packageConfig?.config,
+		} )
+
+		const config = mergedConf.config
+
+		const tempDir  = joinPath( root, config.out, '.temp' )
+		const outDir   = joinPath( root, config.out, 'docs' )
+		const cacheDir = joinPath( root, config.out, '.cache' )
+		const srcDir   = devMode ? joinPath( root, config.in ) : tempDir
+
+		return {
+			config : config,
+			data   : {
+				devMode,
+				root,
+				srcDir,
+				outDir,
+				tempDir,
+				cacheDir,
+				defaultConfig : mergedConf.default,
+				pathConfig,
+				fnConfig,
+				packageConfig,
+			},
+		}
+
+	}
 
 }

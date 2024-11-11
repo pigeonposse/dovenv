@@ -15,21 +15,27 @@ const getValidatedConf = async ( path: string ) => {
 	const exist = await existsPath( path )
 	if ( !exist ) throw new Error( `Configuration route [${path}] has not exist` )
 
-	return await getObjectFromJSFile( path )
+	return {
+		config : await getObjectFromJSFile( path ),
+		path   : path,
+	}
 
 }
 
 const getDefaultConf = async () => {
 
 	const pathsNames = [ 'dovenv/main', 'dovenv.config' ]
-	const paths      = pathsNames.flatMap( name =>
-		[
-			`.${name}.js`,
-			`.${name}.mjs`,
-			`${name}.js`,
-			`${name}.mjs`,
-		].map( ext => joinPath( process.cwd(), ext ) ),
-	)
+	const root       = process.cwd()
+	const exts       = [
+		'js',
+		'mjs',
+		'cjs',
+	]
+	const paths      = pathsNames
+		.flatMap( name => exts.flatMap( ext => [ `.${name}.${ext}`, `${name}.${ext}` ] ) )
+		.sort( a => a.startsWith( '.'  ) ? -1 : 1 )
+		.map( file => joinPath( root, file ) )
+
 	for ( const path of paths ) {
 
 		const [ e, res ] = await catchError( getValidatedConf( path ) )
@@ -44,7 +50,7 @@ const getDefaultConf = async () => {
 		
   ${icon.dot} You can create a configuration file in the following paths and it will be automatically detected: 
 
-${paths.map( p => `    ${icon.dot} ${color.dim.italic( p )}` ).join( '\n' )}
+${paths.map( p => `    ${icon.dot} ${color.dim.italic( p.replace( root, '.' ) )}` ).join( '\n' )}
 
   ${icon.dot} Or use a custom route with: ${color.dim.italic( '$0 --config <config-path>' )}
   

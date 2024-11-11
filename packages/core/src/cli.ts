@@ -18,6 +18,7 @@ import {
 import { Transform } from './transform/main'
 
 import type { CustomConfig } from './custom/main'
+import type { Config }       from './types'
 
 export const run = async ( argv: string[] ) => {
 
@@ -115,7 +116,7 @@ export const run = async ( argv: string[] ) => {
 			}
 			const argv = await cli.argv
 
-			const [ errorConfig, config ] = await catchError( getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) )
+			const [ errorConfig, configRes ] = await catchError( getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) )
 
 			// Show help when is not set a config file and is not set a command
 			if ( ( argv.help && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
@@ -125,11 +126,13 @@ export const run = async ( argv: string[] ) => {
 				process.exit( 0 )
 
 			}
+			const config = configRes.config as Config
 
 			// @ts-ignore
-			process.env.DOVENV_CONFIG = config
-
+			globalThis.DOVENV_CONFIG = Object.freeze( config )
 			// @ts-ignore
+			globalThis.DOVENV_CONFIG_PATH = configRes.path as const
+
 			const conf   = config.custom || undefined
 			const custom = new Custom(
 				cli,
@@ -139,7 +142,6 @@ export const run = async ( argv: string[] ) => {
 						conf,
 					)
 					: defaultCmds,
-				// @ts-ignore
 				config,
 			)
 
