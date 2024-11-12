@@ -60,7 +60,7 @@ export const config = ( conf?:  Config ) => {
 				} },
 			},
 			[CMDS.termGif] : {
-				desc : 'Creaate gifs of your terminal',
+				desc : 'Create gifs of your terminal',
 				cmds : {
 					config : { desc: 'Create a configuration file for your record' },
 					record : { desc: 'Record your terminal' },

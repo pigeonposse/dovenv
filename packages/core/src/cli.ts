@@ -47,7 +47,7 @@ export const run = async ( argv: string[] ) => {
 
 			const defaultCmds: CustomConfig = {
 				check : {
-					desc : 'Make rules from your workspaces files and directories',
+					desc : 'Make rules from your workspaces files or directories',
 					opts : { key : {
 						alias : 'k',
 						desc  : 'Set key patterns for check',
@@ -89,7 +89,7 @@ export const run = async ( argv: string[] ) => {
 					},
 				},
 				transform : {
-					desc : 'Transform your workspaces files and directories',
+					desc : 'Transform your workspaces paths',
 					opts : { key : {
 						alias : 'k',
 						desc  : 'Set key patterns of your transforms',

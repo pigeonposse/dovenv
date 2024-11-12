@@ -26,6 +26,7 @@ export default defineConfig( config( {
 			opts   : { gif: { optimizationLevel: 3 } },
 		},
 	},
+
 	codeimage : {
 		main : {
 			input : joinPath( exampleFolder, 'main.ts' ),

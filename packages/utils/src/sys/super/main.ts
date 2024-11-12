@@ -4,11 +4,8 @@
  * File for set fylesystem functions.
  *
  */
-import { globby } from 'globby'
-import {
-	createWriteStream,
-	existsSync,
-} from 'node:fs'
+import { globby }            from 'globby'
+import { createWriteStream } from 'node:fs'
 import {
 	stat,
 	writeFile,
@@ -55,6 +52,18 @@ export {
  */
 export const getPaths = globby
 
+/**
+ * Check if a string is a valid path.
+ * @example
+ * isPath('..') // true
+ * isPath('foo bar') // false
+ * isPath('C:\\') // true
+ * isPath('foo\\bar') // true
+ * isPath('foo/bar') // true
+ * isPath('foo bar/baz') // false
+ * @param {string} str - The string to test.
+ * @returns {boolean} True if the string is a valid path.
+ */
 export const isPath = ( str: string ) => {
 
 	if ( isAbsolute( str ) || /^(\.\/|\.\.\/|[A-Za-z]:\\|\/)/.test( str ) ) {
@@ -80,50 +89,6 @@ export const isPath = ( str: string ) => {
 
 	}
 	return false
-
-}
-
-/**
- * Resolves the directory path of a specified module entry.
- * @param {object} opts - An object with options for resolving the module path.
- * @param {string} opts.moduleEntry - The module entry name to resolve, such as a package name.
- * @param {string[]} opts.paths - Optional additional path segments to join with the resolved module directory.
- * @param {string} opts.currentPath - The current path to resolve the module from. Defaults to the current working directory.
- * @returns {string} - The resolved directory path of the module.
- * @throws {Error} If the module cannot be found in the lookup paths.
- * @example
- *
- * const moduleDir = await getModulePath({ moduleEntry: '@dovenv/utils' })
- * console.log(moduleDir) // returns: {workspace}/node_modules/@dovenv/utils
- *
- * const moduleFile = await getModulePath({ moduleEntry: '@dovenv/utils', paths: ['index.js'] })
- * console.log(moduleFile) // returns: {workspace}/node_modules/@dovenv/utils/index.js
- */
-export const getModulePath = async ( {
-	currentPath = import.meta.url,
-	moduleEntry,
-	paths,
-}:{
-	currentPath? : string
-	moduleEntry  : string
-	paths?       : string[]
-} ): Promise<string> => {
-
-	const packageName = moduleEntry.includes( '/' )
-		? moduleEntry.startsWith( '@' )
-			? moduleEntry.split( '/' ).slice( 0, 2 ).join( '/' )
-			: moduleEntry.split( '/' )[0]
-		: moduleEntry
-	const  module     = await import( 'node:module' )
-	const require     = module.default.createRequire( currentPath )
-	// @ts-ignore
-	const lookupPaths = require.resolve.paths( moduleEntry ).map( p => joinPath( p, packageName ) )
-	let res           = lookupPaths.find( p => existsSync( p ) )
-	if ( !res ) throw new Error( `Module [${moduleEntry}] not found` )
-
-	if ( paths ) res = joinPath( res, ...paths )
-
-	return res
 
 }
 
@@ -500,73 +465,6 @@ export async function existsPath( path: string ): Promise<boolean> {
 	if ( isFile ) return true
 	const isDir = await existsDir( path )
 	return isDir
-
-}
-
-/**
- * Create an image file from a base64 string.
- * @param {string} base64String - Base64 string representing the image.
- * @param {string} outputPath   - Path to save the image file.
- * @throws {Error} If the base64 string is invalid.
- * @example import { createImageFromBase64 } from '@dovenv/utils'
- * const imageBuffer = await createImageFromBase64(base64String)
- */
-export async function createImageFromBase64( base64String: string, outputPath: string ): Promise<void> {
-
-	// Extract the content type and base64 data
-	// eslint-disable-next-line no-useless-escape
-	const matches = base64String.match( /^data:([A-Za-z-+\/]+);base64,(.+)$/ )
-	// const contentType = matches[1]
-	if ( !matches ) throw Error( 'Invalid base image' )
-	const base64Data = matches[2]
-
-	// Convert base64 to buffer
-	const buffer = Buffer.from( base64Data, 'base64' )
-
-	// Write the buffer to a file
-	await writeFileContent( outputPath, buffer )
-
-}
-
-/**
- * Fetch content from a URL to string.
- * @param   {string}          url - URL of the resource.
- * @returns {Promise<string>}     - The fetched content.
- * @throws {Error} If there is an error fetching content from the URL.
- * @example import { fetchContentToString } from '@dovenv/utils'
- *
- * const imageData = await fetchContentToString('https://source.unsplash.com/random')
- * console.log(imageData)
- */
-export async function fetchContentToString( url: string ): Promise<string> {
-
-	try {
-
-		const response    = await fetch( url )
-		const contentType = response.headers.get( 'content-type' )
-
-		if ( contentType?.includes( 'image' ) ) {
-
-			const buffer       = Buffer.from( await response.arrayBuffer() )
-			const base64String = buffer.toString( 'base64' )
-			const dataUri      = `data:image/jpeg;base64,${base64String}`
-			return dataUri
-
-		}
-		else {
-
-			const text = await response.text()
-			return text
-
-		}
-
-	}
-	catch ( error ) {
-
-		// @ts-ignore
-		throw new Error( `Fetching URL Error: ${error.message}` )
-
-	}
 
 }
 

@@ -2,8 +2,7 @@
 
 import { defineConfig as defineDovenvConfig } from 'dovenv'
 
-import { description } from './_shared/const'
-import { Docs }        from './run'
+import { Docs } from './run'
 
 import type { DocsConfig } from './main'
 
@@ -15,7 +14,7 @@ import type { DocsConfig } from './main'
 export const config = ( conf?: DocsConfig ) => {
 
 	return defineDovenvConfig( { custom : { docs : {
-		desc : description,
+		desc : 'Create documentation pages',
 		cmds : {
 			dev     : { desc: 'Run the documentation dev server' },
 			build   : { desc: 'Build the documentation' },

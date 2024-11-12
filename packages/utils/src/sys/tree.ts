@@ -19,16 +19,9 @@ const readDirectoryStructure = async ( dirPath: string ) => {
 		for ( const entry of entries ) {
 
 			const fullPath = joinPath( currentPath, entry.name )
-			if ( entry.isDirectory() ) {
-
-				structure[entry.name] = await buildStructure( fullPath ) // Recurse into directories
-
-			}
-			else {
-
-				structure[entry.name] = null // Files are marked with `null`
-
-			}
+			if ( entry.isDirectory() )
+				structure[entry.name] = await buildStructure( fullPath )
+			else structure[entry.name] = null
 
 		}
 		return structure

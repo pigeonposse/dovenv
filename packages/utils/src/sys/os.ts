@@ -1,7 +1,15 @@
 import {
 	arch,
 	platform,
+	tmpdir,
 } from 'node:os'
+
+/**
+ * Returns the path to the operating system's temporary directory.
+ * @returns {string} The path to the operating system's temporary directory.
+ */
+export const getTempDir = () =>
+	tmpdir()
 
 /**
  * Determines the operating system.

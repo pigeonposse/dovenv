@@ -49,7 +49,7 @@ describe( 'FS - fetchContent', () => {
 	it( 'should fetch text content from a URL', async () => {
 
 		const url     = 'https://example.com'
-		const content = await fs.fetchContentToString( url )
+		const content = await fs.fetch2string( url )
 		expect( typeof content ).toBe( 'string' )
 		expect( content ).toContain( 'Example Domain' )
 
@@ -57,7 +57,7 @@ describe( 'FS - fetchContent', () => {
 
 	it( 'should fetch base64-encoded image content from a URL', async () => {
 
-		const content = await fs.fetchContentToString( imgUrl )
+		const content = await fs.fetch2string( imgUrl )
 		expect( typeof content ).toBe( 'string' )
 
 		expect( content ).toMatch( /^data:image\/[a-zA-Z]*;base64,/ )
@@ -67,7 +67,7 @@ describe( 'FS - fetchContent', () => {
 	it( 'should throw an error when URL is invalid', async () => {
 
 		const url = 'https://invalidurl'
-		await expect( fs.fetchContentToString( url ) ).rejects.toThrow()
+		await expect( fs.fetch2string( url ) ).rejects.toThrow()
 
 	} )
 

@@ -13,7 +13,7 @@ const CMDS = {
 } as const
 
 export const config = ( conf?: Config ): DoveEnvConfig => ( { custom : { lint : {
-	desc : 'Linter Toolkit',
+	desc : 'Linter tools',
 	cmds : {
 		[CMDS.staged]    : { desc: 'Lint staged git files' },
 		[CMDS.stylelint] : {

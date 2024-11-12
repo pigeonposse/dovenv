@@ -39,9 +39,9 @@ import {
 } from './yaml'
 import { catchError }    from '../error/main'
 import { getStringType } from '../string/main'
+import { fetch2string }  from '../sys/content'
 import {
 	existsFile,
-	fetchContentToString,
 	joinPath,
 } from '../sys/super/main'
 
@@ -278,7 +278,7 @@ export const getObjectFromUrl = async <Res extends CommonObj = CommonObj>( url: 
 
 	try {
 
-		const data = await fetchContentToString( url )
+		const data = await fetch2string( url )
 		const res  = getObjectFromContent<Res>( data )
 
 		return res

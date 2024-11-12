@@ -1,22 +1,41 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import {
-	execModulePathWithOutput,
-	fetchContentToString,
-	getStringType,
+	ensureDir,
+	getStringsFrom,
 	html2md,
+	joinPath,
 	md2html,
 	readFile,
 	writeFileContent,
+	getTempDir,
+	removeDirIfExist,
 } from '@dovenv/utils'
-import jsdoc2md from 'jsdoc-to-markdown'
+import jsdoc2md            from 'jsdoc-to-markdown'
+import { convertMarkdown } from 'openapi-to-md'
 
 import type {
 	ObjectValues,
-	Prettify,
 } from '@dovenv/utils'
 
-type ConvertPropsSuper = {
-	in   : string | string[]
-	out? : string
+type ConvertPropsSuper =  {
+	/**
+	 * Input patterns.
+	 *
+	 * Accepts glob patterns, urls, and strings.
+	 * @example [
+	 *   'https://pigeonposse.com',
+	 *   './docs/*.md',
+	 *   'Just a simple string'
+	 * ]
+	 * @example './my/file'
+	 * @example 'https://pigeonposse.com'
+	 * @example 'my content string data'
+	 */
+	input   : string[] | string
+	/**
+	 * Output path
+	 */
+	output? : string
 }
 
 export const methods = {
@@ -27,111 +46,145 @@ export const methods = {
 	openapi2md : 'openapi2md',
 } as const
 
-export type ConvertConfig =  Prettify<{
-	[methods.openapi2md] : Prettify<ConvertPropsSuper & { sort?: boolean }>
-	[methods.jsdoc2md]   :  Prettify<ConvertPropsSuper & {
-		in    : string | string[]
+export type ConvertConfig = {
+	[methods.openapi2md] : ConvertPropsSuper & {
+		/**
+		 * Sort titles by atoz
+		 */
+		sort? : boolean
+	}
+	[methods.jsdoc2md] : ConvertPropsSuper & {
+		/**
+		 * Jsdoc options
+		 */
 		opts? : jsdoc2md.RenderOptions | jsdoc2md.JsdocOptions
-	}>
-	[methods.html2md] : Prettify<ConvertPropsSuper>
-	[methods.md2html] : Prettify<ConvertPropsSuper>
-	[methods.ts2md]   : void
-}>
+	}
+	[methods.html2md] : ConvertPropsSuper
+	[methods.md2html] : ConvertPropsSuper
+	[methods.ts2md]   : ConvertPropsSuper
+}
 
 type ConvertInterface = {
-	[ key in ObjectValues<typeof methods>] : ( params: ConvertConfig[key] ) => Promise<string>
+	[ key in ObjectValues<typeof methods>] : ( params: ConvertConfig[key] ) => Promise<( {
+		id      : string
+		content : string
+	} )[]>
 }
+
+export type ConfigValue = {
+	[K in keyof ConvertConfig]: {
+		/**
+		 * Type of conversion
+		 */
+		type : K
+	} & ConvertConfig[K]
+}[keyof ConvertConfig]
 
 export class Convert implements ConvertInterface {
 
-	async #getInput( input: string ): Promise<string> {
+	async #getContent( input: string[] | string ) {
 
-		try {
-
-			const type    = getStringType( input )
-			const content = type === 'path'
-				? await readFile( input, 'utf-8' )
-				: type === 'url'
-					? await fetchContentToString( input )
-					: input
-			return content
-
-		}
-		catch ( error ) {
-
-			// @ts-ignore
-			throw new Error( 'error reading input', error?.message )
-
-		}
+		return await getStringsFrom(
+			typeof input === 'string'
+				? [ input ]
+				: input,
+		)
 
 	}
 
-	async openapi2md( opts: ConvertConfig[typeof methods.openapi2md] ) {
+	async #writeOutput( out: string, id: string, content: string ) {
 
-		const oldArgv = process.argv
+		await ensureDir( out )
+		await writeFileContent(
+			joinPath( out, id ),
+			content,
+		)
 
-		process.argv  = [
-			...process.argv.slice( 0, 2 ),
-			opts.in,
-			...( opts.out ? [ opts.out ] : [] ),
-			...( opts.sort ? [ '--sort' ] : [] ),
-		]
-		const execute = async ()  => await execModulePathWithOutput( {
-			currentPath : import.meta.url,
-			moduleEntry : 'openapi-to-md',
-			modulePath  : [ 'dist', 'index.js' ],
-			args        : [
-				opts.in,
-				...( opts.out ? [ opts.out ] : [] ),
-				...( opts.sort ? [ '--sort' ] : [] ),
-			],
-		} )
+	}
 
-		await import( 'openapi-to-md' )
-		process.argv = oldArgv
-		return ''
+	async openapi2md( params: ConvertConfig[typeof methods.openapi2md] ) {
+
+		const input = await this.#getContent( params.input )
+		const res   = []
+		const dir   = params.output ? params.output : getTempDir()
+		for ( const i of input ) {
+
+			const path = joinPath( dir, i.id )
+			await convertMarkdown( i.content, path, params.sort )
+			res.push( {
+				id      : i.id,
+				content : await readFile( path, 'utf-8' ),
+			} )
+
+		}
+
+		if ( !params.output ) await removeDirIfExist( dir )
+
+		return res
 
 	}
 
 	async html2md( params: ConvertConfig[typeof methods.html2md] ) {
 
-		const input   = await this.#getInput( params.in )
-		const content = await html2md( input )
+		const input = await this.#getContent( params.input )
+		const res   = []
+		for ( const i of input ) {
 
-		if ( params.out ) await writeFileContent( params.out, content )
+			const content = await html2md( i.content )
+			res.push( {
+				id : i.id,
+				content,
+			} )
+			if ( params.output ) await this.#writeOutput( params.output, i.id, content )
 
-		return content
+		}
+
+		return res
 
 	}
 
 	async md2html( params: ConvertConfig[typeof methods.md2html] ) {
 
-		const input   = await this.#getInput( params.in )
-		const content = await md2html( input )
+		const input = await this.#getContent( params.input )
+		const res   = []
+		for ( const i of input ) {
 
-		if ( params.out ) await writeFileContent( params.out, content )
+			const content = await md2html( i.content )
+			res.push( {
+				id : i.id,
+				content,
+			} )
+			if ( params.output ) await this.#writeOutput( params.output, i.id, content )
 
-		return content
+		}
+
+		return res
 
 	}
 
 	async jsdoc2md( params: ConvertConfig[typeof methods.jsdoc2md] ) {
 
-		const input = typeof params.in === 'string'
-			? await this.#getInput( params.in )
-			: params.in
+		const input = await this.#getContent( params.input )
 
-		const data = await jsdoc2md.getTemplateData( { files: input } )
-		console.debug( { data } )
-		const content = await jsdoc2md.render( {
-			data,
+		const res = []
+		for ( const i of input ) {
 
-			...( params?.opts ? params.opts : {} ),
-		} )
-		console.debug( { content } )
-		if ( params.out ) await writeFileContent( params.out, content )
+			const data    = await jsdoc2md.getTemplateData( { files: i.content } )
+			const content = await jsdoc2md.render( {
+				data,
 
-		return content
+				...( params?.opts ? params.opts : {} ),
+			} )
+			if ( params.output ) await this.#writeOutput( params.output, i.id, content )
+
+			res.push( {
+				id : i.id,
+				content,
+			} )
+
+		}
+
+		return res
 
 	}
 

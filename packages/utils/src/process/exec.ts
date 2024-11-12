@@ -7,7 +7,7 @@ import {
 import process from 'node:process'
 
 import { box }           from '../styles/main'
-import { getModulePath } from '../sys/super/main'
+import { getModulePath } from '../sys/module'
 
 /**
  * Executes a command in the shell and waits for it to finish.

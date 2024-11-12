@@ -4,38 +4,23 @@ import {
 	getMatch,
 } from '@dovenv/utils'
 
-import {
-	Convert,
-	methods,
-} from './run'
+import { Convert } from './run'
 
-import type { ConvertConfig }           from './run'
-import type { ObjectValues }            from '@dovenv/utils'
+import type { ConfigValue }             from './run'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
-type Config = { [key in string]: ConvertConfig }
-
-const CMD = methods
+type Config = { [key in string]: ConfigValue }
 
 export const config = ( conf?: Config ): DoveEnvConfig => {
 
 	return { custom : { convert : {
-		desc : 'Convert files from one format to another',
-		// cmds : {
-		// 	[CMD.ts2md]      : { desc: 'Convert files from typescript to md' },
-		// 	[CMD.jsdoc2md]   : { desc: 'Convert files from jsdoc to md' },
-		// 	[CMD.html2md]    : { desc: 'Convert files from html to md' },
-		// 	[CMD.md2html]    : { desc: 'Convert files from md to html' },
-		// 	[CMD.openapi2md] : { desc: 'Convert files from openapi to md' },
-		// },
+		desc : 'Convert files from one format to another (experimental)',
 		opts : { key : {
 			alias : 'k',
 			desc  : 'Key value',
 			type  : 'string',
 		} },
-		fn : async ( {
-			cmds, opts, showHelp,
-		} ) => {
+		fn : async ( { opts } ) => {
 
 			const convert  = new Convert( )
 			const deftKeys = conf ? Object.keys( conf ) : []
@@ -49,26 +34,9 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 				return userKeys
 
 			}
-			const setFn = async ( keys: string[], cmd: ObjectValues<typeof CMD> ) => {
 
-				if ( !conf ) return
-				for ( const key of keys ) {
-
-					console.log( `Converting: [${key}]` )
-
-					const props = conf[key]
-					await convert[cmd]( props )
-					console.log( `Converted: [${key}]` )
-
-				}
-
-			}
 			const keys = getKeys( deftKeys, userKeys )
-			// console.log( {
-			// 	deftKeys,
-			// 	userKeys,
-			// 	keys,
-			// } )
+
 			if ( !conf ) {
 
 				console.warn( 'No config provided for conversion' )
@@ -82,12 +50,18 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 
 			}
 
-			if ( cmds?.includes( CMD.ts2md ) ) await setFn( keys, CMD.ts2md )
-			else if ( cmds?.includes( CMD.jsdoc2md ) ) await setFn( keys, CMD.jsdoc2md )
-			else if ( cmds?.includes( CMD.html2md ) ) await setFn( keys, CMD.html2md )
-			else if ( cmds?.includes( CMD.md2html ) ) await setFn( keys, CMD.md2html )
-			else if ( cmds?.includes( CMD.openapi2md ) ) await setFn( keys, CMD.openapi2md )
-			else showHelp()
+			for ( const key of keys ) {
+
+				console.info( `Value: [${key}]` )
+
+				const props = conf[key]
+				const {
+					type,
+					...restProps
+				} = props
+				await convert[props.type]( restProps )
+
+			}
 
 		},
 	} } }

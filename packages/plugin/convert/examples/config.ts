@@ -4,16 +4,19 @@ import { config } from '../src/main'
 
 export default defineConfig( config( {
 	1 : {
-		in  : 'examples/jsdoc.js',
-		out : 'build/test.md',
-
+		type   : 'jsdoc2md',
+		input  : 'examples/jsdoc.js',
+		output : 'build',
 	},
 	2 : {
-		in  : 'https://raw.githubusercontent.com/pigeonposse/backan/refs/heads/main/README.md',
-		out : 'build/test.html',
+		type   : 'md2html',
+		input  : 'https://raw.githubusercontent.com/pigeonposse/backan/refs/heads/main/README.md',
+		output : 'build/',
 	},
 	3 : {
-		in  : 'https://raw.githubusercontent.com/Redocly/openapi-starter/refs/heads/main/openapi/openapi.yaml',
-		out : 'build/openapi.md',
+		type   : 'openapi2md',
+		input  : 'https://raw.githubusercontent.com/Redocly/openapi-starter/refs/heads/main/openapi/openapi.yaml',
+		output : 'build/openapi.md',
+		sort   : true,
 	},
 }  ) )
