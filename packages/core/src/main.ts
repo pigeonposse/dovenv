@@ -9,6 +9,10 @@ import type { Config } from './types'
 
 export { Config }
 
+/**
+ * Runs the build process with the given arguments.
+ * @param {string[]} args Arguments to pass to the build process.
+ */
 export const build = async ( args: string[] ) => {
 
 	await run( [

@@ -1,197 +1,72 @@
 /* eslint-disable @stylistic/object-curly-newline */
-import {
-	ensureDir,
-	getStringsFrom,
-	html2md,
-	joinPath,
-	md2html,
-	readFile,
-	writeFileContent,
-	getTempDir,
-	removeDirIfExist,
-} from '@dovenv/utils'
-import jsdoc2md            from 'jsdoc-to-markdown'
-import { convertMarkdown } from 'openapi-to-md'
 
+import { Html2Markdown,
+	Markdown2Html } from './html/main'
+import { Jsdoc2Markdown }      from './jsdoc/main'
+import { Openapi2Markdown }    from './openapi/main'
+import { Typescript2Markdown } from './typedoc/main'
+
+import type { methods } from './_shared/const'
 import type {
 	ObjectValues,
 } from '@dovenv/utils'
 
-type ConvertPropsSuper =  {
-	/**
-	 * Input patterns.
-	 *
-	 * Accepts glob patterns, urls, and strings.
-	 * @example [
-	 *   'https://pigeonposse.com',
-	 *   './docs/*.md',
-	 *   'Just a simple string'
-	 * ]
-	 * @example './my/file'
-	 * @example 'https://pigeonposse.com'
-	 * @example 'my content string data'
-	 */
-	input   : string[] | string
-	/**
-	 * Output path
-	 */
-	output? : string
-}
-
-export const methods = {
-	ts2md      : 'ts2md',
-	jsdoc2md   : 'jsdoc2md',
-	html2md    : 'html2md',
-	md2html    : 'md2html',
-	openapi2md : 'openapi2md',
-} as const
-
 export type ConvertConfig = {
-	[methods.openapi2md] : ConvertPropsSuper & {
-		/**
-		 * Sort titles by atoz
-		 */
-		sort? : boolean
-	}
-	[methods.jsdoc2md] : ConvertPropsSuper & {
-		/**
-		 * Jsdoc options
-		 */
-		opts? : jsdoc2md.RenderOptions | jsdoc2md.JsdocOptions
-	}
-	[methods.html2md] : ConvertPropsSuper
-	[methods.md2html] : ConvertPropsSuper
-	[methods.ts2md]   : ConvertPropsSuper
+	[methods.openapi2md] : Openapi2Markdown
+	[methods.jsdoc2md]   : Jsdoc2Markdown
+	[methods.html2md]    : Html2Markdown
+	[methods.md2html]    : Markdown2Html
+	[methods.ts2md]      : Typescript2Markdown
 }
 
 type ConvertInterface = {
-	[ key in ObjectValues<typeof methods>] : ( params: ConvertConfig[key] ) => Promise<( {
-		id      : string
-		content : string
-	} )[]>
+	[ key in ObjectValues<typeof methods>] : ( params: ConvertConfig[key]['props'] ) => ReturnType<ConvertConfig[key]['run'] >
 }
 
 export type ConfigValue = {
-	[K in keyof ConvertConfig]: {
+	[key in keyof ConvertConfig]: {
 		/**
 		 * Type of conversion
 		 */
-		type : K
-	} & ConvertConfig[K]
+		type : key
+	} & ConvertConfig[key]['props']
 }[keyof ConvertConfig]
 
 export class Convert implements ConvertInterface {
 
-	async #getContent( input: string[] | string ) {
+	async openapi2md( params: ConvertConfig[typeof methods.openapi2md]['props'] ) {
 
-		return await getStringsFrom(
-			typeof input === 'string'
-				? [ input ]
-				: input,
-		)
+		const instance = new Openapi2Markdown( params )
+
+		return await instance.run()
 
 	}
 
-	async #writeOutput( out: string, id: string, content: string ) {
+	async ts2md( params: ConvertConfig[typeof methods.ts2md]['props'] ) {
 
-		await ensureDir( out )
-		await writeFileContent(
-			joinPath( out, id ),
-			content,
-		)
+		const instance = new Typescript2Markdown( params )
+		return await instance.run()
 
 	}
 
-	async openapi2md( params: ConvertConfig[typeof methods.openapi2md] ) {
+	async html2md( params: ConvertConfig[typeof methods.html2md]['props'] ) {
 
-		const input = await this.#getContent( params.input )
-		const res   = []
-		const dir   = params.output ? params.output : getTempDir()
-		for ( const i of input ) {
-
-			const path = joinPath( dir, i.id )
-			await convertMarkdown( i.content, path, params.sort )
-			res.push( {
-				id      : i.id,
-				content : await readFile( path, 'utf-8' ),
-			} )
-
-		}
-
-		if ( !params.output ) await removeDirIfExist( dir )
-
-		return res
+		const instance = new Html2Markdown( params )
+		return await instance.run()
 
 	}
 
-	async html2md( params: ConvertConfig[typeof methods.html2md] ) {
+	async md2html( params: ConvertConfig[typeof methods.md2html]['props'] ) {
 
-		const input = await this.#getContent( params.input )
-		const res   = []
-		for ( const i of input ) {
-
-			const content = await html2md( i.content )
-			res.push( {
-				id : i.id,
-				content,
-			} )
-			if ( params.output ) await this.#writeOutput( params.output, i.id, content )
-
-		}
-
-		return res
+		const instance = new Markdown2Html( params )
+		return await instance.run()
 
 	}
 
-	async md2html( params: ConvertConfig[typeof methods.md2html] ) {
+	async jsdoc2md( params: ConvertConfig[typeof methods.jsdoc2md]['props'] ) {
 
-		const input = await this.#getContent( params.input )
-		const res   = []
-		for ( const i of input ) {
-
-			const content = await md2html( i.content )
-			res.push( {
-				id : i.id,
-				content,
-			} )
-			if ( params.output ) await this.#writeOutput( params.output, i.id, content )
-
-		}
-
-		return res
-
-	}
-
-	async jsdoc2md( params: ConvertConfig[typeof methods.jsdoc2md] ) {
-
-		const input = await this.#getContent( params.input )
-
-		const res = []
-		for ( const i of input ) {
-
-			const data    = await jsdoc2md.getTemplateData( { files: i.content } )
-			const content = await jsdoc2md.render( {
-				data,
-
-				...( params?.opts ? params.opts : {} ),
-			} )
-			if ( params.output ) await this.#writeOutput( params.output, i.id, content )
-
-			res.push( {
-				id : i.id,
-				content,
-			} )
-
-		}
-
-		return res
-
-	}
-
-	async ts2md( params: ConvertConfig[typeof methods.ts2md] ) {
-
-		console.log( params )
-		return ''
+		const instance = new Jsdoc2Markdown( params )
+		return await instance.run()
 
 	}
 

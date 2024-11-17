@@ -1,14 +1,21 @@
-import { fileURLToPath } from '@dovenv/utils'
+import { fileURLToPath }   from '@dovenv/utils'
 import {
+	fontAwesomeSolidIcons,
+	fontAwesomeBrandsIcons,
+} from '@dovenv/utils/client'
+import { defineConfig } from 'dovenv'
+
+const {
 	faBook,
 	faCode,
 	faDownload,
-	faGithub,
 	faGlobe,
-	faMedium,
 	faX,
-} from '@dovenv/utils/client'
-import { defineConfig } from 'dovenv'
+} = fontAwesomeSolidIcons
+const {
+	faMedium,
+	faGithub,
+} = fontAwesomeBrandsIcons
 
 import { config } from '../src/main'
 

@@ -7,6 +7,7 @@ export * from './exec'
 export * from './env'
 export * from './log'
 export * from './time'
+export * from './animation/main'
 export * from './prompts/main'
 
 export const isDev = () => process.env.NODE_ENV !== 'production'

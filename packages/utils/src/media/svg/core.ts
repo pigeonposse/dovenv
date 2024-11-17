@@ -1,17 +1,43 @@
 /* eslint-disable jsdoc/require-jsdoc */
-import { Resvg } from '@resvg/resvg-js'
-import Jimp      from 'jimp-compact'
-import http      from 'node:http'
-import https     from 'node:https'
+import { icon }   from '@fortawesome/fontawesome-svg-core'
+import { Resvg }  from '@resvg/resvg-js'
+import Jimp       from 'jimp-compact'
+import { Buffer } from 'node:buffer'
+import http       from 'node:http'
+import https      from 'node:https'
+import {
+	parse,
+	stringify,
+} from 'svgson'
 
-import { readFile } from '../../sys/main'
+import { readFile }             from '../../sys/main'
+import { _getMediaInputString } from '../_core/main'
 
+import type { SvgProps }           from './types'
 import type { ResvgRenderOptions } from '@resvg/resvg-js'
+import type { INode }              from 'svgson'
 
-interface Svg2ImgOptions {
-	format?  : 'png' | 'jpeg' | 'jpg'
-	quality? : number
-	resvg?   : ResvgRenderOptions
+export type Svg2ImgCoreProps = {
+	/**
+	 * Format of the image
+	 * @default png
+	 */
+	format?        : 'png' | 'jpeg' | 'jpg'
+	/**
+	 * Quality of the image
+	 * @default 75
+	 */
+	quality?       : number
+	/**
+	 * Resvg options
+	 * @see https://github.com/thx/resvg-js
+	 */
+	resvg?         : ResvgRenderOptions
+	/**
+	 * Transform the SVG tree before rendering
+	 * @see https://www.npmjs.com/package/svgson
+	 */
+	transformNode? : ( node: INode ) => Promise<INode> | INode
 }
 
 type Svg2ImgCallback = ( error: Error | null, result?: Buffer ) => void
@@ -19,10 +45,10 @@ type Svg2ImgCallback = ( error: Error | null, result?: Buffer ) => void
 /**
  * Main method
  * @param  {string | Buffer} svg - A SVG string, Buffer or a base64 string starting with "data:image/svg+xml;base64", or a file URL (http or local)
- * @param  {Svg2ImgOptions} [options] - options
+ * @param  {Svg2ImgCoreProps} [options] - options
  * @param  {Svg2ImgCallback} callback - result callback, 2 parameters: error, and result image buffer
  */
-export async function svg2img( svg: string | Buffer, options: Svg2ImgOptions | Svg2ImgCallback, callback?: Svg2ImgCallback ): Promise<void> {
+async function svg2img( svg: string | Buffer, options: Svg2ImgCoreProps | Svg2ImgCallback, callback?: Svg2ImgCallback ): Promise<void> {
 
 	if ( isFunction( options ) ) {
 
@@ -47,7 +73,7 @@ export async function svg2img( svg: string | Buffer, options: Svg2ImgOptions | S
 
 		}
 
-		options         = options as Svg2ImgOptions
+		options         = options as Svg2ImgCoreProps
 		options.resvg   = options.resvg || {}
 		options.quality = options.quality ? parseInt( options.quality.toString(), 10 ) : 75
 		options.format  = options.format ? options.format.toLowerCase() as 'png' | 'jpeg' | 'jpg' : 'png'
@@ -134,5 +160,55 @@ function loadRemoteImage( url: string, onComplete: ( error: Error | null, data?:
 function isFunction( func: unknown ):  boolean {
 
 	return typeof func === 'function'
+
+}
+
+const _getSVGString = ( iconD: Exclude<SvgProps['input'], string | Buffer> ): string => {
+
+	const res = icon( iconD ).html[0]
+	return res
+
+}
+export const _parse = parse
+export const _stringify = stringify
+
+export const _svgToBuffer = async ( svgData: SvgProps['input'], opts?: Svg2ImgCoreProps ) => {
+
+	return new Promise<Buffer>( async ( resolve, reject ) => {
+
+		if ( typeof svgData !== 'string' && !Buffer.isBuffer( svgData ) ) svgData = _getSVGString( svgData )
+		else svgData = await _getMediaInputString( svgData )
+		let parsedData = await parse( svgData )
+
+		if ( parsedData ) {
+
+			if ( parsedData.name === 'svg' && parsedData.attributes.xmlns == undefined )
+				parsedData.attributes.xmlns = 'http://www.w3.org/2000/svg'
+
+			if ( opts?.transformNode )
+				parsedData = await opts.transformNode( parsedData )
+
+			svgData = stringify( parsedData )
+
+		}
+
+		svg2img( svgData, opts || {}, ( error, buffer ) => {
+
+			if ( error ) {
+
+				reject( error )
+
+			}
+			else {
+
+				if ( !buffer ) return reject( 'Does not exist result' )
+
+				resolve( buffer )
+
+			}
+
+		} )
+
+	} )
 
 }

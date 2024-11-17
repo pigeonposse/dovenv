@@ -51,7 +51,7 @@ export default defineConfig( {
 	desc   : 'This is a project workspace example.',
 	custom : {
 		structure : {
-			desc : 'Set structure for the workspace.',
+			desc : 'Structure for the workspace.',
 			fn   : async () => console.log( setStructure() ),
 		},
 		greet : {
@@ -168,7 +168,7 @@ export default defineConfig( {
 		},
 		template : async () => {
 
-			const templateDir                 = joinPath( getCurrentDir( import.meta.url ), 'templates/*' )
+			const templateDir                 = joinPath( getCurrentDir( import.meta.url ), 'recourses/*' )
 			const paths                       = await getPaths( [ templateDir ], { dot: true } )
 			const res: Record<string, string> = {}
 			for ( const path of paths ) {
@@ -215,8 +215,8 @@ export default defineConfig( {
 			type     : 'dir',
 			patterns : [
 				'./packages/*',
-				'!./packages/{plugin,config,templates}',
-				'./packages/{plugin,config,templates}/*',
+				'!./packages/{plugin,config,themes}',
+				'./packages/{plugin,config,themes}/*',
 			],
 			validateAll : async ( { paths } ) => {
 

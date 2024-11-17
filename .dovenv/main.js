@@ -1,35 +1,11 @@
+
+import { customConfig }         from './cmds.js'
 import { defineConfig }         from '../packages/core/dist/main.mjs'
 import { config as aiPlugin }   from '../packages/plugin/ai/dist/main.mjs'
 import { config as bandaTheme } from '../packages/themes/banda/dist/main.mjs'
-import {
-	getCurrentDir,
-	getObjectFromJSONFile,
-	joinPath,
-	open,
-} from '../packages/utils/dist/main.mjs'
-
-const currDir      = getCurrentDir( import.meta.url )
-const workspaceDir = joinPath( currDir, '..' )
-const pkg          = await getObjectFromJSONFile( joinPath( workspaceDir, 'package.json' ) )
 
 export default defineConfig( [
-	{
-		const : {
-			pkg : pkg,
-			workspaceDir,
-		},
-		name   : 'DOVENV WORKSPACE',
-		desc   : 'ToolKit for dovenv repository that uses the "dovenv" core and "banda" theme.',
-		custom : { donate : {
-			desc : 'Donate to pigeonposse.',
-			fn   : async () => {
-
-				const res = await open( 'https://opencollective.com/pigeonposse' )
-				console.log( res )
-
-			},
-		} },
-	},
+	customConfig,
 	bandaTheme( {
 		docs : {
 			in           : './docs',
@@ -39,9 +15,23 @@ export default defineConfig( [
 			changelogURL : 'https://github.com/pigeonposse/dovenv/blob/main/packages/core/CHANGELOG.md',
 			npmURL       : 'https://www.npmjs.com/package/dovenv',
 		},
+		convert : {
+			'readme-utils' : {
+				input  : [ './packages/utils/src' ],
+				opts   : { tsconfigPath: './packages/utils/tsconfig.json' },
+				output : 'docs/guide/utils',
+				type   : 'ts2md',
+			},
+			'readme-core' : {
+				input  : [ 'packages/core/src' ],
+				opts   : { tsconfigPath: 'packages/core/tsconfig.json' },
+				output : 'docs/guide/core',
+				type   : 'ts2md',
+			},
+		},
 		media : { codeimage : {
-			'main-1' : { input: '/Users/angelo/dovenv/packages/plugin/media/src/qr.ts' },
-			'main-2' : { input: '/Users/angelo/dovenv/packages/plugin/media/build.config.js' },
+			'main-1' : { input: 'packages/plugin/media/src/qr.ts' },
+			'main-2' : { input: 'packages/plugin/media/build.config.js' },
 		} },
 	},
 	),

@@ -8,7 +8,7 @@ import { globby }            from 'globby'
 import { createWriteStream } from 'node:fs'
 import {
 	stat,
-	writeFile,
+	writeFile as nodeWriteFile,
 	access,
 	constants,
 	readFile as nodeReadFile,
@@ -43,6 +43,8 @@ export {
 	createWriteStream,
 	fileURLToPath,
 }
+
+export const writeFile = nodeWriteFile
 
 /**
  * Find files and directories using glob patterns.
@@ -438,14 +440,14 @@ export async function existsFile( path: string ): Promise<boolean> {
  * @param {string}          path    - The path of the file to write to.
  * @param {string | Buffer} content - The content to write to the file.
  * @throws {Error} If an error occurs while writing to the file.
- * @example import { writeFile } from '@dovenv/utils'
+ * @example import { writeFileContent } from '@dovenv/utils'
  *
- * await writeFile('./greetFile.txt', 'Hello')
+ * await writeFileContent('./greetFile.txt', 'Hello')
  */
 export async function writeFileContent( path: string, content: string | Buffer ): Promise<void> {
 
 	path = validateHomeDir( path )
-	await writeFile( path, content )
+	await nodeWriteFile( path, content )
 
 }
 

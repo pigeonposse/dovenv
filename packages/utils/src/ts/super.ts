@@ -24,6 +24,13 @@ export type ObjectValues<Values> = Values[keyof Values]
 export type ObjectKeys<Values> = keyof Values
 
 /**
+ * DeepPartial
+ */
+export type DeepPartial<T> = T extends object ? {
+	[P in keyof T]?: DeepPartial<T[P]>;
+} : T
+
+/**
  * Prettify your type for better readability
  */
 export type Prettify<T> = {

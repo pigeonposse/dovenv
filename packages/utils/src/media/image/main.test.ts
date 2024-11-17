@@ -11,7 +11,10 @@ describe( 'image function', () => {
 	test( 'should convert image to ASCII', async () => {
 
 		const imgUrl     = 'https://avatars.githubusercontent.com/u/111685953'
-		const asciiImage = await image( imgUrl, { asciiOutput: true } )
+		const asciiImage = await image( {
+			input       : imgUrl,
+			asciiOutput : true,
+		} )
 		expect( typeof asciiImage ).toBe( 'string' )
 		// console.log( 'ASCII Image:', asciiImage )
 

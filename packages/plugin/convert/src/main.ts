@@ -22,7 +22,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 		} },
 		fn : async ( { opts } ) => {
 
-			const convert  = new Convert( )
+			// const convert  = new Convert( )
 			const deftKeys = conf ? Object.keys( conf ) : []
 			const userKeys = opts?.key as string[] | undefined
 			const getKeys  = ( avaliableKeys: string[], userkeyPattern?:  string[] ) => {
@@ -52,14 +52,16 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 
 			for ( const key of keys ) {
 
-				console.info( `Value: [${key}]` )
+				console.info( `Key: [${key}]` )
 
 				const props = conf[key]
 				const {
 					type,
 					...restProps
 				} = props
-				await convert[props.type]( restProps )
+				console.info( `Converting [${restProps}]` )
+
+				// await convert[props.type]( restProps )
 
 			}
 

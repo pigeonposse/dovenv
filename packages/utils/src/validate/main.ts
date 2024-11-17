@@ -60,6 +60,14 @@ export class Validation {
 	schema = validate
 	formatError = formatValidationError
 
+	/**
+	 * Create a union of literal types from an array of strings.
+	 * @param {string[]}values The values of the union.
+	 * @returns {z.ZodUnion} A union of literal types.
+	 * @example
+	 * const myUnion = createLiteralUnion( ['one', 'two', 'three'] )
+	 * // myUnion is a union of 'one', 'two', 'three'
+	 */
 	createLiteralUnion<T extends string>( values: T[] ) {
 
 		// @ts-ignore

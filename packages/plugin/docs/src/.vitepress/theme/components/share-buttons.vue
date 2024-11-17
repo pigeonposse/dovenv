@@ -1,7 +1,13 @@
 <script setup>
 import {
+	fontAwesomeBrandsIcons,
+	fontAwesomeSolidIcons,
+} from '@dovenv/utils/client'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { useData }         from 'vitepress'
+
+const {
 	faFacebookF,
-	faX,
 	faTelegram,
 	faReddit,
 	faLinkedin,
@@ -15,13 +21,14 @@ import {
 	faHackerNews,
 	faXing,
 	faEvernote,
+
+} = fontAwesomeBrandsIcons
+const {
+	faX,
 	faAt,
 	faPrint,
 	faEllipsisH,
-} from '@dovenv/utils/client'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { useData }         from 'vitepress'
-
+} = fontAwesomeSolidIcons
 const {
 	page, frontmatter,
 } = useData()

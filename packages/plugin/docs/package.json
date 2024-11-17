@@ -2,7 +2,7 @@
 	"name": "@dovenv/docs",
 	"version": "0.0.1",
 	"description": "Documentation utils for dovenv",
-	"homepage": "https://github.com/pigeonposse/dovenv",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/docs",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

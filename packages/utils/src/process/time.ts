@@ -13,6 +13,16 @@ export const performance = () => {
 }
 
 /**
+ * Waits for the given number of milliseconds before resolving.
+ * @param {number} ms - The number of milliseconds to wait.
+ * @returns {Promise<void>} - A promise that resolves when the delay has finished.
+ * @example
+ * await delay( 1000 ); // waits 1 second
+ */
+export const delay = async ( ms: number ) =>
+	new Promise( resolve => setTimeout( resolve, ms ) )
+
+/**
  * Gets the current date and time as an object containing separate fields for year, month, day, hours, minutes, and seconds.
  * @returns {{ year: string; month: string; day: string; hours: string; minutes: string; seconds: string }} - An object representing the current date and time.
  */

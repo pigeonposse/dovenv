@@ -46,6 +46,11 @@ import {
 } from '../sys/super/main'
 
 export {
+	deepmergeCustom,
+	deepmerge,
+} from 'deepmerge-ts'
+
+export {
 	getObjectFromJSFile,
 	getObjectFromJSContent,
 	getObjectFromJSONFile,

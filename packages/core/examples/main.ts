@@ -11,5 +11,5 @@ const config = joinPath( getCurrentDir( import.meta.url ), 'config.ts' )
 await build( [
 	'--config',
 	config,
-	'transform',
+	...process.argv.slice( 2 ),
 ] )

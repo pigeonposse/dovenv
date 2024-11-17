@@ -1,8 +1,8 @@
 {
 	"name": "@dovenv/convert",
-	"version": "0.0.5",
+	"version": "0.0.1",
 	"description": "Convert utils for dovenv",
-	"homepage": "https://github.com/pigeonposse/dovenv",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/convert",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"
@@ -35,17 +35,18 @@
 	"scripts": {
 		"build": "unbuild",
 		"dev": "tsx examples/main.ts",
-		"preview": "node dist/bin.mjs",
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"jsdoc-to-markdown": "^9.0.5",
-		"openapi-to-md": "^1.0.24"
+		"jsdoc-to-markdown": "9.0.5",
+		"openapi-to-md": "1.0.24",
+		"typedoc": "0.26.11",
+		"typedoc-plugin-markdown": "4.2.10"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
-		"@types/jsdoc-to-markdown": "^7.0.6",
+		"@types/jsdoc-to-markdown": "7.0.6",
 		"dovenv": "workspace:*"
 	},
 	"peerDependencies": {
