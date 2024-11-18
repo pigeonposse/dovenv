@@ -44,9 +44,10 @@ export default [
 		plugins         : { htmlPlugin },
 		languageOptions : { sourceType: 'module' },
 		settings        : {
-			'html/xtml-extensions' : [ '.html' ],
-			'html/html-extensions' : [ '.html', '.we' ], // consider .html and .we files as HTML
-			// 'html/indent'          : 'tab', // indentation is one tab at the beginning of the line.
+			'html/xtml-extensions'   : [ '.html' ],
+			'html/html-extensions'   : [ '.html', '.we' ], // consider .html and .we files as HTML
+			'html/indent'            : 'tab', // indentation is one tab at the beginning of the line.
+			'html/report-bad-indent' : 'error',
 		},
 	},
 	{

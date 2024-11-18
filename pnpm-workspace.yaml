@@ -2,4 +2,4 @@ packages:
   - 'packages/*'
   - 'packages/plugin/*'
   - 'packages/config/*'
-  - 'packages/themes/*'
+  - 'packages/theme/*'

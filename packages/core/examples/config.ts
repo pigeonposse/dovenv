@@ -26,7 +26,7 @@ const wsPatternFiles = [
 	'!' + workspaceDir( '**/build/**' ),
 ]
 
-const setStructure = () => '\n' + box( setDirectoryTree(  { structure : {
+const setStructure = () => '\n' + box( setDirectoryTree( { structure : {
 	'.vscode' : {
 		'settings.json'   : null,
 		'extensions.json' : null,
@@ -131,7 +131,7 @@ export default defineConfig( {
 
 			},
 		},
-		filesNum : {
+		files : {
 			desc : 'Print files number from workspace',
 			fn   : async () => {
 
@@ -215,8 +215,8 @@ export default defineConfig( {
 			type     : 'dir',
 			patterns : [
 				'./packages/*',
-				'!./packages/{plugin,config,themes}',
-				'./packages/{plugin,config,themes}/*',
+				'!./packages/{plugin,config,theme}',
+				'./packages/{plugin,config,theme}/*',
 			],
 			validateAll : async ( { paths } ) => {
 

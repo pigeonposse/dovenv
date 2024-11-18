@@ -81,7 +81,7 @@ export const svg2ascii = async ( params: Svg2AsciiProps ) => {
 }
 
 /**
- * Convert SVG to image string.
+ * Convert SVG to image string for terminal display.
  * @param {SvgProps} params - Options object.
  * @param {SvgProps['input']} params.input - SVG data.
  * @returns {Promise<Buffer>} - Image buffer.
@@ -90,20 +90,20 @@ export const svg2ascii = async ( params: Svg2AsciiProps ) => {
  * const svg = `<svg width="100" height="100">
  *   <rect width="100%" height="100%" fill="red" />
  * </svg>`
- * const output = await svgConvert( { input: svg } )
+ * const output = await svg2terminal( { input: svg } )
  * console.log( output )
  * @example
  * // simple use with url
  * const svg = `https://my-web.com/my-svg-code.svg`
- * const output = await svgConvert( { input: svg } )
+ * const output = await svg2terminal( { input: svg } )
  * console.log( output )
  * @example
  * // simple use with path
  * const svg = `./my-svg-path.svg`
- * const output = await svgConvert( { input: svg } )
+ * const output = await svg2terminal( { input: svg } )
  * console.log( output )
  */
-export const svgConvert = async ( params: SvgProps ) => {
+export const svg2terminal = async ( params: SvgProps ) => {
 
 	const {
 		input: svgData,

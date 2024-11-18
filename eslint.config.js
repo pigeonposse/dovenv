@@ -1,8 +1,4 @@
-import * as dovenv      from './packages/config/eslint-config/src/main.mjs'
-import { svelteConfig } from './packages/config/eslint-config/src/svelte.mjs'
+import * as dovenv from './packages/config/eslint-config/src/main.mjs'
 
-export default [
-	dovenv.includeGitIgnore(),
-	...dovenv.config,
-	...svelteConfig,
-]
+// console.dir( dovenv.generalConfig, { depth: 4 } )
+export default [ dovenv.includeGitIgnore(), ...dovenv.config ]

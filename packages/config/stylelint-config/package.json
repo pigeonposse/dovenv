@@ -1,1 +1,69 @@
-{"name":"@dovenv/stylelint-config","version":"0.0.1","description":"All in one web API builder. Create endpoints with type validations and OpenApi documentation, safely and quickly.","keywords":["linter","lint","css","scss","sass","stylelint","setup","config","pigeonposse","pp"],"homepage":"https://dovenv.pigeonposse.com/guide/plugin/packages/plugin/repo/node_modules/@dovenv/lint/node_modules/@dovenv/stylelint-config","repository":{"type":"git","url":"https://github.com/pigeonposse/dovenv","directory":"packages/plugin/packages/plugin/repo/node_modules/@dovenv/lint/node_modules/@dovenv/stylelint-config"},"license":"GPL-3.0","type":"module","exports":{".":"./src/main.mjs"},"main":"src/main.mjs","module":"src/main.mjs","types":"src/main.d.ts","files":["src"],"scripts":{"build":"pnpm run --sequential \"/build:.*/\"","build:lib":"vite build","test":"stylelint tests/** --fix"},"dependencies":{"postcss-html":"1.7.0","stylelint":"16.10.0","stylelint-config-html":"1.1.0","stylelint-config-recess-order":"5.1.1","stylelint-config-recommended":"14.0.1","stylelint-config-standard":"36.0.1","stylelint-order":"6.0.4"},"peerDependencies":{"stylelint":"16.10.0"},"publishConfig":{"access":"public","registry":"https://registry.npmjs.org/"},"bugs":{"url":"https://github.com/pigeonposse/dovenv/issues","email":"dev@pigeonposse.com"},"funding":{"type":"individual","url":"https://pigeonposse.com/?popup=donate"},"author":{"name":"Angelo","email":"angelo@pigeonposse.com","url":"https://github.com/angelespejo"}}
+{
+	"name": "@dovenv/stylelint-config",
+	"version": "0.0.1",
+	"description": "All in one web API builder. Create endpoints with type validations and OpenApi documentation, safely and quickly.",
+	"keywords": [
+		"linter",
+		"lint",
+		"css",
+		"scss",
+		"sass",
+		"stylelint",
+		"setup",
+		"config",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/config/stylelint-config",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/config/stylelint-config"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": "./src/main.mjs"
+	},
+	"main": "src/main.mjs",
+	"module": "src/main.mjs",
+	"types": "src/main.d.ts",
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"build": "pnpm run --sequential \"/build:.*/\"",
+		"build:lib": "vite build",
+		"test": "stylelint tests/** --fix"
+	},
+	"dependencies": {
+		"postcss-html": "1.7.0",
+		"stylelint": "16.10.0",
+		"stylelint-config-html": "1.1.0",
+		"stylelint-config-recess-order": "5.1.1",
+		"stylelint-config-recommended": "14.0.1",
+		"stylelint-config-standard": "36.0.1",
+		"stylelint-order": "6.0.4"
+	},
+	"peerDependencies": {
+		"stylelint": "16.10.0"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}

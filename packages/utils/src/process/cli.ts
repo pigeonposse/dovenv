@@ -33,7 +33,8 @@ import type { Argv } from 'yargs'
  * } )
  */
 export const createCli = async ( {
-	argv = process.argv, fn,
+	argv = process.argv,
+	fn,
 }: {
 	argv : string[]
 	fn   : <Cli extends Argv>( cli: Cli ) => Promise<Cli>

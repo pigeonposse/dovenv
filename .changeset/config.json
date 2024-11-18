@@ -13,7 +13,7 @@
 			"@dovenv/stylelint-config",
 
 			"dovenv",
-			"@dovenv/create",
+			"create-dovenv",
 
 			"@dovenv/ai",
 			"@dovenv/convert",

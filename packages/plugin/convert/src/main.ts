@@ -17,12 +17,12 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 		desc : 'Convert files from one format to another (experimental)',
 		opts : { key : {
 			alias : 'k',
-			desc  : 'Key value',
-			type  : 'string',
+			desc  : 'Key pattern to convert',
+			type  : 'array',
 		} },
 		fn : async ( { opts } ) => {
 
-			// const convert  = new Convert( )
+			const convert  = new Convert( )
 			const deftKeys = conf ? Object.keys( conf ) : []
 			const userKeys = opts?.key as string[] | undefined
 			const getKeys  = ( avaliableKeys: string[], userkeyPattern?:  string[] ) => {
@@ -59,9 +59,11 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 					type,
 					...restProps
 				} = props
-				console.info( `Converting [${restProps}]` )
 
-				// await convert[props.type]( restProps )
+				console.debug( { props } )
+
+				// @ts-ignore
+				await convert[type]( restProps )
 
 			}
 

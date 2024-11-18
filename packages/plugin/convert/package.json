@@ -2,6 +2,21 @@
 	"name": "@dovenv/convert",
 	"version": "0.0.1",
 	"description": "Convert utils for dovenv",
+	"keywords": [
+		"convert",
+		"md",
+		"markdown",
+		"html",
+		"openapi",
+		"jsdoc",
+		"media",
+		"cli",
+		"library",
+		"aio",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/convert",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
@@ -51,5 +66,9 @@
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

@@ -48,7 +48,7 @@ export const getObjectFromCSVContent = async <Res extends CommonCSV = CommonCSV>
 
 }
 
-const objectToCSV = async <I extends CommonCSV>( obj: I, options?: StringifyOptions ): Promise<string> => {
+const object2csv = async <I extends CommonCSV>( obj: I, options?: StringifyOptions ): Promise<string> => {
 
 	if ( Array.isArray( obj ) ) return stringify( obj, {
 		header : true,
@@ -64,5 +64,5 @@ const objectToCSV = async <I extends CommonCSV>( obj: I, options?: StringifyOpti
 
 export const csv = {
 	deserialize : getObjectFromCSVContent,
-	serialize   : objectToCSV,
+	serialize   : object2csv,
 }

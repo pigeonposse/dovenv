@@ -1,8 +1,16 @@
 {
 	"name": "@dovenv/todo",
 	"version": "0.0.1",
-	"private": true,
 	"description": "TODO tools for dovenv",
+	"keywords": [
+		"todo",
+		"cli",
+		"library",
+		"aio",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/todo",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
@@ -45,5 +53,9 @@
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*",
 		"dovenv": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

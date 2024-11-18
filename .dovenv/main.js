@@ -2,7 +2,8 @@
 import { customConfig }         from './cmds.js'
 import { defineConfig }         from '../packages/core/dist/main.mjs'
 import { config as aiPlugin }   from '../packages/plugin/ai/dist/main.mjs'
-import { config as bandaTheme } from '../packages/themes/banda/dist/main.mjs'
+import { config as bandaTheme } from '../packages/theme/banda/dist/main.mjs'
+import { resolvePath }          from '../packages/utils/dist/main.mjs'
 
 export default defineConfig( [
 	customConfig,
@@ -17,16 +18,29 @@ export default defineConfig( [
 		},
 		convert : {
 			'readme-utils' : {
-				input  : [ './packages/utils/src' ],
-				opts   : { tsconfigPath: './packages/utils/tsconfig.json' },
+				input : [ './packages/utils/src/main.ts' ],
+				opts  : {
+					tsconfigPath : './packages/utils/tsconfig.json',
+					name         : '@dovenv/utils',
+				},
 				output : 'docs/guide/utils',
 				type   : 'ts2md',
 			},
 			'readme-core' : {
-				input  : [ 'packages/core/src' ],
-				opts   : { tsconfigPath: 'packages/core/tsconfig.json' },
+				input : [ 'packages/core/src/main.ts' ],
+				opts  : {
+					tsconfigPath    : 'packages/core/tsconfig.json',
+					packageJsonPath : resolvePath( 'packages/core/package.json' ),
+					typedocMarkdown : { entryFileName: 'api' },
+				},
 				output : 'docs/guide/core',
 				type   : 'ts2md',
+			},
+			'test' : {
+				type : 'custom',
+				fn   : async ( { ts2md } ) => {
+					// await ts2md({'input'})
+				},
 			},
 		},
 		media : { codeimage : {

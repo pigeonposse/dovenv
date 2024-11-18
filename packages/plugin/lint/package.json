@@ -1,8 +1,43 @@
 {
 	"name": "@dovenv/lint",
 	"version": "0.0.1",
-	"private": true,
 	"description": "Lint configuration for dovenv",
+	"keywords": [
+		"lint",
+		"eslint",
+		"commitlint",
+		"stylelint",
+		"staged",
+		"config",
+		"plugin",
+		"eslint-plugin",
+		"lint",
+		"rules",
+		"ruleset",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/lint",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/plugin/lint"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -23,7 +58,7 @@
 		"@dovenv/eslint-config": "workspace:*",
 		"@dovenv/stylelint-config": "workspace:*",
 		"commitlint-config-gitmoji": "2.3.1",
-		"eslint": "9.14.0",
+		"eslint": "9.15.0",
 		"lint-staged": "15.2.10",
 		"stylelint": "16.10.0",
 		"stylelint-formatter-pretty": "^4.0.1"
@@ -35,24 +70,8 @@
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"
 	},
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/lint",
-	"bugs": {
-		"url": "https://github.com/pigeonposse/dovenv/issues",
-		"email": "dev@pigeonposse.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
-		"directory": "packages/plugin/lint"
-	},
-	"funding": {
-		"type": "individual",
-		"url": "https://pigeonposse.com/?popup=donate"
-	},
-	"license": "GPL-3.0",
-	"author": {
-		"name": "Angelo",
-		"email": "angelo@pigeonposse.com",
-		"url": "https://github.com/angelespejo"
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

@@ -63,12 +63,13 @@ type Props = {
  * @param {Props['opts']} [props.opts] - Options to customize the behavior of the function.
  * @returns {Promise<string>} - A Promise that resolves to the string with all placeholders replaced.
  */
-export const replacePlaceholders = async ( { content, params, transform, opts }: Props ): Promise<string> => {
+export const replacePlaceholders = async ( props: Props ): Promise<string> => {
 
-	const { prefix, suffix } = opts?.mark || { prefix : '{{',
+	const { content, params, transform, opts } = props
+	const { prefix, suffix }                   = opts?.mark || { prefix : '{{',
 		suffix : '}}' }
-	const escapeRegExp       = ( v: string ) => v.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' )
-	const regex              = new RegExp(
+	const escapeRegExp                         = ( v: string ) => v.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' )
+	const regex                                = new RegExp(
 		`${escapeRegExp( prefix )}\\s*([^}]+?)\\s*${escapeRegExp( suffix )}`,
 		'g',
 	)

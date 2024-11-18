@@ -29,12 +29,12 @@ export default defineConfig( config( {
 		type   : 'ts2md',
 		input  : joinPath( pkgDir, 'src', 'main.ts' ),
 		output : 'build',
-		opts   : { entryFileName: 'EXAMPLE_4' },
+		opts   : { typedocMarkdown: { entryFileName: 'EXAMPLE_4' } },
 	},
 	5 : {
 		type   : 'ts2md',
 		input  : 'examples/recourses/file.ts',
 		output : 'build',
-		opts   : { entryFileName: 'EXAMPLE_5' },
+		opts   : { typedocMarkdown: { entryFileName: 'EXAMPLE_5' } },
 	},
 }  ) )

@@ -2,6 +2,14 @@ import logUpdate from 'log-update'
 
 import type { AnimateProps } from './types'
 
+/**
+ * Creates an animation function that can be started and stopped.
+ * @param {object} [options] - Options for the animation.
+ * @param {string[]} [options.frames] - Frames of the animation.
+ * @param {number} [options.interval] - Interval in milliseconds between frames.
+ * @param {boolean} [options.clear] - Whether to clear the screen after stopping the animation.
+ * @returns {object} - Object containing `start` and `stop` functions.
+ */
 export const animate = ( {
 	frames,
 	interval = 100,

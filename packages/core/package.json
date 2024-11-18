@@ -1,8 +1,22 @@
 {
 	"name": "dovenv",
 	"version": "0.0.1",
-	"private": true,
 	"description": "Quickly and easily set up your environment for your code projects",
+	"keywords": [
+		"env",
+		"development",
+		"cli",
+		"library",
+		"node",
+		"tasks",
+		"workspace",
+		"aio",
+		"toolkit",
+		"bin",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/core",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
@@ -46,5 +60,9 @@
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
 		"@types/update-notifier": "6.0.8"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

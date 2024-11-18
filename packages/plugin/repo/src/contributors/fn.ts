@@ -1,6 +1,6 @@
 import {
 	box,
-	formatHTMLForTerminal,
+	html2terminal,
 	getMatch,
 } from '@dovenv/utils'
 
@@ -120,7 +120,7 @@ export class Contributors<
 		member? : Contributor<Extract<keyof R, string>>[]
 	} ) {
 
-		console.log( box( await formatHTMLForTerminal( await this.getHtmlContent( opts ) ), {
+		console.log( box( await html2terminal( await this.getHtmlContent( opts ) ), {
 			padding     : 1,
 			borderColor : 'black',
 			dimBorder   : true,

@@ -1,8 +1,23 @@
 {
 	"name": "@dovenv/utils",
 	"version": "0.0.0",
-	"private": true,
 	"description": "Configuration files for monorepo",
+	"keywords": [
+		"utils",
+		"cli",
+		"library",
+		"node",
+		"aio",
+		"media",
+		"codeimage",
+		"qr",
+		"process",
+		"styles",
+		"terminal",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/utils",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
@@ -42,7 +57,6 @@
 		"@fortawesome/free-brands-svg-icons": "6.6.0",
 		"@fortawesome/free-regular-svg-icons": "6.6.0",
 		"@fortawesome/free-solid-svg-icons": "6.6.0",
-		"@jimp/gif": "^0.22.12",
 		"@resvg/resvg-js": "2.6.2",
 		"archiver": "7.0.1",
 		"boxen": "8.0.1",
@@ -60,14 +74,14 @@
 		"fast-xml-parser": "4.5.0",
 		"figlet": "1.8.0",
 		"figures": "6.1.0",
-		"gif-frames": "^1.0.1",
+		"gif-frames": "1.0.1",
 		"github-directory-downloader": "1.3.6",
 		"globby": "14.0.2",
 		"gradient-string": "3.0.0",
 		"ini": "5.0.0",
 		"jimp-compact": "0.16.1-2",
 		"js-yaml": "4.1.0",
-		"log-update": "^6.1.0",
+		"log-update": "6.1.0",
 		"marked": "15.0.0",
 		"marked-terminal": "7.2.1",
 		"matcher": "5.0.0",
@@ -79,16 +93,16 @@
 		"smol-toml": "1.3.0",
 		"string-width": "7.2.0",
 		"svg2img": "1.0.0-beta.2",
-		"svgson": "^5.3.1",
+		"svgson": "5.3.1",
 		"table": "6.8.2",
-		"terminal-char-width": "^1.0.10",
+		"terminal-char-width": "1.0.10",
 		"terminal-image": "3.0.0",
 		"terminal-link": "3.0.0",
 		"turndown": "7.2.0",
 		"ultimate-text-to-image": "^1.0.1",
 		"yargs": "17.7.2",
 		"zod": "3.23.8",
-		"zod-validation-error": "^3.4.0"
+		"zod-validation-error": "3.4.0"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
@@ -106,7 +120,8 @@
 		"@types/update-notifier": "6.0.8",
 		"@types/yargs": "17.0.33"
 	},
-	"overrides": {
-		"jimp": "1.6.0"
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

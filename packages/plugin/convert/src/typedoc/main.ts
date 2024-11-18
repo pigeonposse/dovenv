@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import {
 	existsFile,
 	getObjectFromJSONFile,
@@ -27,7 +28,20 @@ type UserProps = {
 type TypedocOpts = Partial<Omit<TypeDocOptions, 'entryPoints' | 'tsconfig' | 'plugin' | 'out'>>
 type PluginOpts = Partial<PluginOptions>
 
-export type Typescript2MarkdownProps = ConvertPropsSuper & { opts?: UserProps & TypedocOpts & PluginOpts }
+export type Typescript2MarkdownProps = ConvertPropsSuper & {
+	/** Options */
+	opts? : UserProps & {
+		/**
+		 * Typedoc options
+		 * @see https://typedoc.org/guides/overview/
+		 */
+		typedoc?         : TypedocOpts
+		/**
+		 * Typedoc markdown options
+		 * @see https://typedoc-plugin-markdown.org/docs
+		 */
+		typedocMarkdown? : PluginOpts
+	} }
 
 export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps> implements ConvertSuperInterface {
 
@@ -68,7 +82,7 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 
 			const exists = await existsFile( path )
 			if ( exists ) return true
-			console.warn( `Could not find tsconfig.json at ${path}` )
+			console.warn( `Could not find package.json at ${path}` )
 			return false
 
 		}
@@ -85,10 +99,9 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 		const tsConfig = await this.#getTsConfigPath()
 
 		const {
-			tsconfigPath,
-			packageJsonPath,
 			name,
-			...opts
+			typedoc,
+			typedocMarkdown,
 		} = this.props.opts || {}
 
 		const config: Partial<TypeDocOptions> = {
@@ -102,7 +115,7 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 				'Type Aliases',
 				'*',
 			],
-			includeVersion : this.props.opts?.includeVersion,
+			includeVersion : typedoc?.includeVersion,
 			// frontmatter
 			// frontmatterGlobals    : { outline: [ 2, 5 ] },
 
@@ -144,15 +157,12 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 			flattenOutputFiles    : false,
 		}
 
-		const mergedConfig = {
-			...opts ?? {},
-			...config,
-			...configMD,
-		}
-
 		const app = await Application.bootstrapWithPlugins(
 			{
-				...mergedConfig,
+				...config,
+				...configMD,
+				...( typedoc ? typedoc : {} ),
+				...( typedocMarkdown ? typedocMarkdown : {} ),
 				plugin      : [ 'typedoc-plugin-markdown' ],
 				entryPoints : typeof this.props.input === 'string' ? [ this.props.input ] : this.props.input,
 				tsconfig    : tsConfig,

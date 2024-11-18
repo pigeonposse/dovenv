@@ -1,8 +1,12 @@
 {
 	"name": "create-dovenv",
 	"version": "0.0.1",
-	"private": true,
 	"description": "dovenv create projects",
+	"keywords": [
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -21,5 +25,9 @@
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

@@ -1,3 +1,1 @@
-export type QRcodeOpts = {
-	small: boolean
-}
+export type QRcodeOpts = { small: boolean }

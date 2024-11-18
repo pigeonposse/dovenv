@@ -1,7 +1,12 @@
 import cssConfig     from './css.mjs'
 import generalConfig from './general.mjs'
-import { globals }   from './general.mjs'
-import htmlConfig    from './html.mjs'
+import {
+	globals,
+	setTsConfig,
+	tsConfig,
+	jsConfig,
+} from './general.mjs'
+import htmlConfig   from './html.mjs'
 import {
 	includeGitIgnore,
 	setIgnoreConfig,
@@ -17,6 +22,9 @@ export {
 	globals,
 	includeGitIgnore,
 	setIgnoreConfig,
+	tsConfig,
+	jsConfig,
+	setTsConfig,
 	htmlConfig,
 	mdConfig,
 	jsonConfig,

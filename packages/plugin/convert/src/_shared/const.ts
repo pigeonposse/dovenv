@@ -4,4 +4,5 @@ export const methods = {
 	html2md    : 'html2md',
 	md2html    : 'md2html',
 	openapi2md : 'openapi2md',
+	custom     : 'custom',
 } as const

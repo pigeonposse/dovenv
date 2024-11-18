@@ -9,6 +9,7 @@ import { Typescript2Markdown } from './typedoc/main'
 import type { methods } from './_shared/const'
 import type {
 	ObjectValues,
+	Prettify,
 } from '@dovenv/utils'
 
 export type ConvertConfig = {
@@ -17,6 +18,15 @@ export type ConvertConfig = {
 	[methods.html2md]    : Html2Markdown
 	[methods.md2html]    : Markdown2Html
 	[methods.ts2md]      : Typescript2Markdown
+	[methods.custom]     : {
+		props : {
+			/**
+			 * Function to run your conversion.
+			 */
+			fn : ( functions: Prettify<Omit<ConvertInterface, 'custom'>> ) => Promise<void>
+		}
+		run : (  ) => Promise<void>
+	}
 }
 
 type ConvertInterface = {
@@ -67,6 +77,21 @@ export class Convert implements ConvertInterface {
 
 		const instance = new Jsdoc2Markdown( params )
 		return await instance.run()
+
+	}
+
+	async custom( params: ConvertConfig[typeof methods.custom]['props'] ) {
+
+		if ( !params.fn ) throw new Error( 'No function provided' )
+
+		const c = new Convert()
+		await params.fn( {
+			openapi2md : c.openapi2md,
+			jsdoc2md   : c.jsdoc2md,
+			html2md    : c.html2md,
+			md2html    : c.md2html,
+			ts2md      : c.ts2md,
+		} )
 
 	}
 

@@ -159,9 +159,11 @@ type ExecProcessParams = {
  *     onError,
  * });
  */
-export const execProcess = async ( {
-	name, on, onError, onExit, onSuccess,
-} : ExecProcessParams ): Promise<void> => {
+export const execProcess = async ( options : ExecProcessParams ): Promise<void> => {
+
+	const {
+		name, on, onError, onExit, onSuccess,
+	} = options
 
 	const isDebugMode = process.argv.includes( '--debug' )
 	const log :Log    = {

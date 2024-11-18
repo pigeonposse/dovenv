@@ -1,8 +1,36 @@
 {
 	"name": "@dovenv/examples",
 	"version": "0.0.1",
-	"private": true,
 	"description": "Tools for Examples files/directories for dovenv",
+	"keywords": [
+		"examples",
+		"cli",
+		"library",
+		"aio",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/examples",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/plugin/examples"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -26,24 +54,8 @@
 		"@dovenv/utils": "workspace:*",
 		"dovenv": "workspace:*"
 	},
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/examples",
-	"bugs": {
-		"url": "https://github.com/pigeonposse/dovenv/issues",
-		"email": "dev@pigeonposse.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
-		"directory": "packages/plugin/examples"
-	},
-	"funding": {
-		"type": "individual",
-		"url": "https://pigeonposse.com/?popup=donate"
-	},
-	"license": "GPL-3.0",
-	"author": {
-		"name": "Angelo",
-		"email": "angelo@pigeonposse.com",
-		"url": "https://github.com/angelespejo"
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

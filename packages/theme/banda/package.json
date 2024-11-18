@@ -1,8 +1,16 @@
 {
 	"name": "@dovenv/theme-banda",
 	"version": "0.0.1",
-	"private": true,
 	"description": "All in One dovenv tools for large and complete repositories",
+	"keywords": [
+		"theme",
+		"cli",
+		"library",
+		"aio",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -10,6 +18,9 @@
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "unbuild",
 		"dev": "tsx examples/main.ts",
@@ -31,5 +42,29 @@
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*",
 		"dovenv": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"homepage": "https://dovenv.pigeonposse.com/guide/theme/banda",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/theme/banda"
+	},
+	"license": "GPL-3.0",
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
 	}
 }

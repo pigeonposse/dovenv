@@ -2,8 +2,10 @@ import { image } from '../dist/main.js'
 
 const run = async () => {
 
-	const imgUrl     = 'https://avatars.githubusercontent.com/u/111685953'
-	const asciiImage = await image( imgUrl, { asciiOutput: true } )
+	const asciiImage = await image(  {
+		input       : 'https://avatars.githubusercontent.com/u/111685953',
+		asciiOutput : true,
+	} )
 	console.log( asciiImage )
 
 }

@@ -17,7 +17,7 @@ export const build = async ( args: string[] ) => {
 
 	await run( [
 		process.argv[0],
-		process.argv[2],
+		process.argv[1],
 		...args,
 	] )
 

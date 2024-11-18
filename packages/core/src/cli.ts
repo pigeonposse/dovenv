@@ -1,5 +1,6 @@
 import {
 	catchError,
+	color,
 	createCli,
 	process,
 } from '@dovenv/utils'
@@ -122,7 +123,7 @@ export const run = async ( argv: string[] ) => {
 			if ( ( argv.help && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
 			if ( errorConfig ) {
 
-				console.error( '\n\n' + errorConfig.message )
+				console.error( '\n\n' + color.red( errorConfig.message ) )
 				process.exit( 0 )
 
 			}

@@ -9,7 +9,7 @@ const setStructure = () => {
 
 	try {
 
-		console.log(  '\n' + box( setDirectoryTree(  {
+		console.log(  '\n' + box( setDirectoryTree(  { structure : {
 			'.vscode' : {
 				'settings.json'   : null,
 				'extensions.json' : null,
@@ -21,7 +21,7 @@ const setStructure = () => {
 			'LICENSE'          : null,
 			'package.json'     : null,
 			'README.md'        : null,
-		} ),
+		} } ),
 		{
 			padding     : 1,
 			title       : 'Workspace Structure',

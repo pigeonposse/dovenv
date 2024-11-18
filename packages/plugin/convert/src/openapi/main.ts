@@ -3,7 +3,6 @@ import {
 	joinPath,
 	readFile,
 } from '@dovenv/utils'
-import { convertMarkdown } from 'openapi-to-md'
 
 import { ConvertSuper } from '../_shared/main'
 
@@ -37,10 +36,11 @@ export class Openapi2Markdown extends ConvertSuper<Openapi2MarkdownProps> implem
 
 	async run() {
 
-		const input = await this._getContent( this.props.input )
-		const res   = []
-		const out   = await this._getOutput()
-		const dir   = out.dir
+		const { convertMarkdown } = await import( 'openapi-to-md' )
+		const input               = await this._getContent( this.props.input )
+		const res                 = []
+		const out                 = await this._getOutput()
+		const dir                 = out.dir
 		for ( const i of input ) {
 
 			const path = joinPath( dir, i.id )

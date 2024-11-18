@@ -11,18 +11,18 @@ import globals               from 'globals'
 import tseslint              from 'typescript-eslint'
 
 export { globals }
-export const setTsConfig = () => {
+export const setTsConfig = ( tsconfigRootDir = import.meta.dirname ) => {
 
 	/** @type {import('eslint').Linter.Config} */
 	return { languageOptions : { parserOptions : {
-		projectService  : true,
-		tsconfigRootDir : import.meta.dirname,
+		projectService : true,
+		tsconfigRootDir,
 	} } }
 
 }
 
 /** @type {import('eslint').Linter.Config[]} */
-const jsConfig = [
+export const jsConfig = [
 	eslint.configs.recommended,
 	stylistic.configs['recommended-flat'],
 	// @see https://github.com/import-js/eslint-plugin-import
@@ -197,7 +197,7 @@ const jsConfig = [
 		},
 	},
 ]
-const tsConfig = tseslint.config(
+export const tsConfig = tseslint.config(
 	...tseslint.configs.recommended.map( c => {
 
 		c.files = [
@@ -210,6 +210,7 @@ const tsConfig = tseslint.config(
 		if ( 'plugins' in c && typeof c.plugins === 'object' && '@typescript-eslint' in c.plugins && c.name == 'typescript-eslint/base' ) {
 
 			if ( !( 'rules' in c ) ) c.rules = {}
+
 			c.rules = {
 				...c.rules,
 				'@stylistic/key-spacing' : [

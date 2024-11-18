@@ -2,6 +2,15 @@
 	"name": "@dovenv/media",
 	"version": "0.0.1",
 	"description": "Media configuration for dovenv",
+	"keywords": [
+		"media",
+		"cli",
+		"library",
+		"aio",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/media",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
@@ -58,5 +67,9 @@
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

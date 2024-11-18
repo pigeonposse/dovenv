@@ -10,9 +10,15 @@ import {
 } from '../package.json'
 import { updateNotifier } from './_shared/up'
 
-const up = updateNotifier( name, version )
-up.notify()
+const exec = async  () => {
 
-rmDeprecationAlerts()
+	rmDeprecationAlerts()
 
-await run( process.argv )
+	const up = updateNotifier( name, version )
+	up.notify()
+
+	await run( process.argv )
+
+}
+
+exec()
