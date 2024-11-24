@@ -15,7 +15,7 @@ export const customConfig = defineConfig( {
 	const : {
 		pkg  : pkg,
 		workspaceDir,
-		mark : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
+		mark : `\n${asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
 	},
 	name      : 'DOVENV WORKSPACE',
 	desc      : 'ToolKit for dovenv repository that uses the "dovenv" core and "pigeonposse" theme.',

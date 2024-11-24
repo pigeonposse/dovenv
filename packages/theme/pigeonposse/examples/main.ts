@@ -1,5 +1,5 @@
 import { hideBin } from '@dovenv/utils'
-import { Dovenv }  from 'dovenv'
+import { Dovenv }  from '@dovenv/core'
 
 import config from './config'
 

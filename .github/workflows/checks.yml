@@ -109,15 +109,13 @@ jobs:
       - name: Get updated versions if exists
         id: updated
         run: |
-          docs_version=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -r '.[] | select(.name == "@backan/docs") | .version')
-          core_version=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -r 'map(select(.name == "@backan/core" or .name == "@backan/builder" or .name == "@backan/server")) | .[0].version // empty' )
+          core_version=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -r '.[] | select(.name == "@dovenv/core") | .version')
           core_version_major=${core_version%%.*}
           echo Set changesets outputs
           echo '${{ steps.changesets.outputs }}'
           echo Set updated versions
-          echo "CORE=$core_version CORE_MAJOR=$core_version_major DOCS=$docs_version"
+          echo "CORE=$core_version CORE_MAJOR=$core_version_major
           echo "core_version=$core_version" >> $GITHUB_OUTPUT
-          echo "docs_version=$docs_version" >> $GITHUB_OUTPUT
           echo "core_version_major=$core_version_major" >> $GITHUB_OUTPUT
 
       - name: Add core version TAG to Github
@@ -146,13 +144,13 @@ jobs:
           workflow: update-repo.yml
         continue-on-error: true
 
-      - name: 📚🐙😺➡️ Call to workflow for deploy Documentation
-        if: steps.updated.outputs.docs_version != ''
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: release-docs.yml
-          inputs: '{ "version": "${{ steps.updated.outputs.docs_version }}"}'
-        continue-on-error: true
+    #   - name: 📚🐙😺➡️ Call to workflow for deploy Documentation
+    #     if: steps.updated.outputs.docs_version != ''
+    #     uses: benc-uk/workflow-dispatch@v1
+    #     with:
+    #       workflow: release-docs.yml
+    #       inputs: '{ "version": "${{ steps.updated.outputs.docs_version }}"}'
+    #     continue-on-error: true
 
     #   - name: 💾🐙😺➡️ Call to workflow for create lib releases
     #     if: steps.updated.outputs.core_version != ''

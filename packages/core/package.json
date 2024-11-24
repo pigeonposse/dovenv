@@ -1,5 +1,5 @@
 {
-	"name": "dovenv",
+	"name": "@dovenv/core",
 	"version": "0.0.1",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [

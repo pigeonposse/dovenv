@@ -192,12 +192,12 @@ importers:
         specifier: workspace:*
         version: link:../utils
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../core
 
   packages/plugin/ai:
     dependencies:
@@ -205,15 +205,15 @@ importers:
         specifier: 0.4.0
         version: 0.4.0(@aws-sdk/client-sso-oidc@3.693.0(@aws-sdk/client-sts@3.693.0))(@aws-sdk/credential-providers@3.693.0(@aws-sdk/client-sso-oidc@3.693.0(@aws-sdk/client-sts@3.693.0)))(@notionhq/client@2.2.15(encoding@0.1.13))(encoding@0.1.13)(socks@2.8.3)(typescript@5.6.3)
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
       '@dovenv/utils':
         specifier: workspace:*
         version: link:../../utils
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/convert:
     dependencies:
@@ -230,6 +230,9 @@ importers:
         specifier: 4.2.10
         version: 4.2.10(typedoc@0.26.11(typescript@5.6.3))
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
@@ -239,9 +242,6 @@ importers:
       '@types/jsdoc-to-markdown':
         specifier: 7.0.6
         version: 7.0.6
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/docs:
     dependencies:
@@ -285,6 +285,9 @@ importers:
         specifier: 3.0.9
         version: 3.0.9(vue@3.5.13(typescript@5.6.3))
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
@@ -294,9 +297,6 @@ importers:
       '@types/markdown-it-container':
         specifier: 2.0.10
         version: 2.0.10
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/examples:
     dependencies:
@@ -307,12 +307,12 @@ importers:
         specifier: 14.4.0
         version: 14.4.0
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/lint:
     dependencies:
@@ -353,12 +353,12 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1(stylelint@16.10.0(typescript@5.6.3))
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/media:
     dependencies:
@@ -390,6 +390,9 @@ importers:
         specifier: 0.12.0
         version: 0.12.0
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
@@ -414,9 +417,6 @@ importers:
       '@types/imagemin-webp':
         specifier: 7.0.3
         version: 7.0.3
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/repo:
     dependencies:
@@ -430,6 +430,9 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/lint':
         specifier: workspace:*
         version: link:../lint
@@ -439,9 +442,6 @@ importers:
       '@dovenv/utils':
         specifier: workspace:*
         version: link:../../utils
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/todo:
     dependencies:
@@ -452,12 +452,12 @@ importers:
         specifier: 12.5.0
         version: 12.5.0
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/plugin/workspace:
     dependencies:
@@ -465,12 +465,12 @@ importers:
         specifier: workspace:*
         version: link:../../utils
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/theme/banda:
     dependencies:
@@ -502,12 +502,12 @@ importers:
         specifier: workspace:*
         version: link:../../plugin/workspace
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/theme/pigeonposse:
     dependencies:
@@ -518,12 +518,12 @@ importers:
         specifier: workspace:*
         version: link:../../utils
     devDependencies:
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../../core
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../../config/repo-config
-      dovenv:
-        specifier: workspace:*
-        version: link:../../core
 
   packages/utils:
     dependencies:

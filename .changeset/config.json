@@ -9,9 +9,7 @@
 	"commit": false,
 	"fixed": [
 		[
-			"dovenv",
-			"create-dovenv",
-			"@dovenv/*"
+			"*dovenv*"
 		]
 	],
 	"linked": [

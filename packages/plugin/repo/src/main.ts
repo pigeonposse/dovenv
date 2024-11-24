@@ -2,7 +2,7 @@
 import {
 	defineConfig,
 	type Config as DoveEnvConfig,
-} from 'dovenv'
+} from '@dovenv/core'
 
 import { type Role }                    from './contributors/fn'
 import { config as contributorsConfig } from './contributors/main'

@@ -208,7 +208,7 @@ Runs the build process with the given arguments.
 ##### Example
 
 ```ts
-import { run } from 'dovenv'
+import { run } from '@dovenv/core'
 
 await run(['-c', 'my/config.js', 'check'])
 ```

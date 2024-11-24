@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
+import { defineConfig } from '@dovenv/core'
 import { process }      from '@dovenv/utils'
-import { defineConfig } from 'dovenv'
 
 import { Workspace } from './core/main'
 
@@ -20,7 +20,7 @@ export const config = ( params?: Config ) => defineConfig( {
 			desc : 'Toolkit for Workspace',
 			cmds : {
 				exec : {
-					desc : 'Run a packahe without installing it',
+					desc : 'Run a package without installing it',
 					cmds : params?.exec,
 				},
 				audit : {

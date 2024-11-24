@@ -6,7 +6,7 @@ import {
 	type Role,
 } from './fn'
 
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 export type Config<ID extends string, R extends Role<ID>> = {
 	/**

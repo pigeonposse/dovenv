@@ -5,7 +5,7 @@ import {
 	joinPath,
 	arePathsEqual,
 } from '@dovenv/utils'
-import { defineConfig } from 'dovenv'
+import { defineConfig } from '@dovenv/core'
 
 import { config } from '../src/main'
 

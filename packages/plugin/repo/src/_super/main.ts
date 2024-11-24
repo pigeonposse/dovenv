@@ -7,20 +7,22 @@ import {
 	process,
 	cache,
 	isGitHubAuthenticated,
+	getCurrentDir,
+	execModulePath,
 } from '@dovenv/utils'
 
 import type { Config }                  from './types'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 export class Repo {
 
 	opts   : Config = {}
 	config : DoveEnvConfig = {}
 
-	protected color = color
-	protected prompt = promptLineProps
-	protected promptLine = promptLine
-	protected process = process
+	protected _color = color
+	protected _prompt = promptLineProps
+	protected _promptLine = promptLine
+	protected _process = process
 
 	constructor( opts?: Config, config?: DoveEnvConfig ) {
 
@@ -81,7 +83,7 @@ export class Repo {
 
 	}
 
-	protected async existsLocalGit() {
+	protected async _existsLocalGit() {
 
 		return await existsLocalBin( 'git' )
 
@@ -107,15 +109,20 @@ export class Repo {
 
 	}
 
-	async init() {
+	async _execBin( {
+		name, path, args,
+	}:{
+		name  : string
+		path  : string[]
+		args? : string[]
+	} ) {
 
-		const git = await this.existsLocalGit()
-		if ( !git ) {
-
-			console.warn( 'Git is not installed or not detected.\n Git is required to run this command.\n Please Install git and try again' )
-			return
-
-		}
+		await execModulePath( {
+			currentPath : joinPath( getCurrentDir( import.meta.url ), '..' ), //import.meta.url,
+			moduleEntry : name,
+			modulePath  : path,
+			args        : args,
+		} )
 
 	}
 
@@ -126,6 +133,18 @@ export class Repo {
 			id,
 			values      : values,
 		} )
+
+	}
+
+	async init() {
+
+		const git = await this._existsLocalGit()
+		if ( !git ) {
+
+			console.warn( 'Git is not installed or not detected.\n Git is required to run this command.\n Please Install git and try again' )
+			return
+
+		}
 
 	}
 

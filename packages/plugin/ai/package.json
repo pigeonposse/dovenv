@@ -48,12 +48,12 @@
 		"env-ai": "0.4.0"
 	},
 	"devDependencies": {
+		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/utils": "workspace:*",
-		"dovenv": "workspace:*"
+		"@dovenv/utils": "workspace:*"
 	},
 	"peerDependencies": {
-		"dovenv": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

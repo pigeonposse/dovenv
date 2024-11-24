@@ -21,7 +21,7 @@ export { Dovenv }
  * Runs the build process with the given arguments.
  * @param {string[]} args Arguments to pass to the build process.
  * @example
- * import { run } from 'dovenv'
+ * import { run } from '@dovenv/core'
  *
  * await run(['-c', 'my/config.js', 'check'])
  */

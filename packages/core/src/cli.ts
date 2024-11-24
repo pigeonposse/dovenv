@@ -7,7 +7,7 @@ import {
 } from '@dovenv/utils'
 
 import {
-	name,
+	bin,
 	version,
 } from '../package.json'
 import { getConfig }  from './_shared/config'
@@ -96,7 +96,7 @@ export class Dovenv {
 			args,
 			fn : async cli => {
 
-				cli.scriptName( name )
+				cli.scriptName( Object.keys( bin )[0] )
 					.version( version )
 					.usage( 'Usage: $0 <command> [options]' )
 					.locale( 'en' )

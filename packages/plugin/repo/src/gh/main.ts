@@ -4,7 +4,7 @@ import { RepoInfo } from './repo-info'
 import { Workflow } from './workflow'
 
 import type { Config }                  from '../_super/types'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 const CMD = {
 	DOWNLOAD : 'download',

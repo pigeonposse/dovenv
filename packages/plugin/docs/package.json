@@ -70,7 +70,7 @@
 		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"@types/markdown-it-container": "2.0.10",
-		"dovenv": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"

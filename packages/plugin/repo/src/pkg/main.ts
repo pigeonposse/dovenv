@@ -1,12 +1,10 @@
-import { version } from 'os'
-
 import { Packages } from './fn'
 
 import type { Config }                  from '../_super/types'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 const CMD = {
-	update  : 'update',
+	release : 'release',
 	publish : 'publish',
 	init    : 'init',
 	version : 'version',
@@ -22,15 +20,15 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 			[CMD.init]    : { desc: 'Init packages' },
 			[CMD.version] : { desc: 'Update version of packages' },
 			[CMD.publish] : { desc: 'Publish packages' },
-			[CMD.update]  : { desc: 'Update version and publish packages' },
+			[CMD.release] : { desc: 'Update version and publish packages' },
 		},
 		fn : async ( {
 			config, cmds, showHelp,
 		} ) => {
 
 			const pkg = new Packages( conf, config )
-			if ( cmds?.includes( CMD.update ) )
-				await pkg.updateVersion()
+			if ( cmds?.includes( CMD.release ) )
+				await pkg.release()
 			else if ( cmds?.includes( CMD.publish ) )
 				await pkg.publish()
 			else if ( cmds?.includes( CMD.init ) )
@@ -42,7 +40,7 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 		},
 		examples : [
 			{
-				cmd  : `$0 pkg ${CMD.update}`,
+				cmd  : `$0 pkg ${CMD.release}`,
 				desc : 'Directly update version and publish packages',
 			},
 		],

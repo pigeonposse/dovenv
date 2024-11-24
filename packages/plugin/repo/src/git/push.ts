@@ -39,7 +39,7 @@ export class GitPush extends GitSuper {
 		const cache       = await this._cache( 'push', defaultData )
 		const cached      = await cache.get()
 
-		await this.promptLine( {
+		await this._promptLine( {
 			outro    : 'Succesfully finished 🌈',
 			onCancel : p => {
 
@@ -48,7 +48,7 @@ export class GitPush extends GitSuper {
 
 			},
 			list : async p => ( {
-				'desc'        : () => p.log.info( this.color.gray.dim( 'Push your repository' ) ),
+				'desc'        : () => p.log.info( this._color.gray.dim( 'Push your repository' ) ),
 				[data.update] : async () => await p.confirm( {
 					message      : 'Do yo want update version?',
 					initialValue : cached[data.update],
@@ -59,7 +59,7 @@ export class GitPush extends GitSuper {
 					if ( !results[data.update] ) return
 
 					const pkg = new Packages( this.opts )
-					await pkg.updateVersion()
+					await pkg.release()
 
 				},
 				[data.add]    : async () => await addInstance.ask( cached[data.add] ),

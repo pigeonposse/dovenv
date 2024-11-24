@@ -24,7 +24,7 @@ export default defineBuildConfig( [
 			} )
 
 		} },
-		externals : [ 'dovenv' ],
+		externals : [ '@dovenv/core' ],
 	},
 ] )
 

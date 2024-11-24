@@ -51,11 +51,11 @@
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
-		"dovenv": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*",
-		"dovenv": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

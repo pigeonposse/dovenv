@@ -6,7 +6,7 @@ export class GitAdd extends GitSuper {
 
 	async ask( initialValue = '.' ) {
 
-		return await this.prompt.text( {
+		return await this._prompt.text( {
 			message      : 'What do you want to add?',
 			placeholder  : '.',
 			initialValue : initialValue,

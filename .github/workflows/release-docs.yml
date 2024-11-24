@@ -53,7 +53,8 @@ jobs:
 
       - name: 🏗 Build package
         run: pnpm build
-
+      - name: Build docs
+        run: pnpm . pkg docs build
       - name: 🌥 Deploy in cloudflare pages
         uses: cloudflare/pages-action@v1
         with:
@@ -61,8 +62,8 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          projectName: "backan"
-          directory: 'packages/docs/dist'
+          projectName: "dovenv"
+          directory: 'build/docs'
           wranglerVersion: '3'
 
 ###############################################################################

@@ -56,10 +56,10 @@
 		"husky": "9.1.7"
 	},
 	"devDependencies": {
+		"@dovenv/core": "workspace:*",
 		"@dovenv/lint": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/utils": "workspace:*",
-		"dovenv": "workspace:*"
+		"@dovenv/utils": "workspace:*"
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"

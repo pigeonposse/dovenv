@@ -9,7 +9,7 @@ import { GitPush }   from './push'
 import { Repo }      from '../_super/main'
 
 import type { GitConfig }               from './types'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 export {
 	GitAdd,

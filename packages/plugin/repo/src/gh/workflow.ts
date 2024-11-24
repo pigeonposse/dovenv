@@ -21,7 +21,7 @@ export class Workflow extends Repo {
 		} = this.opts || {}
 		const dir       = workflowsDir || joinPath( process.cwd(), '.github', 'workflows' )
 		const fileNames = await getPaths( [ dir + '/*.yml' ], { onlyFiles: true  } )
-		const color     = this.color
+		const color     = this._color
 		let content     = ( fileNames && fileNames.length )
 			? await getDirTree( {
 				name  : '.github/workflows\n',
@@ -79,7 +79,7 @@ export class Workflow extends Repo {
 		const cache       = await this._cache( 'workflow', defaultData )
 		const cached      = await cache.get()
 
-		await this.promptLine( {
+		await this._promptLine( {
 			outro    : repoURL ? `✨ See action progress: ${joinUrl( repoURL, 'actions' )}` : 'Succesfully finished 🌈',
 			onCancel : p => {
 
@@ -88,7 +88,7 @@ export class Workflow extends Repo {
 
 			},
 			list : async p => ( {
-				desc        : () => p.log.info( this.color.gray.dim( 'Prompt for run workflow' ) ),
+				desc        : () => p.log.info( this._color.gray.dim( 'Prompt for run workflow' ) ),
 				[data.file] : async () =>  p.select( {
 					message : 'Select a workflow:',
 					options : fileNames.map( value => ( {

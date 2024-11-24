@@ -2,53 +2,53 @@ import { Repo } from '../_super/main'
 
 export class Packages extends Repo {
 
+	async #exec( args?: string[] ) {
+
+		// const oldArgv      = this._process.argv
+		// this._process.argv = [ '', '' ]
+
+		// if ( cmd ) this._process.argv.push( ...cmd )
+		// await import( '@changesets/cli' )
+
+		// this._process.argv = oldArgv
+
+		await this._execBin( {
+			name : '@changesets/cli',
+			path : [ 'bin.js' ],
+			args : args,
+		} )
+
+	}
+
 	async init() {
 
-		const oldArgv     = this.process.argv
-		this.process.argv = [
-			'',
-			'',
-			'init',
-		]
-		await import( '@changesets/cli' )
-		this.process.argv = oldArgv
+		await this.#exec( [ 'init' ] )
 
 	}
 
 	async publish() {
 
-		const oldArgv     = this.process.argv
-		this.process.argv = [
-			'',
-			'',
-			'init',
-		]
-		await import( '@changesets/cli' )
-		this.process.argv = oldArgv
+		await this.#exec( [ 'publish' ] )
 
 	}
 
 	async version() {
 
-		const oldArgv     = this.process.argv
-		this.process.argv = [
-			'',
-			'',
-			'version',
-		]
-		await import( '@changesets/cli' )
-		this.process.argv = oldArgv
+		await this.#exec( [ 'version' ] )
 
 	}
 
-	async updateVersion() {
+	async prompt() {
 
-		const oldArgv     = this.process.argv
-		this.process.argv = [ '', '' ]
-		await import( '@changesets/cli' )
-		this.process.argv = oldArgv
+		await this.#exec( )
 
+	}
+
+	async release() {
+
+		await this.prompt( )
 		await this.version()
+		await this.publish()
 
 	}
 

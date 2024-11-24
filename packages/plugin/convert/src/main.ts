@@ -7,7 +7,7 @@ import {
 import { Convert } from './run'
 
 import type { ConfigValue }             from './run'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 export * from './run'
 

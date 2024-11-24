@@ -15,7 +15,7 @@ import {
 import type { CodeImageConfig }         from './code-image'
 import type { ImageMinConfig }          from './min'
 import type { TermGifConfig }           from './terminal-gif'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 const CMDS = {
 	codeImage : 'codeimage',

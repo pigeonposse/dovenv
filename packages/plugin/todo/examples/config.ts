@@ -1,8 +1,8 @@
+import { defineConfig } from '@dovenv/core'
 import {
 	getCurrentDir,
 	joinPath,
 } from '@dovenv/utils'
-import { defineConfig } from 'dovenv'
 
 import { config } from '../src/main'
 

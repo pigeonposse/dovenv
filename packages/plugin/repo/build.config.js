@@ -6,7 +6,7 @@ export default defineBuildConfig( [
 		...config,
 		entries   : [ './src/main' ],
 		externals : [
-			'dovenv',
+			'@dovenv/core',
 			'@clack/prompts',
 			'chalk',
 		],

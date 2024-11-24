@@ -73,11 +73,11 @@ Get your code projects up and running quickly and easily with our comprehensive 
 ## 🔑 Installation
 
 ```bash
-npm install dovenv
+npm install @dovenv/core
 # or pnpm
-pnpm add dovenv
+pnpm add @dovenv/core
 # or yarn
-yarn add dovenv
+yarn add @dovenv/core
 ```
 
 ## 👨‍💻 Development

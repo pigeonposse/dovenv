@@ -2,7 +2,7 @@
 
 import { run } from './run'
 
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 import type { Config as EnvAiConfig }   from 'env-ai'
 
 export type Config = {

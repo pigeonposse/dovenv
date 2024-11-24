@@ -1,5 +1,5 @@
+import { Dovenv }      from '@dovenv/core'
 import { resolvePath } from '@dovenv/utils'
-import { Dovenv }      from 'dovenv'
 
 import { config as plugin } from '../src/main'
 

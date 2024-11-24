@@ -3,7 +3,7 @@ import {
 	fontAwesomeSolidIcons,
 	fontAwesomeBrandsIcons,
 } from '@dovenv/utils/client'
-import { defineConfig } from 'dovenv'
+import { defineConfig } from '@dovenv/core'
 
 const {
 	faBook,

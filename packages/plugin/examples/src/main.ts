@@ -1,4 +1,4 @@
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 type Config = boolean
 

@@ -159,7 +159,7 @@ export class GitCommit extends GitSuper {
 		const cache       = await this._cache( 'commit', defaultData )
 		const cached      = await cache.get()
 
-		await this.promptLine( {
+		await this._promptLine( {
 			outro    : 'Succesfully commited 🌈',
 			onCancel : p => {
 
@@ -221,7 +221,7 @@ export class GitCommit extends GitSuper {
 				}
 
 				return {
-					desc   : () => p.log.info( this.color.gray.dim( 'Prompt for commit message' ) ),
+					desc   : () => p.log.info( this._color.gray.dim( 'Prompt for commit message' ) ),
 					...prompt,
 					commit : async ( { results } ) => {
 
@@ -279,7 +279,7 @@ export class GitCommit extends GitSuper {
 		if ( isEmpty ) {
 
 			console.warn(
-				`Nothing to commit.\n\nStage your changes executing: ${this.color.dim.italic( 'dovenv git push' )}\nOr stage your changes manually using ${this.color.dim.italic( 'git add' )} and executing again: ${this.color.dim.italic( 'dovenv git commit' )}`,
+				`Nothing to commit.\n\nStage your changes executing: ${this._color.dim.italic( 'dovenv git push' )}\nOr stage your changes manually using ${this._color.dim.italic( 'git add' )} and executing again: ${this._color.dim.italic( 'dovenv git commit' )}`,
 			)
 			return
 

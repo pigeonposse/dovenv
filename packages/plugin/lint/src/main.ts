@@ -1,7 +1,7 @@
 import { Lint } from './lint'
 
 import type { Config }                  from './lint'
-import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 export * from './lint'
 

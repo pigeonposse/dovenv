@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import { defineConfig as defineDovenvConfig } from 'dovenv'
+import { defineConfig as defineDovenvConfig } from '@dovenv/core'
 
 import { Docs } from './run'
 

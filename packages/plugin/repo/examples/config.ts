@@ -4,7 +4,7 @@ import {
 	getCurrentDir,
 	joinPath,
 } from '@dovenv/utils'
-import { defineConfig } from 'dovenv'
+import { defineConfig } from '@dovenv/core'
 
 import pkg        from '../../../../package.json'
 import { config } from '../src/main'
