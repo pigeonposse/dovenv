@@ -1,15 +1,24 @@
+import { Todo } from './core/main'
+
+import type { Config }                  from './core/types'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
-type Config = boolean
-
+export { Todo }
 export const config = ( conf?: Config ): DoveEnvConfig => {
+
+	const todo = new Todo( conf )
 
 	return { custom : { todo : {
 		desc : 'Toolkit for Workspace TODOs',
-		fn   : async (  ) => {
+		opts : { key : {
+			alias : 'k',
+			desc  : 'Key pattern to get TODOs',
+			type  : 'array',
+		} },
+		fn : async ( { opts } ) => {
 
-			console.log( '[coming soon]' )
-			console.debug( conf )
+			const keys = opts?.key as string[] | undefined
+			await todo.run( keys )
 
 		},
 	} } }

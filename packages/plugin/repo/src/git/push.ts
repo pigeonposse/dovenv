@@ -1,8 +1,3 @@
-/**
- * TODO prompt.
- * @description Add prompt for edit project TODO List.
- */
-
 import { exec } from '@dovenv/utils'
 
 import { GitAdd }    from './add'

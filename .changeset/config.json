@@ -23,6 +23,7 @@
 			"@dovenv/media",
 			"@dovenv/repo",
 			"@dovenv/todo",
+			"@dovenv/workspace",
 
 			"@dovenv/theme-pigeonposse",
 			"@dovenv/theme-banda",

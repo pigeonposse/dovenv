@@ -44,7 +44,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"leasot": "14.4.0"
+		"leasot": "12.5.0"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",

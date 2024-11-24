@@ -2,7 +2,6 @@
 /**
  * Images in the terminal.
  * @description Functions for display images and gifs in terminal.
- * @todo Fix gif output.
  */
 
 import { Buffer }    from 'node:buffer'

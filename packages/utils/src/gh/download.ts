@@ -1,9 +1,9 @@
 /**
  * Download a GitHub repository directory.
  * Forked from https://github.com/eilrix/github-directory-downloader/blob/master/src/types.ts
- * @todo mejorar performance
- * @todo que se puedan descargar archivos o directorios
- * @todo que no sea necesario escribir la url, solo los paths
+ * @todo Improve performance
+ * @todo that you can download files or directories
+ * @todo Make it so that you don't need to type the URL, just the paths
  */
 import { pipeline }  from 'node:stream'
 import { promisify } from 'node:util'
