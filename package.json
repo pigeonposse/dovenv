@@ -37,7 +37,10 @@
 	},
 	"type": "module",
 	"workspaces": [
-		"packages/*"
+		"packages/*",
+		"packages/plugin/*",
+		"packages/theme/*",
+		"packages/config/*"
 	],
 	"scripts": {
 		"": "----------------------- REPO ----------------------------",
