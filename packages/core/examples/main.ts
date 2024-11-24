@@ -1,15 +1,10 @@
 
-import {
-	joinPath,
-	getCurrentDir,
-} from '@dovenv/utils'
+import { hideBin } from '@dovenv/utils'
 
-import { build } from '../src/main'
+import config     from './config'
+import { Dovenv } from '../src/main'
 
-const config = joinPath( getCurrentDir( import.meta.url ), 'config.ts' )
+const dovenv = new Dovenv( { config } )
+const args   = hideBin( process.argv )
 
-await build( [
-	'--config',
-	config,
-	...process.argv.slice( 2 ),
-] )
+await dovenv.run( args )

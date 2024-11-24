@@ -1,0 +1,64 @@
+{
+	"name": "@dovenv/workspace",
+	"version": "0.0.1",
+	"description": "A dovenv plugin with utilities for the workspace",
+	"keywords": [
+		"theme",
+		"cli",
+		"library",
+		"aio",
+		"workspace",
+		"utils",
+		"dev",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/workspace",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/plugin/workspace"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "unbuild",
+		"dev": "tsx examples/main.ts",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*",
+		"dovenv": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/utils": "workspace:*",
+		"dovenv": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}

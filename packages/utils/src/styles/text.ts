@@ -29,10 +29,10 @@ export const icon = figures
  * @param   {Fonts}  [font] - The font to use for rendering. Defaults to 'Standard'.
  * @returns {string}        - The ASCII art text.
  * @example
- * const asciiText = font('Hello, World!', '3-D');
+ * const asciiText = asciiFont('Hello, World!', '3-D');
  * console.log(asciiText);
  */
-export const font = ( txt: string, font: Fonts = 'Standard' ): string => {
+export const asciiFont = ( txt: string, font: Fonts = 'Standard' ): string => {
 
 	return figlet.textSync( txt, {
 		font,

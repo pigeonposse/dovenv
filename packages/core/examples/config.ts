@@ -2,31 +2,22 @@ import {
 	existsDir,
 	existsFile,
 	joinPath,
-	setDirectoryTree,
+	setDirTree,
 	box,
-	generateASCII,
 	getObjectFrom,
 	readFile,
 	getCurrentDir,
 	replacePlaceholders,
 	getPaths,
 	getBaseName,
-	getCharsNumFrom,
+	asciiFont,
 } from '@dovenv/utils'
 
 import pkg              from '../../../package.json'
 import { version }      from '../package.json'
 import { defineConfig } from '../src/main'
 
-const workspaceDir   = ( v:string ) => joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', v )
-const wsPatternFiles = [
-	workspaceDir( '**/**' ),
-	'!' + workspaceDir( '**/node_modules/**' ),
-	'!' + workspaceDir( '**/dist/**' ),
-	'!' + workspaceDir( '**/build/**' ),
-]
-
-const setStructure = () => '\n' + box( setDirectoryTree( { structure : {
+const setStructure = () => '\n' + box( setDirTree( { structure : {
 	'.vscode' : {
 		'settings.json'   : null,
 		'extensions.json' : null,
@@ -131,33 +122,11 @@ export default defineConfig( {
 
 			},
 		},
-		files : {
-			desc : 'Print files number from workspace',
-			fn   : async () => {
-
-				const res = await getPaths( wsPatternFiles )
-				console.log( res.length )
-
-			},
-		},
-		chars : {
-			desc : 'Print characters from workspace files',
-			fn   : async () => {
-
-				const res = await getCharsNumFrom( wsPatternFiles )
-				console.log( res )
-
-			},
-		},
 	},
 	const : {
 		version,
 		pkg,
-		mark : `\n${generateASCII( {
-			name  : pkg.name,
-			title : 'pigeonposse',
-			font  : 'ANSI Shadow',
-		} )}\n`,
+		mark   : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
 		custom : async () => {
 
 			// throw new Error( 'Custom error' )

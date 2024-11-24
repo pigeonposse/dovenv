@@ -1,4 +1,14 @@
+import {
+	rgbToHex,
+	rgbToHsl,
+	rgbToCIELab,
+	rgbToXyz,
+	xyzToCIELab,
+	hslToRgb,
+	hexToRgb,
+} from '@vibrant/color/lib/converter.js'
 import chalk                         from 'chalk'
+import chroma                        from 'chroma-js'
 import { highlight as cliHighlight } from 'cli-highlight'
 import gradientString                from 'gradient-string'
 
@@ -7,6 +17,7 @@ import type {
 	GradientOpts,
 	HighlightOpts,
 } from './types'
+import type { Color } from './types'
 
 /**
  * Export types that can be used from outside.
@@ -16,6 +27,16 @@ export {
 	GradientColors,
 	GradientOpts,
 	HighlightOpts,
+}
+export { chroma }
+export const colorConversion = {
+	rgb2hex    : rgbToHex,
+	rgb2CIELab : rgbToCIELab,
+	rgb2sl     : rgbToHsl,
+	rgb2xyz    : rgbToXyz,
+	xyz2CIELab : xyzToCIELab,
+	hslToRgb   : hslToRgb,
+	hex2rgb    : hexToRgb,
 }
 
 /**
@@ -44,7 +65,7 @@ export const highlight = ( code: string, opts?: HighlightOpts ): string => cliHi
  * @example
  * console.log(color.green('This text is green'));
  */
-export const color = chalk
+export const color: Color = chalk
 
 /**
  * Generates a gradient string with the specified colors.
@@ -63,4 +84,3 @@ export const gradient = ( txt: string, colors: GradientColors, opts?: GradientOp
 	return gradientString( ...colors ).multiline( txt, opts )
 
 }
-

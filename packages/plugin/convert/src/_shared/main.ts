@@ -41,12 +41,27 @@ export class ConvertSuper<Props extends ConvertPropsSuper> {
 
 	protected async _getOutput( ) {
 
-		const dir = this.props.output ? this.props.output : getTempDir()
+		// import be custom folder inside tempr dir, for then remove it
+		const tempDir = joinPath( getTempDir(), 'dovenv-convert' )
+
+		const dir = this.props.output ? this.props.output : tempDir
+
+		await ensureDir( dir )
+
+		// const exists = await existsDir( dir )
+		// if ( !exists ) {
+
+		// 	console.warn( 'Output path does not exist: ' + dir )
+		// 	process.exit()
+
+		// }
+
 		return {
 			dir,
 			rmTempIfExist : async () => {
 
-				if ( !this.props.output ) await removeDirIfExist( dir )
+				if ( !this.props.output )
+					await removeDirIfExist( tempDir )
 
 			},
 		}

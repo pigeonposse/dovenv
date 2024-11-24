@@ -6,13 +6,15 @@ import { color } from '../styles/main'
  * @param {object} opts.structure - An object representing the directory structure.
  * @param {string} [opts.name] - The name of the root directory. If provided, it will be printed as the first line.
  * @param {Function} [opts.folderStyle] - A function that returns a string representing a directory.
- *                                         Receives two parameters: the directory name and the indentation level.
+ *                                         Receives an object with properties: name, indent, isLast, and isFirst.
  * @param {Function} [opts.fileStyle] - A function that returns a string representing a file.
- *                                       Receives two parameters: the file name and the indentation level.
+ *                                       Receives an object with properties: name, indent, isLast, and isFirst.
  * @returns {string} A string representing the content of `structure` as a directory structure.
+ *
+ * ---
  * @example
  *
- * const result = setDirectoryTree({
+ * const result = setDirTree({
  *   structure: {
  *   src: {
  *     components: {
@@ -31,48 +33,97 @@ import { color } from '../styles/main'
  *
  * console.log(result);
  */
-export const setDirectoryTree = ( opts: {
+export const setDirTree = ( opts: {
 	structure    : object
 	name?        : string
-	folderStyle? : ( name : string, indent: number ) => string
-	fileStyle?   : ( name : string, indent: number  ) => string
+	folderStyle? : ( opts: {
+		name    : string
+		indent  : number
+		isLast  : boolean
+		isFirst : boolean
+	} ) => string
+	fileStyle?   : ( opts: {
+		name    : string
+		indent  : number
+		isLast  : boolean
+		isFirst : boolean
+	} ) => string
 } ): string => {
 
-	const folderStyle = opts?.folderStyle
-		? opts?.folderStyle
-		: ( v: string, i: number  ) => {
+	const pattern = {
+		indent   : color.gray.dim( '│   ' ),
+		line     : color.gray.dim( '├── ' ),
+		lastLine : color.gray.dim( '└── ' ),
+	}
 
-			let res = '  '.repeat( i ) + color.gray.dim( '│\n' )
-			res    += '  '.repeat( i ) + color.gray.dim( '└─── ' ) + color.blue.bold( `${v} ` )
+	// Default folder style
+	const folderStyle = opts.folderStyle
+		? opts.folderStyle
+		: ( {
+			name, indent, isLast,
+		}: {
+			name    : string
+			indent  : number
+			isLast  : boolean
+			isFirst : boolean
+		} ) => {
 
-			return res
+			const prefix = pattern.indent.repeat( indent ) + ( isLast ? pattern.lastLine : pattern.line )
+			return prefix + color.blue.bold( name )
 
 		}
-	const fileStyle = opts?.fileStyle
-		? opts?.fileStyle
-		: ( v: string, i: number ) => {
 
-			const res = '  '.repeat( i ) + color.gray.dim( '└─── ' ) + color.green( `${v} ` )
-			return res
+	// Default file style
+	const fileStyle = opts.fileStyle
+		? opts.fileStyle
+		: ( {
+			name, indent, isLast,
+		}: {
+			name    : string
+			indent  : number
+			isLast  : boolean
+			isFirst : boolean
+		} ) => {
+
+			const prefix = pattern.indent.repeat( indent ) + ( isLast ? pattern.lastLine : pattern.line )
+			return prefix + color.green( name )
 
 		}
 
-	const setDirectoryTree = ( dir: object, indent = 0 ): string => {
+	// Recursive function to build the directory tree
+	const _setDirTree = ( dir: object, indent = 0 ): string => {
 
-		let res = ''
-		for ( const [ key, value ] of Object.entries( dir ) ) {
+		const entries = Object.entries( dir )
+		let result    = ''
+
+		entries.forEach( ( [ key, value ], index ) => {
 
 			const isFolder = typeof value === 'object' && value !== null
-			const name     = isFolder ? folderStyle( key, indent ) : fileStyle( key, indent )
-			res           += name + '\n'
-			if ( isFolder ) res += setDirectoryTree( value, indent + 1 )
+			const isLast   = index === entries.length - 1
+			const isFirst  = index === 0
+			const styleFn  = isFolder ? folderStyle : fileStyle
 
-		}
+			result += styleFn( {
+				name : key,
+				indent,
+				isLast,
+				isFirst,
+			} ) + '\n'
 
-		return res
+			// If it's a folder, recurse into its contents
+			if ( isFolder ) {
+
+				result += _setDirTree( value, indent + 1 )
+
+			}
+
+		} )
+
+		return result
 
 	}
 
-	return ( opts?.name ? opts.name + '\n'  : '' ) + setDirectoryTree( opts.structure,  opts.name ? 1 : 0 )
+	// Build the full tree string
+	return ( opts.name ? opts.name + '\n' : '' ) + _setDirTree( opts.structure, opts.name ? 1 : 0 )
 
 }

@@ -6,8 +6,9 @@ import {
 } from 'node:child_process'
 import process from 'node:process'
 
-import { box }           from '../styles/main'
-import { getModulePath } from '../sys/module'
+import { catchError }    from '../../error/main'
+import { box }           from '../../styles/main'
+import { getModulePath } from '../../sys/module'
 
 /**
  * Executes a command in the shell and waits for it to finish.
@@ -224,26 +225,35 @@ export const execProcess = async ( options : ExecProcessParams ): Promise<void> 
  * @returns {Promise<string>} A promise that resolves with the captured output (stdout).
  * @throws Will reject with an error if the command fails.
  * @example
- * const output = await catchExecOutput('dovenv --help')
- * await writeFile('dovenvHelp.txt', output)
+ * const [error, output] = await catchExecOutput('dovenv --help')
+ * if (error) {
+ *   console.error(error);
+ * } else {
+ *   await writeFile('dovenvHelp.txt', output)
+ * }
  */
-export const catchExecOutput = ( command: string ): Promise<string> => {
+export const catchExecOutput = <Res = string>( command: string ) => {
 
-	return new Promise( ( resolve, reject ) => {
+	return catchError ( new Promise<Res>( ( resolve, reject ) => {
 
 		execNode( command, ( error, stdout, stderr ) => {
 
 			if ( error ) {
 
-				reject( `Error: ${stderr || error.message}` )
+				reject( {
+					error,
+					stdout,
+					stderr,
+				} )
 				return
 
 			}
-			resolve( stdout )
+			resolve( stdout as Res )
 
 		} )
 
-	} )
+	} ),
+	)
 
 }
 

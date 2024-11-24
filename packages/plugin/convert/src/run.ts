@@ -42,6 +42,21 @@ export type ConfigValue = {
 	} & ConvertConfig[key]['props']
 }[keyof ConvertConfig]
 
+export {
+	Openapi2Markdown,
+	Jsdoc2Markdown,
+	Html2Markdown,
+	Markdown2Html,
+	Typescript2Markdown,
+}
+
+/**
+ * Convertion class
+ * @example
+ * // convert ts files to markdown
+ * const convert = new Convert()
+ * await convert.ts2md({input: 'src/main.ts', output: 'README.md' })
+ */
 export class Convert implements ConvertInterface {
 
 	async openapi2md( params: ConvertConfig[typeof methods.openapi2md]['props'] ) {

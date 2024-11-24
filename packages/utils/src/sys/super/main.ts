@@ -4,7 +4,10 @@
  * File for set fylesystem functions.
  *
  */
-import { globby }            from 'globby'
+import {
+	globby,
+	globbyStream,
+} from 'globby'
 import { createWriteStream } from 'node:fs'
 import {
 	stat,
@@ -29,6 +32,7 @@ import {
 	basename,
 	relative,
 	isAbsolute,
+	normalize,
 } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -38,6 +42,7 @@ export const getExtName = extname
 export const getDirName = dirname
 export const getBaseName = basename
 export const isAbsolutePath = isAbsolute
+export const normalizePath = normalize
 
 export {
 	createWriteStream,
@@ -48,11 +53,38 @@ export const writeFile = nodeWriteFile
 
 /**
  * Find files and directories using glob patterns.
- * @example const paths = await getPaths(['*', '!cake']);
+ * @example const paths = await getPaths(['*', '!src']);
  * console.log(paths);
- * //=> ['unicorn', 'rainbow']
+ * //=> ['pigeon', 'rainbow']
  */
 export const getPaths = globby
+
+/**
+ * Find files and directories using glob patterns.
+ * @example
+ * for await (const path of getPathsStream('*.tmp')) {
+ *    console.log(paths);
+ * }
+ */
+export const getPathsStream = globbyStream
+
+/**
+ * Checks if two file paths are equal after normalization.
+ * Normalization ensures that differences like trailing slashes or redundant path segments are ignored.
+ *
+ * ---
+ * @param {string} path1 - The first file path to compare.
+ * @param {string} path2 - The second file path to compare.
+ * @returns {boolean} `true` if the paths are equal, `false` otherwise.
+ */
+export const arePathsEqual = ( path1: string, path2: string ): boolean => {
+
+	const normalizedPath1 = resolvePath( path1 )
+	const normalizedPath2 = resolvePath( path2 )
+
+	return normalizedPath1 === normalizedPath2
+
+}
 
 /**
  * Check if a string is a valid path.
@@ -103,7 +135,7 @@ export const isPath = ( str: string ) => {
  */
 export const ensureDir = async ( path: string ) => {
 
-	const exist = await existsPath( path )
+	const exist = await existsDir( path )
 	if ( !exist ) await createDir( path )
 
 }
@@ -462,7 +494,6 @@ export async function writeFileContent( path: string, content: string | Buffer )
  */
 export async function existsPath( path: string ): Promise<boolean> {
 
-	path         = validateHomeDir( path )
 	const isFile = await existsFile( path )
 	if ( isFile ) return true
 	const isDir = await existsDir( path )

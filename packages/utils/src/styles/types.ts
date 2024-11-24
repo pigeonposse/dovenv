@@ -1,6 +1,8 @@
+import type chalk         from 'chalk'
 import type { highlight } from 'cli-highlight'
 import type figlet        from 'figlet'
 
+export type Color = typeof chalk
 export type HighlightOpts = Parameters<typeof highlight>[1]
 export type Fonts = figlet.Fonts
 export type GradientColors = string[] | {

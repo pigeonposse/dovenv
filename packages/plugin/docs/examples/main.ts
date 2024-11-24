@@ -1,7 +1,10 @@
-import { build } from 'dovenv'
 
-await build( [
-	'-c',
-	'examples/config.ts',
-	...process.argv.slice( 2 ),
-] )
+import { hideBin } from '@dovenv/utils'
+import { Dovenv }  from 'dovenv'
+
+import config from './config'
+
+const dovenv = new Dovenv( { config } )
+const args   = hideBin( process.argv )
+
+await dovenv.run( args )

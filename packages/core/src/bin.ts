@@ -1,9 +1,9 @@
 import {
 	process,
-	rmDeprecationAlerts,
+	hideBin,
 } from '@dovenv/utils'
 
-import { run } from './cli'
+import { Dovenv } from './cli'
 import {
 	name,
 	version,
@@ -12,12 +12,11 @@ import { updateNotifier } from './_shared/up'
 
 const exec = async  () => {
 
-	rmDeprecationAlerts()
-
 	const up = updateNotifier( name, version )
 	up.notify()
-
-	await run( process.argv )
+	const args   = hideBin( process.argv )
+	const dovenv = new Dovenv()
+	await dovenv.run(  args )
 
 }
 

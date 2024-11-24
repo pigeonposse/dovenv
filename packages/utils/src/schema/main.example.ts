@@ -1,7 +1,11 @@
 
-import { validateSchema } from './main'
-import pkg                from '../../package.json'
-import { catchError }     from '../error/main'
+import {
+	validateSchema,
+	schema2ts,
+} from './main'
+import pkg            from '../../package.json'
+import { catchError } from '../error/main'
+import { highlight }  from '../styles/main'
 import {
 	resolvePath,
 	getCurrentDir,
@@ -82,7 +86,15 @@ const data     = {
 		] },
 	},
 }
+const content  = await schema2ts( {
+	name   : 'MySchemaInterface',
+	schema : data.obj.schema,
+} )
+console.log( 'Schema Definition:' )
+console.log( highlight( content,  { language: 'ts' } ) )
 
+console.log()
+console.log( 'Validation:' )
 for ( const [ k, v ] of Object.entries( data ) ) {
 
 	const [ _, data ] = await catchError( validateSchema( v.data, v.schema ) )

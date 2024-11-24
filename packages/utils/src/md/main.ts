@@ -1,4 +1,4 @@
-import { marked }         from 'marked'
+import { Marked }         from 'marked'
 import { markedTerminal } from 'marked-terminal'
 import TurndownService    from 'turndown'
 
@@ -7,6 +7,8 @@ import { fetch2string }  from '../sys/content'
 import { readFile }      from '../sys/super/main'
 
 import type { MarkedExtension } from 'marked'
+
+export * from './shields'
 
 const _getInput = async ( input: string ) => {
 
@@ -62,8 +64,9 @@ export const geHTML = async ( path: string ): Promise<string> => {
  */
 export const md2html = async ( input: string ) => {
 
-	input = await _getInput( input )
-	return await marked( input )
+	input        = await _getInput( input )
+	const marked = new Marked(  )
+	return await marked.parse( input )
 
 }
 
@@ -87,15 +90,20 @@ type Md2TerminalOpts = {
  * - if the input is a string, converts it directly.
  * ---
  * @param {string} input - The Markdown string, path or URL to convert.
- * @param opts
+ * @param {Md2TerminalOpts} opts - Options
  * @returns {Promise<string>} - The converted string.
  */
 export const md2terminal = async ( input: string, opts?: Md2TerminalOpts ): Promise<string> => {
 
 	input = await _getInput( input )
 
+	const marked = new Marked(  )
+	// Register markedTerminal extension with the options if provided
 	marked.use( markedTerminal( opts?.renderer, opts?.highlight ) as MarkedExtension )
-	return await marked.parse( input  )
+	// Parse the input with the registered extension
+	const result = await marked.parse( input )
+
+	return result
 
 }
 
@@ -132,8 +140,61 @@ export const html2terminal = async ( input: string ): Promise<string> => {
 
 	input = await _getInput( input )
 	input = await html2md( input )
+
+	const marked = new Marked(  )
 	marked.use( markedTerminal() as MarkedExtension )
 	return await marked.parse( input )
+
+}
+
+export const incrementMdHeaders = async ( content: string ) => {
+
+	const lines = content.split( '\n' )
+
+	let inCodeBlock = false
+
+	const updatedLines = lines.map( line => {
+
+		// Detecta el inicio o el final de un bloque de código
+		if ( line.startsWith( '```' ) ) {
+
+			inCodeBlock = !inCodeBlock
+			return line // No modificar líneas de inicio o cierre de bloques de código
+
+		}
+
+		// Si estamos dentro de un bloque de código, no hacemos nada
+		if ( inCodeBlock ) {
+
+			return line
+
+		}
+
+		// Incrementar niveles de encabezado si es un encabezado válido (# ... ###)
+		if ( /^(#{1,6})\s/.test( line ) ) {
+
+			const matches = line.match( /^(#{1,6})\s/ )
+			if ( matches ) {
+
+				const currentHashes = matches[1]
+				if ( currentHashes.length < 6 ) {
+
+					// Incrementa los niveles de encabezado, pero no más allá de 6
+					const newHashes = '#'.repeat( currentHashes.length + 1 )
+					return line.replace( currentHashes, newHashes )
+
+				}
+
+			}
+
+		}
+
+		// Devolver la línea sin modificar si no es un encabezado
+		return line
+
+	} )
+
+	return updatedLines.join( '\n' )
 
 }
 
@@ -151,31 +212,65 @@ export const html2terminal = async ( input: string ): Promise<string> => {
  *   - `title`: The header title.
  *   - `anchor`: The header anchor.
  */
-export const getMDIndex = async ( input: string ) => {
+export const getMDToc = async ( input: string ) => {
 
-	input             = await _getInput( input )
-	const headerRegex = /^(#{1,6})\s+(.*)$/gm
+	input = await _getInput( input )
 
-	let match
-	const index = []
+	const marked = new Marked(  )
+	const tokens = marked.lexer( input )
+	const index: {
+		level  : number
+		title  : string
+		anchor : string
+	}[]  = []
 
-	// Iterate over all headers found
-	while ( ( match = headerRegex.exec( input ) ) !== null ) {
+	// Iterate over all tokens and extract the headers
+	tokens.forEach( token => {
 
-		const level  = match[1].length // Number of # indicates the header level
-		const title  = match[2].trim()
-		const anchor = title.toLowerCase().replace( /\s+/g, '-' ).replace( /[^\w-]+/g, '' ) // Create anchor
+		if ( token.type === 'heading' ) {
 
-		index.push( {
-			level,
-			title,
-			anchor,
-		} )
+			const level  = token.depth
+			const title  = token.text
+			const anchor = title.toLowerCase().replace( /\s+/g, '-' ).replace( /[^\w-]+/g, '' ) // Create anchor
 
-	}
+			index.push( {
+				level,
+				title,
+				anchor,
+			} )
+
+		}
+
+	} )
 
 	return index
 
+}
+
+type MdTocStringOpts = {
+	/**
+	 * The Markdown content to be used for generating the Table of Contents.
+	 * This can be a string of Markdown content, a file, or a URL.
+	 * @example
+	 * const markdown = '# Header 1\n## Header 2\n';
+	 */
+	input            : string
+	/**
+	 * The title for the Table of Contents. If not provided, the default value is 'Table of Contents'.
+	 * @default undefined
+	 */
+	title?           : string
+	/**
+	 * If set to `true`, headers of level 1 (`#`) will be removed from the Table of Contents.
+	 * @default false
+	 */
+	removeH1?        : boolean
+	/**
+	 * The maximum heading level to include in the Table of Contents.
+	 * If not provided, the TOC will include all heading levels.
+	 * @default 6
+	 */
+	maxHeadingLevel? : number
 }
 
 /**
@@ -185,20 +280,46 @@ export const getMDIndex = async ( input: string ) => {
  * - If the input is a URL, fetches the content.
  * - if the input is a string, gets it directly.
  * ---
- * @param {string} input - The Markdown input to create an index from.
- * @param {string} title - The title of the index (default: 'Table of Contents').
- * @returns {string} - The generated Markdown index as a string.
+ * @param {string} opts - Options
+ * @param {string} opts.input - The Markdown input to create an index from.
+ * @param {string} [opts.title] - The title of the index.
+ * @param {boolean} [opts.removeH1] - If set to `true`, headers of level 1 (`#`) will be removed.
+ * @param {number} [opts.maxHeadingLevel] - The maximum heading level to include in the Table of Contents.
+ * @returns {Promise<string>} - The generated Markdown index as a string.
  */
-export const createMDIndex = async ( input: string, title: string = 'Table of Contents' ): Promise<string> => {
+export const geMDTocString = async ( opts : MdTocStringOpts ): Promise<string> => {
 
-	let indexMarkdown: string
-	const index = await getMDIndex( input )
+	let baseLevel: number, indexMarkdown: string
 
-	indexMarkdown = `## ${title}\n\n`
+	const {
+		title, input, removeH1, maxHeadingLevel,
+	} = opts
 
-	index.forEach( item => {
+	indexMarkdown = title ? `## ${title}\n\n` : ''
+	const index   = await getMDToc( input )
 
-		const indent   = '  '.repeat( item.level - 1 )
+	// Filter out level 1 headers if removeH1 is true
+	const filteredIndex = removeH1
+		? index.filter( item => item.level !== 1 )
+		: index
+
+	// Filter by maximum heading level if specified
+	const maxLevel           = maxHeadingLevel ?? 6 // Default to level 6 if not provided
+	const filteredByMaxLevel = filteredIndex.filter( item => item.level <= maxLevel )
+
+	// Determine the base level of the first header
+	baseLevel = 1
+	if ( filteredByMaxLevel.length && filteredByMaxLevel[0].level > 1 ) {
+
+		baseLevel = filteredByMaxLevel[0].level // If first header is H2 or higher, treat it as level 1
+
+	}
+
+	// Generate the TOC in Markdown format
+	filteredByMaxLevel.forEach( ( item, index ) => {
+
+		// Adjust indent based on the base level
+		const indent   = index > 0 && item.level > baseLevel ? '  '.repeat( item.level - baseLevel ) : ''
 		indexMarkdown += `${indent}- [${item.title}](#${item.anchor})\n`
 
 	} )

@@ -11,7 +11,7 @@ import {
 	joinPath,
 	joinUrl,
 	getPaths,
-	getDirectoryTreeFromPath,
+	getDirTree,
 	box,
 	existsDir,
 } from '@dovenv/utils'
@@ -29,7 +29,7 @@ export class Workflow extends Repo {
 		const fileNames = await getPaths( [ dir + '/*.yml' ], { onlyFiles: true  } )
 		const color     = this.color
 		let content     = ( fileNames && fileNames.length )
-			? await getDirectoryTreeFromPath( {
+			? await getDirTree( {
 				name  : '.github/workflows\n',
 				input : dir,
 			} )

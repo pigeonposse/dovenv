@@ -2,12 +2,13 @@
 import {
 	existsFile,
 	getObjectFromJSONFile,
-	getPaths,
 	joinPath,
 	readFile,
+	writeFile,
 } from '@dovenv/utils'
 import {
 	Application,
+	RendererEvent,
 	TSConfigReader,
 } from 'typedoc'
 
@@ -20,25 +21,54 @@ import type {
 import type { TypeDocOptions } from 'typedoc'
 import type { PluginOptions }  from 'typedoc-plugin-markdown'
 
-type UserProps = {
-	tsconfigPath?    : string
-	packageJsonPath? : string
-	name?            : string
-}
 type TypedocOpts = Partial<Omit<TypeDocOptions, 'entryPoints' | 'tsconfig' | 'plugin' | 'out'>>
 type PluginOpts = Partial<PluginOptions>
 
 export type Typescript2MarkdownProps = ConvertPropsSuper & {
-	/** Options */
-	opts? : UserProps & {
+	/**
+	 * Options
+	 * @see https://dovenv.pigeonposse.com/guide/plugin/convert
+	 */
+	opts? : {
+		/**
+		 * __Cuaton tsconfig path__.
+		 *
+		 * Used for getting the ts config of the output.
+		 * @default
+		 * join( process.cwd(), "tsconfig.ts" )
+		 */
+		tsconfigPath?    : string
+		/**
+		 * __Package.json path__.
+		 *
+		 * This path is used to extract specific properties from the `package.json` file.
+		 * @default
+		 * join( process.cwd(), "package.json" )
+		 */
+		packageJsonPath? : string
+		/**
+		 * Name of your project.
+		 */
+		name?            : string
+		/**
+		 * Hooks.
+		 */
+		hooks?: {
+			before? : ( ) => Promise<string> | string
+			after?  : ( ) => Promise<string> | string
+		}
+		/**
+		 * Transform function.
+		 */
+		transform?       : ( content: string ) => Promise<string>
 		/**
 		 * Typedoc options
-		 * @see https://typedoc.org/guides/overview/
+		 * @see https://typedoc.org/options/
 		 */
 		typedoc?         : TypedocOpts
 		/**
 		 * Typedoc markdown options
-		 * @see https://typedoc-plugin-markdown.org/docs
+		 * @see @see https://typedoc-plugin-markdown.org/docs/options
 		 */
 		typedocMarkdown? : PluginOpts
 	} }
@@ -96,13 +126,14 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 
 	async run() {
 
+		const props    = this.props.opts || {}
 		const tsConfig = await this.#getTsConfigPath()
-
+		const output   = this.props.output
 		const {
 			name,
 			typedoc,
 			typedocMarkdown,
-		} = this.props.opts || {}
+		} = props
 
 		const config: Partial<TypeDocOptions> = {
 			disableSources   : true,
@@ -118,6 +149,28 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 			includeVersion : typedoc?.includeVersion,
 			// frontmatter
 			// frontmatterGlobals    : { outline: [ 2, 5 ] },
+
+		}
+
+		/**
+		 * markdown.
+		 * @see https://typedoc-plugin-markdown.org/docs/options
+		 */
+		const configMD: Partial<PluginOptions> = {
+			entryFileName         : 'index',
+			fileExtension         : '.md',
+			outputFileStrategy    : 'modules',
+			flattenOutputFiles    : false,
+			useCodeBlocks         : true,
+			expandObjects         : true,
+			expandParameters      : true,
+			// hidePageHeader        : true,
+			// hidePageTitle         : true,
+			// hideGroupHeadings     : true,
+			indexFormat           : 'list',
+			classPropertiesFormat : 'table',
+			typeDeclarationFormat : 'table',
+			parametersFormat      : 'table',
 
 		}
 
@@ -137,54 +190,100 @@ export class Typescript2Markdown  extends ConvertSuper<Typescript2MarkdownProps>
 		}
 		else config.name = name
 
-		/**
-		 * markdown.
-		 * @see https://typedoc-plugin-markdown.org/docs/options
-		 */
-		const configMD: Partial<PluginOptions> = {
-			entryFileName         : 'index',
-			hidePageHeader        : true,
-			hidePageTitle         : true,
-			useCodeBlocks         : true,
-			expandObjects         : true,
-			indexFormat           : 'list',
-			classPropertiesFormat : 'table',
-			typeDeclarationFormat : 'table',
-			parametersFormat      : 'table',
-			// hideGroupHeadings     : true,
-			outputFileStrategy    : 'modules',
-			expandParameters      : true,
-			flattenOutputFiles    : false,
+		const appConfig = {
+			...config,
+			...configMD,
+			...( typedoc ? typedoc : {} ),
+			...( typedocMarkdown ? typedocMarkdown : {} ),
+			plugin      : [ 'typedoc-plugin-markdown' ],
+			entryPoints : typeof this.props.input === 'string' ? [ this.props.input ] : this.props.input,
+			tsconfig    : tsConfig,
+
 		}
 
 		const app = await Application.bootstrapWithPlugins(
-			{
-				...config,
-				...configMD,
-				...( typedoc ? typedoc : {} ),
-				...( typedocMarkdown ? typedocMarkdown : {} ),
-				plugin      : [ 'typedoc-plugin-markdown' ],
-				entryPoints : typeof this.props.input === 'string' ? [ this.props.input ] : this.props.input,
-				tsconfig    : tsConfig,
-
-			},
+			appConfig,
 			tsConfig ? [ new TSConfigReader() ] : undefined,
 		)
-
-		// load( app )
 
 		const project = await app.convert()
 		const out     = await this._getOutput()
 		const dir     = out.dir
 
+		console.debug( {
+			appConfig,
+			dir,
+		} )
+
 		if ( project ) {
 
+			// eslint-disable-next-line prefer-const
+			let paths: string[] = []
+			app.renderer.on( RendererEvent.END, event => {
+
+				if ( event.outputDirectory && event.urls ) {
+
+					const outputDir = event.outputDirectory
+					for ( const outputFile of event.urls ) {
+
+						const filePath = joinPath( outputDir, outputFile.url )
+						paths.push( filePath )
+
+					}
+
+				}
+
+			} )
+
 			await app.generateDocs( project, dir )
-			const paths = await getPaths( dir )
-			const res   = []
+
+			console.debug( {
+				outputPaths : paths,
+			} )
+			const res = []
 			for ( const path of paths ) {
 
-				const content = await readFile( path, 'utf-8' )
+				const preContent                = await readFile( path, 'utf-8' )
+				let content: string | undefined = undefined
+				if ( props?.hooks?.before ) {
+
+					const hookContent = await props.hooks.before()
+					if ( hookContent && typeof hookContent === 'string' && hookContent !== '' ) {
+
+						if ( !content ) content = preContent
+						content = hookContent + content
+
+					}
+
+				}
+				if ( props?.hooks?.after ) {
+
+					const hookContent = await props.hooks.after()
+					if ( hookContent && typeof hookContent === 'string' && hookContent !== '' ) {
+
+						if ( !content ) content = preContent
+						content += hookContent
+
+					}
+
+				}
+				if ( props?.transform ) {
+
+					const transformedRes = await props.transform( preContent )
+					if ( transformedRes && typeof transformedRes === 'string' && transformedRes !== '' ) {
+
+						if ( !content ) content = preContent
+						content = transformedRes
+
+					}
+
+				}
+
+				if ( !content ) content = preContent
+				else if ( output ) await writeFile(
+					path,
+					content,
+				)
 
 				res.push( {
 					id : path,

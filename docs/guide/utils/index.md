@@ -4894,10 +4894,10 @@ hide useful deprecation warnings that should be addressed.
 
 ***
 
-### setDirectoryTree()
+### setDirTree()
 
 ```ts
-function setDirectoryTree(opts: {
+function setDirTree(opts: {
   fileStyle: (name: string, indent: number) => string;
   folderStyle: (name: string, indent: number) => string;
   name: string;
@@ -4926,7 +4926,7 @@ A string representing the content of `structure` as a directory structure.
 #### Example
 
 ```ts
-const result = setDirectoryTree({
+const result = setDirTree({
   structure: {
   src: {
     components: {

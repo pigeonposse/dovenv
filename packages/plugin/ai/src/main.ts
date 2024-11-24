@@ -1,10 +1,9 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import { type Config as DoveEnvConfig } from 'dovenv'
-
 import { run } from './run'
 
-import type { Config as EnvAiConfig } from 'env-ai'
+import type { Config as DoveEnvConfig } from 'dovenv'
+import type { Config as EnvAiConfig }   from 'env-ai'
 
 export type Config = {
 	/** Configuration for local AI assistant chats */
@@ -35,6 +34,7 @@ export const config = ( conf?: Config ) => {
 			if ( !key || typeof key !== 'string' ) {
 
 				console.warn( 'No chat key provided. Use "--key|-k <chat>" for execute a local assistant chat' )
+				console.info( `Available keys: ${keys.join( ', ' )}` )
 				return
 
 			}

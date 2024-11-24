@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 
 import type { CheckConfig }     from './check/main'
 import type { ConstConfig }     from './const/main'
@@ -34,4 +35,12 @@ export type Config = {
 	 * Configuration for the `transform` command
 	 */
 	transform? : TransformConfig
+}
+
+export type Params = {
+	/**
+	 * Configuration for dovenv
+	 * @see https://dovenv.pigeonposse.com/guide/core/config
+	 */
+	config? : Config
 }

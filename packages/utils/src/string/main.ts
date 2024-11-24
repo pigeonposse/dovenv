@@ -1,14 +1,10 @@
 
 import { matcher } from 'matcher'
 
-import { font }   from '../styles/main'
 import { isPath } from '../sys/super/main'
 
-import type { Fonts } from '../styles/main'
-
 export * from './placeholder'
-export * from './tree'
-export * from './shields'
+export * from './count'
 
 export const getMatch = matcher
 export const getStringType = ( value: string ): 'text' | 'url' | 'path' => {
@@ -31,16 +27,6 @@ const isUrl = ( value: string ): boolean => {
 		return false
 
 	}
-
-}
-
-export const generateASCII = ( args: {
-	name  : string
-	title : string
-	font  : Fonts
-} ): string => {
-
-	return font( `${args.title}\n-------\n${args.name}`, args.font )
 
 }
 

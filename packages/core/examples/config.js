@@ -1,5 +1,5 @@
 import {
-	setDirectoryTree,
+	setDirTree,
 	box,
 } from '@dovenv/utils'
 
@@ -9,7 +9,7 @@ const setStructure = () => {
 
 	try {
 
-		console.log(  '\n' + box( setDirectoryTree(  { structure : {
+		console.log(  '\n' + box( setDirTree(  { structure : {
 			'.vscode' : {
 				'settings.json'   : null,
 				'extensions.json' : null,

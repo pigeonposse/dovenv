@@ -11,6 +11,26 @@
 		"pp",
 		"dovenv"
 	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/theme/banda",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/theme/banda"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs"
@@ -33,7 +53,8 @@
 		"@dovenv/lint": "workspace:*",
 		"@dovenv/media": "workspace:*",
 		"@dovenv/repo": "workspace:*",
-		"@dovenv/todo": "workspace:*"
+		"@dovenv/todo": "workspace:*",
+		"@dovenv/workspace": "workspace:*"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
@@ -46,25 +67,5 @@
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
-	},
-	"homepage": "https://dovenv.pigeonposse.com/guide/theme/banda",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
-		"directory": "packages/theme/banda"
-	},
-	"license": "GPL-3.0",
-	"funding": {
-		"type": "individual",
-		"url": "https://pigeonposse.com/?popup=donate"
-	},
-	"bugs": {
-		"url": "https://github.com/pigeonposse/dovenv/issues",
-		"email": "dev@pigeonposse.com"
-	},
-	"author": {
-		"name": "Angelo",
-		"email": "angelo@pigeonposse.com",
-		"url": "https://github.com/angelespejo"
 	}
 }

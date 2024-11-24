@@ -9,6 +9,8 @@ import { Convert } from './run'
 import type { ConfigValue }             from './run'
 import type { Config as DoveEnvConfig } from 'dovenv'
 
+export * from './run'
+
 type Config = { [key in string]: ConfigValue }
 
 export const config = ( conf?: Config ): DoveEnvConfig => {

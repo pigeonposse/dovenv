@@ -3,12 +3,13 @@
 import {
 	createCli,
 	process,
+	hideBin,
 } from '@dovenv/utils'
 
 import { Docs } from './run'
 
 await createCli( {
-	argv : process.argv,
+	args : hideBin( process.argv ),
 	fn   : async cli => {
 
 		cli

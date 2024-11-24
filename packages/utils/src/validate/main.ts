@@ -3,6 +3,10 @@ import {
 	ZodError,
 } from 'zod'
 import { fromError } from 'zod-validation-error'
+import {
+	dezerialize,
+	zerialize,
+} from 'zodex'
 
 import type { ZodType } from 'zod'
 
@@ -50,6 +54,18 @@ export const ValidateError = ZodError
 export const validate = z
 
 /**
+ * Serializes and simplifies types into a JSON format
+ * @see https://www.npmjs.com/package/zodex?activeTab=readme
+ */
+export const serializeValidation = zerialize
+
+/**
+ * Deserializes
+ * @see https://www.npmjs.com/package/zodex?activeTab=readme
+ */
+export const deserializeValidation = dezerialize
+
+/**
  * Utility class for data validation.
  * Most of the validation functions are a wrapper of `zod` functions.
  * @see https://zod.dev/
@@ -59,6 +75,8 @@ export class Validation {
 	Error = ValidateError
 	schema = validate
 	formatError = formatValidationError
+	serialize = zerialize
+	deserialize = dezerialize
 
 	/**
 	 * Create a union of literal types from an array of strings.

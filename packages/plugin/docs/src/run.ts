@@ -1,8 +1,8 @@
 
 import {
-	replaceOutputFromProcess,
+	replaceStd,
 	process,
-	rmDeprecationAlerts,
+	deprecatedAlerts,
 } from '@dovenv/utils'
 
 import { VITEPRESS_DIR } from './.vitepress/config'
@@ -32,19 +32,24 @@ export class Docs {
 
 	config : DocsConfig | undefined
 	opts   : DocsParams
+	outputReplaced
 
 	constructor( conf?: DocsConfig, opts?: DocsParams ) {
 
 		this.config = conf || undefined
 		this.opts   = opts || {}
 
-		rmDeprecationAlerts()
-		replaceOutputFromProcess( {
-			vitepress                : name,
-			[`/.${name}`]            : `/.vitepress`,
-			[`v${vitepressVersion}`] : `v${version}`,
-		} )
+		const depAlert = deprecatedAlerts()
+		depAlert.hide()
 
+		this.outputReplaced = replaceStd( {
+			params : {
+				vitepress                : name,
+				[`/.${name}`]            : `/.vitepress`,
+				[`v${vitepressVersion}`] : `v${version}`,
+			},
+			type : [ 'stderr', 'stdout' ],
+		} )
 		if ( !this.opts.debug ) console.debug = () => {}
 
 	}
@@ -53,6 +58,7 @@ export class Docs {
 
 		try {
 
+			this.outputReplaced.start()
 			const dovenvConfigPath = getGlobals( globals.DOVENV_CONFIG_PATH )
 			const configInstance   = new Config( this.config, this.opts?.configPath  )
 
@@ -83,6 +89,7 @@ export class Docs {
 
 			//@ts-ignore
 			console.error( error.message )
+			this.outputReplaced.stop()
 			process.exit( 0 )
 
 		}

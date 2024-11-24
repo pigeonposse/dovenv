@@ -1,3 +1,2 @@
-import type { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
+export type { PackageJSON } from '@dovenv/utils'
 
-export type PackageJSON = JSONSchemaForNPMPackageJsonFiles

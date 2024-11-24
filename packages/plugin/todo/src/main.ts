@@ -4,7 +4,7 @@ type Config = boolean
 
 export const config = ( conf?: Config ): DoveEnvConfig => {
 
-	return { custom : { examples : {
+	return { custom : { todo : {
 		desc : 'Toolkit for Workspace TODOs',
 		fn   : async (  ) => {
 

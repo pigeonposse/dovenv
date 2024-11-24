@@ -11,7 +11,9 @@ const exampleFolder = resolvePath( joinPath( 'examples' ) )
 const imageFolder   = joinPath( exampleFolder, 'images' )
 const termFolder    = joinPath( exampleFolder, 'termgif' )
 // const imagePath     = joinPath( imageFolder, 'favicon.png' )
-const dovenvIn = await catchExecOutput( 'pnpm --help' )
+const [ e, dovenvIn ] = await catchExecOutput( 'pnpm --help' )
+
+if ( e ) throw e
 
 export default defineConfig( config( {
 	lint  : undefined,

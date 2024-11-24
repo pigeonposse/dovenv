@@ -2,9 +2,9 @@ import {
 	deepmergeCustom,
 	existsPath,
 	joinPath,
+	chroma,
+	getPalette,
 } from '@dovenv/utils'
-import chroma  from 'chroma-js'
-import Vibrant from 'node-vibrant'
 
 import type {
 	DocsConfig,
@@ -59,7 +59,7 @@ export const getStylesConfig = async ( config: DocsConfig, input: string, logoPa
 
 	if ( existLogo && !config.styles.color.primary ) {
 
-		const palette = await Vibrant.from( logo ).getPalette()
+		const palette = await getPalette( logo )
 
 		colors = {
 			primary   : palette?.Vibrant?.hex as string,

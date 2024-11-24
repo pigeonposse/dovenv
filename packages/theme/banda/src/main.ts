@@ -1,20 +1,22 @@
-import { config as convertConfig }  from '@dovenv/convert'
-import { config as docsConfig }     from '@dovenv/docs'
-import { config as examplesConfig } from '@dovenv/examples'
-import { config as lintConfig }     from '@dovenv/lint'
-import { config as mediaConfig }    from '@dovenv/media'
-import { config as repoConfig }     from '@dovenv/repo'
-import { config as todoConfig }     from '@dovenv/todo'
-import { defineConfig }             from 'dovenv'
+import { config as convertConfig }   from '@dovenv/convert'
+import { config as docsConfig }      from '@dovenv/docs'
+import { config as examplesConfig }  from '@dovenv/examples'
+import { config as lintConfig }      from '@dovenv/lint'
+import { config as mediaConfig }     from '@dovenv/media'
+import { config as repoConfig }      from '@dovenv/repo'
+import { config as todoConfig }      from '@dovenv/todo'
+import { config as workspaceConfig } from '@dovenv/workspace'
+import { defineConfig }              from 'dovenv'
 
 export type Config = {
-	media?    : Parameters<typeof mediaConfig>[0]
-	lint?     : Parameters<typeof lintConfig>[0]
-	docs?     : Parameters<typeof docsConfig>[0]
-	convert?  : Parameters<typeof convertConfig>[0]
-	repo?     : Parameters<typeof repoConfig>[0]
-	todo?     : Parameters<typeof todoConfig>[0]
-	examples? : Parameters<typeof examplesConfig>[0]
+	media?     : Parameters<typeof mediaConfig>[0]
+	lint?      : Parameters<typeof lintConfig>[0]
+	docs?      : Parameters<typeof docsConfig>[0]
+	convert?   : Parameters<typeof convertConfig>[0]
+	repo?      : Parameters<typeof repoConfig>[0]
+	todo?      : Parameters<typeof todoConfig>[0]
+	examples?  : Parameters<typeof examplesConfig>[0]
+	workspace? : Parameters<typeof workspaceConfig>[0]
 }
 export const config = ( opts?: Config ) => defineConfig( [
 	mediaConfig( opts?.media ),
@@ -24,4 +26,5 @@ export const config = ( opts?: Config ) => defineConfig( [
 	repoConfig( opts?.repo ),
 	todoConfig( opts?.todo ),
 	examplesConfig( opts?.examples ),
+	workspaceConfig( opts?.workspace ),
 ] )
