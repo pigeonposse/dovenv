@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/theme-pigeonposse",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A dovenv configuration and tools for Pigeonposse team",
 	"keywords": [
 		"theme",
@@ -50,12 +50,12 @@
 		"@dovenv/theme-banda": "workspace:*"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/utils": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

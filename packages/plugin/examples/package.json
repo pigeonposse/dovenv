@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"examples",
@@ -47,12 +47,12 @@
 		"leasot": "14.4.0"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/utils": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

@@ -7,6 +7,9 @@ import { config as pigeonposseTheme } from '../packages/theme/pigeonposse/dist/m
 
 export default defineConfig(
 	customConfig,
-	pigeonposseTheme( { ...docs } ),
 	readmes,
+	pigeonposseTheme( {
+		...docs,
+		lint : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'pnpm . lint eslint' } },
+	} ),
 )

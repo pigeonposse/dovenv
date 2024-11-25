@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/media",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"media",
@@ -55,6 +55,7 @@
 		"terminalizer": "0.12.0"
 	},
 	"devDependencies": {
+		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
 		"@dovenv/utils": "workspace:*",
 		"@types/imagemin": "9.0.0",
@@ -62,8 +63,7 @@
 		"@types/imagemin-jpegtran": "5.0.4",
 		"@types/imagemin-optipng": "5.2.4",
 		"@types/imagemin-svgo": "10.0.5",
-		"@types/imagemin-webp": "7.0.3",
-		"@dovenv/core": "workspace:*"
+		"@types/imagemin-webp": "7.0.3"
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"

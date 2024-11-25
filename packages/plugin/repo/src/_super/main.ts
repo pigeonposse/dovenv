@@ -9,6 +9,7 @@ import {
 	isGitHubAuthenticated,
 	getCurrentDir,
 	execModulePath,
+	icon,
 } from '@dovenv/utils'
 
 import type { Config }                  from './types'
@@ -118,7 +119,7 @@ export class Repo {
 	} ) {
 
 		await execModulePath( {
-			currentPath : joinPath( getCurrentDir( import.meta.url ), '..' ), //import.meta.url,
+			currentPath : joinPath( getCurrentDir( import.meta.url ) ), //import.meta.url,
 			moduleEntry : name,
 			modulePath  : path,
 			args        : args,
@@ -145,6 +146,26 @@ export class Repo {
 			return
 
 		}
+
+	}
+
+	_style = {
+		succedDesc : ( msg: string ) => this._color.green.dim( msg ),
+		succed     : ( msg: string ) => this._color.green( icon.tick + ' ' + msg ),
+		link       : ( msg: string ) => this._color.italic.underline(  msg ),
+	}
+
+	_succedMsg( title: string, msg?: string ) {
+
+		console.log( this._style.succed( title  ) )
+
+		if ( msg ) this._succedDesc( msg )
+
+	}
+
+	_succedDesc( msg: string ) {
+
+		console.log(  '\n' + this._style.succedDesc( msg ) )
 
 	}
 

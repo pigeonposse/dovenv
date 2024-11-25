@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/lint",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Lint configuration for dovenv",
 	"keywords": [
 		"lint",
@@ -64,8 +64,8 @@
 		"stylelint-formatter-pretty": "^4.0.1"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
 		"@dovenv/utils": "workspace:*"
