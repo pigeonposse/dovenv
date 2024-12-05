@@ -1,4 +1,4 @@
-import { execChild } from '@dovenv/utils'
+import { execChild } from '@dovenv/core/utils'
 
 import { Repo } from '../_super/main'
 

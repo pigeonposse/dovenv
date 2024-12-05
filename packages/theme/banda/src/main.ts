@@ -1,23 +1,35 @@
-import { config as convertConfig }   from '@dovenv/convert'
-import { defineConfig }              from '@dovenv/core'
-import { config as docsConfig }      from '@dovenv/docs'
-import { config as examplesConfig }  from '@dovenv/examples'
-import { config as lintConfig }      from '@dovenv/lint'
-import { config as mediaConfig }     from '@dovenv/media'
-import { config as repoConfig }      from '@dovenv/repo'
-import { config as todoConfig }      from '@dovenv/todo'
-import { createMergeDataFn }         from '@dovenv/utils'
-import { config as workspaceConfig } from '@dovenv/workspace'
+
+import * as convert          from '@dovenv/convert'
+import { defineConfig }      from '@dovenv/core'
+import { createMergeDataFn } from '@dovenv/core/utils'
+import * as docs             from '@dovenv/docs'
+import * as examples         from '@dovenv/examples'
+import * as lint             from '@dovenv/lint'
+import * as media            from '@dovenv/media'
+import * as repo             from '@dovenv/repo'
+import * as todo             from '@dovenv/todo'
+import * as workspace        from '@dovenv/workspace'
+
+export {
+	convert,
+	docs,
+	examples,
+	lint,
+	media,
+	repo,
+	todo,
+	workspace,
+}
 
 export type Config = {
-	media?     : Parameters<typeof mediaConfig>[0]
-	lint?      : Parameters<typeof lintConfig>[0]
-	docs?      : Parameters<typeof docsConfig>[0]
-	convert?   : Parameters<typeof convertConfig>[0]
-	repo?      : Parameters<typeof repoConfig>[0]
-	todo?      : Parameters<typeof todoConfig>[0]
-	examples?  : Parameters<typeof examplesConfig>[0]
-	workspace? : Parameters<typeof workspaceConfig>[0]
+	media?     : Parameters<typeof media.config>[0]
+	lint?      : Parameters<typeof lint.config>[0]
+	docs?      : Parameters<typeof docs.config>[0]
+	convert?   : Parameters<typeof convert.config>[0]
+	repo?      : Parameters<typeof repo.config>[0]
+	todo?      : Parameters<typeof todo.config>[0]
+	examples?  : Parameters<typeof examples.config>[0]
+	workspace? : Parameters<typeof workspace.config>[0]
 }
 
 /**
@@ -28,14 +40,14 @@ export const mergeConfig = createMergeDataFn<Config>(  )
 export const config = ( opts?: Config ) => {
 
 	return defineConfig( [
-		mediaConfig( opts?.media ),
-		lintConfig( opts?.lint ),
-		docsConfig( opts?.docs ),
-		convertConfig( opts?.convert ),
-		repoConfig( opts?.repo ),
-		todoConfig( opts?.todo ),
-		examplesConfig( opts?.examples ),
-		workspaceConfig( opts?.workspace ),
+		media.config( opts?.media ),
+		lint.config( opts?.lint ),
+		docs.config( opts?.docs ),
+		convert.config( opts?.convert ),
+		repo.config( opts?.repo ),
+		todo.config( opts?.todo ),
+		examples.config( opts?.examples ),
+		workspace.config( opts?.workspace ),
 	] )
 
 }

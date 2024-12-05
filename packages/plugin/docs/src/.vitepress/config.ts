@@ -11,7 +11,7 @@ import {
 	joinPath,
 	process,
 	getCurrentDir,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import {
 	defineConfig,
 	mergeConfig,

@@ -1,12 +1,12 @@
 import {
 	getMatch,
 	getObjectFromJSONFile,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Super } from '../_super/main'
 
 import type { InfoInterface } from './_super'
-import type { PackageJSON }   from '@dovenv/utils'
+import type { PackageJSON }   from '@dovenv/core/utils'
 
 export class Scripts extends Super implements InfoInterface {
 

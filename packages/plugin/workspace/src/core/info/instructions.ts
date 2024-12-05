@@ -1,7 +1,7 @@
 import {
 	getMD,
 	md2terminal,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Super } from '../_super/main'
 

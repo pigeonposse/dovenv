@@ -2,7 +2,7 @@
 import {
 	html2md,
 	md2html,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { ConvertSuper } from '../_shared/main'
 

@@ -1,9 +1,9 @@
-import { execModulePath } from '@dovenv/utils'
+import { execModulePath } from '@dovenv/core/utils'
 import {
 	isBun,
 	joinPath,
 	createDir,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
 	? Acc[number]
@@ -54,9 +54,10 @@ const runCli = async  ( args: string[] = [] ) => {
 	// } )
 	// console.log( import.meta.url )
 	await execModulePath( {
-		currentPath : import.meta.url,
-		moduleEntry : 'terminalizer',
-		modulePath  : [ 'bin', 'app.js' ],
+		module : {
+			id   : 'terminalizer',
+			path : [ 'bin', 'app.js' ],
+		},
 		args,
 	} )
 

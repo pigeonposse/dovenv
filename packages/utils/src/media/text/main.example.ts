@@ -1,7 +1,7 @@
 
 import { text2image } from './main'
 import {
-	font,
+	asciiFont as font,
 	icon,
 } from '../../styles/main'
 import {

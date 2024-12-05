@@ -1,13 +1,15 @@
 
 import {
-	config as bandaConfig,
-	mergeConfig as bandaMergeConfig,
-} from '@dovenv/theme-banda'
-import {
 	arePathsEqual,
 	createMergeDataFn,
 	getDirName,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
+import {
+	config as bandaConfig,
+	mergeConfig as bandaMergeConfig,
+} from '@dovenv/theme-banda'
+
+export * from '@dovenv/theme-banda'
 
 export type Config = Parameters< typeof bandaConfig>[ 0 ] & { workspaceDir?: string }
 

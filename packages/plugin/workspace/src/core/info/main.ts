@@ -1,5 +1,5 @@
 
-import { getDirName } from '@dovenv/utils'
+import { getDirName } from '@dovenv/core/utils'
 
 import { UsefulCmds }   from './cmds'
 import { Donate }       from './donate'

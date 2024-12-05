@@ -1,4 +1,4 @@
-import { catchError } from '@dovenv/utils'
+import { catchError } from '@dovenv/core/utils'
 
 import {
 	Contributors,

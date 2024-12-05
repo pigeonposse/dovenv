@@ -10,12 +10,12 @@ import {
 	joinPath,
 	joinUrl,
 	table,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { homepage } from '../../../package.json'
 
 import type { ConstructorParams } from './types'
-import type { PackageJSON }       from '@dovenv/utils'
+import type { PackageJSON }       from '@dovenv/core/utils'
 
 export class Super {
 

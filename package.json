@@ -107,6 +107,11 @@
 		}
 	},
 	"pnpm": {
+		"peerDependencyRules": {
+			"ignoreMissing": [
+				"marked-terminal"
+			]
+		},
 		"overrides": {
 			"got@<11.8.5": ">=11.8.5",
 			"jpeg-js@<0.4.4": ">=0.4.4",

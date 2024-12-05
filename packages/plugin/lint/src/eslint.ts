@@ -2,7 +2,7 @@ import {
 	execChild,
 	catchError,
 	process,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 export type EslintConfig = { flags?: string[] }
 export const runEslint = async ( conf?: EslintConfig ) => {

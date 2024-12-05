@@ -14,7 +14,7 @@ import {
 	resolvePath,
 	isDev,
 	fileURLToPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { setConfig }    from './merge'
 import { getPkgConfig } from './pkg'

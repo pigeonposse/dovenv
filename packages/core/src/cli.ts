@@ -11,6 +11,8 @@ import {
 	version,
 } from '../package.json'
 import { getConfig }  from './_shared/config'
+import * as CONSTS    from './_shared/const'
+import { Aliases }    from './aliases/main'
 import { Check }      from './check/main'
 import { Constant }   from './const/main'
 import {
@@ -24,6 +26,8 @@ import type {
 	Config,
 	Params,
 } from './types'
+
+export { CONSTS }
 
 /**
  * Instance `Dovenv`.
@@ -96,30 +100,45 @@ export class Dovenv {
 			args,
 			fn : async cli => {
 
-				cli.scriptName( Object.keys( bin )[0] )
+				const {
+					CMD,
+					GLOBAL_OPTIONS,
+					OPTIONS,
+				} = CONSTS
+				const name = Object.keys( bin )[0]
+				cli.scriptName( name )
 					.version( version )
 					.usage( 'Usage: $0 <command> [options]' )
 					.locale( 'en' )
 					.help( false )
-					.updateStrings( { 'Options:': 'General Options:' } )
+					.updateStrings( { 'Options:': 'Global Options:' } )
 					.showHelpOnFail( false )
-					.alias( 'h', 'help' )
-					.alias( 'v', 'version' )
-					.option( 'config', {
-						alias : 'c',
-						desc  : 'Dovenv configuration file path',
-						type  : 'string',
-
-					} ).option( 'verbose', {
+					.alias( GLOBAL_OPTIONS.HELP.key, GLOBAL_OPTIONS.HELP.alias )
+					.alias( GLOBAL_OPTIONS.VERSION.key, GLOBAL_OPTIONS.VERSION.alias )
+					.option(  GLOBAL_OPTIONS.VERBOSE.key, {
 						desc : 'Verbose mode',
 						type : 'boolean',
 					} )
+					.option(  GLOBAL_OPTIONS.QUIET.key, {
+						desc : 'Quiet mode',
+						type : 'boolean',
+					} )
+					.option( GLOBAL_OPTIONS.CONFIG.key, {
+						alias : GLOBAL_OPTIONS.CONFIG.alias,
+						desc  : 'Dovenv configuration file path',
+						type  : 'string',
+					} )
+					// .option( GLOBAL_OPTIONS.HELP.key, {
+					// 	alias : GLOBAL_OPTIONS.HELP.alias,
+					// 	desc  : 'Show help',
+					// 	type  : 'boolean',
+					// } )
 
 				const defaultCmds: CustomConfig = {
-					check : {
+					[CMD.CHECK] : {
 						desc : 'Make rules from your workspaces files or directories',
-						opts : { key : {
-							alias : 'k',
+						opts : { [OPTIONS.KEY.key] : {
+							alias : OPTIONS.KEY.alias,
 							desc  : 'Set key patterns for check',
 							type  : 'array',
 						} },
@@ -130,14 +149,14 @@ export class Dovenv {
 
 						},
 					},
-					const : {
+					[CMD.CONSTANTS] : {
 						desc : 'Constants of your workspace',
 						cmds : {
 							view : { desc: 'View all constants' },
 							add  : { desc: 'Add new constant' },
 						},
-						opts : { key : {
-							alias : 'k',
+						opts : { [OPTIONS.KEY.key] : {
+							alias : OPTIONS.KEY.alias,
 							desc  : 'Set key patterns of your constants for viewed',
 							type  : 'array',
 						} },
@@ -158,10 +177,29 @@ export class Dovenv {
 
 						},
 					},
-					transform : {
+					[CMD.ALIASES] : {
+						desc : `List aliases of your config. For execute use: ${name} x`,
+						fn   : async argv => {
+
+							const instance = new Aliases( argv )
+							await instance.run()
+
+						},
+					},
+					[CMD.ALIAS_EXEC] : {
+						desc     : 'Execute aliases of your config',
+						settings : { hide: true },
+						fn       : async argv => {
+
+							const instance = new Aliases( argv )
+							await instance.run()
+
+						},
+					},
+					[CMD.TRANSFORM] : {
 						desc : 'Transform your workspaces paths\n',
-						opts : { key : {
-							alias : 'k',
+						opts : { [OPTIONS.KEY.key] : {
+							alias : OPTIONS.KEY.alias,
 							desc  : 'Set key patterns of your transforms',
 							type  : 'array',
 						} },
@@ -197,7 +235,7 @@ export class Dovenv {
 					: await catchError( getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) )
 
 				// Show help when is not set a config file and is not set a command
-				if ( ( argv.help && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
+				if ( ( argv[GLOBAL_OPTIONS.HELP.key] && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
 				if ( errorConfig ) {
 
 					console.error( '\n\n' + color.red( errorConfig.message ) )
@@ -232,7 +270,7 @@ export class Dovenv {
 			},
 		} )
 
-		this.#deprecatedAlerts.show()
+		// this.#deprecatedAlerts.show()
 
 	}
 

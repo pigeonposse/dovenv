@@ -3,7 +3,7 @@ import { config as lintConfig } from '@dovenv/lint'
 import {
 	getCurrentDir,
 	joinPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import { defineConfig } from '@dovenv/core'
 
 import pkg        from '../../../../package.json'

@@ -4,7 +4,11 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig( [
 	{
 		...config,
-		entries   : [ './src/main', './src/bin' ],
+		entries : [
+			'./src/main',
+			'./src/bin',
+			'./src/utils',
+		],
 		externals : [
 			'zod',
 			'yargs',

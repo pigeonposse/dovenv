@@ -51,13 +51,13 @@ export const deprecatedAlerts = () => {
 		show : () => {
 
 			// @ts-ignore
-			process.noDeprecation = true
+			process.noDeprecation = false
 
 		},
 		hide : () => {
 
 			// @ts-ignore
-			process.noDeprecation = false
+			process.noDeprecation = true
 
 		},
 	}

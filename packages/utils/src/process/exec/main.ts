@@ -260,9 +260,7 @@ export const catchExecOutput = <Res = string>( command: string ) => {
 /**
  * Execute a module from a given path.
  * @param {object} params - Parameters for module execution.
- * @param {string} params.moduleEntry - The name of the module to execute.
- * @param {string} [params.currentPath] - The current path to resolve the module from. Defaults to the current working directory.
- * @param {string[]} [params.modulePath] - The path to find the module. Defaults to `process.cwd()`.
+ * @param {string} params.module - The module to execute.
  * @param {string[]} [params.args] - The arguments to pass to the module.
  * @returns {Promise<void>} A promise that resolves when the module has finished executing.
  * @throws Will reject with an error if the module fails to execute.
@@ -270,29 +268,22 @@ export const catchExecOutput = <Res = string>( command: string ) => {
  *
  * // Execute the `bin/index.mjs` file in the `@dovenv/utils` module
  * await execModulePath({
- * 	currentPath: import.meta.url,
- * 	moduleEntry: 'dovenv',
- * 	modulePath: ['dist','cli.mjs'],
- * 	args: ['--help']
+ *   module: {
+ * 	  id: 'dovenv',
+ * 	  path: ['dist','cli.mjs'],
+ *   },
+ *   args: ['--help']
  * })
  */
 export const execModulePath = async ( {
-	currentPath = import.meta.url,
-	moduleEntry,
-	modulePath = [],
+	module,
 	args = [],
 }:{
-	currentPath? : string
-	moduleEntry  : string
-	modulePath?  : string[]
-	args?        : string[]
+	module : Parameters<typeof getModulePath>[0]
+	args?  : string[]
 } ) => {
 
-	const binPath = await getModulePath( {
-		currentPath,
-		moduleEntry,
-		paths : modulePath,
-	} )
+	const binPath = await getModulePath( module )
 	await new Promise<void>( ( resolve, reject ) => {
 
 		const child = fork( binPath, args, { stdio: 'inherit' } )
@@ -300,7 +291,7 @@ export const execModulePath = async ( {
 
 			if ( code === 0 ) return resolve()
 
-			console.warn( `[${moduleEntry}] exited with code ${code}` )
+			console.warn( `[${module.id}] exited with code ${code}` )
 			return reject()
 
 		} )
@@ -312,43 +303,34 @@ export const execModulePath = async ( {
 /**
  * Execute a module from a given path and capture its output.
  * @param {object} params - Parameters for module execution.
- * @param {string} params.moduleEntry - The name of the module to execute.
- * @param {string} [params.currentPath] - The current path to resolve the module from. Defaults to the current working directory.
- * @param {string[]} [params.modulePath] - The path to find the module. Defaults to `process.cwd()`.
+ * @param {string} params.module - The module to execute.
  * @param {string[]} [params.args] - The arguments to pass to the module.
  * @returns {Promise<{ stdout: string; stderr: string }>} A promise that resolves with the captured output.
  * @throws Will reject with an error if the module fails to execute.
  * @example
  *
- * // Execute the `bin/index.mjs` file in the `@dovenv/utils` module and capture its output
+ * // Execute the `bin/index.mjs` file in the `dovenv` module and capture its output
  * const { stdout, stderr } = await execModulePathWithOutput({
- * 	currentPath: import.meta.url,
- * 	moduleEntry: 'dovenv',
- * 	modulePath: ['dist','cli.mjs'],
- * 	args: ['--help']
+ *   module: {
+ * 	  id: 'dovenv',
+ * 	  path: ['dist','cli.mjs'],
+ *   },
+ *   args: ['--help']
  * })
  * console.log('Output:', stdout)
  */
 export const execModulePathWithOutput = async ( {
-	currentPath = import.meta.url,
-	moduleEntry,
-	modulePath = [],
+	module,
 	args = [],
 }:{
-	currentPath : string
-	moduleEntry : string
-	modulePath  : string[]
-	args        : string[]
+	module : Parameters<typeof getModulePath>[0]
+	args?  : string[]
 } ): Promise<{
 	stdout : string
 	stderr : string
 }> => {
 
-	const binPath = await getModulePath(  {
-		currentPath,
-		moduleEntry,
-		paths : modulePath,
-	} )
+	const binPath = await getModulePath(  module )
 	return new Promise( ( resolve, reject ) => {
 
 		const child = fork( binPath, args, { stdio : [
@@ -385,7 +367,7 @@ export const execModulePathWithOutput = async ( {
 			}
 			else {
 
-				console.warn( `[${moduleEntry}] exited with code ${code}` )
+				console.warn( `[${module.id}] exited with code ${code}` )
 				return reject( new Error( `Process exited with code ${code}` ) )
 
 			}

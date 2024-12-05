@@ -1,7 +1,7 @@
 import {
 	getCurrentDir,
 	joinPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Typescript2Markdown } from './main'
 

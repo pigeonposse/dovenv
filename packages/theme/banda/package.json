@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/theme-banda",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "All in One dovenv tools for large and complete repositories",
 	"keywords": [
 		"theme",
@@ -57,11 +57,10 @@
 		"@dovenv/workspace": "workspace:*"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*",
 		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {

@@ -1,7 +1,7 @@
 import {
 	existsPath,
 	joinPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { mergeConfig } from './_utils'
 import {

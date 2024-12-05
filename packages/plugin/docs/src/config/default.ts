@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { joinUrl } from '@dovenv/utils'
+import { joinUrl } from '@dovenv/core/utils'
 
 import { mergeConfig } from './_utils'
 

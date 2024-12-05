@@ -7,7 +7,7 @@ import {
 	relativePath,
 	writeFile,
 	process,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import {
 	parse,
 	report,

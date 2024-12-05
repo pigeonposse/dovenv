@@ -2,7 +2,7 @@ import {
 	resolvePath,
 	joinPath,
 	catchExecOutput,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import { defineConfig } from '@dovenv/core'
 
 import { config } from '../src/main'

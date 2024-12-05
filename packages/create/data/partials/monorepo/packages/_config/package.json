@@ -1,0 +1,15 @@
+{
+	"name": "@{{prompt.name}}/_config",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Add your description here",
+	"keywords": [
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
+	"files": [
+		"dist",
+		"data"
+	]
+}

@@ -4,12 +4,15 @@ import {
 	deepmergeCustom,
 } from '@dovenv/utils'
 
-import { schema }  from './schema'
-import { Command } from '../_shared/cmd'
+import { schema }         from './schema'
+import { Command }        from '../_shared/cmd'
+import { GLOBAL_OPTIONS } from '../_shared/const'
 
-import type { Cli,
+import type {
+	Cli,
 	CustomConfig,
-	ShowHelpFn } from './types'
+	ShowHelpFn,
+} from './types'
 import type {
 	ArgvPreParsed,
 } from '../_shared/types'
@@ -46,10 +49,11 @@ export class Custom extends Command {
 			// @ts-ignore
 			this.cli.command( {
 				command : key,
-				desc    : prop.desc,
+				desc    : prop.settings?.hide ? false : prop.desc.endsWith( '.' ) ? prop.desc.slice( 0, -1 ) : prop.desc,
 				// @ts-ignore
 				builder : async argv => await this.#builder( argv, prop, help ),
 				handler : async argv => await this.#handler( argv, key, prop, help ),
+
 			} )
 
 		}
@@ -71,12 +75,13 @@ export class Custom extends Command {
 				// @ts-ignore
 				argv.command( {
 					command : key,
-					desc    : cmd.desc,
+					desc    : prop.settings?.hide ? false : cmd.desc,
 					builder : async argvChild => await this.#builder( argvChild, {
 						...cmd,
 						fn : prop.fn,
 					}, showHelp ),
 					handler : async argvChild => await this.#handler( argvChild, key, prop, showHelp ),
+
 				} )
 
 			}
@@ -99,17 +104,17 @@ export class Custom extends Command {
 
 		const time = this.performance()
 
-		// @ts-ignore
 		const title = this.config?.name || undefined
-		// @ts-ignore
-		const desc = this.config?.desc || undefined
+		const desc  = this.config?.desc || undefined
 
-		if ( title )
+		const isQuiet = opts?.[GLOBAL_OPTIONS.QUIET.key] as boolean || false
+
+		if ( title && !isQuiet )
 			console.log( `\n${color.bold.inverse( ' ' + title + ' ' )}${color.bold( desc ? '\n\n' + desc : '' )}\n` )
 
 		this.title       = name
 		this.description = prop.desc
-		this.setTitle()
+		if ( !isQuiet ) this.setTitle()
 
 		try {
 
@@ -124,8 +129,7 @@ export class Custom extends Command {
 			} )
 
 			// if ( prop.settings?.wrapConsole === false ) this.log.w()
-
-			this.setTime( time.prettyStop() )
+			if ( !isQuiet ) this.setTime( time.prettyStop() )
 
 		}
 		catch ( e ) {
@@ -133,7 +137,7 @@ export class Custom extends Command {
 			// if ( prop.settings?.wrapConsole === false ) this.log.wrapAll()
 
 			this.log.error( e )
-			this.setTime( time.prettyStop() )
+			if ( !isQuiet ) this.setTime( time.prettyStop() )
 			this.process.exit( 1 )
 
 		}

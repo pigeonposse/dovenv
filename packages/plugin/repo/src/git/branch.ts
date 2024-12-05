@@ -1,7 +1,7 @@
 import {
 	execChild,
 	icon,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
 

@@ -1,7 +1,7 @@
 import {
 	deepmergeCustom,
 	getBaseName,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import type {
 	SetPath,

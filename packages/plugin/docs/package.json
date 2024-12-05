@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -67,13 +67,12 @@
 		"vue-social-sharing": "3.0.9"
 	},
 	"devDependencies": {
+		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/utils": "workspace:*",
-		"@types/markdown-it-container": "2.0.10",
-		"@dovenv/core": "workspace:*"
+		"@types/markdown-it-container": "2.0.10"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

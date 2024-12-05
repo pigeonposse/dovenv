@@ -6,7 +6,7 @@ import {
 	color,
 	deepmergeCustom,
 	promptLineProps,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import gitEmojiConfig from 'commitlint-config-gitmoji'
 
 type UserConfig = Exclude<Parameters<typeof load>[0], undefined>

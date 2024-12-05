@@ -5,7 +5,7 @@ import {
 	joinPath,
 	removeDirIfExist,
 	writeFileContent,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import type { ConvertPropsSuper } from './types'
 

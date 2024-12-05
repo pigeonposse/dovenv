@@ -4,7 +4,7 @@ import {
 	joinPath,
 	chroma,
 	getPalette,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import type {
 	DocsConfig,

@@ -1,4 +1,4 @@
-import { downloadGitHubPath } from '@dovenv/utils'
+import { downloadGitHubPath } from '@dovenv/core/utils'
 
 import { RepoInfo } from './repo-info'
 import { Workflow } from './workflow'

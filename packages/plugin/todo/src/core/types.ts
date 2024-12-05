@@ -1,4 +1,4 @@
-import type { getPaths } from '@dovenv/utils'
+import type { getPaths } from '@dovenv/core/utils'
 
 export type Config = {
 	/** Id  of the TODO */

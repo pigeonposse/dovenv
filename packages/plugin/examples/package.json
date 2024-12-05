@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"examples",
@@ -51,8 +51,7 @@
 		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/core": "workspace:*",
-		"@dovenv/utils": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

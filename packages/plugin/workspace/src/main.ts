@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
 import { defineConfig } from '@dovenv/core'
-import { process }      from '@dovenv/utils'
+import { process }      from '@dovenv/core/utils'
 
 import { Workspace } from './core/main'
 

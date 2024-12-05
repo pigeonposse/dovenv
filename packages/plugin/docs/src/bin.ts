@@ -4,7 +4,7 @@ import {
 	createCli,
 	process,
 	hideBin,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Docs } from './run'
 

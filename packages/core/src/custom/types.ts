@@ -50,7 +50,13 @@ export type CustomConfig = {
 			 * Wrap the console output with the app logger
 			 * @default true
 			 */
-			wrapConsole? : boolean }
+			wrapConsole? : boolean
+			/**
+			 * Hide the command from the help menu
+			 * @default false
+			 */
+			hide?        : boolean
+		}
 	}
 }
 

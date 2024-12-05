@@ -8,7 +8,7 @@ import {
 	getDirTree,
 	box,
 	existsDir,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Repo } from '../_super/main'
 

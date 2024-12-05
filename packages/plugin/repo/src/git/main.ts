@@ -1,4 +1,4 @@
-import { color } from '@dovenv/utils'
+import { color } from '@dovenv/core/utils'
 
 import { GitAdd }    from './add'
 import { GitBranch } from './branch'

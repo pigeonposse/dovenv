@@ -2,7 +2,7 @@
 import {
 	color,
 	getMatch,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { generateCodeImage } from './code-image'
 import { runImageMin }       from './min'

@@ -3,7 +3,7 @@ import {
 	open as _open,
 	getCountFromPaths,
 	joinPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Super } from '../_super/main'
 

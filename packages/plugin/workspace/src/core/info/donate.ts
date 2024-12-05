@@ -1,4 +1,4 @@
-import { open as _open } from '@dovenv/utils'
+import { open as _open } from '@dovenv/core/utils'
 
 import { Super } from '../_super/main'
 

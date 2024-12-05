@@ -4,12 +4,12 @@ import {
 	getObjectFromJSONFile,
 	joinPath,
 	arePathsEqual,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import { defineConfig } from '@dovenv/core'
 
 import { config } from '../src/main'
 
-import type { PackageJSON } from '@dovenv/utils'
+import type { PackageJSON } from '@dovenv/core/utils'
 
 const workspaceDir = joinPath( getCurrentDir( import.meta.url ), '../../../../' )
 const pkgPath      = joinPath( workspaceDir, 'package.json' )

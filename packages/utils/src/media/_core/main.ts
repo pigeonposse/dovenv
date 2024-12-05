@@ -20,11 +20,12 @@ import type { AsciifyOptions } from './types'
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
 
-const fg              = ( text: string, r: number, g: number, b: number ): string => {
+const fg = ( text: string, r: number, g: number, b: number ): string => {
 
 	return Couleurs.rgb( r, g, b )( text )
 
 }
+
 const getTerminalSize = (): {
 	width  : number
 	height : number

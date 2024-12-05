@@ -1,7 +1,9 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import { Html2Markdown,
-	Markdown2Html } from './html/main'
+import {
+	Html2Markdown,
+	Markdown2Html,
+} from './html/main'
 import { Jsdoc2Markdown }      from './jsdoc/main'
 import { Openapi2Markdown }    from './openapi/main'
 import { Typescript2Markdown } from './typedoc/main'
@@ -10,7 +12,7 @@ import type { methods } from './_shared/const'
 import type {
 	ObjectValues,
 	Prettify,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 export type ConvertConfig = {
 	[methods.openapi2md] : Openapi2Markdown

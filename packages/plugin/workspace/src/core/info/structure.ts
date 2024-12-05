@@ -1,5 +1,5 @@
 
-import { setDirTree } from '@dovenv/utils'
+import { setDirTree } from '@dovenv/core/utils'
 
 import { Super } from '../_super/main'
 

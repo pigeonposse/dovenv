@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/repo",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"repo",
@@ -58,11 +58,10 @@
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",
 		"@dovenv/lint": "workspace:*",
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/utils": "workspace:*"
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

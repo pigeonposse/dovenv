@@ -1,4 +1,4 @@
-import { exec } from '@dovenv/utils'
+import { exec } from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
 

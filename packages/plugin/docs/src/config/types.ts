@@ -1,7 +1,7 @@
 import type {
 	DeepNonNullable,
 	IconDefinition,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
 import type {
 	DefaultTheme,

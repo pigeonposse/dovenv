@@ -2,18 +2,18 @@
 import {
 	color,
 	getMatch,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Convert } from './run'
 
-import type { ConfigValue }             from './run'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { ConfigValue }            from './run'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
 export * from './run'
 
 type Config = { [key in string]: ConfigValue }
 
-export const config = ( conf?: Config ): DoveEnvConfig => {
+export const config = ( conf?: Config ): DovenvConfig => {
 
 	return { custom : { convert : {
 		desc : 'Convert files from one format to another (experimental)',

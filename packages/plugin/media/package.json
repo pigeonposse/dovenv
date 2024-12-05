@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/media",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"media",
@@ -57,7 +57,6 @@
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/utils": "workspace:*",
 		"@types/imagemin": "9.0.0",
 		"@types/imagemin-gifsicle": "7.0.4",
 		"@types/imagemin-jpegtran": "5.0.4",
@@ -66,7 +65,7 @@
 		"@types/imagemin-webp": "7.0.3"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

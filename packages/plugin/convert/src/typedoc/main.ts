@@ -5,7 +5,7 @@ import {
 	joinPath,
 	readFile,
 	writeFile,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 import {
 	Application,
 	RendererEvent,

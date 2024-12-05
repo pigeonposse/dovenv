@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/todo",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "TODO tools for dovenv",
 	"keywords": [
 		"todo",
@@ -47,11 +47,10 @@
 		"leasot": "12.5.0"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*",
 		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {

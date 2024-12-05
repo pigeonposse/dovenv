@@ -5,7 +5,7 @@
 import {
 	execChild,
 	exec,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
 

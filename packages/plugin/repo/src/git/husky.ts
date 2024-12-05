@@ -1,4 +1,4 @@
-import { existsDir } from '@dovenv/utils'
+import { existsDir } from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
 

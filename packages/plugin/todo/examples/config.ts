@@ -2,7 +2,7 @@ import { defineConfig } from '@dovenv/core'
 import {
 	getCurrentDir,
 	joinPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { config } from '../src/main'
 

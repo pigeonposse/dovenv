@@ -7,10 +7,9 @@ import {
 	process,
 	cache,
 	isGitHubAuthenticated,
-	getCurrentDir,
 	execModulePath,
 	icon,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import type { Config }                  from './types'
 import type { Config as DoveEnvConfig } from '@dovenv/core'
@@ -119,10 +118,11 @@ export class Repo {
 	} ) {
 
 		await execModulePath( {
-			currentPath : joinPath( getCurrentDir( import.meta.url ) ), //import.meta.url,
-			moduleEntry : name,
-			modulePath  : path,
-			args        : args,
+			module : {
+				id   : name,
+				path : path,
+			},
+			args : args,
 		} )
 
 	}

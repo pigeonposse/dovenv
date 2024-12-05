@@ -2,7 +2,7 @@ import {
 	box,
 	html2terminal,
 	getMatch,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 export type Role<ID extends string = string> = {
 	[key in ID]: {

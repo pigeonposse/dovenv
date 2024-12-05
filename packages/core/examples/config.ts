@@ -38,8 +38,12 @@ const setStructure = () => '\n' + box( setDirTree( { structure : {
 } )
 
 export default defineConfig( {
-	name   : 'PROJECT WORKSPACE',
-	desc   : 'This is a project workspace example.',
+	name  : 'PROJECT WORKSPACE',
+	desc  : 'This is a project workspace example.',
+	alias : { struct : {
+		desc : 'Set structure for the workspace',
+		cmd  : 'pnpm --silent dev aliases --silent',
+	} },
 	custom : {
 		structure : {
 			desc : 'Structure for the workspace.',

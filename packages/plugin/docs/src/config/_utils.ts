@@ -1,4 +1,4 @@
-import { deepmergeCustom } from '@dovenv/utils'
+import { deepmergeCustom } from '@dovenv/core/utils'
 
 import type { DocsConfig } from './types'
 

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/convert",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "Convert utils for dovenv",
 	"keywords": [
 		"convert",
@@ -59,13 +59,12 @@
 		"typedoc-plugin-markdown": "4.2.10"
 	},
 	"devDependencies": {
+		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/utils": "workspace:*",
-		"@types/jsdoc-to-markdown": "7.0.6",
-		"@dovenv/core": "workspace:*"
+		"@types/jsdoc-to-markdown": "7.0.6"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*"
+		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

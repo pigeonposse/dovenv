@@ -3,7 +3,7 @@ import {
 	replaceStd,
 	process,
 	deprecatedAlerts,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { VITEPRESS_DIR } from './.vitepress/config'
 import {

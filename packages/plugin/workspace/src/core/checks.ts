@@ -11,11 +11,11 @@ import {
 	getObjectFromJSONFile,
 	getDirName,
 	joinPath,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Super } from './_super/main'
 
-import type { PackageJSON } from '@dovenv/utils'
+import type { PackageJSON } from '@dovenv/core/utils'
 
 type CheckType = NonNullable<NonNullable<Super['config']>['check']>
 type CheckPattern = NonNullable<NonNullable<CheckType['pkg']>['include']>

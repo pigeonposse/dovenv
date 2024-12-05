@@ -2,7 +2,7 @@
 import {
 	fontAwesomeBrandsIcons,
 	fontAwesomeSolidIcons,
-} from '@dovenv/utils/client'
+} from '@dovenv/core/utils/client'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useData }         from 'vitepress'
 

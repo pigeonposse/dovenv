@@ -1,4 +1,4 @@
-import { exec } from '@dovenv/utils'
+import { exec } from '@dovenv/core/utils'
 
 import { GitAdd }    from './add'
 import { GitBranch } from './branch'
@@ -80,7 +80,7 @@ export class GitPush extends GitSuper {
 						await this.exec( res[data.origin] )
 						console.log()
 
-						p.log.success( `Successfully pushed to ${this.opts.repoURL || '[no repoURL provided]'}\n` )
+						p.log.success( `Successfully pushed to ${await this.getGitRemoteURL() || '[no repoURL provided]'}\n` )
 
 					}
 

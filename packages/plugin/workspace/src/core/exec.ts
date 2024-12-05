@@ -5,7 +5,7 @@ import {
 	joinPath,
 	onStd,
 	removeDirIfExist,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { Super } from './_super/main'
 

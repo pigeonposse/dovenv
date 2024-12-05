@@ -1,4 +1,4 @@
-import { qrcode } from '@dovenv/utils'
+import { qrcode } from '@dovenv/core/utils'
 
 export type QRcodeOpts = { input: string }
 

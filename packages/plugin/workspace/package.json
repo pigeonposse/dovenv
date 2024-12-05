@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/workspace",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "A dovenv plugin with utilities for the workspace",
 	"keywords": [
 		"theme",
@@ -50,11 +50,10 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@dovenv/core": "workspace:*"
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {
-		"@dovenv/utils": "workspace:*",
 		"@dovenv/core": "workspace:*"
 	},
 	"publishConfig": {

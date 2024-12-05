@@ -5,7 +5,6 @@ import {
 	logger,
 	performance,
 	spinner,
-	color,
 	validate,
 	icon,
 	getBooleanFlagValue,
@@ -13,6 +12,9 @@ import {
 	formatValidationError,
 	// line,
 } from '@dovenv/utils'
+
+import * as consts      from './const'
+import { CommandStyle } from './style'
 
 import type { ArgvParsed } from './types'
 
@@ -30,6 +32,8 @@ export class Command {
 	title = 'Core'
 	description = ''
 	schema : unknown = validate.unknown()
+	protected consts = consts
+	protected style  = new CommandStyle()
 
 	constructor() {
 
@@ -43,17 +47,14 @@ export class Command {
 			date    : false,
 		}
 
-		if ( getBooleanFlagValue( 'verbose' ) )
+		if ( getBooleanFlagValue( this.consts.GLOBAL_OPTIONS.VERBOSE.key ) )
 			this.log.options.level = +999
 
 	}
 
 	protected setTitle( ) {
 
-		// console.log( `\n${line( {
-		// 	title    : color.bgCyanBright( ' ' + this.title + ' ' ),
-		// 	lineChar : color.cyanBright( icon.line ),
-		// } )}\n` )
+		const { color } = this.style
 
 		console.log( `\n${color.cyanBright.bold( icon.triangleRightSmall )} ${color.bgCyanBright( ' ' + this.title + ' ' )} ${color.gray.dim( this.description )}\n` )
 
@@ -61,19 +62,22 @@ export class Command {
 
 	protected setTime( time: string ) {
 
+		const { color } = this.style
 		console.log( `\n${color.cyanBright.bold( icon.triangleRightSmall )} ${color.bgCyanBright( ' ' + this.title + ' ' )} ${color.gray.dim( `Done in ${time}` )}\n` )
 
 	}
 
 	protected setSection( section: string ) {
 
+		const { color } = this.style
 		console.log( `${color.cyanBright.bold( icon.triangleRightSmall )} ${color.cyanBright( section )}\n` )
 
 	}
 
 	protected setContentString( key: string, desc?: string, c: 'cyan' | 'green' | 'yellow' | 'red' = 'cyan' ) {
 
-		const title = color[c]( `${key}` ) + ( desc ? ( ': ' + desc ) : '' )
+		const { color } = this.style
+		const title     = color[c]( `${key}` ) + ( desc ? ( ': ' + desc ) : '' )
 
 		return title
 
@@ -81,6 +85,7 @@ export class Command {
 
 	protected validateSchema<Schema>( data: unknown ): Schema {
 
+		const { color } = this.style
 		try {
 
 			// @ts-ignore
@@ -109,8 +114,10 @@ export class Command {
 
 	protected getKeysFromArgv( avaliableKeys: string[], argv?: ArgvParsed ) {
 
-		const keys: string[] = ( argv && argv.opts && 'key' in argv.opts && Array.isArray( argv.opts.key ) )
-			? Object.values( argv.opts.key )
+		const { color }      = this.style
+		const id             = this.consts.OPTIONS.KEY.key
+		const keys: string[] = ( argv && argv.opts && id in argv.opts && Array.isArray( argv.opts[id] ) )
+			? Object.values( argv.opts[id] )
 			: avaliableKeys
 		const res            = this.getKeys( avaliableKeys, keys )
 		if ( !res ) this.log.warn( `The key provided does not exist. Available keys: ${color.italic.dim( avaliableKeys.join( ', ' ) )}` )

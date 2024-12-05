@@ -4,7 +4,7 @@ import type {
 	Prettify,
 	Validate,
 	ValidateAnyType,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 type CheckOpts = {
 	/**

@@ -1,7 +1,7 @@
 // import {
 // 	copyDir,
 // 	removePathIfExist,
-// } from '@dovenv/utils'
+// } from '@dovenv/core/utils'
 import { VitePWA }             from 'vite-plugin-pwa'
 import ViteRestart             from 'vite-plugin-restart'
 import { type UserConfig }     from 'vitepress'

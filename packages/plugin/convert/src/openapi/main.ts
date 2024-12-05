@@ -2,7 +2,7 @@
 import {
 	joinPath,
 	readFile,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 import { ConvertSuper } from '../_shared/main'
 

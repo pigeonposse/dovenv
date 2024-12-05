@@ -1,4 +1,4 @@
-import { process }      from '@dovenv/utils'
+import { process }      from '@dovenv/core/utils'
 import imagemin         from 'imagemin'
 import imageminGif      from 'imagemin-gifsicle'
 import imageminJpegtran from 'imagemin-jpegtran'

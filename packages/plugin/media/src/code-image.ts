@@ -4,7 +4,7 @@ import {
 	joinPath,
 	writeFileContent,
 	removeFileIfExist,
-} from '@dovenv/utils'
+} from '@dovenv/core/utils'
 
 export type CodeImageConfig = {
 	/** The input path, URL or Code string to generate the image from */
