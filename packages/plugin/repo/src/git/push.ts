@@ -1,7 +1,7 @@
 import {
 	line,
 	icon,
-	catchExecOutput,
+	exec,
 } from '@dovenv/core/utils'
 
 import { GitAdd }    from './add'
@@ -25,9 +25,9 @@ export class GitPush extends GitSuper {
 		} )}\n`
 
 		console.log( l )
-		const [ error, output ] = await catchExecOutput( cmd )
-		if ( error ) console.error( this._color.red( error ) )
-		else console.log( this._color.dim( output ) )
+
+		await exec( cmd )
+
 		console.log( l )
 
 	}
