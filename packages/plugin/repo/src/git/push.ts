@@ -1,8 +1,4 @@
-import {
-	line,
-	icon,
-	exec,
-} from '@dovenv/core/utils'
+import { exec } from '@dovenv/core/utils'
 
 import { GitAdd }    from './add'
 import { GitBranch } from './branch'
@@ -16,19 +12,13 @@ export class GitPush extends GitSuper {
 	async exec( branch: string ) {
 
 		const cmd = `git push -f origin ${branch}`
-		const l   = `\n ${line( {
-			title    : this._color.dim( cmd ),
-			lineChar : ' ',
-		} )}${line( {
-			title    : '',
-			lineChar : this._color.dim( icon.line ),
-		} )}\n`
+		const l   = this.line( cmd )
 
-		console.log( l )
+		l.start()
 
 		await exec( cmd )
 
-		console.log( l )
+		l.stop()
 
 	}
 
@@ -97,7 +87,7 @@ export class GitPush extends GitSuper {
 						await this.exec( res[data.origin] )
 						console.log()
 
-						p.log.success( `Successfully pushed to ${await this.getGitRemoteURL() || '[no repoURL provided]'}\n` )
+						p.log.success( `✨ Successfully pushed to ${this._style.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` )
 
 					}
 
