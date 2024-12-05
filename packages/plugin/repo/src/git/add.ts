@@ -1,4 +1,4 @@
-import { exec } from '@dovenv/core/utils'
+import { catchExecOutput } from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
 
@@ -16,7 +16,18 @@ export class GitAdd extends GitSuper {
 
 	async exec( value: string ) {
 
-		await exec( `git add ${value}` )
+		const cmd        = `git add ${value}`
+		const [ e, out ] = await catchExecOutput( `git add ${value}` )
+		if ( e ) console.error( this._color.red( e ) )
+		else if ( out && out !== '' ) {
+
+			const l = this.line( cmd )
+			l.start()
+			console.log( this._color.green( out ) )
+			l.stop()
+
+		}
+		// this._prompt.log.success( `Added to ${value} branch` )
 
 	}
 

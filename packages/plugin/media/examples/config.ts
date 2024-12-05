@@ -1,9 +1,9 @@
+import { defineConfig } from '@dovenv/core'
 import {
 	resolvePath,
 	joinPath,
 	catchExecOutput,
 } from '@dovenv/core/utils'
-import { defineConfig } from '@dovenv/core'
 
 import { config } from '../src/main'
 
@@ -11,7 +11,8 @@ const exampleFolder = resolvePath( joinPath( 'examples' ) )
 const imageFolder   = joinPath( exampleFolder, 'images' )
 const termFolder    = joinPath( exampleFolder, 'termgif' )
 // const imagePath     = joinPath( imageFolder, 'favicon.png' )
-const dovenvIn = await catchExecOutput( 'pnpm --help' )
+const [ dovenvError, dovenvIn ] = await catchExecOutput( 'pnpm --help' )
+if ( dovenvError ) throw dovenvError
 
 export default defineConfig( config( {
 	min : {
