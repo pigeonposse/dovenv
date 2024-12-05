@@ -35,7 +35,7 @@ export class GitSuper extends Repo {
 			start : () => {
 
 				if ( title )
-					console.log( line( {
+					console.log( '\n' + line( {
 						title    : this._color.dim( title ),
 						lineChar : ' ',
 					} ) + '' + '\n' + l,
