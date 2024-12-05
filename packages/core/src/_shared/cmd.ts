@@ -10,6 +10,7 @@ import {
 	getBooleanFlagValue,
 	getMatch,
 	formatValidationError,
+	promptLineProps,
 	// line,
 } from '@dovenv/utils'
 
@@ -21,19 +22,14 @@ import type { ArgvParsed } from './types'
 // se tiene que definir aqui para que acepte instaceof luego
 const ErroClass = class CommandError extends TypedError {}
 
-export class Command {
+export class CommandSuper {
 
 	log
-	performance               = performance
-	spinner                   = spinner
-	Error = ErroClass
-	catchError = catchError
-	process = process
-	title = 'Core'
-	description = ''
-	schema : unknown = validate.unknown()
-	protected consts = consts
-	protected style  = new CommandStyle()
+	prompt : typeof promptLineProps = promptLineProps
+	performance  = performance
+	spinner  = spinner
+	style  = new CommandStyle()
+	title = ''
 
 	constructor() {
 
@@ -46,11 +42,32 @@ export class Command {
 			compact : false,
 			date    : false,
 		}
+		const copy                     = this.log.options.reporters
+		this.log.options.reporters     = [
+			{ log : ( logObj, ctx ) => {
 
-		if ( getBooleanFlagValue( this.consts.GLOBAL_OPTIONS.VERBOSE.key ) )
+				if ( logObj.type === 'debug' ) this.style.onDebug( ...logObj.args )
+				else copy[0].log( logObj, ctx )
+
+			} },
+		]
+
+		if ( getBooleanFlagValue( consts.GLOBAL_OPTIONS.VERBOSE.key ) )
 			this.log.options.level = +999
 
 	}
+
+}
+
+export class Command extends CommandSuper {
+
+	Error = ErroClass
+	catchError = catchError
+	process = process
+	title = 'Core'
+	description = ''
+	schema : unknown = validate.unknown()
+	protected consts = consts
 
 	protected setTitle( ) {
 

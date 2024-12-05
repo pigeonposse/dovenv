@@ -3,12 +3,13 @@ import {
 	icon,
 	table,
 	box,
-	// line,
+	line,
 } from '@dovenv/utils'
 
 export class CommandStyle {
 
 	color : typeof color = color
+	line  : typeof line = line
 
 	get = {
 		title        : ( v:unknown ) => color.bgMagenta( ' ' + v + ' ' ),
@@ -56,6 +57,25 @@ export class CommandStyle {
 			} )
 
 		},
+	}
+
+	onDebug = ( ...args: Parameters<typeof console.debug> ) => {
+
+		console.log(  )
+		const TITLE = color.gray.dim( line( {
+			title    : 'DEBUG',
+			lineChar : ' ',
+			align    : 'left',
+		} ) )
+		const LINE  = color.gray.dim( line( { title: '' } ) )
+
+		// console.log( LINE )
+		console.log( TITLE )
+		console.log( LINE )
+		console.log( ...args )
+		console.log( LINE )
+		console.log(  )
+
 	}
 
 	setTitle( title: string ) {

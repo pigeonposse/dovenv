@@ -164,20 +164,8 @@ export class GitCommit extends GitSuper {
 
 		await this._promptLine( {
 			// outro    : 'Succesfully commited 🌈',
-			onCancel : p => {
-
-				p.cancel( 'Canceled 💔' )
-				process.exit( 0 )
-
-			},
-			list : async p => {
-
-				// const setLine = ( title?: string ) => {
-
-				// 	p.log.step( '' )
-				// 	console.log( line( { title } ) )
-
-				// }
+			onCancel : async () => this.onCancel(),
+			list     : async p => {
 
 				const prompt = {
 					type : async () => {

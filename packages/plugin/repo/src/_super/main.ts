@@ -7,7 +7,6 @@ import {
 	process,
 	cache,
 	isGitHubAuthenticated,
-	execModulePath,
 	icon,
 } from '@dovenv/core/utils'
 
@@ -106,24 +105,6 @@ export class Repo {
 			return
 
 		}
-
-	}
-
-	async _execBin( {
-		name, path, args,
-	}:{
-		name  : string
-		path  : string[]
-		args? : string[]
-	} ) {
-
-		await execModulePath( {
-			module : {
-				id   : name,
-				path : path,
-			},
-			args : args,
-		} )
 
 	}
 

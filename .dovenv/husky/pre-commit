@@ -7,4 +7,5 @@
 # @see https://www.npmjs.com/package/lint-staged
 ###############################################################################
 
-# pnpm . lint staged
+echo 'Precommit 🚀'
+pnpm --silent . lint staged --silent

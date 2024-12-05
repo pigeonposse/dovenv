@@ -619,6 +619,9 @@ importers:
       node-vibrant:
         specifier: 3.2.1-alpha.1
         version: 3.2.1-alpha.1
+      npm-run-path:
+        specifier: ^6.0.0
+        version: 6.0.0
       open:
         specifier: 10.1.0
         version: 10.1.0

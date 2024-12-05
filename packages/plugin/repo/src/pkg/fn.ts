@@ -1,22 +1,25 @@
+// import changeset from '@changesets/cli/bin.js'
+
+import {
+	replaceConsole,
+	runLocalBin,
+} from '@dovenv/core/utils'
+
 import { Repo } from '../_super/main'
 
 export class Packages extends Repo {
 
 	async #exec( args?: string[] ) {
 
-		// const oldArgv      = this._process.argv
-		// this._process.argv = [ '', '' ]
+		const replace = replaceConsole( { params: { 'changeset init': '$0 pkg init' } } )
+		replace.start()
 
-		// if ( cmd ) this._process.argv.push( ...cmd )
-		// await import( '@changesets/cli' )
-
-		// this._process.argv = oldArgv
-
-		await this._execBin( {
-			name : '@changesets/cli',
-			path : [ 'bin.js' ],
-			args : args,
+		await runLocalBin( {
+			name : 'changeset',
+			args,
 		} )
+
+		replace.stop()
 
 	}
 
@@ -46,9 +49,20 @@ export class Packages extends Repo {
 
 	async release() {
 
-		await this.prompt( )
-		await this.version()
-		await this.publish()
+		try {
+
+			await this.prompt()
+			await this.version()
+			await this.publish()
+
+		}
+		catch ( error ) {
+
+			if ( error instanceof Error )
+				console.error( 'Release failed:', error.message )
+			else console.error( 'Release failed:', error )
+
+		}
 
 	}
 

@@ -24,6 +24,15 @@ export class GitSuper extends Repo {
 
 	}
 
+	async onCancel() {
+
+		this._prompt.log.step( '' )
+		this._prompt.cancel( 'Process cancelled 💔' )
+
+		process.exit( 0 )
+
+	}
+
 	line( title?: string ) {
 
 		const l = `${line( {

@@ -2,13 +2,64 @@ import {
 	exec as execNode,
 	fork,
 	spawn,
+	execFile,
 	type SpawnOptions,
 } from 'node:child_process'
-import process from 'node:process'
+import process           from 'node:process'
+import { npmRunPathEnv } from 'npm-run-path'
 
 import { catchError }    from '../../error/main'
 import { box }           from '../../styles/main'
 import { getModulePath } from '../../sys/module'
+
+/**
+ * Runs a local binary in the current project.
+ *
+ * It uses the `PATH` and `npm-run-path` to locate the binary in the project's `node_modules/.bin`.
+ * @param   {object}  options - Options object.
+ * @param   {string}  options.name - Name of the bin to run.
+ * @param   {string[]} options.args - Args to pass to the bin.
+ * @param   {object}  [options.opts] - Options object.
+ * @returns {Promise<number>} - Resolves with the exit code of the bin.
+ * @throws  {Error} - If the bin exits with a non-zero code.
+ */
+export const runLocalBin = async ( {
+	name, args, opts,
+}:{
+	name  : string
+	args? : string[]
+	opts? : Parameters<typeof npmRunPathEnv>[0]
+} ): Promise<number> => {
+
+	return new Promise( ( resolve, reject ) => {
+
+		const env = npmRunPathEnv( opts )
+
+		execFile(
+			name,
+			args,
+			{
+				env,
+				cwd   : opts?.cwd || process.cwd(),
+				shell : true,
+			},
+			( error, _stdout, stderr ) => {
+
+				if ( error ) {
+
+					reject( new Error( error.message || stderr ) )
+					return
+
+				}
+
+				resolve( 0 ) // Process exited successfully
+
+			},
+		)
+
+	} )
+
+}
 
 /**
  * Executes a command in the shell and waits for it to finish.

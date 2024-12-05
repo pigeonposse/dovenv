@@ -4,6 +4,7 @@ import {
 	joinPath,
 	writeFileContent,
 	removeFileIfExist,
+	runLocalBin,
 } from '@dovenv/core/utils'
 
 export type CodeImageConfig = {
@@ -33,17 +34,25 @@ export const generateCodeImage = async ( {
 
 		}
 
-		process.argv = [
-			'runtime',
-			'carbon-now-cli',
-			input,
-			`--save-to ${out}`,
-			...( filename ? [ `--save-as ${filename}` ] : [] ),
-			...flags,
-		]
+		// process.argv = [
+		// 	input,
+		// 	`--save-to ${out}`,
+		// 	...( filename ? [ `--save-as ${filename}` ] : [] ),
+		// 	...flags,
+		// ]
 
-		// @ts-ignore
-		await import( 'carbon-now-cli' )
+		// // @ts-ignore
+		// await import( 'carbon-now-cli' )
+
+		await runLocalBin( {
+			name : 'carbon-now',
+			args : [
+				input,
+				`--save-to ${out}`,
+				...( filename ? [ `--save-as ${filename}` ] : [] ),
+				...flags,
+			],
+		} )
 
 	}
 	catch ( e ) {

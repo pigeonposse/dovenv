@@ -53,7 +53,7 @@ export class GitBranch extends GitSuper {
 	 */
 	async getCurrent() {
 
-		const { stdout } = await execChild( 'git branch --show-current	' )
+		const { stdout } = await execChild( 'git branch --show-current' )
 
 		return stdout
 

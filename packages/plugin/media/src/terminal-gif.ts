@@ -1,4 +1,4 @@
-import { execModulePath } from '@dovenv/core/utils'
+import { runLocalBin } from '@dovenv/core/utils'
 import {
 	isBun,
 	joinPath,
@@ -32,32 +32,8 @@ export type TermGifConfig = {
 
 const runCli = async  ( args: string[] = [] ) => {
 
-	// process.argv = [
-	// 	'runtime',
-	// 	'cli',
-	// 	...args,
-	// ]
-	// await import( 'terminalizer/bin/app.js' )
-	// await new Promise<void>( ( resolve, reject ) => {
-
-	// 	const binPath = getModulePath( 'terminalizer', [ 'bin', 'app.js' ] )
-	// 	const child   = fork( binPath, args, { stdio: 'inherit' } )
-	// 	child.on( 'close', code => {
-
-	// 		if ( code === 0 ) return resolve()
-
-	// 		console.warn( `[termgif] exited with code ${code}` )
-	// 		return reject()
-
-	// 	} )
-
-	// } )
-	// console.log( import.meta.url )
-	await execModulePath( {
-		module : {
-			id   : 'terminalizer',
-			path : [ 'bin', 'app.js' ],
-		},
+	await runLocalBin( {
+		name : 'terminalizer',
 		args,
 	} )
 

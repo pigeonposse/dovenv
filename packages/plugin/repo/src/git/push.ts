@@ -48,13 +48,8 @@ export class GitPush extends GitSuper {
 
 		await this._promptLine( {
 			outro    : 'Succesfully pushed 🌈',
-			onCancel : p => {
-
-				p.cancel( 'Canceled 💔' )
-				process.exit( 0 )
-
-			},
-			list : async p => ( {
+			onCancel : async () => this.onCancel(),
+			list     : async p => ( {
 				'desc'        : () => p.log.info( this._color.gray.dim( 'Push your repository' ) ),
 				[data.update] : async () => await p.confirm( {
 					message      : 'Do yo want update version?',

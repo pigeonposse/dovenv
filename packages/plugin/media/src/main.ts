@@ -82,7 +82,7 @@ export const config = ( conf?:  Config ) => {
 				],
 			},
 		},
-		opts : { keys : {
+		opts : { key : {
 			type  : 'array',
 			alias : 'k',
 			desc  : 'pattern to match keys in configuration',

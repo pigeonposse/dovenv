@@ -50,13 +50,8 @@ export class GitPull extends GitSuper {
 		console.debug( 'cached data', cached )
 		await this._promptLine( {
 			outro    : 'Succesfully Pulled 🌈',
-			onCancel : p => {
-
-				p.cancel( 'Canceled 💔' )
-				return this._process.exit( 0 )
-
-			},
-			list : async p => ( {
+			onCancel : async () => this.onCancel(),
+			list     : async p => ( {
 				desc         : () => p.log.info( this._color.gray.dim( 'Create a pull request on GitHub.' ) ),
 				[data.title] : async () => {
 

@@ -1,4 +1,5 @@
 import { existsDir } from '@dovenv/core/utils'
+import indexHusky    from 'husky'
 
 import { GitSuper } from './super'
 
@@ -8,14 +9,12 @@ export class Husky extends GitSuper {
 
 		const path  = this.opts?.husky?.path ?? '.dovenv/husky'
 		const exist = await existsDir( path )
+
 		if ( !exist ) {
 
 			await this.init()
-			await this._execBin( {
-				name : 'husky',
-				path : [ 'bin.js' ],
-				args : [ path ],
-			} )
+
+			await indexHusky( path )
 
 			this._succedMsg( `Husky folder is now in: ${path}` )
 
