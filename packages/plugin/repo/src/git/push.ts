@@ -1,4 +1,8 @@
-import { exec } from '@dovenv/core/utils'
+import {
+	line,
+	icon,
+	catchExecOutput,
+} from '@dovenv/core/utils'
 
 import { GitAdd }    from './add'
 import { GitBranch } from './branch'
@@ -11,7 +15,20 @@ export class GitPush extends GitSuper {
 
 	async exec( branch: string ) {
 
-		await exec( `git push -f origin ${branch}` )
+		const cmd = `git push -f origin ${branch}`
+		const l   = `\n ${line( {
+			title    : this._color.dim( cmd ),
+			lineChar : ' ',
+		} )}${line( {
+			title    : '',
+			lineChar : this._color.dim( icon.line ),
+		} )}\n`
+
+		console.log( l )
+		const [ error, output ] = await catchExecOutput( cmd )
+		if ( error ) console.error( this._color.red( error ) )
+		else console.log( this._color.dim( output ) )
+		console.log( l )
 
 	}
 

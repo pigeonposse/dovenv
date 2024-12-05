@@ -257,7 +257,7 @@ export class GitCommit extends GitSuper {
 								return
 
 							}
-							p.log.info( 'Commit total message: ' + message )
+							p.log.info( 'Total message: ' + message )
 
 							// setLine( 'Lint' )
 							// await this.lint( message )
