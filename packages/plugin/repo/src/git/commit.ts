@@ -170,6 +170,13 @@ export class GitCommit extends GitSuper {
 			},
 			list : async p => {
 
+				const setLine = ( title?: string ) => {
+
+					p.log.step( '' )
+					console.log( line( { title } ) )
+
+				}
+
 				const prompt = {
 					type : async () => {
 
@@ -252,14 +259,14 @@ export class GitCommit extends GitSuper {
 
 							}
 							p.log.info( 'Commit total message: ' + message )
-							p.log.step( '' )
-							line( { title: 'Lint' } )
+
+							setLine( 'Lint' )
 							await this.lint( message )
-							console.log()
-							line( { title: 'commit' } )
+
+							setLine( 'Commit' )
 							await this.exec( message )
 
-							line( {} )
+							console.log( line( {} ) )
 							p.log.step( '' )
 
 						}
