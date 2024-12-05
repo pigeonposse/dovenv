@@ -6,4 +6,4 @@
 # @see https://git-scm.com/docs/git-commit#_hooks
 ###############################################################################
 
-pnpm . lint commitlint $1
+pnpm --silent . lint commitlint --silent $1

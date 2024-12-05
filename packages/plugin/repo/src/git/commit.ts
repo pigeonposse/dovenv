@@ -5,6 +5,7 @@
 import {
 	execChild,
 	exec,
+	line,
 } from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
@@ -251,9 +252,15 @@ export class GitCommit extends GitSuper {
 
 							}
 							p.log.info( 'Commit total message: ' + message )
-
+							p.log.step( '' )
+							line( { title: 'Lint' } )
 							await this.lint( message )
+							console.log()
+							line( { title: 'commit' } )
 							await this.exec( message )
+
+							line( {} )
+							p.log.step( '' )
 
 						}
 						catch ( e ) {
