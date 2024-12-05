@@ -5,7 +5,6 @@
 import {
 	execChild,
 	exec,
-	line,
 } from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
@@ -161,7 +160,7 @@ export class GitCommit extends GitSuper {
 		const cached      = await cache.get()
 
 		await this._promptLine( {
-			outro    : 'Succesfully commited 🌈',
+			// outro    : 'Succesfully commited 🌈',
 			onCancel : p => {
 
 				p.cancel( 'Canceled 💔' )
@@ -170,12 +169,12 @@ export class GitCommit extends GitSuper {
 			},
 			list : async p => {
 
-				const setLine = ( title?: string ) => {
+				// const setLine = ( title?: string ) => {
 
-					p.log.step( '' )
-					console.log( line( { title } ) )
+				// 	p.log.step( '' )
+				// 	console.log( line( { title } ) )
 
-				}
+				// }
 
 				const prompt = {
 					type : async () => {
@@ -260,14 +259,10 @@ export class GitCommit extends GitSuper {
 							}
 							p.log.info( 'Commit total message: ' + message )
 
-							setLine( 'Lint' )
-							await this.lint( message )
+							// setLine( 'Lint' )
+							// await this.lint( message )
 
-							setLine( 'Commit' )
 							await this.exec( message )
-
-							console.log( line( {} ) )
-							p.log.step( '' )
 
 						}
 						catch ( e ) {

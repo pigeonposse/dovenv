@@ -40,7 +40,7 @@ export class GitPush extends GitSuper {
 		const cached      = await cache.get()
 
 		await this._promptLine( {
-			outro    : 'Succesfully finished 🌈',
+			outro    : 'Succesfully pushed 🌈',
 			onCancel : p => {
 
 				p.cancel( 'Canceled 💔' )
