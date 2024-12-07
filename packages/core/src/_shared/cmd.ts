@@ -12,6 +12,7 @@ import {
 	formatValidationError,
 	promptLine,
 	promptLineGroup,
+	cache,
 	// line,
 } from '@dovenv/utils'
 
@@ -58,6 +59,16 @@ export class CommandSuper {
 
 		if ( getBooleanFlagValue( consts.GLOBAL_OPTIONS.VERBOSE.key ) )
 			this.log.options.level = +999
+
+	}
+
+	protected async cache<V extends Record<string, unknown>>( id: string, values: V ) {
+
+		return await cache( {
+			projectName : consts.BIN_NAME,
+			id,
+			values      : values,
+		} )
 
 	}
 

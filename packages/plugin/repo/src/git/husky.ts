@@ -16,12 +16,12 @@ export class Husky extends GitSuper {
 
 			await indexHusky( path )
 
-			console.log( style.succed( 'Husky folder is now in:', style.bold( path ) ) )
+			console.log( style.succed( `Husky folder is now in: ${style.bold( path )}` ) )
 
 		}
-		else console.log( style.succed( `Husky exists in:`, style.bold( path ) ) )
+		else console.log( style.succed( `Husky exists in: ${style.bold( path )}` ) )
 
-		console.log( style.succed( `Add now you Git hooks!','More info: ${style.link( 'https://typicode.github.io/husky' )}` ) )
+		console.log( style.succedDesc( `\nAdd now you Git hooks!\nMore info: ${style.link( 'https://typicode.github.io/husky' )}` ) )
 
 	}
 

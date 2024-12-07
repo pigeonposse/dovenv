@@ -2,8 +2,6 @@ import { PluginCore }     from '@dovenv/core'
 import {
 	existsLocalBin,
 	joinPath,
-	process,
-	cache,
 	isGitHubAuthenticated,
 } from '@dovenv/core/utils'
 
@@ -24,7 +22,7 @@ export class Repo extends PluginCore {
 			const consts = config?.const || undefined
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const pkg          = consts?.pkg && typeof consts?.pkg == 'object' ? consts?.pkg : {} as any
-			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : process.cwd()
+			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : this.process.cwd()
 
 			if ( !opts?.homepageURL && pkg.homepage ) opts = {
 				...opts,
@@ -102,15 +100,15 @@ export class Repo extends PluginCore {
 
 	}
 
-	protected async _cache<V extends Record<string, unknown>>( id: string, values: V ) {
+	// protected async _cache<V extends Record<string, unknown>>( id: string, values: V ) {
 
-		return await cache( {
-			projectName : this.opts.repoID || 'dovenv',
-			id,
-			values      : values,
-		} )
+	// 	return await cache( {
+	// 		projectName : this.opts.repoID || 'dovenv',
+	// 		id,
+	// 		values      : values,
+	// 	} )
 
-	}
+	// }
 
 	async init() {
 
@@ -123,67 +121,5 @@ export class Repo extends PluginCore {
 		}
 
 	}
-
-	// protected _color = color
-	// protected _prompt = promptLine
-	// protected _promptLine = promptLineGroup
-	// protected _process = process
-
-	// _style = {
-	// 	succedDesc : ( msg: string ) => this._color.green.dim( msg ),
-	// 	succed     : ( msg: string ) => this._color.green( icon.tick + ' ' + msg ),
-	// 	link       : ( msg: string ) => this._color.italic.underline(  msg ),
-	// }
-
-	// _succedMsg( title: string, msg?: string ) {
-
-	// 	console.log( this._style.succed( title  ) )
-
-	// 	if ( msg ) this._succedDesc( msg )
-
-	// }
-
-	// _succedDesc( msg: string ) {
-
-	// 	console.log(  '\n' + this._style.succedDesc( msg ) )
-
-	// }
-
-	// async onCancel() {
-
-	// 	this.prompt.log.step( '' )
-	// 	this.prompt.cancel( 'Process cancelled 💔' )
-
-	// 	process.exit( 0 )
-
-	// }
-
-	// _line( title?: string ) {
-
-	// 	const l = `${line( {
-	// 		title    : '',
-	// 		lineChar : this._color.dim( icon.line ),
-	// 	} )}\n`
-
-	// 	return {
-	// 		start : () => {
-
-	// 			if ( title )
-	// 				console.log( '\n' + line( {
-	// 					title    : this._color.dim( title ),
-	// 					lineChar : ' ',
-	// 				} ) + '' + '\n' + l,
-	// 				)
-	// 			else console.log(  '\n' + l )
-
-	// 		},
-	// 		stop : () => {
-
-	// 			console.log( '\n' + l )
-
-	// 		},
-	// 	}
-
-	// }
 
 }

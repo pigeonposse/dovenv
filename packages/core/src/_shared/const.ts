@@ -1,3 +1,13 @@
+import {
+	name,
+	bin,
+	version,
+} from '../../package.json'
+
+export const PKG_NAME = name
+export const BIN_NAME = Object.keys( bin )[0]
+export const VERSION = version
+
 export const CMD = {
 	CONSTANTS  : 'const',
 	CHECK      : 'check',

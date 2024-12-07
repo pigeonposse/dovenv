@@ -6,10 +6,6 @@ import {
 	deprecatedAlerts,
 } from '@dovenv/utils'
 
-import {
-	bin,
-	version,
-} from '../package.json'
 import { getConfig }  from './_shared/config'
 import * as CONSTS    from './_shared/const'
 import { Aliases }    from './aliases/main'
@@ -104,10 +100,12 @@ export class Dovenv {
 					CMD,
 					GLOBAL_OPTIONS,
 					OPTIONS,
+					BIN_NAME: name,
+					VERSION,
 				} = CONSTS
-				const name = Object.keys( bin )[0]
+
 				cli.scriptName( name )
-					.version( version )
+					.version( VERSION )
 					.usage( 'Usage: $0 <command> [options]' )
 					.locale( 'en' )
 					.help( false )

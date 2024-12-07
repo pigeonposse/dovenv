@@ -40,19 +40,19 @@ export class GitPush extends GitSuper {
 		} as const
 
 		const defaultData = {
-			[data.staged]   : true,
+			[data.staged]   : false,
 			[data.update]   : false,
 			[data.add]      : '.',
 			[data.origin]   : defaultBranch,
 			[data.workflow] : false,
 		}
 
-		const cache  = await this._cache( 'push', defaultData )
+		const cache  = await this.cache( 'push', defaultData )
 		const cached = await cache.get()
 
 		await this.promptGroup( {
 			outro    : 'Succesfully pushed 🌈',
-			onCancel : async () => this.onCancel(),
+			onCancel : async () => await this.onCancel(),
 			list     : async p => ( {
 				'desc'        : () => p.log.info( this.style.get.text( 'Push your repository' ) ),
 				[data.staged] : async () => await p.confirm( {
@@ -83,6 +83,7 @@ export class GitPush extends GitSuper {
 					await pkg.ask()
 
 				},
+				'desc-add'    : () => p.log.info( this.style.get.text( 'Prompt for add to repository' ) ),
 				[data.add]    : async () => await addInstance.ask( cached[data.add] ),
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
 				'add-res'     : async ( { results } ) => {
@@ -95,13 +96,24 @@ export class GitPush extends GitSuper {
 					}
 					if ( res[data.add] && res[data.origin] ) {
 
-						console.log()
-						await addInstance.exec( res[data.add] )
-						await commitInstance.run()
-						await this.exec( res[data.origin] )
-						console.log()
+						try {
 
-						p.log.success( `✨ Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` )
+							console.log()
+							await addInstance.exec( res[data.add] )
+							await commitInstance.run()
+							await this.exec( res[data.origin] )
+							console.log()
+
+							p.log.success( `✨ Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` )
+
+						}
+						catch ( e ) {
+
+							if ( e instanceof Error )
+								p.log.error( e.message )
+							await this.onCancel()
+
+						}
 
 					}
 

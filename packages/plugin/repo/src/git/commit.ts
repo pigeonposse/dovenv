@@ -174,7 +174,7 @@ export class GitCommit extends GitSuper {
 			[data.scope] : undefined as string | undefined,
 			[data.msg]   : '',
 		}
-		const cache       = await this._cache( 'commit', defaultData )
+		const cache       = await this.cache( 'commit', defaultData )
 		const cached      = await cache.get()
 
 		await this.promptGroup( {
@@ -273,8 +273,10 @@ export class GitCommit extends GitSuper {
 						}
 						catch ( e ) {
 
-							console.error( e )
-							p.cancel( 'Canceled 💔' )
+							if ( e instanceof Error ) p.log.error( e.message )
+							else console.error( e )
+
+							await this.onCancel()
 
 						}
 

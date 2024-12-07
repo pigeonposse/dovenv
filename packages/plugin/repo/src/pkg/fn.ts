@@ -85,7 +85,7 @@ export class Packages extends Repo {
 			[data.command]      : '',
 		}
 
-		const cache = await this._cache( 'pkg-ask', defaultData )
+		const cache = await this.cache( 'pkg-ask', defaultData )
 
 		const cached = await cache.get()
 		return await this.promptGroup( {
@@ -103,12 +103,22 @@ export class Packages extends Repo {
 				},
 				publish : async ( { results } ) => {
 
-					const list = [
-						'version' in results ? '' : 'Update version of package/s',
+					let list = []
+
+					if ( 'version' in results ) list.push( 'Update version of package/s' )
+					list = [
+						...list,
 						'Build your package/s',
 						'Run tests for ensure everything is ok',
 					]
-					await p.box( { value: 'Best practices before publishing:\n' + list.join( ', ' ) + '.' } )
+
+					await p.box( {
+						value : 'Best practices before publishing:\n\n' + list.map( l => this.style.get.listKey( l ) ).join( '\n' ) + '.',
+						opts  : {
+							borderStyle : 'none',
+							padding     : 1,
+						},
+					} )
 					const res = await p.select( {
 						message : 'Do you want to publish the package now or run a command first?',
 						options : [

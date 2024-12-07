@@ -7,7 +7,7 @@ export class GitAdd extends GitSuper {
 	async ask( initialValue = '.' ) {
 
 		return await this.prompt.text( {
-			message      : 'What do you want to add?',
+			message      : 'What paths do you want to add?',
 			placeholder  : '.',
 			initialValue : initialValue,
 		} ) as string

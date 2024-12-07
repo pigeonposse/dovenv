@@ -46,7 +46,7 @@ export class GitPull extends GitSuper {
 			[data.base]  : defaultBranch,
 			[data.open]  : false,
 		}
-		const cache          = await this._cache( 'pull', defaultData )
+		const cache          = await this.cache( 'pull', defaultData )
 		const cached         = await cache.get()
 		console.debug( 'cached data', cached )
 		await this.promptGroup( {

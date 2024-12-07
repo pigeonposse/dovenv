@@ -80,18 +80,13 @@ export class Workflow extends Repo {
 			[data.file]   : fileNames[0],
 			[data.inputs] : workflowDefaultInputs || '',
 		}
-		const cache       = await this._cache( 'workflow', defaultData )
+		const cache       = await this.cache( 'workflow', defaultData )
 		const cached      = await cache.get()
 
 		await this.promptGroup( {
 			outro    : repoURL ? `✨ See action progress: ${joinUrl( repoURL, 'actions' )}` : 'Succesfully finished 🌈',
-			onCancel : p => {
-
-				p.cancel( 'Canceled 💔' )
-				process.exit( 0 )
-
-			},
-			list : async p => ( {
+			onCancel : this.onCancel,
+			list     : async p => ( {
 				desc        : () => p.log.info( this.style.get.text( 'Prompt for run workflow' ) ),
 				[data.file] : async () =>  p.select( {
 					message : 'Select a workflow:',
