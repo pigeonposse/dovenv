@@ -152,11 +152,10 @@ export class GitCommit extends GitSuper {
 	async exec( message: string ) {
 
 		const cmd = `git commit -m "${message}"`
-		const l   = this.style.get.line( 'git commit' )
 
-		l.start()
+		console.log( this.style.get.line( 'git commit' ) )
 		await exec( cmd )
-		l.stop()
+		console.log( this.style.get.line(  ) )
 
 	}
 

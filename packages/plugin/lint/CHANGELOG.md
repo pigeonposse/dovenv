@@ -1,5 +1,27 @@
 # @dovenv/lint
 
+## 0.0.11
+
+### Patch Changes
+
+- fix issues
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@0.0.11
+  - @dovenv/eslint-config@0.0.11
+  - @dovenv/core@0.0.11
+
+## 0.0.10
+
+### Patch Changes
+
+- fix errors
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.10
+  - @dovenv/eslint-config@0.0.10
+  - @dovenv/stylelint-config@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes

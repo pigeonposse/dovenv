@@ -70,38 +70,38 @@ export class CommandStyle {
 			} )
 
 		},
-		newline( title?: string ) {
+		line( title?: string, c?: NonNullable<Parameters<typeof line>[0]>['lineColor'] ) {
 
 			return `\n${line( {
-				title     : title ? color.gray.inverse( ' ' + title + ' ' ) : undefined,
-				lineColor : 'gray',
+				title     : title ? color.inverse( ' ' + title + ' ' ) : undefined,
+				lineColor : c || 'gray',
 				lineChar  : icon.line,
 			} )}\n`
 
 		},
-		line( title?: string ) {
+		// line( title?: string ) {
 
-			return {
-				start : () => {
+		// 	return {
+		// 		start : () => {
 
-					console.log( `\n${line( {
-						title     : color.gray.inverse( ' ' + title + ' ' ),
-						lineColor : 'gray',
-						lineChar  : icon.line,
-					} )}\n` )
+		// 			console.log( `\n${line( {
+		// 				title     : color.gray.inverse( ' ' + title + ' ' ),
+		// 				lineColor : 'gray',
+		// 				lineChar  : icon.line,
+		// 			} )}\n` )
 
-				},
-				stop : () => {
+		// 		},
+		// 		stop : () => {
 
-					console.log( `\n${line( {
-						lineChar  : icon.line,
-						lineColor : 'gray',
-					} )}\n` )
+		// 			console.log( `\n${line( {
+		// 				lineChar  : icon.line,
+		// 				lineColor : 'gray',
+		// 			} )}\n` )
 
-				},
-			}
+		// 		},
+		// 	}
 
-		},
+		// },
 
 	}
 

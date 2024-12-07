@@ -21,10 +21,9 @@ export class GitAdd extends GitSuper {
 		if ( e ) console.error( this.style.get.error( e ) )
 		else if ( out && out !== '' ) {
 
-			const l = this.style.get.line( cmd )
-			l.start()
+			console.log( this.style.get.line( cmd ) )
 			console.log( this.style.get.succed( out ) )
-			l.stop()
+			console.log( this.style.get.line(  ) )
 
 		}
 		// this._prompt.log.success( `Added to ${value} branch` )

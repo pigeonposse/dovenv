@@ -12,13 +12,10 @@ export class GitPush extends GitSuper {
 	async exec( branch: string ) {
 
 		const cmd = `git push -f origin ${branch}`
-		const l   = this.style.get.line( cmd )
 
-		l.start()
-
+		console.log( this.style.get.line( cmd ) )
 		await exec( cmd )
-
-		l.stop()
+		console.log( this.style.get.line(  ) )
 
 	}
 
@@ -64,10 +61,9 @@ export class GitPush extends GitSuper {
 					// @ts-ignore
 					if ( !results[data.staged] ) return
 
-					const line = this.style.get.line( 'Staged files' )
-					line.start()
+					console.log( this.style.get.line( 'Staged files' ) )
 					console.log( await commitInstance.getStagedFiles() )
-					line.stop()
+					console.log( this.style.get.line(  ) )
 
 				},
 				[data.update] : async () => await p.confirm( {

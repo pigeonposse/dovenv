@@ -48,7 +48,7 @@ export class Packages extends Repo {
 
 	async publish( preCmd?: string ) {
 
-		this.style.get.line( 'Publish packages' ).start()
+		console.log( this.style.get.line(  'Publish packages' ) )
 		if ( preCmd && typeof preCmd === 'string' ) await exec( preCmd )
 		return await this.#exec( [ 'publish' ] )
 
@@ -56,14 +56,14 @@ export class Packages extends Repo {
 
 	async version() {
 
-		this.style.get.line( 'Update package version' ).start()
+		console.log( this.style.get.line(  'Update package version' ) )
 		return await this.#exec( [ 'version' ] )
 
 	}
 
 	async prepare() {
 
-		this.style.get.line( 'Prepare update' ).start()
+		console.log( this.style.get.line( 'Prepare update' ) )
 		return await this.#exec( )
 
 	}
@@ -89,16 +89,27 @@ export class Packages extends Repo {
 
 		const cached = await cache.get()
 		return await this.promptGroup( {
-			onCancel : async () => this.onCancel(),
+			onCancel : async () => await this.onCancel(),
 			list     : async p => ( {
-				prepare : () => this.prepare(),
+				prepare : async () => {
+
+					await this.prepare()
+					console.log( this.style.get.line() )
+
+				},
 				version : async () => {
 
 					const res = await p.confirm( {
 						message      : 'Do you want to update package version?',
 						initialValue : cached[data.version],
 					} )
-					if ( res ) await this.version()
+					if ( p.isCancel( res ) ) await this.onCancel()
+					if ( res ) {
+
+						await this.version()
+						console.log( this.style.get.line() )
+
+					}
 
 				},
 				publish : async ( { results } ) => {
@@ -106,6 +117,7 @@ export class Packages extends Repo {
 					let list = []
 
 					if ( 'version' in results ) list.push( 'Update version of package/s' )
+
 					list = [
 						...list,
 						'Build your package/s',
@@ -113,12 +125,14 @@ export class Packages extends Repo {
 					]
 
 					await p.box( {
-						value : 'Best practices before publishing:\n\n' + list.map( l => this.style.get.listKey( l ) ).join( '\n' ) + '.',
+						value : 'Best practices before publishing:\n\n' + list.map( l => this.style.get.listKey( l ) ).join( '\n' ) + '\n\n',
 						opts  : {
 							borderStyle : 'none',
-							padding     : 1,
+							padding     : 0,
+							dimBorder   : true,
 						},
 					} )
+
 					const res = await p.select( {
 						message : 'Do you want to publish the package now or run a command first?',
 						options : [
@@ -133,7 +147,7 @@ export class Packages extends Repo {
 						] as const,
 						initialValue : cached[data.publishOrRun],
 					} )
-
+					if ( p.isCancel( res ) ) await this.onCancel()
 					if ( res === publishOrRun.publish ) await this.publish()
 					else if ( res === publishOrRun.run ) {
 
@@ -148,6 +162,7 @@ export class Packages extends Repo {
 
 					}
 					else console.error( this.style.get.error( 'Unexpected error: No publish or run selected' ) )
+					console.log( this.style.get.line() )
 
 				},
 			} ),

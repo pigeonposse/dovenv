@@ -1,5 +1,37 @@
 # @dovenv/theme-banda
 
+## 0.0.11
+
+### Patch Changes
+
+- fix issues
+
+- Updated dependencies []:
+  - @dovenv/workspace@0.0.11
+  - @dovenv/examples@0.0.11
+  - @dovenv/convert@0.0.11
+  - @dovenv/docs@0.0.11
+  - @dovenv/lint@0.0.11
+  - @dovenv/repo@0.0.11
+  - @dovenv/todo@0.0.11
+  - @dovenv/core@0.0.11
+
+## 0.0.10
+
+### Patch Changes
+
+- fix errors
+
+- Updated dependencies []:
+  - @dovenv/repo@0.0.10
+  - @dovenv/core@0.0.10
+  - @dovenv/convert@0.0.10
+  - @dovenv/docs@0.0.10
+  - @dovenv/examples@0.0.10
+  - @dovenv/lint@0.0.10
+  - @dovenv/todo@0.0.10
+  - @dovenv/workspace@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes
