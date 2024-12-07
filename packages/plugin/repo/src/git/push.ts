@@ -46,9 +46,10 @@ export class GitPush extends GitSuper {
 
 		const cache  = await this.cache( 'push', defaultData )
 		const cached = await cache.get()
+		console.debug( 'cached data', cached )
 
 		await this.promptGroup( {
-			outro    : 'Succesfully pushed 🌈',
+			outro    : `Finished ${this.style.get.badge( 'push' )} process 🌈`,
 			onCancel : async () => await this.onCancel(),
 			list     : async p => ( {
 				'desc'        : () => p.log.info( this.style.get.text( 'Push your repository' ) ),
@@ -100,7 +101,7 @@ export class GitPush extends GitSuper {
 							await this.exec( res[data.origin] )
 							console.log()
 
-							p.log.success( this.style.get.succed( `✨ Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
+							p.log.success( this.style.get.succed( `Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
 
 						}
 						catch ( e ) {
@@ -121,6 +122,8 @@ export class GitPush extends GitSuper {
 				'last' : async ( { results } ) => {
 
 					const res = {
+						// @ts-ignore
+						[data.staged]   : results[data.staged] as boolean,
 						// @ts-ignore
 						[data.add]      : results[data.add] as string,
 						// @ts-ignore

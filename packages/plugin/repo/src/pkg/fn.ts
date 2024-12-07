@@ -85,9 +85,11 @@ export class Packages extends Repo {
 			[data.command]      : '',
 		}
 
-		const cache = await this.cache( 'pkg-ask', defaultData )
-
+		const cache  = await this.cache( 'pkg-ask', defaultData )
 		const cached = await cache.get()
+
+		console.debug( 'cached data', cached )
+
 		return await this.promptGroup( {
 			onCancel : async () => await this.onCancel(),
 			list     : async p => ( {
@@ -97,13 +99,14 @@ export class Packages extends Repo {
 					console.log( this.style.get.line() )
 
 				},
-				version : async () => {
+				[data.version] : async () => {
 
 					const res = await p.confirm( {
 						message      : 'Do you want to update package version?',
 						initialValue : cached[data.version],
 					} )
-					if ( p.isCancel( res ) ) await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.onCancel()
+					cache.set( { [data.version]: res } )
 					if ( res ) {
 
 						await this.version()
@@ -111,12 +114,14 @@ export class Packages extends Repo {
 
 					}
 
+					return res
+
 				},
 				publish : async ( { results } ) => {
 
 					let list = []
 
-					if ( 'version' in results ) list.push( 'Update version of package/s' )
+					if ( data.version in results ) list.push( 'Update version of package/s' )
 
 					list = [
 						...list,
@@ -147,7 +152,10 @@ export class Packages extends Repo {
 						] as const,
 						initialValue : cached[data.publishOrRun],
 					} )
-					if ( p.isCancel( res ) ) await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.onCancel()
+
+					cache.set( { [data.publishOrRun]: res } )
+
 					if ( res === publishOrRun.publish ) await this.publish()
 					else if ( res === publishOrRun.run ) {
 
@@ -156,8 +164,8 @@ export class Packages extends Repo {
 							initialValue : cached[data.command],
 						} )
 
-						if ( typeof command !== 'string' ) return
-
+						if ( p.isCancel( command ) ) return await this.onCancel()
+						cache.set( { [data.command]: command } )
 						await this.publish( command )
 
 					}

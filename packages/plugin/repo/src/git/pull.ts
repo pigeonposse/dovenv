@@ -50,7 +50,7 @@ export class GitPull extends GitSuper {
 		const cached         = await cache.get()
 		console.debug( 'cached data', cached )
 		await this.promptGroup( {
-			outro    : 'Succesfully Pulled 🌈',
+			outro    : `Finished ${this.style.get.badge( 'pull' )} process 🌈`,
 			onCancel : async () => this.onCancel(),
 			list     : async p => ( {
 				desc         : () => p.log.info( this.style.get.text( 'Create a pull request on GitHub.' ) ),

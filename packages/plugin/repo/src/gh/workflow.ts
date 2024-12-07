@@ -84,7 +84,7 @@ export class Workflow extends Repo {
 		const cached      = await cache.get()
 
 		await this.promptGroup( {
-			outro    : repoURL ? `✨ See action progress: ${joinUrl( repoURL, 'actions' )}` : 'Succesfully finished 🌈',
+			outro    : this.style.get.succed( repoURL ? `See action progress: ${this.style.get.link( joinUrl( repoURL, 'actions' ) )}` : 'Succesfully finished 🌈' ),
 			onCancel : this.onCancel,
 			list     : async p => ( {
 				desc        : () => p.log.info( this.style.get.text( 'Prompt for run workflow' ) ),

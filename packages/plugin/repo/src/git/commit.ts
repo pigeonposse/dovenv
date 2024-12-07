@@ -177,7 +177,6 @@ export class GitCommit extends GitSuper {
 		const cached      = await cache.get()
 
 		await this.promptGroup( {
-			// outro    : 'Succesfully commited 🌈',
 			onCancel : async () => this.onCancel(),
 			list     : async p => {
 
