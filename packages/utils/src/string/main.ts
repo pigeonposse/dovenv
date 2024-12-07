@@ -1,10 +1,13 @@
 
 import { matcher } from 'matcher'
+import stringWidth from 'string-width'
 
 import { isPath } from '../sys/super/main'
 
 export * from './placeholder'
 export * from './count'
+
+export { stringWidth }
 
 export const getMatch = matcher
 export const getStringType = ( value: string ): 'text' | 'url' | 'path' => {

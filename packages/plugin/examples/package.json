@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "0.0.6",
+	"version": "0.0.9",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"examples",

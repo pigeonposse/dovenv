@@ -7,10 +7,9 @@ import type { PromptParams } from './types'
  * Ask questions to user with prompt function.
  * @param   {PromptParams} props - PromptOptions.
  * @returns {Promise<*>}         - Promise resolving to answers.
- * @see https://clippo.pigeonposse.com
  * @example
  *
- * const answers = await prompt([
+ * const answers = await promptGroup([
  *   {
  *     type: 'toggle',
  *     name: 'ready',
@@ -25,8 +24,9 @@ import type { PromptParams } from './types'
  *   },
  * ]);
  * console.log(answers.ready, answers.age)
+ * @see https://www.npmjs.com/package/enquirer
  */
-export async function prompt( props: PromptParams ) {
+export async function promptGroup( props: PromptParams ) {
 
 	return Enquirer.prompt( props )
 

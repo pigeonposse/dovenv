@@ -12,15 +12,16 @@ export class GitPull extends GitSuper {
 			const res = await execChild( `gh pr create --title "${title}" --body "${body}" --base ${branch}${open ? ' --web' : ''}` )
 			if ( res.stderr  && res.stderr.trim()  !== '' ) throw new Error( res.stderr )
 
-			this._prompt.log.success( res.stdout )
+			this.prompt.log.success( res.stdout )
 			return true
 
 		}
 		catch ( e ) {
 
-			this._prompt.log.step( '' )
+			this.prompt.log.step( '' )
 			// @ts-ignore
-			this._prompt.cancel( 'Error creating pull request:\n\n' + e?.stderr || e?.message )
+			const res =  e?.stderr || e?.message
+			this.prompt.cancel( 'Error creating pull request:\n\n' + res )
 			return false
 
 		}
@@ -48,11 +49,11 @@ export class GitPull extends GitSuper {
 		const cache          = await this._cache( 'pull', defaultData )
 		const cached         = await cache.get()
 		console.debug( 'cached data', cached )
-		await this._promptLine( {
+		await this.promptGroup( {
 			outro    : 'Succesfully Pulled 🌈',
 			onCancel : async () => this.onCancel(),
 			list     : async p => ( {
-				desc         : () => p.log.info( this._color.gray.dim( 'Create a pull request on GitHub.' ) ),
+				desc         : () => p.log.info( this.style.get.text( 'Create a pull request on GitHub.' ) ),
 				[data.title] : async () => {
 
 					const res = await p.text( {
@@ -110,7 +111,7 @@ export class GitPull extends GitSuper {
 
 					// @ts-ignore
 					const res = await this.#createPullRequest( results[data.title], results[data.body], results[data.base], results[data.open]  )
-					if ( !res ) this._process.exit( 0 )
+					if ( !res ) this.process.exit( 0 )
 
 				},
 			} ),

@@ -22,6 +22,9 @@ importers:
       '@changesets/changelog-github':
         specifier: 0.5.0
         version: 0.5.0(encoding@0.1.13)
+      '@changesets/cli':
+        specifier: 2.27.9
+        version: 2.27.9
       '@playwright/test':
         specifier: 1.49.0
         version: 1.49.0
@@ -461,9 +464,6 @@ importers:
       '@dovenv/lint':
         specifier: workspace:*
         version: link:../../plugin/lint
-      '@dovenv/media':
-        specifier: workspace:*
-        version: link:../../plugin/media
       '@dovenv/repo':
         specifier: workspace:*
         version: link:../../plugin/repo
@@ -526,6 +526,9 @@ importers:
       '@vibrant/color':
         specifier: 3.2.1-alpha.1
         version: 3.2.1-alpha.1
+      ansi-align:
+        specifier: ^3.0.1
+        version: 3.0.1
       archiver:
         specifier: 7.0.1
         version: 7.0.1
@@ -661,6 +664,9 @@ importers:
       terminal-link:
         specifier: 3.0.0
         version: 3.0.0
+      terminal-size:
+        specifier: ^4.0.0
+        version: 4.0.0
       turndown:
         specifier: 7.2.0
         version: 7.2.0
@@ -684,6 +690,9 @@ importers:
       '@dovenv/repo-config':
         specifier: workspace:*
         version: link:../config/repo-config
+      '@types/ansi-align':
+        specifier: ^3.0.5
+        version: 3.0.5
       '@types/archiver':
         specifier: 6.0.3
         version: 6.0.3
@@ -3758,6 +3767,9 @@ packages:
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
+
+  '@types/ansi-align@3.0.5':
+    resolution: {integrity: sha512-W6b8auzVjGP4JS2ejBl9OzwL1N3aBGqY7gamD28GymzcdNVeVGS+jfLeNWO/iknHLWa00hqGPaT3AcXhKax4aA==}
 
   '@types/archiver@6.0.3':
     resolution: {integrity: sha512-a6wUll6k3zX6qs5KlxIggs1P1JcYJaTCx2gnlr+f0S1yd2DoaEwoIK10HmBaLnZwWneBz+JBm0dwcZu0zECBcQ==}
@@ -10070,6 +10082,10 @@ packages:
     resolution: {integrity: sha512-flFL3m4wuixmf6IfhFJd1YPiLiMuxEc8uHRM1buzIeZPm22Au2pDqBJQgdo7n1WfPU1ONFGv7YDwpFBmHGF6lg==}
     engines: {node: '>=12'}
 
+  terminal-size@4.0.0:
+    resolution: {integrity: sha512-rcdty1xZ2/BkWa4ANjWRp4JGpda2quksXIHgn5TMjNBPZfwzJIgR68DKfSYiTL+CZWowDX/sbOo5ME/FRURvYQ==}
+    engines: {node: '>=18'}
+
   terminalizer@0.12.0:
     resolution: {integrity: sha512-eDi+ezFetag//7/0Y6C/XlxVPBjMkM3pvYUr1gV6CJy8hEx2vjNWqubiw87psdrMnXSOTDthDWSvpArECuM9cA==}
     hasBin: true
@@ -14934,6 +14950,8 @@ snapshots:
   '@tokenizer/token@0.3.0': {}
 
   '@trysound/sax@0.2.0': {}
+
+  '@types/ansi-align@3.0.5': {}
 
   '@types/archiver@6.0.3':
     dependencies:
@@ -22335,6 +22353,8 @@ snapshots:
     dependencies:
       ansi-escapes: 5.0.0
       supports-hyperlinks: 2.3.0
+
+  terminal-size@4.0.0: {}
 
   terminalizer@0.12.0:
     dependencies:

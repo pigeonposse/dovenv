@@ -6,7 +6,7 @@ export class GitAdd extends GitSuper {
 
 	async ask( initialValue = '.' ) {
 
-		return await this._prompt.text( {
+		return await this.prompt.text( {
 			message      : 'What do you want to add?',
 			placeholder  : '.',
 			initialValue : initialValue,
@@ -18,12 +18,12 @@ export class GitAdd extends GitSuper {
 
 		const cmd        = `git add ${value}`
 		const [ e, out ] = await catchExecOutput( `git add ${value}` )
-		if ( e ) console.error( this._color.red( e ) )
+		if ( e ) console.error( this.style.get.error( e ) )
 		else if ( out && out !== '' ) {
 
-			const l = this.line( cmd )
+			const l = this.style.get.line( cmd )
 			l.start()
-			console.log( this._color.green( out ) )
+			console.log( this.style.get.succed( out ) )
 			l.stop()
 
 		}

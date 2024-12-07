@@ -10,7 +10,8 @@ import {
 	getBooleanFlagValue,
 	getMatch,
 	formatValidationError,
-	promptLineProps,
+	promptLine,
+	promptLineGroup,
 	// line,
 } from '@dovenv/utils'
 
@@ -24,11 +25,14 @@ const ErroClass = class CommandError extends TypedError {}
 
 export class CommandSuper {
 
-	log
-	prompt : typeof promptLineProps = promptLineProps
-	performance  = performance
-	spinner  = spinner
-	style  = new CommandStyle()
+	protected log
+	protected prompt      : typeof promptLine  = promptLine
+	protected promptGroup : typeof promptLineGroup  = promptLineGroup
+	protected performance  = performance
+	protected spinner  = spinner
+	protected process = process
+	protected style  = new CommandStyle()
+
 	title = ''
 
 	constructor() {
@@ -57,13 +61,21 @@ export class CommandSuper {
 
 	}
 
+	protected onCancel = async () => {
+
+		this.prompt.log.step( '' )
+		this.prompt.cancel( 'Process cancelled 💔' )
+
+		process.exit( 0 )
+
+	}
+
 }
 
 export class Command extends CommandSuper {
 
 	Error = ErroClass
 	catchError = catchError
-	process = process
 	title = 'Core'
 	description = ''
 	schema : unknown = validate.unknown()
@@ -71,30 +83,32 @@ export class Command extends CommandSuper {
 
 	protected setTitle( ) {
 
-		const { color } = this.style
+		console.log( `\n${this.style.get.title( this.title )} ${this.style.get.desc( this.description )}\n` )
 
-		console.log( `\n${color.cyanBright.bold( icon.triangleRightSmall )} ${color.bgCyanBright( ' ' + this.title + ' ' )} ${color.gray.dim( this.description )}\n` )
+	}
+
+	protected setMainTitle( title: string, desc?: string ) {
+
+		const text = `${this.style.get.title( title )}${this.style.get.desc( desc ? '\n\n' + desc : '' )}`
+		console.log( `\n${this.style.get.bold( text )}\n` )
 
 	}
 
 	protected setTime( time: string ) {
 
-		const { color } = this.style
-		console.log( `\n${color.cyanBright.bold( icon.triangleRightSmall )} ${color.bgCyanBright( ' ' + this.title + ' ' )} ${color.gray.dim( `Done in ${time}` )}\n` )
+		console.log( `\n${this.style.get.title( this.title )} ${this.style.get.desc( `Done in ${time}` )}\n` )
 
 	}
 
 	protected setSection( section: string ) {
 
-		const { color } = this.style
-		console.log( `${color.cyanBright.bold( icon.triangleRightSmall )} ${color.cyanBright( section )}\n` )
+		console.log( `${this.style.get.section( section )}\n` )
 
 	}
 
 	protected setContentString( key: string, desc?: string, c: 'cyan' | 'green' | 'yellow' | 'red' = 'cyan' ) {
 
-		const { color } = this.style
-		const title     = color[c]( `${key}` ) + ( desc ? ( ': ' + desc ) : '' )
+		const title = this.style.color[c]( `${key}` ) + ( desc ? ( ': ' + desc ) : '' )
 
 		return title
 

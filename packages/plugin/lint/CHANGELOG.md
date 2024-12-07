@@ -1,5 +1,38 @@
 # @dovenv/lint
 
+## 0.0.9
+
+### Patch Changes
+
+- Add feats
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@0.0.9
+  - @dovenv/eslint-config@0.0.9
+  - @dovenv/core@0.0.9
+
+## 0.0.8
+
+### Patch Changes
+
+- add cmd 'prepare' in repo plugin
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@0.0.8
+  - @dovenv/eslint-config@0.0.8
+  - @dovenv/core@0.0.8
+
+## 0.0.7
+
+### Patch Changes
+
+- update and fix feats for alpha version
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@0.0.7
+  - @dovenv/stylelint-config@0.0.7
+  - @dovenv/core@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,13 +1,12 @@
-import format       from '@commitlint/format'
-import lint         from '@commitlint/lint'
-import load         from '@commitlint/load'
-import read         from '@commitlint/read'
-import {
-	color,
-	deepmergeCustom,
-	promptLineProps,
-} from '@dovenv/core/utils'
-import gitEmojiConfig from 'commitlint-config-gitmoji'
+import format              from '@commitlint/format'
+import lint                from '@commitlint/lint'
+import load                from '@commitlint/load'
+import read                from '@commitlint/read'
+import { PluginCore }      from '@dovenv/core'
+import { deepmergeCustom } from '@dovenv/core/utils'
+import gitEmojiConfig      from 'commitlint-config-gitmoji'
+
+import type { Config as DoveEnvConfig } from '@dovenv/core'
 
 type UserConfig = Exclude<Parameters<typeof load>[0], undefined>
 const merge = deepmergeCustom<UserConfig>( { mergeArrays: false } )
@@ -36,49 +35,62 @@ const selectParserOpts = ( parserPreset: UserConfig['parserPreset'] ) => {
 	return parserPreset.parserOpts
 
 }
+export class CommitLint extends PluginCore {
 
-export const runCommitlint = async ( conf?: CommitlintConfig, userMsg?: string  ) => {
+	opts
+	config
 
-	const defaultConfig: UserConfig = ( conf?.config )
-		? conf.config
-		: { rules : { 'header-max-length' : [
-			0,
-			'always',
-			100,
-		] } }
+	constructor( opts?: CommitlintConfig, config?: DoveEnvConfig ) {
 
-	const userConfig = merge(
-		defaultConfig,
-		conf?.gitmoji ? gitEmojiConfig : {},
-	)
+		super()
+		this.opts   = opts || {}
+		this.config = config
 
-	const config = await load( userConfig )
-	console.debug( 'config', config )
+	}
 
-	const result = userMsg ? [ userMsg ] : await read( { edit: true } )
-	console.debug( 'result', result )
+	async run( userMsg?: string ) {
 
-	const cm = result[0]
-	promptLineProps.log.info( `Commit message to lint: ${color.gray.dim( cm )}` )
+		const defaultConfig: UserConfig = ( this.opts?.config )
+			? this.opts?.config
+			: { rules : { 'header-max-length' : [
+				0,
+				'always',
+				100,
+			] } }
 
-	const report = await lint( cm, config.rules, {
-		parserOpts     : selectParserOpts( config.parserPreset ),
-		plugins        : config.plugins,
-		ignores        : config.ignores,
-		defaultIgnores : config.defaultIgnores,
-	} )
-	console.debug( 'report', report )
+		const userConfig = merge(
+			defaultConfig,
+			this.opts?.gitmoji ? gitEmojiConfig : {},
+		)
 
-	const res = format( { results: [ report ] } )
-	console.debug( 'formated response', res )
+		const config = await load( userConfig )
+		console.debug( 'config', config )
 
-	if ( res && res !== '' ) promptLineProps.log.error( res )
-	if ( report.valid ) {
+		const result = userMsg ? [ userMsg ] : await read( { edit: true } )
+		console.debug( 'result', result )
 
-		promptLineProps.log.success( '✨ Commit format is valid!' )
-		promptLineProps.log.message( '' )
+		const cm = result[0]
+		this.prompt.log.info( `Commit message to lint: ${this.style.get.text( cm )}` )
+
+		const report = await lint( cm, config.rules, {
+			parserOpts     : selectParserOpts( config.parserPreset ),
+			plugins        : config.plugins,
+			ignores        : config.ignores,
+			defaultIgnores : config.defaultIgnores,
+		} )
+		console.debug( 'report', report )
+
+		const res = format( { results: [ report ] } )
+		console.debug( 'formated response', res )
+
+		if ( res && res !== '' ) this.prompt.log.error( res )
+		if ( report.valid ) {
+
+			this.prompt.log.success( '✨ Commit format is valid!' )
+			this.prompt.log.message( '' )
+
+		}
 
 	}
 
 }
-

@@ -12,7 +12,7 @@ export class GitPush extends GitSuper {
 	async exec( branch: string ) {
 
 		const cmd = `git push -f origin ${branch}`
-		const l   = this.line( cmd )
+		const l   = this.style.get.line( cmd )
 
 		l.start()
 
@@ -31,26 +31,45 @@ export class GitPush extends GitSuper {
 		const commitInstance = new GitCommit( this.opts, this.config )
 		const addInstance    = new GitAdd( this.opts, this.config )
 
-		const data        = {
+		const data = {
+			staged   : 'staged',
 			update   : 'update',
 			add      : 'add',
 			origin   : 'origin',
 			workflow : 'workflow',
 		} as const
+
 		const defaultData = {
+			[data.staged]   : true,
 			[data.update]   : false,
 			[data.add]      : '.',
 			[data.origin]   : defaultBranch,
 			[data.workflow] : false,
 		}
-		const cache       = await this._cache( 'push', defaultData )
-		const cached      = await cache.get()
 
-		await this._promptLine( {
+		const cache  = await this._cache( 'push', defaultData )
+		const cached = await cache.get()
+
+		await this.promptGroup( {
 			outro    : 'Succesfully pushed 🌈',
 			onCancel : async () => this.onCancel(),
 			list     : async p => ( {
-				'desc'        : () => p.log.info( this._color.gray.dim( 'Push your repository' ) ),
+				'desc'        : () => p.log.info( this.style.get.text( 'Push your repository' ) ),
+				[data.staged] : async () => await p.confirm( {
+					message      : 'Do yo want see staged files?',
+					initialValue : cached[data.staged],
+				} ),
+				'staged-res' : async ( { results } ) => {
+
+					// @ts-ignore
+					if ( !results[data.staged] ) return
+
+					const line = this.style.get.line( 'Staged files' )
+					line.start()
+					console.log( await commitInstance.getStagedFiles() )
+					line.stop()
+
+				},
 				[data.update] : async () => await p.confirm( {
 					message      : 'Do yo want update version?',
 					initialValue : cached[data.update],
@@ -61,7 +80,7 @@ export class GitPush extends GitSuper {
 					if ( !results[data.update] ) return
 
 					const pkg = new Packages( this.opts )
-					await pkg.release()
+					await pkg.ask()
 
 				},
 				[data.add]    : async () => await addInstance.ask( cached[data.add] ),
@@ -82,7 +101,7 @@ export class GitPush extends GitSuper {
 						await this.exec( res[data.origin] )
 						console.log()
 
-						p.log.success( `✨ Successfully pushed to ${this._style.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` )
+						p.log.success( `✨ Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` )
 
 					}
 

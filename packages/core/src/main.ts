@@ -3,23 +3,19 @@ import {
 	process,
 } from '@dovenv/utils'
 
-import { Dovenv }       from './cli'
-import { createPlugin } from './plugin/main'
+import { Dovenv } from './cli'
 
 import type {
 	Config,
 	Params,
 } from './types'
 
+export * from './plugin/main'
 export type {
 	Config,
 	Params,
 }
-
-export {
-	Dovenv,
-	createPlugin,
-}
+export { Dovenv }
 
 /**
  * Runs the build process with the given arguments.

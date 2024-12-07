@@ -2,6 +2,16 @@ import { CommandSuper } from '../_shared/cmd'
 
 import type { Config } from '../types'
 
+type PluginUtils = CommandSuper
+
+/**
+ * Plugin core class.
+ *
+ * It contains the plugin utils.
+ *
+ */
+export class PluginCore extends CommandSuper {}
+
 /**
  * Create a plugin function.
  * @template Args - The type of the arguments to be passed to the plugin.
@@ -11,9 +21,9 @@ import type { Config } from '../types'
  * import { createPlugin } from '@dovenv/core'
  *
  * const plugin = createPlugin<{ title?: boolean }>( data => {
- *
+ *   const { style } = data.utils
  * 	if ( data.args?.title ) {
- * 		console.log( data.style.title( 'Hello from plugin' ) )
+ * 		console.log( style.title( 'Hello from plugin' ) )
  * 	}
  *
  * 	return {
@@ -21,16 +31,19 @@ import type { Config } from '../types'
  * 	}
  * } )
  */
-export const createPlugin = <Args = unknown>( fn: ( data: { args?: Args } & CommandSuper ) => Config ) => {
+export const createPlugin = <Args = unknown>( fn: ( data: {
+	args? : Args
+	utils : PluginUtils
+}  ) => Config ) => {
 
-	const props = new CommandSuper()
 	return ( args?: Args ) => {
 
 		try {
 
+			const pluginUtils = new CommandSuper()
 			return fn( {
 				args,
-				...props,
+				utils : pluginUtils,
 			} )
 
 		}

@@ -1,7 +1,4 @@
-import {
-	execChild,
-	icon,
-} from '@dovenv/core/utils'
+import { execChild } from '@dovenv/core/utils'
 
 import { GitSuper } from './super'
 
@@ -10,7 +7,7 @@ export class GitBranch extends GitSuper {
 	async askSelectBranch( defaultValue?: string, remote = true ): Promise<string> {
 
 		const all         = await this.getAll( remote )
-		const res         = await this._prompt.select( {
+		const res         = await this.prompt.select( {
 			message : 'Select branch of the repository',
 			options : all.map( b => ( {
 				value : b,
@@ -18,13 +15,8 @@ export class GitBranch extends GitSuper {
 			} ) ),
 			initialValue : defaultValue && all.includes( defaultValue ) ? defaultValue : undefined,
 		} )
-		const isCancelled = this._prompt.isCancel( res )
-		if ( isCancelled ) {
-
-			this._prompt.cancel( 'Cancelled 💔' )
-			this._process.exit( 0 )
-
-		}
+		const isCancelled = this.prompt.isCancel( res )
+		if ( isCancelled ) await this.onCancel()
 		else if ( !res || typeof res !== 'string' ) throw new Error( 'Unexpected error: No branch selected' )
 
 		return res as string
@@ -33,14 +25,9 @@ export class GitBranch extends GitSuper {
 
 	async #askCreate(): Promise<string> {
 
-		const res         = await this._prompt.text( { message: 'Set new branch name' } )
-		const isCancelled = this._prompt.isCancel( res )
-		if ( isCancelled ) {
-
-			this._prompt.cancel( 'Cancelled 💔' )
-			this._process.exit( 0 )
-
-		}
+		const res         = await this.prompt.text( { message: 'Set new branch name' } )
+		const isCancelled = this.prompt.isCancel( res )
+		if ( isCancelled ) await this.onCancel()
 		else if ( !res || typeof res !== 'string' ) throw new Error( 'Unexpected error: No branch selected' )
 
 		return res as string
@@ -66,8 +53,8 @@ export class GitBranch extends GitSuper {
 	async showCurrent() {
 
 		const res = await this.getCurrent()
-		this._prompt.note(  this._color.cyan( icon.dot ) + ' ' + res, 'Current branch' )
-		this._prompt.log.step( '' )
+		this.prompt.note(  this.style.get.listKey( res ), 'Current branch' )
+		this.prompt.log.step( '' )
 
 	}
 
@@ -95,9 +82,9 @@ export class GitBranch extends GitSuper {
 	async showAll( remote = true ) {
 
 		const res     = await this.getAll( remote )
-		const content = res.map( b => ( this._color.cyan( icon.dot ) + ' ' + b ) ).join( '\n' )
-		this._prompt.note(  content, 'All branches' )
-		this._prompt.log.step( '' )
+		const content = res.map( b => ( this.style.get.listKey( b ) ) ).join( '\n' )
+		this.prompt.note(  content, 'All branches' )
+		this.prompt.log.step( '' )
 
 	}
 
@@ -116,7 +103,7 @@ export class GitBranch extends GitSuper {
 			stdout, stderr,
 		} = await execChild( command )
 		if ( stderr ) throw new Error( `Error changing branch: ${stderr}` )
-		this._prompt.log.success( `Switched to branch: ${stdout.trim()}` )
+		this.prompt.log.success( `Switched to branch: ${stdout.trim()}` )
 
 	}
 
@@ -134,7 +121,7 @@ export class GitBranch extends GitSuper {
 			throw new Error( `Error switching to branch: ${stderr}` )
 
 		}
-		this._prompt.log.success( `Switched to branch: ${branch}` )
+		this.prompt.log.success( `Switched to branch: ${branch}` )
 
 	}
 
@@ -152,7 +139,7 @@ export class GitBranch extends GitSuper {
 			throw new Error( `Error creating branch: ${stderr}` )
 
 		}
-		this._prompt.log.success( `Created branch: ${branch}` )
+		this.prompt.log.success( `Created branch: ${branch}` )
 
 	}
 
@@ -170,7 +157,7 @@ export class GitBranch extends GitSuper {
 			throw new Error( `Error creating and switching to branch: ${stderr}` )
 
 		}
-		this._prompt.log.success( `Created and switched to branch: ${branch}` )
+		this.prompt.log.success( `Created and switched to branch: ${branch}` )
 
 	}
 
@@ -190,7 +177,7 @@ export class GitBranch extends GitSuper {
 			throw new Error( `Error deleting branch: ${stderr}` )
 
 		}
-		this._prompt.log.success( `Deleted branch: ${branch}` )
+		this.prompt.log.success( `Deleted branch: ${branch}` )
 
 	}
 

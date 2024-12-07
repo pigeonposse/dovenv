@@ -2,7 +2,7 @@ import * as dovenvEslintConfig from '@dovenv/eslint-config'
 // @ts-ignore
 import * as dovenvStylelintConfig from '@dovenv/stylelint-config'
 
-import { runCommitlint } from './commitlint'
+import { CommitLint }    from './commitlint'
 import { runEslint }     from './eslint'
 import { runLintStaged } from './staged'
 import { runStylelint }  from './style'
@@ -13,7 +13,7 @@ import type { LintStagedConfig } from './staged'
 import type { StylelintConfig }  from './style'
 
 export {
-	runCommitlint,
+	CommitLint,
 	runEslint,
 	runLintStaged,
 	runStylelint,
@@ -53,7 +53,8 @@ export class Lint {
 
 	async commitlint( userMsg?: string ) {
 
-		await runCommitlint( this.opts?.commitlint, userMsg )
+		const cl = new CommitLint( this.opts?.commitlint )
+		await cl.run( userMsg )
 
 	}
 

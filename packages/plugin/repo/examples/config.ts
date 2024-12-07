@@ -1,10 +1,10 @@
 
-import { config as lintConfig } from '@dovenv/lint'
+import { defineConfig } from '@dovenv/core'
 import {
 	getCurrentDir,
 	joinPath,
 } from '@dovenv/core/utils'
-import { defineConfig } from '@dovenv/core'
+import { config as lintConfig } from '@dovenv/lint'
 
 import pkg        from '../../../../package.json'
 import { config } from '../src/main'

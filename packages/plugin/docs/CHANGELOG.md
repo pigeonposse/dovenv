@@ -1,5 +1,32 @@
 # @dovenv/docs
 
+## 0.0.9
+
+### Patch Changes
+
+- Add feats
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.9
+
+## 0.0.8
+
+### Patch Changes
+
+- add cmd 'prepare' in repo plugin
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.8
+
+## 0.0.7
+
+### Patch Changes
+
+- update and fix feats for alpha version
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

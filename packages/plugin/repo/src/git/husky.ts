@@ -9,19 +9,19 @@ export class Husky extends GitSuper {
 
 		const path  = this.opts?.husky?.path ?? '.dovenv/husky'
 		const exist = await existsDir( path )
-
+		const style = this.style.get
 		if ( !exist ) {
 
 			await this.init()
 
 			await indexHusky( path )
 
-			this._succedMsg( `Husky folder is now in: ${path}` )
+			console.log( style.succed( 'Husky folder is now in:', style.bold( path ) ) )
 
 		}
-		else this._succedMsg( `Husky exists in: ${path}` )
+		else console.log( style.succed( `Husky exists in:`, style.bold( path ) ) )
 
-		this._succedDesc( `Add now you Git hooks!\nMore info: ${this._style.link( 'https://typicode.github.io/husky' )}` )
+		console.log( style.succed( `Add now you Git hooks!','More info: ${style.link( 'https://typicode.github.io/husky' )}` ) )
 
 	}
 

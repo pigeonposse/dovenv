@@ -1,3 +1,6 @@
+/* eslint-disable jsdoc/require-returns */
+/* eslint-disable jsdoc/require-param */
+
 import * as p from '@clack/prompts'
 
 import number             from './number'
@@ -11,20 +14,19 @@ import {
 	columns,
 	table,
 }              from '../../../styles/main'
-import { prompt as promptEnquirer } from '../prompt/main'
+import { promptGroup as promptEnquirer } from '../prompt/main'
 
 import type { State }                 from './state'
 import type { PromptLineCancelProps } from './types'
 import type { PromptParams }          from '../prompt/types'
 
-export const promptLineProps = p
-
 const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 
 	p.log.message( )
+	const ID  = 'id'
 	const res = await promptEnquirer( {
 		...props,
-		name   : 'id',
+		name   : ID,
 		// @see https://github.com/enquirer/enquirer/blob/70bdb0fedc3ed355d9d8fe4f00ac9b3874f94f61/lib/state.js#L5
 		// type State = "initial" | "active" | "cancel" | "submit" | "error"
 		// @ts-ignore: todo
@@ -47,31 +49,49 @@ const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 	} )
 	p.log.message( )
 
-	// @ts-ignore: todo
-	return res.id
+	return ID in res ? res[ID] : undefined
 
 }
 
 const printOptions: Pick<PromptLineCancelProps, 'table' | 'columns' | 'box'> = {
+	/**
+	 * Logs a table in the prompt line.
+	 */
 	table : ( {
-		value, type = promptLineMethods.message,
-	} ) => p.log[type]( table( ...value ) ),
+		value, opts, type = promptLineMethods.message,
+	} ) => p.log[type]( table( value, opts ) ),
+	/**
+	 * Logs data formatted into aligned columns in the prompt line.
+	 */
 	columns : ( {
-		value, type = promptLineMethods.message,
-	} ) => p.log[type]( columns( ...value ) ),
+		value, opts, type = promptLineMethods.message,
+	} ) => p.log[type]( columns( value, opts ) ),
+	/**
+	 * Logs a styled box in the prompt line.
+	 */
 	box : ( {
-		value, type = promptLineMethods.message,
-	} ) => p.log[type]( box( ...value ) ),
+		value, opts, type = promptLineMethods.message,
+	} ) => p.log[type]( box( value, opts ) ),
+}
+
+export const promptLineCore: typeof p = p
+export const promptLineEnquirer = enquirer2clack
+
+export const promptLine = {
+	...promptLineCore,
+	number,
+	...printOptions,
 }
 
 /**
+ *
  * Define a group of prompts to be displayed and return a results of objects within the group.
  * @param   {PromptLineParams} params - PromptLine options .
  * @returns {Promise<*>}              - Object with answers.
  * @example
- * import { promptLine } from "@dovenv/utils"
+ * import { promptLineGroup } from "@dovenv/utils"
  *
- * const answers = await promptLine({
+ * const answers = await promptLineGroup({
  *     intro: 'Dovenv init',
  *     outro: 'Succesfully finished 🌈',
  *     onCancel: p => {
@@ -92,7 +112,7 @@ const printOptions: Pick<PromptLineCancelProps, 'table' | 'columns' | 'box'> = {
  *
  * console.log(answers.name, answers.age)
  */
-export async function promptLine<T>( params: PromptLineParams<T> ) {
+export async function promptLineGroup<T>( params: PromptLineParams<T> ) {
 
 	if ( !params.onCancel ) params.onCancel = async p => {
 
@@ -101,22 +121,19 @@ export async function promptLine<T>( params: PromptLineParams<T> ) {
 
 	}
 
-	const promptCancel = {
-		...p,
-		number,
-		...printOptions,
-	}
-	const typePrompt   = ( props: PromptParams ) => enquirer2clack( props, () => params.onCancel?.( promptCancel ) )
-	const prompt       = {
-		...promptCancel,
+	const typePrompt = ( props: PromptParams ) => enquirer2clack( props, () => params.onCancel?.( promptLine ) )
+
+	const all = {
+		...promptLine,
 		typePrompt,
 	}
 
-	if ( params.intro ) prompt.intro( params.intro )
-	const list    = await params.list( prompt )
-	const results = await prompt.group<T>( list, { onCancel: () => params.onCancel?.( prompt ) } )
+	if ( params.intro ) all.intro( params.intro )
+	// @ts-ignore
+	const list    = await params.list( all )
+	const results = await all.group<T>( list, { onCancel: () => params.onCancel?.( all ) } )
 
-	if ( params.outro ) prompt.outro( params.outro )
+	if ( params.outro ) all.outro( params.outro )
 	return results
 
 }

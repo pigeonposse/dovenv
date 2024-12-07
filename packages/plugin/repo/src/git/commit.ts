@@ -90,13 +90,28 @@ export class GitCommit extends GitSuper {
 		},
 	]
 
-	async getList() {
+	async getStagedFiles() {
 
 		const { stdout } = await execChild( 'git status --short' )
-		return stdout.trim().split( '\n' )
+		return stdout.trim()
 
 	}
 
+	/**
+	 * Get list of staged files.
+	 * @returns {Promise<string[]>} List of staged files
+	 */
+	async getStagedFilesList() {
+
+		const res = await this.getStagedFiles()
+		return res.split( '\n' )
+
+	}
+
+	/**
+	 * Get the last commit message.
+	 * @returns {Promise<string>} The last commit message.
+	 */
 	async getLastCommit() {
 
 		const { stdout } = await execChild( 'git log -1 --pretty=%B' )
@@ -137,7 +152,7 @@ export class GitCommit extends GitSuper {
 	async exec( message: string ) {
 
 		const cmd = `git commit -m "${message}"`
-		const l   = this.line( 'git commit' )
+		const l   = this.style.get.line( 'git commit' )
 
 		l.start()
 		await exec( cmd )
@@ -162,7 +177,7 @@ export class GitCommit extends GitSuper {
 		const cache       = await this._cache( 'commit', defaultData )
 		const cached      = await cache.get()
 
-		await this._promptLine( {
+		await this.promptGroup( {
 			// outro    : 'Succesfully commited 🌈',
 			onCancel : async () => this.onCancel(),
 			list     : async p => {
@@ -219,7 +234,7 @@ export class GitCommit extends GitSuper {
 				}
 
 				return {
-					desc   : () => p.log.info( this._color.gray.dim( 'Prompt for commit message' ) ),
+					desc   : () => p.log.info( this.style.get.text( 'Prompt for commit message' ) ),
 					...prompt,
 					commit : async ( { results } ) => {
 
@@ -279,7 +294,7 @@ export class GitCommit extends GitSuper {
 		if ( isEmpty ) {
 
 			console.warn(
-				`Nothing to commit.\n\nStage your changes executing: ${this._color.dim.italic( 'dovenv git push' )}\nOr stage your changes manually using ${this._color.dim.italic( 'git add' )} and executing again: ${this._color.dim.italic( 'dovenv git commit' )}`,
+				`Nothing to commit.\n\nStage your changes executing: ${this.style.get.badge( 'dovenv git push' )}\nOr stage your changes manually using ${this.style.get.badge( 'git add' )} and executing again: ${this.style.get.badge( 'dovenv git commit' )}`,
 			)
 			return
 

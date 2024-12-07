@@ -2,12 +2,12 @@ import {
 	execChild,
 	getFilteredFileNames,
 	process,
-	joinPath,
 	joinUrl,
 	getPaths,
 	getDirTree,
 	box,
 	existsDir,
+	relativePath,
 } from '@dovenv/core/utils'
 
 import { Repo } from '../_super/main'
@@ -19,23 +19,27 @@ export class Workflow extends Repo {
 		const {
 			workflowsDir, repoURL,
 		} = this.opts || {}
-		const dir       = workflowsDir || joinPath( process.cwd(), '.github', 'workflows' )
-		const fileNames = await getPaths( [ dir + '/*.yml' ], { onlyFiles: true  } )
-		const color     = this._color
+
+		// this is typed as undefined too, but it is not. workflowsDir is a string set in the constructor
+		if ( !workflowsDir ) return console.warn( `No workflows dir provided. You need to provide a workflows dir` )
+
+		console.debug( { workflowsDir } )
+		const fileNames = await getPaths( [ workflowsDir + '/*.yml' ], { onlyFiles: true  } )
+		const color     = this.style.color
 		let content     = ( fileNames && fileNames.length )
 			? await getDirTree( {
 				name  : '.github/workflows\n',
-				input : dir,
+				input : workflowsDir,
 			} )
 			: color.cyan( `No workflows found it!` )
 
-		content  += '\n' + ( color.cyan( `PATH: ` ) + color.dim.italic( dir ) )
-		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + color.dim.italic( repoURL ) : ''
+		content  += '\n' + ( color.cyan( `PATH: ` ) + this.style.get.text( relativePath( process.cwd(), workflowsDir ) ) )
+		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + this.style.get.text( this.style.get.link( repoURL ) ) : ''
 		const res = box( content, {
-			title       : 'Workflows',
 			padding     : 1,
 			dimBorder   : true,
 			borderColor : 'gray',
+			borderStyle : 'none',
 		} )
 		console.log( res )
 
@@ -79,7 +83,7 @@ export class Workflow extends Repo {
 		const cache       = await this._cache( 'workflow', defaultData )
 		const cached      = await cache.get()
 
-		await this._promptLine( {
+		await this.promptGroup( {
 			outro    : repoURL ? `✨ See action progress: ${joinUrl( repoURL, 'actions' )}` : 'Succesfully finished 🌈',
 			onCancel : p => {
 
@@ -88,7 +92,7 @@ export class Workflow extends Repo {
 
 			},
 			list : async p => ( {
-				desc        : () => p.log.info( this._color.gray.dim( 'Prompt for run workflow' ) ),
+				desc        : () => p.log.info( this.style.get.text( 'Prompt for run workflow' ) ),
 				[data.file] : async () =>  p.select( {
 					message : 'Select a workflow:',
 					options : fileNames.map( value => ( {

@@ -65,7 +65,7 @@ export class Aliases extends Command {
 
 			const { desc } = this.props[key]
 
-			this.style.setListItem( key, desc )
+			console.log( this.style.get.listKey(  key  )  + ' ' +  this.style.get.listValue( desc ) )
 
 		}
 

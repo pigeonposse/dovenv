@@ -39,3 +39,18 @@ export const config = <Contr extends string, R extends Role<Contr>>( opts?: Conf
 
 }
 
+// export const config = <Contr extends string, R extends Role<Contr>>() => createPlugin<Config<Contr, R>>( ( { args } ) => {
+
+// 	const {
+// 		contributors,
+// 		...generalConf
+// 	} = args || {}
+
+// 	return defineConfig( [
+// 		contributorsConfig( contributors ),
+// 		ghConfig( generalConf ),
+// 		gitConfig( generalConf ),
+// 		pkgConfig( generalConf ),
+// 	] )
+
+// } )()

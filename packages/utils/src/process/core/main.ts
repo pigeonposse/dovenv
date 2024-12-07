@@ -1,12 +1,14 @@
 /* eslint-disable jsdoc/no-undefined-types */
-
-import process from 'node:process'
+import process      from 'node:process'
+import terminalSize from 'terminal-size'
 
 export * from './env'
 export { process }
 
 export * from './std'
 export * from './console'
+
+export { terminalSize }
 
 /**
  * Checks if the environment is a development environment.

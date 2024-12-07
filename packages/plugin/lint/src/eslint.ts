@@ -5,6 +5,7 @@ import {
 } from '@dovenv/core/utils'
 
 export type EslintConfig = { flags?: string[] }
+
 export const runEslint = async ( conf?: EslintConfig ) => {
 
 	const setResponse = ( res: {

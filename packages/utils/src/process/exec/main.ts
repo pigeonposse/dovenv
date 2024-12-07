@@ -2,7 +2,6 @@ import {
 	exec as execNode,
 	fork,
 	spawn,
-	execFile,
 	type SpawnOptions,
 } from 'node:child_process'
 import process           from 'node:process'
@@ -35,29 +34,62 @@ export const runLocalBin = async ( {
 
 		const env = npmRunPathEnv( opts )
 
-		execFile(
-			name,
-			args,
-			{
-				env,
-				cwd   : opts?.cwd || process.cwd(),
-				shell : true,
-			},
-			( error, _stdout, stderr ) => {
+		const child = spawn( name, args || [], {
+			env,
+			cwd   : opts?.cwd || process.cwd(),
+			shell : true,
+			stdio : 'inherit', // Inherit stdio to allow user prompts
+		} )
 
-				if ( error ) {
+		child.on( 'error', error => {
 
-					reject( new Error( error.message || stderr ) )
-					return
+			reject( new Error( `Failed to execute '${name}': ${error.message}` ) )
 
-				}
+		} )
 
-				resolve( 0 ) // Process exited successfully
+		child.on( 'close', code => {
 
-			},
-		)
+			if ( code !== 0 ) {
+
+				reject( new Error( `Process '${name}' exited with code ${code}` ) )
+
+			}
+			else {
+
+				resolve( code )
+
+			}
+
+		} )
 
 	} )
+	// return new Promise( ( resolve, reject ) => {
+
+	// 	const env = npmRunPathEnv( opts )
+
+	// 	execFile(
+	// 		name,
+	// 		args,
+	// 		{
+	// 			env,
+	// 			cwd   : opts?.cwd || process.cwd(),
+	// 			shell : true,
+	// 		},
+	// 		( error, _stdout, stderr ) => {
+
+	// 			if ( error ) {
+
+	// 				reject( new Error( error.message || stderr ) )
+	// 				return
+
+	// 			}
+
+	// 			resolve( 0 ) // Process exited successfully
+
+	// 		},
+	// 	)
+
+	// } )
 
 }
 

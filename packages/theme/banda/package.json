@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/theme-banda",
-	"version": "0.0.6",
+	"version": "0.0.9",
 	"description": "All in One dovenv tools for large and complete repositories",
 	"keywords": [
 		"theme",
@@ -51,7 +51,6 @@
 		"@dovenv/docs": "workspace:*",
 		"@dovenv/examples": "workspace:*",
 		"@dovenv/lint": "workspace:*",
-		"@dovenv/media": "workspace:*",
 		"@dovenv/repo": "workspace:*",
 		"@dovenv/todo": "workspace:*",
 		"@dovenv/workspace": "workspace:*"

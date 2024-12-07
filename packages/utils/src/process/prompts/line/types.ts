@@ -16,6 +16,7 @@ export const promptLineMethods = {
 	warning : 'warning',
 	error   : 'error',
 } as const
+
 export type PromptLineMethod = typeof promptLineMethods[keyof typeof promptLineMethods]
 
 /**
@@ -55,15 +56,18 @@ export type BoxParams = Parameters<typeof box>
 export type PromptLineCancelProps = typeof p & {
 	number : typeof number
 	table   : ( opts:{
-		value : TableParams
+		value : TableParams[0]
+		opts? : TableParams[1]
 		type? : PromptLineMethod
 	} ) => void
 	box     : ( opts:{
-		value : BoxParams
+		value : BoxParams[0]
+		opts? : BoxParams[1]
 		type? : PromptLineMethod
 	} ) => void
 	columns : ( opts:{
-		value : ColumnsParams
+		value : ColumnsParams[0]
+		opts? : ColumnsParams[1]
 		type? : PromptLineMethod
 	}  ) => void
 }

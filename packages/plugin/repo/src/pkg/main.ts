@@ -8,6 +8,8 @@ const CMD = {
 	publish : 'publish',
 	init    : 'init',
 	version : 'version',
+	prepare : 'prepare',
+	ask     : 'ask',
 } as const
 
 export { Packages }
@@ -18,6 +20,8 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 		desc : 'Packages commands: update, publish... (wraps changesets)',
 		cmds : {
 			[CMD.init]    : { desc: 'Init packages' },
+			[CMD.ask]     : { desc: 'Ask for changes' },
+			[CMD.prepare] : { desc: 'Preprare version changelog' },
 			[CMD.version] : { desc: 'Update version of packages' },
 			[CMD.publish] : { desc: 'Publish packages' },
 			[CMD.release] : { desc: 'Update version and publish packages' },
@@ -31,10 +35,14 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 				await pkg.release()
 			else if ( cmds?.includes( CMD.publish ) )
 				await pkg.publish()
+			else if ( cmds?.includes( CMD.prepare ) )
+				await pkg.prepare()
 			else if ( cmds?.includes( CMD.init ) )
 				await pkg.init()
 			else if ( cmds?.includes( CMD.version ) )
 				await pkg.version()
+			else if ( cmds?.includes( CMD.ask ) )
+				await pkg.ask()
 			else showHelp()
 
 		},

@@ -1,36 +1,30 @@
+import { PluginCore }     from '@dovenv/core'
 import {
-	color,
 	existsLocalBin,
 	joinPath,
-	promptLineProps,
-	promptLine,
 	process,
 	cache,
 	isGitHubAuthenticated,
-	icon,
 } from '@dovenv/core/utils'
 
 import type { Config }                  from './types'
 import type { Config as DoveEnvConfig } from '@dovenv/core'
 
-export class Repo {
+export class Repo extends PluginCore {
 
 	opts   : Config = {}
 	config : DoveEnvConfig = {}
 
-	protected _color = color
-	protected _prompt = promptLineProps
-	protected _promptLine = promptLine
-	protected _process = process
-
 	constructor( opts?: Config, config?: DoveEnvConfig ) {
+
+		super()
 
 		try {
 
 			const consts = config?.const || undefined
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const pkg          = consts?.pkg && typeof consts?.pkg == 'object' ? consts?.pkg : {} as any
-			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : joinPath( process.cwd(), '.github', 'workflows' )
+			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : process.cwd()
 
 			if ( !opts?.homepageURL && pkg.homepage ) opts = {
 				...opts,
@@ -51,7 +45,7 @@ export class Repo {
 			}
 			if ( !opts?.workflowsDir && workspaceDir ) opts = {
 				...opts,
-				workflowsDir : workspaceDir,
+				workflowsDir : joinPath( workspaceDir, '.github', 'workflows' ),
 			}
 			// @ts-ignore
 			if ( !opts?.repoID && pkg.extra && pkg.extra.repoID ) opts = {
@@ -130,24 +124,66 @@ export class Repo {
 
 	}
 
-	_style = {
-		succedDesc : ( msg: string ) => this._color.green.dim( msg ),
-		succed     : ( msg: string ) => this._color.green( icon.tick + ' ' + msg ),
-		link       : ( msg: string ) => this._color.italic.underline(  msg ),
-	}
+	// protected _color = color
+	// protected _prompt = promptLine
+	// protected _promptLine = promptLineGroup
+	// protected _process = process
 
-	_succedMsg( title: string, msg?: string ) {
+	// _style = {
+	// 	succedDesc : ( msg: string ) => this._color.green.dim( msg ),
+	// 	succed     : ( msg: string ) => this._color.green( icon.tick + ' ' + msg ),
+	// 	link       : ( msg: string ) => this._color.italic.underline(  msg ),
+	// }
 
-		console.log( this._style.succed( title  ) )
+	// _succedMsg( title: string, msg?: string ) {
 
-		if ( msg ) this._succedDesc( msg )
+	// 	console.log( this._style.succed( title  ) )
 
-	}
+	// 	if ( msg ) this._succedDesc( msg )
 
-	_succedDesc( msg: string ) {
+	// }
 
-		console.log(  '\n' + this._style.succedDesc( msg ) )
+	// _succedDesc( msg: string ) {
 
-	}
+	// 	console.log(  '\n' + this._style.succedDesc( msg ) )
+
+	// }
+
+	// async onCancel() {
+
+	// 	this.prompt.log.step( '' )
+	// 	this.prompt.cancel( 'Process cancelled 💔' )
+
+	// 	process.exit( 0 )
+
+	// }
+
+	// _line( title?: string ) {
+
+	// 	const l = `${line( {
+	// 		title    : '',
+	// 		lineChar : this._color.dim( icon.line ),
+	// 	} )}\n`
+
+	// 	return {
+	// 		start : () => {
+
+	// 			if ( title )
+	// 				console.log( '\n' + line( {
+	// 					title    : this._color.dim( title ),
+	// 					lineChar : ' ',
+	// 				} ) + '' + '\n' + l,
+	// 				)
+	// 			else console.log(  '\n' + l )
+
+	// 		},
+	// 		stop : () => {
+
+	// 			console.log( '\n' + l )
+
+	// 		},
+	// 	}
+
+	// }
 
 }

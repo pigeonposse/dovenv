@@ -1,6 +1,5 @@
 /* eslint-disable @stylistic/object-curly-newline */
 import {
-	color,
 	deepmergeCustom,
 } from '@dovenv/utils'
 
@@ -109,8 +108,7 @@ export class Custom extends Command {
 
 		const isQuiet = opts?.[GLOBAL_OPTIONS.QUIET.key] as boolean || false
 
-		if ( title && !isQuiet )
-			console.log( `\n${color.bold.inverse( ' ' + title + ' ' )}${color.bold( desc ? '\n\n' + desc : '' )}\n` )
+		if ( title && !isQuiet ) this.setMainTitle( title, desc )
 
 		this.title       = name
 		this.description = prop.desc
