@@ -1,22 +1,7 @@
 import { defineConfig } from '../packages/core/dist/main.mjs'
-import {
-	getCurrentDir,
-	getObjectFromJSONFile,
-	joinPath,
-	getBaseName,
-	asciiFont,
-} from '../packages/utils/dist/main.mjs'
-
-const currDir      = getCurrentDir( import.meta.url )
-const workspaceDir = joinPath( currDir, '..' )
-const pkg          = await getObjectFromJSONFile( joinPath( workspaceDir, 'package.json' ) )
+import { getBaseName }  from '../packages/utils/dist/main.mjs'
 
 export const customConfig = defineConfig( {
-	const : {
-		pkg  : pkg,
-		workspaceDir,
-		mark : `\n${asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
-	},
 	name      : 'DOVENV WORKSPACE',
 	desc      : 'ToolKit for dovenv repository that uses the "dovenv" core and "pigeonposse" theme.',
 	transform : { packages : {

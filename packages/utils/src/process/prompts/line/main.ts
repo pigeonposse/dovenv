@@ -133,7 +133,12 @@ export async function promptLineGroup<T>( params: PromptLineParams<T> ) {
 	const list    = await params.list( all )
 	const results = await all.group<T>( list, { onCancel: () => params.onCancel?.( all ) } )
 
-	if ( params.outro ) all.outro( params.outro )
+	if ( params.outro ) {
+
+		all.log.step( '' )
+		all.outro( params.outro )
+
+	}
 	return results
 
 }

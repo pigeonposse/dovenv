@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 0.0.14
+
+### Patch Changes
+
+- add feat in docs
+
 ## 0.0.13
 
 ### Patch Changes

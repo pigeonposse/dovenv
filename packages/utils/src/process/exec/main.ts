@@ -43,7 +43,16 @@ export const runLocalBin = async ( {
 
 		child.on( 'error', error => {
 
-			reject( new Error( `Failed to execute '${name}': ${error.message}` ) )
+			if ( 'code' in error && error.code === 'ENOENT' ) {
+
+				reject( new Error( `Command '${name}' not found.` ) )
+
+			}
+			else {
+
+				reject( new Error( `Failed to execute '${name}': ${error.message}` ) )
+
+			}
 
 		} )
 
@@ -63,33 +72,6 @@ export const runLocalBin = async ( {
 		} )
 
 	} )
-	// return new Promise( ( resolve, reject ) => {
-
-	// 	const env = npmRunPathEnv( opts )
-
-	// 	execFile(
-	// 		name,
-	// 		args,
-	// 		{
-	// 			env,
-	// 			cwd   : opts?.cwd || process.cwd(),
-	// 			shell : true,
-	// 		},
-	// 		( error, _stdout, stderr ) => {
-
-	// 			if ( error ) {
-
-	// 				reject( new Error( error.message || stderr ) )
-	// 				return
-
-	// 			}
-
-	// 			resolve( 0 ) // Process exited successfully
-
-	// 		},
-	// 	)
-
-	// } )
 
 }
 

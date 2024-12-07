@@ -3,8 +3,7 @@
 
 /** @type {import( '../src/main' ).DocsConfig} */
 export default {
-	in   : '../../../docs',
-	out  : './build',
-	name : 'dovenv',
+	in  : '../../../docs',
+	out : './build',
 }
 

@@ -28,13 +28,13 @@ export const setConfig = async ( {
 }> => {
 
 	// the order is important
-	const initConf    = mergeConfig(
+	const initConf = mergeConfig(
 		fixedDefConf,
 		packageConfig || {},
 		pathConfig || {},
 		fnConfig || {},
-
 	)
+
 	const styledConf  = await getStylesConfig( initConf, initConf.in, initConf.logo )
 	const defaultConf = await getDefaultConf( styledConf )
 	// @ts-ignore

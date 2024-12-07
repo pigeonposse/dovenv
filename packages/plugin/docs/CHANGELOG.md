@@ -1,5 +1,14 @@
 # @dovenv/docs
 
+## 0.0.14
+
+### Patch Changes
+
+- add feat in docs
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes

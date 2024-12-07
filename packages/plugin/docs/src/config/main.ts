@@ -16,6 +16,7 @@ import {
 	fileURLToPath,
 } from '@dovenv/core/utils'
 
+import { mergeConfig }  from './_utils'
 import { setConfig }    from './merge'
 import { getPkgConfig } from './pkg'
 
@@ -94,6 +95,34 @@ export class Config {
 	async getFnConfig( ): Promise<GetConfig | undefined> {
 
 		if ( !this.config ) return undefined
+		if ( this.fnPath ) {
+
+			try {
+
+				const exists =  await existsPath( this.fnPath )
+				if ( exists ) {
+
+					const { default: dovenvConfig } = await import( this.fnPath )
+					const pkg                       = dovenvConfig?.const?.pkg as Record<string, unknown> | undefined
+
+					if ( pkg ) {
+
+						const config = await getPkgConfig( pkg )
+						this.config  = mergeConfig( config, this.config )
+
+					}
+
+				}
+
+			}
+			catch ( e ) {
+
+				console.warn( 'Error getting fn config "pkg" data', e?.message )
+
+			}
+
+		}
+
 		return {
 			config : this.config,
 			path   : this.fnPath,
