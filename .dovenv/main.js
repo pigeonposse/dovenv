@@ -10,6 +10,6 @@ export default defineConfig(
 	readmes,
 	pigeonposseTheme( {
 		...docs,
-		lint : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'pnpm . lint eslint' } },
+		lint : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'pnpm --silent . lint eslint --silent' } },
 	} ),
 )
