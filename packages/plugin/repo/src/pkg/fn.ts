@@ -125,7 +125,7 @@ export class Packages extends Repo {
 					]
 
 					await p.box( {
-						value : 'Best practices before publishing:\n\n' + list.map( l => this.style.get.listKey( l ) ).join( '\n' ) + '\n\n',
+						value : `Best practices before publishing:\n\n${list.map( l => this.style.get.listKey( l ) ).join( '\n' )}\n\n`,
 						opts  : {
 							borderStyle : 'none',
 							padding     : 0,
