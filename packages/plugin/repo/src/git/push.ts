@@ -100,7 +100,7 @@ export class GitPush extends GitSuper {
 							await this.exec( res[data.origin] )
 							console.log()
 
-							p.log.success( `✨ Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` )
+							p.log.success( this.style.get.succed( `✨ Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
 
 						}
 						catch ( e ) {

@@ -86,7 +86,7 @@ export class CommitLint extends PluginCore {
 		if ( res && res !== '' ) this.prompt.log.error( res )
 		if ( report.valid ) {
 
-			this.prompt.log.success( '✨ Commit format is valid!' )
+			this.prompt.log.success(  this.style.get.succed( '✨ Commit format is valid!' ) )
 			this.prompt.log.message( '' )
 
 		}
