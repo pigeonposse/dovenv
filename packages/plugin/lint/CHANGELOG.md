@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 0.0.13
+
+### Patch Changes
+
+- Fix docs and repo plugin issues
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.13
+  - @dovenv/eslint-config@0.0.13
+  - @dovenv/stylelint-config@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

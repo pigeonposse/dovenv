@@ -1,5 +1,14 @@
 # @dovenv/workspace
 
+## 0.0.13
+
+### Patch Changes
+
+- Fix docs and repo plugin issues
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

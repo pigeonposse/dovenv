@@ -1,8 +1,8 @@
-import { config }          from '@dovenv/repo-config/unbuild'
 import {
 	copyDir,
 	resolvePath as resolve,
 } from '@dovenv/core/utils'
+import { config }            from '@dovenv/repo-config/unbuild'
 import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig( [

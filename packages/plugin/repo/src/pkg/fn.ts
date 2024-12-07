@@ -10,33 +10,28 @@ import { Repo } from '../_super/main'
 
 export class Packages extends Repo {
 
-	// async #line( title?: string ) {
-
-	// 	if ( title )
-	// 		console.log( line( {
-	// 			title    : this.sty.dim( title ),
-	// 			lineChar : ' ',
-	// 		} ) )
-	// 	console.log( line( {
-	// 		title    : '',
-	// 		lineChar : this._color.dim( icon.line ),
-	// 	} ) )
-
-	// }
-
 	async #exec( args?: string[] ) {
 
-		// const replace = replaceConsole( { params: { 'changeset init': '$0 pkg init' } } )
-		// replace.start()
-		const alerts = deprecatedAlerts()
-		alerts.hide()
-		const exitCore = await runLocalBin( {
-			name : 'changeset',
-			args,
-		} )
+		try {
 
-		// replace.stop()
-		return exitCore
+			const alerts = deprecatedAlerts()
+			alerts.hide()
+			const exitCode = await runLocalBin( {
+				name : 'changeset',
+				args,
+			} )
+
+			// TODO: CATCH ON CANCEL ENVENT IN `runLocalBin`
+			console.debug( { exitCode } )
+			return exitCode
+
+		}
+		catch ( error ) {
+
+			if ( error instanceof Error )
+				await this.onCancel()
+
+		}
 
 	}
 
@@ -102,17 +97,16 @@ export class Packages extends Repo {
 				[data.version] : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do you want to update package version?',
+						message      : 'Do you want to update the package version now?',
 						initialValue : cached[data.version],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()
 					cache.set( { [data.version]: res } )
-					if ( res ) {
 
-						await this.version()
-						console.log( this.style.get.line() )
+					if ( !res ) return res
 
-					}
+					await this.version()
+					console.log( this.style.get.line() )
 
 					return res
 
@@ -121,12 +115,13 @@ export class Packages extends Repo {
 
 					let list = []
 
-					if ( data.version in results ) list.push( 'Update version of package/s' )
+					if ( data.version in results )
+						list.push( 'Update the version of the package(s)' )
 
 					list = [
 						...list,
-						'Build your package/s',
-						'Run tests for ensure everything is ok',
+						'Build your package(s), if necessary',
+						'Run the tests to make sure everything works as expected',
 					]
 
 					await p.box( {
@@ -185,19 +180,6 @@ export class Packages extends Repo {
 			await this.prepare()
 			await this.version()
 			await this.publish()
-
-			// const promptResCode = await this.prompt()
-			// console.debug( { promptResCode } )
-			// if ( promptResCode !== 0 )
-			// 	throw new Error( 'Release cancelled' )
-			// const versionResCode = await this.version()
-			// console.debug( { versionResCode } )
-			// if ( versionResCode !== 0 )
-			// 	throw new Error( 'Version update cancelled' )
-			// const publishResCode = await this.publish()
-			// console.debug( { publishResCode } )
-			// if ( publishResCode !== 0 )
-			// 	throw new Error( 'Publish cancelled' )
 
 		}
 		catch ( error ) {

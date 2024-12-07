@@ -26,8 +26,9 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 	// const confRelative = relativePath( opts.srcDir, opts.configPath )
 
 	return {
-		server  : { fs: { strict: false } },
-		plugins : [
+		optimizeDeps : { exclude: [ 'virtual:group-icons.css' ] },
+		server       : { fs: { strict: false } },
+		plugins      : [
 			// {
 			// 	name       : name + '--post-pre-build', // the name of your custom plugin. Could be anything.
 			// 	buildStart : async () => {
@@ -122,11 +123,12 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 
 					// @ts-ignore: 	config.vitepress is not typed
 					config.vitepress.logger.info( 'Sidebar data updated successfully', { timestamp: true } )
+					console.log(  )
 
 				},
 
 			},
-			groupIconVitePlugin(),
+			groupIconVitePlugin(  ),
 			...(  conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
 			...( conf.pwa === false ? [] : [ VitePWA( conf.pwa ) ] ),
 			ViteRestart( {

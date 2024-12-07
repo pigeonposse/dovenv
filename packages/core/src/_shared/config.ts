@@ -39,7 +39,7 @@ const paths      = pathsNames
 
 const errorInfo = `  ${icon.dot} You can create a configuration file in the following paths and it will be automatically detected: 
 
-${[ ...pathsNames.map( p => `.${p}` ), ...pathsNames ].map( p => `    ${icon.dot} ${color.dim.italic( joinPath( p.replace( root, '.' ), `{${exts.join( ',' )}}` ) )}` ).join( '\n' )}
+${[ ...pathsNames.map( p => `.${p}` ), ...pathsNames ].map( p => `    ${icon.dot} ${color.dim.italic( p.replace( root, '.' ) + `.{${exts.join( ',' )}}` )}` ).join( '\n' )}
 
   ${icon.dot} Or use a custom route with: ${color.dim.italic( '$0 --config <config-path>' )}
   
