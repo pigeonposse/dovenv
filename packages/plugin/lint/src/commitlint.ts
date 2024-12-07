@@ -78,9 +78,11 @@ export class CommitLint extends PluginCore {
 			ignores        : config.ignores,
 			defaultIgnores : config.defaultIgnores,
 		} )
+
 		console.debug( 'report', report )
 
 		const res = format( { results: [ report ] } )
+
 		console.debug( 'formated response', res )
 
 		if ( res && res !== '' ) this.prompt.log.error( res )

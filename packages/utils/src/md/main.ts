@@ -100,10 +100,8 @@ export const md2terminal = async ( input: string, opts?: Md2TerminalOpts ): Prom
 	const marked = new Marked(  )
 	// Register markedTerminal extension with the options if provided
 	marked.use( markedTerminal( opts?.renderer, opts?.highlight ) as MarkedExtension )
-	// Parse the input with the registered extension
-	const result = await marked.parse( input )
 
-	return result
+	return await marked.parse( input )
 
 }
 
@@ -141,9 +139,7 @@ export const html2terminal = async ( input: string ): Promise<string> => {
 	input = await _getInput( input )
 	input = await html2md( input )
 
-	const marked = new Marked(  )
-	marked.use( markedTerminal() as MarkedExtension )
-	return await marked.parse( input )
+	return await md2terminal( input )
 
 }
 

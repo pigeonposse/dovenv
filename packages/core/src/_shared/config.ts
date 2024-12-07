@@ -28,6 +28,9 @@ const exts       = [
 	'js',
 	'mjs',
 	'cjs',
+	'ts',
+	'mts',
+	'cts',
 ]
 const paths      = pathsNames
 	.flatMap( name => exts.flatMap( ext => [ `.${name}.${ext}`, `${name}.${ext}` ] ) )
@@ -36,7 +39,7 @@ const paths      = pathsNames
 
 const errorInfo = `  ${icon.dot} You can create a configuration file in the following paths and it will be automatically detected: 
 
-${paths.map( p => `    ${icon.dot} ${color.dim.italic( p.replace( root, '.' ) )}` ).join( '\n' )}
+${[ ...pathsNames.map( p => `.${p}` ), ...pathsNames ].map( p => `    ${icon.dot} ${color.dim.italic( joinPath( p.replace( root, '.' ), `{${exts.join( ',' )}}` ) )}` ).join( '\n' )}
 
   ${icon.dot} Or use a custom route with: ${color.dim.italic( '$0 --config <config-path>' )}
   
@@ -46,7 +49,7 @@ const getValidatedConf = async ( path: string ) => {
 
 	path        = resolvePath( path )
 	const exist = await existsPath( path )
-	if ( !exist ) throw new ErrorConfig( ERROR.NO_ROUTE, { data: `Configuration route [${path}] has not exist\n\n${errorInfo}` } )
+	if ( !exist ) throw new ErrorConfig( ERROR.NO_ROUTE, { data: `The configuration path [${path}] does not exist\n\n${errorInfo}` } )
 
 	const [ error, config ] = await catchError( getObjectFromJSFile( path ) )
 	if ( error ) throw new ErrorConfig( ERROR.CONFIG_FILE_ERROR, { data: `${error.message}\n\n${errorInfo}` } )

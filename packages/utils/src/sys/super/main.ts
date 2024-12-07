@@ -604,7 +604,7 @@ export const copyDir = async ( {
 			output,
 		} )
 
-		console.log( `📁 Directory copied from ${input} to ${output}` )
+		// console.log( `📁 Directory copied from ${input} to ${output}` )
 
 	}
 	catch ( error ) {

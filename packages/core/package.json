@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"env",
@@ -40,6 +40,7 @@
 	"type": "module",
 	"exports": {
 		".": "./dist/main.mjs",
+		"./client": "./dist/client.mjs",
 		"./utils": "./dist/utils.mjs"
 	},
 	"main": "dist/main.mjs",

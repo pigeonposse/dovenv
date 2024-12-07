@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 0.0.12
+
+### Patch Changes
+
+- fix issues
+
 ## 0.0.11
 
 ### Patch Changes

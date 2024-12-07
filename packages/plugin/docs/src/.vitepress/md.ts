@@ -6,8 +6,8 @@ import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
 import type { UserConfig } from 'vitepress'
 
-type MD =  NonNullable<UserConfig['markdown']>
-type MDConfig =  NonNullable<MD['config']>
+type MD = NonNullable<UserConfig['markdown']>
+type MDConfig = NonNullable<MD['config']>
 type MDIt = Parameters<MDConfig>[0]
 
 const markdownItSteps = ( md: MDIt ) => {

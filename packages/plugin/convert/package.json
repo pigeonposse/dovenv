@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/convert",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Convert utils for dovenv",
 	"keywords": [
 		"convert",

@@ -8,6 +8,7 @@ export default defineBuildConfig( [
 			'./src/main',
 			'./src/bin',
 			'./src/utils',
+			'./src/client',
 		],
 		externals : [
 			'zod',

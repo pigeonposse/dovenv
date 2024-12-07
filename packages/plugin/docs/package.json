@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -53,15 +53,15 @@
 	},
 	"dependencies": {
 		"@fortawesome/vue-fontawesome": "3.0.8",
-		"@shikijs/vitepress-twoslash": "1.23.1",
+		"@shikijs/vitepress-twoslash": "1.24.0",
 		"markdown-it-container": "4.0.0",
 		"markdown-it-task-lists": "2.1.1",
 		"medium-zoom": "1.1.0",
 		"vite-plugin-full-reload": "1.2.0",
-		"vite-plugin-pwa": "0.21.0",
-		"vite-plugin-restart": "0.4.1",
+		"vite-plugin-pwa": "0.21.1",
+		"vite-plugin-restart": "0.4.2",
 		"vitepress": "1.5.0",
-		"vitepress-plugin-group-icons": "1.3.0",
+		"vitepress-plugin-group-icons": "1.3.1",
 		"vitepress-plugin-rss": "0.3.0",
 		"vue": "3.5.13",
 		"vue-social-sharing": "3.0.9"

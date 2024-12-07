@@ -1,9 +1,9 @@
-import { fileURLToPath }   from '@dovenv/core/utils'
+import { defineConfig }    from '@dovenv/core'
 import {
 	fontAwesomeSolidIcons,
 	fontAwesomeBrandsIcons,
-} from '@dovenv/core/utils/client'
-import { defineConfig } from '@dovenv/core'
+} from '@dovenv/core/client'
+import { fileURLToPath } from '@dovenv/core/utils'
 
 const {
 	faBook,

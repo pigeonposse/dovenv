@@ -31,8 +31,9 @@ const setStructure = () => '\n' + box( setDirTree( { structure : {
 	'README.md'        : null,
 } } ), {
 	padding     : 1,
+	// titleAlignment : 'center',
 	title       : 'Workspace Structure',
-	borderStyle : 'double',
+	borderStyle : 'none',
 	borderColor : 'gray',
 	dimBorder   : true,
 } )
