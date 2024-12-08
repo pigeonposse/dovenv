@@ -76,7 +76,19 @@ const getGuide = ( guide: SidebarProps['guide'], conf: SidebarProps['conf'] ) =>
 	const guidePath     = '/guide/'
 	const filteredIndex = guide.filter( page => page.split( '/' ).length === 2 && page !== 'guide/index.md' )
 
-	const index = guide.includes( 'guide/index.md' ) ? 'guide/index.md' : undefined
+	const index             = guide.includes( 'guide/index.md' ) ? 'guide/index.md' : undefined
+	const getReferenceItems = () => {
+
+		const items =  filteredGroup( guide )
+		if ( !items.length ) return []
+		return [
+			{
+				text : 'Reference',
+				items,
+			},
+		]
+
+	}
 
 	return [
 		...( ( conf?.autoSidebar?.intro !== undefined && conf.autoSidebar.intro === false )
@@ -89,12 +101,7 @@ const getGuide = ( guide: SidebarProps['guide'], conf: SidebarProps['conf'] ) =>
 		),
 		...( ( conf?.autoSidebar?.reference !== undefined && conf.autoSidebar.reference === false )
 			? []
-			: [
-				{
-					text  : 'Reference',
-					items : filteredGroup( guide ),
-				},
-			]
+			: getReferenceItems()
 		),
 	]
 
@@ -108,35 +115,51 @@ const sidebarConstructor = ( {
 	const todoPaths = todo && todo.length > 1
 		? todo.map( d => setPath( capitalize( getBaseName( d.replace( '.md', '' ) ) ), d ) ).flat()
 		: undefined
-	const todoRes   = setPath(
+
+	const todoRes      = setPath(
 		'Todo',
 		todoPath,
 		todoPaths,
 		true,
 	)
+	const getContItems = () => {
+
+		const items = [ ...setPath( 'Report issues', conf.bugsURL ), ...todoRes ]
+		if ( !items.length ) return []
+		return [
+			{
+				text : 'Contribute',
+				items,
+			},
+		]
+
+	}
+	const getAboutItems = () => {
+
+		const items =  [
+			...setPath( 'Contributors', contributors ),
+			...setPath( 'Changelog', conf.changelogURL ),
+			...setPath( 'License', conf.license?.url ),
+			...setPath( 'More projects', conf.moreURL ),
+		]
+		if ( !items.length ) return []
+		return [
+			{
+				text : 'About',
+				items,
+			},
+		]
+
+	}
 	return [
 		...getGuide( guide, conf ),
 		...( ( conf?.autoSidebar?.contribute !== undefined && conf.autoSidebar.contribute === false )
 			? []
-			: [
-				{
-					text  : 'Contribute',
-					items : [ ...setPath( 'Report issues', conf.bugsURL ), ...todoRes ],
-				},
-			] ),
+			: getContItems()
+		),
 		...( ( conf?.autoSidebar?.about !== undefined && conf.autoSidebar.about === false )
 			? []
-			: [
-				{
-					text  : 'About',
-					items : [
-						...setPath( 'Contributors', contributors ),
-						...setPath( 'Changelog', conf.changelogURL ),
-						...setPath( 'License', conf.license?.url ),
-						...setPath( 'More projects', conf.moreURL ),
-					],
-				},
-			] ),
+			: getAboutItems() ),
 	]
 
 }

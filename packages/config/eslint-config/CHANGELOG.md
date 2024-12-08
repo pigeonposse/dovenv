@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 0.0.16
+
+### Patch Changes
+
+- Update plugins (docs, utils, etc)
+
 ## 0.0.15
 
 ### Patch Changes

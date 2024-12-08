@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 0.0.17
+
+### Patch Changes
+
+- Update plugins (docs, utils, etc)
+
 ## 0.0.16
 
 ### Patch Changes

@@ -7,6 +7,6 @@
 ###############################################################################
 
 echo
-echo 'commit meessage 🚀'
+echo '🚀 Lint commit meessage'
 pnpm --silent . lint commitlint --silent $1
 echo

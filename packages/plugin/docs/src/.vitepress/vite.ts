@@ -1,7 +1,10 @@
-// import {
-// 	copyDir,
-// 	removePathIfExist,
-// } from '@dovenv/core/utils'
+/**
+ * VITE CONFIG
+ */
+import {
+	copyDir,
+	removePathIfExist,
+} from '@dovenv/core/utils'
 import { VitePWA }             from 'vite-plugin-pwa'
 import ViteRestart             from 'vite-plugin-restart'
 import { type UserConfig }     from 'vitepress'
@@ -28,8 +31,27 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 	return {
 		optimizeDeps : { exclude: [ 'virtual:group-icons.css'  ] },
 		server       : { fs: { strict: false } },
-		build        : { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } },
+		// this can be remove for fix build icon and twoslash comments
+		// build        : { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } },
 		plugins      : [
+			{
+				name       : name + '--post-pre-build',
+				buildStart : async () => {
+
+					if ( !data.devMode ) await copyDir( {
+						input  : conf.in,
+						output : data.tempDir,
+					}  )
+
+					// throw new Error( 'stop' )
+
+				},
+				buildEnd : async () => {
+
+					if ( !data.devMode ) await removePathIfExist( data.tempDir )
+
+				},
+			},
 			{
 				name : name + '--listen-to-server',
 				configureServer( server ) {

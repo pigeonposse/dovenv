@@ -1,6 +1,6 @@
 <script setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { defineProps }     from 'vue'
+import { VPSocialLink } from 'vitepress/theme'
+import { defineProps }  from 'vue'
 
 // eslint-disable-next-line vue/require-default-prop
 const props = defineProps( { item: Object } )
@@ -23,10 +23,7 @@ const props = defineProps( { item: Object } )
 				{{ props.item.desc }}
 			</span>
 		</span>
-		<FontAwesomeIcon
-			:icon="props.item.icon"
-			size="4x"
-		/>
+		<VPSocialLink :icon="props.item.icon" />
 	</a>
 </template>
 

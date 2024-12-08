@@ -1,8 +1,5 @@
-import type {
-	DeepNonNullable,
-	IconDefinition,
-} from '@dovenv/core/utils'
-import type { VitePWAOptions } from 'vite-plugin-pwa'
+import type { DeepNonNullable } from '@dovenv/core/utils'
+import type { VitePWAOptions }  from 'vite-plugin-pwa'
 import type {
 	DefaultTheme,
 	UserConfig,
@@ -10,13 +7,18 @@ import type {
 import type { RSSOptions } from 'vitepress-plugin-rss'
 
 type Theme = DefaultTheme.Config
+type SocialLink = DefaultTheme.SocialLinkIcon
 type Sidebar = Theme['sidebar']
 type Nav = Theme['nav']
 type SocialLinks = Theme['socialLinks']
+
 type Link = {
 	text : string
 	desc : string
-	icon : IconDefinition
+	/**
+	 * Icons IDs: https://simpleicons.org/
+	 */
+	icon : SocialLink
 	link : string
 }
 type Links = ( Link | {
@@ -208,7 +210,12 @@ export type DocsConfig = {
 		about?      : boolean
 	}
 	/** Navigation configuration for links at the top of the documentation. */
-	nav?    : Nav
+	nav?      : Nav
+	/**
+	 * Additional navigation links.
+	 * Icons IDs: https://simpleicons.org/
+	 */
+	navLinks? : SocialLinks
 	/** Server-related configurations, including file watching settings. */
 	server?: {
 		/** Files that trigger a hot reload on changes. */
@@ -230,7 +237,10 @@ export type DocsConfig = {
 		orgLink?    : string
 		/** Description for the member. */
 		desc?       : string
-		/** Social links for the member (e.g., GitHub, Twitter). */
+		/**
+		 * Social links for the member (e.g., GitHub, Twitter).
+		 * Icons IDs: https://simpleicons.org/
+		 */
 		links?      : SocialLinks
 		/** URL for the sponsor page for the member. */
 		sponsor?    : string

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -47,12 +47,12 @@
 	"scripts": {
 		"build": "unbuild",
 		"build-preview": "node dist/bin.mjs -c examples/docs.config.js",
-		"dev": "tsx examples/ws/main.ts docs dev",
+		"dev": "tsx examples/ws/main.ts",
 		"dev-bin": "tsx src/bin.ts dev -c examples/bin/docs.config.js",
+		"dev-simple": "tsx examples/simple/main.ts docs",
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"@fortawesome/vue-fontawesome": "3.0.8",
 		"@shikijs/vitepress-twoslash": "1.24.0",
 		"markdown-it-container": "4.0.0",
 		"markdown-it-task-lists": "2.1.1",

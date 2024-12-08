@@ -80,7 +80,7 @@
 		"productName": "dovenv",
 		"shortDesc": "Toolkit for make your code workspace easier.",
 		"action": "Complex projects should be easier",
-		"libraryUrl": "https://www.npmjs.com/package/dovenv",
+		"libraryUrl": "https://www.npmjs.com/package/@dovenv/core",
 		"licenseUrl": "https://github.com/pigeonposse/dovenv/blob/main/LICENSE",
 		"libraryId": "dovenv",
 		"repoId": "dovenv",
@@ -108,11 +108,6 @@
 		}
 	},
 	"pnpm": {
-		"peerDependencyRules": {
-			"ignoreMissing": [
-				"marked-terminal"
-			]
-		},
 		"overrides": {
 			"got@<11.8.5": ">=11.8.5",
 			"jpeg-js@<0.4.4": ">=0.4.4",

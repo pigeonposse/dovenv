@@ -4,6 +4,6 @@
 /** @type {import( '../../src/main' ).DocsConfig} */
 export default {
 	in  : '../../../docs',
-	out : './build',
+	out : './build/bin',
 }
 

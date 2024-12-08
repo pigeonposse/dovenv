@@ -8,6 +8,6 @@
 ###############################################################################
 
 echo
-echo 'Precommit 🚀'
+echo '🚀 Precommit lint'
 pnpm --silent . lint staged --silent
 echo

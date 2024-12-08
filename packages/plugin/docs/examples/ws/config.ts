@@ -1,8 +1,8 @@
 
-import { defineConfig }    from '@dovenv/core'
+import { defineConfig } from '@dovenv/core'
 import {
 	fontAwesomeSolidIcons,
-	fontAwesomeBrandsIcons,
+	fa2svg,
 } from '@dovenv/core/client'
 
 import { coreConfig } from '../../../../../.dovenv/core'
@@ -13,21 +13,16 @@ const {
 	faCode,
 	faDownload,
 	faGlobe,
-	faX,
 } = fontAwesomeSolidIcons
-const {
-	faMedium,
-	faGithub,
-} = fontAwesomeBrandsIcons
 
 // const configPath = joinPath( getCurrentDir( import.meta.url ), 'docs.config.js' )
 
 export default defineConfig(
 	coreConfig,
 	docsPlugin( {
-		in   : '../../../docs',
-		out  : './build',
-		name : 'dovenv',
+		in       : '../../../docs',
+		out      : './build/ws',
+		name     : 'dovenv',
 		// styles : { color : {
 		// 	primary   : '#6f42c1',
 		// 	secondary : '#f59e0b',
@@ -38,7 +33,13 @@ export default defineConfig(
 		// 		url  : 'https://github.com/pigeonposse/super8/releases/latest',
 		// 	},
 		// ],
-
+		npmURL   : 'https://www.npmjs.com/package/dovenv',
+		navLinks : [
+			{
+				icon : 'githubactions',
+				link : 'https://github.com/pigeonposse/dovenv',
+			},
+		],
 		download : {
 			groups : {
 				extension : 'Extensions',
@@ -72,6 +73,8 @@ export default defineConfig(
 				},
 			},
 		},
+		vitepress : { vite: { build: { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } } } },
+
 		links : [
 			{
 				text  : 'Project',
@@ -80,25 +83,25 @@ export default defineConfig(
 				items : [
 					{
 						text : 'Website',
-						icon : faGlobe,
+						icon : { svg: fa2svg( faGlobe ) as string  },
 						desc : 'Enjoy our application!',
 						link : 'https://super8.pigeonposse.com',
 					},
 					{
 						text : 'Docs',
-						icon : faBook,
+						icon : { svg: fa2svg( faBook )  as string },
 						desc : 'Read our documentation!',
 						link : 'https://docs.super8.pigeonposse.com',
 					},
 					{
 						text : 'Repo',
-						icon : faCode,
+						icon : { svg: fa2svg(  faCode ) as string },
 						desc : 'Star us on GitHub!',
 						link : 'https://github.com/pigeonposse/super8',
 					},
 					{
 						text : 'Releases',
-						icon : faDownload,
+						icon : { svg: fa2svg( faDownload )  as string },
 						desc : 'Check out our releases!',
 						link : 'https://github.com/pigeonposse/super8/releases',
 					},
@@ -110,19 +113,19 @@ export default defineConfig(
 				items : [
 					{
 						text : 'Twitter',
-						icon : faX,
+						icon : 'twitter',
 						desc : 'Follow us on Twitter!',
 						link : 'https://twitter.com/pigeonposse',
 					},
 					{
 						text : 'GitHub',
-						icon : faGithub,
+						icon : 'github',
 						desc : 'Star us on GitHub!',
 						link : 'https://github.com/pigeonposse/super8',
 					},
 					{
 						text : 'Medium',
-						icon : faMedium,
+						icon : 'medium',
 						desc : 'Read us on Medium!',
 						link : 'https://medium.com/@pigeonposse',
 					},

@@ -12,7 +12,7 @@ export const setNav = ( {
 	conf, guide, posts, links,
 }: NavProps ) => {
 
-	return [
+	const res = [
 		// {
 		// 	text : 'Home',
 		// 	link : '/',
@@ -55,46 +55,59 @@ export const setNav = ( {
 				},
 			]
 			: [] ),
-		...( conf.version
-			? [
-				{
-					text  : conf.version,
-					items : [
-						...( conf?.changelogURL
-							? [
-								{
-									text : 'Changelog',
-									link : conf.changelogURL,
-								},
-							]
-							: []
-						),
-						...( conf.contributingURL
-							? [
-								{
-									text : 'Contributing',
-									link : conf.contributingURL,
-								},
-							]
-							: []
-						),
-						...( conf.oldVersions && conf.oldVersions.length > 0
-							? [
-								{
-									text  : 'Versions',
-									items : conf.oldVersions.map( v => ( {
-										text : v.name,
-										link : v.url,
-									} ) ),
-								},
-							]
-							: []
-						),
-					],
-				},
-			]
-			: []
-		),
 	]
+
+	if ( conf.version ) {
+
+		const versionItems = [
+			...( conf?.changelogURL
+				? [
+					{
+						text : 'Changelog',
+						link : conf.changelogURL,
+					},
+				]
+				: [] ),
+			...( conf.contributingURL
+				? [
+					{
+						text : 'Contributing',
+						link : conf.contributingURL,
+					},
+				]
+				: [] ),
+			...( conf.oldVersions && conf.oldVersions.length > 0
+				? [
+					{
+						text  : 'Versions',
+						items : conf.oldVersions.map( v => ( {
+							text : v.name,
+							link : v.url,
+						} ) ),
+					},
+				]
+				: [] ),
+		]
+
+		if ( versionItems.length > 0 ) {
+
+			res.push( {
+				text  : conf.version,
+				items : versionItems,
+			} )
+
+		}
+		// else {
+
+		// 	if ( conf.repoURL )res.push( {
+		// 		text : conf.version,
+		// 		link : conf.repoURL,
+		// 	} )
+
+		// }
+
+	}
+
+	return res
 
 }

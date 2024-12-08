@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "Configuration files for monorepo",
 	"keywords": [
 		"utils",

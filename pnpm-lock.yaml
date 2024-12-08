@@ -245,9 +245,6 @@ importers:
 
   packages/plugin/docs:
     dependencies:
-      '@fortawesome/vue-fontawesome':
-        specifier: 3.0.8
-        version: 3.0.8(@fortawesome/fontawesome-svg-core@6.7.1)(vue@3.5.13(typescript@5.7.2))
       '@shikijs/vitepress-twoslash':
         specifier: 1.24.0
         version: 1.24.0(typescript@5.7.2)
@@ -2437,12 +2434,6 @@ packages:
   '@fortawesome/free-solid-svg-icons@6.7.1':
     resolution: {integrity: sha512-BTKc0b0mgjWZ2UDKVgmwaE0qt0cZs6ITcDgjrti5f/ki7aF5zs+N91V6hitGo3TItCFtnKg6cUVGdTmBFICFRg==}
     engines: {node: '>=6'}
-
-  '@fortawesome/vue-fontawesome@3.0.8':
-    resolution: {integrity: sha512-yyHHAj4G8pQIDfaIsMvQpwKMboIZtcHTUvPqXjOHyldh1O1vZfH4W03VDPv5RvI9P6DLTzJQlmVgj9wCf7c2Fw==}
-    peerDependencies:
-      '@fortawesome/fontawesome-svg-core': ~1 || ~6
-      vue: '>= 3.0.0 < 4'
 
   '@gitmoji/commit-types@1.1.5':
     resolution: {integrity: sha512-8D3FZMRY+gtYpTcHG1SOGmm9CFqxNh6rI9xDoCydxHxnWgqInbdF3nk9gibW5gXA58Hf2cVcJaLEcGOKLRAtmw==}
@@ -13318,11 +13309,6 @@ snapshots:
   '@fortawesome/free-solid-svg-icons@6.7.1':
     dependencies:
       '@fortawesome/fontawesome-common-types': 6.7.1
-
-  '@fortawesome/vue-fontawesome@3.0.8(@fortawesome/fontawesome-svg-core@6.7.1)(vue@3.5.13(typescript@5.7.2))':
-    dependencies:
-      '@fortawesome/fontawesome-svg-core': 6.7.1
-      vue: 3.5.13(typescript@5.7.2)
 
   '@gitmoji/commit-types@1.1.5': {}
 

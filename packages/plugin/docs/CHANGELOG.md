@@ -1,5 +1,14 @@
 # @dovenv/docs
 
+## 0.0.17
+
+### Patch Changes
+
+- Update plugins (docs, utils, etc)
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.17
+
 ## 0.0.16
 
 ### Patch Changes
