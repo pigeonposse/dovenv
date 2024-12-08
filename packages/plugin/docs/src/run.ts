@@ -7,10 +7,7 @@ import {
 
 import { VITEPRESS_DIR } from './.vitepress/config'
 import {
-	getGlobals,
-	globals,
 	name,
-	setGlobals,
 	version,
 	vitepressVersion,
 } from './_shared/const'
@@ -59,15 +56,9 @@ export class Docs {
 		try {
 
 			this.outputReplaced.start()
-			const dovenvConfigPath = getGlobals( globals.DOVENV_CONFIG_PATH )
-			const configInstance   = new Config( this.config, this.opts?.configPath  )
 
-			if ( dovenvConfigPath ) configInstance.fnPath = dovenvConfigPath
-
-			const config = await configInstance.getAll()
-
-			setGlobals( globals.DOVENV_DOCS_CONFIG, config.config )
-			setGlobals( globals.DOVENV_DOCS_DATA, config.data )
+			const configInstance = new Config( this.config, this.opts?.configPath  )
+			await configInstance.setGlobals()
 
 			const path    = VITEPRESS_DIR
 			const oldArgv = process.argv

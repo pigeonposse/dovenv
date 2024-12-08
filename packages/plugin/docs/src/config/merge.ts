@@ -1,4 +1,5 @@
 import {
+	color,
 	existsPath,
 	joinPath,
 } from '@dovenv/core/utils'
@@ -44,7 +45,7 @@ export const setConfig = async ( {
 	const existDocs = await existsPath( docsPath )
 	if ( !existDocs ) {
 
-		console.error( `Docs path not found in ${docsPath}` )
+		console.error( color.red( `Docs path not found in ${docsPath}\n` ) )
 		process.exit( 1 )
 
 	}

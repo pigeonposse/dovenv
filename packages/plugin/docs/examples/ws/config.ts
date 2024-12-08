@@ -1,12 +1,12 @@
+
 import { defineConfig }    from '@dovenv/core'
 import {
 	fontAwesomeSolidIcons,
 	fontAwesomeBrandsIcons,
 } from '@dovenv/core/client'
-import { fileURLToPath } from '@dovenv/core/utils'
 
-// eslint-disable-next-line import/order
-import { coreConfig } from '../../../../.dovenv/core'
+import { coreConfig } from '../../../../../.dovenv/core'
+import { docsPlugin } from '../../src/main'
 
 const {
 	faBook,
@@ -20,16 +20,14 @@ const {
 	faGithub,
 } = fontAwesomeBrandsIcons
 
-import { config } from '../src/main'
-
 // const configPath = joinPath( getCurrentDir( import.meta.url ), 'docs.config.js' )
 
 export default defineConfig(
 	coreConfig,
-	config( {
+	docsPlugin( {
 		in   : '../../../docs',
 		out  : './build',
-		name : 'dovenv-core-example',
+		name : 'dovenv',
 		// styles : { color : {
 		// 	primary   : '#6f42c1',
 		// 	secondary : '#f59e0b',
@@ -131,5 +129,7 @@ export default defineConfig(
 				],
 			},
 		],
-		server : { hotReloadFiles: [ fileURLToPath( import.meta.url ) ] },
+		autoSidebar : { contribute: false },
+
+		// server : { hotReloadFiles: [ fileURLToPath( import.meta.url ) ] },
 	} ) )

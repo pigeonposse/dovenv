@@ -24,28 +24,11 @@ import type {
 export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['vite'] = ( conf, data ) => {
 
 	// const confRelative = relativePath( opts.srcDir, opts.configPath )
-
+	// include : [ data.packageConfig?.path || '', data.fnConfig?.path || '' ],
 	return {
-		optimizeDeps : { exclude: [ 'virtual:group-icons.css' ] },
+		optimizeDeps : { exclude: [ 'virtual:group-icons.css'  ] },
 		server       : { fs: { strict: false } },
 		plugins      : [
-			// {
-			// 	name       : name + '--post-pre-build', // the name of your custom plugin. Could be anything.
-			// 	buildStart : async () => {
-
-			// 		if ( !data.devMode ) await copyDir( {
-			// 			input  : conf.in,
-			// 			output : data.tempDir,
-			// 		}  )
-			// 		// throw new Error( 'stop' )
-
-			// 	},
-			// 	buildEnd : async () => {
-
-			// 		// if ( !data.devMode ) await removePathIfExist( data.tempDir )
-
-			// 	},
-			// },
 			{
 				name : name + '--listen-to-server',
 				configureServer( server ) {
@@ -81,8 +64,10 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 
 					if ( data.packageConfig?.path  && !configDeps.includes( data.packageConfig?.path ) ) configDeps.push( data.packageConfig?.path )
 					if ( data.pathConfig?.path     && !configDeps.includes( data.pathConfig?.path ) ) configDeps.push( data.pathConfig?.path )
-					if ( data.fnConfig?.path        && !configDeps.includes( data.fnConfig?.path ) ) configDeps.push( data.fnConfig?.path )
+					if ( data.fnConfig?.path       && !configDeps.includes( data.fnConfig?.path ) ) configDeps.push( data.fnConfig?.path )
+
 					console.debug( { configDeps } )
+
 					const pages = getGlobals( globals.VITEPRESS_CONFIG )?.pages
 					const conf  = getGlobals( globals.DOVENV_DOCS_CONFIG )
 					if ( !conf ) {

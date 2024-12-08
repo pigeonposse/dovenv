@@ -1,5 +1,21 @@
 # @dovenv/theme-banda
 
+## 0.0.15
+
+### Patch Changes
+
+- Fix documentation plugin for alpha release
+
+- Updated dependencies []:
+  - @dovenv/docs@0.0.15
+  - @dovenv/core@0.0.15
+  - @dovenv/convert@0.0.15
+  - @dovenv/examples@0.0.15
+  - @dovenv/lint@0.0.15
+  - @dovenv/repo@0.0.15
+  - @dovenv/todo@0.0.15
+  - @dovenv/workspace@0.0.15
+
 ## 0.0.14
 
 ### Patch Changes

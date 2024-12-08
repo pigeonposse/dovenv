@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"description": "All in one web API builder. Create endpoints with type validations and OpenApi documentation, safely and quickly.",
 	"keywords": [
 		"eslint",

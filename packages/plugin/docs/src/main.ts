@@ -1,13 +1,40 @@
 
+import { deepmergeCustom } from '@dovenv/core/utils'
+
+import { getPkgConfig } from './config/pkg'
+import { docsPlugin }   from './plugin'
+import { Docs }         from './run'
+
 import type { DocsConfig } from './config/types'
 
-export { config } from './plugin'
-export { Docs } from './run'
 export type { DocsConfig }
 
+export {
+	getPkgConfig,
+	Docs,
+	docsPlugin,
+}
+
 /**
- * Defines a configuration object for the documentation plugin.
- * @param {DocsConfig} conf - The configuration object.
+ * Defines a configuration object for the dovenv documentation plugin.
+ * @param {( DocsConfig | DocsConfig[] )[]} config - The configuration object.
  * @returns {DocsConfig} The defined configuration object.
  */
-export const defineConfig = ( conf: DocsConfig ) => conf
+export const defineConfig = ( ...config: ( DocsConfig | DocsConfig[] )[] ) => {
+
+	const mergeConfig = ( ...configs: DocsConfig[] ): DocsConfig =>
+		deepmergeCustom<DocsConfig>( {} )( ...configs ) as DocsConfig
+	if ( config.length === 1 ) {
+
+		const [ single ] = config
+
+		if ( Array.isArray( single ) )
+			return mergeConfig( ...single )
+
+		return single
+
+	}
+
+	return mergeConfig( ...( config as DocsConfig[] ) )
+
+}

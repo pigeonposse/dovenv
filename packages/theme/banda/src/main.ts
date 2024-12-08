@@ -21,7 +21,7 @@ export {
 
 export type Config = {
 	lint?      : Parameters<typeof lint.config>[0]
-	docs?      : Parameters<typeof docs.config>[0]
+	docs?      : Parameters<typeof docs.docsPlugin>[0]
 	convert?   : Parameters<typeof convert.config>[0]
 	repo?      : Parameters<typeof repo.config>[0]
 	todo?      : Parameters<typeof todo.config>[0]
@@ -38,7 +38,7 @@ export const config = ( opts?: Config ) => {
 
 	return defineConfig( [
 		lint.config( opts?.lint ),
-		docs.config( opts?.docs ),
+		docs.docsPlugin( opts?.docs ),
 		convert.config( opts?.convert ),
 		repo.config( opts?.repo ),
 		todo.config( opts?.todo ),

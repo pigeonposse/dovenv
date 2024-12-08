@@ -21,6 +21,7 @@ import { markdown }   from './md'
 import { getGlobals } from '../_shared/const'
 import { setNav }     from './nav/main'
 import { vite }       from './vite'
+import { Config }     from '../config/main'
 
 const npmSVG    = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>npm</title><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>`
 const donateSVG = '<svg class="svg-donate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>'
@@ -29,10 +30,16 @@ export const VITEPRESS_DIR = joinPath( getCurrentDir( import.meta.url ), '..' ) 
 
 export default async () => {
 
+	const configInstance = new Config( )
+	await configInstance.updateGlobals()
+
 	const data = getGlobals( 'DOVENV_DOCS_DATA' )
 	const conf = getGlobals( 'DOVENV_DOCS_CONFIG' )
+
 	console.debug( 'DOVENV_DOCS_DATA', data )
 	console.debug( 'DOVENV_DOCS_CONFIG', conf )
+
+	// console.log( 'config set' )
 
 	if ( !conf ) {
 

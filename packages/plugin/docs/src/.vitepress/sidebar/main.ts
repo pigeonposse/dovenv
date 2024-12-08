@@ -32,7 +32,8 @@ const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
 const filtered = ( paths: string[] ) => paths.map( page => {
 
 	let name = capitalize( ( page.split( '/' ).pop() || '' ).replace( '.md', '' ) )
-	if ( name === 'index' ) name = '🏁 Get started'
+	if ( name === 'Index' || name === 'index' || name === 'INDEX' ) name = '🏁 Get started'
+
 	return setPath(  name, page )
 
 } ).flat()
@@ -78,15 +79,23 @@ const getGuide = ( guide: SidebarProps['guide'], conf: SidebarProps['conf'] ) =>
 	const index = guide.includes( 'guide/index.md' ) ? 'guide/index.md' : undefined
 
 	return [
-		...setPath(
-			'Introduction',
-			index,
-			[ ...setPath( `What is ${conf.name}?`, guidePath ), ...filtered( filteredIndex ) ],
+		...( ( conf?.autoSidebar?.intro !== undefined && conf.autoSidebar.intro === false )
+			? []
+			: setPath(
+				'Introduction',
+				index,
+				[ ...setPath( `What is ${conf.name}?`, guidePath ), ...filtered( filteredIndex ) ],
+			)
 		),
-		{
-			text  : 'Reference',
-			items : filteredGroup( guide ),
-		},
+		...( ( conf?.autoSidebar?.reference !== undefined && conf.autoSidebar.reference === false )
+			? []
+			: [
+				{
+					text  : 'Reference',
+					items : filteredGroup( guide ),
+				},
+			]
+		),
 	]
 
 }
@@ -107,19 +116,27 @@ const sidebarConstructor = ( {
 	)
 	return [
 		...getGuide( guide, conf ),
-		{
-			text  : 'Contribute',
-			items : [ ...setPath( 'Report issues', conf.bugsURL ), ...todoRes ],
-		},
-		{
-			text  : 'About',
-			items : [
-				...setPath( 'Contributors', contributors ),
-				...setPath( 'Changelog', conf.changelogURL ),
-				...setPath( 'License', conf.license?.url ),
-				...setPath( 'More projects', conf.moreURL ),
-			],
-		},
+		...( ( conf?.autoSidebar?.contribute !== undefined && conf.autoSidebar.contribute === false )
+			? []
+			: [
+				{
+					text  : 'Contribute',
+					items : [ ...setPath( 'Report issues', conf.bugsURL ), ...todoRes ],
+				},
+			] ),
+		...( ( conf?.autoSidebar?.about !== undefined && conf.autoSidebar.about === false )
+			? []
+			: [
+				{
+					text  : 'About',
+					items : [
+						...setPath( 'Contributors', contributors ),
+						...setPath( 'Changelog', conf.changelogURL ),
+						...setPath( 'License', conf.license?.url ),
+						...setPath( 'More projects', conf.moreURL ),
+					],
+				},
+			] ),
 	]
 
 }

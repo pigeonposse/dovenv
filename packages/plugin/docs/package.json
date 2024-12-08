@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -47,8 +47,8 @@
 	"scripts": {
 		"build": "unbuild",
 		"build-preview": "node dist/bin.mjs -c examples/docs.config.js",
-		"dev": "tsx src/bin.ts dev -c examples/docs.config.js",
-		"example": "tsx examples/main.ts",
+		"dev": "tsx examples/ws/main.ts docs dev",
+		"dev-bin": "tsx src/bin.ts dev -c examples/bin/docs.config.js",
 		"test": "playwright test"
 	},
 	"dependencies": {
@@ -77,31 +77,5 @@
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
-	},
-	"extra": {
-		"id": "dovenv",
-		"productName": "dovenv",
-		"shortDesc": "All in one web API builder",
-		"libraryUrl": "https://www.npmjs.com/package/dovenv",
-		"docsUrl": "https://dovenv.pigeonposse.com",
-		"collective": {
-			"id": "pigeonposse",
-			"name": "PigeonPosse",
-			"gh": "https://github.com/pigeonposse",
-			"about": "https://pigeonposse.com?popup=about",
-			"url": "https://pigeonposse.com",
-			"web": "https://pigeonposse.com",
-			"email": "dev@pigeonposse.com",
-			"socialUser": {
-				"twitter": "pigeonposse_",
-				"instagram": "pigeon.posse",
-				"medium": "pigeonposse"
-			},
-			"social": {
-				"twitter": "https://twitter.com/pigeonposse_",
-				"instagram": "https://www.instagram.com/pigeon.posse/",
-				"medium": "https://medium.com/@pigeonposse"
-			}
-		}
 	}
 }

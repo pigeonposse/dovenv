@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 0.0.15
+
+### Patch Changes
+
+- Fix documentation plugin for alpha release
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@0.0.14
+  - @dovenv/stylelint-config@0.0.14
+  - @dovenv/core@0.0.15
+
 ## 0.0.14
 
 ### Patch Changes

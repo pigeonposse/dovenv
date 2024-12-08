@@ -1,6 +1,6 @@
 {
 	"name": "create-dovenv",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"description": "Create dovenv project template",
 	"keywords": [
 		"pigeonposse",

@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 0.0.15
+
+### Patch Changes
+
+- Fix documentation plugin for alpha release
+
 ## 0.0.14
 
 ### Patch Changes

@@ -1,6 +1,11 @@
 import type { DocsConfig }  from './types'
 import type { PackageJSON } from '../_shared/types'
 
+/**
+ * Extracts and constructs documentation configuration from package JSON data.
+ * @param {PackageJSON} pkgData - The package JSON data object.
+ * @returns {Promise<DocsConfig>} A promise that resolves to a `DocsConfig` object containing extracted configuration details like funding URL, bugs URL, license, homepage URL, description, name, version, and contributors.
+ */
 export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> => {
 
 	const config: DocsConfig = {}
