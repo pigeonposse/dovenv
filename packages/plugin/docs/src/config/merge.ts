@@ -49,7 +49,22 @@ export const setConfig = async ( {
 		process.exit( 1 )
 
 	}
+	if ( conf.contributors ) {
 
+		const seenNames   = new Set<string>()
+		conf.contributors = conf.contributors.filter( item => {
+
+			if ( item.name && !seenNames.has( item.name ) ) {
+
+				seenNames.add( item.name )
+				return true
+
+			}
+			return false
+
+		} )
+
+	}
 	return {
 		config  : conf,
 		default : defaultConf,

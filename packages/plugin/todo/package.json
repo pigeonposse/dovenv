@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/todo",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"description": "TODO tools for dovenv",
 	"keywords": [
 		"todo",
@@ -44,7 +44,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"leasot": "12.5.0"
+		"leasot": "14.4.0"
 	},
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",

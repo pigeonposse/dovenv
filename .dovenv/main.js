@@ -13,5 +13,31 @@ export default defineConfig(
 	pigeonposseTheme( {
 		...docs,
 		lint : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'pnpm --silent . lint eslint --silent' } },
+		repo : { commit : { scopes : [
+			{
+				value : 'core',
+				desc  : 'Core package',
+			},
+			{
+				value : 'plugin',
+				desc  : 'Plugin package(s)',
+			},
+			{
+				value : 'theme',
+				desc  : 'Theme package',
+			},
+			{
+				value : 'utils',
+				desc  : 'Utils package',
+			},
+			{
+				value : 'all',
+				desc  : 'All packages',
+			},
+			{
+				value : 'env',
+				desc  : 'Only development environment',
+			},
+		] } },
 	} ),
 )

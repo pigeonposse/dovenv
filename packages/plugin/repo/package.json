@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/repo",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"repo",

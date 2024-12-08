@@ -1,5 +1,21 @@
 # @dovenv/theme-banda
 
+## 0.0.16
+
+### Patch Changes
+
+- Fix todo and docs plugins
+
+- Updated dependencies []:
+  - @dovenv/docs@0.0.16
+  - @dovenv/todo@0.0.16
+  - @dovenv/core@0.0.16
+  - @dovenv/convert@0.0.16
+  - @dovenv/examples@0.0.16
+  - @dovenv/lint@0.0.16
+  - @dovenv/repo@0.0.16
+  - @dovenv/workspace@0.0.16
+
 ## 0.0.15
 
 ### Patch Changes

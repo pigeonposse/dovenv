@@ -1,5 +1,15 @@
 # @dovenv/theme-pigeonposse
 
+## 0.0.16
+
+### Patch Changes
+
+- Fix todo and docs plugins
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.16
+  - @dovenv/theme-banda@0.0.16
+
 ## 0.0.15
 
 ### Patch Changes

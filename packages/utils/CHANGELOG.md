@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 0.0.16
+
+### Patch Changes
+
+- Fix todo and docs plugins
+
 ## 0.0.15
 
 ### Patch Changes

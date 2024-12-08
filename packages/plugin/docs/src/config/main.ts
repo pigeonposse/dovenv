@@ -169,7 +169,8 @@ export class Config {
 		const tempDir  = joinPath( root, config.out, '.temp' )
 		const outDir   = joinPath( root, config.out, 'docs' )
 		const cacheDir = joinPath( root, config.out, '.cache' )
-		const srcDir   = devMode ? joinPath( root, config.in ) : tempDir
+		// const srcDir   = devMode ? joinPath( root, config.in ) : tempDir
+		const srcDir = joinPath( root, config.in )
 
 		return {
 			config : config,

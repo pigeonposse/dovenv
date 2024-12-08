@@ -28,6 +28,7 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 	return {
 		optimizeDeps : { exclude: [ 'virtual:group-icons.css'  ] },
 		server       : { fs: { strict: false } },
+		build        : { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } },
 		plugins      : [
 			{
 				name : name + '--listen-to-server',

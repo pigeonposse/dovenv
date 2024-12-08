@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 0.0.15
+
+### Patch Changes
+
+- Fix todo and docs plugins
+
 ## 0.0.14
 
 ### Patch Changes
