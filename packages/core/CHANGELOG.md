@@ -1,5 +1,20 @@
 # @dovenv/core
 
+## 0.0.19
+
+### Patch Changes
+
+- Docs: fix build issues
+
+- Updated dependencies []:
+  - @dovenv/utils@0.0.19
+
+## 0.0.18
+
+### Patch Changes
+
+- Docs: Fix build process in ../ paths
+
 ## 0.0.17
 
 ### Patch Changes

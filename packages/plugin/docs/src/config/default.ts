@@ -70,8 +70,8 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 } )
 
 export const fixedDefConf: Omit<RequiredDocsConfig, 'styles'> = {
-	in       : './docs',
-	out      : './build',
+	input    : './docs',
+	output   : './build',
 	logo     : '/logo.png',
 	favicon  : '/favicon.png',
 	name     : 'DOVENV',

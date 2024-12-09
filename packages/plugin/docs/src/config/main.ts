@@ -166,11 +166,10 @@ export class Config {
 
 		const config = mergedConf.config
 
-		const tempDir  = joinPath( root, config.out, '.temp' )
-		const outDir   = joinPath( root, config.out, 'docs' )
-		const cacheDir = joinPath( root, config.out, '.cache' )
-		// const srcDir   = devMode ? joinPath( root, config.in ) : tempDir
-		const srcDir = joinPath( root, config.in )
+		const tempDir  = joinPath( root, config.output, '.temp' )
+		const outDir   = joinPath( root, config.output, 'docs' )
+		const cacheDir = joinPath( root, config.output, '.cache' )
+		const srcDir   = joinPath( root, config.input )
 
 		return {
 			config : config,

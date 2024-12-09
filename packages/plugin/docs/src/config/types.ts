@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import type { DeepNonNullable } from '@dovenv/core/utils'
 import type { VitePWAOptions }  from 'vite-plugin-pwa'
 import type {
@@ -56,24 +57,18 @@ export type DocsData = {
 	packageConfig? : GetConfig
 }
 
-export type RequiredDocsConfig = DocsConfig & {
-	in       : string
-	out      : string
-	docsPath : string
-	logo     : string
-	favicon  : string
-	name     : string
-	desc     : string
-	license  : { type: string }
-	styles   : DeepNonNullable<DocsConfig['styles']>
-	lang     : string
-}
+export type RequiredDocsConfig = DocsConfig &   DeepNonNullable<
+	Pick<
+		DocsConfig,
+	'input' | 'output' | 'docsPath' | 'logo' | 'favicon' | 'name' | 'desc' | 'styles' | 'lang'
+	>
+> & { license: { type: string } }
 
 export type DocsConfig = {
 	/** Input directory for documentation files. */
-	in?         : string
+	input?      : string
 	/** Output directory for the built documentation. */
-	out?        : string
+	output?     : string
 	/** Logo URL for the documentation site. */
 	logo?       : string
 	/** Favicon URL for the documentation site. */
@@ -277,5 +272,19 @@ export type DocsConfig = {
 		} }
 	}
 	/** VitePress user configuration for additional options. */
-	vitepress? : UserConfig
+	vitepress?    : UserConfig
+	/**
+	 * Settings for experimental options.
+	 *
+	 * **Use at your own risk**
+	 */
+	experimental? : {
+		/**
+		 * Disable temp directory during compilation.
+		 * The temp directory is used to store documentation files in the output directory during the compilation process.
+		 * Used to allow input paths with '../'
+		 * @default false
+		 */
+		noTempDirOnBuild : boolean
+	}
 }

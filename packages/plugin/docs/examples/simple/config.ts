@@ -11,8 +11,7 @@ const currDir = joinPath( getCurrentDir( import.meta.url ) )
 const pkgDir  = joinPath( currDir, '..', '..' )
 export default defineConfig(
 	docsPlugin( {
-		in   : relativePath( process.cwd(), joinPath( currDir, 'docs' ) ),
-		out  : relativePath( process.cwd(), joinPath( pkgDir, 'build', 'simple' ) ),
-		name : 'simple-example',
-
+		input  : relativePath( process.cwd(), joinPath( currDir, 'docs' ) ),
+		output : relativePath( process.cwd(), joinPath( pkgDir, 'build', 'simple' ) ),
+		name   : 'simple-example',
 	} ) )

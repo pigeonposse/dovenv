@@ -11,6 +11,8 @@ import {
 	joinPath,
 	process,
 	getCurrentDir,
+	copyDir,
+	removePathIfExist,
 } from '@dovenv/core/utils'
 import {
 	defineConfig,
@@ -53,6 +55,25 @@ export default async () => {
 		return process.exit( 1 )
 
 	}
+
+	if ( !data.devMode && !conf?.experimental?.noTempDirOnBuild ) {
+
+		console.debug( 'Copy dir to temp dir' )
+		await copyDir( {
+			input  : data.srcDir,
+			output : data.tempDir,
+		}  )
+
+		data.srcDir = data.tempDir
+		process.on( 'exit', async () => {
+
+			console.debug( 'Remove temp dir' )
+			await removePathIfExist( data.tempDir )
+
+		} )
+
+	}
+
 	const {
 		srcDir,
 		outDir,
@@ -60,8 +81,8 @@ export default async () => {
 	} = data
 
 	const config = defineConfig( {
-		title         : `${conf.name} - ${conf.shortDesc}`,
-		titleTemplate : `:title - ${conf.name.toUpperCase()} Documentation`,
+		title         : conf.shortDesc ? `${conf.name} - ${conf.shortDesc}` : conf.name,
+		titleTemplate : `:title - Documentation`,
 		description   : conf.desc,
 		lang          : conf.lang,
 		markdown      : markdown,

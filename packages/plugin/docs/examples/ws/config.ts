@@ -20,8 +20,8 @@ const {
 export default defineConfig(
 	coreConfig,
 	docsPlugin( {
-		in       : '../../../docs',
-		out      : './build/ws',
+		input    : '../../../docs',
+		output   : './build/ws',
 		name     : 'dovenv',
 		// styles : { color : {
 		// 	primary   : '#6f42c1',
@@ -73,8 +73,6 @@ export default defineConfig(
 				},
 			},
 		},
-		vitepress : { vite: { build: { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } } } },
-
 		links : [
 			{
 				text  : 'Project',

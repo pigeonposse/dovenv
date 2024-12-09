@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 0.0.19
+
+### Patch Changes
+
+- Docs: fix build issues
+
 ## 0.0.17
 
 ### Patch Changes

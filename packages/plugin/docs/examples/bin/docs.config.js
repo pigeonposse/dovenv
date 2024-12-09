@@ -3,7 +3,7 @@
 
 /** @type {import( '../../src/main' ).DocsConfig} */
 export default {
-	in  : '../../../docs',
-	out : './build/bin',
+	input  : '../../../docs',
+	output : './build/bin',
 }
 

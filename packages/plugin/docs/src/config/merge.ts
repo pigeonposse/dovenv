@@ -36,12 +36,12 @@ export const setConfig = async ( {
 		fnConfig || {},
 	)
 
-	const styledConf  = await getStylesConfig( initConf, initConf.in, initConf.logo )
+	const styledConf  = await getStylesConfig( initConf, initConf.input, initConf.logo )
 	const defaultConf = await getDefaultConf( styledConf )
 	// @ts-ignore
 	const conf = await mergeConfig( defaultConf, styledConf ) as RequiredDocsConfig
 
-	const docsPath  = joinPath( root, conf.in )
+	const docsPath  = joinPath( root, conf.input )
 	const existDocs = await existsPath( docsPath )
 	if ( !existDocs ) {
 
