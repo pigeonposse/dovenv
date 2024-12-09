@@ -98,7 +98,7 @@ export class Workflow extends Repo {
 				} ),
 				[data.inputs] : async () => p.text( {
 					initialValue : cached[data.inputs],
-					message      : `Set inputs for workflow in comma separed. ${this.style.get.desc( 'Leave empty to not use any input.' )}`,
+					message      : `Set inputs for workflow in comma separed. ${this.style.color.dim( '(Leave empty to not use any input)' )}`,
 				} ),
 				fn : async ( { results } ) => {
 

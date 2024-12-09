@@ -50,6 +50,8 @@ jobs:
             libjpeg-dev \
             libgif-dev \
             librsvg2-dev \
+            libpng-dev \
+            zlib1g-dev \
             nasm
 
       - name: 🐙😺 Check GitHub API Rate Limit
@@ -67,7 +69,9 @@ jobs:
             GH_TOKEN: ${{ env.GITHUB_TOKEN }}
 
       - name: ⬇️📦 Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: |
+           export npm_config_build_from_source=false
+           pnpm install --no-frozen-lockfile
 
       - name: ⬇️🌐 Install Playwright Browsers
         run: npx playwright install --with-deps

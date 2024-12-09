@@ -10,7 +10,6 @@ import pkg        from '../../../../package.json'
 import { config } from '../src/main'
 
 export default defineConfig( [
-
 	{ const : {
 		pkg,
 		workspaceDir : async () => joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
