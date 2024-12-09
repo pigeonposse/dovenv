@@ -38,12 +38,10 @@ jobs:
       - name: ⬇️🟢 Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.12.0
           cache: 'pnpm'
       - name: 🛠 Install System Dependencies for Canvas
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+        run: sudo apt-get install -y \
             build-essential \
             libcairo2-dev \
             libpango1.0-dev \

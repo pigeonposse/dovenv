@@ -93,7 +93,7 @@ export class Execute extends Super {
 			await this.#outdated()
 
 			console.log(  )
-			this._sectionInfo( 'For fix audit use', 'dovenv audit --fix' )
+			this._sectionInfo( 'For fix audit use', `dovenv ws audit --fix | ${cmds[pkgManager].auditFix}` )
 			this._sectionInfo( 'For outdated dependencies use', cmds[pkgManager].upDeps )
 			console.log(  )
 
