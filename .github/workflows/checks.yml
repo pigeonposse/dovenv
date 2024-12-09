@@ -134,9 +134,8 @@ jobs:
           core_version=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -r '.[] | select(.name == "@dovenv/core") | .version')
           core_version_major=${core_version%%.*}
           echo Set changesets outputs
-          echo '${{ steps.changesets.outputs }}'
+          echo '${{ toJSON(steps.changesets.outputs) }}'
           echo Set updated versions
-          echo "CORE=$core_version CORE_MAJOR=$core_version_major
           echo "core_version=$core_version" >> $GITHUB_OUTPUT
           echo "core_version_major=$core_version_major" >> $GITHUB_OUTPUT
 
