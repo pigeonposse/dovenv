@@ -5,4 +5,5 @@ export default [
 	dovenv.includeGitIgnore(),
 	...dovenv.config,
 	dovenv.setIgnoreConfig( [ './docs/**/*', '**/CHANGELOG.md' ] ),
+	// @see https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md
 ]

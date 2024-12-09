@@ -100,7 +100,7 @@ export class Command extends CommandSuper {
 
 	protected setMainTitle( title: string, desc?: string ) {
 
-		const text = `${this.style.get.title( title )}${this.style.get.desc( desc ? '\n\n' + desc : '' )}`
+		const text = `${this.style.get.mainTitle( title )}${this.style.get.desc( desc ? '\n\n' + desc : '' )}`
 		console.log( `\n${this.style.get.bold( text )}\n` )
 
 	}

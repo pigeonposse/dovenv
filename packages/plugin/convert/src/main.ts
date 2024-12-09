@@ -54,18 +54,19 @@ export const config = ( conf?: Config ): DovenvConfig => {
 
 			for ( const key of keys ) {
 
-				console.info( `Key: [${key}]` )
-
 				const props = conf[key]
 				const {
 					type,
 					...restProps
 				} = props
+				console.info( `Convert Key [${key}]: ${type}` )
 
 				console.debug( { props } )
 
 				// @ts-ignore
 				await convert[type]( restProps )
+
+				console.log( `\n  ✨ Conversion successful\n` )
 
 			}
 

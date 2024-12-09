@@ -4,9 +4,10 @@ import {
 	Html2Markdown,
 	Markdown2Html,
 } from './html/main'
-import { Jsdoc2Markdown }      from './jsdoc/main'
-import { Openapi2Markdown }    from './openapi/main'
-import { Typescript2Markdown } from './typedoc/main'
+import { Jsdoc2Markdown }   from './jsdoc/main'
+import { Openapi2Markdown } from './openapi/main'
+import { Typescript2Html,
+	Typescript2Markdown } from './typedoc/main'
 
 import type { methods } from './_shared/const'
 import type {
@@ -20,6 +21,7 @@ export type ConvertConfig = {
 	[methods.html2md]    : Html2Markdown
 	[methods.md2html]    : Markdown2Html
 	[methods.ts2md]      : Typescript2Markdown
+	[methods.ts2html]    : Typescript2Html
 	[methods.custom]     : {
 		props : {
 			/**
@@ -76,6 +78,13 @@ export class Convert implements ConvertInterface {
 
 	}
 
+	async ts2html( params: ConvertConfig[typeof methods.ts2html]['props'] ) {
+
+		const instance = new Typescript2Html( params )
+		return await instance.run()
+
+	}
+
 	async html2md( params: ConvertConfig[typeof methods.html2md]['props'] ) {
 
 		const instance = new Html2Markdown( params )
@@ -108,6 +117,7 @@ export class Convert implements ConvertInterface {
 			html2md    : c.html2md,
 			md2html    : c.md2html,
 			ts2md      : c.ts2md,
+			ts2html    : c.ts2html,
 		} )
 
 	}

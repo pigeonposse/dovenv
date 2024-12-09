@@ -1,3 +1,4 @@
+
 import {
 	ensureDir,
 	getStringsFrom,
@@ -47,14 +48,6 @@ export class ConvertSuper<Props extends ConvertPropsSuper> {
 		const dir = this.props.output ? this.props.output : tempDir
 
 		await ensureDir( dir )
-
-		// const exists = await existsDir( dir )
-		// if ( !exists ) {
-
-		// 	console.warn( 'Output path does not exist: ' + dir )
-		// 	process.exit()
-
-		// }
 
 		return {
 			dir,

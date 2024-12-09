@@ -9,6 +9,6 @@
 
 echo '🚀 Precommit'
 echo
-pnpm --silent . ws check --silent
+pnpm test:check-ws
 echo
 pnpm --silent . lint staged --silent

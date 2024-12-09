@@ -49,19 +49,22 @@
 	],
 	"scripts": {
 		"build": "unbuild",
+		"check": "dovenv check",
 		"dev": "tsx examples/main.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"jsdoc-to-markdown": "9.0.5",
-		"openapi-to-md": "1.0.24",
+		"jsdoc-to-markdown": "9.1.1",
+		"swagger2openapi": "7.0.8",
 		"typedoc": "0.26.11",
 		"typedoc-plugin-markdown": "4.2.10"
 	},
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@types/jsdoc-to-markdown": "7.0.6"
+		"@types/jsdoc-to-markdown": "7.0.6",
+		"@types/swagger2openapi": "7.0.4",
+		"openapi-types": "12.1.3"
 	},
 	"peerDependencies": {
 		"@dovenv/core": "workspace:*"

@@ -13,7 +13,8 @@ export class CommandStyle {
 	icon  : typeof icon = icon
 
 	get = {
-		title        : ( v:unknown ) => color.magenta.bold( icon.triangleRightSmall ) + ' ' + color.magenta( this.get.badge(  v ) ),
+		mainTitle    : ( v:unknown ) => color.magenta( this.get.badge(  v ) ),
+		title        : ( v:unknown ) => color.magenta.bold( icon.triangleRightSmall ) + ' ' + this.get.mainTitle( v ),
 		desc         : ( v:unknown ) => color.magenta.dim( v ),
 		// section
 		sectionTitle : ( v:unknown ) =>  color.cyan.bold( icon.triangleRightSmall ) + ' ' + color.cyan( v ),

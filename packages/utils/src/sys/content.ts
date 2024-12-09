@@ -58,6 +58,32 @@ export async function fetch2string( url: string ): Promise<string> {
 }
 
 /**
+ * Retrieves a string from either a file specified by path or a URL.
+ * Supports fetching remote content via URLs and reading local files.
+ * @param   {string}          input - Path to a file or URL of the resource.
+ * @returns {Promise<string>}       - The string retrieved from the file or URL.
+ * @throws {Error} If there is an error fetching data or parsing the string.
+ * @example import { getStringFrom } from "@dovenv/utils"
+ *
+ * const stringFromYamlUrl = await getStringFrom( 'https://raw.githubusercontent.com/pigeonposse/super8/main/.pigeonposse.yml' )
+ * const stringFromJSON = await getStringFrom('/my/file.json')
+ *
+ * console.log( stringFromYamlUrl, stringFromJSON )
+ */
+export const getStringFrom = async ( input: string ) => {
+
+	const type = getStringType( input )
+
+	if ( type === 'path' )
+		return await getFileText( input )
+	else if ( type === 'url' )
+		return  await fetch2string( input )
+	else
+		return input
+
+}
+
+/**
  *
  * Fetches all strings from a given patterns (URLs or paths).
  * @param   {string[]} patterns - An array of strings with URLs or paths.

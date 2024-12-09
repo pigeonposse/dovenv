@@ -40,7 +40,7 @@ export class Jsdoc2Markdown extends ConvertSuper<Jsdoc2MarkdownProps> implements
 
 				...( this.props?.opts ? this.props.opts : {} ),
 			} )
-			if ( this.props.output ) await this._writeOutput( this.props.output, i.id, content )
+			if ( this.props.output ) await this._writeOutput( this.props.output, i.id + '.md', content )
 
 			res.push( {
 				id : i.id,

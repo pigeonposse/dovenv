@@ -22,6 +22,7 @@ export default [
 			'markdownlint/md001' : 'error',
 			'markdownlint/md013' : 'off', // line length
 			'markdownlint/md033' : 'off', // inline HTML
+			'markdownlint/md024' : 'off', // Multiple headers with the same content
 		},
 	},
 ]

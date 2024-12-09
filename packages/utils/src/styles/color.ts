@@ -8,7 +8,7 @@ import {
 	hexToRgb,
 } from '@vibrant/color/lib/converter.js'
 import chalk                         from 'chalk'
-import chroma                        from 'chroma-js'
+import chromaJS                      from 'chroma-js'
 import { highlight as cliHighlight } from 'cli-highlight'
 import gradientString                from 'gradient-string'
 
@@ -28,7 +28,9 @@ export {
 	GradientOpts,
 	HighlightOpts,
 }
-export { chroma }
+
+export const chroma: typeof chromaJS = chromaJS
+
 export const colorConversion = {
 	rgb2hex    : rgbToHex,
 	rgb2CIELab : rgbToCIELab,

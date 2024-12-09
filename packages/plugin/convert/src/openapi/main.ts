@@ -2,9 +2,11 @@
 import {
 	joinPath,
 	readFile,
+	process,
 } from '@dovenv/core/utils'
 
-import { ConvertSuper } from '../_shared/main'
+import { ConvertSuper }    from '../_shared/main'
+import { convertMarkdown } from './core/main'
 
 import type {
 	ConvertPropsSuper,
@@ -36,14 +38,19 @@ export class Openapi2Markdown extends ConvertSuper<Openapi2MarkdownProps> implem
 
 	async run() {
 
-		const { convertMarkdown } = await import( 'openapi-to-md' )
-		const input               = await this._getContent( this.props.input )
-		const res                 = []
-		const out                 = await this._getOutput()
-		const dir                 = out.dir
+		// need to fake argv because a issue with openapi-to-md
+		const oldArgv = process.argv
+
+		const input = await this._getContent( this.props.input )
+		console.debug( { input } )
+		const out = await this._getOutput()
+		const dir = out.dir
+		const res = []
+
 		for ( const i of input ) {
 
-			const path = joinPath( dir, i.id )
+			const path = joinPath( dir, i.id + '.md' )
+
 			await convertMarkdown( i.content, path, this.props.opts?.sort )
 			res.push( {
 				id      : i.id,
@@ -53,7 +60,7 @@ export class Openapi2Markdown extends ConvertSuper<Openapi2MarkdownProps> implem
 		}
 
 		await out.rmTempIfExist()
-
+		process.argv = oldArgv
 		return res
 
 	}
