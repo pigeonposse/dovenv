@@ -40,20 +40,6 @@ jobs:
         with:
           node-version: 22.12.0
           cache: 'pnpm'
-      - name: 🛠 Install System Dependencies for Canvas (https://www.npmjs.com/package/canvas) and imagemin
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            libcairo2-dev \
-            libpango1.0-dev \
-            libjpeg-dev \
-            libgif-dev \
-            librsvg2-dev \
-            libpng-dev \
-            zlib1g-dev \
-            libimagequant-dev \
-            nasm
 
       - name: 🐙😺 Check GitHub API Rate Limit
         id: rate_limit
@@ -69,10 +55,30 @@ jobs:
         env:
             GH_TOKEN: ${{ env.GITHUB_TOKEN }}
 
+	############################### W ALL DEPS ################################
+    #   - name: 🛠 Install System Dependencies for canvas and imagemin npm deps
+    #     run: |
+    #       sudo apt-get update
+    #       sudo apt-get install -y \
+    #         build-essential \
+    #         libcairo2-dev \
+    #         libpango1.0-dev \
+    #         libjpeg-dev \
+    #         libgif-dev \
+    #         librsvg2-dev \
+    #         libpng-dev \
+    #         zlib1g-dev \
+    #         libimagequant-dev \
+    #         nasm
+    #   - name: ⬇️📦 Install dependencies
+    #     run: |
+    #        export npm_config_build_from_source=false
+    #        pnpm install --no-frozen-lockfile
+
       - name: ⬇️📦 Install dependencies
         run: |
            export npm_config_build_from_source=false
-           pnpm install --no-frozen-lockfile
+           pnpm install --no-frozen-lockfile --ignore-scripts
 
       - name: ⬇️🌐 Install Playwright Browsers
         run: npx playwright install --with-deps

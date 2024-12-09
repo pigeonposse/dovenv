@@ -49,7 +49,7 @@
 	],
 	"scripts": {
 		"build": "unbuild",
-		"check": "dovenv check",
+		"check": "node ../../core/dist/bin.mjs check",
 		"dev": "tsx examples/main.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
