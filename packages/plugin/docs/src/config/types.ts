@@ -285,6 +285,6 @@ export type DocsConfig = {
 		 * Used to allow input paths with '../'
 		 * @default false
 		 */
-		noTempDirOnBuild : boolean
+		noTempDirOnBuild? : boolean
 	}
 }

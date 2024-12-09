@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"env",
@@ -49,6 +49,9 @@
 	"bin": {
 		"dovenv": "./dist/bin.mjs"
 	},
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "unbuild",
 		"dev": "tsx examples/main.ts",

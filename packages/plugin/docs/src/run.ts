@@ -18,6 +18,7 @@ import type { DocsConfig } from './main'
 type DocsParams = {
 	configPath? : string
 	debug?      : boolean
+	port?       : number
 }
 
 /**
@@ -68,6 +69,7 @@ export class Docs {
 				type,
 				path,
 				...( flags ?? [] ),
+				...(  this.opts?.port ? [ `--port=${this.opts.port}` ] : [] ),
 			]
 
 			console.debug( 'docs cli argv:', process.argv )

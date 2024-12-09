@@ -300,9 +300,15 @@ export default pigeonposseTheme({
 		await core.replacePlaceholders( {
 			input  : output,
 			params : {
-				...consts,
-				dovenvConfig,
-				pkg : JSON.stringify( pkg, null, 2 ),
+				name    : name,
+				version : version,
+				consts  : {
+					...consts,
+					dovenvConfig,
+					pkg : JSON.stringify( pkg, null, 2 ),
+				},
+				prompt : params,
+
 			},
 		} )
 
@@ -314,6 +320,7 @@ export default pigeonposseTheme({
 			editor : openEditor,
 			input  : output,
 		} )
+
 		await core.outro( )
 
 		// await core.createTemplate( {

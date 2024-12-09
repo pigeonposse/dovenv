@@ -185,7 +185,7 @@ export default defineConfig(config1, config2);
 export default defineConfig([config1, config2]);
 ```
 
-***
+---
 
 #### run()
 
@@ -241,7 +241,7 @@ type Config: {
 | `template`? | `TemplateConfig` | Configuration for the `template` command |
 | `transform`? | `TransformConfig` | Configuration for the `transform` command |
 
-***
+---
 
 #### Params
 
@@ -257,7 +257,7 @@ type Params: {
 | ------ | ------ | ------ |
 | `config`? | [`Config`](index.md#config) | Configuration for dovenv **See** <https://dovenv.pigeonposse.com/guide/core/config> |
 
-***
+---
 
 ## 👨‍💻 Development
 
@@ -285,7 +285,7 @@ This software is licensed with **[GPL-3.0](https://github.com/pigeonposse/dovenv
 
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
 
-***
+---
 
 <p align="center">
 

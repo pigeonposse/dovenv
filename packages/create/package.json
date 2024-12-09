@@ -1,6 +1,6 @@
 {
 	"name": "create-dovenv",
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"description": "Create dovenv project template",
 	"keywords": [
 		"pigeonposse",
@@ -16,6 +16,10 @@
 	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"bin": "dist/bin.mjs",
+	"files": [
+		"dist",
+		"data"
+	],
 	"scripts": {
 		"build": "unbuild",
 		"dev": "tsx src/bin.ts",
@@ -23,7 +27,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"creatium": "0.1.2",
+		"creatium": "0.1.9",
 		"latest-version": "9.0.0"
 	},
 	"devDependencies": {

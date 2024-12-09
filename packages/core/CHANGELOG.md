@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 0.0.20
+
+### Patch Changes
+
+- Update fix, change repo plugin prompts
+
+- Updated dependencies []:
+  - @dovenv/utils@0.0.20
+
 ## 0.0.19
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 0.0.20
+
+### Patch Changes
+
+- Update fix, change repo plugin prompts
+
 ## 0.0.19
 
 ### Patch Changes

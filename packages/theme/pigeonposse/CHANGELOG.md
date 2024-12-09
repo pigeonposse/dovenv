@@ -1,5 +1,15 @@
 # @dovenv/theme-pigeonposse
 
+## 0.0.20
+
+### Patch Changes
+
+- Update fix, change repo plugin prompts
+
+- Updated dependencies []:
+  - @dovenv/core@0.0.20
+  - @dovenv/theme-banda@0.0.20
+
 ## 0.0.19
 
 ### Patch Changes

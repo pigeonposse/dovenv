@@ -68,14 +68,17 @@ export class Packages extends Repo {
 		const publishOrRun = {
 			publish : 'publish',
 			run     : 'run',
+			none    : 'none',
 		} as const
 		const data         = {
 			publishOrRun : 'publish-or-run',
+			prepare      : 'prepare',
 			version      : 'version',
 			command      : 'command',
 		} as const
 		const defaultData  = {
 			[data.publishOrRun] : Object.values( publishOrRun )[0],
+			[data.prepare]      : true,
 			[data.version]      : true,
 			[data.command]      : '',
 		}
@@ -90,6 +93,13 @@ export class Packages extends Repo {
 			list     : async p => ( {
 				prepare : async () => {
 
+					const res = await p.confirm( {
+						message      : 'Do you want to prepare the version(s)?',
+						initialValue : cached[data.prepare],
+					} )
+					if ( p.isCancel( res ) ) return await this.onCancel()
+					cache.set( { [data.prepare]: res } )
+					if ( !res ) return res
 					await this.prepare()
 					console.log( this.style.get.line() )
 
@@ -97,7 +107,7 @@ export class Packages extends Repo {
 				[data.version] : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do you want to update the package version now?',
+						message      : 'Do you want to update the version of the package(s) now?',
 						initialValue : cached[data.version],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()
@@ -134,7 +144,7 @@ export class Packages extends Repo {
 					} )
 
 					const res = await p.select( {
-						message : 'Do you want to publish the package now or run a command first?',
+						message : 'Do you want to publish the package now?',
 						options : [
 							{
 								value : publishOrRun.publish,
@@ -144,6 +154,10 @@ export class Packages extends Repo {
 								value : publishOrRun.run,
 								label : 'Run a command first',
 							},
+							{
+								value : publishOrRun.none,
+								label : 'Skip',
+							},
 						] as const,
 						initialValue : cached[data.publishOrRun],
 					} )
@@ -151,7 +165,12 @@ export class Packages extends Repo {
 
 					cache.set( { [data.publishOrRun]: res } )
 
-					if ( res === publishOrRun.publish ) await this.publish()
+					if ( res === publishOrRun.publish ) {
+
+						await this.publish()
+						console.log( this.style.get.line() )
+
+					}
 					else if ( res === publishOrRun.run ) {
 
 						const command = await p.text( {
@@ -162,10 +181,11 @@ export class Packages extends Repo {
 						if ( p.isCancel( command ) ) return await this.onCancel()
 						cache.set( { [data.command]: command } )
 						await this.publish( command )
+						console.log( this.style.get.line() )
 
 					}
-					else console.error( this.style.get.error( 'Unexpected error: No publish or run selected' ) )
-					console.log( this.style.get.line() )
+					else if ( res !== publishOrRun.none )
+						console.error( this.style.get.error( 'Unexpected error: No publish or run selected' ) )
 
 				},
 			} ),

@@ -73,12 +73,12 @@ export const config = ( params?: Config ) => {
 
 				const shared = [ 'package.json', 'README.md' ]
 
-				if (  path.includes( '/config/' ) ) return shared
+				if ( path.includes( '/config/' ) ) return shared
 				else if ( arePathsEqual( getDirName( path ), params?.workspaceDir || '' ) )  return [ 'docs/index.md', ...shared ]
 
 				return [
 					'src/*{.js,.ts}',
-					'examples/*{.js,.ts}',
+					'examples/**/*{.js,.ts}',
 					...shared,
 				]
 
@@ -90,14 +90,32 @@ export const config = ( params?: Config ) => {
 
 			},
 			schema : ( {
-				v, content,
+				v, content, path,
 			} ) => {
 
-				if ( content.name !== 'dovenv-monorepo' ) return v.object( {
-					name    : v.string(),
-					version : v.string(),
+				// if ( content.name !== 'dovenv-monorepo' ) return v.object( {
+				// 	name    : v.string(),
+				// 	version : v.string(),
+				// } )
+				// else return v.object( { extra: v.object( {} ) } )
+
+				if ( !content ) throw new Error( `No data in ${path}` )
+				if ( 'private' in content ) return
+
+				if ( !content?.keywords?.includes( 'pp' ) || !content?.keywords?.includes( 'pigeonposse' ) )
+					throw new Error( `You must add "pigeonposse" and "pp" keywords in ${path}` )
+
+				return v.object( {
+					name          : v.string(),
+					version       : v.string(),
+					description   : v.string(),
+					files         : v.array( v.string() ),
+					keywords      : v.array( v.string() ),
+					publishConfig : v.object( {
+						access   : v.literal( 'public' ),
+						registry : v.string(),
+					} ),
 				} )
-				else return v.object( { extra: v.object( {} ) } )
 
 			},
 		} },

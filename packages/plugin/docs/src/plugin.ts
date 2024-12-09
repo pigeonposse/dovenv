@@ -25,6 +25,12 @@ export const docsPlugin = ( conf?: DocsConfig ) => {
 				build   : { desc: 'Build the documentation' },
 				preview : { desc: 'Preview the documentation' },
 			},
+			opts : {
+				port : {
+					type : 'number',
+					desc : 'Port to listen on',
+				},
+			},
 			settings : {
 				wrapConsole : false,
 			},
@@ -35,6 +41,7 @@ export const docsPlugin = ( conf?: DocsConfig ) => {
 
 				const docs = new Docs( conf, {
 					debug : opts?.verbose as boolean,
+					port  : opts?.port as number,
 				} )
 				if ( cmds?.includes( 'dev' ) ) await docs.dev()
 				else if ( cmds?.includes( 'build' ) ) await docs.build()

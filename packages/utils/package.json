@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"description": "Configuration files for monorepo",
 	"keywords": [
 		"utils",
@@ -45,6 +45,9 @@
 	},
 	"main": "dist/main.mjs",
 	"types": "dist/main.d.ts",
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"b": "tsup",
 		"build": "unbuild",

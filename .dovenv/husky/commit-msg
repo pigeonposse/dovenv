@@ -8,5 +8,6 @@
 
 echo
 echo '🚀 Lint commit meessage'
+echo
 pnpm --silent . lint commitlint --silent $1
 echo
