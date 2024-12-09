@@ -40,7 +40,16 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-
+      - name: 🛠 Install System Dependencies for Canvas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libcairo2-dev \
+            libpango1.0-dev \
+            libjpeg-dev \
+            libgif-dev \
+            librsvg2-dev
       - name: 🐙😺 Check GitHub API Rate Limit
         id: rate_limit
         run: |
@@ -56,7 +65,7 @@ jobs:
             GH_TOKEN: ${{ env.GITHUB_TOKEN }}
 
       - name: ⬇️📦 Install dependencies
-        run: pnpm install --no-frozen-lockfile --ignore-scripts
+        run: pnpm install --no-frozen-lockfile
 
       - name: ⬇️🌐 Install Playwright Browsers
         run: npx playwright install --with-deps

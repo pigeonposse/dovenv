@@ -49,7 +49,7 @@
 	],
 	"scripts": {
 		"build": "unbuild",
-		"check": "pnpm exec dovenv check",
+		"check": "dovenv check",
 		"dev": "tsx examples/main.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
