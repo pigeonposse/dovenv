@@ -55,7 +55,7 @@ jobs:
         env:
             GH_TOKEN: ${{ env.GITHUB_TOKEN }}
 
-	############################### W ALL DEPS ################################
+    ############################### W ALL DEPS ################################
     #   - name: 🛠 Install System Dependencies for canvas and imagemin npm deps
     #     run: |
     #       sudo apt-get update
