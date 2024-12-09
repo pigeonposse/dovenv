@@ -51,7 +51,7 @@ jobs:
             libgif-dev \
             librsvg2-dev \
             nasm
-	
+
       - name: 🐙😺 Check GitHub API Rate Limit
         id: rate_limit
         run: |

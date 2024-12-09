@@ -98,41 +98,52 @@ export class Workflow extends Repo {
 				} ),
 				[data.inputs] : async () => p.text( {
 					initialValue : cached[data.inputs],
-					message      : `Set inputs for workflow in comma separed. Set empty to not use any inputs.`,
+					message      : `Set inputs for workflow in comma separed. ${this.style.get.desc( 'Leave empty to not use any input.' )}`,
 				} ),
 				fn : async ( { results } ) => {
 
-					const answers = results as unknown as Record< string, string >
+					try {
 
-					let formattedInputs = ''
-					if ( answers.inputs && answers.inputs.trim() !== '' ) {
+						const answers = results as unknown as Record< string, string >
 
-						try {
+						let formattedInputs = ''
+						if ( answers.inputs && answers.inputs.trim() !== '' ) {
 
-							const inputsArray = answers.inputs.split( ',' ).map( input => input.trim() )
-							formattedInputs   = inputsArray
-								.map( input => {
+							try {
 
-									const [ key, value ] = input.split( '=' )
-									return `-f ${key}=${value}`
+								const inputsArray = answers.inputs.split( ',' ).map( input => input.trim() )
+								formattedInputs   = inputsArray
+									.map( input => {
 
-								} )
-								.join( ' ' )
+										const [ key, value ] = input.split( '=' )
+										return `-f ${key}=${value}`
+
+									} )
+									.join( ' ' )
+
+							}
+							catch ( _e ) {
+
+								formattedInputs = ''
+
+							}
 
 						}
-						catch ( _e ) {
 
-							formattedInputs = ''
+						cache.set( answers )
+						const createdWorkflow = await execChild( `gh workflow run ${answers.file}.yml ${formattedInputs}` )
+						if ( createdWorkflow.stderr ) throw Error( 'Error creating workflow' )
 
-						}
+						const result = await execChild( 'echo $(gh run list --limit 1 --json databaseId,url --jq \'.[0].url\')' )
+						if ( result.stdout && result.stdout.trim() !== '' ) p.log.info( `GitHub action url: ${result.stdout}` )
 
 					}
-					cache.set( answers )
-					const createdWorkflow = await execChild( `gh workflow run ${answers.file}.yml ${formattedInputs}` )
-					if ( createdWorkflow.stderr ) throw Error( 'Error creating workflow' )
+					catch ( e ) {
 
-					const result = await execChild( 'echo $(gh run list --limit 1 --json databaseId,url --jq \'.[0].url\')' )
-					if ( result.stdout && result.stdout.trim() !== '' ) p.log.info( `GitHub action url: ${result.stdout}` )
+						if ( e instanceof Error ) p.log.error( this.style.get.error( e.message ) )
+						else console.error( e )
+
+					}
 
 				},
 			} ),
