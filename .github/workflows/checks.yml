@@ -52,7 +52,7 @@ jobs:
             librsvg2-dev \
             libpng-dev \
             zlib1g-dev \
-			libimagequant-dev \
+            libimagequant-dev \
             nasm
 
       - name: 🐙😺 Check GitHub API Rate Limit
