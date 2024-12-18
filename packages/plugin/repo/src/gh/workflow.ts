@@ -52,22 +52,22 @@ export class Workflow extends Repo {
 		const {
 			workflowDefaultInputs, workflowsDir, URL: repoURL,
 		} = this.opts || {}
-		const dir   = workflowsDir as string
-		const exist = await existsDir( dir )
-		if ( !exist ) {
 
-			console.warn( `Does not exist workflows directory: ${dir}` )
+		const exist = workflowsDir ? await existsDir( workflowsDir ) : false
+		if ( !exist || !workflowsDir ) {
+
+			console.warn( `Does not exist workflows directory: ${workflowsDir}` )
 			return
 
 		}
 		const fileNames = await getFilteredFileNames( {
-			path       : dir,
+			path       : workflowsDir,
 			extensions : [ '.yml' ],
 		} )
 
 		if ( !fileNames.length ) {
 
-			console.warn( `No local workflows found in ${dir}` )
+			console.warn( `No local workflows found in ${workflowsDir}` )
 			return
 
 		}
