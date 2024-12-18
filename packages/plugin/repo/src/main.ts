@@ -1,29 +1,35 @@
 /* eslint-disable @stylistic/object-curly-newline */
 import {
 	defineConfig,
-	type Config as DoveEnvConfig,
+	type Config as DovenvConfig,
 } from '@dovenv/core'
 
-import { type Role }                    from './contributors/fn'
-import { config as contributorsConfig } from './contributors/main'
-import { config as ghConfig }           from './gh/main'
-import { config as gitConfig }          from './git/main'
-import { config as pkgConfig }          from './pkg/main'
+import { type Role }          from './contributors/fn'
+import { contributorsPlugin } from './contributors/main'
+import { ghPlugin }           from './gh/main'
+import { gitPlugin }          from './git/main'
+import { pkgPlugin }          from './pkg/main'
 
-import type { Config as GeneralConfig }      from './_super/types'
-import type { Config as ContributorsConfig } from './contributors/main'
-import type { GitConfig }                    from './git/types'
+import type { Config as RepoConfig } from './_super/types'
+import type { ContributorsConfig }   from './contributors/main'
+import type { GitConfig }            from './git/types'
 
 export * from './pkg/main'
 export * from './git/main'
 export * from './gh/main'
 export * from './contributors/main'
 
-type Config<I extends string, R extends Role<I>> = GeneralConfig & GitConfig & {
+export type Config<I extends string, R extends Role<I>> = RepoConfig & GitConfig & {
 	/** Contributors configuration */
-	contributors? : ContributorsConfig<I, R> }
+	contributors? : ContributorsConfig<I, R>
+}
 
-export const config = <Contr extends string, R extends Role<Contr>>( opts?: Config<Contr, R> ): DoveEnvConfig => {
+/**
+ * Dovenv plugin for managing a repository.
+ * @param {Config} opts - Optional configuration.
+ * @returns {DovenvConfig} - The plugin configuration.
+ */
+export const repoPlugin = <Contr extends string, R extends Role<Contr>>( opts?: Config<Contr, R> ): DovenvConfig => {
 
 	const {
 		contributors,
@@ -31,26 +37,12 @@ export const config = <Contr extends string, R extends Role<Contr>>( opts?: Conf
 	} = opts || {}
 
 	return defineConfig( [
-		contributorsConfig( contributors ),
-		ghConfig( generalConf ),
-		gitConfig( generalConf ),
-		pkgConfig( generalConf ),
+		contributorsPlugin( contributors ),
+		ghPlugin( generalConf ),
+		gitPlugin( generalConf ),
+		pkgPlugin( generalConf ),
 	] )
 
 }
 
-// export const config = <Contr extends string, R extends Role<Contr>>() => createPlugin<Config<Contr, R>>( ( { args } ) => {
-
-// 	const {
-// 		contributors,
-// 		...generalConf
-// 	} = args || {}
-
-// 	return defineConfig( [
-// 		contributorsConfig( contributors ),
-// 		ghConfig( generalConf ),
-// 		gitConfig( generalConf ),
-// 		pkgConfig( generalConf ),
-// 	] )
-
-// } )()
+export default repoPlugin

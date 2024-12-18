@@ -1,17 +1,33 @@
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import { Examples } from './lib'
 
-type Config = boolean
+import type { Config }                 from './types'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
-export const config = ( conf?: Config ): DoveEnvConfig => {
+export type * from './types'
+export { Examples }
+
+/**
+ * A plugin for `dovenv` providing tools for managing example paths.
+ * @param {Config} [conf] - Configuration for the plugin.
+ * @returns {DovenvConfig} - The plugin configuration with custom examples.
+ */
+export const examplesPlugin = ( conf?: Config ): DovenvConfig => {
 
 	return { custom : { examples : {
-		desc : 'Toolkit for our examples paths',
-		fn   : async (  ) => {
+		desc : 'Toolkit for managing example paths',
+		opts : { key : {
+			alias : 'k',
+			desc  : 'Key pattern',
+			type  : 'array',
+		} },
+		fn : async ( { config } ) => {
 
-			console.log( '[coming soon]' )
-			console.debug( conf )
+			const temp = new Examples( conf, config )
+			await temp.run()
 
 		},
 	} } }
 
 }
+
+export default examplesPlugin

@@ -2,8 +2,8 @@
 
 import { run } from './run'
 
-import type { Config as DoveEnvConfig } from '@dovenv/core'
-import type { Config as EnvAiConfig }   from 'env-ai'
+import type { Config as DovenvConfig } from '@dovenv/core'
+import type { Config as EnvAiConfig }  from 'env-ai'
 
 export type Config = {
 	/** Configuration for local AI assistant chats */
@@ -13,11 +13,24 @@ export type Config = {
 
 export { run }
 
-export const config = ( conf?: Config ) => {
+/**
+ * Local AI assistant plugin for dovenv.
+ *
+ * This function generates a configuration for a local AI assistant, allowing
+ * users to select different chat configurations using keys. The configuration
+ * includes a description and options for selecting a specific chat configuration
+ * by key. The function also defines the behavior for running the assistant
+ * with the selected configuration.
+ *
+ * ---
+ * @param {Config} [conf] - Optional configuration object for the plugin.
+ * @returns {DovenvConfig} - Configured environment for the local AI assistant.
+ */
+export const aiPlugin = ( conf?: Config ) => {
 
 	const keys = Object.keys( conf?.chat || [] )
 
-	const config: DoveEnvConfig =  { custom : { ai : {
+	const config: DovenvConfig =  { custom : { ai : {
 		desc : 'local AI assistant for your workspace',
 		opts : { key : {
 			// @ts-ignore
@@ -54,3 +67,5 @@ export const config = ( conf?: Config ) => {
 	return config
 
 }
+
+export default aiPlugin

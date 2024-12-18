@@ -1,8 +1,4 @@
-import {
-	markSchema,
-	pkgSchema,
-	validateSchema,
-} from './schema.js'
+
 import { defineConfig }        from '../packages/core/dist/main.mjs'
 import { Typescript2Markdown } from '../packages/plugin/convert/dist/main.mjs'
 import {
@@ -23,12 +19,6 @@ export default defineConfig( { custom : { readmes : {
 	fn   : async ( { config } ) => {
 
 		try {
-
-			if ( !config.const.pkg ) throw 'Must exist [pkg] const in dovenv configuration'
-			if ( !config.const.mark ) throw 'Must exist [mark] const in dovenv config.\nThis must be a text, for example a watermark, a trademark, or a simple text about the project.'
-
-			await validateSchema( pkgSchema, config.const.pkg, 'pkg' )
-			await validateSchema( markSchema, config.const.mark, 'mark' )
 
 			const projectPath        = joinPath( 'packages', 'core' )
 			const readmeTemplatePath = joinPath( getCurrentDir( import.meta.url ), 'templates', 'readme.md' )

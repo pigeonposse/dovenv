@@ -7,12 +7,11 @@
 import { PluginCore } from '@dovenv/core'
 import {
 	getExtName,
-	getMatch,
+
 	getPaths,
 	readFile,
 	relativePath,
 	writeFile,
-	process,
 	getDirName,
 	ensureDir,
 } from '@dovenv/core/utils'
@@ -22,39 +21,32 @@ import {
 	report,
 } from 'leasot'
 
+import { homepage } from '../../package.json'
+
 import type { Config } from './types'
 
 type TodoComments = Awaited<ReturnType<typeof parse>>
 
-export class Todo extends PluginCore {
+export class Todo extends PluginCore<Config> {
 
-	constructor( public config?: Config ) {
+	title = 'todo'
+	helpURL = homepage
+	async #fn( pattern?: string[] ): Promise<TodoComments | undefined> {
 
-		super()
+		if ( !( await this.ensureOpts() ) || !this.opts ) return
 
-	}
-
-	async get( key?: string[] ): Promise<TodoComments | undefined> {
-
-		const conf = this.config
-		if ( !conf ) {
-
-			console.warn( 'No TODO config provided in your configuration' )
-			return
-
-		}
+		const keys = this.getKeys( { pattern } )
+		if ( !keys ) return
 
 		const defaultType            = '.md'
-		const availableKeys          = Object.keys( conf )
-		const currKeys               = ( !key ) ? availableKeys : getMatch( availableKeys, key  )
 		const resTotal: TodoComments = []
 
-		for ( const key of currKeys ) {
+		for ( const key of keys ) {
 
 			const res: TodoComments = []
-			console.log( '\n' + this.style.get.section( `TODOs for ${this.style.get.badge( key )} key` ) )
+			console.log( '\n' + this.style.info.h( `TODOs for ${this.style.badge( key )} key` ) )
 
-			const opts  = conf[key]
+			const opts  = this.opts[key]
 			const paths = await getPaths( opts.input, {
 				gitignore : true,
 				onlyFiles : true,
@@ -79,7 +71,7 @@ export class Todo extends PluginCore {
 
 				}
 				const todos = await parse( content, {
-					filename   : relativePath( process.cwd(), path ),
+					filename   : relativePath( this.process.cwd(), path ),
 					extension  : filetype || defaultType,
 					customTags : ( opts.customTags
 						? opts.customTags
@@ -115,7 +107,7 @@ export class Todo extends PluginCore {
 
 			}
 
-			if ( res.length === 0 ) console.log(  '\n' + this.style.get.error( 'No TODOs found' ) )
+			if ( res.length === 0 ) console.log(  '\n' + this.style.error.msg( 'No TODOs found' ) )
 			else resTotal.push( ...res )
 
 		}
@@ -124,19 +116,9 @@ export class Todo extends PluginCore {
 
 	}
 
-	async run( key?: string[] ) {
+	async run( pattern?: string[] ) {
 
-		try {
-
-			await this.get( key )
-
-		}
-		catch ( e ) {
-
-			console.log()
-			console.log( this.style.get.error( e instanceof Error ? e.message : e ) )
-
-		}
+		return await this.catchFn( this.#fn( pattern ) )
 
 	}
 

@@ -8,14 +8,14 @@ import {
 
 import { getConfig }  from './_shared/config'
 import * as CONSTS    from './_shared/const'
-import { Aliases }    from './aliases/main'
-import { Check }      from './check/main'
-import { Constant }   from './const/main'
+import { Aliases }    from './core/aliases/main'
+import { Check }      from './core/check/main'
+import { Constant }   from './core/const/main'
+import { Transform }  from './core/transform/main'
 import {
 	Custom,
 	mergeCustomConfig,
 } from './custom/main'
-import { Transform } from './transform/main'
 
 import type { CustomConfig } from './custom/main'
 import type {
@@ -63,6 +63,17 @@ export class Dovenv {
 	config : Params['config']
 
 	#deprecatedAlerts = deprecatedAlerts()
+
+	/**
+	 * Contains Dovenv config path.
+	 *
+	 * This property is used for user information purposes only.
+	 *
+	 * If the "config" option is added via the class constructor, this option will be undefined.
+	 * In this case you can change its value, but this may alter the behavior of the class.
+	 * Do so at your own risk.
+	 */
+	dovenvConfigPath : string | undefined
 
 	/**
 	 * Creates a new `Dovenv` instance.
@@ -175,27 +186,8 @@ export class Dovenv {
 
 						},
 					},
-					[CMD.ALIASES] : {
-						desc : `List aliases of your config. For execute use: ${name} x`,
-						fn   : async argv => {
-
-							const instance = new Aliases( argv )
-							await instance.run()
-
-						},
-					},
-					[CMD.ALIAS_EXEC] : {
-						desc     : 'Execute aliases of your config',
-						settings : { hide: true },
-						fn       : async argv => {
-
-							const instance = new Aliases( argv )
-							await instance.run()
-
-						},
-					},
 					[CMD.TRANSFORM] : {
-						desc : 'Transform your workspaces paths\n',
+						desc : 'Transform your workspaces paths',
 						opts : { [OPTIONS.KEY.key] : {
 							alias : OPTIONS.KEY.alias,
 							desc  : 'Set key patterns of your transforms',
@@ -213,9 +205,40 @@ export class Dovenv {
 						],
 						fn : async argv => {
 
-							const constInstance = new Constant( argv )
-							const instance      = new Transform( argv, constInstance )
+							const instance = new Transform( argv )
 							await instance.run()
+
+						},
+					},
+					[CMD.ALIASES] : {
+						desc : `List aliases of your config. For execute use: ${name} x\n`,
+						fn   : async argv => {
+
+							const instance = new Aliases( argv )
+							await instance.run()
+
+						},
+					},
+					[CMD.ALIAS_EXEC] : {
+						desc     : 'Execute aliases of your config',
+						settings : {
+							//  @ts-ignore
+							core : true,
+							hide : true,
+						},
+						fn : async argv => {
+
+							const instance = new Aliases( argv )
+							await instance.run()
+
+						},
+					},
+					[CMD.CONFIG] : {
+						desc     : 'Show your config',
+						settings : { hide: true },
+						fn       : async ( { config } ) => {
+
+							console.dir( config, { depth: Infinity } )
 
 						},
 					},
@@ -227,7 +250,7 @@ export class Dovenv {
 						undefined,
 						{
 							config : this.config,
-							path   : undefined,
+							path   : this.dovenvConfigPath,
 						},
 					]
 					: await catchError( getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) )
@@ -252,6 +275,11 @@ export class Dovenv {
 					cli,
 					conf
 						? mergeCustomConfig(
+							// "defaultCmds" must be the first to make "\n" in the help output.
+							// This means that default commands can be overridden,
+							// If the user adds a custom variable with the same key as any of the default commands, it will be overridden.
+							// This way the user can still change any description of the default commands or even hide them if he wants.
+							// There is a risk that the user can change the behavior of the default commands, but this is not important since no command should affect the behavior of the core.
 							defaultCmds,
 							conf,
 						)

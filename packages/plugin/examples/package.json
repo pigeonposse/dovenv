@@ -43,10 +43,12 @@
 	],
 	"scripts": {
 		"build": "unbuild",
-		"dev": "tsx examples/main.ts",
+		"dev": "tsx examples/simple/main.ts",
+		"example": "run() { tsx examples/\"${@:1}\"/main.ts; }; run $@",
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
+		"jsdoc-api": "^9.3.4",
 		"leasot": "14.4.0"
 	},
 	"devDependencies": {

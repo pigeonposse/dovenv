@@ -1,27 +1,46 @@
-import { existsDir } from '@dovenv/core/utils'
-import indexHusky    from 'husky'
+import {
+	catchError,
+	existsDir,
+	joinPath,
+} from '@dovenv/core/utils'
+import indexHusky from 'husky'
 
-import { GitSuper } from './super'
+import { GitSuper } from './_super'
 
 export class Husky extends GitSuper {
 
+	async #fn( path:string ) {
+
+		const exist = await existsDir( path )
+
+		console.debug( {
+			path,
+			exist,
+		} )
+
+		if ( exist ) return true
+
+		await this.init()
+
+		const result = await indexHusky( path )
+		// if result exist is a error
+		if ( result ) throw new Error( result )
+
+		return false
+
+	}
+
 	async run( ) {
 
-		const path  = this.opts?.husky?.path ?? '.dovenv/husky'
-		const exist = await existsDir( path )
-		const style = this.style.get
-		if ( !exist ) {
+		const path = this.opts?.husky?.path ?? joinPath( this.wsDir, '.dovenv/husky' )
 
-			await this.init()
+		const [ error, res ] = await catchError( ( async () => this.#fn( path ) )() )
 
-			await indexHusky( path )
+		if ( error ) return console.log( this.style.error.msg( error.message ) )
 
-			console.log( style.succed( `Husky folder is now in: ${style.bold( path )}` ) )
-
-		}
-		else console.log( style.succed( `Husky exists in: ${style.bold( path )}` ) )
-
-		console.log( style.succedDesc( `\nAdd now you Git hooks!\nMore info: ${style.link( 'https://typicode.github.io/husky' )}` ) )
+		if ( res ) console.log( this.style.success.msg( `Husky exists in:`, path ) )
+		else console.log( this.style.success.msg( `Husky folder is now in`, path ) )
+		console.log( this.style.success.p( `\nAdd now you Git hooks!\nMore info: ${this.style.a( 'https://typicode.github.io/husky' )}` ) )
 
 	}
 

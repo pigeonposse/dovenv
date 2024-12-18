@@ -1,5 +1,8 @@
-import { Validator } from '@cfworker/json-schema'
-import { compile }   from 'json-schema-to-typescript'
+import { Validator }       from '@cfworker/json-schema'
+import { compile }         from 'json-schema-to-typescript-lite'
+import { jsonSchemaToZod } from 'json-schema-to-zod'
+import { createGenerator } from 'ts-json-schema-generator'
+import { zodToJsonSchema } from 'zod-to-json-schema'
 
 import {
 	catchError,
@@ -9,13 +12,90 @@ import { getObjectFrom } from '../object/main'
 import {
 	validate as jsValidate,
 	ValidateError,
-}   from '../validate/main'
+} from '../validate/main'
 
 import type {
 	Schema2tsProps,
 	Schema2typeProps,
+	Schema2zod,
+	SchemaObject,
+	Ts2Schema,
+	Zod2schema,
 } from './types'
 import type { ValidateAnyType } from '../validate/main'
+
+/**
+ * Converts a zod schema to a JSON schema.
+ * @param {Zod2schema} params - Options.
+ * @returns {Promise<string>} The JSON schema.
+ * @example
+ * const jsonSchema = await zod2schema({
+ *   schema: z.object({
+ *     foo: z.string(),
+ *   }),
+ *   opts: {
+ *     // zodToJsonSchema options
+ *   },
+ * })
+ */
+export const zod2schema = async ( params: Zod2schema ) => {
+
+	return await zodToJsonSchema( params.schema, params.opts )
+
+}
+
+/**
+ * JSON schema to zod type
+ * @param {Schema2zod} params - Options.
+ * @returns {Promise<string>} - zodtype in string
+ * @example
+ * const zodSchema = await schema2zod({
+ *   schema: {
+ *     type: "object",
+ *     ...
+ *   }
+ * })
+ *
+ * console.log(zodSchema)
+ */
+export const schema2zod = async ( params: Schema2zod ) => {
+
+	return await jsonSchemaToZod( params.schema, params.opts )
+
+}
+
+/**
+ * Parses a JSON schema string into an object.
+ * @template R - The type of the object to be returned.
+ * @param {string} schema - The JSON schema string to parse.
+ * @returns {R} - The parsed object.
+ * @throws {SyntaxError} - If the input string is not a valid JSON.
+ * @example
+ * const obj = schema2object<{ foo: string }>('{"foo": "bar"}');
+ * console.log(obj.foo); // Output: "bar"
+ */
+export const schema2object = <R extends object>( schema: string ): R =>
+	JSON.parse( schema )
+
+/**
+ * Converts a TypeScript type to a JSON schema.
+ * @param {Ts2Schema} params - Options.
+ * @returns {Promise<object>} The JSON schema.
+ * @example
+ * const jsonSchema = await ts2schema({
+ *   config: {
+ *     path: 'path/to/MyType.ts',
+ *     type: 'MyType',
+ *   },
+ * })
+ *
+ * console.log(jsonSchema)
+ */
+export const ts2schema = async ( params: Ts2Schema ): Promise<SchemaObject> => {
+
+	return await createGenerator( params.config ).createSchema( params.config.type )
+
+}
 
 /**
  * JSON schema to typescript type string
@@ -36,10 +116,7 @@ import type { ValidateAnyType } from '../validate/main'
  * console.log(tsString)
  */
 export const schema2ts = async ( params: Schema2tsProps ) =>
-	compile( params.schema, params.name, {
-		bannerComment : '',
-		...params?.opts,
-	} )
+	compile( params.schema, params.name, { ...params?.opts } )
 
 /**
  * Converts a JSON schema to a TypeScript type string.
@@ -78,6 +155,9 @@ export const schema2type = async ( params: Schema2typeProps ) => {
 	return type
 
 }
+
+////////////////////////////////////////////
+
 const ERROR_ID = {
 	INVALID_SCHEMA : 'INVALID_SCHEMA',
 	INVALID_DATA   : 'INVALID_DATA',

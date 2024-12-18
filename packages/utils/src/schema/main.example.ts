@@ -2,6 +2,8 @@
 import {
 	validateSchema,
 	schema2ts,
+	schema2type,
+	schema2zod,
 } from './main'
 import pkg            from '../../package.json'
 import { catchError } from '../error/main'
@@ -91,7 +93,14 @@ const content  = await schema2ts( {
 	schema : data.obj.schema,
 } )
 console.log( 'Schema Definition:' )
+
+console.log( content )
+console.log( '\ncolored:\n\n' )
 console.log( highlight( content,  { language: 'ts' } ) )
+console.log( '\ntype:\n\n' )
+console.log( await schema2type( { schema: data.obj.schema } ) )
+console.log( '\nZOD:\n\n' )
+console.log( await schema2zod( { schema: data.obj.schema } ) )
 
 console.log()
 console.log( 'Validation:' )

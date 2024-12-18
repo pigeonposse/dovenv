@@ -17,6 +17,7 @@ export const getStringType = ( value: string ): 'text' | 'url' | 'path' => {
 	return 'text'
 
 }
+
 const isUrl = ( value: string ): boolean => {
 
 	try {

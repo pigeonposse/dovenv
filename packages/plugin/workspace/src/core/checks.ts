@@ -17,7 +17,7 @@ import { Super } from './_super/main'
 
 import type { PackageJSON } from '@dovenv/core/utils'
 
-type CheckType = NonNullable<NonNullable<Super['config']>['check']>
+type CheckType = NonNullable<NonNullable<Checks['opts']>['check']>
 type CheckPattern = NonNullable<NonNullable<CheckType['pkg']>['include']>
 
 export class Checks extends Super {
@@ -32,7 +32,7 @@ export class Checks extends Super {
 
 		if ( this.pkgs ) return this.pkgs
 
-		const pkgPaths = await this._getPkgPaths()
+		const pkgPaths = await this.getPkgPaths()
 
 		this.pkgs = []
 
@@ -53,7 +53,7 @@ export class Checks extends Super {
 
 	async schemaPKG() {
 
-		const type = this.config?.check?.pkg
+		const type = this.opts?.check?.pkg
 		if ( !type?.schema ) return
 
 		const pkgs = await this.#getPKGs()
@@ -73,30 +73,32 @@ export class Checks extends Super {
 
 				const errorMessage = formatValidationError( result.error )
 
-				const content = ( await schema2type( {
+				const content = '\n' + ( await schema2type( {
 					schema          : serializeValidation( schema ),
 					required        : true,
 					noUnknownObject : true,
 				} ) )
 
-				let errorMsg = `Error in [${pkg.id}] package.json\n\n`
-				errorMsg    += this._style.errorPoint( `Path: ${pkg.path}.\n` )
-				errorMsg    += this._style.errorPoint( `Schema must be: ${content}\n` )
-				errorMsg    +=  this._style.errorPoint( errorMessage )
+				const errortitle = `Error in ${this.style.b( pkg.id )} package.json\n\n`
+				const errorMsg   = this.style.error.ul( [
+					[ `Path`, pkg.path ],
+					[ `Schema must be`, content ],
+					[ errorMessage, '' ],
+				] )
 
-				throw new Error( errorMsg )
+				throw new Error( errortitle + this.style.indent( errorMsg ) )
 
 			}
 
 		}
 
-		this._succedMsg( 'Schema check passed' )
+		console.log( this.style.success.h( 'Schema check passed' ) )
 
 	}
 
 	async structure() {
 
-		const type = this.config?.check?.pkg
+		const type = this.opts?.check?.pkg
 		if ( !type ) return
 
 		const pkgs = await this.#getPKGs()
@@ -130,18 +132,18 @@ export class Checks extends Super {
 					const paths = await getPaths( [ pattern ],  patternOpts )
 
 					let errorMsg = `Error in [${pkg.id}] file structure.\n\n`
-					errorMsg    += this._style.errorPoint( `Pattern: ${getDirName( joinPath( dir, pattern ) )}\n` )
+					errorMsg    += this.style.error.lk( `Pattern: ${getDirName( joinPath( dir, pattern ) )}\n` )
 
 					if ( exists && !paths.length ) {
 
-						errorMsg += this._style.errorPoint( `Validation error: Must exists Pattern: ${pattern}` )
+						errorMsg += this.style.error.lk( `Validation error: Must exists Pattern: ${pattern}` )
 
 						throw new Error( errorMsg )
 
 					}
 					else if ( !exists && paths.length ) {
 
-						errorMsg += this._style.errorPoint( `Validation error: Must not exists Pattern: ${pattern}` )
+						errorMsg += this.style.error.lk( `Validation error: Must not exists Pattern: ${pattern}` )
 
 						throw new Error( errorMsg )
 
@@ -158,12 +160,12 @@ export class Checks extends Super {
 							patternOpts : { onlyFiles: true },
 						} )
 						let errorMsg        = `Error in [${pkg.id}] file structure.\n\n`
-						errorMsg           += this._style.errorPoint( `Path: ${pkg.path}.\n` )
-						errorMsg           += this._style.errorPoint( `Valid structure:\n${this._box( {
+						errorMsg           += this.style.error.lk( `Path: ${pkg.path}.\n` )
+						errorMsg           += this.style.error.lk( `Valid structure:\n${this.style.box( {
 							title : pkg.id,
 							data  : structurePath,
 						} )}\n` )
-						errorMsg           += this._style.errorPoint( `Validation error: Must ${exists ? 'exists' : 'not exists'} path: ${path}` )
+						errorMsg           += this.style.error.lk( `Validation error: Must ${exists ? 'exists' : 'not exists'} path: ${path}` )
 
 						throw new Error( errorMsg )
 
@@ -178,13 +180,13 @@ export class Checks extends Super {
 		if ( type?.include ) await set( type.include, true )
 		if ( type?.exclude ) await set( type.exclude, false )
 
-		this._succedMsg( 'Structure check passed' )
+		console.log( this.style.success.h( 'Structure check passed' ) )
 
 	}
 
 	async #fn( ) {
 
-		this._title( 'Checks workspace structure' )
+		// this._title( 'Checks workspace structure' )
 
 		await this.structure( )
 		await this.schemaPKG( )

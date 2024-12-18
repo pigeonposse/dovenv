@@ -10,7 +10,7 @@ import type { DocsConfig } from './main'
 /**
  * Define a `dovenv` configuration that creates a documentation site for your workspace.
  * @param {DocsConfig} [conf] - The configuration object.
- * @returns {import('dovenv').Config} The dovenv configuration object.
+ * @returns {import('@dovenv/core').Config} The dovenv configuration object.
  */
 export const docsPlugin = ( conf?: DocsConfig ) => {
 

@@ -1,7 +1,6 @@
 import {
 	execChild,
 	getFilteredFileNames,
-	process,
 	joinUrl,
 	getPaths,
 	getDirTree,
@@ -17,7 +16,7 @@ export class Workflow extends Repo {
 	async list() {
 
 		const {
-			workflowsDir, repoURL,
+			workflowsDir, URL:repoURL,
 		} = this.opts || {}
 
 		// this is typed as undefined too, but it is not. workflowsDir is a string set in the constructor
@@ -33,8 +32,8 @@ export class Workflow extends Repo {
 			} )
 			: color.cyan( `No workflows found it!` )
 
-		content  += '\n' + ( color.cyan( `PATH: ` ) + this.style.get.text( relativePath( process.cwd(), workflowsDir ) ) )
-		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + this.style.get.text( this.style.get.link( repoURL ) ) : ''
+		content  += '\n' + ( color.cyan( `PATH: ` ) + this.style.p( relativePath( this.process.cwd(), workflowsDir ) ) )
+		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + this.style.p( this.style.a( repoURL ) ) : ''
 		const res = box( content, {
 			padding     : 1,
 			dimBorder   : true,
@@ -51,7 +50,7 @@ export class Workflow extends Repo {
 		await this.initGH()
 
 		const {
-			workflowDefaultInputs, workflowsDir, repoURL,
+			workflowDefaultInputs, workflowsDir, URL: repoURL,
 		} = this.opts || {}
 		const dir   = workflowsDir as string
 		const exist = await existsDir( dir )
@@ -84,10 +83,10 @@ export class Workflow extends Repo {
 		const cached      = await cache.get()
 
 		await this.promptGroup( {
-			outro    : this.style.get.succed( repoURL ? `See action progress: ${this.style.get.link( joinUrl( repoURL, 'actions' ) )}` : 'Succesfully finished 🌈' ),
+			outro    : this.style.success.msg( repoURL ? `See action progress: ${this.style.a( joinUrl( repoURL, 'actions' ) )}` : 'Succesfully finished 🌈' ),
 			onCancel : this.onCancel,
 			list     : async p => ( {
-				desc        : () => p.log.info( this.style.get.text( 'Prompt for run workflow' ) ),
+				desc        : () => p.log.info( this.style.p( 'Prompt for run workflow' ) ),
 				[data.file] : async () =>  p.select( {
 					message : 'Select a workflow:',
 					options : fileNames.map( value => ( {
@@ -140,7 +139,7 @@ export class Workflow extends Repo {
 					}
 					catch ( e ) {
 
-						if ( e instanceof Error ) p.log.error( this.style.get.error( e.message ) )
+						if ( e instanceof Error ) p.log.error( this.style.error.msg( e.message ) )
 						else console.error( e )
 
 					}

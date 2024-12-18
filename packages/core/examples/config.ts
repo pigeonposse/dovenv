@@ -37,13 +37,43 @@ const setStructure = () => '\n' + box( setDirTree( { structure : {
 	borderColor : 'gray',
 	dimBorder   : true,
 } )
+const wsDir        = joinPath( getCurrentDir( import.meta.url ), '..', '..', '..' )
 
 export default defineConfig( {
+	const : {
+		version,
+		pkg,
+		wsDir,
+		mark   : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
+		custom : async () => {
+
+			// throw new Error( 'Custom error' )
+			const res = await getObjectFrom( 'https://raw.githubusercontent.com/pigeonposse/super8/main/.pigeonposse.yml' )
+			// @ts-ignore
+			return res.web[0] as Record<string, unknown>
+
+		},
+		template : async () => {
+
+			const templateDir                 = joinPath( getCurrentDir( import.meta.url ), 'recourses/*' )
+			const paths                       = await getPaths( [ templateDir ], { dot: true } )
+			const res: Record<string, string> = {}
+			for ( const path of paths ) {
+
+				const key = getBaseName( path )
+				res[key]  = await readFile( path, 'utf-8' )
+
+			}
+
+			return res
+
+		},
+	},
 	name  : 'PROJECT WORKSPACE',
 	desc  : 'This is a project workspace example.',
 	alias : { struct : {
 		desc : 'Set structure for the workspace',
-		cmd  : 'pnpm --silent dev aliases --silent',
+		cmd  : 'pnpm --silent dev structure --silent',
 	} },
 	custom : {
 		structure : {
@@ -128,41 +158,12 @@ export default defineConfig( {
 			},
 		},
 	},
-	const : {
-		version,
-		pkg,
-		mark   : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
-		custom : async () => {
-
-			// throw new Error( 'Custom error' )
-			const res = await getObjectFrom( 'https://raw.githubusercontent.com/pigeonposse/super8/main/.pigeonposse.yml' )
-			// @ts-ignore
-			return res.web[0] as Record<string, unknown>
-
-		},
-		template : async () => {
-
-			const templateDir                 = joinPath( getCurrentDir( import.meta.url ), 'recourses/*' )
-			const paths                       = await getPaths( [ templateDir ], { dot: true } )
-			const res: Record<string, string> = {}
-			for ( const path of paths ) {
-
-				const key = getBaseName( path )
-				res[key]  = await readFile( path, 'utf-8' )
-
-			}
-
-			return res
-
-		},
-	},
 	transform : {
 		readme : {
 			input : [ 'README.md' ],
 			fn    : async props => {
 
-				const mark = props.const.mark
-				// console.log( props )
+				const mark = props.const?.mark
 				return props.content + `\n<!--${mark}-->\n`
 
 			},
@@ -171,12 +172,10 @@ export default defineConfig( {
 			input : [ '.pigeonposse.yml' ],
 			fn    : async props => {
 
-				// @ts-ignore
-				const ppTemplate =  props.const.template['.pigeonposse.yml']
+				const ppTemplate =  props.const?.template['.pigeonposse.yml']
 				const content    = await replacePlaceholders( {
 					content : ppTemplate,
-					// @ts-ignore
-					params  : props.const,
+					params  : props.const || {},
 				} )
 				return content
 
@@ -202,7 +201,7 @@ export default defineConfig( {
 				// console.log( path, content )
 				const files  = [ joinPath( path, 'README.md' ) ]
 				const dirs   = [ joinPath( path, 'src' ) ]
-				const noDirs = [ joinPath( path, 'docs' ) ]
+				const noDirs = [ joinPath( path, 'source' ) ]
 
 				for ( const file of files ) {
 
@@ -282,7 +281,7 @@ export default defineConfig( {
 
 		},
 		pkgJson : {
-			desc     : 'Schema from repo packages',
+			desc     : 'Schema from repo packages.',
 			type     : 'file',
 			patterns : [ 'packages/*/package.json' ],
 			validate : async ( {

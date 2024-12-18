@@ -15,6 +15,8 @@ export {
 	docsPlugin,
 }
 
+export default docsPlugin
+
 /**
  * Defines a configuration object for the dovenv documentation plugin.
  * @param {( DocsConfig | DocsConfig[] )[]} config - The configuration object.

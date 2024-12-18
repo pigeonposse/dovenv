@@ -26,8 +26,8 @@ export class Size extends Super implements InfoInterface {
 		}
 		catch ( e ) {
 
-			// @ts-ignore
-			console.warn( 'Error getting size', e?.message )
+			console.warn( this.style.warn.msg( 'Error getting size',  e instanceof Error  ? e?.message : e ) )
+
 			return
 
 		}
@@ -41,15 +41,17 @@ export class Size extends Super implements InfoInterface {
 		const data = await this.get()
 		if ( !data ) return
 
-		this._sectionList( [
+		const res = [
 			[ 'Files', data.files ],
 			[ 'Words', data.words ],
 			[ 'Chars', data.chars ],
-		] )
+		] satisfies Array<[ string, number ]>
+
+		console.log( this.style.section.ul( res ) )
 
 	}
 
-	async run(  ) {
+	async run( ) {
 
 		return await this._envolvefn( this.#fn( ) )
 

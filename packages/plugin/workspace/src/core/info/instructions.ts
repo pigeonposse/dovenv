@@ -11,7 +11,7 @@ export class Instructions extends Super implements InfoInterface {
 
 	async get() {
 
-		const opts = this.config?.info?.instructions
+		const opts = this.opts?.info?.instructions
 		if ( !opts ) return undefined
 		const content = await getMD( opts )
 		return await md2terminal( content )
@@ -23,7 +23,7 @@ export class Instructions extends Super implements InfoInterface {
 		this._title( 'Instructions' )
 
 		const content = await this.get( )
-		if ( !content ) return console.warn( 'No instructions found' )
+		if ( !content ) return console.warn( this.style.warn.msg( 'No instructions found' ) )
 
 		console.log( content )
 

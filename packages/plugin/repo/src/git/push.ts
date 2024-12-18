@@ -1,9 +1,9 @@
 import { exec } from '@dovenv/core/utils'
 
+import { GitSuper }  from './_super'
 import { GitAdd }    from './add'
 import { GitBranch } from './branch'
 import { GitCommit } from './commit'
-import { GitSuper }  from './super'
 import { Workflow }  from '../gh/workflow'
 import { Packages }  from '../pkg/fn'
 
@@ -13,9 +13,9 @@ export class GitPush extends GitSuper {
 
 		const cmd = `git push -f origin ${branch}`
 
-		console.log( this.style.get.line( cmd ) )
+		console.log( this.style.info.hr( cmd ) )
 		await exec( cmd )
-		console.log( this.style.get.line(  ) )
+		console.log( this.style.info.hr(  ) )
 
 	}
 
@@ -23,7 +23,7 @@ export class GitPush extends GitSuper {
 
 		await this.init()
 
-		const defaultBranch  = this.opts.defaultBranch || 'main'
+		const defaultBranch  = this.opts?.defaultBranch
 		const branchInstance = new GitBranch( this.opts, this.config )
 		const commitInstance = new GitCommit( this.opts, this.config )
 		const addInstance    = new GitAdd( this.opts, this.config )
@@ -49,10 +49,10 @@ export class GitPush extends GitSuper {
 		console.debug( 'cached data', cached )
 
 		await this.promptGroup( {
-			outro    : `Finished ${this.style.get.badge( 'push' )} process 🌈`,
+			outro    : `Finished ${this.style.badge( 'push' )} process 🌈`,
 			onCancel : async () => await this.onCancel(),
 			list     : async p => ( {
-				'desc'        : async () => p.log.info( this.style.get.text( 'Push your repository' ) ),
+				'desc'        : async () => p.log.info( this.style.p( 'Push your repository' ) ),
 				[data.staged] : async () => {
 
 					const res = await p.confirm( {
@@ -71,9 +71,9 @@ export class GitPush extends GitSuper {
 					// @ts-ignore
 					if ( !results[data.staged] ) return
 
-					console.log( this.style.get.line( 'Staged files' ) )
+					console.log( this.style.info.hr( 'Staged files' ) )
 					console.log( await commitInstance.getStagedFiles() )
-					console.log( this.style.get.line(  ) )
+					console.log( this.style.info.hr(  ) )
 
 				},
 				[data.update] : async () => {
@@ -98,7 +98,7 @@ export class GitPush extends GitSuper {
 					await pkg.ask()
 
 				},
-				'desc-add'    : async () => p.log.info( this.style.get.text( 'Prompt for add to repository' ) ),
+				'desc-add'    : async () => p.log.info( this.style.p( 'Prompt for add to repository' ) ),
 				[data.add]    : async () => await addInstance.ask( cached[data.add] ),
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
 				'add-res'     : async ( { results } ) => {
@@ -121,7 +121,7 @@ export class GitPush extends GitSuper {
 							await this.exec( res[data.origin] )
 							console.log()
 
-							p.log.success( this.style.get.succed( `Successfully pushed to ${this.style.get.link( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
+							p.log.success( this.style.success.p( `Successfully pushed to ${this.style.p( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
 
 						}
 						catch ( e ) {

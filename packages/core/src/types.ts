@@ -1,12 +1,11 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
 import type { CMD }             from './_shared/const'
-import type { AliasesConfig }   from './aliases/main'
-import type { CheckConfig }     from './check/main'
-import type { ConstConfig }     from './const/main'
+import type { AliasesConfig }   from './core/aliases/main'
+import type { CheckConfig }     from './core/check/main'
+import type { ConstConfig }     from './core/const/main'
+import type { TransformConfig } from './core/transform/main'
 import type { CustomConfig }    from './custom/main'
-import type { TemplateConfig }  from './template/main'
-import type { TransformConfig } from './transform/main'
 
 export type Config = {
 	/**
@@ -17,10 +16,6 @@ export type Config = {
 	 * Description of the project
 	 */
 	desc?            : string
-	/**
-	 * Configuration for the `template` command
-	 */
-	template?        : TemplateConfig
 	/**
 	 * Configuration for create `custom` commands
 	 */

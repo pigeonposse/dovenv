@@ -1,0 +1,24 @@
+simple:
+    title: "Simple example"
+    desc: "This is a simple example that not use paths"
+    data:
+      config:
+        input: "./simple/config.ts"
+        title: "Dovenv configuration file"
+      instance:
+        input: "./simple/main.ts"
+        title: "Use in JS/TS"
+      cli:
+        input: "dovenv -c config.ts templates -k test"
+        title: "Use in cli"
+        type: "bash"
+paths:
+    title: "Advanced example"
+    desc: "This is a Advanced example that use all the powwer of @dovenv/templates plugin"
+    data:
+      instance:
+        input: "./paths/main.ts"
+        title: "Dovenv instance"
+      config:
+        input: "./paths/config.ts"
+        title: "Dovenv configuration file"

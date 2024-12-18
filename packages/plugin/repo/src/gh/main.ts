@@ -3,8 +3,8 @@ import { downloadGitHubPath } from '@dovenv/core/utils'
 import { RepoInfo } from './repo-info'
 import { Workflow } from './workflow'
 
-import type { Config }                  from '../_super/types'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { Config as GhConfig }     from '../_super/types'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
 const CMD = {
 	DOWNLOAD : 'download',
@@ -15,10 +15,12 @@ const CMD = {
 export {
 	Workflow,
 	RepoInfo,
+	GhConfig,
 }
-export const config = ( conf?: Config ): DoveEnvConfig => {
 
-	const res: DoveEnvConfig['custom'] = { gh : {
+export const ghPlugin = ( conf?: GhConfig ): DovenvConfig => {
+
+	const res: DovenvConfig['custom'] = { gh : {
 		desc : 'GitHub Repo commands and configuration',
 		cmds : {
 			[CMD.DOWNLOAD] : {

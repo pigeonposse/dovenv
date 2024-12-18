@@ -6,11 +6,11 @@ import {
 	writeFileContent,
 } from '@dovenv/utils'
 
-import { Command } from '../_shared/cmd'
+import { Command } from '../../_shared/cmd'
 
-import type { ArgvParsed } from '../_shared/types'
-import type { Constant }   from '../const/main'
+import type { ArgvParsed } from '../../_shared/types'
 
+type Const = NonNullable<ArgvParsed['config']>['const']
 export type TransformConfig = Record<string, {
 	input : string[]
 	fn : ( data: {
@@ -19,16 +19,15 @@ export type TransformConfig = Record<string, {
 		/** Content of the file */
 		content : string
 		/** Constants of the workspace */
-		const   : Record<string, unknown>
+		const   : Const
 	} ) => Promise<string | undefined>
 }>
 
-export class Transform extends Command {
+export class Transform extends Command<TransformConfig> {
 
-	props
-	constInstance
 	argv
 	load
+	title = 'transform'
 
 	schema = validate.record(
 		validate.string(),
@@ -45,30 +44,27 @@ export class Transform extends Command {
 		} ).strict(),
 	)
 
-	constructor(  argv? : ArgvParsed, constant?: Constant ) {
+	constructor( argv? : ArgvParsed ) {
 
-		super()
-		this.constInstance = constant
-		// @ts-ignore
-		this.props = ( argv?.config?.transform || undefined ) as TransformConfig
-		this.argv  = argv
-		this.load  = this.spinner()
+		super( argv?.config?.transform, argv?.config )
+
+		this.argv = argv
+		this.load = this.spinner()
 
 	}
 
 	async #set() {
 
-		const constants = this.constInstance ? await this.constInstance.get() : {}
+		const constants = this.argv?.config?.const ? this.argv?.config?.const : {}
 
-		const props = this.props
-		if ( !props || Object.keys( props ).length === 0  ) return
+		const props = this.opts || {}
 
 		const userKeys = this.getKeysFromArgv( Object.keys( props ), this.argv )
-
 		if ( !userKeys || !userKeys.length ) return
+
 		for ( const key of userKeys ) {
 
-			this.load.start( this.setContentString( key, 'Transforming...', 'cyan' ) )
+			this.load.start( this.style.info.msg( key, 'Transforming...' ) )
 
 			try {
 
@@ -88,15 +84,15 @@ export class Transform extends Command {
 					} )
 					if ( !newContent ) continue
 					await writeFileContent( i, newContent )
-					this.load.text = this.setContentString( key, `[${i}] successfully transformed`, 'cyan' )
+					this.load.text = this.style.info.msg( key, `[${i}] successfully transformed` )
 
 				}
-				this.load.succeed( this.setContentString( key, 'Inputs successfully transformed', 'green' ) )
+				this.load.succeed( this.style.success.msg( key, 'Inputs successfully transformed' ) )
 
 			}
 			catch ( e ) {
 
-				this.load.fail( this.setContentString( key, 'Transformation failed. ' +  ( e instanceof Error ? e.message : JSON.stringify( e ) ), 'red' ) )
+				this.load.fail( this.style.error.msg( key, 'Transformation failed. ' +  ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
 				//this.log.fatal( e )
 				this.process.exit()
 
@@ -106,12 +102,18 @@ export class Transform extends Command {
 
 	}
 
+	async #fn() {
+
+		if ( !( await this.ensureOpts() ) ) return
+
+		await this.validateSchema( this.opts )
+		await this.#set()
+
+	}
+
 	async run( ) {
 
-		if ( !this.props ) return
-
-		this.validateSchema( this.props )
-		await this.#set()
+		return await this.catchFn( this.#fn( ) )
 
 	}
 

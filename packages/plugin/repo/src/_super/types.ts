@@ -1,9 +1,10 @@
+
 export type Config = {
 	/**
 	 * Name of the repository
 	 * @example "dovenv"
 	 */
-	repoID?                : string
+	ID?                    : string
 	/**
 	 * GitHub user|org ID
 	 */
@@ -12,7 +13,7 @@ export type Config = {
 	 * URL of the repopository
 	 * @example "https://github.com/pigeonposse/dovenv"
 	 */
-	repoURL?               : string
+	URL?                   : string
 	/**
 	 * The URL of the project's homepage.
 	 * @example "https://pigeonposse.com"
@@ -22,12 +23,12 @@ export type Config = {
 	 * Tags or topics associated with the repository
 	 * @example [ "web", "api", "rest-api", "openapi", "library", "node", "js"]
 	 */
-	repoTags?              : string[]
+	tags?                  : string[]
 	/**
 	 * Description of the repository
 	 * @example "This is a cool project"
 	 */
-	repoDesc?              : string
+	desc?                  : string
 	/**
 	 * Workflow default inputs
 	 */

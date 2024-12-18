@@ -1,157 +1,213 @@
+/* eslint-disable jsdoc/require-returns */
+/* eslint-disable jsdoc/require-param */
 import {
 	color,
 	icon,
 	table,
 	box,
 	line,
+	highlight,
 } from '@dovenv/utils'
 
+type ExtractLiterals<T> = T extends string ? ( string extends T ? never : T ) : never
+type Line =  NonNullable<Parameters<typeof line>[0]>
+type Color = NonNullable<Line['lineColor']>
+type ColorLiteral = ExtractLiterals<Color>
+
+const 		codeConstructor = ( {
+	data,
+	title = undefined,
+	lang = undefined,
+	borderColor,
+} : {
+	data         : Parameters<typeof box>[0]
+	title?       : string
+	lang?        : NonNullable<Parameters<typeof highlight>[1]>['language']
+	borderColor? : NonNullable<Parameters<typeof box>[1]>['borderColor']
+} ) => {
+
+	return box( highlight( data, { language: lang  } ), {
+		title,
+		dimBorder : true,
+		borderColor,
+		padding   : {
+			top   : 1,
+			left  : 1,
+			right : 1,
+		},
+		borderStyle : {
+			bottom      : icon.line,
+			top         : icon.line,
+			left        : '',
+			right       : '',
+			bottomRight : icon.line,
+			topRight    : icon.line,
+			bottomLeft  : icon.line,
+			topLeft     : icon.line,
+		},
+
+	} )
+
+}
+
+const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof icon[keyof typeof icon] ) => {
+
+	const c = cValue ? color[cValue] : color
+
+	const title     = ( v:unknown ) => c( mainIcon ? ( mainIcon + ' ' + v ) : v )
+	const desc      = ( v:unknown ) => c.dim( v )
+	const listKey   = ( v:unknown ) => c( icon.bullet + ' ' + v )
+	const listValue = ( v:unknown ) => desc( v )
+	const li        = ( t:unknown, v:unknown ) => listKey( t ) + ' ' + listValue( v )
+	const a         = ( msg: string ) => c.italic.underline(  msg )
+	const badge     = ( msg: unknown ) => c.inverse( ' ' + msg + ' ' )
+	const bold      = ( msg: unknown ) => c.bold( msg )
+	const hr        = ( title?: string, titleAlign?: Line['titleAlign'], dim?: boolean  ) => {
+
+		return `\n${line( {
+			title      : title || title?.trim() !== '' ? title : '',
+			lineColor  : cValue,
+			titleAlign : titleAlign || 'center',
+			lineChar   : icon.line,
+			lineDim    : dim,
+		} )}\n`
+
+	}
+
+	return {
+		icon : mainIcon,
+		/** main title */
+		h1   : ( v:unknown ) => title( badge( bold( v ) ) ),
+		/** general title */
+		h    : ( v:unknown ) => title( bold( v ) ),
+		/** general text */
+		text : ( v:unknown ) => c( v ),
+		msg  : ( t:string, msg?:unknown ) => bold( t ) + ( msg ? ' ' + desc( msg ) : '' ),
+		code : ( {
+			desc: descV, code: codeV, lang, readmore,
+		}:{
+			desc      : string
+			code      : string
+			lang?     : string
+			readmore? : string
+		} ) => {
+
+			return desc( descV ) + ( codeV
+				? '\n\n' + codeConstructor( {
+					data        : codeV,
+					title       : 'Example',
+					lang        : lang,
+					borderColor : cValue,
+				} )
+				: '' ) + ( readmore ? desc( '\n\nRead more: ' + a( readmore ) ) : '' ) + '\n'
+
+		},
+		/** List key */
+		lk : ( v:unknown ) => c( icon.bullet + ' ' + v ),
+		/** List value */
+		lv : ( v:unknown ) => desc( v ),
+		/** List item */
+		li : ( k:unknown, v:unknown ) => li( k, v ),
+		/** unordered list */
+		ul : ( list: Array< [ unknown, unknown ] > ) => list.map( ( [ k, v ] ) => li( k, v ) ).join( '\n' ),
+		/** paragraph */
+		p  : desc,
+		/** Anchor */
+		a,
+		/** Bold */
+		b  : bold,
+		/** Badge */
+		badge,
+		/** Line / sepator */
+		hr,
+	}
+
+}
+const noColor = colorConstructor( undefined, icon.dot )
 export class CommandStyle {
 
 	color : typeof color = color
 	line  : typeof line = line
 	icon  : typeof icon = icon
 
-	get = {
-		mainTitle    : ( v:unknown ) => color.magenta( this.get.badge(  v ) ),
-		title        : ( v:unknown ) => color.magenta.bold( icon.triangleRightSmall ) + ' ' + this.get.mainTitle( v ),
-		desc         : ( v:unknown ) => color.magenta.dim( v ),
-		// section
-		sectionTitle : ( v:unknown ) =>  color.cyan.bold( icon.triangleRightSmall ) + ' ' + color.cyan( v ),
-		sectionDesc  : ( v:unknown ) => color.cyan.dim( v ),
-		section      : ( v:unknown,  msg?:unknown ) => this.get.sectionTitle( v )  + ( msg ? '\n' + this.get.sectionDesc( msg ) : '' ),
-		// list
-		listKey      : ( v:unknown ) => color.magenta( icon.bullet + ' ' + v ),
-		listValue    : ( v:unknown ) => color.dim.gray( v ),
-		listSucced   : ( [ k, v ]:[string, unknown] ) => [ k, color.green( v ) ],
-		// error
-		error        : ( v:unknown ) => color.red( icon.cross + ' ' + v ),
-		// succed
-		succedTitle  : ( v:unknown ) => color.green( icon.tick + ' ' + v ),
-		succedDesc   : ( v:unknown ) => color.green.dim( v ),
-		succed       : ( t:string, msg?:unknown ) => this.get.succedTitle( t ) + ( msg ? '\n' + this.get.succedDesc( msg ) : '' ),
-		// others
-		text         : ( v:unknown ) => color.gray.dim( v ),
-		link         : ( msg: string ) => color.italic.underline(  msg ),
-		badge        : ( msg: unknown ) => color.inverse( ' ' + msg + ' ' ),
-		bold         : ( msg: unknown ) => color.bold( msg ),
-		table( data: Parameters<typeof table>[0], opts?: Parameters<typeof table>[1] ) {
+	/**
+	 * Indent text.
+	 * @param {string} v - text
+	 * @param {string} [prefix] - prefix
+	 * @returns {string} Text indented
+	 */
+	indent =  ( v:string, prefix = '  ' ) => v.split( '\n' ).map( line => `${prefix}${line}` ).join( '\n' )
 
-			return table(
-				data,
-				{
-					drawHorizontalLine : () => false,
-					drawVerticalLine   : () => false,
-					...( opts || {} ),
-				},
-			)
+	////////////////////////////////////////////////////////////
+	// parts
+	main    = colorConstructor( 'magenta' )
+	section = colorConstructor( 'magenta', icon.triangleRightSmall )
+	error   = colorConstructor( 'red', icon.cross )
+	warn    = colorConstructor( 'yellow', icon.warning )
+	success = colorConstructor( 'green', icon.tick )
+	info    = colorConstructor( 'gray', icon.info )
 
-		},
-		box( {
+	////////////////////////////////////////////////////////////
+	// others
+
+	/**
+	 * Anchor (LINK)
+	 */
+	a = noColor.a
+
+	/**
+	 * Paragraph
+	 */
+	p = noColor.p
+
+	/**
+	 * Badge
+	 */
+	badge = noColor.badge
+
+	/**
+	 * Bold
+	 */
+	b = noColor.b
+
+	table( data: Parameters<typeof table>[0], opts?: Parameters<typeof table>[1] ) {
+
+		return table(
 			data,
-			title = undefined,
-			border = true,
-			dim = true,
-		} : {
-			data    : Parameters<typeof box>[0]
-			title?  : string
-			border? : boolean
-			dim?    : boolean
-		} ) {
-
-			return box( data, {
-				title,
-				dimBorder : dim,
-				padding   : {
-					top   : 1,
-					left  : 1,
-					right : 1,
-				},
-				borderStyle : !border ? 'none' : 'single',
-			} )
-
-		},
-		line( title?: string, c?: NonNullable<Parameters<typeof line>[0]>['lineColor'] ) {
-
-			return `\n${line( {
-				title     : title ? color.inverse( ' ' + title + ' ' ) : undefined,
-				lineColor : c || 'gray',
-				lineChar  : icon.line,
-			} )}\n`
-
-		},
-		// line( title?: string ) {
-
-		// 	return {
-		// 		start : () => {
-
-		// 			console.log( `\n${line( {
-		// 				title     : color.gray.inverse( ' ' + title + ' ' ),
-		// 				lineColor : 'gray',
-		// 				lineChar  : icon.line,
-		// 			} )}\n` )
-
-		// 		},
-		// 		stop : () => {
-
-		// 			console.log( `\n${line( {
-		// 				lineChar  : icon.line,
-		// 				lineColor : 'gray',
-		// 			} )}\n` )
-
-		// 		},
-		// 	}
-
-		// },
+			{
+				drawHorizontalLine : () => false,
+				drawVerticalLine   : () => false,
+				...( opts || {} ),
+			},
+		)
 
 	}
 
-	onDebug = ( ...args: Parameters<typeof console.debug> ) => {
+	box( {
+		data,
+		title = undefined,
+		border = true,
+		dim = true,
+	} : {
+		data    : Parameters<typeof box>[0]
+		title?  : string
+		border? : boolean
+		dim?    : boolean
+	} ) {
 
-		console.log( '\n' + line( {
-			title      : 'DEBUG',
-			lineColor  : 'gray',
-			titleAlign : 'top-center',
-			lineDim    : true,
-		} )  )
-		console.log( ...args )
-		console.log( line( {
-			title     : '',
-			lineColor : 'gray',
-			lineDim   : true,
-		} ) + '\n' )
+		return box( data, {
+			title,
+			dimBorder : dim,
+			padding   : {
+				top   : 1,
+				left  : 1,
+				right : 1,
+			},
+			borderStyle : !border ? 'none' : 'single',
+		} )
 
 	}
 
-	// setTitle( title: string ) {
-
-	// 	console.log( this.get.title( title ) + '\n' )
-
-	// }
-
-	// setSuccedMsg( title: string, msg?: string ) {
-
-	// 	console.log( this.get.succed( title, msg ) )
-
-	// }
-
-	// setSectionTitle( title: string ) {
-
-	// 	console.log()
-	// 	console.info( this.get.sectionTitle( title ) )
-
-	// }
-
-	// setListItem( title: string, desc: unknown ) {
-
-	// 	console.log( this.get.listKey(  title + ' ' )  + this.get.listValue( desc ) )
-
-	// }
-
-	// setList( list: ( [string, unknown] )[] ) {
-
-	// 	for ( const [ k, v ] of list ) this.setListItem( k, v )
-
-	// }
+	code = codeConstructor
 
 }

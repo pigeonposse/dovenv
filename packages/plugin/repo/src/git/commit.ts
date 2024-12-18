@@ -7,9 +7,9 @@ import {
 	exec,
 } from '@dovenv/core/utils'
 
-import { GitSuper } from './super'
+import { GitSuper } from './_super'
 
-type Commit = Exclude<GitCommit['opts']['commit'], undefined>
+type Commit = Exclude<NonNullable<GitCommit['opts']>['commit'], undefined>
 export class GitCommit extends GitSuper {
 
 	types: Commit['types'] = [
@@ -93,7 +93,7 @@ export class GitCommit extends GitSuper {
 	async getStagedFiles() {
 
 		const { stdout } = await execChild( 'git status --short' )
-		return stdout.trim()
+		return ' ' + stdout.trim()
 
 	}
 
@@ -126,43 +126,20 @@ export class GitCommit extends GitSuper {
 
 	}
 
-	async lint( message: string ) {
-
-		if ( !this.opts.commit?.lint ) return
-		const fn = this.config.custom?.commitlint?.fn
-		if ( !fn || !( typeof fn === 'function' ) ) {
-
-			console.warn( 'Commitlint not configured. Please install "@dovenv/lint" and set into configuration' )
-			return
-
-		}
-		else
-			await fn( {
-				cmds : [],
-				opts : {
-					message : message,
-					m       : message,
-				},
-				config   : this.config,
-				showHelp : () => {},
-			} )
-
-	}
-
 	async exec( message: string ) {
 
 		const cmd = `git commit -m "${message}"`
 
-		console.log( this.style.get.line( 'git commit' ) )
+		console.log( this.style.info.hr( 'git commit' ) )
 		await exec( cmd )
-		console.log( this.style.get.line(  ) )
+		console.log( this.style.info.hr(  ) )
 
 	}
 
 	async ask() {
 
-		const types       = this.opts.commit?.types || this.types as GitCommit['types']
-		const scopes      = this.opts.commit?.scopes || this.scopes as GitCommit['scopes']
+		const types       = this.opts?.commit?.types || this.types as GitCommit['types']
+		const scopes      = this.opts?.commit?.scopes || this.scopes as GitCommit['scopes']
 		const data        = {
 			type  : 'type',
 			scope : 'scope',
@@ -232,7 +209,7 @@ export class GitCommit extends GitSuper {
 				}
 
 				return {
-					desc   : () => p.log.info( this.style.get.text( 'Prompt for commit message' ) ),
+					desc   : () => p.log.info( this.style.p( 'Prompt for commit message' ) ),
 					...prompt,
 					commit : async ( { results } ) => {
 
@@ -294,7 +271,7 @@ export class GitCommit extends GitSuper {
 		if ( isEmpty ) {
 
 			console.warn(
-				`Nothing to commit.\n\nStage your changes executing: ${this.style.get.badge( 'dovenv git push' )}\nOr stage your changes manually using ${this.style.get.badge( 'git add' )} and executing again: ${this.style.get.badge( 'dovenv git commit' )}`,
+				`Nothing to commit.\n\nStage your changes executing: ${this.style.badge( 'dovenv git push' )}\nOr stage your changes manually using ${this.style.badge( 'git add' )} and executing again: ${this.style.badge( 'dovenv git commit' )}`,
 			)
 			return
 

@@ -11,26 +11,17 @@ import { Super } from './_super/main'
 
 export class Execute extends Super {
 
-	manager : ReturnType<Super['_getPkgManager']> | undefined
-
 	// Method forremove errors from output
 	output = onStd( {
 		type : 'stderr',
 		fn   : () => '',
 	} )
 
-	#getPkgManager() {
-
-		if ( this.manager ) return this.manager
-		return this.manager = this._getPkgManager()
-
-	}
-
 	async #audit() {
 
 		this._sectionTitle( 'Audition' )
 
-		const pkgManager = this.#getPkgManager()
+		const pkgManager = this.getPkgManager()
 		const cmds       = this._cmdsList
 		this.output.start()
 		await exec( cmds[pkgManager].audit )
@@ -43,7 +34,7 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Fix Audition' )
 
-		const pkgManager = this.#getPkgManager()
+		const pkgManager = this.getPkgManager()
 		const cmds       = this._cmdsList
 
 		this.output.start()
@@ -56,7 +47,7 @@ export class Execute extends Super {
 	async #outdated() {
 
 		this._sectionTitle( 'Packages outdated' )
-		const pkgManager = this.#getPkgManager()
+		const pkgManager = this.getPkgManager()
 		const cmds       = this._cmdsList
 
 		this.output.start()
@@ -76,14 +67,14 @@ export class Execute extends Super {
 			return
 
 		}
-		const manager = this._getPkgManager()
+		const manager = this.getPkgManager()
 		await exec( this._cmdsList[manager].exec + ' ' + pkgName + ( opts && opts.length ? ' ' + opts.join( ' ' ) : '' ) )
 
 	}
 
 	async #auditAndOutdated( fix?: boolean  ) {
 
-		const pkgManager = this._getPkgManager()
+		const pkgManager = this.getPkgManager()
 		const cmds       = this._cmdsList
 
 		if ( fix ) await this.#auditFix()
@@ -93,8 +84,8 @@ export class Execute extends Super {
 			await this.#outdated()
 
 			console.log(  )
-			this._sectionInfo( 'For fix audit use', `dovenv ws audit --fix | ${cmds[pkgManager].auditFix}` )
-			this._sectionInfo( 'For outdated dependencies use', cmds[pkgManager].upDeps )
+			console.log( this.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmds[pkgManager].auditFix}` ) )
+			console.log( this.style.section.li( 'For outdated dependencies use', cmds[pkgManager].upDeps ) )
 			console.log(  )
 
 		}
@@ -105,7 +96,7 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Reinstall all workspace' )
 
-		if ( this.config?.reinstall?.hook?.before ) await this.config?.reinstall?.hook?.before()
+		if ( this.opts?.reinstall?.hook?.before ) await this.opts.reinstall.hook.before()
 
 		const paths = await getPaths( [ joinPath( this.wsDir, '**/node_modules' ) ], {
 			onlyDirectories : true,
@@ -118,16 +109,19 @@ export class Execute extends Super {
 			await removeDirIfExist( path )
 
 		}
-		const pkgManager = this._getPkgManager()
+		const pkgManager = this.getPkgManager()
 		const cmds       = this._cmdsList
 		// await exec( 'pnpm store prune' )
 		// await exec( 'pnpm cache delete' )
 		await exec( cmds[pkgManager].install  )
 
-		if ( this.config?.reinstall?.hook?.after ) await this.config?.reinstall?.hook?.after()
+		if ( this.opts?.reinstall?.hook?.after ) await this.opts.reinstall.hook.after()
 
 	}
 
+	/**
+	 * Reinstalls the workspace.
+	 */
 	async reinstall() {
 
 		await this._envolvefn( this.#reinstall( ) )

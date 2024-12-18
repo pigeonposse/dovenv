@@ -5,6 +5,6 @@ export default defineBuildConfig( [
 	{
 		...config,
 		entries   : [ './src/main' ],
-		externals : [ '@dovenv/core' ],
+		externals : [ '@dovenv/core', 'zod' ],
 	},
 ] )

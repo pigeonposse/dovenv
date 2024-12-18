@@ -1,12 +1,12 @@
 import { createPlugin } from './main'
 
-const plugin = createPlugin<{ t?: true }>( data => {
+const plugin = createPlugin<{ t?: boolean }>( data => {
 
 	console.log( data )
 	return {}
 
 } )
 
-const p = plugin(  )
+const p = plugin( { t: false } )
 
 console.log( p )

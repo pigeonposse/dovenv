@@ -5,7 +5,7 @@ import { defineConfig } from '@dovenv/core'
 // 	catchExecOutput,
 // } from '@dovenv/core/utils'
 
-import { config } from '../src/main'
+import { bandaTheme } from '../src/main'
 
 // const exampleFolder = resolvePath( joinPath( 'examples' ) )
 // const imageFolder   = joinPath( exampleFolder, 'images' )
@@ -14,7 +14,7 @@ import { config } from '../src/main'
 // const [ dovenvError, dovenvIn ] = await catchExecOutput( 'pnpm --help' )
 // if ( dovenvError ) throw dovenvError
 
-export default defineConfig( config( {
+export default defineConfig( bandaTheme( {
 	lint      : undefined,
 	workspace : { info : { instructions : `## Pre-requisites
 project needs the following tools to work:

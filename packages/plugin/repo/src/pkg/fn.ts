@@ -43,7 +43,7 @@ export class Packages extends Repo {
 
 	async publish( preCmd?: string ) {
 
-		console.log( this.style.get.line(  'Publish packages' ) )
+		console.log( this.style.info.hr( 'Publish packages' ) )
 		if ( preCmd && typeof preCmd === 'string' ) await exec( preCmd )
 		return await this.#exec( [ 'publish' ] )
 
@@ -51,14 +51,14 @@ export class Packages extends Repo {
 
 	async version() {
 
-		console.log( this.style.get.line(  'Update package version' ) )
+		console.log( this.style.info.hr( 'Update package version' ) )
 		return await this.#exec( [ 'version' ] )
 
 	}
 
 	async prepare() {
 
-		console.log( this.style.get.line( 'Prepare update' ) )
+		console.log( this.style.info.hr( 'Prepare update' ) )
 		return await this.#exec( )
 
 	}
@@ -101,7 +101,7 @@ export class Packages extends Repo {
 					cache.set( { [data.prepare]: res } )
 					if ( !res ) return res
 					await this.prepare()
-					console.log( this.style.get.line() )
+					console.log( this.style.info.hr() )
 
 				},
 				[data.version] : async () => {
@@ -116,7 +116,7 @@ export class Packages extends Repo {
 					if ( !res ) return res
 
 					await this.version()
-					console.log( this.style.get.line() )
+					console.log( this.style.info.hr() )
 
 					return res
 
@@ -135,7 +135,7 @@ export class Packages extends Repo {
 					]
 
 					await p.box( {
-						value : `Best practices before publishing:\n\n${list.map( l => this.style.get.listKey( l ) ).join( '\n' )}\n\n`,
+						value : `Best practices before publishing:\n\n${list.map( l => this.style.info.lk( l ) ).join( '\n' )}\n\n`,
 						opts  : {
 							borderStyle : 'none',
 							padding     : 0,
@@ -168,7 +168,7 @@ export class Packages extends Repo {
 					if ( res === publishOrRun.publish ) {
 
 						await this.publish()
-						console.log( this.style.get.line() )
+						console.log( this.style.info.hr() )
 
 					}
 					else if ( res === publishOrRun.run ) {
@@ -181,11 +181,11 @@ export class Packages extends Repo {
 						if ( p.isCancel( command ) ) return await this.onCancel()
 						cache.set( { [data.command]: command } )
 						await this.publish( command )
-						console.log( this.style.get.line() )
+						console.log( this.style.info.hr() )
 
 					}
 					else if ( res !== publishOrRun.none )
-						console.error( this.style.get.error( 'Unexpected error: No publish or run selected' ) )
+						console.error( this.style.error.msg( 'Unexpected error', 'No publish or run selected' ) )
 
 				},
 			} ),

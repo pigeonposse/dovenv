@@ -9,9 +9,10 @@ export class Structure extends Super implements InfoInterface {
 
 	async get() {
 
-		if ( !this.config?.info?.structure ) return
-		return this._box( {
-			data   : setDirTree( { structure: this.config.info.structure } ),
+		if ( !this.opts?.info?.structure ) return
+
+		return this.style.box( {
+			data   : setDirTree( { structure: this.opts.info.structure } ),
 			border : false,
 		} )
 
@@ -22,9 +23,9 @@ export class Structure extends Super implements InfoInterface {
 		this._title( 'Workspace Structure' )
 
 		const struct = await this.get()
-		if ( struct ) console.log( struct )
 
-		console.warn( 'No structure found' )
+		if ( struct ) console.log( struct )
+		else console.warn( this.style.warn.msg( 'No structure found' ) )
 
 	}
 

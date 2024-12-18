@@ -1,11 +1,8 @@
-import {
-	color,
-	validate,
-} from '@dovenv/utils'
+import { validate } from '@dovenv/utils'
 
-import { Command } from '../_shared/cmd'
+import { Command } from '../../_shared/cmd'
 
-import type { ArgvParsed } from '../_shared/types'
+import type { ArgvParsed } from '../../_shared/types'
 
 type ConstValue = string | number | boolean | Record<string, unknown>
 
@@ -27,26 +24,24 @@ const ConstConfigSchema = validate.record(
 	] ),
 )
 
-export class Constant extends Command {
+export class Constant extends Command<ConstConfig> {
 
-	props
 	argv
 	schema = ConstConfigSchema
+	title = 'const'
 
 	constructor(  argv? : ArgvParsed ) {
 
-		super()
+		super( argv?.config?.const, argv?.config )
 		this.argv = argv
-		// @ts-ignore
-		this.props = ( argv?.config?.const || undefined ) as ConstConfig
 
 	}
 
 	async #getValue( key: unknown ) {
 
-		if ( !( this.props && typeof key === 'string' && key in this.props ) ) return
+		if ( !( this.opts && typeof key === 'string' && key in this.opts ) ) return
 
-		const value = this.props[key]
+		const value = this.opts[key]
 
 		if ( typeof value === 'function' ) {
 
@@ -72,7 +67,7 @@ export class Constant extends Command {
 
 			if ( value )  {
 
-				this.log.info( color.cyan( `[${key}]` ) )
+				console.log( '\n' + this.style.info.h1( key ) )
 				console.dir( value, {
 					depth  : Infinity,
 					colors : true,
@@ -86,7 +81,10 @@ export class Constant extends Command {
 			? Object.values( this.argv.opts.key )
 			: avaliableKeys
 
-		const userKeys = this.getKeys( avaliableKeys, keys )
+		const userKeys = this.getKeys( {
+			values  : avaliableKeys,
+			pattern : keys,
+		} )
 
 		if ( !userKeys || !userKeys.length ) return
 
@@ -100,11 +98,11 @@ export class Constant extends Command {
 
 	async get(): Promise< Record<string, unknown>> {
 
-		if ( !this.props ) return {}
+		if ( !this.opts ) return {}
 
-		this.validateSchema( this.props )
+		await this.validateSchema( this.opts )
 
-		const entries = await Promise.all( Object.entries( this.props ).map(
+		const entries = await Promise.all( Object.entries( this.opts ).map(
 			async  ( [ key ] ) => [ key, await this.#getValue( key ) ],
 		) )
 
@@ -113,17 +111,18 @@ export class Constant extends Command {
 
 	}
 
+	async #fn() {
+
+		if ( !( await this.ensureOpts() ) ) return
+
+		await this.validateSchema( this.opts )
+		await this.#view( this.opts || {} )
+
+	}
+
 	async run( ) {
 
-		if ( !this.props ) {
-
-			this.log.info( 'Nothing to show' )
-			return
-
-		}
-
-		this.validateSchema( this.props )
-		await this.#view( this.props )
+		return await this.catchFn( this.#fn( ) )
 
 	}
 

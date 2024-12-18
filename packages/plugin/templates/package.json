@@ -1,0 +1,67 @@
+{
+	"name": "@dovenv/templates",
+	"version": "0.0.20",
+	"description": "Media configuration for dovenv",
+	"keywords": [
+		"templates",
+		"cli",
+		"git",
+		"update",
+		"changelog",
+		"contributors",
+		"publish",
+		"github",
+		"library",
+		"aio",
+		"pigeonposse",
+		"pp",
+		"dovenv"
+	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/templates",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/plugin/templates"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs"
+	},
+	"main": "dist/main.mjs",
+	"module": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "unbuild",
+		"dev": "tsx examples/simple/main.ts",
+		"example": "run() { tsx examples/\"${@:1}\"/main.ts; }; run $@",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"devDependencies": {
+		"@dovenv/core": "workspace:*",
+		"@dovenv/repo-config": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/core": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}

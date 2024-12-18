@@ -1,0 +1,3 @@
+{
+	"extends": "./node_modules/@dovenv/repo-config/tsconfig.json"
+}

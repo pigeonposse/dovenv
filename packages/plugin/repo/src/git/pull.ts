@@ -1,7 +1,7 @@
 import { execChild } from '@dovenv/core/utils'
 
+import { GitSuper }  from './_super'
 import { GitBranch } from './branch'
-import { GitSuper }  from './super'
 
 export class GitPull extends GitSuper {
 
@@ -32,7 +32,7 @@ export class GitPull extends GitSuper {
 
 		await this.init()
 		await this.initGH()
-		const defaultBranch  = this.opts.defaultBranch || 'main'
+		const defaultBranch  = this.opts?.defaultBranch
 		const branchInstance = new GitBranch( this.opts, this.config )
 		const data           = {
 			title : 'title',
@@ -50,10 +50,10 @@ export class GitPull extends GitSuper {
 		const cached         = await cache.get()
 		console.debug( 'cached data', cached )
 		await this.promptGroup( {
-			outro    : `Finished ${this.style.get.badge( 'pull' )} process 🌈`,
+			outro    : `Finished ${this.style.badge( 'pull' )} process 🌈`,
 			onCancel : async () => this.onCancel(),
 			list     : async p => ( {
-				desc         : () => p.log.info( this.style.get.text( 'Create a pull request on GitHub.' ) ),
+				desc         : () => p.log.info( this.style.p( 'Create a pull request on GitHub.' ) ),
 				[data.title] : async () => {
 
 					const res = await p.text( {

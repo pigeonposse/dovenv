@@ -1,7 +1,7 @@
 import { Packages } from './fn'
 
-import type { Config }                  from '../_super/types'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { Config }                 from '../_super/types'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
 const CMD = {
 	release : 'release',
@@ -14,7 +14,7 @@ const CMD = {
 
 export { Packages }
 
-export const config = ( conf?: Config ): DoveEnvConfig => {
+export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 
 	return { custom : { pkg : {
 		desc : 'Packages commands: update, publish... (wraps changesets)',

@@ -5,7 +5,7 @@ import {
 	catchExecOutput,
 } from '@dovenv/core/utils'
 
-import { config } from '../src/main'
+import { mediaPlugin } from '../src/main'
 
 const exampleFolder = resolvePath( joinPath( 'examples' ) )
 const imageFolder   = joinPath( exampleFolder, 'images' )
@@ -14,7 +14,7 @@ const termFolder    = joinPath( exampleFolder, 'termgif' )
 const [ dovenvError, dovenvIn ] = await catchExecOutput( 'pnpm --help' )
 if ( dovenvError ) throw dovenvError
 
-export default defineConfig( config( {
+export default defineConfig( mediaPlugin( {
 	min : {
 		images : {
 			input  : [ joinPath( imageFolder, '*' ) ],

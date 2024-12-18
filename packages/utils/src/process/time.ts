@@ -1,12 +1,26 @@
 import { performance as perf } from 'node:perf_hooks'
 import prettyMilliseconds      from 'pretty-ms'
 
+/**
+ * Creates a performance tracker to measure elapsed time.
+ * @returns {object} An object containing methods to stop and retrieve the elapsed time.
+ * @property {Function} stop - Returns the elapsed time in seconds as a fixed-point number.
+ * @property {Function} prettyStop - Returns the elapsed time formatted as a human-readable string.
+ */
 export const performance = () => {
 
-	const start   = perf.now()
-	const stopNum = () => ( perf.now() - start ) / 1000
+	const start   = perf.now() // Start time in milliseconds
+	const stopNum = () => perf.now() - start // Elapsed time in milliseconds
 	return {
-		stop       : () => stopNum().toFixed( 2 ),
+		/**
+		 * Calculates and returns the elapsed time in seconds.
+		 * @returns {number} Elapsed time in seconds as a floating-point number.
+		 */
+		stop       : () => ( stopNum() / 1000 ),
+		/**
+		 * Formats and returns the elapsed time as a human-readable string.
+		 * @returns {string} Elapsed time formatted in milliseconds, seconds, or minutes.
+		 */
 		prettyStop : () => prettyMilliseconds( stopNum() ),
 	}
 

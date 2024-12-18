@@ -6,16 +6,15 @@ import {
 	type Role,
 } from './fn'
 
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
-export type Config<ID extends string, R extends Role<ID>> = {
+export type ContributorsConfig<ID extends string, R extends Role<ID>> = {
 	/**
 	 * Set contributor roles
 	 * @example
 	 * {
 	 *     owner: { name: 'Owner', emoji: '👑' },
-	 *     author: { name: 'Author', emoji: '👨‍💻' },
-	 *     dev: { name: 'Developer', emoji: '🤝' },
+	 *     developer: { name: 'Developer', emoji: '🤝' },
 	 *     organization: { name: 'Organization', emoji: '🏢' },
 	 *     sponsor: { name: 'Sponsor', emoji: '🤝' },
 	 *     translator: { name: 'Translator', emoji: '🌏' }
@@ -32,10 +31,42 @@ export type Config<ID extends string, R extends Role<ID>> = {
 	 */
 	member : Contributor<Extract<keyof R, string>>[]
 }
-export { Contributors }
-export const config = <ID extends string, R extends Role<ID>> ( conf?: Config<ID, R> ): DoveEnvConfig => {
 
-	const res: DoveEnvConfig['custom'] = { contributors : {
+export const CONTRIBUTOR_ROLE = {
+	author : {
+		name  : 'Author',
+		emoji : '👑',
+		desc  : 'Author of the project.',
+	},
+	developer : {
+		name  : 'Developer',
+		emoji : '👨‍💻',
+		desc  : 'Contributor for the development of the project. Code, docs, etc.',
+	},
+	designer : {
+		name  : 'Designer',
+		emoji : '💄',
+		desc  : 'Contributor for the design of the project. Images, icons, etc.',
+	},
+	organization : {
+		name  : 'Organization',
+		emoji : '🏢',
+	},
+	sponsor : {
+		name  : 'Sponsor',
+		emoji : '🤝',
+	},
+	translator : {
+		name  : 'Translator',
+		emoji : '🌏',
+	},
+} satisfies Role
+
+export { Contributors }
+
+export const contributorsPlugin = <ID extends string, R extends Role<ID>> ( conf?: ContributorsConfig<ID, R> ): DovenvConfig => {
+
+	const res: DovenvConfig['custom'] = { contributors : {
 		desc : 'Toolkit for workspace contributors',
 		cmds : { list : {
 			desc : 'List workspace contributors',

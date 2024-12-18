@@ -26,7 +26,7 @@ export type Config = {
 		/**
 		 * custom tags to get TODOs
 		 * @default
-		 * [ 'TODO', '@todo', '@fixme', '- [ ]' ]
+		 * [ 'TODO', '@todo', '@fixme' ]
 		 */
 		customTags? : string[]
 	}

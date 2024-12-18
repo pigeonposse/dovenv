@@ -1,4 +1,5 @@
 /* eslint-disable @stylistic/object-curly-newline */
+import type { PluginCore } from '@dovenv/core'
 import type {
 	PackageJSON,
 	Prettify,
@@ -37,6 +38,7 @@ type Sharedcheck = {
 	 */
 	custom?  : ( opts: CheckOpts ) => Promise<void>
 }
+
 export type Config = {
 	/**
 	 * Information for the workspace
@@ -132,8 +134,13 @@ export type Config = {
 			after?  : ( ) => Promise<void>
 		}
 	}
+	/** custom configration for ws */
+	custom?: {
+		[key in string]: ( data: {
+			getPkgPaths   : PluginCore['getPkgPaths']
+			getRuntime    : PluginCore['getRuntime']
+			getPkgManager : PluginCore['getPkgManager']
+		} ) => Promise<unknown>
+	}
 }
-export type ConstructorParams = {
-	config? : Config
-	consts? : Record<string, unknown>
-}
+

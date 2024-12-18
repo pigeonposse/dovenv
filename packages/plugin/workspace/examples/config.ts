@@ -1,13 +1,13 @@
 
+import { defineConfig } from '@dovenv/core'
 import {
 	getCurrentDir,
 	getObjectFromJSONFile,
 	joinPath,
 	arePathsEqual,
 } from '@dovenv/core/utils'
-import { defineConfig } from '@dovenv/core'
 
-import { config } from '../src/main'
+import { workspacePlugin } from '../src/main'
 
 import type { PackageJSON } from '@dovenv/core/utils'
 
@@ -20,7 +20,7 @@ export default defineConfig(
 		pkg,
 		workspaceDir : workspaceDir,
 	} },
-	config( {
+	workspacePlugin( {
 		exec : { binarium: { desc: 'Tool to create executables of your Node, Deno or Bun projects' } },
 		info : {
 			usefulCmds : [
@@ -87,7 +87,7 @@ export default defineConfig(
 
 				return [
 					'src/*{.js,.ts}',
-					'examples/*{.js,.ts}',
+					'examples/**/*{.js,.ts}',
 					...shared,
 				]
 

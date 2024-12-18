@@ -12,10 +12,10 @@ import {
 	terminalGifCreateConfg,
 } from './terminal-gif'
 
-import type { CodeImageConfig }         from './code-image'
-import type { ImageMinConfig }          from './min'
-import type { TermGifConfig }           from './terminal-gif'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { CodeImageConfig }        from './code-image'
+import type { ImageMinConfig }         from './min'
+import type { TermGifConfig }          from './terminal-gif'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
 const CMDS = {
 	codeImage : 'codeimage',
@@ -43,9 +43,40 @@ const getKeys = ( avaliableKeys: string[], userkeyPattern?:  string[] ) => {
 
 }
 
-export const config = ( conf?:  Config ) => {
+/**
+ * A plugin for dovenv to handle media tasks.
+ * @param {Config} [conf] - The configuration object.
+ * @returns {DovenvConfig} - The plugin.
+ * @example
+ * import { defineConfig } from '@dovenv/core'
+ * import { mediaPlugin } from '@dovenv/media'
+ * export default defineConfig(
+ *     mediaPlugin( {
+ *         codeimage: {
+ *             example1: {
+ *                 type: 'code',
+ *                 input: 'examples/recourses/main.js',
+ *                 output: 'build/code',
+ *             },
+ *             example2: {
+ *                 type: 'code',
+ *                 input: 'examples/recourses/main.ts',
+ *                 output: 'build/ts',
+ *             },
+ *         },
+ *         min: {
+ *             example1: {
+ *                 type: 'min',
+ *                 input: 'examples/recourses/main.png',
+ *                 output: 'build/images',
+ *             },
+ *         },
+ *     } ),
+ * )
+ */
+export const mediaPlugin = ( conf?:  Config ) => {
 
-	const data: DoveEnvConfig = { custom : { media : {
+	const data: DovenvConfig = { custom : { media : {
 		desc : 'Media Tools for your workspace',
 		cmds : {
 			[CMDS.codeImage] : { desc: 'Generate code image' },
@@ -237,3 +268,4 @@ export const config = ( conf?:  Config ) => {
 
 }
 
+export default mediaPlugin

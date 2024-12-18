@@ -1,14 +1,14 @@
 import { defineConfig } from '@dovenv/core'
-// import {
-// 	getCurrentDir,
-// 	joinPath,
-// } from '@dovenv/core/utils'
+import {
+	getCurrentDir,
+	joinPath,
+} from '@dovenv/core/utils'
 
-import { config } from '../src/main'
+import convertPlugin from '../src/main'
 
-// const pkgDir = joinPath( getCurrentDir( import.meta.url ), '..', '..' )
+const pkgDir = joinPath( getCurrentDir( import.meta.url ), '..'  )
 
-export default defineConfig( config( {
+export default defineConfig( { const: { pkgDir } }, convertPlugin( {
 	1 : {
 		type   : 'jsdoc2md',
 		input  : 'examples/recourses/jsdoc.js',
@@ -37,5 +37,23 @@ export default defineConfig( config( {
 		input  : 'examples/recourses/file.ts',
 		output : 'build/5',
 		opts   : { typedocMarkdown: { entryFileName: 'EXAMPLE_5' } },
+	},
+	6 : {
+		type : 'custom',
+		fn   : async ( {
+			run, config,
+		} ) => {
+
+			if ( !( config.const?.pkgDir && typeof config.const.pkgDir === 'string' ) ) throw Error( 'Must exist pkgDir const' )
+
+			const input = joinPath( config.const.pkgDir, 'examples/recourses/file.ts' )
+
+			await run.ts2md( {
+				input,
+				output : 'build/6',
+				opts   : { typedocMarkdown: { entryFileName: 'EXAMPLE_6' } },
+			} )
+
+		},
 	},
 }  ) )

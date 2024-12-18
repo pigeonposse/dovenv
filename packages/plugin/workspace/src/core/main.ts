@@ -1,24 +1,25 @@
 
 import { Checks }  from './checks'
+import { Custom }  from './custom'
 import { Execute } from './exec'
 import { Info }    from './info/main'
 
-import type {  ConstructorParams } from './_super/types'
+import type { Config }                  from './_super/types'
+import type { Config as  DovenvConfig } from '@dovenv/core'
 
 export class Workspace {
 
-	#info  : Info
-	#check : Checks
-	#exec  : Execute
+	#info
+	#check
+	#exec
+	#custom
 
-	constructor(
-		public config : ConstructorParams['config'],
-		public consts : ConstructorParams['consts'],
-	) {
+	constructor( opts?: Config, config?: DovenvConfig ) {
 
-		this.#info  = new Info( this.config, this.consts )
-		this.#check = new Checks( this.config, this.consts )
-		this.#exec  = new Execute( this.config, this.consts )
+		this.#info   = new Info( opts, config )
+		this.#check  = new Checks( opts, config )
+		this.#exec   = new Execute( opts, config )
+		this.#custom = new Custom( opts, config )
 
 	}
 
@@ -85,6 +86,18 @@ export class Workspace {
 	async info() {
 
 		await this.#info.run()
+
+	}
+
+	async structure() {
+
+		await this.#info.structure.run()
+
+	}
+
+	async custom() {
+
+		await this.#custom.run()
 
 	}
 

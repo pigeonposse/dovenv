@@ -4,13 +4,13 @@ import {
 	joinPath,
 } from '@dovenv/core/utils'
 
-import { config } from '../src/main'
+import { todoPlugin } from '../src/main'
 
 const pluginDir = joinPath( getCurrentDir( import.meta.url ), '..'  )
 const wsDir     = joinPath( pluginDir, '..', '..', '..' )
 
 // const buildDir  = joinPath( pluginDir, 'build' )
-export default defineConfig( config( {
+export default defineConfig( todoPlugin( {
 	all : {
 		input     : [ joinPath( wsDir, '**/*.{ts,tsx,js,jsx,md}' ) ],
 		// output    : joinPath( buildDir, 'TODO.md' ),

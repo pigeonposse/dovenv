@@ -4,6 +4,7 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig( [
 	{
 		...config,
-		entries : [ './src/main' ],
+		entries   : [ './src/main' ],
+		externals : [ 'globby' ],
 	},
 ] )

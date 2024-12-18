@@ -1,8 +1,8 @@
 import { defineConfig } from '@dovenv/core'
 
-import { config } from '../src/main'
+import { lintPlugin } from '../src/main'
 
-export default defineConfig( config( {
+export default defineConfig( lintPlugin( {
 	commitlint : { gitmoji: true },
 	eslint     : { flags: [ '--fix' ] },
 	stylelint  : {
@@ -10,4 +10,16 @@ export default defineConfig( config( {
 		files      : '**/*.css',
 	},
 	staged : { '**/*.{js,ts,jsx,tsx}': 'eslint' },
+	// custom : {
+	// 	test : async ( { run } ) => {
+
+	// 		await run.staged( { '**/*.{js,ts,jsx,tsx}': 'eslint' } )
+
+	// 	},
+	// 	test2 : async ( { run } ) => {
+
+	// 		await run.eslint( { flags: [ '--fix' ] } )
+
+	// 	},
+	// },
 } ) )

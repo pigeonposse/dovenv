@@ -5,72 +5,49 @@ import {
 	isGitHubAuthenticated,
 } from '@dovenv/core/utils'
 
-import type { Config }                  from './types'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import { homepage } from '../../package.json'
 
-export class Repo extends PluginCore {
+import type { Config } from './types'
 
-	opts   : Config = {}
-	config : DoveEnvConfig = {}
+export class Repo<C extends Config = Config> extends PluginCore<C> {
 
-	constructor( opts?: Config, config?: DoveEnvConfig ) {
+	title = 'repo'
+	protected helpURL = homepage
 
-		super()
+	protected onInit = () => {
 
-		try {
+		if ( !this.opts ) this.opts = {} as C
 
-			const consts = config?.const || undefined
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const pkg          = consts?.pkg && typeof consts?.pkg == 'object' ? consts?.pkg : {} as any
-			const workspaceDir = consts?.workspaceDir && typeof consts?.workspaceDir == 'string' ? consts?.workspaceDir : this.process.cwd()
+		if ( !this.opts?.homepageURL && this.pkg?.homepage )
+			this.opts.homepageURL = this.pkg.homepage
 
-			if ( !opts?.homepageURL && pkg.homepage ) opts = {
-				...opts,
-				homepageURL : pkg.homepage as string,
-			}
+		if ( !this.opts?.tags && this.pkg?.keywords )
+			this.opts.tags = this.pkg.keywords
 
-			if ( !opts?.repoTags && pkg.keywords ) opts = {
-				...opts,
-				repoTags : pkg.keywords as string[],
-			}
-			if ( !opts?.repoDesc && pkg && pkg.description ) opts = {
-				...opts,
-				repoDesc : pkg.description as string,
-			}
-			if ( !opts?.repoURL && pkg.repository && typeof pkg.repository === 'object' && 'url' in pkg.repository && pkg.repository.url ) opts = {
-				...opts,
-				repoURL : pkg.repository.url as string,
-			}
-			if ( !opts?.workflowsDir && workspaceDir ) opts = {
-				...opts,
-				workflowsDir : joinPath( workspaceDir, '.github', 'workflows' ),
-			}
-			// @ts-ignore
-			if ( !opts?.repoID && pkg.extra && pkg.extra.repoID ) opts = {
-				...opts,
-				// @ts-ignore
-				repoID : pkg.extra.repoID as string,
-			}
-			if ( !opts?.userID && pkg.extra && pkg.extra.userID ) opts = {
-				...opts,
-				// @ts-ignore
-				userID : pkg.extra.userID as string,
-			}
-			// generate repoURL is is not provided
-			if ( !opts?.repoURL && opts?.repoID && opts?.userID ) opts = {
-				...opts,
-				repoURL : `https://github.com/${opts.userID}/${opts.repoID}`,
-			}
+		if ( !this.opts?.desc && this.pkg?.description )
+			this.opts.desc = this.pkg.description
 
-			this.opts   = opts || {}
-			this.config = config || {}
+		if ( !this.opts?.URL && this.pkg?.repository
+			&& typeof this.pkg.repository === 'object'
+			&& 'url' in this.pkg.repository && this.pkg.repository.url
+		)
+			this.opts.URL = this.pkg.repository.url as string
 
-		}
-		catch ( e ) {
+		if ( !this.opts?.workflowsDir && this.wsDir )
+			this.opts.workflowsDir = joinPath( this.wsDir, '.github', 'workflows' )
 
-			console.error( 'Internal Error loading repo config', e )
+		if ( !this.opts?.ID && this.pkg?.extra && this.pkg.extra.repoID )
+			this.opts.ID = this.pkg.extra.repoID
 
-		}
+		if ( !this.opts?.userID && this.pkg?.extra && this.pkg.extra.userID )
+			this.opts.userID = this.pkg.extra.userID as string
+
+		if ( !this.opts?.URL && this.opts?.ID && this.opts?.userID )
+			this.opts.URL = `https://github.com/${this.opts.userID}/${this.opts.ID}`
+
+		if ( !this.opts?.defaultBranch ) this.opts.defaultBranch = 'main'
+
+		console.log( 'On init Repo Config', this.opts )
 
 	}
 
@@ -99,16 +76,6 @@ export class Repo extends PluginCore {
 		}
 
 	}
-
-	// protected async _cache<V extends Record<string, unknown>>( id: string, values: V ) {
-
-	// 	return await cache( {
-	// 		projectName : this.opts.repoID || 'dovenv',
-	// 		id,
-	// 		values      : values,
-	// 	} )
-
-	// }
 
 	async init() {
 

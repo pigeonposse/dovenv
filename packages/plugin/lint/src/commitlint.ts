@@ -2,14 +2,15 @@ import format              from '@commitlint/format'
 import lint                from '@commitlint/lint'
 import load                from '@commitlint/load'
 import read                from '@commitlint/read'
-import { PluginCore }      from '@dovenv/core'
 import { deepmergeCustom } from '@dovenv/core/utils'
 import gitEmojiConfig      from 'commitlint-config-gitmoji'
 
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import {
+	CMDS,
+	LintSuper,
+} from './_shared'
 
 type UserConfig = Exclude<Parameters<typeof load>[0], undefined>
-const merge = deepmergeCustom<UserConfig>( { mergeArrays: false } )
 
 export type CommitlintConfig = {
 	/**
@@ -26,29 +27,21 @@ export type CommitlintConfig = {
 	gitmoji? : boolean
 }
 
-const selectParserOpts = ( parserPreset: UserConfig['parserPreset'] ) => {
+export class CommitLint extends LintSuper<CommitlintConfig> {
 
-	if ( typeof parserPreset !== 'object' ) return undefined
-	// @ts-ignore
-	if ( typeof parserPreset.parserOpts !== 'object' ) return undefined
-	// @ts-ignore
-	return parserPreset.parserOpts
+	title = CMDS.commitlint
 
-}
-export class CommitLint extends PluginCore {
+	#selectParserOpts = ( parserPreset: UserConfig['parserPreset'] ) => {
 
-	opts
-	config
-
-	constructor( opts?: CommitlintConfig, config?: DoveEnvConfig ) {
-
-		super()
-		this.opts   = opts || {}
-		this.config = config
+		if ( typeof parserPreset !== 'object' ) return undefined
+		// @ts-ignore
+		if ( typeof parserPreset.parserOpts !== 'object' ) return undefined
+		// @ts-ignore
+		return parserPreset.parserOpts
 
 	}
 
-	async run( userMsg?: string ) {
+	async #fn( userMsg?: string ) {
 
 		const defaultConfig: UserConfig = ( this.opts?.config )
 			? this.opts?.config
@@ -58,6 +51,7 @@ export class CommitLint extends PluginCore {
 				100,
 			] } }
 
+		const merge      = deepmergeCustom<UserConfig>( { mergeArrays: false } )
 		const userConfig = merge(
 			defaultConfig,
 			this.opts?.gitmoji ? gitEmojiConfig : {},
@@ -70,10 +64,10 @@ export class CommitLint extends PluginCore {
 		console.debug( 'result', result )
 
 		const cm = result[0]
-		this.prompt.log.info( `Commit message to lint: ${this.style.get.text( cm )}` )
+		this.prompt.log.info( this.style.info.msg( `Commit message to lint`, cm ) )
 
 		const report = await lint( cm, config.rules, {
-			parserOpts     : selectParserOpts( config.parserPreset ),
+			parserOpts     : this.#selectParserOpts( config.parserPreset ),
 			plugins        : config.plugins,
 			ignores        : config.ignores,
 			defaultIgnores : config.defaultIgnores,
@@ -88,10 +82,16 @@ export class CommitLint extends PluginCore {
 		if ( res && res !== '' ) this.prompt.log.error( res )
 		if ( report.valid ) {
 
-			this.prompt.log.success(  this.style.get.succed( 'Commit format is valid!' ) )
+			this.prompt.log.success( this.style.success.h( 'Commit format is valid!' ) )
 			this.prompt.log.message( '' )
 
 		}
+
+	}
+
+	async run( userMsg?: string ) {
+
+		return await this.catchFn( this.#fn( userMsg ) )
 
 	}
 

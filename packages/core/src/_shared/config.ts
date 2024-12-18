@@ -10,6 +10,8 @@ import {
 	TypedError,
 } from '@dovenv/utils'
 
+import { CONFIG_EXTS } from './const'
+
 import type { ObjectValues } from '@dovenv/utils'
 
 const TITLE_ERROR = `${icon.cross} Configuration:`
@@ -24,15 +26,9 @@ class ErrorConfig extends TypedError<ObjectValues<typeof ERROR>, { data: string 
 
 const pathsNames = [ 'dovenv/main', 'dovenv.config' ]
 const root       = process.cwd()
-const exts       = [
-	'js',
-	'mjs',
-	'cjs',
-	'ts',
-	'mts',
-	'cts',
-]
-const paths      = pathsNames
+const exts       = CONFIG_EXTS
+
+const paths = pathsNames
 	.flatMap( name => exts.flatMap( ext => [ `.${name}.${ext}`, `${name}.${ext}` ] ) )
 	.sort( a => a.startsWith( '.'  ) ? -1 : 1 )
 	.map( file => joinPath( root, file ) )

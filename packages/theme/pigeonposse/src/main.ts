@@ -5,22 +5,32 @@ import {
 	getDirName,
 } from '@dovenv/core/utils'
 import {
-	config as bandaConfig,
-	mergeConfig as bandaMergeConfig,
+	mergeConfig as mergeBandaConfig,
+	bandaTheme,
+
 } from '@dovenv/theme-banda'
+import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
 export * from '@dovenv/theme-banda'
 
-export type Config = Parameters< typeof bandaConfig>[ 0 ] & { workspaceDir?: string }
+export type Config = BandaConfig & { workspaceDir?: string }
 
 /**
- * Merges multiple configuration objects into a single configuration.
+ * Merges multiple `theme-pigeonposse` configuration objects into a single configuration.
  */
 export const mergeConfig = createMergeDataFn<Config>(  )
 
-export const config = ( params?: Config ) => {
+/**
+ * The `PigeonPosse` theme for Dovenv.
+ * @param {Config} [params] - The configuration for the theme.
+ * @returns {Config} The merged configuration.
+ *
+ * This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
+ * It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
+ */
+export const pigeonposseTheme = ( params?: Config ) => {
 
-	const config = bandaMergeConfig( { workspace : {
+	const config = mergeBandaConfig( { workspace : {
 		exec : {
 			binarium : { desc: 'Tool to create executables of your Node|Deno|Bun projects' },
 			unbuild  : { desc: 'Tool to build libraries for your Node|Deno|Bun projects' },
@@ -58,14 +68,20 @@ export const config = ( params?: Config ) => {
 				},
 			],
 			instructions : '# Development guide\n\n> No instructions yet.',
-			structure    : { dovenv : {
-				docs     : { '*.md': null },
-				packages : { '*' : {
+			structure    : { workspace : {
+				'.dovenv'  : { 'main.js': null },
+				'docs'     : { '*.md': null },
+				'packages' : { '*' : {
 					'src'          : { '**': null },
 					'examples'     : { '**': null },
+					'tests'        : { '**': null },
 					'README.md'    : null,
 					'package.json' : null,
 				} },
+				'.gitignore'   : null,
+				'LICENSE'      : null,
+				'package.json' : null,
+				'README.md'    : null,
 			} },
 		},
 		check : { pkg : {
@@ -122,6 +138,8 @@ export const config = ( params?: Config ) => {
 
 	} }, params || {} )
 
-	return bandaConfig( config )
+	return bandaTheme( config )
 
 }
+
+export default pigeonposseTheme

@@ -60,7 +60,6 @@
 	},
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",
-		"@dovenv/lint": "workspace:*",
 		"@dovenv/repo-config": "workspace:*"
 	},
 	"peerDependencies": {

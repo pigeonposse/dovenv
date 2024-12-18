@@ -4,20 +4,19 @@ import {
 	getCurrentDir,
 	joinPath,
 } from '@dovenv/core/utils'
-import { config as lintConfig } from '@dovenv/lint'
+import { lintPlugin } from '@dovenv/lint'
 
-import pkg        from '../../../../package.json'
-import { config } from '../src/main'
+import pkg            from '../../../../package.json'
+import { repoPlugin } from '../src/main'
 
 export default defineConfig( [
 	{ const : {
 		pkg,
-		workspaceDir : async () => joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
+		workspaceDir : joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
 	} },
-	lintConfig( { commitlint: { gitmoji: true } } ),
-	config( {
-		commit       : { lint: true },
-		repoURL      : 'https://github.com/pigeonposse/dovenv',
+	lintPlugin( { commitlint: { gitmoji: true } } ),
+	repoPlugin( {
+		URL          : 'https://github.com/pigeonposse/dovenv',
 		contributors : {
 			role : {
 				author : {

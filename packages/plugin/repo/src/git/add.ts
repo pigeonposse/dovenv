@@ -1,6 +1,6 @@
 import { catchExecOutput } from '@dovenv/core/utils'
 
-import { GitSuper } from './super'
+import { GitSuper } from './_super'
 
 export class GitAdd extends GitSuper {
 
@@ -18,12 +18,12 @@ export class GitAdd extends GitSuper {
 
 		const cmd        = `git add ${value}`
 		const [ e, out ] = await catchExecOutput( `git add ${value}` )
-		if ( e ) console.error( this.style.get.error( e ) )
+		if ( e ) console.error( this.style.error.msg( e.message ) )
 		else if ( out && out !== '' ) {
 
-			console.log( this.style.get.line( cmd ) )
-			console.log( this.style.get.succed( out ) )
-			console.log( this.style.get.line(  ) )
+			console.log( this.style.info.hr( cmd ) )
+			console.log( this.style.success.p( out ) )
+			console.log( this.style.info.hr(  ) )
 
 		}
 		// this._prompt.log.success( `Added to ${value} branch` )

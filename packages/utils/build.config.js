@@ -5,6 +5,6 @@ export default defineBuildConfig( [
 	{
 		...config,
 		entries   : [ './src/main',  './src/client' ],
-		externals : [ 'ultimate-text-to-image' ],
+		externals : [ 'ultimate-text-to-image', 'mdast' ],
 	},
 ] )

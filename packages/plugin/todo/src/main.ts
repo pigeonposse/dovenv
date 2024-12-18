@@ -1,10 +1,28 @@
 import { Todo } from './core/main'
 
-import type { Config }                  from './core/types'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { Config }                 from './core/types'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
-export { Todo }
-export const config = ( conf?: Config ): DoveEnvConfig => {
+export {
+	Todo,
+	Config,
+}
+
+/**
+ * A plugin for dovenv to get TODOs in a workspace.
+ * @param {Config} [conf] - Configuration for the plugin.
+ * @returns {DovenvConfig} - The plugin.
+ * import { defineConfig } from '@dovenv/core'
+ * import { todoPlugin } from '@dovenv/todo'
+ * export default defineConfig(
+ *     todoPlugin( {
+ *       example : {
+ *         input : [ 'src/*.{ts,tsx,js,jsx,md}' ],
+ *       },
+ *     } ),
+ * )
+ */
+export const todoPlugin = ( conf?: Config ): DovenvConfig => {
 
 	const todo = new Todo( conf )
 
@@ -25,3 +43,4 @@ export const config = ( conf?: Config ): DoveEnvConfig => {
 
 }
 
+export default todoPlugin

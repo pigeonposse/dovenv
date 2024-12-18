@@ -1,6 +1,7 @@
 import {
 	getMatch,
 	getObjectFromJSONFile,
+	relativePath,
 } from '@dovenv/core/utils'
 
 import { Super } from '../_super/main'
@@ -12,13 +13,19 @@ export class Scripts extends Super implements InfoInterface {
 
 	async get( key?: string[] ) {
 
-		let paths = await this._getPkgPaths(),
+		let paths = await this.getPkgPaths(),
 			res   = ''
 
 		if ( key && key?.length !== 0  ) paths = getMatch( paths, key )
-		if ( !paths.length ) return
 
-		for ( const path of paths ) {
+		console.debug( {
+			key,
+			paths,
+		} )
+
+		if ( !paths.length ) return
+		const lastIndex = paths.length - 1
+		for ( const [ index, path ] of paths.entries() ) {
 
 			const data = await getObjectFromJSONFile<PackageJSON>( path )
 
@@ -27,28 +34,33 @@ export class Scripts extends Super implements InfoInterface {
 
 				for ( const key in data.scripts ) {
 
-					scripts.push( [ this._style.listKey(  key  ), this._style.listValue( data.scripts[key]  || '' ) ] )
+					scripts.push( [ this.style.section.lk(  key  ), this.style.section.lv( data.scripts[key]  || '' ) ] )
 
 				}
 
 			}
 			const tableContent = [
-				[ 'Path', this._style.listValue( path ) ],
+				[ 'Path', this.style.section.lv( relativePath( this.process.cwd(), path ) ) ],
 				...( scripts.length
 					? [ [ '', '' ], ...scripts ]
 					: [] ),
 			]
-			const content      = this._table( tableContent, { singleLine: true } )
 
-			res += this._box(  {
+			const content = this.style.table( tableContent, { singleLine: true } )
+
+			res += this.style.box(  {
 				data   : content,
-				title  : this._style.sectionTitle( data.name ),
+				title  : this.style.section.msg( data.name || '' ),
 				border : false,
-				dim    : false,
-			} )  + '\n\n'
+			} )
+
+			if ( lastIndex !== index ) res += '\n\n'
 
 		}
-		return res
+		return this.style.box(  {
+			data   : res,
+			border : false,
+		} )
 
 	}
 
@@ -57,8 +69,14 @@ export class Scripts extends Super implements InfoInterface {
 		this._title( 'Workspace Scripts' )
 
 		const paths = await this.get( key )
+
 		if ( paths ) console.log( paths )
-		console.warn( 'No packages found in workspace with patterns:', key?.join( ', ' ) || '' )
+		else {
+
+			if ( key && key?.length !== 0 ) console.warn( this.style.warn.msg( 'No packages found in workspace with patterns:', key?.join( ', ' ) ) )
+			else console.warn( this.style.warn.msg( 'No packages found in workspace.' ) )
+
+		}
 
 	}
 

@@ -52,6 +52,7 @@
 		"@dovenv/examples": "workspace:*",
 		"@dovenv/lint": "workspace:*",
 		"@dovenv/repo": "workspace:*",
+		"@dovenv/templates": "workspace:*",
 		"@dovenv/todo": "workspace:*",
 		"@dovenv/workspace": "workspace:*"
 	},

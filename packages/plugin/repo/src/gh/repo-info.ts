@@ -12,12 +12,13 @@ export class RepoInfo extends Repo {
 			await this.initGH()
 
 			const {
-				repoURL, homepageURL, repoTags, repoDesc,
-			} = this.opts
+				URL: repoURL, homepageURL, tags, desc,
+			} = this.opts || {}
+
 			if ( !repoURL ) return console.warn( `No repo url provided. You need to provide a repo url` )
 			const homepage    = homepageURL ? `--homepage "${homepageURL}"` : ''
-			const topics      = repoTags ? `--add-topic "${repoTags}"` : ''
-			const description = repoDesc ? `-d "${repoDesc}"` : ''
+			const topics      = tags ? `--add-topic "${tags}"` : ''
+			const description = desc ? `-d "${desc}"` : ''
 			if ( homepage || topics || description ) {
 
 				await execChild( `gh repo edit "${repoURL}" ${homepage} ${topics} ${description}` )

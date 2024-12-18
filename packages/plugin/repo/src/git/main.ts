@@ -8,8 +8,8 @@ import { GitPull }   from './pull'
 import { GitPush }   from './push'
 import { Repo }      from '../_super/main'
 
-import type { GitConfig }               from './types'
-import type { Config as DoveEnvConfig } from '@dovenv/core'
+import type { GitConfig }              from './types'
+import type { Config as DovenvConfig } from '@dovenv/core'
 
 export {
 	GitAdd,
@@ -20,7 +20,7 @@ export {
 	GitPush,
 }
 
-export class Git extends Repo {
+export class Git extends Repo<GitConfig> {
 
 	opts   : GitConfig
 	add    : GitAdd
@@ -44,6 +44,7 @@ export class Git extends Repo {
 	}
 
 }
+
 const branch = {
 	list         : 'list',
 	current      : 'current',
@@ -62,9 +63,9 @@ const CMD    = {
 	husky  : 'husky',
 } as const
 
-export const config = ( conf?: GitConfig ): DoveEnvConfig => {
+export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 
-	const res: DoveEnvConfig['custom'] = { git : {
+	const res: DovenvConfig['custom'] = { git : {
 		desc : 'Git commands (add, commit, branch, pull, push...)',
 		cmds : {
 			[CMD.add]    : { desc: 'Add files to git' },

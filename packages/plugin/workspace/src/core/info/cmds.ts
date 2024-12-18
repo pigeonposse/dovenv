@@ -38,26 +38,31 @@ export class UsefulCmds extends Super implements InfoInterface {
 
 	async get() {
 
-		let  data
+		let data
 
-		const usefulCmds = this.config?.info?.usefulCmds ? this.config.info.usefulCmds : undefined
+		const usefulCmds = this.opts?.info?.usefulCmds ? this.opts.info.usefulCmds : undefined
 
 		if ( !usefulCmds || !usefulCmds.length ) return
+		const lastIndex = usefulCmds.length - 1
 
-		data = '\n\n'
-		for ( const cmd of usefulCmds ) {
+		data = ''
 
-			data += this._table( [
-				[ 'Command', this._style.desc( cmd.cmd ) ],
+		for ( const [ index, cmd ] of usefulCmds.entries() ) {
+
+			data += this.style.table( [
+				[ 'Command', this.style.section.b( cmd.cmd ) ],
 				[ 'Description', cmd.desc ],
-				[ 'Info', this._style.listValue( cmd.info  || 'none' ) ],
-			] ) + '\n\n'
+				...( cmd.info ? [ [ 'Info', this.style.section.a( cmd.info ) ] ] : [] ),
+			] )
+
+			if ( index !== lastIndex ) data += '\n\n'
 
 		}
 
-		return this._box( {
+		return this.style.box( {
 			data,
-			title : 'Commands',
+			border : false,
+
 		} )
 
 	}
@@ -67,8 +72,7 @@ export class UsefulCmds extends Super implements InfoInterface {
 		this._title( 'Useful commands' )
 		const cmds = await this.get()
 		if ( cmds ) console.log( cmds )
-
-		console.warn( 'No commands found' )
+		else console.warn( this.style.warn.p( 'No commands found' ) )
 
 	}
 

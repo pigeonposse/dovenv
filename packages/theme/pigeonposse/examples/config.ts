@@ -1,5 +1,5 @@
 import { defineConfig } from '@dovenv/core'
 
-import { config } from '../src/main'
+import { pigeonposseTheme } from '../src/main'
 
-export default defineConfig( config( { lint: undefined } ) )
+export default defineConfig( pigeonposseTheme( { lint: undefined } ) )

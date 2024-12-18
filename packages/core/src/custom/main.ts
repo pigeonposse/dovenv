@@ -23,26 +23,29 @@ export type {
 
 export const mergeCustomConfig = deepmergeCustom<CustomConfig>( {} )
 
-export class Custom extends Command {
+export class Custom extends Command<CustomConfig> {
 
 	schema = schema
 
-	props
 	cli
-	config
 
-	constructor(  cli: Cli, props?: CustomConfig, config?: Config ) {
+	constructor( cli: Cli, opts?: CustomConfig, config?: Config ) {
 
-		super()
-		this.props  = props
-		this.cli    = cli
-		this.config = config
+		super( opts, config )
+
+		this.cli = cli
 
 	}
 
 	#setCMDs( props: CustomConfig ) {
 
 		for ( const [ key, prop ] of Object.entries( props ) ) {
+
+			// is not necesary
+			// const coreCMDS = Object.values( this.consts.CMD ) as string[]
+			// const isCore   = prop.settings && 'core' in prop.settings && prop.settings.core === true
+			// if ( !isCore && coreCMDS.includes( key ) )
+			// 	throw new this.Error( `Command ${key} is used in core configuration. Please change it!` )
 
 			const help = ( level?: string ) => this.cli.showHelp( level || 'log' )
 			// @ts-ignore
@@ -144,11 +147,12 @@ export class Custom extends Command {
 
 	async run() {
 
-		if ( !this.props ) return
+		if ( !this.opts ) return
 
 		try {
 
-			this.validateSchema( this.props )
+			await this.validateSchema( this.opts )
+			this.#setCMDs( this.opts )
 
 		}
 		catch ( e ) {
@@ -162,8 +166,6 @@ export class Custom extends Command {
 			return
 
 		}
-		this.validateSchema( this.props )
-		this.#setCMDs( this.props )
 
 	}
 

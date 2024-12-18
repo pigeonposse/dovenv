@@ -10,6 +10,8 @@ export type Role<ID extends string = string> = {
 		name  : string
 		/** Emoji of the role */
 		emoji : string
+		/** Description of the role */
+		desc? : string
 	}
 }
 export type Contributor<ID extends string = string> = {

@@ -9,6 +9,7 @@ import { readFile }      from '../sys/super/main'
 import type { MarkedExtension } from 'marked'
 
 export * from './shields'
+export * as md from './parser'
 
 const _getInput = async ( input: string ) => {
 
@@ -46,7 +47,7 @@ export const getMD = async ( path: string ): Promise<string> => {
  * @param {string} path - The path or URL to retrieve the HTML content from.
  * @returns {Promise<string>} - A promise that resolves to the HTML content as a string.
  */
-export const geHTML = async ( path: string ): Promise<string> => {
+export const getHTML = async ( path: string ): Promise<string> => {
 
 	return await _getInput( path )
 
@@ -143,7 +144,7 @@ export const html2terminal = async ( input: string ): Promise<string> => {
 
 }
 
-export const incrementMdHeaders = async ( content: string ) => {
+export const incrementMdHeaders = ( content: string ) => {
 
 	const lines = content.split( '\n' )
 

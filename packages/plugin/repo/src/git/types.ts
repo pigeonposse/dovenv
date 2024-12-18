@@ -4,22 +4,35 @@ import type { Config } from '../_super/types'
 export type GitConfig = Config & {
 	/** Commit configuration */
 	commit? : {
+		/**
+		 * Type of commit message.
+		 * Add types for your commits
+		 * @example
+		 * [
+		 *   {value: 'feat', title: 'A new feature'},
+		 *   {value: 'fix', title: 'A bug fix'}
+		 * ]
+		 */
 		types? : Array<{
 			value  : string
 			title? : string
 			desc?  : string
 		}>
+		/**
+		 * Scope of commit message.
+		 * @example
+		 * [
+		 * 	{value: 'core'},
+		 * 	{value: 'package'},
+		 * 	{value: 'env'},
+		 * 	{value: 'all'}
+		 * ]
+		 */
 		scopes?: Array<{
 			value  : string
 			title? : string
 			desc?  : string
 		}>
-		/**
-		 * Lint commit message after complete.
-		 * For use this is necessary have plugin '@dovenv/lint' in your project
-		 * @default false
-		 */
-		lint? : boolean
 	}
 	/** Pull configuration */
 	pull?  : unknown

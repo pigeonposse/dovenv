@@ -1,6 +1,6 @@
 import { execChild } from '@dovenv/core/utils'
 
-import { GitSuper } from './super'
+import { GitSuper } from './_super'
 
 export class GitBranch extends GitSuper {
 
@@ -53,7 +53,7 @@ export class GitBranch extends GitSuper {
 	async showCurrent() {
 
 		const res = await this.getCurrent()
-		this.prompt.note(  this.style.get.listKey( res ), 'Current branch' )
+		this.prompt.note(  this.style.info.lk( res ), 'Current branch' )
 		this.prompt.log.step( '' )
 
 	}
@@ -82,7 +82,7 @@ export class GitBranch extends GitSuper {
 	async showAll( remote = true ) {
 
 		const res     = await this.getAll( remote )
-		const content = res.map( b => ( this.style.get.listKey( b ) ) ).join( '\n' )
+		const content = res.map( b => ( this.style.info.lk( b ) ) ).join( '\n' )
 		this.prompt.note(  content, 'All branches' )
 		this.prompt.log.step( '' )
 
