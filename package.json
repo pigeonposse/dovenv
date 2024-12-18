@@ -59,7 +59,7 @@
 		"t": "----------------------- TESTS ----------------------------",
 		"test": "pnpm run --sequential \"/test:.*/\"",
 		"test:check": "pnpm -F '*dovenv*' run check",
-		"test:check-ws": "pnpm --silent . ws check --silent",
+		"test:check-ws": "pnpm --silent . check --silent",
 		"test:unit": "vitest run src --passWithNoTests"
 	},
 	"devDependencies": {
