@@ -160,7 +160,7 @@ jobs:
 
       - name: ℹ️🐙😺➡️ Update repo info
         if: steps.check_package_json.outputs.stdout != 'No changes in package.json'
-        run: pnpm . gh repo-info
+        run: pnpm . gh repo info
         continue-on-error: true
 
     #   - name: 📚🐙😺➡️ Call to workflow for deploy Documentation

@@ -1,12 +1,17 @@
 // import changeset from '@changesets/cli/bin.js'
 
 import {
+	catchError,
 	deprecatedAlerts,
 	exec,
+	getObjectFromFile,
+	getPKGVersion,
 	runLocalBin,
 } from '@dovenv/core/utils'
 
 import { Repo } from '../_super/main'
+
+import type { PackageJSON } from '@dovenv/core/utils'
 
 export class Packages extends Repo {
 
@@ -63,6 +68,69 @@ export class Packages extends Repo {
 
 	}
 
+	async getPkgVersion( npm = true ) {
+
+		const paths = await this.getPkgPaths()
+		const res: {
+			name    : string
+			version : string
+			npm?    : string
+		}[] = []
+
+		for ( const pkgPath of paths ) {
+
+			const pkg = await getObjectFromFile<PackageJSON>( pkgPath )
+
+			if ( !( ( !pkg.private || pkg.private === 'false' ) && pkg.name && pkg.version ) ) continue
+
+			const [ _, npmVersion ] = npm ? await catchError( getPKGVersion( pkg.name ) ) : [ undefined, undefined ]
+
+			res.push( {
+				name    : pkg.name,
+				version : pkg.version,
+				npm     : npmVersion,
+			} )
+
+		}
+
+		return res
+
+	}
+
+	async showPackageVersion( npm = true ) {
+
+		const p = this.prompt
+		const s = p.spinner()
+
+		try {
+
+			s.start( 'Getting pscakge(s) version info' )
+			const pkg = await this.getPkgVersion( npm )
+			s.stop( 'Getted pscakge(s) version info' )
+
+			p.log.step( '' )
+
+			await p.box( {
+				value : `Your package version(s):\n\n${pkg.map( l => this.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'not found'}` : '' ) ) ).join( '\n' )}\n`,
+				opts  : {
+					borderStyle : 'none',
+					padding     : 0,
+					dimBorder   : true,
+				},
+			} )
+
+		}
+		catch ( error ) {
+
+			if ( error instanceof Error )
+				p.log.error( error.message )
+			else p.log.error( error ? error.toString() : 'Unknown error' )
+			s.stop( 'Error getting package version' )
+
+		}
+
+	}
+
 	async ask() {
 
 		const publishOrRun = {
@@ -94,7 +162,7 @@ export class Packages extends Repo {
 				prepare : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do you want to prepare the version(s)?',
+						message      : 'Prepare new version(s)?',
 						initialValue : cached[data.prepare],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()
@@ -107,7 +175,7 @@ export class Packages extends Repo {
 				[data.version] : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do you want to update the version of the package(s) now?',
+						message      : 'Update the version of the package(s) with the new prepared versions?',
 						initialValue : cached[data.version],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()
@@ -117,7 +185,7 @@ export class Packages extends Repo {
 
 					await this.version()
 					console.log( this.style.info.hr() )
-
+					await this.showPackageVersion( false )
 					return res
 
 				},
@@ -135,7 +203,7 @@ export class Packages extends Repo {
 					]
 
 					await p.box( {
-						value : `Best practices before publishing:\n\n${list.map( l => this.style.section.lk( l ) ).join( '\n' )}\n\n`,
+						value : `Best practices before publishing:\n\n${list.map( l => this.style.section.lk( l ) ).join( '\n' )}\n`,
 						opts  : {
 							borderStyle : 'none',
 							padding     : 0,
@@ -144,7 +212,7 @@ export class Packages extends Repo {
 					} )
 
 					const res = await p.select( {
-						message : 'Do you want to publish the package now?',
+						message : 'Publish the package now?',
 						options : [
 							{
 								value : publishOrRun.publish,

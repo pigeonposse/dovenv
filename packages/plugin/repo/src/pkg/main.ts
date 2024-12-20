@@ -4,12 +4,13 @@ import type { Config }                 from '../_super/types'
 import type { Config as DovenvConfig } from '@dovenv/core'
 
 const CMD = {
-	release : 'release',
-	publish : 'publish',
-	init    : 'init',
-	version : 'version',
-	prepare : 'prepare',
-	ask     : 'ask',
+	release     : 'release',
+	publish     : 'publish',
+	init        : 'init',
+	version     : 'version',
+	prepare     : 'prepare',
+	ask         : 'ask',
+	showVersion : 'show-version',
 } as const
 
 export { Packages }
@@ -17,17 +18,24 @@ export { Packages }
 export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 
 	return { custom : { pkg : {
-		desc : 'Packages commands: update, publish... (wraps changesets)',
+		desc : 'Packages commands: update, publish...',
 		cmds : {
-			[CMD.init]    : { desc: 'Init packages' },
-			[CMD.ask]     : { desc: 'Ask for changes' },
-			[CMD.prepare] : { desc: 'Preprare version changelog' },
-			[CMD.version] : { desc: 'Update version of packages' },
-			[CMD.publish] : { desc: 'Publish packages' },
-			[CMD.release] : { desc: 'Update version and publish packages' },
+			[CMD.init]        : { desc: 'Init package(s)' },
+			[CMD.ask]         : { desc: 'Ask for changes' },
+			[CMD.prepare]     : { desc: 'Preprare version changelog' },
+			[CMD.version]     : { desc: 'Update version of package(s)' },
+			[CMD.publish]     : { desc: 'Publish package(s)' },
+			[CMD.release]     : { desc: 'Update version and publish package(s)' },
+			[CMD.showVersion] : {
+				desc : 'Show version of package(s). (Local and NPM)',
+				opts : { local : {
+					desc : 'show Local version only',
+					type : 'boolean',
+				} },
+			},
 		},
 		fn : async ( {
-			config, cmds, showHelp,
+			config, cmds, showHelp, opts,
 		} ) => {
 
 			const pkg = new Packages( conf, config )
@@ -43,6 +51,8 @@ export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 				await pkg.version()
 			else if ( cmds?.includes( CMD.ask ) )
 				await pkg.ask()
+			else if ( cmds?.includes( CMD.showVersion ) )
+				await pkg.showPackageVersion( opts?.local ? false : true )
 			else showHelp()
 
 		},

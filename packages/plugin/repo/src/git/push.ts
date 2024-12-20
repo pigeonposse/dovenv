@@ -30,11 +30,13 @@ export class GitPush extends GitSuper {
 		const commitInstance = new GitCommit( this.opts, this.config )
 		const addInstance    = new GitAdd( this.opts, this.config )
 		const initInstance   = new GitInit( this.opts, this.config )
+		const pkgInstance    = new Packages( this.opts, this.config )
 
 		await initInstance.run( true )
 
 		const data = {
 			staged   : 'staged',
+			view     : 'view',
 			update   : 'update',
 			add      : 'add',
 			origin   : 'origin',
@@ -43,6 +45,7 @@ export class GitPush extends GitSuper {
 
 		const defaultData = {
 			[data.staged]   : false,
+			[data.view]     : true,
 			[data.update]   : false,
 			[data.add]      : '.',
 			[data.origin]   : defaultBranch,
@@ -61,30 +64,37 @@ export class GitPush extends GitSuper {
 				[data.staged] : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do yo want see staged files?',
+						message      : 'View staged files?',
 						initialValue : cached[data.staged],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()
 
 					cache.set( { [data.staged]: res } )
+					if ( !res ) return
 
+					const files = await commitInstance.getStagedFiles()
+					p.log.message( this.style.p( files ) )
 					return res
 
 				},
-				'staged-res' : async ( { results } ) => {
+				[data.view] : async () => {
 
-					// @ts-ignore
-					if ( !results[data.staged] ) return
+					const res = await p.confirm( {
+						message      : 'View package version(s)?',
+						initialValue : cached[data.view],
+					} )
+					if ( p.isCancel( res ) ) return await this.onCancel()
 
-					console.log( this.style.info.hr( 'Staged files' ) )
-					console.log( await commitInstance.getStagedFiles() )
-					console.log( this.style.info.hr(  ) )
+					cache.set( { [data.view]: res } )
+
+					if ( res ) await pkgInstance.showPackageVersion()
+					return res
 
 				},
 				[data.update] : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do you want to update the version(s)?',
+						message      : 'Update the version(s)?',
 						initialValue : cached[data.update],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()
@@ -99,8 +109,7 @@ export class GitPush extends GitSuper {
 					// @ts-ignore
 					if ( !results[data.update] ) return
 
-					const pkg = new Packages( this.opts )
-					await pkg.ask()
+					await pkgInstance.ask()
 
 				},
 				'desc-add'    : async () => p.log.info( this.style.p( 'Prompt for add to repository' ) ),
@@ -143,7 +152,7 @@ export class GitPush extends GitSuper {
 				[data.workflow] : async () => {
 
 					const res = await p.confirm( {
-						message      : 'Do you want run GitHub workflow?',
+						message      : 'Run GitHub workflow?',
 						initialValue : cached[data.workflow],
 					} )
 					if ( p.isCancel( res ) ) return await this.onCancel()

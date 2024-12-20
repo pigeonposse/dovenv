@@ -93,7 +93,10 @@ export class GitCommit extends GitSuper {
 	async getStagedFiles() {
 
 		const { stdout } = await execChild( 'git status --short' )
-		return ' ' + stdout.trim()
+		return stdout.trim()
+			.split( '\n' )
+			.map( line => line.trim() )
+			.join( '\n' )
 
 	}
 
