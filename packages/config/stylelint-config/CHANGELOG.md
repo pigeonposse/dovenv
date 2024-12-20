@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.0.2
+
+### Patch Changes
+
+- Update repo plugin and env files
+
 ## 1.0.1
 
 ### Patch Changes

@@ -83,7 +83,6 @@ export class GitHubWorkflow extends GHSuper {
 		const cached      = await cache.get()
 
 		await this.promptGroup( {
-			outro    : this.style.success.msg( repoURL ? `See action progress: ${this.style.a( joinUrl( repoURL, 'actions' ) )}` : 'Succesfully finished 🌈' ),
 			onCancel : this.onCancel,
 			list     : async p => ( {
 				desc        : () => p.log.info( this.style.p( 'Prompt for run workflow' ) ),
@@ -134,7 +133,14 @@ export class GitHubWorkflow extends GHSuper {
 						if ( createdWorkflow.stderr ) throw Error( 'Error creating workflow' )
 
 						const result = await execChild( 'echo $(gh run list --limit 1 --json databaseId,url --jq \'.[0].url\')' )
-						if ( result.stdout && result.stdout.trim() !== '' ) p.log.info( `GitHub action url: ${result.stdout}` )
+
+						if ( result.stdout && result.stdout.trim() !== '' )
+							p.log.info( `GitHub action url: ` + this.style.p( result.stdout ) )
+
+						p.log.success( repoURL
+							? this.style.success.msg( `See action progress:`, this.style.a( joinUrl( repoURL, 'actions' ) ) )
+							:  this.style.success.msg( 'Succesfully finished 🌈' ),
+						)
 
 					}
 					catch ( e ) {
