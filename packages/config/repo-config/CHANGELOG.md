@@ -1,5 +1,23 @@
 # @dovenv/repo-config
 
+## 1.0.1
+
+### Patch Changes
+
+- fix create plugin
+
+## 0.2.0
+
+### Minor Changes
+
+- fix beta update
+
+## 0.1.0
+
+### Minor Changes
+
+- update to beta
+
 ## 0.0.17
 
 ### Patch Changes

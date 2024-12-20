@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/ai",
-	"version": "0.0.20",
+	"version": "1.0.1",
 	"description": "AI plugin for dovenv",
 	"keywords": [
 		"ai",

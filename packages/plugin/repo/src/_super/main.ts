@@ -16,7 +16,7 @@ export class Repo<C extends Config = Config> extends PluginCore<C> {
 	constructor( opts?: C, config?: Repo['config'] ) {
 
 		super( opts, config )
-		// this.onInit()
+		this.onInit()
 
 	}
 
@@ -33,17 +33,22 @@ export class Repo<C extends Config = Config> extends PluginCore<C> {
 		if ( !this.opts?.desc && this.pkg?.description )
 			this.opts.desc = this.pkg.description
 
+		if ( !this.opts?.workflowsDir && this.wsDir )
+			this.opts.workflowsDir = joinPath( this.wsDir, '.github', 'workflows' )
+
+		if ( !this.opts?.defaultBranch ) this.opts.defaultBranch = 'main'
+
+		// REPO
 		if ( !this.opts?.URL && this.pkg?.repository
 			&& typeof this.pkg.repository === 'object'
 			&& 'url' in this.pkg.repository && this.pkg.repository.url
 		)
 			this.opts.URL = this.pkg.repository.url as string
 
-		if ( !this.opts?.workflowsDir && this.wsDir )
-			this.opts.workflowsDir = joinPath( this.wsDir, '.github', 'workflows' )
-
 		if ( !this.opts?.ID && this.pkg?.extra && this.pkg.extra.repoID )
 			this.opts.ID = this.pkg.extra.repoID
+		if ( !this.opts?.ID && this.pkg?.extra && this.pkg.extra.repoId )
+			this.opts.ID = this.pkg.extra.repoId
 
 		if ( !this.opts?.userID && this.pkg?.extra && this.pkg.extra.userID )
 			this.opts.userID = this.pkg.extra.userID as string
@@ -51,9 +56,11 @@ export class Repo<C extends Config = Config> extends PluginCore<C> {
 		if ( !this.opts?.URL && this.opts?.ID && this.opts?.userID )
 			this.opts.URL = `https://github.com/${this.opts.userID}/${this.opts.ID}`
 
-		if ( !this.opts?.defaultBranch ) this.opts.defaultBranch = 'main'
+		if ( !this.opts?.ID && this.opts.URL )
+			this.opts.ID = this.opts.URL.split( '/' ).pop()
 
-		console.log( 'On init Repo Config', this.opts )
+		if ( !this.opts?.userID && this.opts.URL )
+			this.opts.userID = this.opts.URL.split( '/' ).slice( -2, -1 )[0]
 
 	}
 

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/templates",
-	"version": "0.0.20",
+	"version": "1.0.1",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"templates",

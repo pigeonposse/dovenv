@@ -1,5 +1,42 @@
 # @dovenv/lint
 
+## 1.0.1
+
+### Patch Changes
+
+- fix create plugin
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.0.1
+  - @dovenv/eslint-config@1.0.1
+  - @dovenv/core@1.0.1
+
+## 1.0.0
+
+### Minor Changes
+
+- fix beta update
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@0.2.0
+  - @dovenv/eslint-config@0.2.0
+  - @dovenv/core@0.2.0
+
+## 1.0.0
+
+### Minor Changes
+
+- update to beta
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@0.1.0
+  - @dovenv/stylelint-config@0.1.0
+  - @dovenv/core@0.1.0
+
 ## 0.0.20
 
 ### Patch Changes

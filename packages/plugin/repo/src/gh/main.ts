@@ -69,13 +69,14 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 						alias : 'o',
 					},
 				},
-				examples : [
-					{
-						desc : 'Download a repository',
-						cmd  : '$0 gh download -i https://github.com/pigeonposse/dovenv -o dovenv',
-					},
-				],
+				// examples : [
+				// 	{
+				// 		desc : 'Download a repository',
+				// 		cmd  : '$0 gh download -i https://github.com/pigeonposse/dovenv -o dovenv',
+				// 	},
+				// ],
 			},
+			[CMD.CREATE]   : { desc: 'Create a new repo' },
 			[CMD.WORKFLOW] : {
 				desc : 'Run or list a workflow',
 				opts : { list : {
@@ -84,10 +85,13 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 				} },
 			},
 			[CMD.INFO] : {
-				desc : 'repo info',
+				desc : 'Repo information',
 				cmds : {
 					update : { desc: 'Update repo info' },
-					view   : { desc: 'View repo info' },
+					view   : {
+						desc : 'View repo info',
+						opts : { all: { desc: 'Show repo info for all repositories' } },
+					},
 				},
 			},
 		},
@@ -96,23 +100,24 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 		} ) => {
 
 			const gitHub = new GitHub( conf, config )
-			if ( cmds?.includes( CMD.DOWNLOAD ) )  {
-
-				if ( opts?.input && opts?.output )
-					await gitHub.download( opts.input as string, opts.output as string )
-				else console.warn( 'You must provide an input and an output. Use --input and --output flags' )
-
-			}
+			if ( cmds?.includes( CMD.DOWNLOAD ) && opts?.input && opts?.output )
+				await gitHub.download( opts.input as string, opts.output as string )
 			else if ( cmds?.includes( CMD.WORKFLOW ) ) {
 
 				if ( opts?.list ) await gitHub.workflow.list()
 				else await gitHub.workflow.run()
 
 			}
+			else if ( cmds?.includes( CMD.CREATE ) )
+				await gitHub.create.run()
 			else if ( cmds?.includes( CMD.INFO ) && cmds?.includes( 'update' ) )
 				await gitHub.info.update()
-			else if ( cmds?.includes( CMD.INFO ) && cmds?.includes( 'view' ) )
-				await gitHub.info.view()
+			else if ( cmds?.includes( CMD.INFO ) && cmds?.includes( 'view' ) ) {
+
+				if ( opts?.all ) await gitHub.info.viewAll()
+				else await gitHub.info.view()
+
+			}
 			else showHelp()
 
 		},

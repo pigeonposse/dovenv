@@ -20,6 +20,7 @@ export class GitAdd extends GitSuper {
 
 		const cmd        = `git add ${value}`
 		const [ e, out ] = await catchExecOutput( `git add ${value}` )
+
 		if ( e ) console.error( this.style.error.msg( e.message ) )
 		else if ( out && out !== '' ) {
 

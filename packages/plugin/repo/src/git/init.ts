@@ -12,7 +12,7 @@ import {
 
 export class GitInit extends GitSuper {
 
-	async isGitInit() {
+	async isInit() {
 
 		return await existsDir( joinPath( this.wsDir, '.git' ) )
 
@@ -63,7 +63,7 @@ export class GitInit extends GitSuper {
 
 	async run( silent = false ) {
 
-		const git = await this.isGitInit()
+		const git = await this.isInit()
 
 		if ( git ) {
 

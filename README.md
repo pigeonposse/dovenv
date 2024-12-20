@@ -11,7 +11,7 @@
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?color=green&style=for-the-badge&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/dovenv?color=blue&style=for-the-badge&label=Version)](https://www.npmjs.com/package/@dovenv/core)
 
-> ⏳ Coming soon `beta` version. Currently in development!
+[![BANNER](docs/public/banner.png)](https://www.npmjs.com/package/@pigeonposse/dovenv)
 
 ## 📖 Description
 
