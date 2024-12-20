@@ -4,6 +4,7 @@ import { GitAdd }    from './add'
 import { GitBranch } from './branch'
 import { GitCommit } from './commit'
 import { Husky }     from './husky'
+import { GitInit }   from './init'
 import { GitPull }   from './pull'
 import { GitPush }   from './push'
 import { Repo }      from '../_super/main'
@@ -18,28 +19,29 @@ export {
 	Husky,
 	GitPull,
 	GitPush,
+	GitInit,
 }
 
 export class Git extends Repo<GitConfig> {
 
-	opts   : GitConfig
-	add    : GitAdd
-	branch : GitBranch
-	commit : GitCommit
-	husky  : Husky
-	pull   : GitPull
-	push   : GitPush
+	add        : GitAdd
+	branch     : GitBranch
+	commit     : GitCommit
+	husky      : Husky
+	pull       : GitPull
+	push       : GitPush
+	initialize : GitInit
 
 	constructor( opts?: GitConfig, config?: Repo['config'] ) {
 
 		super( opts, config )
-		this.opts   = opts || {}
-		this.add    = new GitAdd( this.opts, this.config )
-		this.branch = new GitBranch( this.opts, this.config )
-		this.commit = new GitCommit( this.opts, this.config )
-		this.husky  = new Husky( this.opts, this.config )
-		this.pull   = new GitPull( this.opts, this.config )
-		this.push   = new GitPush( this.opts, this.config )
+		this.add        = new GitAdd( this.opts, this.config )
+		this.branch     = new GitBranch( this.opts, this.config )
+		this.commit     = new GitCommit( this.opts, this.config )
+		this.husky      = new Husky( this.opts, this.config )
+		this.pull       = new GitPull( this.opts, this.config )
+		this.push       = new GitPush( this.opts, this.config )
+		this.initialize = new GitInit( this.opts, this.config )
 
 	}
 
@@ -61,6 +63,7 @@ const CMD    = {
 	push   : 'push',
 	pull   : 'pr',
 	husky  : 'husky',
+	init   : 'init',
 } as const
 
 export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
@@ -68,6 +71,7 @@ export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 	const res: DovenvConfig['custom'] = { git : {
 		desc : 'Git commands (add, commit, branch, pull, push...)',
 		cmds : {
+			[CMD.init]   : { desc: 'Initialize git project' },
 			[CMD.add]    : { desc: 'Add files to git' },
 			[CMD.commit] : { desc: 'Commit configuration' },
 			[CMD.branch] : {
@@ -114,6 +118,7 @@ export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 			const list = ( v:Record<string, string> ) => Object.values( v ).map( v => color.gray.dim.italic( v ) ).join( ', ' )
 			const git  = new Git( conf, config )
 			if ( cmds?.includes( CMD.commit ) ) await git.commit.run( )
+			else if ( cmds?.includes( CMD.init ) ) await git.initialize.run( )
 			else if ( cmds?.includes( CMD.add ) ) await git.add.run( )
 			else if ( cmds?.includes( CMD.pull ) ) await git.pull.run( )
 			else if ( cmds?.includes( CMD.branch ) ) {

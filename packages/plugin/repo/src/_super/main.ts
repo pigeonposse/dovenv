@@ -13,8 +13,14 @@ export class Repo<C extends Config = Config> extends PluginCore<C> {
 
 	title = 'repo'
 	protected helpURL = homepage
+	constructor( opts?: C, config?: Repo['config'] ) {
 
-	protected onInit = () => {
+		super( opts, config )
+		// this.onInit()
+
+	}
+
+	protected onInit() {
 
 		if ( !this.opts ) this.opts = {} as C
 

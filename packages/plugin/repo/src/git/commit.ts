@@ -136,7 +136,7 @@ export class GitCommit extends GitSuper {
 
 	}
 
-	async ask() {
+	async ask( execute = true ) {
 
 		const types       = this.opts?.commit?.types || this.types as GitCommit['types']
 		const scopes      = this.opts?.commit?.scopes || this.scopes as GitCommit['scopes']
@@ -153,7 +153,7 @@ export class GitCommit extends GitSuper {
 		const cache       = await this.cache( 'commit', defaultData )
 		const cached      = await cache.get()
 
-		await this.promptGroup( {
+		const res = await this.promptGroup( {
 			onCancel : async () => this.onCancel(),
 			list     : async p => {
 
@@ -198,6 +198,11 @@ export class GitCommit extends GitSuper {
 						const result = await p.text( {
 							message     : 'Commit message',
 							placeholder : cache.get( data.msg ),
+							validate    : ( msg: string ) => {
+
+								if ( !msg.trim() ) return 'Commit message is required'
+
+							},
 							// Disabled because it's for better user experience
 							//initialValue : cache.get( data.msg ),
 						} ) as string
@@ -238,12 +243,12 @@ export class GitCommit extends GitSuper {
 								return
 
 							}
-							p.log.info( 'Total message: ' + message )
+							p.log.info( this.style.info.msg( 'Total message', message ) )
 
 							// setLine( 'Lint' )
 							// await this.lint( message )
-
-							await this.exec( message )
+							if ( execute ) await this.exec( message )
+							return message
 
 						}
 						catch ( e ) {
@@ -261,6 +266,10 @@ export class GitCommit extends GitSuper {
 			},
 		} )
 
+		console.debug( { 'commit-results': res } )
+		// @ts-ignore
+		return res.commit as string
+
 	}
 
 	async run( ) {
@@ -268,15 +277,12 @@ export class GitCommit extends GitSuper {
 		await this.init()
 
 		const isEmpty = await this.isStageEmpty()
-		if ( isEmpty ) {
+		if ( !isEmpty ) return await this.ask()
 
-			console.warn(
-				`Nothing to commit.\n\nStage your changes executing: ${this.style.badge( 'dovenv git push' )}\nOr stage your changes manually using ${this.style.badge( 'git add' )} and executing again: ${this.style.badge( 'dovenv git commit' )}`,
-			)
-			return
-
-		}
-		await this.ask()
+		console.warn(
+			`Nothing to commit.\n\nStage your changes executing: ${this.style.badge( 'dovenv git push' )}\nOr stage your changes manually using ${this.style.badge( 'git add' )} and executing again: ${this.style.badge( 'dovenv git commit' )}`,
+		)
+		return
 
 	}
 

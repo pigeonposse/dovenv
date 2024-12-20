@@ -1,10 +1,14 @@
 import { execChild } from '@dovenv/core/utils'
 
-import { Repo } from '../_super/main'
+import { GHSuper } from './_super'
 
-export class RepoInfo extends Repo {
+export class GitHubInfo extends GHSuper {
 
-	async updateInfo() {
+	async view() {
+
+	}
+
+	async update() {
 
 		try {
 

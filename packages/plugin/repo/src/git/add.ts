@@ -6,11 +6,13 @@ export class GitAdd extends GitSuper {
 
 	async ask( initialValue = '.' ) {
 
-		return await this.prompt.text( {
+		const value = await this.prompt.text( {
 			message      : 'What paths do you want to add?',
 			placeholder  : '.',
 			initialValue : initialValue,
 		} ) as string
+		if ( this.prompt.isCancel( value ) ) await this.onCancel()
+		return value
 
 	}
 

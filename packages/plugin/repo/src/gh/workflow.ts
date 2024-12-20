@@ -9,9 +9,9 @@ import {
 	relativePath,
 } from '@dovenv/core/utils'
 
-import { Repo } from '../_super/main'
+import { GHSuper } from './_super'
 
-export class Workflow extends Repo {
+export class GitHubWorkflow extends GHSuper {
 
 	async list() {
 
@@ -56,7 +56,7 @@ export class Workflow extends Repo {
 		const exist = workflowsDir ? await existsDir( workflowsDir ) : false
 		if ( !exist || !workflowsDir ) {
 
-			console.warn( `Does not exist workflows directory: ${workflowsDir}` )
+			this.prompt.log.warn( this.style.warn.msg( `Does not exist workflows directory:`, workflowsDir ) )
 			return
 
 		}
@@ -67,7 +67,7 @@ export class Workflow extends Repo {
 
 		if ( !fileNames.length ) {
 
-			console.warn( `No local workflows found in ${workflowsDir}` )
+			this.prompt.log.warn( this.style.warn.msg( `No local workflows found in`, workflowsDir ) )
 			return
 
 		}

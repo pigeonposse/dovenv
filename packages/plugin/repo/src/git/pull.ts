@@ -32,6 +32,7 @@ export class GitPull extends GitSuper {
 
 		await this.init()
 		await this.initGH()
+
 		const defaultBranch  = this.opts?.defaultBranch
 		const branchInstance = new GitBranch( this.opts, this.config )
 		const data           = {

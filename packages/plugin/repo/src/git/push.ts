@@ -1,11 +1,12 @@
 import { exec } from '@dovenv/core/utils'
 
-import { GitSuper }  from './_super'
-import { GitAdd }    from './add'
-import { GitBranch } from './branch'
-import { GitCommit } from './commit'
-import { Workflow }  from '../gh/workflow'
-import { Packages }  from '../pkg/fn'
+import { GitSuper }       from './_super'
+import { GitAdd }         from './add'
+import { GitBranch }      from './branch'
+import { GitCommit }      from './commit'
+import { GitInit }        from './init'
+import { GitHubWorkflow } from '../gh/workflow'
+import { Packages }       from '../pkg/fn'
 
 export class GitPush extends GitSuper {
 
@@ -23,10 +24,14 @@ export class GitPush extends GitSuper {
 
 		await this.init()
 
-		const defaultBranch  = this.opts?.defaultBranch
+		const defaultBranch = this.opts?.defaultBranch
+
 		const branchInstance = new GitBranch( this.opts, this.config )
 		const commitInstance = new GitCommit( this.opts, this.config )
 		const addInstance    = new GitAdd( this.opts, this.config )
+		const initInstance   = new GitInit( this.opts, this.config )
+
+		await initInstance.run( true )
 
 		const data = {
 			staged   : 'staged',
@@ -154,7 +159,7 @@ export class GitPush extends GitSuper {
 					const res = results[data.workflow] as boolean
 					if ( !res ) return
 
-					const wf = new Workflow( this.opts, this.config )
+					const wf = new GitHubWorkflow( this.opts, this.config )
 					await wf.run()
 
 				},
