@@ -104,7 +104,7 @@ export class Packages extends Repo {
 
 		try {
 
-			s.start( 'Getting pscakge(s) version info' )
+			s.start( 'Getting package(s) version info' )
 			const pkg = await this.getPkgVersion( npm )
 			s.stop( 'Getted pscakge(s) version info' )
 

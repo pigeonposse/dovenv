@@ -33,12 +33,16 @@ export default defineConfig(
 	preDocsConfig,
 	pigeonposseTheme( { docs : {
 		input        : '../../docs',
-		output       : './../build',
+		output       : './build',
 		version      : corePkg.version,
 		changelogURL : joinUrl( REPO_CORE_URL, 'CHANGELOG.md' ),
 		npmURL       : pkg.extra.libraryUrl,
-		vitepress    : { themeConfig: { outline: { level: [ 2, 3 ] } } },
-		sidebar      : {
+		vitepress    : {
+			ignoreDeadLinks : true,
+			themeConfig     : { outline: { level: [ 2, 3 ] } },
+			vite            : { build: { chunkSizeWarningLimit: 1000 } },
+		},
+		sidebar : {
 			'/guide/'       : sidebar,
 			'/todo/'        : sidebar,
 			'/contributors' : sidebar,

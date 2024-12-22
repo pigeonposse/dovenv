@@ -25,9 +25,11 @@
 	},
 	"type": "module",
 	"scripts": {
-		"build": "tsx src/main.ts docs build",
+		"build": "pnpm build:pre && pnpm build:web",
+		"build:pre": "tsx src/main.ts predocs",
+		"build:web": "tsx src/main.ts docs build",
 		"dev": "tsx src/main.ts docs dev",
-		"prebuild": "tsx src/main.ts predocs",
+		"preview": "tsx src/main.ts docs preview",
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"devDependencies": {

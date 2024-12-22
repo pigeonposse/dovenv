@@ -37,7 +37,7 @@ const {
 const examplesFileName = `examples.md`
 const apiFileName      = `api.md`
 const indexFileName    = `index.md`
-const wsileName        = `ws.md`
+const wsFileName       = `ws.md`
 const contrFileName    = `contributors.md`
 
 export const getPublicPackageData = async ( pkgs: string[], wsDir: string ) => {
@@ -190,7 +190,7 @@ export const preDocsConfig = defineConfig( { custom : { predocs : {
 		const dataDir      = joinPath( cuurentDir, 'data' )
 		const partialsDir  = joinPath( dataDir, 'partials' )
 		const templatesDir = joinPath( dataDir, 'templates' )
-		const wsIndexFile  = joinPath( CONSTS.coreDir, wsileName )
+		const wsIndexFile  = joinPath( CONSTS.coreDir, 'docs', wsFileName )
 
 		const getLogTitle = ( t: string ) => `${color.inverse( ` ${t} ` )}\n`
 
@@ -345,12 +345,6 @@ export const preDocsConfig = defineConfig( { custom : { predocs : {
 		}
 
 		//////////////////////////////////////////////////////////////////////////////
-		// WORKSPACE README
-		//////////////////////////////////////////////////////////////////////////////
-
-		// TODO
-
-		//////////////////////////////////////////////////////////////////////////////
 		// OWN PACAKGE
 		//////////////////////////////////////////////////////////////////////////////
 
@@ -472,7 +466,9 @@ export const preDocsConfig = defineConfig( { custom : { predocs : {
 
 			await setReadmeFile( joinPath( templatesDir, 'readme.md' ), publicPkg.package.readmeFile )
 
+			//////////////////////////////////////////////////////////////////////////////
 			// WORKSPACE README
+			//////////////////////////////////////////////////////////////////////////////
 			if ( publicPkg.id === ID.core )
 				await setReadmeFile( joinPath( templatesDir, 'readme.md' ), joinPath( wsDir, 'README.md' ) )
 

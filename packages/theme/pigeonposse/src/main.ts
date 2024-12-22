@@ -140,7 +140,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 			],
 			instructions : '# Development guide\n\n> No instructions yet.',
 			structure    : { workspace : {
-				'.dovenv'  : { 'main.js': null },
+				'.dovenv'  : { 'main.{js,ts}': null },
 				'docs'     : { '*.md': null },
 				'packages' : { '*' : {
 					'src'          : { '**': null },
@@ -157,16 +157,25 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 		},
 		check : { pkg : {
 			include : ( {
-				path, config,
+				path, config, content,
 			} ) => {
 
 				const shared = [ 'package.json', 'README.md' ]
 				const wsDir  = typeof config.const?.workspaceDir  === 'string'
 					? config.const.workspaceDir
 					:  ''
+				const isWs   = arePathsEqual( getDirName( path ), wsDir )
 
-				if ( path.includes( '/config/' ) ) return shared
-				else if ( arePathsEqual( getDirName( path ), wsDir ) )  return [ 'docs/index.md', ...shared ]
+				if ( content.private ) return shared
+				else if ( isWs  && content.workspaces ) return [ 'docs/index.md', ...shared ]
+				else if ( isWs ) return [
+					'packages/*',
+					'.gitignore',
+					'LICENSE',
+					'package.json',
+					'README.md',
+					'.dovenv/main{.js,.ts}',
+				]
 
 				return [
 					'src/*{.js,.ts}',
