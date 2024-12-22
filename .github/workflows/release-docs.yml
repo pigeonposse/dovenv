@@ -56,14 +56,12 @@ jobs:
       - name: 🏗 Build packages
         run: pnpm build
       - name: 🏗 Build docs
-        run: pnpm build-docs
+        run: pnpm build-doc
 
       ###################################################################
       # BUILD AND DEPLOY
       ###################################################################
 
-      - name: Build docs
-        run: pnpm . docs build
       - name: 🌥 Deploy in cloudflare pages
         uses: cloudflare/pages-action@v1
         with:
