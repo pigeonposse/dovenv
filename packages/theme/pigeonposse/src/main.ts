@@ -160,6 +160,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 				path, config, content,
 			} ) => {
 
+				const ext    = '.{js,ts,mts,cts,cjs,mjs}'
 				const shared = [ 'package.json', 'README.md' ]
 				const wsDir  = typeof config.const?.workspaceDir  === 'string'
 					? config.const.workspaceDir
@@ -174,12 +175,12 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 					'LICENSE',
 					'package.json',
 					'README.md',
-					'.dovenv/main{.js,.ts}',
+					'.dovenv/main' + ext,
 				]
 
 				return [
-					'src/*{.js,.ts}',
-					'examples/**/*{.js,.ts}',
+					'src/*' + ext,
+					//'examples/**/*' + ext,
 					...shared,
 				]
 

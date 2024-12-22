@@ -45,16 +45,25 @@ jobs:
           cache: 'pnpm'
 
       - name: ⬇️📦 Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: |
+           export npm_config_build_from_source=false
+           pnpm install --no-frozen-lockfile --ignore-scripts
+
+      #########################################################################
+      # BUILD
+      #########################################################################
+
+      - name: 🏗 Build packages
+        run: pnpm build
+      - name: 🏗 Build docs
+        run: pnpm build-docs
 
       ###################################################################
       # BUILD AND DEPLOY
       ###################################################################
 
-      - name: 🏗 Build package
-        run: pnpm build
       - name: Build docs
-        run: pnpm . pkg docs build
+        run: pnpm . docs build
       - name: 🌥 Deploy in cloudflare pages
         uses: cloudflare/pages-action@v1
         with:
@@ -63,7 +72,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main
           projectName: "dovenv"
-          directory: 'build/docs'
+          directory: 'packages/docs/build/docs'
           wranglerVersion: '3'
 
 ###############################################################################
