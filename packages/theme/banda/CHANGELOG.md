@@ -1,5 +1,24 @@
 # @dovenv/theme-banda
 
+## 2.0.0
+
+### Minor Changes
+
+- [`b351523`](https://github.com/pigeonposse/dovenv/commit/b351523040d0dd541a9bdde8b4c5b000281768b8) Thanks [@angelespejo](https://github.com/angelespejo)! - Update to complete v1
+
+### Patch Changes
+
+- Updated dependencies [[`b351523`](https://github.com/pigeonposse/dovenv/commit/b351523040d0dd541a9bdde8b4c5b000281768b8)]:
+  - @dovenv/templates@2.0.0
+  - @dovenv/workspace@2.0.0
+  - @dovenv/examples@2.0.0
+  - @dovenv/convert@2.0.0
+  - @dovenv/docs@2.0.0
+  - @dovenv/lint@2.0.0
+  - @dovenv/repo@2.0.0
+  - @dovenv/todo@2.0.0
+  - @dovenv/core@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes
