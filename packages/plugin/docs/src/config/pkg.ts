@@ -30,7 +30,11 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 	if ( pkgLincenseType && typeof pkgLincenseType === 'string' ) config.license = { type: pkgLincenseType }
 	if ( typeof pkgData?.homepage === 'string' ) config.url = pkgData.homepage
 	if ( typeof pkgData?.description === 'string' ) config.desc = pkgData.description
-	if ( typeof pkgData?.name === 'string' ) config.name = pkgData.name
+
+	if ( typeof pkgData?.extra?.productName === 'string' ) config.name = pkgData.extra.productName
+	else if ( typeof pkgData?.extra?.id === 'string' ) config.name = pkgData.extra.id
+	else if ( typeof pkgData?.name === 'string' ) config.name = pkgData.name
+
 	if ( typeof pkgData?.version === 'string' ) config.version = pkgData.version
 
 	type ContributorPkg =  NonNullable<PackageJSON['contributors']>[number] | PackageJSON['author']

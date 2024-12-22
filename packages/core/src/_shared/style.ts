@@ -7,6 +7,7 @@ import {
 	box,
 	line,
 	highlight,
+	indent,
 } from '@dovenv/utils'
 
 type ExtractLiterals<T> = T extends string ? ( string extends T ? never : T ) : never
@@ -136,7 +137,7 @@ export class CommandStyle {
 	 * @param {string} [prefix] - prefix
 	 * @returns {string} Text indented
 	 */
-	indent =  ( v:string, prefix = '  ' ) => v.split( '\n' ).map( line => `${prefix}${line}` ).join( '\n' )
+	indent = indent
 
 	////////////////////////////////////////////////////////////
 	// parts

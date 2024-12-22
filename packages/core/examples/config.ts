@@ -15,47 +15,51 @@ import {
 
 import pkg              from '../../../package.json'
 import { version }      from '../package.json'
-import { defineConfig } from '../src/main'
+import { defineConfig } from '../src/main' // change it for @dovenv/core
 
-const setStructure = () => '\n' + box( setDirTree( { structure : {
-	'.vscode' : {
-		'settings.json'   : null,
-		'extensions.json' : null,
-	},
-	'docs'             : { '*.md': null },
-	'packages'         : { '**': null },
-	'.gitignore'       : null,
-	'.pigeonposse.yml' : null,
-	'LICENSE'          : null,
-	'package.json'     : null,
-	'README.md'        : null,
-} } ), {
-	padding     : 1,
-	// titleAlignment : 'center',
-	title       : 'Workspace Structure',
-	borderStyle : 'none',
-	borderColor : 'gray',
-	dimBorder   : true,
-} )
-const wsDir        = joinPath( getCurrentDir( import.meta.url ), '..', '..', '..' )
+const currentDir = getCurrentDir( import.meta.url )
+const wsDir      = joinPath( currentDir, '..', '..', '..' ) // My workspace path
 
 export default defineConfig( {
+	name  : 'PROJECT WORKSPACE',
+	desc  : 'This is a project workspace example.',
 	const : {
 		version,
 		pkg,
 		wsDir,
-		mark   : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
+		mark       : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
+		sctructure : '\n' + box( setDirTree( { structure : {
+			'.vscode' : {
+				'settings.json'   : null,
+				'extensions.json' : null,
+			},
+			'docs'             : { '*.md': null },
+			'packages'         : { '**': null },
+			'.gitignore'       : null,
+			'.pigeonposse.yml' : null,
+			'LICENSE'          : null,
+			'package.json'     : null,
+			'README.md'        : null,
+		} } ), {
+			padding     : 1,
+			// titleAlignment : 'center',
+			title       : 'Workspace Structure',
+			borderStyle : 'none',
+			borderColor : 'gray',
+			dimBorder   : true,
+		} ),
 		custom : async () => {
 
-			// throw new Error( 'Custom error' )
-			const res = await getObjectFrom( 'https://raw.githubusercontent.com/pigeonposse/super8/main/.pigeonposse.yml' )
-			// @ts-ignore
-			return res.web[0] as Record<string, unknown>
+			const res = await getObjectFrom<{ web: Record<string, unknown>[] }>(
+				'https://raw.githubusercontent.com/pigeonposse/super8/main/.pigeonposse.yml',
+			)
+
+			return res.web[0]
 
 		},
 		template : async () => {
 
-			const templateDir                 = joinPath( getCurrentDir( import.meta.url ), 'recourses/*' )
+			const templateDir                 = joinPath( currentDir, 'recourses/*' )
 			const paths                       = await getPaths( [ templateDir ], { dot: true } )
 			const res: Record<string, string> = {}
 			for ( const path of paths ) {
@@ -69,17 +73,20 @@ export default defineConfig( {
 
 		},
 	},
-	name  : 'PROJECT WORKSPACE',
-	desc  : 'This is a project workspace example.',
-	alias : { struct : {
-		desc : 'Set structure for the workspace',
-		cmd  : 'pnpm --silent dev structure --silent',
-	} },
+	/**
+	 * Create custom commands
+	 */
 	custom : {
+		/**
+		 * Create simple command for show structure
+		 */
 		structure : {
-			desc : 'Structure for the workspace.',
-			fn   : async () => console.log( setStructure() ),
+			desc : 'Print structure for the workspace.',
+			fn   : async ( { config } ) => console.log( config?.const?.sctructure ),
 		},
+		/**
+		 * Create nested command
+		 */
 		greet : {
 			desc : 'Say hello to username',
 			cmds : {
@@ -158,6 +165,16 @@ export default defineConfig( {
 			},
 		},
 	},
+	/**
+	 * Create a alias for `struture` command
+	 */
+	alias : { struct : {
+		desc : 'Set structure for the workspace',
+		cmd  : 'dovenv structure --silent',
+	} },
+	/**
+	 * Configuration for the transform command
+	 */
 	transform : {
 		readme : {
 			input : [ 'README.md' ],
@@ -182,6 +199,9 @@ export default defineConfig( {
 			},
 		},
 	},
+	/**
+	 * Configuration for the check command
+	 */
 	check : {
 		packages : {
 			desc     : 'Repo packages structure.',
@@ -272,15 +292,17 @@ export default defineConfig( {
 				'.vscode/settings.json',
 				'.vscode/extensions.json',
 			],
-			validateAll : async ( { paths } ) => {
+			validateAll : async ( {
+				paths, config,
+			} ) => {
 
 				if ( paths.length !== 7 )
-					throw new Error( `Monorepo must have this structure:\n ${setStructure()}` )
+					throw new Error( `Monorepo must have this structure:\n ${config?.const?.sctructure}` )
 
 			},
 
 		},
-		pkgJson : {
+		packageJson : {
 			desc     : 'Schema from repo packages.',
 			type     : 'file',
 			patterns : [ 'packages/*/package.json' ],

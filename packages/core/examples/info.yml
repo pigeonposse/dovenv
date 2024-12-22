@@ -1,0 +1,96 @@
+CLI:
+  title: "CLI"
+  data:
+    CLI:
+      input: "dovenv -h"
+      title: "Print help"
+      type: "bash"
+    CUSTOM_CONFIG:
+      input: "dovenv -c my/custom/config.js"
+      title: "Run dovenv with a custom config file"
+      type: "bash"
+    CHECK:
+      input: "dovenv check"
+      title: "Check your workspace files/dirs/code"
+      type: "bash"
+    TRANS:
+      input: "dovenv transform"
+      title: "Tranform your workspace files/dirs"
+      type: "bash"
+
+CONFIG:
+    title: "Config file"
+    data:
+      MJS:
+        input: "./config.mjs"
+        title: "ModuleJS file"
+        type: "js"
+      CJS:
+        input: "./config.cjs"
+        title: "CommonJS file"
+        type: "js"
+
+LIBRARY:
+    title: "Library example"
+    desc: "This is a example that contains dovenv instance in a TS file"
+    data:
+      config:
+        input: "./main.ts"
+        title: "Instance (JavaScript/TypeScript)"
+
+TS:
+    title: "TypeScript"
+    desc: "For use with TS at the momment. you need to has TypeScript installed. an run dovenv via TS"
+    data:
+      MJS:
+        input: "./config.mts"
+        title: "ModuleTS file"
+        type: "ts"
+      CJS:
+        input: "./config.cts"
+        title: "CommonTS file"
+        type: "ts"
+      RUN:
+        input: "./main.ts"
+        title: "Run"
+
+COMPLETE:
+    title: "Advanced"
+    desc: "This is a example that contains a lot of configuration"
+    data:
+      CHECK_K:
+        input: "dovenv check -k packages"
+        title: "Check specific key"
+        type: "bash"
+      CHECK_PATTERN:
+        input: "dovenv check -k 'package*'"
+        title: "Check pattern key"
+        type: "bash"
+      CHECK_MULTIPLE:
+        input: "dovenv check -k 'package*' 'docs'"
+        title: "Check multiple key"
+        type: "bash"
+      TRANS_K:
+        input: "dovenv transform -k readme"
+        title: "Tranform specific key"
+        type: "bash"
+      CONST:
+        input: "dovenv const"
+        title: "Show constants"
+        type: "bash"
+      ALIAS:
+        input: "dovenv const"
+        title: "Show alias"
+        desc: 'List aliases of your config file. Use "dovenv alias -k [alias]" to show a specific alias'
+        type: "bash"
+      EXECUTE_ALIAS:
+        input: "dovenv x [alias-key]"
+        title: "Execute alias. For example dovenv x struct"
+        type: "bash"
+      SHOW_CONF:
+        input: "dovenv config"
+        title: "Print config file in terminal"
+        type: "bash"
+      CONFIG:
+        input: "./config.ts"
+        title: "Config file"

@@ -23,6 +23,13 @@ export class Workspace {
 
 	}
 
+	async getPkgPaths() {
+
+		// @ts-ignore
+		return await this.#exec.getPkgPaths()
+
+	}
+
 	async exec( cmd: string, opts?: string[] ) {
 
 		await this.#exec.runPkg( cmd, opts )

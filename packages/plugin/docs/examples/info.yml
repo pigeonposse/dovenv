@@ -1,0 +1,50 @@
+simple:
+    title: "Simple example"
+    desc: "This is a example that use plugin in dovenv config for add a docs builder in dovenv"
+    data:
+      config:
+        input: "./simple/config.ts"
+        title: "Dovenv configuration with the docs plugin."
+      dev:
+        input: "dovenv docs dev"
+        title: "Run dev server"
+        type: "bash"
+      build:
+        input: "dovenv docs build"
+        title: "Build docs page"
+        type: "bash"
+      preview:
+        input: "dovenv docs preview --port 1312"
+        title: "Preview docs page"
+        type: "bash"
+
+bin:
+    title: "Simple example using `dovenv-docs`"
+    desc: "This is perfect if you want to use `dovenv-docs` directly without `dovenv`"
+    data:
+      config:
+        input: "./bin/docs.config.js"
+        title: "Dovenv configuration file"
+      dev:
+        input: "dovenv-docs dev"
+        title: "Run dev server"
+        type: "bash"
+      build:
+        input: "dovenv-docs build"
+        title: "Build docs page"
+        type: "bash"
+      preview:
+        input: "dovenv-docs preview --port 1312"
+        title: "Preview docs page"
+        type: "bash"
+ws:
+    title: "Custom configuration example"
+    desc: "This is a example that use more configuration in dovenv config"
+    data:
+      config:
+        input: "./ws/config.ts"
+        title: "Dovenv configuration file"
+      cli:
+        input: "dovenv docs dev"
+        title: "Use in CLI"
+        type: "bash"

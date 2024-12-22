@@ -10,11 +10,11 @@ simple:
         title: "Use in JS/TS"
       cli:
         input: "dovenv -c config.ts templates -k test"
-        title: "Use in cli"
+        title: "Use in CLI"
         type: "bash"
 paths:
     title: "Advanced example"
-    desc: "This is a Advanced example that use all the powwer of @dovenv/templates plugin"
+    desc: "This is a Advanced example that use all the power of @dovenv/templates plugin"
     data:
       instance:
         input: "./paths/main.ts"

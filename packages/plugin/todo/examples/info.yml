@@ -1,0 +1,15 @@
+simple:
+    title: "Simple example"
+    data:
+      config:
+        input: "./config.ts"
+        title: "Dovenv configuration file"
+      exec:
+        input: "dovenv todo"
+        title: "Execute wia CLI"
+        type: "bash"
+      exec-docs:
+        input: "dovenv todo -k docs"
+        title: "Execute wia CLI (only docs key)"
+        type: "bash"
+

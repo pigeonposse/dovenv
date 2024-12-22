@@ -7,9 +7,8 @@ import type { Config as EnvAiConfig }  from 'env-ai'
 
 export type Config = {
 	/** Configuration for local AI assistant chats */
-	chat? : {
-		[key: string] : EnvAiConfig
-	} }
+	chat? : Record<string, EnvAiConfig>
+}
 
 export { run }
 
@@ -24,7 +23,7 @@ export { run }
  *
  * ---
  * @param {Config} [conf] - Optional configuration object for the plugin.
- * @returns {DovenvConfig} - Configured environment for the local AI assistant.
+ * @returns {DovenvConfig} - Dovenv configuration for the plugin.
  */
 export const aiPlugin = ( conf?: Config ) => {
 

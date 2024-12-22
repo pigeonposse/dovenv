@@ -18,6 +18,10 @@ a[aria-label="RSS"]{
 	background-color: var(--vp-c-divider) !important;
 }
 
+table {
+	max-width: 100% !important;
+}
+
 img, 
 video, 
 .vp-code-group {

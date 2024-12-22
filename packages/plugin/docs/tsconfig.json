@@ -1,6 +1,7 @@
 {
 	"extends": "./node_modules/@dovenv/repo-config/tsconfig.json",
 	"include": [
+		"./src",
 		"./src/**/*.vue",
 		"./node_modules/*.json",
 		"../../../package.json",

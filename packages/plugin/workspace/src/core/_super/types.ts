@@ -1,5 +1,8 @@
 /* eslint-disable @stylistic/object-curly-newline */
-import type { PluginCore } from '@dovenv/core'
+import type {
+	Config as DovenvConfig,
+	PluginCore,
+} from '@dovenv/core'
 import type {
 	PackageJSON,
 	Prettify,
@@ -20,6 +23,8 @@ type CheckOpts = {
 	 * Object data from package.json
 	 */
 	content : PackageJSON
+	/** Dovenv configuration */
+	config  : DovenvConfig
 }
 type PatternCheck = string[] |
 	( ( opts: CheckOpts ) => Promise<string[] | undefined> | ( string[] | undefined ) )
@@ -48,7 +53,8 @@ export type Config = {
 		 * Instructions for the workspace.
 		 * Must be markdown format.
 		 * Accepts string, URL or path
-		 * @example ```markdown
+		 * @example
+		 * ```markdown
 		 * ## Pre-requisites
 		 * project needs the following tools to work:
 		 * - `node` > 20 installed
@@ -114,6 +120,8 @@ export type Config = {
 				 * Object data from package.json
 				 */
 				content : PackageJSON
+				/** Dovenv configuration */
+				config  : DovenvConfig
 			} )=> Promise<ValidateAnyType | void> | ( ValidateAnyType | void )
 		}>
 	}

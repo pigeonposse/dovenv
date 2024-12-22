@@ -4,10 +4,12 @@ export default [
 	dovenv.includeGitIgnore(),
 	...dovenv.config,
 	dovenv.setIgnoreConfig( [
-		'./docs/**/*',
+		'./docs/**.md',
+		'**/docs/data/**/*.md',
 		'**/CHANGELOG.md',
 		'**/examples/**/partials/*',
-		'**/examples/**/templates/*',
+		'**/.dovenv/**/partials/*',
+		'**/.dovenv/**/templates/*',
 	] ),
 	// @see https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md
 ]

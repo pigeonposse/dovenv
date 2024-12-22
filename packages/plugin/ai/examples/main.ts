@@ -8,7 +8,7 @@ const config = aiPlugin( { chat : { this : {
 	theme  : 'custom',
 	system : 'You are a code expert of this code.',
 } } } )
-const dovenv = new Dovenv( { config } )
-const args   = process.argv.slice( 2 )
 
-await dovenv.run( args )
+// Run dovenv with js
+const dovenv = new Dovenv( { config } )
+await dovenv.run( process.argv.slice( 2 ) )

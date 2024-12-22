@@ -1,0 +1,34 @@
+simple:
+    title: "Simple example"
+    desc: "This is a simple example for create and run workspace commands"
+    data:
+      config:
+        input: "./config.ts"
+        title: "Dovenv configuration file"
+      exec:
+        input: "dovenv ws exec binarium"
+        title: "Execute `binarium` package without installing it"
+        type: "bash"
+      info:
+        input: "dovenv ws info"
+        title: "Retrive the workspace information"
+        type: "bash"
+      audit:
+        input: "dovenv ws audit"
+        title: "Audit the workspace dependencies"
+        type: "bash"
+      check:
+        input: "dovenv check -k ws"
+        title: "Run the workspace check functions"
+        type: "bash"
+custom:
+    title: "Advanced example"
+    desc: "This is a example for create and run workspace CUSTOM commands"
+    data:
+      config:
+        input: "./custom/config.ts"
+        title: "Dovenv configuration file"
+      run:
+        input: "dovenv ws custom"
+        title: "Run ALL workspace custom functions"
+        type: "bash"

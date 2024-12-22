@@ -1,0 +1,26 @@
+simple:
+    title: "Simple example"
+    desc: "This is a simple example for create examples files"
+    data:
+      config:
+        input: "./simple/config.ts"
+        title: "Dovenv configuration file"
+      instance:
+        input: "./simple/main.ts"
+        title: "Run dovenv in a TS file"
+      cli:
+        input: "dovenv -c config.ts examples"
+        title: "Use in CLI"
+        type: "bash"
+
+custom:
+    title: "Custom example"
+    desc: "This is a example that use the custom type for create example files"
+    data:
+      config:
+        input: "./custom/main.ts"
+        title: "Dovenv configuration file"
+      cli:
+        input: "dovenv -c config.ts examples -k custom"
+        title: "Use in CLI"
+        type: "bash"

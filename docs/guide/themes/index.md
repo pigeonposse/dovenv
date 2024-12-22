@@ -1,3 +1,0 @@
-# API THEMES
-
-lorem ipsum

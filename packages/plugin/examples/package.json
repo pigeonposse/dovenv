@@ -33,22 +33,25 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs"
+		".": "./dist/main.mjs",
+		"./schema.json": "./schema.json"
 	},
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"files": [
-		"dist"
+		"dist",
+		"schema.json"
 	],
 	"scripts": {
 		"build": "unbuild",
 		"dev": "tsx examples/simple/main.ts",
 		"example": "run() { tsx examples/\"${@:1}\"/main.ts; }; run $@",
+		"postbuild": "tsx build.schema.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"jsdoc-api": "^9.3.4",
+		"jsdoc-api": "9.3.4",
 		"leasot": "14.4.0"
 	},
 	"devDependencies": {

@@ -3,6 +3,7 @@ import { pathToFileURL } from 'node:url'
 import { validateHomeDir } from '../sys/super/main'
 
 import type { CommonObj } from './_super'
+import type { Any }       from '../ts/main'
 
 /**
  * Get object from a JavaScript file.
@@ -22,17 +23,45 @@ export const getObjectFromJSFile = async <Res extends CommonObj = CommonObj>( pa
 
 		path             = validateHomeDir( path )
 		const modulePath = pathToFileURL( path ).href
-		const res        = ( await import( modulePath ) )[part]
 
-		if ( !res ) throw Error( `No [${part}] export found` )
-		if ( typeof res !== 'object' ) throw Error( 'Export is not an object' )
+		const importedModule = await import( modulePath ) // Importa el módulo
+		const res            = importedModule[part] // Obtiene la exportación requerida
+
+		if ( !res ) throw new Error( `No [${part}] export found` )
+		if ( typeof res !== 'object' ) throw new Error( 'Export is not an object' )
+
 		return res as Res
 
 	}
 	catch ( error ) {
 
-		// @ts-ignore
-		throw new Error( `Error reading JS file ${path}: ${error.message}` )
+		if ( error instanceof SyntaxError ) {
+
+			throw new Error( `Syntax error in JS file ${path}: ${error.message}` )
+
+		}
+		else if (
+			error instanceof Error
+			&& ( error as Any ).code === 'MODULE_NOT_FOUND'
+		) {
+
+			throw new Error( `Module not found at ${path}: ${error.message}` )
+
+		}
+		else if ( error instanceof TypeError ) {
+
+			throw new Error(
+				`Error accessing export [${part}] in ${path}: ${error.message}`,
+			)
+
+		}
+		else {
+
+			throw new Error(
+				`Error reading JS file ${path}: ${error instanceof Error ? error.message : String( error )}`,
+			)
+
+		}
 
 	}
 

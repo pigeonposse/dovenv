@@ -89,7 +89,7 @@ export const workspacePlugin = ( params?: Config ) => defineConfig( {
 					},
 				},
 				custom : {
-					desc : 'Custom lint function',
+					desc : 'Run custom workspace function',
 					opts : { key : {
 						alias : 'k',
 						desc  : 'Key pattern',

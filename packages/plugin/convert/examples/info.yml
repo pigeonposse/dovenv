@@ -1,0 +1,15 @@
+simple:
+    title: "Simple example"
+    desc: "This is a simple example"
+    data:
+      config:
+        input: "./simple/config.ts"
+        title: "Dovenv configuration file"
+      instance:
+        input: "./simple/main.ts"
+        title: "Use in JS/TS"
+      cli:
+        input: "dovenv -c config.ts convert"
+        title: "Use in cli"
+        type: "bash"
+

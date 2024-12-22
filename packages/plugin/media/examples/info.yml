@@ -1,0 +1,14 @@
+simple:
+    title: "Simple example"
+    desc: "This is a simple example for create/minimize/optimize media"
+    data:
+      config:
+        input: "./config.ts"
+        title: "Dovenv configuration file"
+      instance:
+        input: "./main.ts"
+        title: "Run dovenv in a TS file"
+      cli:
+        input: "dovenv media [cmd]"
+        title: "Use in CLI"
+        type: "bash"

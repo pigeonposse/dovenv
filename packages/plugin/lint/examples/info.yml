@@ -1,0 +1,23 @@
+eslint:
+    title: "Eslint example"
+    data:
+      cli:
+        input: "dovenv lint eslint"
+        title: "Check"
+        type: "bash"
+      fix:
+        input: "dovenv lint eslint --fix"
+        title: "Fix"
+        type: "bash"
+
+simple:
+    title: "Complete example"
+    desc: "This is a example that contains a lot of lint configuration"
+    data:
+      config:
+        input: "./config.ts"
+        title: "Dovenv configuration file"
+      cli:
+        input: "dovenv lint [cmd]"
+        title: "Use in CLI"
+        type: "bash"

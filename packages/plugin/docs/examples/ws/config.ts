@@ -5,7 +5,7 @@ import {
 	fa2svg,
 } from '@dovenv/core/client'
 
-import { coreConfig } from '../../../../../.dovenv/core'
+import coreConfig     from '../../../../../.dovenv/main' // Get another configuration for use
 import { docsPlugin } from '../../src/main'
 
 const {
@@ -14,8 +14,6 @@ const {
 	faDownload,
 	faGlobe,
 } = fontAwesomeSolidIcons
-
-// const configPath = joinPath( getCurrentDir( import.meta.url ), 'docs.config.js' )
 
 export default defineConfig(
 	coreConfig,
@@ -131,6 +129,5 @@ export default defineConfig(
 			},
 		],
 		autoSidebar : { contribute: false },
-
-		// server : { hotReloadFiles: [ fileURLToPath( import.meta.url ) ] },
-	} ) )
+	} ),
+)

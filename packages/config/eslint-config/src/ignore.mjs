@@ -7,9 +7,9 @@ import { resolve }           from 'node:path'
  * the .gitignore file in the current working directory will be used.
  * @returns {object} An object that ESLint can use to ignore files.
  */
-export const includeGitIgnore = gitIgnorePath => {
+export const includeGitIgnore = ( gitIgnorePath = resolve( '.gitignore' ) ) => {
 
-	return includeIgnoreFile( gitIgnorePath ? gitIgnorePath : resolve( '.gitignore' ) )
+	return includeIgnoreFile( gitIgnorePath )
 
 }
 

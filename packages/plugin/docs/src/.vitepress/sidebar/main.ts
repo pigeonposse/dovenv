@@ -8,6 +8,8 @@ import type {
 	SidebarProps,
 } from './types'
 
+const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
+
 const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined )  => {
 
 	if ( items ) return [
@@ -27,16 +29,32 @@ const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined
 
 }
 
-const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
+const filtered = ( paths: string[] ) => {
 
-const filtered = ( paths: string[] ) => paths.map( page => {
+	const processed = paths.map( page => {
 
-	let name = capitalize( ( page.split( '/' ).pop() || '' ).replace( '.md', '' ) )
-	if ( name === 'Index' || name === 'index' || name === 'INDEX' ) name = '🏁 Get started'
+		let name = capitalize( ( page.split( '/' ).pop() || '' ).replace( '.md', '' ) )
+		if ( name.toLowerCase() === 'index' ) name = '🏁 Get started'
+		return {
+			name,
+			path : page,
+		}
 
-	return setPath(  name, page )
+	} )
 
-} ).flat()
+	// Ordenar: 🏁 Get started primero, luego alfabéticamente por nombre
+	const sorted = processed.sort( ( a, b ) => {
+
+		if ( a.name === '🏁 Get started' ) return -1
+		if ( b.name === '🏁 Get started' ) return 1
+		return a.name.localeCompare( b.name )
+
+	} )
+
+	// Aplicar setPath después de ordenar
+	return sorted.flatMap( item => setPath( item.name, item.path ) )
+
+}
 
 const filteredGroup = ( paths: string[], group: number = 0 ) => {
 
@@ -57,6 +75,7 @@ const filteredGroup = ( paths: string[], group: number = 0 ) => {
 		}
 
 	}
+
 	const res = Object.keys( groupedPages ).flatMap( k => {
 
 		const value = groupedPages[k]

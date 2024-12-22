@@ -9,6 +9,8 @@ export const PKG_NAME = name
 export const BIN_NAME = Object.keys( bin )[0]
 export const VERSION = version
 export const HOMEPAGE = homepage
+export const HELP_URL = HOMEPAGE
+
 export const CMD = {
 	CONSTANTS  : 'const',
 	CHECK      : 'check',

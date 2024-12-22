@@ -64,6 +64,7 @@ export class Checks extends Super {
 				v       : validate,
 				path    : pkg.path,
 				content : pkg.content,
+				config  : this.config || {},
 			} )
 
 			if ( !schema ) continue
@@ -112,6 +113,7 @@ export class Checks extends Super {
 					dir     : dir,
 					path    : pkg.path,
 					content : pkg.content,
+					config  : this.config || {},
 				}
 
 				if ( type?.custom ) await type.custom( cbData )

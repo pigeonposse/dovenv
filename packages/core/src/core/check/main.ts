@@ -29,12 +29,16 @@ type CheckDir = CheckShared & {
 	/** Validation function for all dirs */
 	validateAll? : ( data: {
 		/** Paths of the dirs */
-		paths : string[]
+		paths  : string[]
+		/** Dovenv config */
+		config : ArgvParsed['config']
 	} ) => Promise<void>
 	/** Validation function called every time a dir path is read */
 	validate?    : ( data: {
 		/** Path of the dir */
-		path : string
+		path   : string
+		/** Dovenv config */
+		config : ArgvParsed['config']
 	} ) => Promise<void>
 }
 type CheckFile = CheckShared & {
@@ -43,7 +47,9 @@ type CheckFile = CheckShared & {
 	/** Validation function for all dirs */
 	validateAll? : ( data: {
 		/** Paths of the files */
-		paths : string[]
+		paths  : string[]
+		/** Dovenv config */
+		config : ArgvParsed['config']
 	} ) => Promise<void>
 	/**
 	 * Validation function. It is called every time a file path is read.
@@ -58,6 +64,8 @@ type CheckFile = CheckShared & {
 		path     : string
 		/** Content of the file */
 		content? : string
+		/** Dovenv config */
+		config   : ArgvParsed['config']
 	} ) => Promise<void>
 }
 type CheckCustom = CheckShared & {
@@ -171,7 +179,10 @@ export class Check extends Command<CheckConfig> {
 		}
 
 		if ( prop.validateAll )
-			await this.#validateWrap( prop.validateAll( { paths } ) )
+			await this.#validateWrap( prop.validateAll( {
+				paths,
+				config : this.config || {},
+			} ) )
 
 		if ( prop.validate ) {
 
@@ -179,8 +190,11 @@ export class Check extends Command<CheckConfig> {
 
 				const content = await readFile( path )
 				await this.#validateWrap(
-					prop.validate( { path,
-						content : content.toString() } ),
+					prop.validate( {
+						path,
+						content : content.toString(),
+						config  : this.config || {},
+					} ),
 				)
 
 			}
@@ -210,14 +224,20 @@ export class Check extends Command<CheckConfig> {
 
 		}
 		if ( prop.validateAll )
-			await this.#validateWrap( prop.validateAll( { paths } ) )
+			await this.#validateWrap( prop.validateAll( {
+				paths,
+				config : this.config || {},
+			} ) )
 
 		if ( prop.validate ) {
 
 			for ( const path of paths ) {
 
 				await this.#validateWrap(
-					prop.validate( { path } ),
+					prop.validate( {
+						path,
+						config : this.config || {},
+					} ),
 				)
 
 			}

@@ -1,3 +1,0 @@
-# API PPLUGINS
-
-lorem ipsum

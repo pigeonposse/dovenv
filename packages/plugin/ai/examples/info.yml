@@ -1,0 +1,11 @@
+simple:
+    title: "Simple example"
+    desc: "This is a simple example for create a AI chat that use your source code for awnser"
+    data:
+      config:
+        input: "./main.ts"
+        title: "Dovenv configuration file"
+      cli:
+        input: "dovenv -c config.ts ai -k this"
+        title: "Use in CLI"
+        type: "bash"

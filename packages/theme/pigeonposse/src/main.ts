@@ -1,19 +1,43 @@
 
+import { defineConfig }                from '@dovenv/core'
+import { type Config as DovenvConfig } from '@dovenv/core'
 import {
 	arePathsEqual,
 	createMergeDataFn,
+	deepmerge,
 	getDirName,
+	yaml,
 } from '@dovenv/core/utils'
 import {
 	mergeConfig as mergeBandaConfig,
 	bandaTheme,
-
 } from '@dovenv/theme-banda'
 import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
+import {
+	markSchema,
+	pkgSchema,
+	templateMarkSchema,
+	validateSchema,
+	wsDirSchema,
+} from './schema'
+
+import type { PackageJSON } from '@dovenv/core/utils'
+
 export * from '@dovenv/theme-banda'
 
-export type Config = BandaConfig & { workspaceDir?: string }
+export type WebConfig = {
+	/**
+	 * @default '.pigeonposse.yml'
+	 */
+	input?        : string
+	/** override values. set to `false` to disable default values */
+	values?       : Record<string, unknown> | false
+	/** Merge with general values */
+	customValues? : Record<string, unknown>
+}
+
+export type Config = BandaConfig & { web?: WebConfig }
 
 /**
  * Merges multiple `theme-pigeonposse` configuration objects into a single configuration.
@@ -21,14 +45,61 @@ export type Config = BandaConfig & { workspaceDir?: string }
 export const mergeConfig = createMergeDataFn<Config>(  )
 
 /**
+ * Plugin for set the pigeonposse web configuration.
+ * @param {WebConfig} [params] - Optional parameters for the plugin.
+ * @returns {DovenvConfig} - A Dovenv configuration with a "transform" command for the `.pigeonposse.yml` file.
+ * @example
+ * import { defineConfig } from '@dovenv/core'
+ * import { pigeonposseWebPlugin } from '@dovenv/theme-pigeonposse'
+ *
+ * export default defineConfig( pigeonposseWebPlugin() )
+ */
+export const pigeonposseWebPlugin = ( params?: WebConfig ) => {
+
+	return defineConfig( { transform : { 'pigeonposse.yml' : {
+
+		input : [ params?.input || './.pigeonposse.yml' ],
+		fn    : async ( { const: c } ) => {
+
+			const pkg = c?.pkg as PackageJSON | undefined
+
+			if ( !pkg || typeof pkg !== 'object' ) throw new Error( `No "pkg" const in dovenv configuration` )
+
+			const id                             = pkg.extra?.id || pkg.name
+			const data : Record<string, unknown> = {}
+			if ( params?.values !== false )
+				data.web = [
+					deepmerge( {
+						id          : id,
+						name        : pkg.extra?.productName || id,
+						version     : pkg.version,
+						description : pkg.description,
+						homepage    : pkg.homepage,
+						type        : pkg.extra.type,
+						subtype     : pkg.extra.subtype,
+						repo        : typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url,
+						license     : pkg.extra.licenseURL || pkg.extra.licenseUrl,
+						status      : 'active',
+					}, params?.values || {} ),
+				]
+
+			const res = yaml.serialize( deepmerge( data, params?.customValues || {} ) )
+
+			return ( c?.templateMark || '' ) + `\n` + res
+
+		},
+	} } } )
+
+}
+/**
  * The `PigeonPosse` theme for Dovenv.
  * @param {Config} [params] - The configuration for the theme.
- * @returns {Config} The merged configuration.
+ * @returns {DovenvConfig} The merged configuration.
  *
  * This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
  * It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
  */
-export const pigeonposseTheme = ( params?: Config ) => {
+export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 
 	const config = mergeBandaConfig( { workspace : {
 		exec : {
@@ -85,12 +156,17 @@ export const pigeonposseTheme = ( params?: Config ) => {
 			} },
 		},
 		check : { pkg : {
-			include : ( { path } ) => {
+			include : ( {
+				path, config,
+			} ) => {
 
 				const shared = [ 'package.json', 'README.md' ]
+				const wsDir  = typeof config.const?.workspaceDir  === 'string'
+					? config.const.workspaceDir
+					:  ''
 
 				if ( path.includes( '/config/' ) ) return shared
-				else if ( arePathsEqual( getDirName( path ), params?.workspaceDir || '' ) )  return [ 'docs/index.md', ...shared ]
+				else if ( arePathsEqual( getDirName( path ), wsDir ) )  return [ 'docs/index.md', ...shared ]
 
 				return [
 					'src/*{.js,.ts}',
@@ -99,21 +175,20 @@ export const pigeonposseTheme = ( params?: Config ) => {
 				]
 
 			},
-			exclude : ( { dir } ) => {
+			exclude : ( {
+				dir, config,
+			} ) => {
 
-				if ( arePathsEqual( dir, params?.workspaceDir || '' ) )
+				const wsDir = typeof config.const?.workspaceDir  === 'string'
+					? config.const.workspaceDir
+					: ''
+				if ( arePathsEqual( dir, wsDir ) )
 					return [ 'src/*' ]
 
 			},
 			schema : ( {
 				v, content, path,
 			} ) => {
-
-				// if ( content.name !== 'dovenv-monorepo' ) return v.object( {
-				// 	name    : v.string(),
-				// 	version : v.string(),
-				// } )
-				// else return v.object( { extra: v.object( {} ) } )
 
 				if ( !content ) throw new Error( `No data in ${path}` )
 				if ( 'private' in content ) return
@@ -138,7 +213,26 @@ export const pigeonposseTheme = ( params?: Config ) => {
 
 	} }, params || {} )
 
-	return bandaTheme( config )
+	return defineConfig(
+		pigeonposseWebPlugin( params?.web ),
+		{ check : { pigeonposseConsts : {
+			type : 'custom',
+			desc : 'Check schemas for Pigeonposse necessary consts',
+			fn   : async ( { config } ) => {
+
+				if ( !config?.const?.pkg ) throw new Error( 'Must exist [pkg] const in dovenv configuration' )
+				if ( !config.const?.mark ) throw new Error( 'Must exist [mark] const in dovenv config.\nThis must be a text, for example a watermark, a trademark, or a simple text about the project.' )
+
+				await validateSchema( pkgSchema, config.const.pkg, 'pkg' )
+				await validateSchema( wsDirSchema, config.const.wsDir || config.const.workspaceDir, 'wsDirSchema' )
+
+				await validateSchema( markSchema, config.const.mark, 'mark' )
+				await validateSchema( templateMarkSchema, config.const.templateMark, 'templateMark' )
+
+			},
+		} } },
+		bandaTheme( config ),
+	)
 
 }
 

@@ -16,3 +16,4 @@ export const exampleSchema = v.object( {
 } )
 
 export const schema = v.record( v.string(), exampleSchema )
+

@@ -1,0 +1,36 @@
+simple:
+    title: "CLI example"
+    desc: "Some examples of using the repository plugin"
+    data:
+      push:
+        input: "dovenv git push"
+        title: "git push"
+        desc: "Execute a complete prompt for push your project to github"
+        type: "bash"
+      version:
+        input: "dovenv pkg release"
+        title: "pkg release"
+        desc: "Update version an publish package(s)"
+        type: "bash"
+      husky:
+        input: "dovenv git husky"
+        title: "git husky"
+        desc: "Init Husky configuration"
+        type: "bash"
+      download:
+        input: "dovenv gh download -i https://github.com/pigeonposse/bepp/tree/main/packages -o build"
+        title: "gh download"
+        desc: "Download part or all of the repository from GitHub"
+        type: "bash"
+
+contributors:
+    title: "Contributors example"
+    data:
+      config:
+        input: "./config.ts"
+        title: "Dovenv configuration file"
+      exec:
+        input: "dovenv contributors"
+        title: "Execute wia CLI"
+        type: "bash"
+

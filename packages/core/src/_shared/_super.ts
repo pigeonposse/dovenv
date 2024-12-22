@@ -90,7 +90,7 @@ export class CommandSuper<Opts = undefined> {
 	}
 
 	/** Help url for your application */
-	protected helpURL = consts.HOMEPAGE
+	protected helpURL = consts.HELP_URL
 
 	/**
 	 * The package.json of the workspace.

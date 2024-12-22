@@ -48,6 +48,7 @@ const config = defineConfig(
 	} } ),
 )
 
+// RUN DOVENV
 const dovenv = new Dovenv( { config } )
 const args   = hideBin( process.argv )
 

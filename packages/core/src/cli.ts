@@ -259,7 +259,7 @@ export class Dovenv {
 				if ( ( argv[GLOBAL_OPTIONS.HELP.key] && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
 				if ( errorConfig ) {
 
-					console.error( '\n\n' + color.red( errorConfig.message ) )
+					console.error( '\n' + color.red( errorConfig.message ) )
 					process.exit( 0 )
 
 				}

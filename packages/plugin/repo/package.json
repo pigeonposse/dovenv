@@ -1,7 +1,7 @@
 {
 	"name": "@dovenv/repo",
 	"version": "1.0.2",
-	"description": "Media configuration for dovenv",
+	"description": "Repository tools for any runtime",
 	"keywords": [
 		"repo",
 		"cli",

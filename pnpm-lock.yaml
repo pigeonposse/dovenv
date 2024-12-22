@@ -203,6 +203,54 @@ importers:
         specifier: workspace:*
         version: link:../config/repo-config
 
+  packages/docs:
+    devDependencies:
+      '@dovenv/ai':
+        specifier: workspace:*
+        version: link:../plugin/ai
+      '@dovenv/convert':
+        specifier: workspace:*
+        version: link:../plugin/convert
+      '@dovenv/core':
+        specifier: workspace:*
+        version: link:../core
+      '@dovenv/docs':
+        specifier: workspace:*
+        version: link:../plugin/docs
+      '@dovenv/examples':
+        specifier: workspace:*
+        version: link:../plugin/examples
+      '@dovenv/lint':
+        specifier: workspace:*
+        version: link:../plugin/lint
+      '@dovenv/media':
+        specifier: workspace:*
+        version: link:../plugin/media
+      '@dovenv/repo':
+        specifier: workspace:*
+        version: link:../plugin/repo
+      '@dovenv/repo-config':
+        specifier: workspace:*
+        version: link:../config/repo-config
+      '@dovenv/templates':
+        specifier: workspace:*
+        version: link:../plugin/templates
+      '@dovenv/theme-banda':
+        specifier: workspace:*
+        version: link:../theme/banda
+      '@dovenv/theme-pigeonposse':
+        specifier: workspace:*
+        version: link:../theme/pigeonposse
+      '@dovenv/todo':
+        specifier: workspace:*
+        version: link:../plugin/todo
+      '@dovenv/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@dovenv/workspace':
+        specifier: workspace:*
+        version: link:../plugin/workspace
+
   packages/plugin/ai:
     dependencies:
       env-ai:
@@ -302,7 +350,7 @@ importers:
   packages/plugin/examples:
     dependencies:
       jsdoc-api:
-        specifier: ^9.3.4
+        specifier: 9.3.4
         version: 9.3.4
       leasot:
         specifier: 14.4.0

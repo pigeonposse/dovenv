@@ -1,0 +1,54 @@
+{
+	"name": "@dovenv/_doc",
+	"private": true,
+	"description": "Documentation page for dovenv",
+	"keywords": [
+		"pigeonposse",
+		"pp",
+		"dovenv",
+		"docs"
+	],
+	"homepage": "https://dovenv.pigeonposse.com",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"scripts": {
+		"build": "tsx src/main.ts docs build",
+		"dev": "tsx src/main.ts docs dev",
+		"prebuild": "tsx src/main.ts predocs",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"devDependencies": {
+		"@dovenv/ai": "workspace:*",
+		"@dovenv/convert": "workspace:*",
+		"@dovenv/core": "workspace:*",
+		"@dovenv/docs": "workspace:*",
+		"@dovenv/examples": "workspace:*",
+		"@dovenv/lint": "workspace:*",
+		"@dovenv/media": "workspace:*",
+		"@dovenv/repo": "workspace:*",
+		"@dovenv/repo-config": "workspace:*",
+		"@dovenv/templates": "workspace:*",
+		"@dovenv/theme-banda": "workspace:*",
+		"@dovenv/theme-pigeonposse": "workspace:*",
+		"@dovenv/todo": "workspace:*",
+		"@dovenv/utils": "workspace:*",
+		"@dovenv/workspace": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}

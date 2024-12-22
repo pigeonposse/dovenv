@@ -131,7 +131,9 @@ export class Config {
 			}
 			catch ( e ) {
 
-				console.warn( 'Error getting fn config "pkg" data', e?.message )
+				if ( e instanceof Error )
+					console.warn( 'Error getting fn config "pkg" data', e?.message )
+				else console.warn( 'Error getting fn config "pkg" data', e )
 
 			}
 

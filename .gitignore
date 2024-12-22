@@ -64,4 +64,5 @@ packages/**/build
 **/*.timestamp-*
 **/__temp__/*
 **/__cache__/*
-docs/dev-dist/**
+docs/dev-dist
+**/docs/dev-dist

@@ -2,31 +2,34 @@
  * LINTER FILE
  *
  * Set linter config
- *
- * since version 1.0.0
  */
-import astro       from 'stylelint-config-html/astro.js'
-import html        from 'stylelint-config-html/html.js'
-import php         from 'stylelint-config-html/php.js'
-import svelte      from 'stylelint-config-html/svelte.js'
-import vue         from 'stylelint-config-html/vue.js'
-import xml         from 'stylelint-config-html/xml.js'
-import recess      from 'stylelint-config-recess-order'
+
+// @ts-ignore
+import astro from 'stylelint-config-html/astro.js'
+// @ts-ignore
+import html from 'stylelint-config-html/html.js'
+// @ts-ignore
+import php from 'stylelint-config-html/php.js'
+// @ts-ignore
+import svelte from 'stylelint-config-html/svelte.js'
+// @ts-ignore
+import vue from 'stylelint-config-html/vue.js'
+// @ts-ignore
+import xml from 'stylelint-config-html/xml.js'
+// @ts-ignore
+import recess from 'stylelint-config-recess-order'
+// @ts-ignore
 import recommended from 'stylelint-config-recommended'
-import standard    from 'stylelint-config-standard'
-import order       from 'stylelint-order'
+// @ts-ignore
+import standard from 'stylelint-config-standard'
+// @ts-ignore
+import order from 'stylelint-order'
 
 recess.plugins = [ order ]
 const init     = { rules : {
 	...recommended.rules,
 	...standard.rules,
 } }
-// console.log( {
-// 	recess,
-// 	html,
-// 	xml,
-// 	init,
-// } )
 
 /** @type {import('stylelint').Config} */
 export default {

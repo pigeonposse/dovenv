@@ -16,7 +16,7 @@
 		"pigeonposse",
 		"pp"
 	],
-	"homepage": "https://github.com/pigeonposse/dovenv",
+	"homepage": "https://dovenv.pigeonposse.com",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"
@@ -82,7 +82,7 @@
 	"extra": {
 		"id": "dovenv",
 		"productName": "dovenv",
-		"shortDesc": "Toolkit for make your code workspace easier.",
+		"shortDesc": "Toolkit for make your code workspace easier",
 		"action": "Complex projects should be easier",
 		"libraryUrl": "https://www.npmjs.com/package/@dovenv/core",
 		"licenseUrl": "https://github.com/pigeonposse/dovenv/blob/main/LICENSE",
@@ -90,6 +90,12 @@
 		"repoId": "dovenv",
 		"rawRepoUrl": "https://raw.githubusercontent.com/pigeonposse/dovenv",
 		"docsUrl": "https://dovenv.pigeonposse.com",
+		"type": "library",
+		"subtype": [
+			"bin",
+			"cli",
+			"env"
+		],
 		"collective": {
 			"id": "pigeonposse",
 			"name": "PigeonPosse",

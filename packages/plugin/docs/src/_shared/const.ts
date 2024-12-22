@@ -34,12 +34,14 @@ export type Globals = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setGlobals = ( type: Global, value: any ) => {
 
+	// @ts-ignore: necearry for build 'dovenv' docs page
 	globalThis[globals[type]] = value
 
 }
 
 export const getGlobals = <ID extends Global>( type: ID ): Globals[ID] | undefined => {
 
+	// @ts-ignore: necearry for build 'dovenv' docs page
 	return globals[type] in globalThis ? globalThis[globals[type] as keyof Globals] : undefined
 
 }

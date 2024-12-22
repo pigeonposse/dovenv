@@ -41,7 +41,7 @@ export type Config = {
 export type Params = {
 	/**
 	 * Configuration for dovenv
-	 * @see https://dovenv.pigeonposse.com/guide/core/config
+	 * @see https://dovenv.pigeonposse.com/guide/core/api#config
 	 */
 	config? : Config
 }
