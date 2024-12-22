@@ -1,5 +1,27 @@
 # @dovenv/theme-pigeonposse
 
+## 1.1.1
+
+### Patch Changes
+
+- Update to 1.1.1
+
+- Updated dependencies []:
+  - @dovenv/theme-banda@1.1.1
+  - @dovenv/core@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- Update to v1 (prod)
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/core@1.1.0
+  - @dovenv/theme-banda@2.0.0
+
 ## 1.0.2
 
 ### Patch Changes
