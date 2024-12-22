@@ -178,11 +178,8 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 					'.dovenv/main' + ext,
 				]
 
-				return [
-					'src/*' + ext,
-					//'examples/**/*' + ext,
-					...shared,
-				]
+				//'examples/**/*' + ext,
+				return [ 'src/*' + ext, ...shared ]
 
 			},
 			exclude : ( {
