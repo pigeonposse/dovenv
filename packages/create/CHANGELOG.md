@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.1.2
+
+### Patch Changes
+
+- Extend pigeonposse theme, fix issues from docs
+
 ## 1.1.1
 
 ### Patch Changes

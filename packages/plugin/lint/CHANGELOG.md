@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.1.2
+
+### Patch Changes
+
+- Extend pigeonposse theme, fix issues from docs
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.1.2
+  - @dovenv/stylelint-config@1.1.2
+  - @dovenv/core@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

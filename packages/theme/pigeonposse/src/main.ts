@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 
 import { defineConfig }                from '@dovenv/core'
 import { type Config as DovenvConfig } from '@dovenv/core'
@@ -15,6 +16,10 @@ import {
 import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
 import {
+	getConsts,
+	getWorkspaceConfig,
+} from './const'
+import {
 	markSchema,
 	pkgSchema,
 	templateMarkSchema,
@@ -22,9 +27,12 @@ import {
 	wsDirSchema,
 } from './schema'
 
-import type { PackageJSON } from '@dovenv/core/utils'
+import type { ConstsConfig } from './const'
+import type { PackageJSON }  from '@dovenv/core/utils'
 
 export * from '@dovenv/theme-banda'
+
+export { getWorkspaceConfig }
 
 export type WebConfig = {
 	/**
@@ -37,7 +45,18 @@ export type WebConfig = {
 	customValues? : Record<string, unknown>
 }
 
-export type Config = BandaConfig & { web?: WebConfig }
+export type Config = BandaConfig & {
+	/** Configuration for the pigeonposse web File data */
+	web? : WebConfig
+} & {
+	/**
+	 * Set the pigeonposse theme constants and information
+	 * @example
+	 * import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse'
+	 * const core = await getWorkspaceConfig( '../../../../' )
+	 */
+	core? : ConstsConfig
+}
 
 /**
  * Merges multiple `theme-pigeonposse` configuration objects into a single configuration.
@@ -219,12 +238,13 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 		} },
 
 	} }, params || {} )
-
+	const consts = getConsts( params?.core || {} ) || {}
 	return defineConfig(
 		pigeonposseWebPlugin( params?.web ),
+		consts,
 		{ check : { pigeonposseConsts : {
 			type : 'custom',
-			desc : 'Check schemas for Pigeonposse necessary consts',
+			desc : 'Check schemas for PigeonPosse necessary consts',
 			fn   : async ( { config } ) => {
 
 				if ( !config?.const?.pkg ) throw new Error( 'Must exist [pkg] const in dovenv configuration' )

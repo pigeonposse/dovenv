@@ -16,7 +16,7 @@ export const docsPlugin = ( conf?: DocsConfig ) => {
 
 	return defineDovenvConfig( {
 		const : {
-			[globals.DOVENV_DOCS_CONFIG] : conf as Record<string, unknown>,
+			[globals.DOVENV_DOCS_CONFIG] : conf || {},
 		},
 		custom : { docs : {
 			desc : 'Create documentation pages',

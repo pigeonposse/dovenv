@@ -1,5 +1,14 @@
 # @dovenv/ai
 
+## 1.1.2
+
+### Patch Changes
+
+- Extend pigeonposse theme, fix issues from docs
+
+- Updated dependencies []:
+  - @dovenv/core@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes
