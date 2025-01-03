@@ -40,7 +40,6 @@ export const docsPlugin = ( conf?: DocsPluginConfig ) => {
 			fn : async ( { cmds, showHelp, opts, config } ) => {
 
 				const docsConfig =  ( typeof conf === 'function' ? await conf( config ) : conf )
-				// if ( opts?.verbose ) console.debug( { docsConfig } )
 
 				const docs = new Docs( docsConfig, {
 					debug : opts?.verbose as boolean,

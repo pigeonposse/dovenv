@@ -1,5 +1,7 @@
 # What is dovenv?
 
+![dovenv](/banner.png)
+
 `dovenv` is a versatile tool that helps manage and transform your workspace files, directories, and configurations with ease.
 
 - [Read more](./core)
@@ -14,6 +16,28 @@
 - [Read more](./core)
 
 ## Setup
+
+::: code-group
+
+```bash [npm]
+npm create dovenv@latest
+```
+
+```bash [pnpm]
+pnpm create dovenv@latest
+```
+
+```bash [yarn]
+yarn create dovenv
+```
+
+```bash [bun]
+bun create dovenv@latest
+```
+
+```bash [deno]
+deno init --npm dovenv@latest
+```
 
 - [View more](./create)
 

@@ -1,8 +1,8 @@
-import { defineConfig }      from '@dovenv/core'
-import { joinUrl }           from '@dovenv/core/utils'
+import { defineConfig } from '@dovenv/core'
 import {
 	getSidebar,
 	pigeonposseMonorepoTheme,
+	docs,
 } from '@dovenv/theme-pigeonposse'
 
 import core from '../../../.dovenv/const.js'
@@ -13,17 +13,16 @@ export default defineConfig(
 		docs : async config => {
 
 			const sidebar = await getSidebar( config || {} )
+			const data    = await docs.getPkgConfig(
+				// @ts-ignore
+				config?.const?.pkg || {},
+			)
 
 			return {
-				input        : '../../docs',
-				output       : './build',
-				version      : core.corePkg?.version,
-				changelogURL : joinUrl(
-					// @ts-ignore
-					core.corePkg.repository.url || '',
-					'CHANGELOG.md',
-				),
-				npmURL    : core.pkg?.extra.libraryUrl,
+				...data,
+				input     : '../../docs',
+				output    : './build',
+				version   : core.corePkg?.version,
 				vitepress : {
 					ignoreDeadLinks : true,
 					themeConfig     : { outline: { level: [ 2, 3 ] } },

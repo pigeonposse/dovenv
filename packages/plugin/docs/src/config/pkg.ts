@@ -10,6 +10,15 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 
 	const config: DocsConfig = {}
 
+	config.footer  = {
+		copy  : undefined,
+		links : undefined,
+	}
+	config.license = {
+		type : undefined,
+		url  : undefined,
+	}
+
 	if ( typeof pkgData?.funding === 'object' ) {
 
 		if ( Array.isArray( pkgData.funding ) ) {
@@ -22,15 +31,19 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 
 	}
 
+	if ( typeof pkgData?.repository === 'object' && typeof pkgData?.repository.url === 'string' )
+		config.repoURL = pkgData.repository.url
+	else if ( typeof pkgData?.repository === 'string' )
+		config.repoURL = pkgData.repository
+
 	if ( typeof pkgData?.bugs === 'object' && typeof pkgData?.bugs?.url === 'string' )
 		config.bugsURL = pkgData.bugs.url
 
-	// @ts-ignore
-	const pkgLincenseType = pkgData?.license?.type
-	if ( pkgLincenseType && typeof pkgLincenseType === 'string' ) config.license = { type: pkgLincenseType }
+	if ( pkgData?.license ) config.license.type = pkgData.license
 	if ( typeof pkgData?.homepage === 'string' ) config.url = pkgData.homepage
 	if ( typeof pkgData?.description === 'string' ) config.desc = pkgData.description
 
+	// name
 	if ( typeof pkgData?.extra?.productName === 'string' ) config.name = pkgData.extra.productName
 	else if ( typeof pkgData?.extra?.id === 'string' ) config.name = pkgData.extra.id
 	else if ( typeof pkgData?.name === 'string' ) config.name = pkgData.name
@@ -80,6 +93,28 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 		}
 
 	}
+
+	if ( !pkgData.extra ) return config
+
+	const changlog        = pkgData.extra.changelogURL || pkgData.extra.changelogUrl
+	const license         = pkgData.extra.licenseURL || pkgData.extra.licenseUrl
+	const library         = pkgData.extra.libraryURL || pkgData.extra.libraryUrl
+	const moreURL         = pkgData.extra.collective?.url
+	const footerLinks     = {
+		web   : pkgData.extra.collective.web,
+		email : pkgData.extra.collective.email,
+		...pkgData.extra.collective.social,
+	}
+	const shortDesc       = pkgData.extra.shortDesc
+	const contributingURL = pkgData.extra.contributingURL || pkgData.extra.contributingUrl
+
+	if ( changlog ) config.changelogURL = changlog
+	if ( license ) config.license.url = license
+	if ( library ) config.npmURL = library
+	if ( moreURL ) config.moreURL = moreURL
+	if ( shortDesc ) config.shortDesc = shortDesc
+	if ( footerLinks ) config.footer.links = footerLinks
+	if ( contributingURL ) config.contributingURL = contributingURL
 
 	return config
 

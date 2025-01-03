@@ -22,6 +22,8 @@ export const setConfig = async ( {
 }:{
 	root           : string
 	fnConfig?      : DocsConfig
+	/** configuration in init process. Usefull for update data */
+	initConfig?    : DocsConfig
 	pathConfig?    : DocsConfig
 	packageConfig? : DocsConfig
 } ): Promise<{
@@ -38,10 +40,15 @@ export const setConfig = async ( {
 		pathConfig || {},
 		fnConfig || {},
 	)
-
+	// console.log( {
+	// 	fixedDefConf,
+	// 	packageConfig,
+	// 	pathConfig,
+	// 	fnConfig,
+	// } )
 	const styledConf  = await getStylesConfig( initConf, initConf.input, initConf.logo )
 	const defaultConf = await getDefaultConf( styledConf )
-	// @ts-ignore
+
 	const conf = await mergeConfig( defaultConf, styledConf ) as RequiredDocsConfig
 
 	const srcDir    = isAbsolutePath( conf.input ) ? conf.input : joinPath( root, conf.input )

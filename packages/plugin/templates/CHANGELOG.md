@@ -1,5 +1,14 @@
 # @dovenv/templates
 
+## 1.1.4
+
+### Patch Changes
+
+- Fix docs plugin
+
+- Updated dependencies []:
+  - @dovenv/core@1.1.4
+
 ## 1.1.3
 
 ### Patch Changes

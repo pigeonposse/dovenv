@@ -27,6 +27,7 @@ import {
 	setGlobals,
 } from '../_shared/const'
 
+import type { DocsPluginConfig } from '../plugin'
 import type {
 	DocsConfig,
 	DocsData,
@@ -42,6 +43,14 @@ export class Config {
 	packagePath : string
 	fnPath      : string
 	isRestart
+
+	// #paths: {
+	// 	input  : string | undefined
+	// 	output : string | undefined
+	// } = {
+	// 		input  : undefined,
+	// 		output :	undefined,
+	// 	}
 
 	constructor( config?: DocsConfig, configPath?: string ) {
 
@@ -73,6 +82,7 @@ export class Config {
 			process.exit( 1 )
 
 		}
+
 		// NOTE: `?update=${Date.now()}` is important for update the data when restart server
 		const { default: config } = await import( path + `?update=${Date.now()}` )
 
@@ -114,7 +124,9 @@ export class Config {
 					// `?update=${Date.now()}` is important for update the data when restart server
 					const { default: dovenvConfig } = await import( this.fnPath + `?update=${Date.now()}` )
 					const pkg                       = dovenvConfig?.const?.pkg as Record<string, unknown> | undefined
-					const dovenvDocsConfig          = dovenvConfig?.const?.[globals.DOVENV_DOCS_CONFIG] as DocsConfig | undefined
+					const dovenvDocsConfigConst     = dovenvConfig?.const?.[globals.DOVENV_DOCS_CONFIG] as DocsPluginConfig | undefined
+					const dovenvDocsConfig          = typeof dovenvDocsConfigConst === 'function' ?  await dovenvDocsConfigConst( dovenvConfig ) : dovenvConfig as DocsConfig
+
 					if ( dovenvDocsConfig ) {
 
 						this.config = mergeConfig( dovenvDocsConfig, this.config || {} )
@@ -167,8 +179,7 @@ export class Config {
 			packageConfig : packageConfig?.config,
 		} )
 
-		const config = mergedConf.config
-
+		const config   = mergedConf.config
 		const tempDir  = joinPath( mergedConf.outDir, '.temp' )
 		const outDir   = joinPath( mergedConf.outDir, 'docs' )
 		const cacheDir = joinPath( mergedConf.outDir, '.cache' )
@@ -205,9 +216,10 @@ export class Config {
 	async updateGlobals() {
 
 		console.log( color.green( '\n✨ Update DOVENV globals\n' ) )
+		await this.setGlobals()
+
 		// const fnConfig = await this.getFnConfig( )
 		// console.log( fnConfig, this.fnPath, this.configPath, this.cwd, this.packagePath )
-		await this.setGlobals()
 
 	}
 
