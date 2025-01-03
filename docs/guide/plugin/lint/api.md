@@ -1,4 +1,4 @@
-# `@dovenv/lint` - Api documentation
+# `@dovenv/lint` - API documentation
 
 ## Classes
 

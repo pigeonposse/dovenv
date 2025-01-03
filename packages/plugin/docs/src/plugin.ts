@@ -5,14 +5,17 @@ import { defineConfig as defineDovenvConfig } from '@dovenv/core'
 import { globals } from './_shared/const'
 import { Docs }    from './run'
 
-import type { DocsConfig } from './main'
+import type { DocsConfig }             from './main'
+import type { Config as DovenvConfig } from '@dovenv/core'
+
+export type DocsPluginConfig =  DocsConfig | ( ( config?: DovenvConfig ) => Promise<DocsConfig> )
 
 /**
  * Define a `dovenv` configuration that creates a documentation site for your workspace.
- * @param {DocsConfig} [conf] - The configuration object.
+ * @param {DocsPluginConfig} [conf] - The configuration object.
  * @returns {import('@dovenv/core').Config} The dovenv configuration object.
  */
-export const docsPlugin = ( conf?: DocsConfig ) => {
+export const docsPlugin = ( conf?: DocsPluginConfig ) => {
 
 	return defineDovenvConfig( {
 		const : {
@@ -34,15 +37,16 @@ export const docsPlugin = ( conf?: DocsConfig ) => {
 			settings : {
 				wrapConsole : false,
 			},
-			fn : async ( { cmds, showHelp, opts } ) => {
+			fn : async ( { cmds, showHelp, opts, config } ) => {
 
-				// if ( !conf?.configPath ) throw new Error( 'No config path provided' )
-				// console.info( `Docs Configuration file path: ${conf.configPath}` )
+				const docsConfig =  ( typeof conf === 'function' ? await conf( config ) : conf )
+				// if ( opts?.verbose ) console.debug( { docsConfig } )
 
-				const docs = new Docs( conf, {
+				const docs = new Docs( docsConfig, {
 					debug : opts?.verbose as boolean,
 					port  : opts?.port as number,
 				} )
+
 				if ( cmds?.includes( 'dev' ) ) await docs.dev()
 				else if ( cmds?.includes( 'build' ) ) await docs.build()
 				else if ( cmds?.includes( 'preview' ) ) await docs.preview()

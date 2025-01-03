@@ -48,9 +48,7 @@ export class Constant extends Command<ConstConfig> {
 			const [ e, result ] = await this.catchError( value() )
 
 			if ( !e ) return result
-
-			this.log.error( e )
-			this.process.exit( )
+			return 'Error setting value of ' + key + ':\n' + e.message
 
 		}
 		else return value

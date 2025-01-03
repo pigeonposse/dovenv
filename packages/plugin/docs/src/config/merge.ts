@@ -1,6 +1,7 @@
 import {
 	color,
 	existsPath,
+	isAbsolutePath,
 	joinPath,
 } from '@dovenv/core/utils'
 
@@ -26,6 +27,8 @@ export const setConfig = async ( {
 } ): Promise<{
 	config  : RequiredDocsConfig
 	default : RequiredDocsConfig
+	srcDir  : string
+	outDir  : string
 }> => {
 
 	// the order is important
@@ -41,11 +44,12 @@ export const setConfig = async ( {
 	// @ts-ignore
 	const conf = await mergeConfig( defaultConf, styledConf ) as RequiredDocsConfig
 
-	const docsPath  = joinPath( root, conf.input )
-	const existDocs = await existsPath( docsPath )
+	const srcDir    = isAbsolutePath( conf.input ) ? conf.input : joinPath( root, conf.input )
+	const outDir    = isAbsolutePath( conf.output ) ? conf.output : joinPath( root, conf.output )
+	const existDocs = await existsPath( srcDir )
 	if ( !existDocs ) {
 
-		console.error( color.red( `Docs path not found in ${docsPath}\n` ) )
+		console.error( color.red( `Docs path not found in ${srcDir}\n` ) )
 		process.exit( 1 )
 
 	}
@@ -68,6 +72,8 @@ export const setConfig = async ( {
 	return {
 		config  : conf,
 		default : defaultConf,
+		srcDir,
+		outDir,
 	}
 
 }

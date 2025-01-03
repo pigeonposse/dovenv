@@ -1,4 +1,4 @@
-# `@dovenv/ai` - Api documentation
+# `@dovenv/ai` - API documentation
 
 ## Functions
 

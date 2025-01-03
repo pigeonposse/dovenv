@@ -16,9 +16,9 @@ import {
 import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
 import {
-	getConsts,
-	getWorkspaceConfig,
+	getPigeonposseData,
 } from './const'
+import { predocsCommand } from './docs/build'
 import {
 	markSchema,
 	pkgSchema,
@@ -32,7 +32,8 @@ import type { PackageJSON }  from '@dovenv/core/utils'
 
 export * from '@dovenv/theme-banda'
 
-export { getWorkspaceConfig }
+export * from './utils'
+export * from './docs/main'
 
 export type WebConfig = {
 	/**
@@ -53,7 +54,7 @@ export type Config = BandaConfig & {
 	 * Set the pigeonposse theme constants and information
 	 * @example
 	 * import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse'
-	 * const core = await getWorkspaceConfig( '../../../../' )
+	 * const core = await getWorkspaceConfig({metaURL : import.meta.url, path : '../../../../'} )
 	 */
 	core? : ConstsConfig
 }
@@ -110,6 +111,7 @@ export const pigeonposseWebPlugin = ( params?: WebConfig ) => {
 	} } } )
 
 }
+
 /**
  * The `PigeonPosse` theme for Dovenv.
  * @param {Config} [params] - The configuration for the theme.
@@ -119,6 +121,8 @@ export const pigeonposseWebPlugin = ( params?: WebConfig ) => {
  * It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
  */
 export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
+
+	const { web, core, ...bandaConf } = params || {}
 
 	const config = mergeBandaConfig( { workspace : {
 		exec : {
@@ -237,11 +241,11 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 			},
 		} },
 
-	} }, params || {} )
-	const consts = getConsts( params?.core || {} ) || {}
+	} }, bandaConf )
+
 	return defineConfig(
-		pigeonposseWebPlugin( params?.web ),
-		consts,
+		getPigeonposseData( core ),
+		pigeonposseWebPlugin( web ),
 		{ check : { pigeonposseConsts : {
 			type : 'custom',
 			desc : 'Check schemas for PigeonPosse necessary consts',
@@ -263,4 +267,49 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 
 }
 
+/**
+ * The `pigeonposseMonorepoTheme` for Dovenv.
+ * This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
+ * It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
+ * @param {Config} [params] - The configuration for the theme.
+ * @returns {DovenvConfig} The merged configuration.
+ */
+export const pigeonposseMonorepoTheme = ( params?: Config ) => {
+
+	return defineConfig(
+		pigeonposseTheme( deepmerge(
+			{
+				repo : { commit : { scopes : [
+					{
+						value : 'core',
+						desc  : 'Core package',
+					},
+					{
+						value : 'plugin',
+						desc  : 'Plugin package(s)',
+					},
+					{
+						value : 'theme',
+						desc  : 'Theme package',
+					},
+					{
+						value : 'utils',
+						desc  : 'Utils package',
+					},
+					{
+						value : 'all',
+						desc  : 'All packages',
+					},
+					{
+						value : 'env',
+						desc  : 'Only development environment',
+					},
+				] } },
+			},
+			params || {},
+		) ),
+		predocsCommand,
+	)
+
+}
 export default pigeonposseTheme

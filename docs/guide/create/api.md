@@ -1,4 +1,4 @@
-# `create-dovenv` - Api documentation
+# `create-dovenv` - API documentation
 
 ## Functions
 

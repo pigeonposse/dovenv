@@ -86,7 +86,7 @@
 		"action": "Complex projects should be easier",
 		"libraryUrl": "https://www.npmjs.com/package/@dovenv/core",
 		"licenseUrl": "https://github.com/pigeonposse/dovenv/blob/main/LICENSE",
-		"libraryId": "dovenv",
+		"libraryId": "@dovenv/core",
 		"repoId": "dovenv",
 		"rawRepoUrl": "https://raw.githubusercontent.com/pigeonposse/dovenv",
 		"docsUrl": "https://dovenv.pigeonposse.com",

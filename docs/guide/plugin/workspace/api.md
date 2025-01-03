@@ -1,4 +1,4 @@
-# `@dovenv/workspace` - Api documentation
+# `@dovenv/workspace` - API documentation
 
 ## Classes
 

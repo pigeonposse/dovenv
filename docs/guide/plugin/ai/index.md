@@ -38,7 +38,6 @@ deno add @dovenv/ai
 
 :::
 
-
 ## CLI
 
 Usage with:

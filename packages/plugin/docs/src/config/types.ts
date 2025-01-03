@@ -57,51 +57,78 @@ export type DocsData = {
 	packageConfig? : GetConfig
 }
 
-export type RequiredDocsConfig = DocsConfig &   DeepNonNullable<
+export type RequiredDocsConfig = DocsConfig & DeepNonNullable<
 	Pick<
 		DocsConfig,
-	'input' | 'output' | 'docsPath' | 'logo' | 'favicon' | 'name' | 'desc' | 'styles' | 'lang'
+		'input' | 'output' | 'docsPath' | 'logo' | 'favicon' | 'name' | 'desc' | 'styles' | 'lang'
 	>
 > & { license: { type: string } }
 
 export type DocsConfig = {
-	/** Input directory for documentation files. */
-	input?      : string
-	/** Output directory for the built documentation. */
-	output?     : string
-	/** Logo URL for the documentation site. */
-	logo?       : string
-	/** Favicon URL for the documentation site. */
-	favicon?    : string
-	/** Name of the project or documentation. */
-	name?       : string
-	/** Short description of the project or documentation. */
-	desc?       : string
-	/** A shorter version of the description for better display. */
-	shortDesc?  : string
-	/** URL of the project or documentation site. */
-	url?        : string
-	/** Repository URL for the project. */
-	repoURL?    : string
-	/** URL for the project's issue tracker or bug reports. */
-	bugsURL?    : string
-	/** URL for funding or sponsorship of the project. */
-	fundingURL? : string
-	/** Additional URL for more resources or links related to the project. */
-	moreURL?    : string
-	/** NPM package URL for the project. */
-	npmURL?     : string
-	/** Language code for the documentation, e.g., 'en' for English. */
-	lang?       : string
-	/** Path to the documentation files. Used for editLink in pages */
-	docsPath?   : string
+	/**
+	 * Input directory for documentation files.
+	 * @default './docs'
+	 */
+	input?    : string
+	/**
+	 * Output directory for the built documentation.
+	 * @default './build'
+	 */
+	output?   : string
+	/**
+	 * Logo URL for the documentation site.
+	 * @default '/logo.png'
+	 */
+	logo?     : string
+	/**
+	 * Favicon URL for the documentation site.
+	 * @default '/favicon.png'
+	 */
+	favicon?  : string
+	/**
+	 * Name of the project or documentation.
+	 * @default 'DOVENV'
+	 */
+	name?     : string
+	/**
+	 * Short description of the project or documentation.
+	 * @default 'Workspace documentation'
+	 */
+	/**
+	 * Language code for the documentation, e.g., 'en' for English.
+	 * @default 'en'
+	 */
+	lang?     : string
+	/**
+	 * Path to the documentation files. Used for editLink in pages
+	 * @default 'docs'
+	 */
+	docsPath? : string
 	/** License information for the project. */
 	license?: {
-		/** Type of license (e.g., MIT, GPL). */
+		/**
+		 * Type of license (e.g., MIT, GPL).
+		 * @default 'MIT'
+		 */
 		type? : string
 		/** URL to the full license text. */
 		url?  : string
 	}
+	desc?        : string
+	/** A shorter version of the description for better display. */
+	shortDesc?   : string
+	/** URL of the project or documentation site. */
+	url?         : string
+	/** Repository URL for the project. */
+	repoURL?     : string
+	/** URL for the project's issue tracker or bug reports. */
+	bugsURL?     : string
+	/** URL for funding or sponsorship of the project. */
+	fundingURL?  : string
+	/** Additional URL for more resources or links related to the project. */
+	moreURL?     : string
+	/** NPM package URL for the project. */
+	npmURL?      : string
 	/** Version of the project. */
 	version?     : string
 	/** Array of previous versions of the project, each with a name and a URL. */
@@ -288,3 +315,4 @@ export type DocsConfig = {
 		noTempDirOnBuild? : boolean
 	}
 }
+

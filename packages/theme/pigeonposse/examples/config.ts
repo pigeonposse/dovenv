@@ -7,5 +7,8 @@ import {
 
 export default defineConfig( pigeonposseTheme( {
 	lint : undefined,
-	core : await getWorkspaceConfig( import.meta.url, '../../../../' ),
+	core : await getWorkspaceConfig( {
+		metaURL : import.meta.url,
+		path    : '../../../../',
+	} ),
 } ) )

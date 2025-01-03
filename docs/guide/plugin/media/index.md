@@ -26,7 +26,6 @@ deno add @dovenv/media
 
 :::
 
-
 ## Features
 
 - __Image Minification__: Optimize your images

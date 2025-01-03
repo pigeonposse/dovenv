@@ -1,4 +1,4 @@
-# `@dovenv/docs` - Api documentation
+# `@dovenv/docs` - API documentation
 
 ## Classes
 
@@ -126,7 +126,7 @@ The defined configuration object.
 ### docsPlugin()
 
 ```ts
-function docsPlugin(conf?: DocsConfig): Config
+function docsPlugin(conf?: DocsPluginConfig): Config
 ```
 
 Define a `dovenv` configuration that creates a documentation site for your workspace.
@@ -135,7 +135,7 @@ Define a `dovenv` configuration that creates a documentation site for your works
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `conf`? | [`DocsConfig`](#docsconfig) | The configuration object. |
+| `conf`? | [`DocsPluginConfig`](#docspluginconfig) | The configuration object. |
 
 #### Returns
 
@@ -282,14 +282,14 @@ type DocsConfig: {
 | `contributingURL`? | `string` | contributing url of the project. |
 | `contributors`? | \{ `actionText`: `string`; `avatar`: `string`; `desc`: `string`; `links`: `SocialLinks`; `name`: `string`; `org`: `string`; `orgLink`: `string`; `sponsor`: `string`; `title`: `string`; \}[] | Contributors information including their details and social links. |
 | `css`? | `string` | Custom CSS for the documentation site. |
-| `desc`? | `string` | Short description of the project or documentation. |
-| `docsPath`? | `string` | Path to the documentation files. Used for editLink in pages |
+| `desc`? | `string` | - |
+| `docsPath`? | `string` | Path to the documentation files. Used for editLink in pages **Default** `'docs'` |
 | `download`? | \{ `groups`: \{\}; `items`: \{\}; \} | Data related to downloads and version releases. |
 | `download.groups`? | \{\} | Optional grouping of download items by category. Each key in the object represents a group name and maps to a string label. **Example** `{ 		 * "extension": "extension", 		 * "app": "app", 		 * }` |
 | `download.items`? | \{\} | Optional list of downloadable items, where each key represents an item identifier. Each item includes details such as name, URL, and optionally a logo and type. |
 | `experimental`? | \{ `noTempDirOnBuild`: `boolean`; \} | Settings for experimental options. **Use at your own risk** |
 | `experimental.noTempDirOnBuild`? | `boolean` | Disable temp directory during compilation. The temp directory is used to store documentation files in the output directory during the compilation process. Used to allow input paths with '../' **Default** `false` |
-| `favicon`? | `string` | Favicon URL for the documentation site. |
+| `favicon`? | `string` | Favicon URL for the documentation site. **Default** `'/favicon.png'` |
 | `footer`? | \{ `copy`: \{ `name`: `string`; `url`: `string`; \}; `links`: \{ `email`: `string`; `instagram`: `string`; `medium`: `string`; `twitter`: `string`; `web`: `string`; \}; \} | Footer configuration with links and copyright information. |
 | `footer.copy`? | \{ `name`: `string`; `url`: `string`; \} | Copyright information for the project. |
 | `footer.copy.name`? | `string` | Name to display in copyright notices. |
@@ -301,15 +301,15 @@ type DocsConfig: {
 | `footer.links.twitter`? | `string` | Twitter link for the project or organization. |
 | `footer.links.web`? | `string` | Website link for the project or organization. |
 | `fundingURL`? | `string` | URL for funding or sponsorship of the project. |
-| `input`? | `string` | Input directory for documentation files. |
-| `lang`? | `string` | Language code for the documentation, e.g., 'en' for English. |
+| `input`? | `string` | Input directory for documentation files. **Default** `'./docs'` |
+| `lang`? | `string` | Language code for the documentation, e.g., 'en' for English. **Default** `'en'` |
 | `license`? | \{ `type`: `string`; `url`: `string`; \} | License information for the project. |
-| `license.type`? | `string` | Type of license (e.g., MIT, GPL). |
+| `license.type`? | `string` | Type of license (e.g., MIT, GPL). **Default** `'MIT'` |
 | `license.url`? | `string` | URL to the full license text. |
 | `links`? | `Links` | Additional links to display in a special page. |
-| `logo`? | `string` | Logo URL for the documentation site. |
+| `logo`? | `string` | Logo URL for the documentation site. **Default** `'/logo.png'` |
 | `moreURL`? | `string` | Additional URL for more resources or links related to the project. |
-| `name`? | `string` | Name of the project or documentation. |
+| `name`? | `string` | Name of the project or documentation. **Default** `'DOVENV'` |
 | `nav`? | `Nav` | Navigation configuration for links at the top of the documentation. |
 | `navLinks`? | `SocialLinks` | Additional navigation links. Icons IDs: https://simpleicons.org/ |
 | `npmURL`? | `string` | NPM package URL for the project. |
@@ -321,7 +321,7 @@ type DocsConfig: {
 | `og.twitterAccount`? | `string` | Twitter account associated with the site. |
 | `og.url`? | `string` | URL for the site, used in Open Graph metadata. |
 | `oldVersions`? | \{ `name`: `string`; `url`: `string`; \}[] | Array of previous versions of the project, each with a name and a URL. |
-| `output`? | `string` | Output directory for the built documentation. |
+| `output`? | `string` | Output directory for the built documentation. **Default** `'./build'` |
 | `pwa`? | `Partial`\<`VitePWAOptions`\> \| `false` | Configuration options for PWA (Progressive Web App) support. |
 | `repoURL`? | `string` | Repository URL for the project. |
 | `rss`? | `RSSOptions` | Configuration options for RSS feed. |
@@ -342,6 +342,14 @@ type DocsConfig: {
 | `url`? | `string` | URL of the project or documentation site. |
 | `version`? | `string` | Version of the project. |
 | `vitepress`? | `UserConfig` | VitePress user configuration for additional options. |
+
+***
+
+### DocsPluginConfig
+
+```ts
+type DocsPluginConfig: DocsConfig | (config?: DovenvConfig) => Promise<DocsConfig>;
+```
 
 ## References
 

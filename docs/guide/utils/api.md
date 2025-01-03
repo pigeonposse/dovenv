@@ -1,4 +1,4 @@
-# `@dovenv/utils` - Api documentation
+# `@dovenv/utils` - API documentation
 
 ## Classes
 

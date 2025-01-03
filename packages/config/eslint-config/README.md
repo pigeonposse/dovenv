@@ -7,35 +7,36 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-[![BANNER](https://raw.githubusercontent.com/pigeonposse/dovenv/refs/heads/main/docs/public/banner.png)](https://www.npmjs.com/package/@dovenv/core)
+[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com)
+
+[![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
+[![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
 
 Eslint configuration for dovenv
 
-## What is Dovenv?
-
-Dovenv is a toolkit to make your code workspace robust, easier and cleaner.
-
-**Simplify Your Development Workflow**.
-
-Get your code projects up and running quickly and easily with our comprehensive toolkit. Designed to make your workspace more robust, efficient, and organized, our toolkit offers a range of features to streamline your development process.
-
 ## Table of contents
 
-- [What is Dovenv?](#what-is-dovenv)
 - [🔑 Installation](#-installation)
+- [More](#more)
+- [👨‍💻 Development](#-development)
+- [☕ Donate](#-donate)
+- [📜 License](#-license)
+- [🐦 About us](#-about-us)
+
+
 
 
 ## 🔑 Installation
 
-```bash
+```bash 
 npm install @dovenv/eslint-config
-# or pnpm
-pnpm add @dovenv/eslint-config
-# or yarn
+# or
+pnpm install @dovenv/eslint-config
+# or
 yarn add @dovenv/eslint-config
-# or bun
+# or
 bun add @dovenv/eslint-config
-# or deno
+# or
 deno add @dovenv/eslint-config
 ```
 
@@ -47,14 +48,14 @@ deno add @dovenv/eslint-config
 - [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
   - [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
+  - [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
   - [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
   - [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
-  - [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
+  - [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
 - [Theme](https://dovenv.pigeonposse.com/guide/theme)
   - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
   - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
@@ -64,7 +65,6 @@ deno add @dovenv/eslint-config
 
 
 ---
-
 
 ## 👨‍💻 Development
 
@@ -124,6 +124,9 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 ██████╔╝╚██████╔╝ ╚████╔╝ ███████╗██║ ╚████║ ╚████╔╝                                    
 ╚═════╝  ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝  ╚═══╝                                     
                                                                                         
+- Author: [Angelo](https://github.com/angelespejo)
+
+
 
 -->
 

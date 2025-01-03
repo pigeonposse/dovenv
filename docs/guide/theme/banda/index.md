@@ -26,7 +26,6 @@ deno add @dovenv/theme-banda
 
 :::
 
-
 ## More
 
 - 📖 [API Docs](api.md)

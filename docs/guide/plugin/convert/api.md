@@ -1,4 +1,4 @@
-# `@dovenv/convert` - Api documentation
+# `@dovenv/convert` - API documentation
 
 ## Classes
 

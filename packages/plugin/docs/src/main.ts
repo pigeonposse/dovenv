@@ -1,13 +1,19 @@
 
 import { deepmergeCustom } from '@dovenv/core/utils'
 
-import { getPkgConfig } from './config/pkg'
-import { docsPlugin }   from './plugin'
-import { Docs }         from './run'
+import { getPkgConfig }   from './config/pkg'
+import {
+	docsPlugin,
+	type DocsPluginConfig,
+} from './plugin'
+import { Docs } from './run'
 
 import type { DocsConfig } from './config/types'
 
-export type { DocsConfig }
+export type {
+	DocsConfig,
+	DocsPluginConfig,
+}
 
 export {
 	getPkgConfig,

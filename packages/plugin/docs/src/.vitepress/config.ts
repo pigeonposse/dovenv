@@ -32,7 +32,10 @@ export const VITEPRESS_DIR = joinPath( getCurrentDir( import.meta.url ), '..' ) 
 
 export default async () => {
 
-	const configInstance = new Config( )
+	// NOTE: need set init config for plugin mode
+	const initConf       = getGlobals( 'DOVENV_DOCS_CONFIG' )
+	const initConfPath   = getGlobals( 'DOVENV_DOCS_CONFIG_PATH' )
+	const configInstance = new Config( initConf, initConfPath )
 	await configInstance.updateGlobals()
 
 	const data = getGlobals( 'DOVENV_DOCS_DATA' )

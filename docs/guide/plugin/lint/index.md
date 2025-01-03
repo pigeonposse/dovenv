@@ -26,7 +26,6 @@ deno add @dovenv/lint
 
 :::
 
-
 ## Features
 
 - [x] **ESLint**

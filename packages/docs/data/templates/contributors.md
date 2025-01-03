@@ -1,6 +1,0 @@
----
-{{const.templateMark}}
-
-layout: contributors
----
-

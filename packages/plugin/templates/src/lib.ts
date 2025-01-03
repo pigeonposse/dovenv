@@ -36,8 +36,11 @@ export 	class Templates extends PluginCore<Config> {
 	async #getContent( res: Data, data?: ReplaceContent, partial?: Record<string, string> ) {
 
 		res = ( await data?.hook?.before?.( res ) ) || res
+
 		// first partials
 		res.content = await this.#replaceContent( res.content, { partial }, data )
+		res         = ( await data?.hook?.afterPartials?.( res ) ) || res
+
 		// second consts
 		res.content = await this.#replaceContent( res.content, { const: res.const }, data )
 
@@ -83,8 +86,6 @@ export 	class Templates extends PluginCore<Config> {
 			parts[key]     = keyRes.content
 
 		}
-
-		res = ( await data.hook?.afterPartials?.( res ) ) || res
 
 		return {
 			partials : parts,

@@ -12,17 +12,17 @@ Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
 
-## Examples
-
-Tools for Examples files/directories for dovenv
-
-- [Read more](/guide/plugin/examples)
-
 ## Convert
 
 Convert utils for dovenv
 
 - [Read more](/guide/plugin/convert)
+
+## Examples
+
+Tools for Examples files/directories for dovenv
+
+- [Read more](/guide/plugin/examples)
 
 ## Lint
 
@@ -48,15 +48,15 @@ Media configuration for dovenv
 
 - [Read more](/guide/plugin/templates)
 
-## Todo
-
-TODO tools for dovenv
-
-- [Read more](/guide/plugin/todo)
-
 ## Workspace
 
 A dovenv plugin with utilities for the workspace
 
 - [Read more](/guide/plugin/workspace)
+
+## Todo
+
+TODO tools for dovenv
+
+- [Read more](/guide/plugin/todo)
 

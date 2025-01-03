@@ -9,6 +9,7 @@ import {
 	existsPath,
 	getExtName,
 	getDirName,
+	process,
 	joinPath,
 	getObjectFromJSONFile,
 	resolvePath,
@@ -72,7 +73,7 @@ export class Config {
 			process.exit( 1 )
 
 		}
-		// `?update=${Date.now()}` is important for update the data when restart server
+		// NOTE: `?update=${Date.now()}` is important for update the data when restart server
 		const { default: config } = await import( path + `?update=${Date.now()}` )
 
 		return {
@@ -168,10 +169,10 @@ export class Config {
 
 		const config = mergedConf.config
 
-		const tempDir  = joinPath( root, config.output, '.temp' )
-		const outDir   = joinPath( root, config.output, 'docs' )
-		const cacheDir = joinPath( root, config.output, '.cache' )
-		const srcDir   = joinPath( root, config.input )
+		const tempDir  = joinPath( mergedConf.outDir, '.temp' )
+		const outDir   = joinPath( mergedConf.outDir, 'docs' )
+		const cacheDir = joinPath( mergedConf.outDir, '.cache' )
+		const srcDir   = mergedConf.srcDir
 
 		return {
 			config : config,

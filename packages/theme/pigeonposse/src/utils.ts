@@ -1,7 +1,14 @@
+
 import {
 	createBadgeURL,
 	createMdLinks,
+	getCurrentDir,
+	getObjectFromJSONFile,
+	joinPath,
 } from '@dovenv/core/utils'
+
+import type { ConstsConfig } from './const'
+import type { PackageJSON }  from '@dovenv/core/utils'
 
 type SocialLinks = {
 	web?       : string
@@ -11,6 +18,57 @@ type SocialLinks = {
 	twitter?   : string
 	instagram? : string
 	medium?    : string
+}
+type WsOpts = {
+	/** URL of the current module */
+	metaURL? : string
+	/** Path relative to the [metaURL] directory */
+	path?    : string
+}
+
+/**
+ * Get the workspace configuration.
+ * @param {WsOpts & { core?: WsOpts }} [opts] - The options for getting the workspace configuration.
+ * @param {string} [opts.metaURL] The URL of the current module.
+ * @param {string} [opts.path] The path to the workspace.
+ * @param {{ metaURL?: string, path?: string }} [opts.core] The options for the core package.
+ * @returns {Promise<ConstsConfig>} The workspace configuration.
+ */
+export const getWorkspaceConfig = async ( {
+	metaURL = import.meta.url,
+	path = '',
+	core,
+	packages,
+}: WsOpts & {
+	core?     : WsOpts
+	packages? : WsOpts
+} ): Promise<ConstsConfig> => {
+
+	const workspaceDir = joinPath( getCurrentDir( metaURL ), path )
+	const pkg          = await getObjectFromJSONFile<PackageJSON>( joinPath( workspaceDir, 'package.json' ) )
+
+	const res = {
+		pkg,
+		workspaceDir,
+		corePkg     : pkg,
+		coreDir     : workspaceDir,
+		packagesDir : joinPath( workspaceDir, 'packages' ),
+	}
+
+	if ( core ) {
+
+		if ( core.metaURL ) res.coreDir = joinPath( getCurrentDir( core.metaURL ), core.path || '' )
+		res.corePkg = await getObjectFromJSONFile<PackageJSON>( joinPath( res.coreDir, 'package.json' ) )
+
+	}
+
+	if ( packages ) {
+
+		if ( packages.metaURL ) res.packagesDir = joinPath( getCurrentDir( packages.metaURL ), packages.path || '' )
+
+	}
+	return res
+
 }
 
 /**
@@ -80,10 +138,11 @@ export const socialBadges = ( data: SocialLinks ) => {
 }
 
 type PkgBadgesOptions = {
-	licensePath ? : string
-	pkgName       : string
-	repoName      : string
+	licensePath? : string
+	pkgName      : string
+	repoName     : string
 }
+
 /**
  * Generates markdown links for package-related badges.
  * @param {PkgBadgesOptions} options - The package badge options.
@@ -115,4 +174,3 @@ export const pkgBadges = ( {
 		} ),
 	},
 ] )
-

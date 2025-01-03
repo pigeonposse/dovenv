@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.1.3
+
+### Patch Changes
+
+- fix issues. update docs plugin, update pigeonposse theme
+
+- Updated dependencies []:
+  - @dovenv/templates@1.1.3
+  - @dovenv/workspace@1.1.3
+  - @dovenv/examples@1.1.3
+  - @dovenv/convert@1.1.3
+  - @dovenv/docs@1.1.3
+  - @dovenv/lint@1.1.3
+  - @dovenv/repo@1.1.3
+  - @dovenv/todo@1.1.3
+  - @dovenv/core@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes

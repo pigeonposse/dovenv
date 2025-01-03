@@ -1,4 +1,4 @@
-# `@dovenv/media` - Api documentation
+# `@dovenv/media` - API documentation
 
 ## Functions
 

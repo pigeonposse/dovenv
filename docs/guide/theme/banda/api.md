@@ -1,4 +1,4 @@
-# `@dovenv/theme-banda` - Api documentation
+# `@dovenv/theme-banda` - API documentation
 
 ## Functions
 
@@ -66,7 +66,7 @@ Merges multiple `banda-theme` configuration objects into a single configuration.
 ```ts
 type Config: {
   convert: Config;
-  docs: DocsConfig;
+  docs: DocsPluginConfig;
   examples: Config;
   lint: Config;
   repo: Parameters<typeof default>[0];
@@ -81,7 +81,7 @@ type Config: {
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | `convert`? | [`Config`](namespaces/convert.md#config) | Convert configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/convert - https://www.npmjs.com/package/@dovenv/convert |
-| `docs`? | [`DocsConfig`](namespaces/docs.md#docsconfig) | Documentation configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/docs - https://www.npmjs.com/package/@dovenv/docs |
+| `docs`? | [`DocsPluginConfig`](namespaces/docs.md#docspluginconfig) | Documentation configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/docs - https://www.npmjs.com/package/@dovenv/docs |
 | `examples`? | [`Config`](namespaces/examples.md#config) | Examples configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/examples - https://www.npmjs.com/package/@dovenv/examples |
 | `lint`? | [`Config`](namespaces/lint/index.md#config) | Lint configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/lint - https://www.npmjs.com/package/@dovenv/lint |
 | `repo`? | `Parameters`\<*typeof* [`default`](namespaces/repo.md#default)\>\[`0`\] | Repository configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/repo - https://www.npmjs.com/package/@dovenv/repo |

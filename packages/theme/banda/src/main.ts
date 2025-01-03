@@ -33,7 +33,7 @@ export type Config = {
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/docs
 	 * @see https://www.npmjs.com/package/@dovenv/docs
 	 */
-	docs?      : docs.DocsConfig
+	docs?      : docs.DocsPluginConfig
 	/**
 	 * Convert configuration.
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/convert
@@ -97,7 +97,7 @@ export const mergeConfig = createMergeDataFn<Config>(  )
  */
 export const bandaTheme = ( opts?: Config ) => {
 
-	return defineConfig( [
+	return defineConfig(
 		lint.default( opts?.lint ),
 		repo.default( opts?.repo ),
 		workspace.default( opts?.workspace ),
@@ -106,7 +106,7 @@ export const bandaTheme = ( opts?: Config ) => {
 		todo.default( opts?.todo ),
 		templates.default( opts?.templates ),
 		examples.default( opts?.examples ),
-	] )
+	)
 
 }
 

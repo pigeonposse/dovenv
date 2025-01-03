@@ -26,7 +26,6 @@ deno add @dovenv/eslint-config
 
 :::
 
-
 ## More
 
 - 📦 [NPM](https://www.npmjs.com/package/@dovenv/eslint-config)

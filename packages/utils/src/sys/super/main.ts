@@ -412,19 +412,9 @@ export async function existsDir( path: string ): Promise<boolean> {
 		return stats.isDirectory() // Returns true if it is a directory
 
 	}
-	catch ( error ) {
+	catch ( _error ) {
 
-		// @ts-ignore
-		if ( error.code === 'ENOENT' ) {
-
-			return false // Directory does not exist
-
-		}
-		else {
-
-			throw error // Other error occurred
-
-		}
+		return false
 
 	}
 
@@ -449,19 +439,9 @@ export async function existsFile( path: string ): Promise<boolean> {
 		return stats.isFile()
 
 	}
-	catch ( error ) {
+	catch ( _error ) {
 
-		// @ts-ignore
-		if ( error.code === 'ENOENT' ) {
-
-			return false // File does not exist
-
-		}
-		else {
-
-			throw error // Other error occurred
-
-		}
+		return false
 
 	}
 

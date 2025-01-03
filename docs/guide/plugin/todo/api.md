@@ -1,4 +1,4 @@
-# `@dovenv/todo` - Api documentation
+# `@dovenv/todo` - API documentation
 
 ## Classes
 
