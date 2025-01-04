@@ -40,9 +40,11 @@ import type { Config }  from '@dovenv/core'
 import type {
 	ObjectValues,
 	PackageJSON,
+	Prettify,
 } from '@dovenv/core/utils'
 
 type PredocsConfig = undefined
+type Type = Prettify<ObjectValues<typeof TYPE>>
 
 export class Predocs extends PluginCore<PredocsConfig> {
 
@@ -125,6 +127,8 @@ export class Predocs extends PluginCore<PredocsConfig> {
 		}
 
 		for ( const [ type, items ] of Object.entries( publicPkgGrouped ) ) {
+
+			if ( !Array.isArray( items ) || !items.length ) continue
 
 			if ( type === TYPE.lib ) {
 
@@ -260,7 +264,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 	}
 
-	async setGuideSectionIndexFile( config: { none?: ObjectValues<typeof TYPE> } = {} ) {
+	async setGuideSectionIndexFile( config: { none?: Type[] } = {} ) {
 
 		console.info( this.getLogTitle( 'guide section index file' ) )
 

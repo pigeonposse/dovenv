@@ -125,7 +125,7 @@ export class Config {
 					const { default: dovenvConfig } = await import( this.fnPath + `?update=${Date.now()}` )
 					const pkg                       = dovenvConfig?.const?.pkg as Record<string, unknown> | undefined
 					const dovenvDocsConfigConst     = dovenvConfig?.const?.[globals.DOVENV_DOCS_CONFIG] as DocsPluginConfig | undefined
-					const dovenvDocsConfig          = typeof dovenvDocsConfigConst === 'function' ?  await dovenvDocsConfigConst( dovenvConfig ) : dovenvConfig as DocsConfig
+					const dovenvDocsConfig          = typeof dovenvDocsConfigConst === 'function' ?  await dovenvDocsConfigConst( dovenvConfig ) : dovenvDocsConfigConst as DocsConfig
 
 					if ( dovenvDocsConfig ) {
 

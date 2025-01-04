@@ -15,11 +15,11 @@ export type DocsPluginConfig =  DocsConfig | ( ( config?: DovenvConfig ) => Prom
  * @param {DocsPluginConfig} [conf] - The configuration object.
  * @returns {import('@dovenv/core').Config} The dovenv configuration object.
  */
-export const docsPlugin = ( conf?: DocsPluginConfig ) => {
+export const docsPlugin = ( conf: DocsPluginConfig = {} ) => {
 
 	return defineDovenvConfig( {
 		const : {
-			[globals.DOVENV_DOCS_CONFIG] : conf || {},
+			[globals.DOVENV_DOCS_CONFIG] : conf,
 		},
 		custom : { docs : {
 			desc : 'Create documentation pages',

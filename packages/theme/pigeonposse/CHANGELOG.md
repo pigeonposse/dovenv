@@ -1,5 +1,15 @@
 # @dovenv/theme-pigeonposse
 
+## 1.1.5
+
+### Patch Changes
+
+- fix docs config issues
+
+- Updated dependencies []:
+  - @dovenv/core@1.1.5
+  - @dovenv/theme-banda@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes
