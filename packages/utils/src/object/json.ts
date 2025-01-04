@@ -30,6 +30,7 @@ export const getObjectFromJSONFile = async <Res extends CommonObj = CommonObj>( 
 	}
 
 }
+
 export const getObjectFromJSONContent = async <Res extends CommonObj = CommonObj>( content: string ) => {
 
 	const r = JSON.parse( content ) as Res

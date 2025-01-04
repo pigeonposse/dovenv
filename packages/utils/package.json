@@ -54,12 +54,12 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@cfworker/json-schema": "4.0.2",
+		"@cfworker/json-schema": "4.0.3",
 		"@clack/core": "0.3.5",
 		"@clack/prompts": "0.8.2",
-		"@fortawesome/fontawesome-svg-core": "6.7.1",
+		"@fortawesome/fontawesome-svg-core": "6.7.2",
 		"@fortawesome/free-brands-svg-icons": "6.7.1",
-		"@fortawesome/free-regular-svg-icons": "6.7.1",
+		"@fortawesome/free-regular-svg-icons": "6.7.2",
 		"@fortawesome/free-solid-svg-icons": "6.7.1",
 		"@resvg/resvg-js": "2.6.2",
 		"@schemastore/package": "0.0.10",
@@ -101,7 +101,6 @@
 		"npm-run-path": "6.0.0",
 		"open": "10.1.0",
 		"ora": "8.1.1",
-		"package-json": "10.0.1",
 		"pretty-ms": "9.2.0",
 		"qrcode-terminal": "0.12.0",
 		"remark-parse": "11.0.0",

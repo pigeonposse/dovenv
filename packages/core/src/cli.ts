@@ -270,8 +270,8 @@ export class Dovenv {
 				// @ts-ignore
 				globalThis.DOVENV_CONFIG_PATH = configRes.path as const
 
-				if ( !config.const ) config.const = {}
-				config.const.DOVENV_CONFIG_PATH = configRes.path as string
+				// if ( !config.const ) config.const = {}
+				// config.const.DOVENV_CONFIG_PATH = configRes.path as string
 
 				const conf   = config.custom || undefined
 				const custom = new Custom(
