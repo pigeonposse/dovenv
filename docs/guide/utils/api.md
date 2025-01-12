@@ -3521,46 +3521,7 @@ function getPathsTree(props: {
 ### getPKG()
 
 ```ts
-function getPKG<ProvidedOptions>(packageName: string, options?: ProvidedOptions): Promise<ProvidedOptions extends {} ? ProvidedOptions extends {} ? FullMetadata : FullVersion & Pick<FullMetadata, "time"> : ProvidedOptions extends {} ? AbbreviatedMetadata : AbbreviatedVersion>
-```
-
-Get metadata of a package from the npm registry.
-
-#### Type Parameters
-
-| Type Parameter |
-| ------ |
-| `ProvidedOptions` *extends* `Readonly`\<\{\}\> |
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `packageName` | `string` | Name of the package. |
-| `options`? | `ProvidedOptions` | - |
-
-#### Returns
-
-`Promise`\<`ProvidedOptions` *extends* \{\} ? `ProvidedOptions` *extends* \{\} ? `FullMetadata` : `FullVersion` & `Pick`\<`FullMetadata`, `"time"`\> : `ProvidedOptions` *extends* \{\} ? `AbbreviatedMetadata` : `AbbreviatedVersion`\>
-
-#### Example
-
-```
-import packageJson from 'package-json';
-
-console.log(await packageJson('ava'));
-//=> {name: 'ava', …}
-
-// Also works with scoped packages
-console.log(await packageJson('@sindresorhus/df'));
-```
-
-***
-
-### getPKGVersion()
-
-```ts
-function getPKGVersion(packageName: string, options?: Readonly<{}>): Promise<string>
+function getPKG(packageName: string, opts?: Opts): Promise<JSONSchemaForNPMPackageJsonFiles>
 ```
 
 #### Parameters
@@ -3568,11 +3529,29 @@ function getPKGVersion(packageName: string, options?: Readonly<{}>): Promise<str
 | Parameter | Type |
 | ------ | ------ |
 | `packageName` | `string` |
-| `options`? | `Readonly`\<\{\}\> |
+| `opts`? | `Opts` |
 
 #### Returns
 
-`Promise`\<`string`\>
+`Promise`\<`JSONSchemaForNPMPackageJsonFiles`\>
+
+***
+
+### getPKGVersion()
+
+```ts
+function getPKGVersion(packageName: string): Promise<undefined | string>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `packageName` | `string` |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
 
 ***
 

@@ -43,7 +43,18 @@ import type {
 	Prettify,
 } from '@dovenv/core/utils'
 
-type PredocsConfig = undefined
+type PredocsConfig = {
+	index?: {
+		custom?           : Record<string, unknown>
+		noFeatures?       : boolean
+		noAction?         : boolean
+		content?          : string
+		/** Change template to `creation` template */
+		creationTemplate? : boolean
+	}
+	guideSection? : { none?: Type[] }
+}
+
 type Type = Prettify<ObjectValues<typeof TYPE>>
 
 export class Predocs extends PluginCore<PredocsConfig> {
@@ -57,7 +68,6 @@ export class Predocs extends PluginCore<PredocsConfig> {
 	#pkgPaths : string[] | undefined
 	#coreDir
 	#REPO_URL
-	projectName
 	#mdInfo: undefined | {
 		more   : string
 		plugin : string
@@ -66,11 +76,12 @@ export class Predocs extends PluginCore<PredocsConfig> {
 		lib    : string
 	}
 
-	title = 'Predocs'
+	projectName
+	title = 'predocs'
 
 	protected getLogTitle
 
-	constructor( opts: PredocsConfig, config?: Config ) {
+	constructor( opts?: PredocsConfig, config?: Config ) {
 
 		super( opts, config )
 
@@ -160,16 +171,11 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 	}
 
-	async setIndexFile( config?: {
-		custom?           : Record<string, unknown>
-		noFeatures?       : boolean
-		noAction?         : boolean
-		content?          : string
-		/** Change template to `creation` template */
-		creationTemplate? : boolean
-	} ) {
+	async setIndexFile( config?: PredocsConfig['index'] ) {
 
 		console.info( this.getLogTitle( 'index file' ) )
+
+		config              = deepmerge( this.opts?.index || {}, config || {} )
 		const data          = await this.#getPublicPkgData()
 		const docsIndexFile = joinPath( data.docsDir, FILE_NAME.INDEX )
 
@@ -264,10 +270,11 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 	}
 
-	async setGuideSectionIndexFile( config: { none?: Type[] } = {} ) {
+	async setGuideSectionIndexFile( config: PredocsConfig['guideSection'] = {} ) {
 
 		console.info( this.getLogTitle( 'guide section index file' ) )
 
+		config         = deepmerge( this.opts?.guideSection || {}, config || {} )
 		const data     = await this.#getPublicPkgData( )
 		const guideDir = data.docsGuideDir
 		const info     = await this.getMarkdownInfo()

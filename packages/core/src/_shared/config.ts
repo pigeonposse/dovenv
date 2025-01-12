@@ -132,7 +132,7 @@ export const getConfig = async ( path?: string ) => {
 	}
 	catch ( e ) {
 
-		const set = ( msg: string ) => new Error( `${TITLE_ERROR}\n\n${indent( msg )}` )
+		const set = ( msg: string ) => new Error( `${TITLE_ERROR}\n\n${msg}` )
 		if ( e instanceof ErrorConfig ) throw set( e.data?.data || e.message || 'Unexpected error' )
 		else if ( e instanceof Error )	throw set( e.message || 'Unexpected error' )
 		throw set( 'Unexpected error' )

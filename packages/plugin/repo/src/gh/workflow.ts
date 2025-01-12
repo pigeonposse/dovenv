@@ -145,8 +145,15 @@ export class GitHubWorkflow extends GHSuper {
 					}
 					catch ( e ) {
 
-						if ( e instanceof Error ) p.log.error( this.style.error.msg( e.message ) )
-						else console.error( e )
+						const msg = e instanceof Error
+							? e.message
+							: e && typeof e === 'object' && 'stderr' in e
+								? `${e.stderr}`
+								: typeof e === 'object'
+									? JSON.stringify( e )
+									: `${e}`
+
+						p.log.error( this.style.error.msg( 'Workflow error\n', msg ) )
 
 					}
 

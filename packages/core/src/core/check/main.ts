@@ -152,7 +152,7 @@ export class Check extends Command<CheckConfig> {
 
 			this.load.fail( this.style.error.msg( ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
 			// this.load.fail( `${color.red( `${key}:` )} ` + ( e instanceof Error ? e.message : JSON.stringify( e ) ) )
-			this.process.exit()
+			this.process.exit( 0 )
 
 		}
 

@@ -10,12 +10,13 @@ import { GitHubWorkflow } from './workflow'
 
 import type { Config as GitHubConfig } from '../_super/types'
 
-const CMD = {
+const CMD       = {
 	DOWNLOAD : 'download',
 	WORKFLOW : 'workflow',
 	INFO     : 'info',
 	CREATE   : 'create',
 } as const
+const CMD_ALIAS = { WORKFLOW: 'wf' }
 
 class GitHub extends PluginCore<GitHubConfig> {
 
@@ -102,7 +103,7 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 			const gitHub = new GitHub( conf, config )
 			if ( cmds?.includes( CMD.DOWNLOAD ) && opts?.input && opts?.output )
 				await gitHub.download( opts.input as string, opts.output as string )
-			else if ( cmds?.includes( CMD.WORKFLOW ) ) {
+			else if ( cmds?.includes( CMD.WORKFLOW ) || cmds?.includes( CMD_ALIAS.WORKFLOW ) ) {
 
 				if ( opts?.list ) await gitHub.workflow.list()
 				else await gitHub.workflow.run()
@@ -110,7 +111,7 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 			}
 			else if ( cmds?.includes( CMD.CREATE ) )
 				await gitHub.create.run()
-			else if ( cmds?.includes( CMD.INFO ) && cmds?.includes( 'update' ) )
+			else if ( cmds?.includes( CMD.INFO ) && ( cmds?.includes( 'update' ) || cmds?.includes( 'up' ) ) )
 				await gitHub.info.update()
 			else if ( cmds?.includes( CMD.INFO ) && cmds?.includes( 'view' ) ) {
 

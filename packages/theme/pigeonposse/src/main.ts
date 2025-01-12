@@ -191,7 +191,8 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 				const isWs   = arePathsEqual( getDirName( path ), wsDir )
 
 				if ( content.private ) return shared
-				else if ( isWs  && content.workspaces ) return [ 'docs/index.md', ...shared ]
+
+				else if ( isWs && content.workspaces ) return [ 'docs/index.md', ...shared ]
 				else if ( isWs ) return [
 					'packages/*',
 					'.gitignore',
@@ -276,38 +277,39 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
  */
 export const pigeonposseMonorepoTheme = ( params?: Config ) => {
 
+	const defaultConf = ( !params?.repo?.commit?.scopes )
+		? {
+			repo : { commit : { scopes : [
+				{
+					value : 'core',
+					desc  : 'Core package',
+				},
+				{
+					value : 'plugin',
+					desc  : 'Plugin package(s)',
+				},
+				{
+					value : 'theme',
+					desc  : 'Theme package',
+				},
+				{
+					value : 'utils',
+					desc  : 'Utils package',
+				},
+				{
+					value : 'all',
+					desc  : 'All packages',
+				},
+				{
+					value : 'env',
+					desc  : 'Only development environment',
+				},
+			] } },
+		}
+		: {}
+
 	return defineConfig(
-		pigeonposseTheme( deepmerge(
-			{
-				repo : { commit : { scopes : [
-					{
-						value : 'core',
-						desc  : 'Core package',
-					},
-					{
-						value : 'plugin',
-						desc  : 'Plugin package(s)',
-					},
-					{
-						value : 'theme',
-						desc  : 'Theme package',
-					},
-					{
-						value : 'utils',
-						desc  : 'Utils package',
-					},
-					{
-						value : 'all',
-						desc  : 'All packages',
-					},
-					{
-						value : 'env',
-						desc  : 'Only development environment',
-					},
-				] } },
-			},
-			params || {},
-		) ),
+		pigeonposseTheme( deepmerge( defaultConf, params || {} ) ),
 		predocsCommand,
 	)
 

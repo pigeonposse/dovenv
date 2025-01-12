@@ -1,11 +1,5 @@
 ## 🔌 Plugins
 
-## Convert
-
-Convert utils for dovenv
-
-- [Read more](/guide/plugin/convert)
-
 ## Ai
 
 AI plugin for dovenv
@@ -24,23 +18,29 @@ Tools for Examples files/directories for dovenv
 
 - [Read more](/guide/plugin/examples)
 
+## Convert
+
+Convert utils for dovenv
+
+- [Read more](/guide/plugin/convert)
+
 ## Lint
 
 Lint configuration for dovenv
 
 - [Read more](/guide/plugin/lint)
 
-## Media
-
-Media configuration for dovenv
-
-- [Read more](/guide/plugin/media)
-
 ## Repo
 
 Repository tools for any runtime
 
 - [Read more](/guide/plugin/repo)
+
+## Media
+
+Media configuration for dovenv
+
+- [Read more](/guide/plugin/media)
 
 ## Templates
 

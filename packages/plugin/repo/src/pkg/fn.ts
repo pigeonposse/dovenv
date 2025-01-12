@@ -68,27 +68,33 @@ export class Packages extends Repo {
 
 	}
 
-	async getPkgVersion( npm = true ) {
+	async getPkgVersion( npm = true, showPrivate = true ) {
 
 		const paths = await this.getPkgPaths()
 		const res: {
 			name    : string
 			version : string
 			npm?    : string
+			private : boolean
 		}[] = []
 
 		for ( const pkgPath of paths ) {
 
 			const pkg = await getObjectFromFile<PackageJSON>( pkgPath )
 
-			if ( !( ( !pkg.private || pkg.private === 'false' ) && pkg.name && pkg.version ) ) continue
+			const pkgPrivate = pkg.private && ( pkg.private !== 'false' ) ? true : false
 
-			const [ _, npmVersion ] = npm ? await catchError( getPKGVersion( pkg.name ) ) : [ undefined, undefined ]
+			if ( pkgPrivate && !showPrivate ) continue
+
+			if ( !( pkg.name && pkg.version ) ) continue
+
+			const [ _, npmVersion ] = npm && !pkgPrivate ? await catchError( getPKGVersion( pkg.name ) ) : [ undefined, undefined ]
 
 			res.push( {
 				name    : pkg.name,
 				version : pkg.version,
 				npm     : npmVersion,
+				private : pkgPrivate,
 			} )
 
 		}
@@ -111,7 +117,7 @@ export class Packages extends Repo {
 			p.log.step( '' )
 
 			await p.box( {
-				value : `Your package version(s):\n\n${pkg.map( l => this.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'not found'}` : '' ) ) ).join( '\n' )}\n`,
+				value : `Your package version(s):\n\n${pkg.map( l => this.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'none'}` : '' )  + ( l.private ? ` | private` : '' ) ) ).join( '\n' )}\n`,
 				opts  : {
 					borderStyle : 'none',
 					padding     : 0,
