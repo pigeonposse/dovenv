@@ -8,6 +8,7 @@ import {
 	getPKGVersion,
 	runLocalBin,
 } from '@dovenv/core/utils'
+import { Sizium } from '@sizium/core'
 
 import { Repo } from '../_super/main'
 
@@ -283,6 +284,36 @@ export class Packages extends Repo {
 			else console.error( 'Release failed:', error )
 
 		}
+
+	}
+
+	async getSize( name: string = './' ) {
+
+		const pkg  = new Sizium( name )
+		const type = pkg.inputType
+
+		const {
+			packageNum,
+			size,
+			id,
+			packages,
+		} = await pkg.get()
+
+		const isLocal = type !== 'string'
+		const getSize = ( v: number ) => `${( v / ( 1024 * 1024 ) ).toFixed( 3 )}mb (${( v / 1024 ).toFixed( 3 )}kb)`
+		const data    = this.style.table( [
+			[ 'Name', this.style.info.b( id ) ],
+			[ 'Packages Installed', this.style.p( packageNum ) ],
+			[ 'Local package', this.style.p( isLocal ) ],
+			[ '', '' ],
+			[ 'Unpacked size', this.style.p( getSize( packages[0].unpackedSize ) ) ],
+			[ 'Total size', this.style.success.p( getSize( size ) ) ],
+		] )
+
+		console.log( data )
+
+		if ( !isLocal )
+			console.log( this.style.p( `View more details in ${this.style.a( `https://sizium.pigeonposse.com/?s=${name}` )}` ) )
 
 	}
 

@@ -11,6 +11,7 @@ const CMD = {
 	prepare     : 'prepare',
 	ask         : 'ask',
 	showVersion : 'show-version',
+	size        : 'size',
 } as const
 
 export { Packages }
@@ -33,6 +34,14 @@ export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 					type : 'boolean',
 				} },
 			},
+			[CMD.size] : {
+				desc : 'Get package size of package. (Local and NPM)',
+				opts : { input : {
+					alias : 'i',
+					desc  : 'input',
+					type  : 'string',
+				} },
+			},
 		},
 		fn : async ( {
 			config, cmds, showHelp, opts,
@@ -51,6 +60,8 @@ export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 				await pkg.version()
 			else if ( cmds?.includes( CMD.ask ) )
 				await pkg.ask()
+			else if ( cmds?.includes( CMD.size ) )
+				await pkg.getSize( opts?.input as string )
 			else if ( cmds?.includes( CMD.showVersion ) )
 				await pkg.showPackageVersion( opts?.local ? false : true )
 			else showHelp()
