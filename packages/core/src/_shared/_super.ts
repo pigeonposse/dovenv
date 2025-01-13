@@ -497,12 +497,12 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 		if ( !path ) {
 
-			console.warn( `"${name}" is not installed or not detected` )
+			console.warn( `"${name}" is not installed or not detected in node_modules` )
 
 			const cmds = this.getPkgManagerCmds()
 			const cmd  = `${cmds.exec} ${name} ${flags}`
 
-			console.info( `Install and run with: ${cmd}` )
+			console.info( this.style.info.msg( `Execute:`, cmd ) )
 
 			await exec( cmd )
 

@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.2.0
+
+### Minor Changes
+
+- Update and fix issues
+
 ## 1.1.5
 
 ### Patch Changes
