@@ -1,3 +1,4 @@
+import { createRequire } from 'module'
 import {
 	exec as execNode,
 	fork,
@@ -6,13 +7,73 @@ import {
 } from 'node:child_process'
 import process           from 'node:process'
 import { npmRunPathEnv } from 'npm-run-path'
+import { resolve }       from 'path'
 
-import { catchError }    from '../../error/main'
-import { box }           from '../../styles/main'
+import { catchError } from '../../error/main'
+import { box }        from '../../styles/main'
+import {
+	existsPath,
+	joinPath,
+} from '../../sys/main'
 import { getModulePath } from '../../sys/module'
 
+export const getLocalPkgPath = ( packageName: string ) => {
+
+	try {
+
+		const requireFromCwd = createRequire( resolve( process.cwd(), './' ) )
+
+		return requireFromCwd.resolve( packageName )
+
+	}
+	catch ( _e ) {
+		// continue
+	}
+
+	try {
+
+		const url = import.meta.resolve( packageName )
+		return new URL( url ).pathname
+
+	}
+	catch ( _e ) {
+
+		return undefined
+
+	}
+
+}
+
+export class RunLocalNodeBinError extends Error {}
+
+export const getLocalNodeBinPath = async ( {
+	name, opts,
+}:{
+	name  : string
+	opts? : Parameters<typeof npmRunPathEnv>[0]
+} ) => {
+
+	const env = npmRunPathEnv( opts )
+
+	if ( !env.PATH ) return undefined
+
+	const dirs = env.PATH.split( ':' ).filter( p => p.endsWith( 'node_modules/.bin' ) )
+
+	for ( const dir of dirs ) {
+
+		const path = joinPath( dir, name )
+
+		const exists = await existsPath( path )
+		if ( exists ) return path
+
+	}
+
+	return undefined
+
+}
+
 /**
- * Runs a local binary in the current project.
+ * Runs a local Node binary in the current project.
  *
  * It uses the `PATH` and `npm-run-path` to locate the binary in the project's `node_modules/.bin`.
  * @param   {object}  options - Options object.
@@ -22,7 +83,7 @@ import { getModulePath } from '../../sys/module'
  * @returns {Promise<number>} - Resolves with the exit code of the bin.
  * @throws  {Error} - If the bin exits with a non-zero code.
  */
-export const runLocalBin = async ( {
+export const runLocalNodeBin = async ( {
 	name, args, opts,
 }:{
 	name  : string
@@ -43,31 +104,24 @@ export const runLocalBin = async ( {
 
 		child.on( 'error', error => {
 
-			if ( 'code' in error && error.code === 'ENOENT' ) {
+			if (
+				( 'code' in error && error.code === 'ENOENT' )
+				|| ( 'code' in error && error.code === 'MODULE_NOT_FOUND' )
+			) {
 
-				reject( new Error( `Command '${name}' not found.` ) )
+				reject( new RunLocalNodeBinError( `Command '${name}' not found.` ) )
 
 			}
-			else {
-
+			else
 				reject( new Error( `Failed to execute '${name}': ${error.message}` ) )
-
-			}
 
 		} )
 
 		child.on( 'close', code => {
 
-			if ( code !== 0 ) {
-
+			if ( code !== 0 )
 				reject( new Error( `Process '${name}' exited with code ${code}` ) )
-
-			}
-			else {
-
-				resolve( code )
-
-			}
+			else resolve( code )
 
 		} )
 

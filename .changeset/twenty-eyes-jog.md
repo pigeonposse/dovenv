@@ -19,6 +19,9 @@
 "@dovenv/theme-banda": patch
 ---
 
-- fix issues in theme-pigeonposse
-- fix core check/transform issue
-- add `pkg size` command to repo plugin (wrapper of `sizium`)
+- Fix issues in theme-pigeonposse
+- Fix core check/transform issue
+- Add "pkg size" command to repo plugin (wrapper of "sizium")
+- Fix bugs in docs PWA, docs autosidebar etc
+- Check TODOs
+- Fix bugs executing localbin inside dependences

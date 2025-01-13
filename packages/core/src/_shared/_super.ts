@@ -16,6 +16,8 @@ import {
 	getMatch,
 	schema2type,
 	zod2schema,
+	getLocalPkgPath,
+	exec,
 } from '@dovenv/utils'
 
 import * as consts      from './const'
@@ -368,6 +370,59 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	}
 
+	protected getPkgManagerCmds(): {
+		/** Audit package(s) */
+		audit    : string
+		/** Fix Audition package(s) */
+		auditFix : string
+		outdated : string
+		upDeps   : string
+		/** Fetches a package from the registry without installing it as a dependency, hotloads it, and runs whatever default command binary it exposes. */
+		exec     : string
+		/** Install packages */
+		install  : string
+	} {
+
+		const manager  = this.getPkgManager()
+		const monoRepo = this.isMonorepo()
+		const cmds     = {
+			pnpm : {
+				audit    : 'pnpm audit',
+				auditFix : 'pnpm audit --fix',
+				outdated : monoRepo ? 'pnpm -r outdated' : 'pnpm outdated',
+				upDeps   : monoRepo ? 'pnpm -r up' : 'pmpn up',
+				exec     : 'pnpx',
+				install  : 'pnpm install',
+			},
+			npm : {
+				audit    : 'npm audit',
+				auditFix : 'npm audit fix',
+				outdated : 'npm outdated',
+				upDeps   : 'npm update',
+				exec     : 'npx',
+				install  : 'npm install',
+			},
+			yarn : {
+				audit    : 'yarn audit',
+				auditFix : 'yarn audit fix',
+				outdated : 'yarn outdated',
+				upDeps   : 'yarn upgrade',
+				exec     : 'yarn dlx',
+				install  : 'yarn install',
+			},
+			bun : {
+				audit    : 'bun audit',
+				auditFix : 'bun audit fix',
+				outdated : 'bun outdated',
+				upDeps   : 'bun update',
+				exec     : 'bunx',
+				install  : 'bun install',
+			},
+		}
+		return cmds[manager]
+
+	}
+
 	/**
 	 * Determines the runtime of the current package.
 	 * Checks the "engines" field in the package.json.
@@ -378,7 +433,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 		if ( !this.pkg ) throw new Error( this.message.pkgError )
 
-		const runtime = this.pkg.engines
+		const runtime = this.pkg.engines || this.pkg.devEngines
 		const erroMsg = this.message.noRuntime
 
 		if ( !runtime ) throw new Error( erroMsg )
@@ -421,6 +476,43 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 			packages.push( '.' )
 			return await getPaths(  packages.map( p => joinPath( this.wsDir, p, 'package.json' ) ) )
+
+		}
+
+	}
+
+	/**
+	 * Executes a binary from a local package or falls back to the package manager if it's not installed.
+	 * @param {string} name - The name of the package whose binary you want to execute.
+	 * @param {string[]} [args] - An optional array of arguments to pass to the binary.
+	 * @returns {Promise<void>} A promise that resolves when the execution is complete.
+	 * @throws {Error} If an error occurs during execution, it triggers the `onCancel` method.
+	 * @example
+	 * await execPkgBin('@changesets/cli', ['--help']);
+	 */
+	async execPkgBin( name: string, args?: string[] ) {
+
+		const path  = getLocalPkgPath( name )
+		const flags = args ? args.join( ' ' ) : ''
+
+		if ( !path ) {
+
+			console.warn( `"${name}" is not installed or not detected` )
+
+			const cmds = this.getPkgManagerCmds()
+			const cmd  = `${cmds.exec} ${name} ${flags}`
+
+			console.info( `Install and run with: ${cmd}` )
+
+			await exec( cmd )
+
+		}
+		else {
+
+			const runtime = this.getRuntime()
+
+			const cmd = `${runtime} ${path} ${flags}`
+			await exec( cmd )
 
 		}
 

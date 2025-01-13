@@ -3,7 +3,6 @@ import {
 	getObjectFromJSONFile,
 	joinPath,
 	process,
-	joinUrl,
 	existsFile,
 	capitalize,
 } from '@dovenv/core/utils'
@@ -73,7 +72,7 @@ export const getPublicPackageData = async ( pkgs: string[], wsDir: string, wsPkg
 	return {
 		docsDir,
 		docsGuideDir : guideDir,
-		urlGuidePath : docsRoute.guide,
+		urlGuidePath : joinPath( '/', docsRoute.guide, '/' ),
 		url          : docsUrl,
 		name,
 		packagesPath,
@@ -150,8 +149,8 @@ export const getPublicPackageData = async ( pkgs: string[], wsDir: string, wsPkg
 				docs : {
 					dir     : docsDir,
 					urlPath : {
-						api      : existsApi ? joinUrl( docsPath, FILE_NAME_BASE.API ) : undefined,
-						examples : existsExamples ? joinUrl( docsPath, FILE_NAME_BASE.EXAMPLES ) : undefined,
+						api      : existsApi ? joinPath( docsPath, FILE_NAME_BASE.API ) : undefined,
+						examples : existsExamples ? joinPath( docsPath, FILE_NAME_BASE.EXAMPLES ) : undefined,
 						index    : docsPath,
 					},
 					apiFile      : existsApi ? apiPath : undefined,

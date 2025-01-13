@@ -1,68 +1,98 @@
+import { PluginCore } from '@dovenv/core'
 import {
 	process,
 	getStringType,
 	joinPath,
 	writeFileContent,
 	removeFileIfExist,
-	runLocalBin,
+	ensureDir,
 } from '@dovenv/core/utils'
 
-export type CodeImageConfig = {
+export type CodeImageConfigValue = {
 	/** The input path, URL or Code string to generate the image from */
 	input     : string
 	/** The output path where the image will be saved. If not provided, the current working directory will be used. */
 	output?   : string
 	/** The filename of the image. If not provided, the original filename will be used. */
 	filename? : string
-	/** Flags to pass to the command `carbon-now-cli`*/
+	/**
+	 * Flags to pass to the command `carbon-now-cli`
+	 * @see https://www.npmjs.com/package/carbon-now-cli
+	 */
 	flags?    : string[]
 }
-export const generateCodeImage = async ( {
-	input, output, flags = [], filename,
-}: CodeImageConfig ) => {
 
-	const type = getStringType( input )
-	const out  = output || process.cwd()
+export type CodeImageConfig =  { [key: string]: CodeImageConfigValue }
 
-	try {
+export class CodeImage extends PluginCore<CodeImageConfig> {
 
-		if ( type === 'url' || type === 'text' ) {
+	title = 'codeimage'
 
-			const i = joinPath( out, '.tempfile' )
-			await writeFileContent( i, input )
-			input = i
+	async exec( opts: CodeImageConfigValue ) {
+
+		let input = opts.input
+
+		try {
+
+			const {
+				output = process.cwd(),
+				filename,
+				flags = [],
+			} = opts
+
+			if ( !input ) throw new Error( 'Input must exists' )
+
+			const type = getStringType( input )
+
+			if ( type === 'url' || type === 'text' ) {
+
+				await ensureDir( output )
+				const inTemp = joinPath( output, '.tempfile' )
+				await writeFileContent( inTemp, input )
+				input = inTemp
+
+			}
+
+			await this.execPkgBin( 'carbon-now-cli', [
+				input,
+				`--save-to ${output}`,
+				...( filename ? [ `--save-as ${filename}` ] : [] ),
+				...flags,
+			] )
+
+		}
+		catch ( e ) {
+
+			console.error( e )
+
+		}
+		finally {
+
+			if ( input ) await removeFileIfExist( input )
 
 		}
 
-		// process.argv = [
-		// 	input,
-		// 	`--save-to ${out}`,
-		// 	...( filename ? [ `--save-as ${filename}` ] : [] ),
-		// 	...flags,
-		// ]
+	}
 
-		// // @ts-ignore
-		// await import( 'carbon-now-cli' )
+	async #fn( pattern?: string[] ) {
 
-		await runLocalBin( {
-			name : 'carbon-now',
-			args : [
-				input,
-				`--save-to ${out}`,
-				...( filename ? [ `--save-as ${filename}` ] : [] ),
-				...flags,
-			],
-		} )
+		if ( !( await this.ensureOpts() ) || !this.opts ) return
+
+		const keys = this.getKeys( { pattern } )
+		if ( !keys ) return
+
+		for ( const key of keys ) {
+
+			console.log( this.style.info.h( `${this.style.badge( key )} ${this.title}`  ) )
+			await this.exec( this.opts[key] )
+
+		}
 
 	}
-	catch ( e ) {
 
-		console.error( e )
+	async run( pattern?: string[] ) {
 
-	}
-	finally {
-
-		await removeFileIfExist( input )
+		return await this.catchFn( this.#fn( pattern ) )
 
 	}
 

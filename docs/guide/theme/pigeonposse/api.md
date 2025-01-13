@@ -13,14 +13,14 @@
 ##### new Predocs()
 
 ```ts
-new Predocs(opts: undefined, config?: Config): Predocs
+new Predocs(opts?: PredocsConfig, config?: Config): Predocs
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts` | `undefined` |
+| `opts`? | `PredocsConfig` |
 | `config`? | `Config` |
 
 ###### Returns
@@ -96,13 +96,8 @@ setGuideIndexFile(): Promise<void>
 ##### setGuideSectionIndexFile()
 
 ```ts
-setGuideSectionIndexFile(config: {
-  none: ObjectValues<{
-     config: 'config';
-     lib: 'lib';
-     plugin: 'plugin';
-     theme: 'theme';
-    }>;
+setGuideSectionIndexFile(config: undefined | {
+  none: Type[];
 }): Promise<void>
 ```
 
@@ -110,8 +105,7 @@ setGuideSectionIndexFile(config: {
 
 | Parameter | Type |
 | ------ | ------ |
-| `config` | `object` |
-| `config.none`? | `ObjectValues`\<\{ `config`: `'config'`; `lib`: `'lib'`; `plugin`: `'plugin'`; `theme`: `'theme'`; \}\> |
+| `config` | `undefined` \| \{ `none`: `Type`[]; \} |
 
 ###### Returns
 
@@ -159,9 +153,9 @@ setPkgFiles(): Promise<void>
 | Property | Type | Default value | Description | Overrides | Inherited from |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 | `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `opts` | `undefined` | `undefined` | Configuration options. | - | `PluginCore.opts` |
+| `opts` | `undefined` \| `PredocsConfig` | `undefined` | Configuration options. | - | `PluginCore.opts` |
 | `projectName` | `any` | `undefined` | - | - | - |
-| `title` | `string` | `'Predocs'` | - | `PluginCore.title` | - |
+| `title` | `string` | `'predocs'` | - | `PluginCore.title` | - |
 
 ## Functions
 

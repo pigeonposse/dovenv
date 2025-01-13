@@ -17,11 +17,12 @@ export default defineConfig(
 				// @ts-ignore
 				config?.const?.pkg || {},
 			)
-
+			console.dir( sidebar, { depth: Infinity } )
 			return {
 				...data,
 				input     : '../../docs',
 				output    : './build',
+				// logo      : 'fail',
 				version   : core.corePkg?.version,
 				vitepress : {
 					ignoreDeadLinks : true,
@@ -37,6 +38,7 @@ export default defineConfig(
 					intro     : false,
 					reference : false,
 				},
+				// pwa : { injectRegister: 'inline' },
 			}
 
 		},

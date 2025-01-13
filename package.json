@@ -65,13 +65,12 @@
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "0.5.0",
-		"@changesets/cli": "2.27.11",
 		"@playwright/test": "1.49.1",
 		"@types/node": "22.10.5",
 		"tslib": "2.8.1",
 		"tsx": "4.19.2",
 		"typescript": "5.7.3",
-		"unbuild": "3.2.0",
+		"unbuild": "3.3.0",
 		"vitest": "2.1.8"
 	},
 	"packageManager": "pnpm@9.11.0",

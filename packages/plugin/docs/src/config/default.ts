@@ -35,35 +35,25 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 			title       : name || '',
 			language    : lang,
 			description : desc,
-			baseUrl     : url,
+			baseUrl     : url.endsWith( '/' ) ? url.slice( 0, -1 ) : url,
 			copyright   : `Copyright (c) ${new Date().getFullYear()}-present, ${name}`,
 			ignoreHome  : true,
 		}
 		: undefined,
 	pwa : {
+
 		registerType : 'autoUpdate',
 		devOptions   : { enabled: true },
-		manifest     : {
+		pwaAssets    : {
+			image                 : 'public/logo.png',
+			overrideManifestIcons : true,
+			includeHtmlHeadLinks  : true,
+		},
+		manifest : {
 			description : desc,
 			name        : name,
 			short_name  : name,
-			icons       : [
-				{
-					src   : 'favicon-192x192.png',
-					sizes : '192x192',
-					type  : 'image/png',
-				},
-				{
-					src   : 'favicon-96x96.png',
-					sizes : '96x96',
-					type  : 'image/png',
-				},
-				{
-					src   : 'favicon-32x32.png',
-					sizes : '32x32',
-					type  : 'image/png',
-				},
-			],
+			start_url   : '/?source=pwa',
 			theme_color : styles?.color?.primary,
 		},
 	},

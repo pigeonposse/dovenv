@@ -13,6 +13,7 @@ import {
 	getCurrentDir,
 	copyDir,
 	removePathIfExist,
+	existsPath,
 } from '@dovenv/core/utils'
 import {
 	defineConfig,
@@ -79,6 +80,64 @@ export default async () => {
 		outDir,
 		cacheDir,
 	} = data
+
+	// PWA CHECK
+	if ( conf.pwa && conf.pwa.pwaAssets?.image ) {
+
+		const imageDir = joinPath( srcDir, conf.pwa.pwaAssets.image )
+		console.debug( { imageDir } )
+		const exists = await existsPath( imageDir )
+
+		if ( !exists ) {
+
+			console.warn( `Disable PWA, because image [${imageDir}] does not exists` )
+			conf.pwa = false
+
+		}
+
+	}
+
+	// LOGO & FAVICON CHECK
+	if ( conf.logo ) {
+
+		const logoSrc = joinPath( srcDir, 'public', conf.logo )
+		console.debug( { logoSrc } )
+		const exists = await existsPath( logoSrc )
+
+		if ( !exists ) {
+
+			console.warn( `Disable "logo" because it does not exist at path [${logoSrc}].` )
+			// @ts-ignore
+			conf.logo = conf.logo = undefined
+
+		}
+
+	}
+
+	if ( conf.favicon ) {
+
+		const faviconSrc = joinPath( srcDir, 'public', conf.favicon )
+		console.debug( { faviconSrc } )
+		const exists = await existsPath( faviconSrc )
+
+		if ( !exists ) {
+
+			console.warn( `Disable "favicon" because it does not exist at path [${faviconSrc}].` )
+
+			if ( conf.logo ) console.info( 'Changed the "favicon" path to the "logo" path because the "logo" path exists' )
+
+			conf.favicon = conf.logo
+
+		}
+
+	}
+
+	if ( conf.favicon && !conf.logo ) {
+
+		console.info( 'Changed the "logo" path to the "favicon" path because the "favicon" path exists' )
+		conf.logo = conf.favicon
+
+	}
 
 	const config = defineConfig( {
 		title         : conf.shortDesc ? `${conf.name} - ${conf.shortDesc}` : conf.name,

@@ -6,7 +6,6 @@ import {
 	exec,
 	getObjectFromFile,
 	getPKGVersion,
-	runLocalBin,
 } from '@dovenv/core/utils'
 import { Sizium } from '@sizium/core'
 
@@ -22,14 +21,8 @@ export class Packages extends Repo {
 
 			const alerts = deprecatedAlerts()
 			alerts.hide()
-			const exitCode = await runLocalBin( {
-				name : 'changeset',
-				args,
-			} )
 
-			// TODO: CATCH ON CANCEL ENVENT IN `runLocalBin`
-			console.debug( { exitCode } )
-			return exitCode
+			await this.execPkgBin( '@changesets/cli', args )
 
 		}
 		catch ( error ) {

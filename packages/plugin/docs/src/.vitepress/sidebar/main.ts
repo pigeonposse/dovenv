@@ -1,6 +1,7 @@
 import {
 	deepmergeCustom,
 	getBaseName,
+	joinPath,
 } from '@dovenv/core/utils'
 
 import type {
@@ -11,6 +12,8 @@ import type {
 const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
 
 const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined )  => {
+
+	path =  path?.startsWith( 'guide' ) && path.endsWith( 'index.md' ) ? joinPath( '/', path.replaceAll( 'index.md', '' ) ) : path?.startsWith( 'guide' ) ? joinPath( '/', path ) : path
 
 	if ( items ) return [
 		{

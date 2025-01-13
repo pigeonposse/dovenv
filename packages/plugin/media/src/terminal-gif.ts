@@ -1,9 +1,11 @@
-import { runLocalBin } from '@dovenv/core/utils'
+import { PluginCore } from '@dovenv/core'
 import {
 	isBun,
 	joinPath,
 	createDir,
 } from '@dovenv/core/utils'
+
+import type { Config } from '@dovenv/core'
 
 type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
 	? Acc[number]
@@ -11,7 +13,7 @@ type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] exte
 
 type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>
 
-export type TermGifConfig = {
+export type TermGifConfigValue = {
 	/** A name for the output directory */
 	output      : string
 	/**
@@ -29,57 +31,37 @@ export type TermGifConfig = {
 	 */
 	step?       : number
 }
+export type TermGifConfig = { [key: string]: TermGifConfigValue }
 
-const runCli = async  ( args: string[] = [] ) => {
+export class TerminalGif extends PluginCore<TermGifConfig> {
 
-	await runLocalBin( {
-		name : 'terminalizer',
-		args,
-	} )
+	title = 'termgif'
 
-}
+	constructor( opts?: TermGifConfig, config?: Config ) {
 
-/**
- * Generate a config file in the current directory
- */
-export const terminalGifCreateConfg = async () => {
-
-	await runCli( [ 'config' ] )
-
-}
-
-class TermGif {
-
-	opts
-	recordFile
-
-	constructor( opts: TermGifConfig ) {
-
+		super( opts, config )
 		if ( isBun ) console.warn( 'Bun runtime is possibly incompatible with termgif' )
-		this.opts       = opts
-		this.recordFile = joinPath( opts.output, 'record' )
 
 	}
 
-	async #runCli( args: string[] = [] ) {
+	async #exec( args: string[] = [] ) {
 
-		await runCli( args )
+		await this.execPkgBin( 'terminalizer', args )
 
 	}
 
-	async record( ) {
-
-		const opts = this.opts
+	async record( opts: TermGifConfig[number] ) {
 
 		await createDir( opts.output )
 		const configFile = opts.configPath ? [ '--config', opts.configPath ] : []
+
 		// const gif        = joinPath( opts.output, 'gif.gif' )
 		// const quality    = opts.quality ? [ '--quality', String( opts.quality ) ] : []
 		// const step       = opts.step ? [ '--step', String( opts.step ) ] : []
 
-		await this.#runCli( [
+		await this.#exec( [
 			'record',
-			this.recordFile,
+			joinPath( opts.output, 'record' ),
 			...configFile,
 			'--skip-sharing',
 		] ).then( () => {
@@ -99,16 +81,15 @@ class TermGif {
 
 	}
 
-	async render(  ) {
+	async render( opts: TermGifConfig[number]  ) {
 
-		const opts    = this.opts
 		const gifFile = joinPath( opts.output, 'gif' )
 		const quality = opts.quality ? [ '--quality', String( opts.quality ) ] : []
 		const step    = opts.step ? [ '--step', String( opts.step ) ] : []
 
-		await this.#runCli( [
+		await this.#exec( [
 			'render',
-			this.recordFile,
+			joinPath( opts.output, 'record' ),
 			'--output',
 			gifFile,
 			...quality,
@@ -117,12 +98,34 @@ class TermGif {
 
 	}
 
-	async generatePlayer(  ) {
+	async createConfig() {
 
-		await this.#runCli( [ 'generate', this.recordFile ] )
+		await this.#exec( [ 'config' ] )
+
+	}
+
+	async #fn( pattern?: string[], type: 'render' | 'record' = 'render' ) {
+
+		if ( !( await this.ensureOpts() ) || !this.opts ) return
+
+		const keys = this.getKeys( { pattern } )
+		if ( !keys ) return
+
+		for ( const key of keys ) {
+
+			console.log( this.style.info.msg( `${this.style.badge( key )} ${this.title}`, type ) )
+
+			if ( type == 'record' ) await this.record( this.opts[key] )
+			else await this.render( this.opts[key] )
+
+		}
+
+	}
+
+	async run( pattern?: string[], type?: 'render' | 'record' ) {
+
+		return await this.catchFn( this.#fn( pattern, type ) )
 
 	}
 
 }
-
-export const terminalGif = ( opts: TermGifConfig ) => new TermGif( opts )

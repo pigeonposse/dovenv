@@ -1,5 +1,8 @@
-import { capitalize } from '@dovenv/core/utils'
-import { workspace }  from '@dovenv/theme-banda'
+import {
+	capitalize,
+	joinPath,
+} from '@dovenv/core/utils'
+import { workspace } from '@dovenv/theme-banda'
 
 import * as CONSTS       from './const'
 import {
@@ -53,8 +56,8 @@ const getSidebarReferenceConstructor = async ( publicPkg: PkgData ): Promise<Sid
 
 			const pkgItems = [
 				{
-					text : 'Index',
-					link : pkg.docs.urlPath.index,
+					text : `${ICON.getStarted} Index`,
+					link : joinPath( pkg.docs.urlPath.index, '/' ),
 				},
 			]
 

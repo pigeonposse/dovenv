@@ -74,6 +74,9 @@
 	"peerDependencies": {
 		"@dovenv/core": "workspace:*"
 	},
+	"optionalDependencies": {
+		"@vite-pwa/assets-generator": "0.2.6"
+	},
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"

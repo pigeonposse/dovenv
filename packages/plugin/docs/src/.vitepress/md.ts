@@ -63,5 +63,6 @@ export const markdown: UserConfig['markdown'] = {
 		md.use( markdownItSteps )
 
 	},
+	// @ts-ignore
 	codeTransformers : [ transformerTwoslash() ],
 }

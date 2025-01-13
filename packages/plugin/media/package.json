@@ -47,7 +47,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"carbon-now-cli": "1.1.0",
+		"carbon-now-cli": "2.1.0",
 		"imagemin": "9.0.0",
 		"imagemin-gifsicle": "7.0.0",
 		"imagemin-jpegtran": "8.0.0",
