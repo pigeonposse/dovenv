@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.2.2
+
+### Patch Changes
+
+- fix pwa in docs
+
 ## 1.2.1
 
 ### Patch Changes

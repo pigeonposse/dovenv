@@ -7,13 +7,26 @@ import type {
 	DocsConfig,
 	RequiredDocsConfig,
 } from './types'
-import type { PWAAssetsOptions } from 'vite-plugin-pwa'
+import type { PwaOptions } from '@vite-pwa/vitepress'
 
-export const autoPWAConfig: PWAAssetsOptions = {
+/**
+ * Configuration for auto PWA assets generation.
+ *
+ * **Requires**: `@vite-pwa/assets-generator`
+ * @type {PwaOptions['pwaAssets']}
+ * @example
+ * const docsConfig = {
+ *  pwa: {
+ *    pwaAssets: autoPWAConfig
+ *  }
+ * }
+ */
+export const autoPWAConfig: PwaOptions['pwaAssets'] = {
 	image                 : 'public/logo.png',
 	overrideManifestIcons : true,
 	includeHtmlHeadLinks  : true,
 }
+
 export const getRepoConf = ( repoURL?: string ): DocsConfig => {
 
 	const res = repoURL
@@ -48,11 +61,17 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 		}
 		: undefined,
 	pwa : {
-
-		registerType : 'autoUpdate',
-		devOptions   : { enabled: true },
-		pwaAssets    : undefined,
-		manifest     : {
+		mode           : 'development',
+		injectRegister : 'script-defer',
+		registerType   : 'autoUpdate',
+		workbox        : { globPatterns: [ '**/*.{css,js,html,svg,png,ico,txt,woff2}' ] },
+		experimental   : { includeAllowlist: true },
+		devOptions     : {
+			enabled          : true,
+			suppressWarnings : true,
+			navigateFallback : '/',
+		},
+		manifest : {
 			description : desc,
 			name        : name,
 			short_name  : name,

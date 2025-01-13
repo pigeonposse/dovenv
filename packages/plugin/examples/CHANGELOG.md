@@ -1,5 +1,14 @@
 # @dovenv/examples
 
+## 1.2.2
+
+### Patch Changes
+
+- fix pwa in docs
+
+- Updated dependencies []:
+  - @dovenv/core@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes

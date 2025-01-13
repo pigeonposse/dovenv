@@ -2,7 +2,7 @@
  * VITE CONFIG
  */
 
-import { VitePWA }             from 'vite-plugin-pwa'
+// import { VitePWA }             from 'vite-plugin-pwa'
 import ViteRestart             from 'vite-plugin-restart'
 import { type UserConfig }     from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
@@ -131,7 +131,7 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 			},
 			groupIconVitePlugin(  ),
 			...(  conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
-			...( conf.pwa === false ? [] : [ VitePWA( conf.pwa ) ] ),
+			// ...( conf.pwa === false ? [] : [ VitePWA( conf.pwa ) ] ),
 			ViteRestart( {
 				reload  : [ ...( conf?.server?.hotReloadFiles ? conf.server.hotReloadFiles : [] ) ],
 				restart : [ ...( conf?.server?.restartFiles ? conf.server.restartFiles : [] ) ],

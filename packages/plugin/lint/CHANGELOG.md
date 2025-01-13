@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.2.2
+
+### Patch Changes
+
+- fix pwa in docs
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.2.2
+  - @dovenv/eslint-config@1.2.2
+  - @dovenv/core@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes

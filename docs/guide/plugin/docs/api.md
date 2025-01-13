@@ -423,7 +423,7 @@ type DocsConfig: {
      url: string;
     }[];
   output: string;
-  pwa: Partial<VitePWAOptions> | false;
+  pwa: Partial<PwaOptions> | false;
   repoURL: string;
   rss: RSSOptions;
   server: {
@@ -503,7 +503,7 @@ type DocsConfig: {
 | `og.url`? | `string` | URL for the site, used in Open Graph metadata. |
 | `oldVersions`? | \{ `name`: `string`; `url`: `string`; \}[] | Array of previous versions of the project, each with a name and a URL. |
 | `output`? | `string` | Output directory for the built documentation. **Default** `'./build'` |
-| `pwa`? | `Partial`\<`VitePWAOptions`\> \| `false` | Configuration options for PWA (Progressive Web App) support. |
+| `pwa`? | `Partial`\<`PwaOptions`\> \| `false` | Configuration options for PWA (Progressive Web App) support. |
 | `repoURL`? | `string` | Repository URL for the project. |
 | `rss`? | `RSSOptions` | Configuration options for RSS feed. |
 | `server`? | \{ `hotReloadFiles`: `string`[]; `restartFiles`: `string`[]; \} | Server-related configurations, including file watching settings. |
@@ -543,5 +543,19 @@ Renames and re-exports [docsPlugin](#docsplugin-1)
 ### autoPWAConfig
 
 ```ts
-const autoPWAConfig: PWAAssetsOptions;
+const autoPWAConfig: PwaOptions["pwaAssets"];
+```
+
+Configuration for auto PWA assets generation.
+
+**Requires**: `@vite-pwa/assets-generator`
+
+#### Example
+
+```ts
+const docsConfig = {
+ pwa: {
+   pwaAssets: autoPWAConfig
+ }
+}
 ```

@@ -15,10 +15,8 @@ import {
 	removePathIfExist,
 	existsPath,
 } from '@dovenv/core/utils'
-import {
-	defineConfig,
-	mergeConfig,
-} from 'vitepress'
+import { withPwa }     from '@vite-pwa/vitepress'
+import { mergeConfig } from 'vitepress'
 
 import { markdown }   from './md'
 import { getGlobals } from '../_shared/const'
@@ -139,7 +137,7 @@ export default async () => {
 
 	}
 
-	const config = defineConfig( {
+	const config = await withPwa( {
 		title         : conf.shortDesc ? `${conf.name} - ${conf.shortDesc}` : conf.name,
 		titleTemplate : `:title - Documentation`,
 		description   : conf.desc,
@@ -150,6 +148,7 @@ export default async () => {
 		outDir, // Default: ./.vitepress/dist. The build output location for the site, relative to project root.
 		srcDir, // Default: . .The directory where your markdown pages are stored, relative to project root. Also see Root and Source Directory.
 		cleanUrls     : true,
+		pwa           : conf.pwa ? conf.pwa : undefined,
 		// ignoreDeadLinks : true,
 		head          : [
 			[
@@ -317,7 +316,10 @@ export default async () => {
 		},
 	} )
 
-	return conf.vitepress ? mergeConfig( config, conf.vitepress ) : config
+	return conf.vitepress
+		// @ts-ignore
+		? mergeConfig( config, conf.vitepress )
+		: config
 
 }
 

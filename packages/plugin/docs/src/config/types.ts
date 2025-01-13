@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/object-curly-newline */
 import type { DeepNonNullable } from '@dovenv/core/utils'
-import type { VitePWAOptions }  from 'vite-plugin-pwa'
+import type { PwaOptions }      from '@vite-pwa/vitepress'
 import type {
 	DefaultTheme,
 	UserConfig,
@@ -180,7 +180,7 @@ export type DocsConfig = {
 	/** Configuration options for RSS feed. */
 	rss?    : RSSOptions
 	/** Configuration options for PWA (Progressive Web App) support. */
-	pwa?    : Partial<VitePWAOptions> | false
+	pwa?    : Partial<PwaOptions> | false
 	/** Custom CSS for the documentation site. */
 	css?    : string
 	/** Footer configuration with links and copyright information. */

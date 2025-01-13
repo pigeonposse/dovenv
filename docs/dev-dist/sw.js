@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-a702e535'], (function (workbox) { 'use strict';
+define(['./workbox-43afce22'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -78,15 +78,26 @@ define(['./workbox-a702e535'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "registerSW.js",
-    "revision": "3ca0b8505b4bec776b69afdba2768812"
+    "url": "suppress-warnings.js",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
   }, {
     "url": "index.html",
-    "revision": "0.058j2gjbvp"
+    "revision": "0.f14cnmaiib"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
     allowlist: [/^\/$/]
   }));
+  workbox.registerRoute(({
+    request,
+    sameOrigin
+  }) => {
+    return sameOrigin && request.mode === "navigate";
+  }, new workbox.NetworkOnly({
+    plugins: [{
+      handlerDidError: async () => Response.redirect("404", 302),
+      cacheWillUpdate: async () => null
+    }]
+  }), 'GET');
 
 }));

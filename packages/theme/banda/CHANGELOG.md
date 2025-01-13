@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.2.2
+
+### Patch Changes
+
+- fix pwa in docs
+
+- Updated dependencies []:
+  - @dovenv/templates@1.2.2
+  - @dovenv/workspace@1.2.2
+  - @dovenv/examples@1.2.2
+  - @dovenv/convert@1.2.2
+  - @dovenv/docs@1.2.2
+  - @dovenv/lint@1.2.2
+  - @dovenv/repo@1.2.2
+  - @dovenv/todo@1.2.2
+  - @dovenv/core@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes

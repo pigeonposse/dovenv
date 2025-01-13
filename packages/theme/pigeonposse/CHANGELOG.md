@@ -1,5 +1,15 @@
 # @dovenv/theme-pigeonposse
 
+## 1.2.2
+
+### Patch Changes
+
+- fix pwa in docs
+
+- Updated dependencies []:
+  - @dovenv/theme-banda@1.2.2
+  - @dovenv/core@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes
