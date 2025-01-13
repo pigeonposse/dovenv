@@ -168,15 +168,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: release-docs.yml
-          inputs: '{ "version": "${{ steps.updated.outputs.core_version }}"}'
         continue-on-error: true
 
-    #   - name: 💾🐙😺➡️ Call to workflow for create lib releases
-    #     if: steps.updated.outputs.core_version != ''
-    #     uses: benc-uk/workflow-dispatch@v1
-    #     with:
-    #       workflow: release-lib.yml
-    #       inputs: '{ "version": "${{ steps.updated.outputs.core_version }}"}'
-    #     continue-on-error: true
 
 ###############################################################################
