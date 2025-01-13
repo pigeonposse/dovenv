@@ -152,7 +152,13 @@ new PluginCore<Opts>(opts?: Opts, config?: Config): PluginCore<Opts>
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -163,6 +169,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 

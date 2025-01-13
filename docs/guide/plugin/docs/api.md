@@ -99,6 +99,187 @@ This command is a wrapper of the `npx vitepress preview` command.
 | `outputReplaced.start` | () => `void` |
 | `outputReplaced.stop` | () => `void` |
 
+***
+
+### DocsPlugin
+
+#### Extends
+
+- `PluginCore`\<[`DocsPluginConfig`](#docspluginconfig)\>
+
+#### Constructors
+
+##### new DocsPlugin()
+
+```ts
+new DocsPlugin(
+   opts?: DocsPluginConfig, 
+   config?: Config, 
+   docsOpts?: DocsParams): DocsPlugin
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts`? | [`DocsPluginConfig`](#docspluginconfig) |
+| `config`? | `Config` |
+| `docsOpts`? | `DocsParams` |
+
+###### Returns
+
+[`DocsPlugin`](#docsplugin)
+
+###### Overrides
+
+`PluginCore<DocsPluginConfig>.constructor`
+
+#### Methods
+
+##### build()
+
+```ts
+build(flags?: string[]): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `flags`? | `string`[] |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+##### dev()
+
+```ts
+dev(flags?: string[]): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `flags`? | `string`[] |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+##### execPkgBin()
+
+```ts
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
+```
+
+Executes a binary from a local package or falls back to the package manager if it's not installed.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `name` | `string` | The name of the package whose binary you want to execute. |
+| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the execution is complete.
+
+###### Throws
+
+If an error occurs during execution, it triggers the `onCancel` method.
+
+###### Example
+
+```ts
+await execPkgBin('@changesets/cli', ['--help']);
+```
+
+###### Inherited from
+
+`PluginCore.execPkgBin`
+
+##### generatePWAassets()
+
+```ts
+generatePWAassets(flags?: string[]): Promise<void>
+```
+
+Generate assets for PWA
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `flags`? | `string`[] | Flags to pass '@vite-pwa/assets-generator' cli |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+###### See
+
+https://vite-pwa-org.netlify.app/assets-generator/cli.html
+
+##### preview()
+
+```ts
+preview(flags?: string[]): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `flags`? | `string`[] |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+##### publishToCloudflare()
+
+```ts
+publishToCloudflare(opts: {
+  dir: string;
+  name: string;
+}): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts` | `object` |
+| `opts.dir` | `string` |
+| `opts.name` | `string` |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+#### Properties
+
+| Property | Modifier | Type | Default value | Description | Overrides | Inherited from |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| `config` | `public` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
+| `docsOpts?` | `public` | `DocsParams` | `undefined` | - | - | - |
+| `opts` | `public` | `undefined` \| [`DocsPluginConfig`](#docspluginconfig) | `undefined` | Configuration options. | - | `PluginCore.opts` |
+| `title` | `public` | `string` | `'docs'` | - | `PluginCore.title` | - |
+
 ## Functions
 
 ### defineConfig()
@@ -355,4 +536,12 @@ type DocsPluginConfig: DocsConfig | (config?: DovenvConfig) => Promise<DocsConfi
 
 ### default
 
-Renames and re-exports [docsPlugin](#docsplugin)
+Renames and re-exports [docsPlugin](#docsplugin-1)
+
+## Variables
+
+### autoPWAConfig
+
+```ts
+const autoPWAConfig: PWAAssetsOptions;
+```

@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-tag-names */
 import {
 	process,
 	logger,
@@ -485,19 +486,41 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Executes a binary from a local package or falls back to the package manager if it's not installed.
 	 * @param {string} name - The name of the package whose binary you want to execute.
 	 * @param {string[]} [args] - An optional array of arguments to pass to the binary.
+	 * @param {object} opts - Options-
+	 * @param {string} opts.path - Custom path.
+	 * @param {boolean} opts.forceExec - Force execution with current runtime and not check if exists in 'node_modules'
 	 * @returns {Promise<void>} A promise that resolves when the execution is complete.
 	 * @throws {Error} If an error occurs during execution, it triggers the `onCancel` method.
 	 * @example
 	 * await execPkgBin('@changesets/cli', ['--help']);
 	 */
-	async execPkgBin( name: string, args?: string[] ) {
+	async execPkgBin( name: string, args?: string[], opts?:{
+		/**
+		 * Custom path from package root.
+		 * Only affects when name no exists in node_modules
+		 * @experimental
+		 */
+		path?      : string
+		/**
+		 * Force execution with current package manager and not check if exists in 'node_modules'
+		 * @default false
+		 */
+		forceExec? : boolean
+	} ) {
 
-		const path  = getLocalPkgPath( name )
+		console.debug( {
+			name,
+			args,
+			opts,
+		} )
+
+		let path    = getLocalPkgPath( name )
 		const flags = args ? args.join( ' ' ) : ''
 
-		if ( !path ) {
+		if ( !path || opts?.forceExec ) {
 
-			console.warn( `"${name}" is not installed or not detected in node_modules` )
+			if ( !opts?.forceExec )
+				console.warn( `"${name}" is not installed or not detected in node_modules` )
 
 			const cmds = this.getPkgManagerCmds()
 			const cmd  = `${cmds.exec} ${name} ${flags}`
@@ -511,7 +534,17 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 			const runtime = this.getRuntime()
 
+			if ( opts?.path ) {
+
+				const index = path.lastIndexOf( name )
+
+				if ( index !== -1 ) path = path.slice( 0, index + name.length )
+				path = joinPath( path, opts?.path )
+
+			}
+
 			const cmd = `${runtime} ${path} ${flags}`
+			console.info( this.style.info.msg( `Execute:`, cmd ) )
 			await exec( cmd )
 
 		}

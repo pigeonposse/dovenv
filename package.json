@@ -50,6 +50,7 @@
 		"..": "node packages/core/dist/bin.mjs x",
 		"b": "----------------------- BUILD ----------------------------",
 		"build": "pnpm run --sequential \"/build:.*/\"",
+		"build-assets": "pnpm . docs generate-assets --flag=\"--preset minimal\" --flag=\"docs/public/logo.png\"",
 		"build-doc": "pnpm -F @dovenv/_doc build",
 		"build:config": "pnpm -F @dovenv/eslint-config build",
 		"build:core": "pnpm -F @dovenv/utils build && pnpm -F @dovenv/core build",

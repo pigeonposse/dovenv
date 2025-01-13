@@ -186,7 +186,13 @@ new Git(opts?: GitConfig, config?: Config): Git
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -197,6 +203,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -329,7 +338,13 @@ exec(value: string): Promise<void>
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -340,6 +355,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -548,7 +566,13 @@ Delete a branch.
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -559,6 +583,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -780,7 +807,13 @@ exec(message: string): Promise<void>
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -791,6 +824,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -975,7 +1011,13 @@ download(input: string, output: string): Promise<void>
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -986,6 +1028,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1054,7 +1099,13 @@ new GitHubInfo(opts?: GitHubConfig, config?: Config): GitHubInfo
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1065,6 +1116,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1229,7 +1283,13 @@ new GitHubWorkflow(opts?: GitHubConfig, config?: Config): GitHubWorkflow
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1240,6 +1300,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1394,7 +1457,13 @@ new GitInit(opts?: GitConfig, config?: Config): GitInit
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1405,6 +1474,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1538,7 +1610,13 @@ new GitPull(opts?: GitConfig, config?: Config): GitPull
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1549,6 +1627,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1682,7 +1763,13 @@ exec(branch: string): Promise<void>
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1693,6 +1780,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1810,7 +1900,13 @@ new Husky(opts?: GitConfig, config?: Config): Husky
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1821,6 +1917,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 
@@ -1948,7 +2047,13 @@ ask(): Promise<{}>
 ##### execPkgBin()
 
 ```ts
-execPkgBin(name: string, args?: string[]): Promise<void>
+execPkgBin(
+   name: string, 
+   args?: string[], 
+   opts?: {
+  forceExec: boolean;
+  path: string;
+}): Promise<void>
 ```
 
 Executes a binary from a local package or falls back to the package manager if it's not installed.
@@ -1959,6 +2064,9 @@ Executes a binary from a local package or falls back to the package manager if i
 | ------ | ------ | ------ |
 | `name` | `string` | The name of the package whose binary you want to execute. |
 | `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+| `opts`? | `object` | Options- |
+| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
+| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
 
 ###### Returns
 

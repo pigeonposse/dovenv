@@ -15,7 +15,7 @@ import { Config } from './config/main'
 
 import type { DocsConfig } from './main'
 
-type DocsParams = {
+export type DocsParams = {
 	configPath? : string
 	debug?      : boolean
 	port?       : number

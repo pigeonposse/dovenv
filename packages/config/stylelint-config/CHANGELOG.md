@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.2.1
+
+### Patch Changes
+
+- Add feats
+
 ## 1.2.0
 
 ### Minor Changes

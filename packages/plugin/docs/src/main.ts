@@ -1,9 +1,11 @@
 
 import { deepmergeCustom } from '@dovenv/core/utils'
 
+import { autoPWAConfig }  from './config/default'
 import { getPkgConfig }   from './config/pkg'
 import {
 	docsPlugin,
+	DocsPlugin,
 	type DocsPluginConfig,
 } from './plugin'
 import { Docs } from './run'
@@ -19,6 +21,8 @@ export {
 	getPkgConfig,
 	Docs,
 	docsPlugin,
+	autoPWAConfig,
+	DocsPlugin,
 }
 
 export default docsPlugin

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -53,7 +53,7 @@
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"@shikijs/vitepress-twoslash": "1.26.1",
+		"@shikijs/vitepress-twoslash": "1.26.2",
 		"markdown-it-container": "4.0.0",
 		"markdown-it-task-lists": "2.1.1",
 		"medium-zoom": "1.1.0",
@@ -73,9 +73,6 @@
 	},
 	"peerDependencies": {
 		"@dovenv/core": "workspace:*"
-	},
-	"optionalDependencies": {
-		"@vite-pwa/assets-generator": "0.2.6"
 	},
 	"publishConfig": {
 		"access": "public",

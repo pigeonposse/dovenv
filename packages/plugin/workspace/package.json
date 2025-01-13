@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/workspace",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "A dovenv plugin with utilities for the workspace",
 	"keywords": [
 		"theme",

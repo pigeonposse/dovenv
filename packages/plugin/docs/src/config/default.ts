@@ -7,7 +7,13 @@ import type {
 	DocsConfig,
 	RequiredDocsConfig,
 } from './types'
+import type { PWAAssetsOptions } from 'vite-plugin-pwa'
 
+export const autoPWAConfig: PWAAssetsOptions = {
+	image                 : 'public/logo.png',
+	overrideManifestIcons : true,
+	includeHtmlHeadLinks  : true,
+}
 export const getRepoConf = ( repoURL?: string ): DocsConfig => {
 
 	const res = repoURL
@@ -21,6 +27,7 @@ export const getRepoConf = ( repoURL?: string ): DocsConfig => {
 	return res
 
 }
+
 export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: string, styles?: DocsConfig['styles'] ): DocsConfig => ( {
 	url,
 	og : {
@@ -44,12 +51,8 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 
 		registerType : 'autoUpdate',
 		devOptions   : { enabled: true },
-		pwaAssets    : {
-			image                 : 'public/logo.png',
-			overrideManifestIcons : true,
-			includeHtmlHeadLinks  : true,
-		},
-		manifest : {
+		pwaAssets    : undefined,
+		manifest     : {
 			description : desc,
 			name        : name,
 			short_name  : name,

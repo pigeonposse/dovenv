@@ -122,6 +122,7 @@ export class Dovenv {
 					.help( false )
 					.updateStrings( { 'Options:': 'Global Options:' } )
 					.showHelpOnFail( false )
+					.wrap( cli.terminalWidth() )
 					.alias( GLOBAL_OPTIONS.HELP.key, GLOBAL_OPTIONS.HELP.alias )
 					.alias( GLOBAL_OPTIONS.VERSION.key, GLOBAL_OPTIONS.VERSION.alias )
 					.option(  GLOBAL_OPTIONS.VERBOSE.key, {
