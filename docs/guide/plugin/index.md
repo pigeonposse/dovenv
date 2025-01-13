@@ -1,16 +1,16 @@
 ## 🔌 Plugins
 
-## Ai
-
-AI plugin for dovenv
-
-- [Read more](/guide/plugin/ai)
-
 ## Convert
 
 Convert utils for dovenv
 
 - [Read more](/guide/plugin/convert)
+
+## Ai
+
+AI plugin for dovenv
+
+- [Read more](/guide/plugin/ai)
 
 ## Docs
 
@@ -48,15 +48,15 @@ Media configuration for dovenv
 
 - [Read more](/guide/plugin/templates)
 
-## Workspace
-
-A dovenv plugin with utilities for the workspace
-
-- [Read more](/guide/plugin/workspace)
-
 ## Todo
 
 TODO tools for dovenv
 
 - [Read more](/guide/plugin/todo)
+
+## Workspace
+
+A dovenv plugin with utilities for the workspace
+
+- [Read more](/guide/plugin/workspace)
 

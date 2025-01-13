@@ -2,6 +2,57 @@
 
 ## Classes
 
+### RunLocalNodeBinError
+
+#### Extends
+
+- `Error`
+
+#### Constructors
+
+##### new RunLocalNodeBinError()
+
+```ts
+new RunLocalNodeBinError(message?: string): RunLocalNodeBinError
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `message`? | `string` |
+
+###### Returns
+
+[`RunLocalNodeBinError`](#runlocalnodebinerror)
+
+###### Inherited from
+
+`Error.constructor`
+
+##### new RunLocalNodeBinError()
+
+```ts
+new RunLocalNodeBinError(message?: string, options?: ErrorOptions): RunLocalNodeBinError
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `message`? | `string` |
+| `options`? | `ErrorOptions` |
+
+###### Returns
+
+[`RunLocalNodeBinError`](#runlocalnodebinerror)
+
+###### Inherited from
+
+`Error.constructor`
+
+***
+
 ### TypedError\<M, D\>
 
 A generic error class that extends the native `Error` class to include
@@ -2460,6 +2511,47 @@ Retrieves the HTML content from a given path or URL or string.
 `Promise`\<`string`\>
 
 - A promise that resolves to the HTML content as a string.
+
+***
+
+### getLocalNodeBinPath()
+
+```ts
+function getLocalNodeBinPath(__namedParameters: {
+  name: string;
+  opts: EnvOptions;
+}): Promise<undefined | string>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `__namedParameters` | `object` |
+| `__namedParameters.name` | `string` |
+| `__namedParameters.opts`? | `EnvOptions` |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
+
+***
+
+### getLocalPkgPath()
+
+```ts
+function getLocalPkgPath(packageName: string): undefined | string
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `packageName` | `string` |
+
+#### Returns
+
+`undefined` \| `string`
 
 ***
 
@@ -5673,17 +5765,17 @@ hide useful deprecation warnings that should be addressed.
 
 ***
 
-### runLocalBin()
+### runLocalNodeBin()
 
 ```ts
-function runLocalBin(options: {
+function runLocalNodeBin(options: {
   args: string[];
   name: string;
   opts: EnvOptions;
 }): Promise<number>
 ```
 
-Runs a local binary in the current project.
+Runs a local Node binary in the current project.
 
 It uses the `PATH` and `npm-run-path` to locate the binary in the project's `node_modules/.bin`.
 

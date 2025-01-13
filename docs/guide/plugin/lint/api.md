@@ -33,6 +33,41 @@ new CommitLint(opts?: CommitlintConfig, config?: Config): CommitLint
 
 #### Methods
 
+##### execPkgBin()
+
+```ts
+execPkgBin(name: string, args?: string[]): Promise<void>
+```
+
+Executes a binary from a local package or falls back to the package manager if it's not installed.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `name` | `string` | The name of the package whose binary you want to execute. |
+| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the execution is complete.
+
+###### Throws
+
+If an error occurs during execution, it triggers the `onCancel` method.
+
+###### Example
+
+```ts
+await execPkgBin('@changesets/cli', ['--help']);
+```
+
+###### Inherited from
+
+`LintSuper.execPkgBin`
+
 ##### run()
 
 ```ts
@@ -90,6 +125,41 @@ new Eslint(opts?: EslintConfig, config?: Config): Eslint
 `LintSuper<EslintConfig>.constructor`
 
 #### Methods
+
+##### execPkgBin()
+
+```ts
+execPkgBin(name: string, args?: string[]): Promise<void>
+```
+
+Executes a binary from a local package or falls back to the package manager if it's not installed.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `name` | `string` | The name of the package whose binary you want to execute. |
+| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the execution is complete.
+
+###### Throws
+
+If an error occurs during execution, it triggers the `onCancel` method.
+
+###### Example
+
+```ts
+await execPkgBin('@changesets/cli', ['--help']);
+```
+
+###### Inherited from
+
+`LintSuper.execPkgBin`
 
 ##### run()
 
@@ -199,6 +269,41 @@ eslint(flags: string[]): Promise<unknown>
 
 `Promise`\<`unknown`\>
 
+##### execPkgBin()
+
+```ts
+execPkgBin(name: string, args?: string[]): Promise<void>
+```
+
+Executes a binary from a local package or falls back to the package manager if it's not installed.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `name` | `string` | The name of the package whose binary you want to execute. |
+| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the execution is complete.
+
+###### Throws
+
+If an error occurs during execution, it triggers the `onCancel` method.
+
+###### Example
+
+```ts
+await execPkgBin('@changesets/cli', ['--help']);
+```
+
+###### Inherited from
+
+`LintSuper.execPkgBin`
+
 ##### staged()
 
 ```ts
@@ -268,6 +373,41 @@ new StagedLint(opts?: LintStagedConfig, config?: Config): StagedLint
 
 #### Methods
 
+##### execPkgBin()
+
+```ts
+execPkgBin(name: string, args?: string[]): Promise<void>
+```
+
+Executes a binary from a local package or falls back to the package manager if it's not installed.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `name` | `string` | The name of the package whose binary you want to execute. |
+| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the execution is complete.
+
+###### Throws
+
+If an error occurs during execution, it triggers the `onCancel` method.
+
+###### Example
+
+```ts
+await execPkgBin('@changesets/cli', ['--help']);
+```
+
+###### Inherited from
+
+`LintSuper.execPkgBin`
+
 ##### run()
 
 ```ts
@@ -319,6 +459,41 @@ new StyleLint(opts?: LinterOptions, config?: Config): StyleLint
 `LintSuper<StylelintConfig>.constructor`
 
 #### Methods
+
+##### execPkgBin()
+
+```ts
+execPkgBin(name: string, args?: string[]): Promise<void>
+```
+
+Executes a binary from a local package or falls back to the package manager if it's not installed.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `name` | `string` | The name of the package whose binary you want to execute. |
+| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the execution is complete.
+
+###### Throws
+
+If an error occurs during execution, it triggers the `onCancel` method.
+
+###### Example
+
+```ts
+await execPkgBin('@changesets/cli', ['--help']);
+```
+
+###### Inherited from
+
+`LintSuper.execPkgBin`
 
 ##### run()
 
