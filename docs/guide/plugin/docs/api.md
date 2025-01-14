@@ -358,9 +358,9 @@ type DocsConfig: {
      intro: boolean;
      reference: boolean;
     };
-  bugsURL: string;
-  changelogURL: string;
-  contributingURL: string;
+  bugsURL: string | false;
+  changelogURL: string | false;
+  contributingURL: string | false;
   contributors: {
      actionText: string;
      avatar: string;
@@ -396,7 +396,7 @@ type DocsConfig: {
         web: string;
        };
     };
-  fundingURL: string;
+  fundingURL: string | false;
   input: string;
   lang: string;
   license: {
@@ -405,11 +405,11 @@ type DocsConfig: {
     };
   links: Links;
   logo: string;
-  moreURL: string;
+  moreURL: string | false;
   name: string;
   nav: Nav;
   navLinks: SocialLinks;
-  npmURL: string;
+  npmURL: string | false;
   og: {
      description: string;
      image: string;
@@ -424,7 +424,7 @@ type DocsConfig: {
     }[];
   output: string;
   pwa: Partial<PwaOptions> | false;
-  repoURL: string;
+  repoURL: string | false;
   rss: RSSOptions;
   server: {
      hotReloadFiles: string[];
@@ -458,9 +458,9 @@ type DocsConfig: {
 | `autoSidebar.contribute`? | `boolean` | Display the "Contribute" section in the sidebar. **Default** `true` |
 | `autoSidebar.intro`? | `boolean` | Display the "Get started" section in the sidebar. **Default** `true` |
 | `autoSidebar.reference`? | `boolean` | Display the "Reference" section in the sidebar. **Default** `true` |
-| `bugsURL`? | `string` | URL for the project's issue tracker or bug reports. |
-| `changelogURL`? | `string` | CHANGELOG url of the project. |
-| `contributingURL`? | `string` | contributing url of the project. |
+| `bugsURL`? | `string` \| `false` | URL for the project's issue tracker or bug reports. |
+| `changelogURL`? | `string` \| `false` | CHANGELOG url of the project. |
+| `contributingURL`? | `string` \| `false` | contributing url of the project. |
 | `contributors`? | \{ `actionText`: `string`; `avatar`: `string`; `desc`: `string`; `links`: `SocialLinks`; `name`: `string`; `org`: `string`; `orgLink`: `string`; `sponsor`: `string`; `title`: `string`; \}[] | Contributors information including their details and social links. |
 | `css`? | `string` | Custom CSS for the documentation site. |
 | `desc`? | `string` | - |
@@ -481,7 +481,7 @@ type DocsConfig: {
 | `footer.links.medium`? | `string` | Medium link for articles or blogs related to the project. |
 | `footer.links.twitter`? | `string` | Twitter link for the project or organization. |
 | `footer.links.web`? | `string` | Website link for the project or organization. |
-| `fundingURL`? | `string` | URL for funding or sponsorship of the project. |
+| `fundingURL`? | `string` \| `false` | URL for funding or sponsorship of the project. |
 | `input`? | `string` | Input directory for documentation files. **Default** `'./docs'` |
 | `lang`? | `string` | Language code for the documentation, e.g., 'en' for English. **Default** `'en'` |
 | `license`? | \{ `type`: `string`; `url`: `string`; \} | License information for the project. |
@@ -489,11 +489,11 @@ type DocsConfig: {
 | `license.url`? | `string` | URL to the full license text. |
 | `links`? | `Links` | Additional links to display in a special page. |
 | `logo`? | `string` | Logo URL for the documentation site. **Default** `'/logo.png'` |
-| `moreURL`? | `string` | Additional URL for more resources or links related to the project. |
+| `moreURL`? | `string` \| `false` | Additional URL for more resources or links related to the project. |
 | `name`? | `string` | Name of the project or documentation. **Default** `'DOVENV'` |
 | `nav`? | `Nav` | Navigation configuration for links at the top of the documentation. |
 | `navLinks`? | `SocialLinks` | Additional navigation links. Icons IDs: https://simpleicons.org/ |
-| `npmURL`? | `string` | NPM package URL for the project. |
+| `npmURL`? | `string` \| `false` | NPM package URL for the project. |
 | `og`? | \{ `description`: `string`; `image`: `string`; `siteName`: `string`; `title`: `string`; `twitterAccount`: `string`; `url`: `string`; \} | Open Graph meta tags for better link previews on social media. |
 | `og.description`? | `string` | Description for the Open Graph metadata. |
 | `og.image`? | `string` | Image URL for the Open Graph metadata. |
@@ -504,7 +504,7 @@ type DocsConfig: {
 | `oldVersions`? | \{ `name`: `string`; `url`: `string`; \}[] | Array of previous versions of the project, each with a name and a URL. |
 | `output`? | `string` | Output directory for the built documentation. **Default** `'./build'` |
 | `pwa`? | `Partial`\<`PwaOptions`\> \| `false` | Configuration options for PWA (Progressive Web App) support. |
-| `repoURL`? | `string` | Repository URL for the project. |
+| `repoURL`? | `string` \| `false` | Repository URL for the project. |
 | `rss`? | `RSSOptions` | Configuration options for RSS feed. |
 | `server`? | \{ `hotReloadFiles`: `string`[]; `restartFiles`: `string`[]; \} | Server-related configurations, including file watching settings. |
 | `server.hotReloadFiles`? | `string`[] | Files that trigger a hot reload on changes. |
@@ -521,7 +521,7 @@ type DocsConfig: {
 | `styles.color.terciary`? | `string` | Tertiary color for the theme. |
 | `styles.radius`? | `string` | Border radius for elements in the theme. |
 | `url`? | `string` | URL of the project or documentation site. |
-| `version`? | `string` | Version of the project. |
+| `version`? | `string` | - |
 | `vitepress`? | `UserConfig` | VitePress user configuration for additional options. |
 
 ***

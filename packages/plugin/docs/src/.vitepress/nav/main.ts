@@ -8,6 +8,7 @@ type NavProps = {
 	posts? : boolean
 	links? : boolean
 }
+
 export const setNav = ( {
 	conf, guide, posts, links,
 }: NavProps ) => {

@@ -47,12 +47,12 @@ deno add @dovenv/stylelint-config
 - [Utils](https://dovenv.pigeonposse.com/guide/utils)
 - [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
-  - [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
   - [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
-  - [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
+  - [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
   - [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
@@ -60,8 +60,8 @@ deno add @dovenv/stylelint-config
   - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
   - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
 - [Config](https://dovenv.pigeonposse.com/guide/config)
-  - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
   - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
+  - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
 
 
 ---

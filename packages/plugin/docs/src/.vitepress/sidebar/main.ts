@@ -13,81 +13,142 @@ const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
 
 const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined )  => {
 
-	path =  path?.startsWith( 'guide' ) && path.endsWith( 'index.md' ) ? joinPath( '/', path.replaceAll( 'index.md', '' ) ) : path?.startsWith( 'guide' ) ? joinPath( '/', path ) : path
+	try {
 
-	if ( items ) return [
-		{
-			text      : title,
-			items     : items,
-			collapsed : collapsed !== undefined  && typeof collapsed === 'boolean' ? collapsed : undefined,
-		},
-	]
-	else if ( path ) return [
-		{
-			text : title,
-			link : path,
-		},
-	]
-	else return []
+		if ( items ) return [
+			{
+				text      : title,
+				items     : items,
+				collapsed : collapsed !== undefined  && typeof collapsed === 'boolean' ? collapsed : undefined,
+			},
+		]
+		else if ( path ) {
+
+			path =  path?.startsWith( 'guide' ) && path.endsWith( 'index.md' )
+				? joinPath( '/', path.replaceAll( 'index.md', '' ) )
+				: path?.startsWith( 'guide' )
+					? joinPath( '/', path )
+					: path
+			return [
+				{
+					text : title,
+					link : path,
+				},
+			]
+
+		}
+		else return []
+
+	}
+	catch ( e ) {
+
+		console.warn( `Error setting "${title}" path in sidebar`, {
+			e,
+			data : {
+				title,
+				path,
+				items,
+				collapsed,
+			},
+		} )
+
+		return []
+
+	}
 
 }
 
 const filtered = ( paths: string[] ) => {
 
-	const processed = paths.map( page => {
+	try {
 
-		let name = capitalize( ( page.split( '/' ).pop() || '' ).replace( '.md', '' ) )
-		if ( name.toLowerCase() === 'index' ) name = '🏁 Get started'
-		return {
-			name,
-			path : page,
-		}
+		const processed = paths.map( page => {
 
-	} )
+			let name = capitalize( ( page.split( '/' ).pop() || '' ).replace( '.md', '' ) )
+			if ( name.toLowerCase() === 'index' ) name = '🏁 Get started'
+			return {
+				name,
+				path : page,
+			}
 
-	// Ordenar: 🏁 Get started primero, luego alfabéticamente por nombre
-	const sorted = processed.sort( ( a, b ) => {
+		} )
 
-		if ( a.name === '🏁 Get started' ) return -1
-		if ( b.name === '🏁 Get started' ) return 1
-		return a.name.localeCompare( b.name )
+		// Ordenar: 🏁 Get started primero, luego alfabéticamente por nombre
+		const sorted = processed.sort( ( a, b ) => {
 
-	} )
+			if ( a.name === '🏁 Get started' ) return -1
+			if ( b.name === '🏁 Get started' ) return 1
+			return a.name.localeCompare( b.name )
 
-	// Aplicar setPath después de ordenar
-	return sorted.flatMap( item => setPath( item.name, item.path ) )
+		} )
+
+		// Aplicar setPath después de ordenar
+		return sorted.flatMap( item => setPath( item.name, item.path ) )
+
+	}
+	catch ( e ) {
+
+		console.warn( `Error getting filtered sidebar paths`, {
+			e,
+			data : { paths },
+		} )
+
+		return []
+
+	}
 
 }
 
 const filteredGroup = ( paths: string[], group: number = 0 ) => {
 
-	const filteredPaths                          = paths.filter( page => page.split( '/' ).length === 3 )
-	const position                               = group + 1
-	const groupedPages: Record<string, string[]> = {}
-	for ( let i = 0; i < filteredPaths.length; i++ ) {
+	try {
 
-		const page       = filteredPaths[i]
-		const parts      = page.split( '/' )
-		const secondPart = parts[position]
+		const filteredPaths                          = paths.filter( page => page.split( '/' ).length === 3 )
+		const position                               = group + 1
+		const groupedPages: Record<string, string[]> = {}
+		for ( let i = 0; i < filteredPaths.length; i++ ) {
 
-		if ( secondPart ) {
+			const page       = filteredPaths[i]
+			const parts      = page.split( '/' )
+			const secondPart = parts[position]
 
-			if ( !groupedPages[secondPart] ) groupedPages[secondPart] = []
-			groupedPages[secondPart].push( page )
+			if ( secondPart ) {
+
+				if ( !groupedPages[secondPart] ) groupedPages[secondPart] = []
+				groupedPages[secondPart].push( page )
+
+			}
 
 		}
 
+		const res = Object.keys( groupedPages ).flatMap( k => {
+
+			const value = groupedPages[k]
+			if ( value.length === 1 ) return setPath( capitalize( k ), value[0] )
+			return setPath(
+				capitalize( k ), k,
+				filtered( value ),
+				k === 'core' ? false : true,
+			)
+
+		} )
+
+		return res
+
 	}
+	catch ( e ) {
 
-	const res = Object.keys( groupedPages ).flatMap( k => {
+		console.warn( `Error getting filtered group sidebar paths`, {
+			e,
+			data : {
+				paths,
+				group,
+			},
+		} )
 
-		const value = groupedPages[k]
-		if ( value.length === 1 ) return setPath( capitalize( k ), value[0] )
-		return setPath( capitalize( k ), k, filtered( value ), k === 'core' ? false : true )
+		return []
 
-	} )
-
-	return res
+	}
 
 }
 
@@ -101,7 +162,7 @@ const getGuide = ( guide: SidebarProps['guide'], conf: SidebarProps['conf'] ) =>
 	const index             = guide.includes( 'guide/index.md' ) ? 'guide/index.md' : undefined
 	const getReferenceItems = () => {
 
-		const items =  filteredGroup( guide )
+		const items = filteredGroup( guide )
 		if ( !items.length ) return []
 		return [
 			{
@@ -146,7 +207,7 @@ const sidebarConstructor = ( {
 	)
 	const getContItems = () => {
 
-		const items = [ ...setPath( 'Report issues', conf.bugsURL ), ...todoRes ]
+		const items = [ ...setPath( 'Report issues', conf.bugsURL || undefined ), ...todoRes ]
 		if ( !items.length ) return []
 		return [
 			{
@@ -160,9 +221,9 @@ const sidebarConstructor = ( {
 
 		const items =  [
 			...setPath( 'Contributors', contributors ),
-			...setPath( 'Changelog', conf.changelogURL ),
+			...setPath( 'Changelog', conf.changelogURL || undefined ),
 			...setPath( 'License', conf.license?.url ),
-			...setPath( 'More projects', conf.moreURL ),
+			...setPath( 'More projects', conf.moreURL || undefined ),
 		]
 		if ( !items.length ) return []
 		return [

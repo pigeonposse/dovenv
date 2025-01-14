@@ -114,23 +114,27 @@ export type DocsConfig = {
 		/** URL to the full license text. */
 		url?  : string
 	}
-	desc?        : string
+	desc?            : string
 	/** A shorter version of the description for better display. */
-	shortDesc?   : string
+	shortDesc?       : string
 	/** URL of the project or documentation site. */
-	url?         : string
+	url?             : string
 	/** Repository URL for the project. */
-	repoURL?     : string
+	repoURL?         : string | false
 	/** URL for the project's issue tracker or bug reports. */
-	bugsURL?     : string
+	bugsURL?         : string | false
 	/** URL for funding or sponsorship of the project. */
-	fundingURL?  : string
+	fundingURL?      : string | false
 	/** Additional URL for more resources or links related to the project. */
-	moreURL?     : string
+	moreURL?         : string | false
 	/** NPM package URL for the project. */
-	npmURL?      : string
+	npmURL?          : string | false
 	/** Version of the project. */
-	version?     : string
+	/** CHANGELOG url of the project. */
+	changelogURL?    : string | false
+	/** contributing url of the project. */
+	contributingURL? : string | false
+	version?         : string
 	/** Array of previous versions of the project, each with a name and a URL. */
 	oldVersions?: {
 		/** The name or label of the old version, e.g., "v1.0", "Legacy". */
@@ -138,10 +142,6 @@ export type DocsConfig = {
 		/** URL where the old version documentation */
 		url  : string
 	}[]
-	/** CHANGELOG url of the project. */
-	changelogURL?    : string
-	/** contributing url of the project. */
-	contributingURL? : string
 	/** Custom styles for the documentation site. */
 	styles?: {
 		/** Color scheme for the documentation site. */

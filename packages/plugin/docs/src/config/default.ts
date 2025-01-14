@@ -112,7 +112,7 @@ export const getDefaultConf = ( {
 }: DefParams = {} ): RequiredDocsConfig => {
 
 	return  mergeConfig(
-		getRepoConf( repoURL ),
+		getRepoConf( repoURL || undefined ),
 		getUrlConf( url, name, lang, desc, styles ),
 		{
 			name   : name,

@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.2.3
+
+### Patch Changes
+
+- fix docs bug
+
 ## 1.2.2
 
 ### Patch Changes

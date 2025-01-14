@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/media",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"media",
