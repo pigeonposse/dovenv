@@ -4,6 +4,7 @@
 import { PluginCore } from '@dovenv/core'
 import {
 	ensureDir,
+	existsFile,
 	getDirName,
 	getStringFrom,
 	replacePlaceholders,
@@ -64,6 +65,8 @@ export 	class Templates extends PluginCore<Config> {
 			let keyRes: Data = {
 				content : await getStringFrom( partial.input ),
 				const   : res.const,
+				config  : this.config,
+				output  : res.output,
 			}
 
 			keyRes     = ( await partial.hook?.before?.( keyRes ) ) || keyRes
@@ -78,6 +81,8 @@ export 	class Templates extends PluginCore<Config> {
 			let keyRes: Data = {
 				content : parts[key],
 				const   : res.const,
+				config  : this.config,
+				output  : res.output,
 			}
 
 			keyRes.content = await this.#replaceContent( keyRes.content, { partial: parts } )
@@ -109,16 +114,45 @@ export 	class Templates extends PluginCore<Config> {
 				...( this.config?.const || {} ),
 				...data.const,
 			},
+			config : this.config,
+			output : data.output,
 		}
+
+		const isOverrite = ( data.opts?.overwrite === undefined ) ? true : data.opts?.overwrite
 
 		const parts = await this.#getPartials( res, data )
 
 		res = await this.#getContent( parts.res, data, parts.partials )
 
-		if ( data.output ) {
+		if ( !data.output ) return res.content
+		const out    = this.getWsPath( data.output )
+		const exists = await existsFile( out )
 
-			await ensureDir( getDirName( data.output ) )
-			await writeFile( data.output, res.content )
+		if ( isOverrite || ( exists && !isOverrite ) ) {
+
+			let over: boolean = true
+			if ( isOverrite === 'ask' && exists ) {
+
+				console.log()
+				const res         = await this.prompt.confirm( {
+					message      : `Output [${data.output}] exists. Do you want to overwrite the content?`,
+					initialValue : true,
+				} )
+				const isCancelled = this.prompt.isCancel( res )
+				if ( isCancelled ) await this.onCancel()
+
+				over = res as boolean
+
+			}
+
+			if ( over ) {
+
+				await ensureDir( getDirName( out ) )
+				await writeFile( out, res.content )
+				this.prompt.log.success( this.style.info.msg( 'Overwrite content to', out  ) )
+
+			}
+			else this.prompt.log.info( this.style.info.p( 'output not overwritten' ) )
 
 		}
 
@@ -143,6 +177,12 @@ export 	class Templates extends PluginCore<Config> {
 
 		}
 		return res
+
+	}
+
+	async list() {
+
+		console.info( this.style.info.msg( 'List of keys', Object.keys( this.opts || {} ) ) )
 
 	}
 

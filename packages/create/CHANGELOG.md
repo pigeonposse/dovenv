@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.3.0
+
+### Minor Changes
+
+- add feats
+
 ## 1.2.3
 
 ### Patch Changes

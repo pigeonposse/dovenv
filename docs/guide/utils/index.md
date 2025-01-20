@@ -31,7 +31,7 @@ deno add @dovenv/utils
 
 :::
 
-## More
+## ➕ More
 
 - 📖 [API Docs](api.md)
 - 📦 [NPM](https://www.npmjs.com/package/@dovenv/utils)

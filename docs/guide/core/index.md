@@ -213,7 +213,7 @@ dovenv x deps
 dovenv config
 ```
 
-## More
+## ➕ More
 
 - 💡 [Examples](examples.md)
 - 📖 [API Docs](api.md)

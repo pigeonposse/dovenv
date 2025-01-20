@@ -21,10 +21,9 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Audition' )
 
-		const pkgManager = this.getPkgManager()
-		const cmds       = this._cmdsList
+		const cmd = this.getPkgManagerCmds()
 		this.output.start()
-		await exec( cmds[pkgManager].audit )
+		await exec( cmd.audit )
 			.catch( () => '' )
 		this.output.stop()
 
@@ -34,11 +33,10 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Fix Audition' )
 
-		const pkgManager = this.getPkgManager()
-		const cmds       = this._cmdsList
+		const cmd = this.getPkgManagerCmds()
 
 		this.output.start()
-		await exec( cmds[pkgManager].auditFix )
+		await exec( cmd.auditFix )
 			.catch( () => '' )
 		this.output.stop()
 
@@ -47,35 +45,19 @@ export class Execute extends Super {
 	async #outdated() {
 
 		this._sectionTitle( 'Packages outdated' )
-		const pkgManager = this.getPkgManager()
-		const cmds       = this._cmdsList
+
+		const cmd = this.getPkgManagerCmds()
 
 		this.output.start()
-		await exec( cmds[pkgManager].outdated )
+		await exec( cmd.outdated )
 			.catch( () => '' )
 		this.output.stop()
 
 	}
 
-	async #runPkg( pkgName: string, opts?: string[] ) {
-
-		this._title( 'Run package' )
-
-		if ( !pkgName || pkgName === '' ) {
-
-			console.warn( 'No package provided' )
-			return
-
-		}
-		const manager = this.getPkgManager()
-		await exec( this._cmdsList[manager].exec + ' ' + pkgName + ( opts && opts.length ? ' ' + opts.join( ' ' ) : '' ) )
-
-	}
-
 	async #auditAndOutdated( fix?: boolean  ) {
 
-		const pkgManager = this.getPkgManager()
-		const cmds       = this._cmdsList
+		const cmd = this.getPkgManagerCmds()
 
 		if ( fix ) await this.#auditFix()
 		else {
@@ -84,8 +66,8 @@ export class Execute extends Super {
 			await this.#outdated()
 
 			console.log(  )
-			console.log( this.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmds[pkgManager].auditFix}` ) )
-			console.log( this.style.section.li( 'For outdated dependencies use', cmds[pkgManager].upDeps ) )
+			console.log( this.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmd.auditFix}` ) )
+			console.log( this.style.section.li( 'For outdated dependencies use', cmd.upDeps ) )
 			console.log(  )
 
 		}
@@ -109,11 +91,11 @@ export class Execute extends Super {
 			await removeDirIfExist( path )
 
 		}
-		const pkgManager = this.getPkgManager()
-		const cmds       = this._cmdsList
+
+		const cmds = this.getPkgManagerCmds()
 		// await exec( 'pnpm store prune' )
 		// await exec( 'pnpm cache delete' )
-		await exec( cmds[pkgManager].install  )
+		await exec( cmds.install  )
 
 		if ( this.opts?.reinstall?.hook?.after ) await this.opts.reinstall.hook.after()
 
@@ -165,23 +147,6 @@ export class Execute extends Super {
 	async outdated() {
 
 		await this._envolvefn( this.#outdated(  ) )
-
-	}
-
-	/**
-	 * Fetches a package from the registry without installing it as a dependency
-	 * @param {string} pkgName - The name of the package
-	 * @param {string[]} [opts] - An array of options
-	 * @example
-	 * const x = new Execute( { ... } )
-	 *
-	 * await x.runPkg( 'unbuild')
-	 * ...
-	 * await x.runPkg( 'binarium', ['--config', 'binarium.config.js'] )
-	 */
-	async runPkg( pkgName: string, opts?: string[] ) {
-
-		await this._envolvefn( this.#runPkg( pkgName, opts ) )
 
 	}
 

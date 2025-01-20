@@ -19,41 +19,6 @@ export class Super extends PluginCore<Config> {
 
 	Read more: ${joinUrl( this.helpURL )}`
 
-	protected _cmdsList = {
-		pnpm : {
-			audit    : 'pnpm audit',
-			auditFix : 'pnpm audit --fix',
-			outdated : 'pnpm -r outdated',
-			upDeps   : 'pnpm -r up',
-			exec     : 'pnpx',
-			install  : 'pnpm install',
-		},
-		npm : {
-			audit    : 'npm audit',
-			auditFix : 'npm audit fix',
-			outdated : 'npm outdated',
-			upDeps   : 'npm update',
-			exec     : 'npx',
-			install  : 'npm install',
-		},
-		yarn : {
-			audit    : 'yarn audit',
-			auditFix : 'yarn audit fix',
-			outdated : 'yarn outdated',
-			upDeps   : 'yarn upgrade',
-			exec     : 'yarn dlx',
-			install  : 'yarn install',
-		},
-		bun : {
-			audit    : 'bun audit',
-			auditFix : 'bun audit fix',
-			outdated : 'bun outdated',
-			upDeps   : 'bun update',
-			exec     : 'bunx',
-			install  : 'bun install',
-		},
-	}
-
 	protected _title( title: string ) {
 
 		console.log( this.style.section.h( title ) + '\n'  )

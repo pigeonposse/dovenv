@@ -2,26 +2,35 @@
 import {
 	validate,
 	readFile,
-	getPaths,
 	writeFileContent,
 } from '@dovenv/utils'
 
 import { Command } from '../../_shared/cmd'
 
-import type { ArgvParsed } from '../../_shared/types'
+import type {
+	ArgvParsed,
+	EmptyResponse,
+	Response,
+} from '../../_shared/types'
 
-type Const = NonNullable<ArgvParsed['config']>['const']
-export type TransformConfig = Record<string, {
-	input : string[]
-	fn : ( data: {
-		/** Paths of the dirs */
-		path    : string
-		/** Content of the file */
-		content : string
-		/** Constants of the workspace */
-		const   : Const
-	} ) => Promise<string | undefined>
-}>
+export type TransformConfig = {
+	[key in string]: {
+		/** Array of input patterns */
+		input : string[]
+		/**
+		 * Function for transform inputs
+		 * @example ({content}) => content.trim() === '' ? 'Default content' : content
+		 */
+		fn : ( data: {
+			/** Paths of the dirs */
+			path    : string
+			/** Content of the file */
+			content : string
+			/** Dovenv Configuration */
+			config  : Transform['config']
+		} ) => Response<string | EmptyResponse>
+	}
+}
 
 export class Transform extends Command<TransformConfig> {
 
@@ -55,8 +64,6 @@ export class Transform extends Command<TransformConfig> {
 
 	async #set() {
 
-		const constants = this.argv?.config?.const ? this.argv?.config?.const : {}
-
 		const props = this.opts || {}
 
 		const userKeys = this.getKeysFromArgv( Object.keys( props ), this.argv )
@@ -70,8 +77,13 @@ export class Transform extends Command<TransformConfig> {
 
 				const prop = props[key]
 
-				if ( !prop.input ) throw new Error( `No input for ${key}` )
-				const inputs = await getPaths( prop.input, { onlyFiles: true } )
+				if ( !prop.input ) throw new Error( `No inputs provided` )
+				const inputs = await this.getPaths( prop.input, {
+					onlyFiles : true,
+					dot       : true,
+				} )
+				if ( !inputs.length ) throw new Error( `inputs [${prop.input.join( ', ' )}] do not exist` )
+
 				for ( const i of inputs ) {
 
 					const content = await readFile( i, 'utf8' )
@@ -80,7 +92,7 @@ export class Transform extends Command<TransformConfig> {
 					const newContent = await prop.fn( {
 						path    : i,
 						content : content,
-						const   : constants,
+						config  : this.argv?.config || {},
 					} )
 					if ( !newContent ) continue
 					await writeFileContent( i, newContent )
@@ -93,8 +105,8 @@ export class Transform extends Command<TransformConfig> {
 			catch ( e ) {
 
 				this.load.fail( this.style.error.msg( key, 'Transformation failed. ' +  ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
-				//this.log.fatal( e )
-				this.process.exit( 0 )
+
+				this.exitWithError()
 
 			}
 

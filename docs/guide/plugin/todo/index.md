@@ -26,7 +26,7 @@ deno add @dovenv/todo
 
 :::
 
-## More
+## ➕ More
 
 - 💡 [Examples](examples.md)
 - 📖 [API Docs](api.md)

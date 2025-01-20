@@ -28,7 +28,7 @@ deno init --npm dovenv@latest
 
 :::
 
-## More
+## ➕ More
 
 - 📖 [API Docs](api.md)
 - 📦 [NPM](https://www.npmjs.com/package/create-dovenv)

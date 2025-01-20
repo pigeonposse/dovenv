@@ -4,50 +4,52 @@ import {
 } from '@dovenv/core/utils'
 import { workspace } from '@dovenv/theme-banda'
 
-import * as CONSTS       from './const'
+import * as CONSTS from './const'
+import {
+	getEmoji,
+	getEmojiList,
+} from './emoji'
 import {
 	getPublicPackageByType,
 	getPublicPackageData,
-} from './utils'
+} from './pkg'
 
-import type { PkgData }     from './utils'
+import type {
+	PkgData,
+	SidebarConfig,
+	SidebarItems,
+} from './types'
 import type { Config }      from '@dovenv/core'
 import type { PackageJSON } from '@dovenv/core/utils'
-import type { docs }        from '@dovenv/theme-banda'
 
-type Sidebar = NonNullable<docs.DocsConfig['sidebar']>
-type ExtractSidebarArray<T> = T extends ( infer U )[]
-	? U[]
-	: T extends { [key: string]: infer V }
-		? V extends ( infer U )[]
-			? U[]
-			: never
-		: never
-
-type SidebarItems = ExtractSidebarArray<Sidebar>
-
-type SidebarConfig = { onlyReference: boolean }
 const { Workspace } = workspace
 const {
 	TYPE,
-	ICON,
 	ID,
 } = CONSTS
 
-const getSidebarReferenceConstructor = async ( publicPkg: PkgData ): Promise<SidebarItems> => {
+const getSidebarReferenceConstructor = async (
+	publicPkg: PkgData,
+	emojis: ReturnType<typeof getEmojiList>,
+): Promise<SidebarItems> => {
 
 	const res: SidebarItems = []
 
 	const grouped = getPublicPackageByType( publicPkg.data )
-
+	// console.log( grouped )
 	for ( const [ type, items ] of Object.entries( grouped ) ) {
+
+		const setText = ( v:string, i?:string | false ) => i ? `${i} ${v}` : v
 
 		const group = type === TYPE.lib
 			? undefined
 			: {
-				text : type === TYPE.config
-					? 'Others'
-					: `${type in ICON ? `${ICON[type as keyof typeof ICON]} ` : ''}${capitalize( type.endsWith( 's' ) ? type : `${type}s` )}`,
+				text : setText(
+					type === TYPE.config
+						? 'Others'
+						: capitalize( type.endsWith( 's' ) ? type : `${type}s` ),
+					getEmoji( emojis, type ),
+				),
 				collapsed : true,
 				items     : ( [] as SidebarItems ),
 			}
@@ -56,27 +58,30 @@ const getSidebarReferenceConstructor = async ( publicPkg: PkgData ): Promise<Sid
 
 			const pkgItems = [
 				{
-					text : `${ICON.getStarted} Index`,
+					text : setText( 'Index', emojis?.getStarted ),
 					link : joinPath( pkg.docs.urlPath.index, '/' ),
 				},
 			]
 
 			if ( pkg.docs.urlPath.examples ) pkgItems.push( {
-				text : `${ICON.examples} Examples`,
+				text : setText( 'Examples', emojis?.examples ),
 				link : pkg.docs.urlPath.examples,
 			} )
 			if ( pkg.docs.urlPath.api ) pkgItems.push( {
-				text : `${ICON.api} Api`,
+				text : setText( 'API', emojis?.api ),
 				link : pkg.docs.urlPath.api,
 			} )
 
 			if ( group ) group.items.push( {
-				text      : capitalize( pkg.id ),
+				text      : setText( capitalize( pkg.id ), pkg.emojiId ),
 				collapsed : true,
 				items     : pkgItems,
 			} )
 			else res.push( {
-				text      : `${pkg.icon} ${capitalize( pkg.id === 'create' ? 'create (setup)' : pkg.id === ID.core ? 'library' : pkg.id )}`,
+				text : setText(
+					capitalize( pkg.id === 'create' ? 'create (setup)' : pkg.id === ID.core ? 'library' : pkg.id ),
+					pkg.id === ID.core ? emojis?.library : pkg.emojiId,
+				),
 				collapsed : pkg.id !== ID.core,
 				items     : pkgItems,
 			} )
@@ -100,17 +105,19 @@ const getSidebarReferenceConstructor = async ( publicPkg: PkgData ): Promise<Sid
 export const getSidebar = async ( dovenvConfig: Config, opts?: SidebarConfig ): Promise<SidebarItems> => {
 
 	// const config     = { const: { ...CONSTS } as Config['const'] }
+	const emojis     = getEmojiList( opts?.emojis )
 	const wsInstance = new Workspace( undefined, dovenvConfig )
 	const pkgs       = await wsInstance.getPkgPaths()
 	const publicPkg  = await getPublicPackageData(
 		pkgs,
 		dovenvConfig.const?.workspaceDir as string,
 		dovenvConfig.const?.pkg as PackageJSON,
+		emojis,
 	)
 
 	const reference = {
 		text  : 'Reference',
-		items : await getSidebarReferenceConstructor( publicPkg ),
+		items : await getSidebarReferenceConstructor( publicPkg, emojis ),
 	}
 	const intro     = !opts?.onlyReference
 		?	{

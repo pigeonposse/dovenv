@@ -2,6 +2,7 @@ import {
 	getCurrentDir,
 	hideBin,
 } from '@dovenv/utils'
+import process from 'node:process'
 
 import config       from './config'
 import { joinPath } from '../../utils/src/sys/main'

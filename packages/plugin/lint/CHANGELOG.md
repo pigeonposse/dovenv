@@ -1,5 +1,18 @@
 # @dovenv/lint
 
+## 1.3.0
+
+### Minor Changes
+
+- add feats
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.3.0
+  - @dovenv/eslint-config@1.3.0
+  - @dovenv/core@1.3.0
+
 ## 1.2.3
 
 ### Patch Changes

@@ -113,7 +113,7 @@ dovenv media termgif
 dovenv media qr -i 'https://dovenv.pigeonposse.com'
 ```
 
-## More
+## ➕ More
 
 - 💡 [Examples](examples.md)
 - 📖 [API Docs](api.md)

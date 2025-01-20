@@ -126,13 +126,13 @@ export type Config = {
 		}>
 	}
 	/** List of commands for run */
-	exec? : {
-		/** Package name */
-		[key in string]: {
-			/** Describe the command */
-			desc : string
-		}
-	}
+	// exec? : {
+	// 	/** Package name */
+	// 	[key in string]: {
+	// 		/** Describe the command */
+	// 		desc : string
+	// 	}
+	// }
 	/** Reinstall the workspace options */
 	reinstall? : {
 		hook?: {

@@ -15,31 +15,53 @@ export const pkgSchema = z.object( {
 	repository  : z.object( { url: z.string().url() } ),
 	bugs        : z.object( { url: z.string().url() } ),
 	license     : z.string(),
-	extra       : z.object( {
+
+	extra : z.object( {
+		id          : z.string(),
 		productName : z.string(),
-		libraryUrl  : z.string().url(),
-		licenseUrl  : z.string().url(),
-		libraryId   : z.string(),
-		docsUrl     : z.string().url(),
-		collective  : z.object( {
-			id      : z.string(),
-			name    : z.string(),
-			funding : z.string().url(),
-			about   : z.string().url(),
-			url     : z.string().url(),
-			email   : z.string().email(),
-			gh      : z.string().url(),
-			// socialUser : z.object( {
-			// 	twitter   : z.string(),
-			// 	instagram : z.string(),
-			// 	medium    : z.string(),
-			// } ),
-			social  : z.object( {
+		shortDesc   : z.string().optional(),
+		action      : z.string().optional(),
+		type        : z.string().optional(),
+		subtype     : z.array( z.string() ).optional(),
+
+		// Deprecated fields
+		repoId     : z.string().optional().describe( 'Deprecated' ),
+		libraryId  : z.string().optional().describe( 'Deprecated' ),
+		libraryUrl : z.string().url().optional().describe( 'Deprecated' ),
+		docsUrl    : z.string().url().optional().describe( 'Deprecated' ),
+		licenseUrl : z.string().url().optional().describe( 'Deprecated' ),
+
+		repoID          : z.string().optional(),
+		libraryID       : z.string(),
+		libraryURL      : z.string().url(),
+		licenseURL      : z.string().url(),
+		docsURL         : z.string().url(),
+		changelogURL    : z.string().url().optional(),
+		contributingURL : z.string().url().optional(),
+		rawRepoURL      : z.string().url().optional(),
+
+		collective : z.object( {
+			id         : z.string(),
+			name       : z.string(),
+			funding    : z.string().url(),
+			about      : z.string().url(),
+			url        : z.string().url(),
+			email      : z.string().email(),
+			gh         : z.string().url(),
+			web        : z.string().url().optional(),
+			socialUser : z.object( {
+				twitter   : z.string().optional(),
+				instagram : z.string().optional(),
+				medium    : z.string().optional(),
+			} )
+				.optional(),
+			social : z.object( {
 				twitter   : z.string().url(),
 				instagram : z.string().url(),
 				medium    : z.string().url(),
 			} ),
 		} ),
+
 	} ),
 } )
 
@@ -60,7 +82,7 @@ export const validateSchema = async ( schema: ValidateAnyType, data: unknown, ti
 			noUnknownObject : true,
 		} ) )
 
-		throw new Error( `Error in dovenv configuration: [${title}] const invalid schema.\n\n[${title}] Schema must have: ${content}\n\n${errorMessage}` )
+		throw new Error( `Dovenv [${title}] constant has invalid schema. Schema must be:\n\n[${title}] ${content}\n\n${errorMessage}` )
 
 	}
 

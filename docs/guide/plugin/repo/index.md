@@ -33,7 +33,7 @@ deno add @dovenv/repo
 * __GitHub Page Management__: Update your GitHub page information from your code workspace
 * __Contributor Management__: Add a complete list of contributors to your project
 
-## More
+## ➕ More
 
 - 💡 [Examples](examples.md)
 - 📖 [API Docs](api.md)

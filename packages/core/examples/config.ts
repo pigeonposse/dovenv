@@ -7,7 +7,6 @@ import {
 	getObjectFrom,
 	readFile,
 	getCurrentDir,
-	replacePlaceholders,
 	getPaths,
 	getBaseName,
 	asciiFont,
@@ -176,27 +175,13 @@ export default defineConfig( {
 	 * Configuration for the transform command
 	 */
 	transform : {
-		readme : {
-			input : [ 'README.md' ],
-			fn    : async props => {
-
-				const mark = props.const?.mark
-				return props.content + `\n<!--${mark}-->\n`
-
-			},
+		none : {
+			input : [ 'noexists.js' ],
+			fn    : () => {},
 		},
-		pp : {
-			input : [ '.pigeonposse.yml' ],
-			fn    : async props => {
-
-				const ppTemplate =  props.const?.template['.pigeonposse.yml']
-				const content    = await replacePlaceholders( {
-					content : ppTemplate,
-					params  : props.const || {},
-				} )
-				return content
-
-			},
+		yes : {
+			input : [ './.pigeonposse.yml' ],
+			fn    : async props => console.log( props ),
 		},
 	},
 	/**

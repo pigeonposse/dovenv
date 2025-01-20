@@ -30,12 +30,6 @@ export class Workspace {
 
 	}
 
-	async exec( cmd: string, opts?: string[] ) {
-
-		await this.#exec.runPkg( cmd, opts )
-
-	}
-
 	async audit( fix?: boolean ) {
 
 		await this.#exec.auditAndOutdated( fix )

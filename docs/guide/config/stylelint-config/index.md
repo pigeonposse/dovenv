@@ -26,6 +26,6 @@ deno add @dovenv/stylelint-config
 
 :::
 
-## More
+## ➕ More
 
 - 📦 [NPM](https://www.npmjs.com/package/@dovenv/stylelint-config)

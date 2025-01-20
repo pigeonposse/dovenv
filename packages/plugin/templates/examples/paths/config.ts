@@ -41,7 +41,7 @@ export default defineConfig( [
 		const : {
 			pkgBadges : pkgBadges( {
 				pkgName  : pkg.extra.id,
-				repoName : pkg.extra.collective.id + '/' + pkg.extra.repoId,
+				repoName : pkg.extra.collective.id + '/' + ( pkg.extra.repoID ),
 			}  ),
 			socialBadges : socialBadges( {
 				...pkg.extra.collective.social,

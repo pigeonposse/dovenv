@@ -17,11 +17,11 @@ AI plugin for dovenv
 ## Table of contents
 
 - [🔑 Installation](#-installation)
-- [More](#more)
+- [➕ More](#-more)
 - [👨‍💻 Development](#-development)
-- [☕ Donate](#-donate)
+- [❤️ Donate](#-donate)
 - [📜 License](#-license)
-- [🐦 About us](#-about-us)
+- [✨ About us](#-about-us)
 
 
 
@@ -40,28 +40,28 @@ bun add @dovenv/ai
 deno add @dovenv/ai
 ```
 
-## More
+## ➕ More
 
-- [Core](https://dovenv.pigeonposse.com/guide/core)
-- [Create](https://dovenv.pigeonposse.com/guide/create)
-- [Utils](https://dovenv.pigeonposse.com/guide/utils)
-- [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
-  - [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
-  - [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
-  - [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
-  - [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
-  - [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
-  - [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
-  - [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
-  - [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
-  - [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
-- [Theme](https://dovenv.pigeonposse.com/guide/theme)
-  - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
-  - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
-- [Config](https://dovenv.pigeonposse.com/guide/config)
-  - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
+- 🌞 [Core](https://dovenv.pigeonposse.com/guide/core)
+- 🚀 [Create](https://dovenv.pigeonposse.com/guide/create)
+- ⚒️ [Utils](https://dovenv.pigeonposse.com/guide/utils)
+- 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
+  - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
+  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
+  - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
+  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
+  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
+  - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
+  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
+  - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
+  - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
+- ⚙️ [Config](https://dovenv.pigeonposse.com/guide/config)
   - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
+  - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
+- 🎨 [Theme](https://dovenv.pigeonposse.com/guide/theme)
+  - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
+  - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
 
 
 ---
@@ -71,10 +71,10 @@ deno add @dovenv/ai
 __dovenv__ is an open-source project and its development is open to anyone who wants to participate.
 
 [![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/issues)
-[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/pulls)
-[![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)](https://dovenv.pigeonposse.com)
+[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)]({{const.pkg.repository.url}}/pulls)
+[![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)]({{const.pkg.homepage}})
 
-## ☕ Donate
+## ❤️ Donate
 
 Help us to develop more interesting things.
 
@@ -86,13 +86,15 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 
 [![Read more](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/blob/main/LICENSE)
 
-## 🐦 About us
+## ✨ About us
 
-*PigeonPosse* is a ✨ __code development collective__ ✨ focused on creating practical and interesting tools that help developers and users enjoy a more agile and comfortable experience. Our projects cover various programming sectors and we do not have a thematic limitation in terms of projects.
+*PigeonPosse* is a __code development collective__ focused on creating practical and interesting tools that help developers and users enjoy a more agile and comfortable experience. Our projects cover various programming sectors and we do not have a thematic limitation in terms of projects.
 
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
 
 ---
+
+
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
 [![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com?popup=about)

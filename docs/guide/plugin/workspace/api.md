@@ -77,23 +77,6 @@ donate(open: boolean): Promise<void>
 
 `Promise`\<`void`\>
 
-##### exec()
-
-```ts
-exec(cmd: string, opts?: string[]): Promise<void>
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `cmd` | `string` |
-| `opts`? | `string`[] |
-
-###### Returns
-
-`Promise`\<`void`\>
-
 ##### getPkgPaths()
 
 ```ts
@@ -238,7 +221,6 @@ type Config: {
        }>;
     };
   custom: { [key in string]: Function };
-  exec: { [key in string]: Object };
   info: {
      instructions: string;
      structure: object;
@@ -264,7 +246,6 @@ type Config: {
 | `check`? | \{ `pkg`: `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `config`: `DovenvConfig`; `content`: `PackageJSON`; `path`: `string`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>; \} | - |
 | `check.pkg`? | `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `config`: `DovenvConfig`; `content`: `PackageJSON`; `path`: `string`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\> | Checks for packages |
 | `custom`? | `{ [key in string]: Function }` | custom configration for ws |
-| `exec`? | `{ [key in string]: Object }` | List of commands for run |
 | `info`? | \{ `instructions`: `string`; `structure`: `object`; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace |
 | `info.instructions`? | `string` | Instructions for the workspace. Must be markdown format. Accepts string, URL or path **Example** `## Pre-requisites project needs the following tools to work: - `node` > 20 installed - `pnpm` > 9 installed - `gh` > 2 installed - `git` > 2 installed ## Init workspace pnpm install` |
 | `info.structure`? | `object` | Structure of the workspace |

@@ -14,9 +14,9 @@ Help us to develop more interesting things.
 
 ## 📜 License
 
-This software is licensed with __[{{const.pkg.license}}]({{const.pkg.extra.licenseUrl}})__.
+This software is licensed with __[{{const.pkg.license}}]({{const.pkg.extra.licenseURL}})__.
 
-[![Read more](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)]({{const.pkg.extra.licenseUrl}})
+[![Read more](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)]({{const.pkg.extra.licenseURL}})
 
 ## 🐦 About us
 

@@ -1,60 +1,60 @@
-## 🔌 Plugins
+# 🔌 Plugins
 
-## Ai
+## 🤖 Ai
 
 AI plugin for dovenv
 
 - [Read more](/guide/plugin/ai)
 
-## Convert
+## 🔄 Convert
 
 Convert utils for dovenv
 
 - [Read more](/guide/plugin/convert)
 
-## Examples
-
-Tools for Examples files/directories for dovenv
-
-- [Read more](/guide/plugin/examples)
-
-## Lint
-
-Lint configuration for dovenv
-
-- [Read more](/guide/plugin/lint)
-
-## Docs
+## 📚 Docs
 
 Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
 
-## Media
+## 💡 Examples
 
-Media configuration for dovenv
+Tools for Examples files/directories for dovenv
 
-- [Read more](/guide/plugin/media)
+- [Read more](/guide/plugin/examples)
 
-## Repo
+## 🗃️ Repo
 
 Repository tools for any runtime
 
 - [Read more](/guide/plugin/repo)
 
-## Templates
+## 🖼️ Templates
 
 Media configuration for dovenv
 
 - [Read more](/guide/plugin/templates)
 
-## Todo
+## 🎥 Media
+
+Media configuration for dovenv
+
+- [Read more](/guide/plugin/media)
+
+## 🧹 Lint
+
+Lint configuration for dovenv
+
+- [Read more](/guide/plugin/lint)
+
+## ✅ Todo
 
 TODO tools for dovenv
 
 - [Read more](/guide/plugin/todo)
 
-## Workspace
+## 📂 Workspace
 
 A dovenv plugin with utilities for the workspace
 

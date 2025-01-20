@@ -1,8 +1,15 @@
+import { partialConstructor }  from './data/partials'
+import { templateConstructor } from './data/templates'
+import { EMOJI }               from './emoji'
+
 export {
-	predocsCommand,
+	predocsPlugin,
 	Predocs,
 } from './build'
+
 export { getSidebar }     from './sidebar'
 
-export * as template from './templates'
-export * as partial from './partials'
+export const template = templateConstructor( EMOJI )
+export const partial = partialConstructor( EMOJI )
+
+export type *  from './types'

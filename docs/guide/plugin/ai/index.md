@@ -82,7 +82,7 @@ Run it
 dovenv ai -k env
 ```
 
-## More
+## ➕ More
 
 - 💡 [Examples](examples.md)
 - 📖 [API Docs](api.md)

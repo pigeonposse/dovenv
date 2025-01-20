@@ -1,6 +1,9 @@
+import { addExtension } from './_utils'
+
 export const ID = {
 	theme  : 'theme',
 	plugin : 'plugin',
+	preset : 'preset',
 	config : 'config',
 	core   : 'core',
 } as const
@@ -14,20 +17,7 @@ const {
 
 export const TYPE = {
 	...rest,
-	lib : 'lib',
-} as const
-
-export const ICON = {
-	[ID.core]   : '📚',
-	[ID.plugin] : '🔌',
-	[ID.theme]  : '🎨',
-	[ID.config] : '🔧',
-	getStarted  : `🏁`,
-	utils       : '⚒️',
-	create      : '🚀',
-	examples    : '💡',
-	api         : '📖',
-	package     : '📦',
+	lib : 'library',
 } as const
 
 export const FILE_NAME_BASE = {
@@ -40,13 +30,4 @@ export const FILE_NAME_BASE = {
 	README       : 'README',
 } as const
 
-const addExtension = <T extends Record<string, string>>( base: T ) => {
-
-	const extension = '.md'
-	return Object.fromEntries(
-		Object.entries( base ).map( ( [ key, value ] ) => [ key, `${value}${extension}` ] ),
-	) as { [K in keyof T]: `${T[K]}${typeof extension}` }
-
-}
-
-export const FILE_NAME = addExtension( FILE_NAME_BASE )
+export const FILE_NAME = addExtension( FILE_NAME_BASE, 'md' )

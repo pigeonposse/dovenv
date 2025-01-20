@@ -73,7 +73,7 @@ dovenv convert -k "example-*"
 dovenv convert -k "!*-openapi"
 ```
 
-## More
+## ➕ More
 
 - 💡 [Examples](examples.md)
 - 📖 [API Docs](api.md)

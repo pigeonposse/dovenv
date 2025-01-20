@@ -7,9 +7,12 @@ export type ArgvPreParsed = {
 }
 
 export type ArgvParsed = {
+	bin     : string
 	cmds?   : Command
 	opts?   : Options
 	config? : Config
 }
 export type Command = ( string | number )[]
 export type Options = { [x: string]: unknown }
+export type Response<V> = Promise<V> | V
+export type EmptyResponse = undefined | void

@@ -1,5 +1,24 @@
 # @dovenv/theme-banda
 
+## 1.3.0
+
+### Minor Changes
+
+- add feats
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/templates@2.0.0
+  - @dovenv/workspace@2.0.0
+  - @dovenv/examples@2.0.0
+  - @dovenv/convert@2.0.0
+  - @dovenv/docs@2.0.0
+  - @dovenv/lint@2.0.0
+  - @dovenv/repo@2.0.0
+  - @dovenv/todo@2.0.0
+  - @dovenv/core@1.3.0
+
 ## 1.2.3
 
 ### Patch Changes

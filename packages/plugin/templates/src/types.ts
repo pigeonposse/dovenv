@@ -1,13 +1,28 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
+import type { PluginCore }          from '@dovenv/core'
 import type { replacePlaceholders } from '@dovenv/core/utils'
 
 type ReplaceOpts = Parameters<typeof replacePlaceholders>[0]
 type Params = ReplaceOpts['params']
 type Data = {
+	/** Input content */
 	content : string
+	/** Template constants */
 	const   : Params
+	/** Template output */
+	output  : string | undefined
+	/** Dovenv configurtion */
+	config  : PluginCore['config']
 }
+type Opts = ReplaceOpts['opts'] & {
+	/**
+	 * Overwrite output if exists
+	 *  @default true
+	 */
+	overwrite? : boolean | 'ask'
+}
+type Response<V> = Promise<V> | V
 type SharedHooks = {
 	/**
 	 * Before create template
@@ -24,7 +39,7 @@ type SharedHooks = {
 	 *   return data
 	 * }
 	 */
-	before? : ( data: Data ) => Promise<Data>
+	before? : ( data: Data ) => Response<Data>
 	/**
 	 * After create template
 	 * @example
@@ -33,7 +48,7 @@ type SharedHooks = {
 	 *    return data
 	 * }
 	 */
-	after?  : ( data: Data ) => Promise<Data>
+	after?  : ( data: Data ) => Response<Data>
 }
 
 type ConfigValue =  {
@@ -43,13 +58,13 @@ type ConfigValue =  {
 	const?     : Params
 	transform? : ReplaceOpts['transform']
 	/** Custom options */
-	opts?      : ReplaceOpts['opts']
+	opts?      : Opts
 	hook?      : SharedHooks & {
 		/**
 		 * After create partials
 		 * Before add consts
 		 */
-		afterPartials? : ( data: Data ) => Promise<Data>
+		afterPartials? : ( data: Data ) => Response<Data>
 	}
 	/**
 	 * Template partials.

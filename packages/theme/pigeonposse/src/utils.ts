@@ -5,6 +5,7 @@ import {
 	getCurrentDir,
 	getObjectFromJSONFile,
 	joinPath,
+	process,
 } from '@dovenv/core/utils'
 
 import type { ConstsConfig } from './const'
@@ -22,29 +23,47 @@ type SocialLinks = {
 type WsOpts = {
 	/** URL of the current module */
 	metaURL? : string
-	/** Path relative to the [metaURL] directory */
+	/** Relative path to: `process.cwd()` or directory [metaURL] if provided */
 	path?    : string
 }
-
+type WorkspaceParams = WsOpts & {
+	/**
+	 * @deprecated
+	 */
+	core?         : WsOpts
+	/**
+	 * @deprecated
+	 */
+	packages?     : WsOpts
+	/**
+	  Relative to workspace dir
+	 */
+	corePath?     : string
+	/**
+	 * Relative to workspace dir
+	 * @default
+	 * join(workspaceDir, 'packages')
+	 */
+	packagesPath? : string
+}
 /**
  * Get the workspace configuration.
- * @param {WsOpts & { core?: WsOpts }} [opts] - The options for getting the workspace configuration.
+ * @param {WorkspaceParams} [opts] - The options for getting the workspace configuration.
  * @param {string} [opts.metaURL] The URL of the current module.
  * @param {string} [opts.path] The path to the workspace.
  * @param {{ metaURL?: string, path?: string }} [opts.core] The options for the core package.
  * @returns {Promise<ConstsConfig>} The workspace configuration.
  */
 export const getWorkspaceConfig = async ( {
-	metaURL = import.meta.url,
 	path = '',
+	metaURL = import.meta.url,
 	core,
 	packages,
-}: WsOpts & {
-	core?     : WsOpts
-	packages? : WsOpts
-} ): Promise<ConstsConfig> => {
+	corePath,
+	packagesPath,
+}: WorkspaceParams ): Promise<ConstsConfig> => {
 
-	const workspaceDir = joinPath( getCurrentDir( metaURL ), path )
+	const workspaceDir = joinPath( getCurrentDir( metaURL ) || process.cwd(), path )
 	const pkg          = await getObjectFromJSONFile<PackageJSON>( joinPath( workspaceDir, 'package.json' ) )
 
 	const res = {
@@ -55,8 +74,17 @@ export const getWorkspaceConfig = async ( {
 		packagesDir : joinPath( workspaceDir, 'packages' ),
 	}
 
+	if ( packagesPath ) res.packagesDir = joinPath( res.workspaceDir, packagesPath )
+	if ( corePath ) {
+
+		res.coreDir = joinPath( res.workspaceDir, corePath )
+		res.corePkg = await getObjectFromJSONFile<PackageJSON>( joinPath( res.coreDir, 'package.json' ) )
+
+	}
+
 	if ( core ) {
 
+		console.warn( 'The [core] parameter is deprecated. Please replace it with the [corePath] parameter.' )
 		if ( core.metaURL ) res.coreDir = joinPath( getCurrentDir( core.metaURL ), core.path || '' )
 		res.corePkg = await getObjectFromJSONFile<PackageJSON>( joinPath( res.coreDir, 'package.json' ) )
 
@@ -64,9 +92,11 @@ export const getWorkspaceConfig = async ( {
 
 	if ( packages ) {
 
+		console.warn( 'The [packages] parameter is deprecated. Please replace it with the [packagesPath] parameter.' )
 		if ( packages.metaURL ) res.packagesDir = joinPath( getCurrentDir( packages.metaURL ), packages.path || '' )
 
 	}
+
 	return res
 
 }

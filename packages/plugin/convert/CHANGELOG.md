@@ -1,5 +1,16 @@
 # @dovenv/convert
 
+## 1.3.0
+
+### Minor Changes
+
+- add feats
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/core@1.3.0
+
 ## 1.2.3
 
 ### Patch Changes

@@ -21,10 +21,14 @@ export const templatesPlugin = ( conf?: Config ) => defineConfig( { custom : { t
 		desc  : 'Key pattern',
 		type  : 'array',
 	} },
-	fn : async ( { config } ) => {
+	cmds : { list: { desc: 'list of availale keys' } },
+	fn   : async ( {
+		config, cmds,
+	} ) => {
 
 		const temp = new Templates( conf, config )
-		await temp.run()
+		if ( cmds?.includes( 'list' ) ) await temp.list()
+		else await temp.run()
 
 	},
 } } } )

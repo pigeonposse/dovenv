@@ -104,6 +104,8 @@ export class Custom extends Command<CustomConfig> {
 			...opts
 		} = argv
 
+		// console.debug( { argv } )
+
 		const time = this.performance()
 
 		const title = this.config?.name || undefined
@@ -123,6 +125,7 @@ export class Custom extends Command<CustomConfig> {
 			else this.log.wrapConsole()
 
 			await prop.fn( {
+				bin    : $0,
 				cmds,
 				opts,
 				config : this.config,
@@ -139,7 +142,8 @@ export class Custom extends Command<CustomConfig> {
 
 			this.log.error( e )
 			if ( !isQuiet ) this.setTime( time.prettyStop() )
-			this.process.exit( 1 )
+
+			this.exitWithError()
 
 		}
 

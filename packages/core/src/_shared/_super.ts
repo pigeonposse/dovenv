@@ -476,9 +476,34 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 				: wsData ) || []
 
 			packages.push( '.' )
-			return await getPaths(  packages.map( p => joinPath( this.wsDir, p, 'package.json' ) ) )
+			return await getPaths( packages.map( p => joinPath( this.wsDir, p, 'package.json' ) ) )
 
 		}
+
+	}
+
+	/**
+	 * Resolves and normalizes file paths based on the provided input and options.
+	 * Ensures that all returned paths are absolute and within the workspace directory.
+	 * @param {string[]} input - An array of file or directory paths to process.
+	 * @param {Omit<Parameters<typeof getPaths>[1], 'cwd'>} [opts] - Optional configuration for path resolution,
+	 * excluding the `cwd` property, which is automatically set to the workspace directory.
+	 * @returns {Promise<string[]>} - A promise that resolves to an array of normalized absolute paths.
+	 */
+	protected async getPaths( input: string[], opts: Omit<Parameters<typeof getPaths>[1], 'cwd'> = {} ) {
+
+		return ( await getPaths( input, {
+			...opts,
+			cwd : this.wsDir,
+		} ) ).map( p => this.getWsPath( p ) )
+
+	}
+
+	protected getWsPath( path: string ) {
+
+		if ( !path ) path = ''
+
+		return path.startsWith( this.wsDir ) ? path : joinPath( this.wsDir, path )
 
 	}
 
@@ -494,7 +519,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * @example
 	 * await execPkgBin('@changesets/cli', ['--help']);
 	 */
-	async execPkgBin( name: string, args?: string[], opts?:{
+	protected async execPkgBin( name: string, args?: string[], opts?:{
 		/**
 		 * Custom path from package root.
 		 * Only affects when name no exists in node_modules
@@ -639,6 +664,12 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	}
 
+	protected exitWithError() {
+
+		this.process.exit( 1 )
+
+	}
+
 	protected async catchFn( fn: Promise<unknown>, title?:string ) {
 
 		const [ err, res ] = await catchError( fn )
@@ -650,8 +681,9 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 			console.log(
 				this.style.error.h1( this.title ) + ( title ? ` ${this.style.error.h( title )}` : '' ),
 				this.style.error.p( err.message ),
-
 			)
+
+			this.exitWithError()
 
 		}
 

@@ -1,6 +1,6 @@
 ## 🤔 What is it `{{const.pkg.extra.id}}`?
 
-[Read more]({{const.pkg.extra.libraryUrl}})
+[Read more]({{const.pkg.extra.libraryURL}})
 
 Demo of the `{{const.pkg.extra.id}}` library:
 

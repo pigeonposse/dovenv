@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.3.0
+
+### Minor Changes
+
+- add feats
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/theme-banda@2.0.0
+  - @dovenv/core@1.3.0
+
 ## 1.2.3
 
 ### Patch Changes

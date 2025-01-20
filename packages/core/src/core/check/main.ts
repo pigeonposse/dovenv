@@ -1,16 +1,16 @@
 /* eslint-disable @stylistic/object-curly-newline */
 import {
-	getPaths,
 	validate,
 	readFile,
-	joinPath,
 } from '@dovenv/utils'
 
 import { Command } from '../../_shared/cmd'
 
-import type { ArgvParsed } from '../../_shared/types'
 import type {
-	Prettify } from '@dovenv/utils'
+	ArgvParsed,
+	Response,
+} from '../../_shared/types'
+import type { Prettify } from '@dovenv/utils'
 
 const TYPE = {
 	DIR    : 'dir',
@@ -32,15 +32,16 @@ type CheckDir = CheckShared & {
 		paths  : string[]
 		/** Dovenv config */
 		config : ArgvParsed['config']
-	} ) => Promise<void>
+	} ) => Response<void>
 	/** Validation function called every time a dir path is read */
 	validate?    : ( data: {
 		/** Path of the dir */
 		path   : string
 		/** Dovenv config */
 		config : ArgvParsed['config']
-	} ) => Promise<void>
+	} ) => Response<void>
 }
+
 type CheckFile = CheckShared & {
 	/** Glob patterns of files for check */
 	patterns     : string[]
@@ -50,7 +51,7 @@ type CheckFile = CheckShared & {
 		paths  : string[]
 		/** Dovenv config */
 		config : ArgvParsed['config']
-	} ) => Promise<void>
+	} ) => Response<void>
 	/**
 	 * Validation function. It is called every time a file path is read.
 	 * @example
@@ -66,7 +67,7 @@ type CheckFile = CheckShared & {
 		content? : string
 		/** Dovenv config */
 		config   : ArgvParsed['config']
-	} ) => Promise<void>
+	} ) => Response<void>
 }
 type CheckCustom = CheckShared & {
 	fn: ( data: {
@@ -141,7 +142,7 @@ export class Check extends Command<CheckConfig> {
 
 	}
 
-	async #validateWrap( fn: Promise<void> ) {
+	async #validateWrap( fn: Promise<void> | void ) {
 
 		try {
 
@@ -152,7 +153,7 @@ export class Check extends Command<CheckConfig> {
 
 			this.load.fail( this.style.error.msg( ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
 			// this.load.fail( `${color.red( `${key}:` )} ` + ( e instanceof Error ? e.message : JSON.stringify( e ) ) )
-			this.process.exit( 0 )
+			this.exitWithError()
 
 		}
 
@@ -160,10 +161,9 @@ export class Check extends Command<CheckConfig> {
 
 	async file( prop: CheckFile ) {
 
-		const paths = ( await getPaths( prop.patterns, {
+		const paths = ( await this.getPaths( prop.patterns, {
 			onlyFiles : true,
-			cwd       : this.wsDir,
-		} ) ).map( p => p.startsWith( this.wsDir ) ? p : joinPath( this.wsDir, p ) )
+		} ) )
 
 		if ( !paths.length ) {
 
@@ -206,10 +206,11 @@ export class Check extends Command<CheckConfig> {
 
 	async dir( prop: CheckDir ) {
 
-		const paths = ( await getPaths( prop.patterns, {
+		const paths = ( await this.getPaths( prop.patterns, {
 			onlyDirectories : true,
-			cwd             : this.wsDir,
-		} ) ).map( p => p.startsWith( this.wsDir ) ? p : joinPath( this.wsDir, p ) )
+		} ) )
+
+		const config = this.config || {}
 
 		if ( !paths.length ) {
 
@@ -226,19 +227,17 @@ export class Check extends Command<CheckConfig> {
 		if ( prop.validateAll )
 			await this.#validateWrap( prop.validateAll( {
 				paths,
-				config : this.config || {},
+				config,
 			} ) )
 
 		if ( prop.validate ) {
 
 			for ( const path of paths ) {
 
-				await this.#validateWrap(
-					prop.validate( {
-						path,
-						config : this.config || {},
-					} ),
-				)
+				await this.#validateWrap( prop.validate( {
+					path,
+					config,
+				} ) )
 
 			}
 
@@ -249,15 +248,13 @@ export class Check extends Command<CheckConfig> {
 
 	async custom( prop: CheckCustom ) {
 
-		await this.#validateWrap(
-			prop.fn( {
-				config : this.config,
-				run    : {
-					dir  : this.dir.bind( this ),
-					file : this.file.bind( this ),
-				},
-			} ),
-		)
+		await this.#validateWrap( prop.fn( {
+			config : this.config,
+			run    : {
+				dir  : this.dir.bind( this ),
+				file : this.file.bind( this ),
+			},
+		} ) )
 		this.load.succeed( this.style.success.msg( 'Check function succesfully passed' ) )
 
 	}
@@ -270,6 +267,7 @@ export class Check extends Command<CheckConfig> {
 		for ( const key of userKeys  ) {
 
 			const prop = props[key]
+
 			console.log(
 				this.style.info.h1( key ),
 				this.style.info.b( `(${prop.type})` ),

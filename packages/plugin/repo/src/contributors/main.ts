@@ -8,6 +8,8 @@ import {
 
 import type { Config as DovenvConfig } from '@dovenv/core'
 
+export { package2Contributors } from './parse'
+
 export type ContributorsConfig<ID extends string, R extends Role<ID>> = {
 	/**
 	 * Set contributor roles

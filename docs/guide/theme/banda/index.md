@@ -26,7 +26,7 @@ deno add @dovenv/theme-banda
 
 :::
 
-## More
+## ➕ More
 
 - 📖 [API Docs](api.md)
 - 📦 [NPM](https://www.npmjs.com/package/@dovenv/theme-banda)

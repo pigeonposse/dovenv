@@ -6,7 +6,7 @@
 
 #### Extends
 
-- `PluginCore`\<`PredocsConfig`\>
+- `PluginCore`\<[`PredocsConfig`](#predocsconfig)\>
 
 #### Constructors
 
@@ -20,7 +20,7 @@ new Predocs(opts?: PredocsConfig, config?: Config): Predocs
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `PredocsConfig` |
+| `opts`? | [`PredocsConfig`](#predocsconfig) |
 | `config`? | `Config` |
 
 ###### Returns
@@ -33,79 +33,15 @@ new Predocs(opts?: PredocsConfig, config?: Config): Predocs
 
 #### Methods
 
-##### execPkgBin()
-
-```ts
-execPkgBin(
-   name: string, 
-   args?: string[], 
-   opts?: {
-  forceExec: boolean;
-  path: string;
-}): Promise<void>
-```
-
-Executes a binary from a local package or falls back to the package manager if it's not installed.
-
-###### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `name` | `string` | The name of the package whose binary you want to execute. |
-| `args`? | `string`[] | An optional array of arguments to pass to the binary. |
-| `opts`? | `object` | Options- |
-| `opts.forceExec`? | `boolean` | Force execution with current package manager and not check if exists in 'node_modules' **Default** `false` |
-| `opts.path`? | `string` | **`Experimental`** Custom path from package root. Only affects when name no exists in node_modules |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-A promise that resolves when the execution is complete.
-
-###### Throws
-
-If an error occurs during execution, it triggers the `onCancel` method.
-
-###### Example
-
-```ts
-await execPkgBin('@changesets/cli', ['--help']);
-```
-
-###### Inherited from
-
-`PluginCore.execPkgBin`
-
 ##### getMarkdownInfo()
 
 ```ts
-getMarkdownInfo(): Promise<{
-  config: string;
-  lib: string;
-  more: string;
-  plugin: string;
-  theme: string;
-}>
+getMarkdownInfo(): Promise<MarkdownInfo>
 ```
 
 ###### Returns
 
-`Promise`\<\{
-  `config`: `string`;
-  `lib`: `string`;
-  `more`: `string`;
-  `plugin`: `string`;
-  `theme`: `string`;
- \}\>
-
-| Name | Type |
-| ------ | ------ |
-| `config` | `string` |
-| `lib` | `string` |
-| `more` | `string` |
-| `plugin` | `string` |
-| `theme` | `string` |
+`Promise`\<`MarkdownInfo`\>
 
 ##### run()
 
@@ -141,7 +77,7 @@ setGuideIndexFile(): Promise<void>
 
 ```ts
 setGuideSectionIndexFile(config: undefined | {
-  none: Type[];
+  none: string[] | PkgType[];
 }): Promise<void>
 ```
 
@@ -149,7 +85,7 @@ setGuideSectionIndexFile(config: undefined | {
 
 | Parameter | Type |
 | ------ | ------ |
-| `config` | `undefined` \| \{ `none`: `Type`[]; \} |
+| `config` | `undefined` \| \{ `none`: `string`[] \| [`PkgType`](#pkgtype)[]; \} |
 
 ###### Returns
 
@@ -172,11 +108,11 @@ setIndexFile(config?: {
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `config`? | `object` | - |
-| `config.content`? | `string` | - |
+| `config.content`? | `string` | Add content after frontmatter |
 | `config.creationTemplate`? | `boolean` | Change template to `creation` template |
-| `config.custom`? | `Record`\<`string`, `unknown`\> | - |
-| `config.noAction`? | `boolean` | - |
-| `config.noFeatures`? | `boolean` | - |
+| `config.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page **See** https://vitepress.dev/reference/default-theme-home-page |
+| `config.noAction`? | `boolean` | Remove default action |
+| `config.noFeatures`? | `boolean` | Remove default features |
 
 ###### Returns
 
@@ -197,8 +133,19 @@ setPkgFiles(): Promise<void>
 | Property | Type | Default value | Description | Overrides | Inherited from |
 | ------ | ------ | ------ | ------ | ------ | ------ |
 | `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `opts` | `undefined` \| `PredocsConfig` | `undefined` | Configuration options. | - | `PluginCore.opts` |
+| `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | Configuration options. | - | `PluginCore.opts` |
+| `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | - | - | - |
+| `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg | - | - |
+| `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg | - | - |
+| `partial.footer` | `string` | `undefined` | Returns the footer for the documentation **required const**: pkg, socialBadges, mark, contributors | - | - |
+| `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg | - | - |
+| `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg | - | - |
 | `projectName` | `any` | `undefined` | - | - | - |
+| `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | - | - | - |
+| `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark | - | - |
+| `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex **required partial**: installationGroup | - | - |
+| `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex **required partial**: installationGroup | - | - |
+| `template.readmePkg` | `string` | `undefined` | Returns the readme template for a package **required const**: title, pkg, socialBadges, pkgBadges, toc, banner **required partial**: installation, toc, content | - | - |
 | `title` | `string` | `'predocs'` | - | `PluginCore.title` | - |
 
 ## Functions
@@ -255,7 +202,7 @@ Generates a sidebar configuration for @dovenv/docs plugin.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `dovenvConfig` | `Config` | The Dovenv configuration. |
-| `opts`? | `SidebarConfig` | The options. |
+| `opts`? | [`SidebarConfig`](#sidebarconfig) | The options. |
 
 #### Returns
 
@@ -268,10 +215,7 @@ The sidebar configuration.
 ### getWorkspaceConfig()
 
 ```ts
-function getWorkspaceConfig(opts?: WsOpts & {
-  core: WsOpts;
-  packages: WsOpts;
-}): Promise<ConstsConfig>
+function getWorkspaceConfig(opts?: WorkspaceParams): Promise<ConstsConfig>
 ```
 
 Get the workspace configuration.
@@ -280,7 +224,7 @@ Get the workspace configuration.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `opts`? | `WsOpts` & \{ `core`: `WsOpts`; `packages`: `WsOpts`; \} | The options for getting the workspace configuration. |
+| `opts`? | `WorkspaceParams` | The options for getting the workspace configuration. |
 
 #### Returns
 
@@ -313,7 +257,7 @@ Merges multiple `theme-pigeonposse` configuration objects into a single configur
 ### pigeonposseMonorepoTheme()
 
 ```ts
-function pigeonposseMonorepoTheme(params?: Config): Config
+function pigeonposseMonorepoTheme(params?: MonorepoConfig): Config
 ```
 
 The `pigeonposseMonorepoTheme` for Dovenv.
@@ -324,7 +268,7 @@ It includes the same basic configuration as Banda, but adds some additional feat
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `params`? | [`Config`](#config) | The configuration for the theme. |
+| `params`? | [`MonorepoConfig`](#monorepoconfig) | The configuration for the theme. |
 
 #### Returns
 
@@ -412,6 +356,24 @@ The generated markdown links.
 
 ***
 
+### predocsPlugin()
+
+```ts
+function predocsPlugin(opts?: PredocsConfig): Config
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts`? | [`PredocsConfig`](#predocsconfig) |
+
+#### Returns
+
+`Config`
+
+***
+
 ### socialBadges()
 
 ```ts
@@ -438,9 +400,8 @@ The generated markdown links or undefined if no links are provided.
 
 ```ts
 type Config: BandaConfig & {
-  web: WebConfig;
- } & {
   core: ConstsConfig;
+  web: WebConfig;
 };
 ```
 
@@ -448,13 +409,154 @@ type Config: BandaConfig & {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
+| `core`? | `ConstsConfig` | Set the pigeonposse theme constants and information **Example** `import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse' const core = await getWorkspaceConfig({metaURL : import.meta.url, path : '../../../../'} )` |
 | `web`? | [`WebConfig`](#webconfig) | Configuration for the pigeonposse web File data |
+
+***
+
+### MonorepoConfig
+
+```ts
+type MonorepoConfig: Config & {
+  predocs: PredocsConfig | false;
+};
+```
+
+#### Type declaration
+
+| Name | Type |
+| ------ | ------ |
+| `predocs`? | [`PredocsConfig`](#predocsconfig) \| `false` |
+
+***
+
+### PkgData
+
+```ts
+type PkgData: {
+  data: {
+     data: PackageJSON;
+     docs: {
+        apiFile: string;
+        dir: string;
+        examplesFile: string;
+        indexFile: string;
+        urlPath: {
+           api: string;
+           examples: string;
+           index: string;
+          };
+       };
+     emojiId: string;
+     emojiType: string;
+     id: string;
+     name: string;
+     package: {
+        dir: string;
+        docsFile: string;
+        examplesConfigFile: string;
+        isTs: boolean;
+        packageJsonFile: string;
+        readmeFile: string;
+        relativeDir: string;
+        srcFile: string;
+        tsconfigFile: string;
+       };
+     pathID: string;
+     repoURL: string;
+     title: string;
+     type: PkgType;
+    }[];
+  docsDir: string;
+  docsGuideDir: string;
+  docsPublicDir: string;
+  name: string;
+  packagesPath: string;
+  url: string;
+  urlGuidePath: string;
+};
+```
 
 #### Type declaration
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `core`? | `ConstsConfig` | Set the pigeonposse theme constants and information **Example** `import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse' const core = await getWorkspaceConfig({metaURL : import.meta.url, path : '../../../../'} )` |
+| `data` | \{ `data`: `PackageJSON`; `docs`: \{ `apiFile`: `string`; `dir`: `string`; `examplesFile`: `string`; `indexFile`: `string`; `urlPath`: \{ `api`: `string`; `examples`: `string`; `index`: `string`; \}; \}; `emojiId`: `string`; `emojiType`: `string`; `id`: `string`; `name`: `string`; `package`: \{ `dir`: `string`; `docsFile`: `string`; `examplesConfigFile`: `string`; `isTs`: `boolean`; `packageJsonFile`: `string`; `readmeFile`: `string`; `relativeDir`: `string`; `srcFile`: `string`; `tsconfigFile`: `string`; \}; `pathID`: `string`; `repoURL`: `string`; `title`: `string`; `type`: [`PkgType`](#pkgtype); \}[] | - |
+| `docsDir` | `string` | Absosulte local dir of documentation |
+| `docsGuideDir` | `string` | Absosulte local dir of documentation guide |
+| `docsPublicDir` | `string` | Absosulte local dir of documentation assets |
+| `name` | `string` | - |
+| `packagesPath` | `string` | - |
+| `url` | `string` | - |
+| `urlGuidePath` | `string` | - |
+
+***
+
+### PkgType
+
+```ts
+type PkgType: ObjectValues<typeof TYPE>;
+```
+
+***
+
+### PredocsConfig
+
+```ts
+type PredocsConfig: {
+  emoji: EmojiObject | false;
+  guideSection: {
+     none: PkgType[] | string[];
+    };
+  index: {
+     content: string;
+     creationTemplate: boolean;
+     custom: Record<string, unknown>;
+     noAction: boolean;
+     noFeatures: boolean;
+    };
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `emoji`? | `EmojiObject` \| `false` | Set emojis for your packages. **Example** `{ 	 * core: '🌞', 	 * create: false, 	 * }` |
+| `guideSection`? | \{ `none`: [`PkgType`](#pkgtype)[] \| `string`[]; \} | Guide section options |
+| `guideSection.none`? | [`PkgType`](#pkgtype)[] \| `string`[] | - |
+| `index`? | \{ `content`: `string`; `creationTemplate`: `boolean`; `custom`: `Record`\<`string`, `unknown`\>; `noAction`: `boolean`; `noFeatures`: `boolean`; \} | Set index page options |
+| `index.content`? | `string` | Add content after frontmatter |
+| `index.creationTemplate`? | `boolean` | Change template to `creation` template |
+| `index.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page **See** https://vitepress.dev/reference/default-theme-home-page |
+| `index.noAction`? | `boolean` | Remove default action |
+| `index.noFeatures`? | `boolean` | Remove default features |
+
+***
+
+### SidebarConfig
+
+```ts
+type SidebarConfig: {
+  emojis: EmojiObject | false;
+  onlyReference: boolean;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `emojis`? | `EmojiObject` \| `false` | Change, remove or add emojis to sidebar |
+| `onlyReference` | `boolean` | Get only sidebar reference |
+
+***
+
+### SidebarItems
+
+```ts
+type SidebarItems: ExtractSidebarArray<Sidebar>;
+```
 
 ***
 
@@ -484,11 +586,49 @@ Renames and re-exports [pigeonposseTheme](#pigeonpossetheme)
 
 ## Variables
 
-### predocsCommand
+### partial
 
 ```ts
-const predocsCommand: Config;
+const partial: {
+  creation: string;
+  creationGroup: string;
+  footer: string;
+  installation: string;
+  installationGroup: string;
+};
 ```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `creation` | `string` | Returns the creation instructions for the library **required const**: libPkg |
+| `creationGroup` | `string` | Returns the creation instructions for the library **required const**: libPkg |
+| `footer` | `string` | Returns the footer for the documentation **required const**: pkg, socialBadges, mark, contributors |
+| `installation` | `string` | Returns the installation instructions for the library **required const**: libPkg |
+| `installationGroup` | `string` | Returns the installation instructions for the library **required const**: libPkg |
+
+***
+
+### template
+
+```ts
+const template: {
+  docsContributors: string;
+  docsIndex: string;
+  docsIndexWithCreate: string;
+  readmePkg: string;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `docsContributors` | `string` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark |
+| `docsIndex` | `string` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex **required partial**: installationGroup |
+| `docsIndexWithCreate` | `string` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex **required partial**: installationGroup |
+| `readmePkg` | `string` | Returns the readme template for a package **required const**: title, pkg, socialBadges, pkgBadges, toc, banner **required partial**: installation, toc, content |
 
 ## Namespaces
 
@@ -496,9 +636,7 @@ const predocsCommand: Config;
 - [docs](namespaces/docs.md)
 - [examples](namespaces/examples.md)
 - [lint](namespaces/lint/index.md)
-- [partial](namespaces/partial.md)
 - [repo](namespaces/repo.md)
-- [template](namespaces/template.md)
 - [templates](namespaces/templates.md)
 - [todo](namespaces/todo.md)
 - [workspace](namespaces/workspace.md)

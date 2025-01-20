@@ -1,7 +1,6 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
 import { defineConfig } from '@dovenv/core'
-import { process }      from '@dovenv/core/utils'
 
 import { Checks }    from './core/checks'
 import { Workspace } from './core/main'
@@ -12,9 +11,6 @@ export {
 	Workspace,
 	Config,
 }
-
-const getValuesAfter = ( array: string[], value: string ): string[] =>
-	array.includes( value ) ? array.slice( array.indexOf( value ) + 1 ) : []
 
 /**
  * Workspace plugin for Dovenv.
@@ -43,10 +39,6 @@ export const workspacePlugin = ( params?: Config ) => defineConfig( {
 		ws : {
 			desc : 'Toolkit for Workspace',
 			cmds : {
-				exec : {
-					desc : 'Run a package without installing it',
-					cmds : params?.exec,
-				},
 				audit : {
 					desc : 'Audit the workspace dependencies.',
 					opts : {
@@ -121,14 +113,6 @@ export const workspacePlugin = ( params?: Config ) => defineConfig( {
 					else if ( cmds?.includes( 'audit' ) ) await ws.audit( ( opts?.fix as boolean ) )
 					// else if ( cmds?.includes( 'check' ) ) await ws.check()
 					else if ( cmds?.includes( 'reinstall' ) ) await ws.reinstall()
-					else if ( cmds?.includes( 'exec' ) ) {
-
-						const values = getValuesAfter( process.argv, 'exec' )
-						const cmd    = values[0]
-						const opts   = values.slice( 1 )
-						await ws.exec( cmds?.includes( 'exec' ) ? cmd : '', opts )
-
-					}
 					else if ( cmds?.includes( 'custom' ) ) await ws.custom()
 					else await showHelp()
 
