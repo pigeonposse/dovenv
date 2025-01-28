@@ -1,5 +1,14 @@
 # @dovenv/convert
 
+## 1.3.2
+
+### Patch Changes
+
+- fix templates key issue
+
+- Updated dependencies []:
+  - @dovenv/core@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes

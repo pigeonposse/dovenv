@@ -27,8 +27,9 @@ export const templatesPlugin = ( conf?: Config ) => defineConfig( { custom : { t
 	} ) => {
 
 		const temp = new Templates( conf, config )
-		if ( cmds?.includes( 'list' ) ) await temp.list( opts?.key as string[] )
-		else await temp.run()
+		const keys = opts?.key as string[] | undefined
+		if ( cmds?.includes( 'list' ) ) await temp.list( keys )
+		else await temp.run( keys )
 
 	},
 } } } )

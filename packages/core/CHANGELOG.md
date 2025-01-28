@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.3.2
+
+### Patch Changes
+
+- fix templates key issue
+
+- Updated dependencies []:
+  - @dovenv/utils@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes
