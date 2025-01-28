@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.3.1
+
+### Patch Changes
+
+- fix template issue with key flag
+
+- Updated dependencies []:
+  - @dovenv/templates@1.3.1
+  - @dovenv/core@1.3.1
+  - @dovenv/convert@1.3.1
+  - @dovenv/docs@1.3.1
+  - @dovenv/examples@1.3.1
+  - @dovenv/lint@1.3.1
+  - @dovenv/repo@1.3.1
+  - @dovenv/todo@1.3.1
+  - @dovenv/workspace@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

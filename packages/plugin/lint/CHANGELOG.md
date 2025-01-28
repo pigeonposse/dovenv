@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.3.1
+
+### Patch Changes
+
+- fix template issue with key flag
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.3.1
+  - @dovenv/stylelint-config@1.3.1
+  - @dovenv/core@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

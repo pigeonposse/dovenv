@@ -180,9 +180,13 @@ export 	class Templates extends PluginCore<Config> {
 
 	}
 
-	async list() {
+	async list( pattern?: string[] ) {
 
-		console.info( this.style.info.msg( 'List of keys', Object.keys( this.opts || {} ) ) )
+		const data = this.getKeys( {
+			values : Object.keys( this.opts || {} ),
+			pattern,
+		} )
+		console.info( this.style.info.msg( 'List of keys', data ) )
 
 	}
 

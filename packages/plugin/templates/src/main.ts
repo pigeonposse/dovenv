@@ -23,11 +23,11 @@ export const templatesPlugin = ( conf?: Config ) => defineConfig( { custom : { t
 	} },
 	cmds : { list: { desc: 'list of availale keys' } },
 	fn   : async ( {
-		config, cmds,
+		config, cmds, opts,
 	} ) => {
 
 		const temp = new Templates( conf, config )
-		if ( cmds?.includes( 'list' ) ) await temp.list()
+		if ( cmds?.includes( 'list' ) ) await temp.list( opts?.key as string[] )
 		else await temp.run()
 
 	},

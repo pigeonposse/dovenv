@@ -1,5 +1,14 @@
 # @dovenv/media
 
+## 1.3.1
+
+### Patch Changes
+
+- fix template issue with key flag
+
+- Updated dependencies []:
+  - @dovenv/core@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes
