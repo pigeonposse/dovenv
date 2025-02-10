@@ -243,15 +243,7 @@ header .home .divider {
 .VPSwitch {
 	border-color: transparent !important;
 }
-.VPNavBarSearch {
-	justify-content: flex-end;
-    margin-right: 20px;
 
-	button {
-		padding: 2px 15px;
-		height: 100%;
-	}
-}
 .VPTeamMembersItem {
 	border-radius: 20px !important;
 	border: 1px solid var(--vp-c-divider);
@@ -360,6 +352,23 @@ table th {
 .DocSearch-Button:hover .vp-icon {
 	color: var(--vp-c-brand-1) !important;
 	transition: opacity 0.25s, color 0.25s !important;
+}
+.VPNavBarSearch {
+	justify-content: flex-end;
+    margin-right: 20px;
+
+	button {
+		padding: 2px 15px;
+		height: 100%;
+	}
+}
+@media (max-width: 768px) {
+	.VPNavBarSearch {
+		margin-right: 0px !important;
+	}
+	.DocSearch-Button {
+		border: none !important;
+	}
 }
 
 /* exteranl link icon, carets etc */
