@@ -97,8 +97,11 @@ type ExtractSidebarArray<T> = T extends ( infer U )[]
 export type SidebarItems = ExtractSidebarArray<Sidebar>
 
 export type SidebarConfig = {
-	/** Get only sidebar reference */
-	onlyReference : boolean
+	/**
+	 * Get only sidebar reference
+	 * @default false
+	 */
+	onlyReference? : boolean
 	/** Change, remove or add emojis to sidebar */
-	emojis?       : EmojiObject | false
+	emojis?        : EmojiObject | false
 }

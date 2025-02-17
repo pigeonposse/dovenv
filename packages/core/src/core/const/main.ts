@@ -1,39 +1,21 @@
-import { validate } from '@dovenv/utils'
 
-import { Command } from '../../_shared/cmd'
+import { schema }      from './schema'
+import { ConstConfig } from './types'
+import { Command }     from '../_shared/main'
 
 import type { ArgvParsed } from '../../_shared/types'
-
-type ConstValue = string | number | boolean | Record<string, unknown>
-
-export type ConstConfig = Record<string, ConstValue | ( () => Promise<ConstValue> )>
-
-const ConstValueSchema = validate.union( [
-	validate.string(),
-	validate.number(),
-	validate.boolean(),
-	validate.record( validate.string(), validate.unknown() ),
-] )
-
-const ConstConfigSchema = validate.record(
-	validate.string(),
-	validate.union( [
-		ConstValueSchema,
-		validate.function()
-			.returns( validate.promise( ConstValueSchema ) ),
-	] ),
-)
 
 export class Constant extends Command<ConstConfig> {
 
 	argv
-	schema = ConstConfigSchema
-	title = 'const'
 
-	constructor(  argv? : ArgvParsed ) {
+	constructor( argv : ArgvParsed ) {
 
-		super( argv?.config?.const, argv?.config )
-		this.argv = argv
+		super( argv.utils.config?.const, argv.utils )
+
+		this.argv        = argv
+		this.utils.title = 'const'
+		this.schema      = schema( this.utils.validate )
 
 	}
 
@@ -45,7 +27,7 @@ export class Constant extends Command<ConstConfig> {
 
 		if ( typeof value === 'function' ) {
 
-			const [ e, result ] = await this.catchError( value() )
+			const [ e, result ] = await this.catchError( ( async () => await value() )()  )
 
 			if ( !e ) return result
 			return 'Error setting value of ' + key + ':\n' + e.message
@@ -65,7 +47,7 @@ export class Constant extends Command<ConstConfig> {
 
 			if ( value )  {
 
-				console.log( '\n' + this.style.info.h1( key ) )
+				console.log( '\n' + this.utils.style.info.h1( key ) )
 				console.dir( value, {
 					depth  : Infinity,
 					colors : true,
@@ -79,8 +61,8 @@ export class Constant extends Command<ConstConfig> {
 			? Object.values( this.argv.opts.key )
 			: avaliableKeys
 
-		const userKeys = this.getKeys( {
-			values  : avaliableKeys,
+		const userKeys =  this.utils.getKeys( {
+			input   : avaliableKeys,
 			pattern : keys,
 		} )
 
@@ -94,7 +76,7 @@ export class Constant extends Command<ConstConfig> {
 
 	}
 
-	async get(): Promise< Record<string, unknown>> {
+	async get(): Promise<Record<string, unknown>> {
 
 		if ( !this.opts ) return {}
 
@@ -111,7 +93,7 @@ export class Constant extends Command<ConstConfig> {
 
 	async #fn() {
 
-		if ( !( await this.ensureOpts() ) ) return
+		if ( !( await  this.utils.ensureOpts( { input: this.opts } ) ) ) return
 
 		await this.validateSchema( this.opts )
 		await this.#view( this.opts || {} )
@@ -120,7 +102,7 @@ export class Constant extends Command<ConstConfig> {
 
 	async run( ) {
 
-		return await this.catchFn( this.#fn( ) )
+		return await  this.utils.catchFn( this.#fn( ) )
 
 	}
 

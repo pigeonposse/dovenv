@@ -22,6 +22,7 @@ import {
 	getObjectFromJSONContent,
 	json,
 } from './json'
+import { svg } from './svg'
 import {
 	getObjectFromTOMLFile,
 	getObjectFromTOMLContent,
@@ -66,6 +67,7 @@ export {
 	json,
 	yaml,
 	toml,
+	svg,
 }
 
 export * from './merge'

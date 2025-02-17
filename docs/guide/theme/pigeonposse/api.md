@@ -4,32 +4,28 @@
 
 ### Predocs
 
-#### Extends
-
-- `PluginCore`\<[`PredocsConfig`](#predocsconfig)\>
-
 #### Constructors
 
 ##### new Predocs()
 
 ```ts
-new Predocs(opts?: PredocsConfig, config?: Config): Predocs
+new Predocs(__namedParameters: {
+  opts: PredocsConfig;
+  utils: CommandSuper;
+ }): Predocs
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`PredocsConfig`](#predocsconfig) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`PredocsConfig`](#predocsconfig) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
 [`Predocs`](#predocs)
-
-###### Overrides
-
-`PluginCore<PredocsConfig>.constructor`
 
 #### Methods
 
@@ -130,23 +126,22 @@ setPkgFiles(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | Configuration options. | - | `PluginCore.opts` |
-| `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | - | - | - |
-| `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg | - | - |
-| `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg | - | - |
-| `partial.footer` | `string` | `undefined` | Returns the footer for the documentation **required const**: pkg, socialBadges, mark, contributors | - | - |
-| `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg | - | - |
-| `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg | - | - |
-| `projectName` | `any` | `undefined` | - | - | - |
-| `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | - | - | - |
-| `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark | - | - |
-| `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex **required partial**: installationGroup | - | - |
-| `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex **required partial**: installationGroup | - | - |
-| `template.readmePkg` | `string` | `undefined` | Returns the readme template for a package **required const**: title, pkg, socialBadges, pkgBadges, toc, banner **required partial**: installation, toc, content | - | - |
-| `title` | `string` | `'predocs'` | - | `PluginCore.title` | - |
+| Property | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | - |
+| `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | - |
+| `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg |
+| `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg |
+| `partial.footer` | `string` | `undefined` | Returns the footer for the documentation **required const**: pkg, socialBadges, mark, contributors |
+| `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg |
+| `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg |
+| `projectName` | `any` | `undefined` | - |
+| `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | - |
+| `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark |
+| `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex **required partial**: installationGroup |
+| `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex **required partial**: installationGroup |
+| `template.readmePkg` | `string` | `undefined` | Returns the readme template for a package **required const**: title, pkg, socialBadges, pkgBadges, toc, banner **required partial**: installation, toc, content |
+| `title` | `string` | `'predocs'` | - |
 
 ## Functions
 
@@ -192,17 +187,21 @@ export default bandaTheme( {
 ### getSidebar()
 
 ```ts
-function getSidebar(dovenvConfig: Config, opts?: SidebarConfig): Promise<SidebarItem[]>
+function getSidebar(__namedParameters: {
+  opts: SidebarConfig;
+  utils: CommandSuper;
+}): Promise<SidebarItem[]>
 ```
 
 Generates a sidebar configuration for @dovenv/docs plugin.
 
 #### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `dovenvConfig` | `Config` | The Dovenv configuration. |
-| `opts`? | [`SidebarConfig`](#sidebarconfig) | The options. |
+| Parameter | Type |
+| ------ | ------ |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`SidebarConfig`](#sidebarconfig) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 #### Returns
 
@@ -548,7 +547,7 @@ type SidebarConfig: {
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | `emojis`? | `EmojiObject` \| `false` | Change, remove or add emojis to sidebar |
-| `onlyReference` | `boolean` | Get only sidebar reference |
+| `onlyReference`? | `boolean` | Get only sidebar reference **Default** `false` |
 
 ***
 
@@ -567,6 +566,7 @@ type WebConfig: {
   customValues: Record<string, unknown>;
   input: string;
   values: Record<string, unknown> | false;
+  version: string;
 };
 ```
 
@@ -577,6 +577,7 @@ type WebConfig: {
 | `customValues`? | `Record`\<`string`, `unknown`\> | Merge with general values |
 | `input`? | `string` | **Default** `'.pigeonposse.yml'` |
 | `values`? | `Record`\<`string`, `unknown`\> \| `false` | override values. set to `false` to disable default values |
+| `version`? | `string` | Version of the web **Default** `latest` |
 
 ## References
 

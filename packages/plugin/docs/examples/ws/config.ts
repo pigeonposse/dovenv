@@ -3,7 +3,7 @@ import { defineConfig } from '@dovenv/core'
 import {
 	fontAwesomeSolidIcons,
 	fa2svg,
-} from '@dovenv/core/client'
+} from '@dovenv/utils-media/client'
 
 import coreConfig     from '../../../../../.dovenv/main' // Get another configuration for use
 import { docsPlugin } from '../../src/main'

@@ -1,6 +1,5 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
-import { PluginCore } from '@dovenv/core'
+import { CommandUtils } from '@dovenv/core'
 import {
 	type ObjectValues,
 	type Prettify,
@@ -13,8 +12,10 @@ import {
 } from './html/main'
 import { Jsdoc2Markdown }   from './jsdoc/main'
 import { Openapi2Markdown } from './openapi/main'
-import { Typescript2Html,
-	Typescript2Markdown } from './typedoc/main'
+import {
+	Typescript2Html,
+	Typescript2Markdown,
+} from './typedoc/main'
 
 import type { methods }                from './_shared/const'
 import type { Config as DovenvConfig } from '@dovenv/core'
@@ -27,6 +28,7 @@ type ConvertConfig = {
 	[methods.ts2md]      : Typescript2Markdown
 	[methods.ts2html]    : Typescript2Html
 	[methods.custom]     : {
+		// eslint-disable-next-line @stylistic/object-curly-newline
 		props : {
 			/**
 			 * Function to run your conversion.
@@ -34,23 +36,22 @@ type ConvertConfig = {
 			fn : ( data: {
 				config : DovenvConfig
 				run    : Prettify<Omit<ConvertInterface, 'custom'>>
-			} ) => Promise<void>
-		}
+			} ) => Promise<void> }
 		run : (  ) => Promise<void>
 	}
 }
 
 type ConvertInterface = {
-	[ key in ObjectValues<typeof methods>] : ( params: ConvertConfig[key]['props'] ) => ReturnType<ConvertConfig[key]['run'] >
+	[ key in ObjectValues<typeof methods>] : ( params: ConvertConfig[key]['props'] ) => ReturnType<ConvertConfig[key]['run']>
 }
 
 type ConfigValue = {
+	// eslint-disable-next-line @stylistic/object-curly-newline
 	[key in keyof ConvertConfig]: {
 		/**
 		 * Type of conversion
 		 */
-		type : key
-	} & ConvertConfig[key]['props']
+		type : key } & ConvertConfig[key]['props']
 }[keyof ConvertConfig]
 
 export type Config = { [key in string]: ConfigValue }
@@ -137,33 +138,52 @@ export class Convert implements ConvertInterface {
 	}
 
 }
-export 	class MultipleConvert extends PluginCore<Config> {
+
+export class MultipleConvert {
 
 	convert = new Convert( )
-	title = 'convert'
-	protected helpURL = homepage
+
+	utils : CommandUtils
+	opts  : Config | undefined
+
+	constructor( {
+		opts, utils,
+	}:{
+		opts? : Config
+		utils : CommandUtils
+	} ) {
+
+		this.opts          = opts
+		this.utils         = utils
+		this.utils.helpURL = homepage
+		this.utils.title   = 'convert'
+
+	}
 
 	async #fn( pattern?: string[] ) {
 
-		if ( !( await this.ensureOpts() ) ) return
-		const opts = this.opts || {} // for fix type
+		const keys = await this.utils.getOptsKeys( {
+			input : this.opts,
+			pattern,
+		} )
 
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
+		if ( !keys || typeof keys === 'string'  || !this.opts ) return
+
+		const { style } = this.utils
 
 		const res: { [k in string]: Awaited<ReturnType<ObjectValues<ConvertInterface>>> } = {}
 
 		for ( const key of keys ) {
 
-			const props = opts[key]
+			const props = this.opts[key]
 			const {
 				type,
 				...restProps
 			} = props
 
 			console.log(
-				this.style.info.h( `Convert ${this.style.badge( key )} key` ),
-				this.style.info.p( '(' + type + ')' ),
+				style.info.h( `Convert ${style.badge( key )} key` ),
+				style.info.p( '(' + type + ')' ),
 				'\n',
 			)
 
@@ -171,7 +191,7 @@ export 	class MultipleConvert extends PluginCore<Config> {
 			// @ts-ignore
 			res[key] = await this.convert[type]( restProps )
 
-			console.log( this.style.success.msg( `✨ Successful conversion` ), '\n' )
+			console.log( style.success.msg( `✨ Successful conversion` ), '\n' )
 
 		}
 		return res
@@ -180,9 +200,9 @@ export 	class MultipleConvert extends PluginCore<Config> {
 
 	async run( pattern?: string[] ) {
 
-		this.convert.config = this.config || {}
+		this.convert.config = this.utils.config || {}
 
-		return this.catchFn( this.#fn( pattern ) )
+		return this.utils.catchFn( this.#fn( pattern ) )
 
 	}
 

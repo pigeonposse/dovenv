@@ -1,7 +1,4 @@
-import {
-	defineConfig,
-	PluginCore,
-} from '@dovenv/core'
+import { defineConfig } from '@dovenv/core'
 import {
 	yaml,
 	joinPath,
@@ -45,7 +42,7 @@ import type {
 	PkgType,
 	PredocsConfig,
 } from './types'
-import type { Config } from '@dovenv/core'
+import type { CommandUtils } from '@dovenv/core'
 import type {
 	ObjectValues,
 	PackageJSON,
@@ -58,7 +55,7 @@ type MarkdownInfo = { more: string } & { [key in MdInfoKey]? : string }
 
 type Emoji = ObjectValues<NonNullable<ReturnType<typeof getEmojiList>>> | string
 
-export class Predocs extends PluginCore<PredocsConfig> {
+export class Predocs  {
 
 	#examples
 	#templates
@@ -77,28 +74,35 @@ export class Predocs extends PluginCore<PredocsConfig> {
 	#EMOJI
 	template
 	partial
-
+	opts            : PredocsConfig | undefined
+	protected utils : CommandUtils
 	protected getLogTitle
 
-	constructor( opts?: PredocsConfig, config?: Config ) {
+	constructor( {
+		opts, utils,
+	}:{
+		opts? : PredocsConfig
+		utils : CommandUtils
+	} ) {
 
-		super( opts, config )
+		this.opts  = opts
+		this.utils = utils
 
 		const { Examples }  = examples
 		const { Templates } = templates
 		const { Convert }   = convert
-
-		this.#examples  = new Examples( undefined, config )
-		this.#templates = new Templates( undefined, config )
-		this.#convert   = new Convert(  )
-		this.#pkgData   = undefined
-		this.#wsPkg     = ( this.pkg || {} ) as PackageJSON
-		this.#corePkg   = ( config?.const?.corePkg || config?.const?.pkg ) as PackageJSON
-		this.#coreDir   = config?.const?.coreDir as string || joinPath( this.wsDir, 'packages', 'core' )
-		this.#REPO_URL  = typeof config?.const?.REPO_URL === 'string' ? config.const.REPO_URL : ''
+		const { config }    = this.utils
+		this.#examples      = new Examples( { utils } )
+		this.#templates     = new Templates( { utils } )
+		this.#convert       = new Convert(  )
+		this.#pkgData       = undefined
+		this.#wsPkg         = ( this.utils.pkg || {} ) as PackageJSON
+		this.#corePkg       = ( config?.const?.corePkg || config?.const?.pkg ) as PackageJSON
+		this.#coreDir       = config?.const?.coreDir as string || joinPath( this.utils.wsDir, 'packages', 'core' )
+		this.#REPO_URL      = typeof config?.const?.REPO_URL === 'string' ? config.const.REPO_URL : ''
 
 		this.projectName = this.#wsPkg.extra.productName || this.#wsPkg.extra.id || this.#wsPkg.name
-		this.getLogTitle = ( t: string ) => `${color.inverse( ` ${t} ` )}\n`
+		this.getLogTitle = ( t: string ) => `${color.inverse( ` ${t} ` )}`
 		this.#EMOJI      = getEmojiList( this.opts?.emoji )
 
 		this.template = templateConstructor( this.#EMOJI )
@@ -115,7 +119,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 		if ( this.#pkgPaths ) return this.#pkgPaths
 
-		return await this.getPkgPaths()
+		return await this.utils.getPkgPaths()
 
 	}
 
@@ -124,7 +128,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 		if ( this.#pkgData ) return this.#pkgData
 
 		const pkgPaths = await this.#getPkgPaths()
-		const data     = await getPublicPackageData( pkgPaths, this.wsDir, this.#wsPkg, this.#EMOJI )
+		const data     = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
 		console.debug( data )
 		return data
 
@@ -211,7 +215,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 	async setIndexFile( config?: PredocsConfig['index'] ) {
 
-		console.info( this.getLogTitle( 'index file' ) )
+		this.utils.prompt.log.info( this.getLogTitle( 'index file' ) )
 
 		config              = deepmerge( this.opts?.index || {}, config || {} )
 		const data          = await this.#getPublicPkgData()
@@ -310,12 +314,13 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 			} },
 		} )
+		this.utils.prompt.log.step( '' )
 
 	}
 
 	async setContributorsFile( ) {
 
-		console.info( this.getLogTitle( 'contributors file' ) )
+		this.utils.prompt.log.info( this.getLogTitle( 'contributors file' ) )
 		const data = await this.#getPublicPkgData()
 
 		await this.#templates.get( {
@@ -323,11 +328,13 @@ export class Predocs extends PluginCore<PredocsConfig> {
 			output : joinPath( data.docsDir, FILE_NAME.CONTRIBUTORS ),
 		} )
 
+		this.utils.prompt.log.step( '' )
+
 	}
 
 	async setGuideSectionIndexFile( config: PredocsConfig['guideSection'] = {} ) {
 
-		console.info( this.getLogTitle( 'guide section index file' ) )
+		this.utils.prompt.log.info( this.getLogTitle( 'guide section index file' ) )
 
 		config         = deepmerge( this.opts?.guideSection || {}, config || {} )
 		const data     = await this.#getPublicPkgData( )
@@ -345,18 +352,21 @@ export class Predocs extends PluginCore<PredocsConfig> {
 			const dir = joinPath( guideDir, v )
 
 			await ensureDir( dir )
+			const path = joinPath( dir, FILE_NAME.INDEX )
 			await writeFile(
-				joinPath( dir, FILE_NAME.INDEX ),
+				path,
 				content,
 			)
+			this.utils.prompt.log.success( this.utils.style.info.msg( 'Overwrite content to', path ) )
 
 		}
+		this.utils.prompt.log.step( '' )
 
 	}
 
 	async setGuideIndexFile( ) {
 
-		console.info( this.getLogTitle( 'guide index file' ) )
+		this.utils.prompt.log.info( this.getLogTitle( 'guide index file' ) )
 
 		const data        = await this.#getPublicPkgData( )
 		const guideDir    = data.docsGuideDir
@@ -371,6 +381,8 @@ export class Predocs extends PluginCore<PredocsConfig> {
 			} )
 
 		}
+		else this.utils.prompt.log.info( 'Guide index file does not exist in: ' + wsIndexFile )
+		this.utils.prompt.log.step( '' )
 
 	}
 
@@ -401,7 +413,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 		for ( const publicPkg of publicPkgs ) {
 
-			console.info( this.getLogTitle( publicPkg.name || '' ) )
+			this.utils.prompt.log.info( this.getLogTitle( publicPkg.name || '' ) )
 
 			await ensureDir( publicPkg.docs.dir )
 
@@ -506,7 +518,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 			}
 			content += info.more
 
-			const localBanner = this.pkg?.extra?.bannerURL ? this.pkg?.extra?.bannerURL as string : await existsFile( joinPath( this.wsDir, 'docs/public/banner.png' ) )
+			const localBanner = this.utils.pkg?.extra?.bannerURL ? this.utils.pkg?.extra?.bannerURL as string : await existsFile( joinPath( this.utils.wsDir, 'docs/public/banner.png' ) )
 
 			const banner = localBanner && typeof localBanner == 'string'
 				? localBanner
@@ -554,7 +566,8 @@ export class Predocs extends PluginCore<PredocsConfig> {
 			// WORKSPACE README
 			//////////////////////////////////////////////////////////////////////////////
 			if ( publicPkg.id === ID.core )
-				await setReadmeFile( this.template.readmePkg, joinPath( this.wsDir, FILE_NAME.README ) )
+				await setReadmeFile( this.template.readmePkg, joinPath( this.utils.wsDir, FILE_NAME.README ) )
+			this.utils.prompt.log.step( '' )
 
 		}
 
@@ -580,7 +593,7 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 	async run() {
 
-		await this.catchFn( this.#run() )
+		await this.utils.catchFn( this.#run() )
 
 	}
 
@@ -588,9 +601,12 @@ export class Predocs extends PluginCore<PredocsConfig> {
 
 export const predocsPlugin = ( opts?: PredocsConfig ) => defineConfig( { custom : { predocs : {
 	desc : 'Create package docs simultaneously',
-	fn   : async ( { config } ) => {
+	fn   : async ( { utils } ) => {
 
-		const predocs = new Predocs( opts, config )
+		const predocs = new Predocs( {
+			opts,
+			utils,
+		} )
 		await predocs.run()
 
 	},

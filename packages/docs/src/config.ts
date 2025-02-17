@@ -4,24 +4,28 @@ import {
 	pigeonposseMonorepoTheme,
 	docs,
 } from '@dovenv/theme-pigeonposse'
+import { resolve } from 'node:path'
 
 import core from '../../../.dovenv/const.js'
 
 export default defineConfig(
 	pigeonposseMonorepoTheme( {
 		core,
-		docs : async config => {
+		docs : async utils => {
 
-			const sidebar = await getSidebar( config || {} )
-			const data    = await docs.getPkgConfig(
-				// @ts-ignore
-				config?.const?.pkg || {},
-			)
-			// console.dir( sidebar, { depth: Infinity } )
+			const sidebar = await getSidebar( {
+				utils,
+				opts : { emojis: { 'utils-media': '📷' } },
+			} )
+			const pkg     = typeof utils?.config?.const?.pkg === 'object' ?  utils.config.const.pkg : {}
+			const data    = await docs.getPkgConfig( pkg )
+			const input   = resolve( '../../docs' )
+			const output  = resolve( './build' )
+
 			return {
 				...data,
-				input     : '../../docs',
-				output    : './build',
+				input,
+				output,
 				version   : core.corePkg?.version,
 				vitepress : {
 					ignoreDeadLinks : true,

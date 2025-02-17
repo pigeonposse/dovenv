@@ -42,10 +42,15 @@ export const convertPlugin = ( conf?: Config ): DovenvConfig => {
 			desc  : 'Key pattern to convert',
 			type  : 'array',
 		} },
-		fn : async values => {
+		fn : async ( {
+			utils, opts,
+		} ) => {
 
-			const convert = new MultipleConvert( conf, values.config )
-			await convert.run( values.opts?.key as string[] )
+			const convert = new MultipleConvert( {
+				opts : conf,
+				utils,
+			} )
+			await convert.run( opts?.key as string[] )
 
 		},
 	} } }

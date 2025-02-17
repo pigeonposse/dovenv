@@ -4,7 +4,6 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig( [
 	{
 		...config,
-		entries   : [ './src/main',  './src/client' ],
-		externals : [ 'ultimate-text-to-image', 'mdast' ],
+		externals : [ 'mdast' ],
 	},
 ] )

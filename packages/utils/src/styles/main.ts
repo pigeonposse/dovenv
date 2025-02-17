@@ -7,4 +7,4 @@ export * from './color'
 export * from './text'
 export * from './table'
 export * from './line'
-export * from './palette'
+

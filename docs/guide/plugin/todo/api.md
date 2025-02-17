@@ -4,39 +4,35 @@
 
 ### Todo
 
-#### Extends
-
-- `PluginCore`\<[`Config`](#config)\>
-
 #### Constructors
 
 ##### new Todo()
 
 ```ts
-new Todo(opts?: Config, config?: Config): Todo
+new Todo(__namedParameters: {
+  opts: Config;
+  utils: CommandSuper;
+ }): Todo
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`Config`](#config) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`Config`](#config) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
 [`Todo`](#todo)
-
-###### Inherited from
-
-`PluginCore<Config>.constructor`
 
 #### Methods
 
 ##### run()
 
 ```ts
-run(pattern?: string[]): Promise<unknown>
+run(pattern?: string[]): Promise<undefined | TodoComment[]>
 ```
 
 ###### Parameters
@@ -47,23 +43,21 @@ run(pattern?: string[]): Promise<unknown>
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `TodoComment`[]\>
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | `PluginCore.helpURL` | - |
-| `opts` | `undefined` \| [`Config`](#config) | `undefined` | Configuration options. | - | `PluginCore.opts` |
-| `title` | `string` | `'todo'` | - | `PluginCore.title` | - |
+| Property | Type |
+| ------ | ------ |
+| `opts` | `undefined` \| [`Config`](#config) |
+| `utils` | `CommandSuper` |
 
 ## Functions
 
 ### todoPlugin()
 
 ```ts
-function todoPlugin(conf?: Config): Config
+function todoPlugin(params?: Config): Config
 ```
 
 A plugin for dovenv to get TODOs in a workspace.
@@ -72,7 +66,7 @@ A plugin for dovenv to get TODOs in a workspace.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `conf`? | [`Config`](#config) | Configuration for the plugin. |
+| `params`? | [`Config`](#config) | Configuration for the plugin. |
 
 #### Returns
 

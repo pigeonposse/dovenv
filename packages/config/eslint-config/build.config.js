@@ -4,6 +4,6 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig( [
 	{
 		...config,
-		entries : [ './src/main.mjs', './src/svelte.mjs' ],
+		entries : [ './src/main', './src/svelte' ],
 	},
 ] )

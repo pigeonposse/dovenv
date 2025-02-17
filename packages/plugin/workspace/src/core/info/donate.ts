@@ -8,14 +8,14 @@ export class Donate extends Super implements InfoInterface {
 
 	async get() {
 
-		const url = typeof this.pkg?.funding === 'string'
-			? this.pkg.funding
-			: Array.isArray( this.pkg?.funding )
-				? ( typeof this.pkg.funding[0] === 'string'
-					? this.pkg.funding[0]
-					: this.pkg.funding[0]?.url || undefined )
-				: typeof this.pkg?.funding === 'object' && typeof this.pkg.funding?.url === 'string'
-					? this.pkg.funding.url
+		const url = typeof this.utils.pkg?.funding === 'string'
+			? this.utils.pkg.funding
+			: Array.isArray( this.utils.pkg?.funding )
+				? ( typeof this.utils.pkg.funding[0] === 'string'
+					? this.utils.pkg.funding[0]
+					: this.utils.pkg.funding[0]?.url || undefined )
+				: typeof this.utils.pkg?.funding === 'object' && typeof this.utils.pkg.funding?.url === 'string'
+					? this.utils.pkg.funding.url
 					: undefined
 		return url
 
@@ -30,8 +30,8 @@ export class Donate extends Super implements InfoInterface {
 		this._title( 'Donate information' )
 
 		console.log( url
-			? this.style.section.a( url )
-			: this.style.section.p( 'There is no funding URL associated with this package' ),
+			? this.utils.style.section.a( url )
+			: this.utils.style.section.p( 'There is no funding URL associated with this package' ),
 		)
 
 	}

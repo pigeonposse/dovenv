@@ -1,7 +1,3 @@
-import {
-	PluginCore,
-	type Config as DovenvConfig,
-} from '@dovenv/core'
 import { downloadGitHubPath } from '@dovenv/core/utils'
 
 import { GitHubCreate }   from './create'
@@ -9,6 +5,10 @@ import { GitHubInfo }     from './info'
 import { GitHubWorkflow } from './workflow'
 
 import type { Config as GitHubConfig } from '../_super/types'
+import type {
+	CommandUtils,
+	Config as DovenvConfig,
+} from '@dovenv/core'
 
 const CMD       = {
 	DOWNLOAD : 'download',
@@ -18,18 +18,35 @@ const CMD       = {
 } as const
 const CMD_ALIAS = { WORKFLOW: 'wf' }
 
-class GitHub extends PluginCore<GitHubConfig> {
+class GitHub {
 
-	info     : GitHubInfo
-	workflow : GitHubWorkflow
-	create   : GitHubCreate
-	constructor( opts?: GitHubConfig, config?: PluginCore['config'] ) {
+	info            : GitHubInfo
+	workflow        : GitHubWorkflow
+	create          : GitHubCreate
+	opts            : GitHubConfig | undefined
+	protected utils : CommandUtils
 
-		super( opts, config )
+	constructor( {
+		opts, utils,
+	}:{
+		opts? : GitHubConfig
+		utils : CommandUtils
+	} ) {
 
-		this.info     = new GitHubInfo( opts, config )
-		this.workflow = new GitHubWorkflow( opts, config )
-		this.create   = new GitHubCreate( opts, config )
+		this.opts     = opts
+		this.utils    = utils
+		this.info     = new GitHubInfo( {
+			opts,
+			utils,
+		} )
+		this.workflow = new GitHubWorkflow( {
+			opts,
+			utils,
+		} )
+		this.create   = new GitHubCreate( {
+			opts,
+			utils,
+		} )
 
 	}
 
@@ -97,10 +114,13 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 			},
 		},
 		fn : async ( {
-			cmds, opts, config, showHelp,
+			cmds, opts, utils, showHelp,
 		} ) => {
 
-			const gitHub = new GitHub( conf, config )
+			const gitHub = new GitHub( {
+				opts : conf,
+				utils,
+			} )
 			if ( cmds?.includes( CMD.DOWNLOAD ) && opts?.input && opts?.output )
 				await gitHub.download( opts.input as string, opts.output as string )
 			else if ( cmds?.includes( CMD.WORKFLOW ) || cmds?.includes( CMD_ALIAS.WORKFLOW ) ) {

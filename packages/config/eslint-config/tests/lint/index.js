@@ -1,6 +1,6 @@
 import * as eslint from 'eslint'
 
-const toConsole  =  'holaaaa'
+const toConsole  = 'holaaaa'
 const toConsole2 =   _d => {}
 const toConsole3 = ( ) => {}
 

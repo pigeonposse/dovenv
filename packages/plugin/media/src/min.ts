@@ -1,5 +1,4 @@
-import { PluginCore }   from '@dovenv/core'
-import { process }      from '@dovenv/core/utils'
+
 import imagemin         from 'imagemin'
 import imageminGif      from 'imagemin-gifsicle'
 import imageminJpegtran from 'imagemin-jpegtran'
@@ -7,6 +6,8 @@ import imageminOptipng  from 'imagemin-optipng'
 // import imageminPngquant from 'imagemin-pngquant'
 import imageminSvgo from 'imagemin-svgo'
 import imageminWebp from 'imagemin-webp'
+
+import { Core } from './core'
 
 export type WebpOpts = Parameters<typeof imageminWebp>[0]
 
@@ -28,14 +29,13 @@ export type ImageMinConfigValue = {
 }
 export type ImageMinConfig = { [key: string]: ImageMinConfigValue }
 
-export class ImageMin extends PluginCore<ImageMinConfig> {
+export class ImageMin extends Core<ImageMinConfig> {
 
-	title = 'imagemin'
-	async exec( conf:ImageMinConfigValue ) {
+	async exec( conf: ImageMinConfigValue ) {
 
 		await imagemin( conf.input, {
 			// @ts-ignore
-			destination : conf.output || process.cwd(),
+			destination : conf.output || this.utils.process.cwd(),
 			plugins     : [
 				...( !conf.opts?.gif ? [] : [ imageminGif( conf.opts.gif === true ? {} : conf.opts.gif ) ] ),
 				...( !conf.opts?.jpeg ? [] : [ imageminJpegtran( conf.opts.jpeg === true ? {} : conf.opts.jpeg ) ] ),
@@ -47,25 +47,13 @@ export class ImageMin extends PluginCore<ImageMinConfig> {
 
 	}
 
-	async #fn( pattern?: string[] ) {
-
-		if ( !( await this.ensureOpts() ) || !this.opts ) return
-
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
-
-		for ( const key of keys ) {
-
-			console.log( this.style.info.h( `${this.style.badge( key )} ${this.title}` ) )
-			await this.exec( this.opts[key] )
-
-		}
-
-	}
-
 	async run( pattern?: string[] ) {
 
-		return await this.catchFn( this.#fn( pattern ) )
+		return await this.execFn( {
+			pattern,
+			desc : 'Minification',
+			fn   : d => this.exec( d ),
+		} )
 
 	}
 

@@ -29,8 +29,6 @@ export type CommitlintConfig = {
 
 export class CommitLint extends LintSuper<CommitlintConfig> {
 
-	title = CMDS.commitlint
-
 	#selectParserOpts = ( parserPreset: UserConfig['parserPreset'] ) => {
 
 		if ( typeof parserPreset !== 'object' ) return undefined
@@ -64,7 +62,7 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 		console.debug( 'result', result )
 
 		const cm = result[0]
-		this.prompt.log.info( this.style.info.msg( `Commit message to lint`, cm ) )
+		this.utils.prompt.log.info( this.utils.style.info.msg( `Commit message to lint`, cm ) )
 
 		const report = await lint( cm, config.rules, {
 			parserOpts     : this.#selectParserOpts( config.parserPreset ),
@@ -79,11 +77,11 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 
 		console.debug( 'formated response', res )
 
-		if ( res && res !== '' ) this.prompt.log.error( res )
+		if ( res && res !== '' ) this.utils.prompt.log.error( res )
 		if ( report.valid ) {
 
-			this.prompt.log.success( this.style.success.h( 'Commit format is valid!' ) )
-			this.prompt.log.message( '' )
+			this.utils.prompt.log.success( this.utils.style.success.h( 'Commit format is valid!' ) )
+			this.utils.prompt.log.message( '' )
 
 		}
 
@@ -91,7 +89,8 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 
 	async run( userMsg?: string ) {
 
-		return await this.catchFn( this.#fn( userMsg ) )
+		this.transformHelpInfo( CMDS.commitlint )
+		return await this.utils.catchFn( this.#fn( userMsg ) )
 
 	}
 

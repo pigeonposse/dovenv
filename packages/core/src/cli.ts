@@ -6,18 +6,19 @@ import {
 	deprecatedAlerts,
 } from '@dovenv/utils'
 
-import { getConfig }  from './_shared/config'
-import * as CONSTS    from './_shared/const'
-import { Aliases }    from './core/aliases/main'
-import { Check }      from './core/check/main'
-import { Constant }   from './core/const/main'
-import { Transform }  from './core/transform/main'
+import { CommandSuper } from './_shared/cmd'
+import { getConfig }    from './_shared/config'
+import * as CONSTS      from './_shared/const'
+import { Aliases }      from './core/aliases/main'
+import { Check }        from './core/check/main'
+import { Constant }     from './core/const/main'
+import { Transform }    from './core/transform/main'
 import {
 	Custom,
 	mergeCustomConfig,
 } from './custom/main'
 
-import type { CustomConfig } from './custom/main'
+import type { CustomConfig } from './custom/types'
 import type {
 	Config,
 	Params,
@@ -237,9 +238,9 @@ export class Dovenv {
 					[CMD.CONFIG] : {
 						desc     : 'Show your config',
 						settings : { hide: true },
-						fn       : async ( { config } ) => {
+						fn       : async ( { utils } ) => {
 
-							console.dir( config, { depth: Infinity } )
+							console.dir( utils.config || {}, { depth: Infinity } )
 
 						},
 					},
@@ -265,9 +266,11 @@ export class Dovenv {
 
 				}
 				const config = configRes.config as Config
-
+				const utils  = new CommandSuper( config )
 				// @ts-ignore
 				globalThis.DOVENV_CONFIG = Object.freeze( config )
+				// @ts-ignore
+				globalThis.DOVENV_UTILS = utils
 				// @ts-ignore
 				globalThis.DOVENV_CONFIG_PATH = configRes.path as const
 
@@ -288,7 +291,7 @@ export class Dovenv {
 							conf,
 						)
 						: defaultCmds,
-					config,
+					utils,
 				)
 
 				await custom.run()

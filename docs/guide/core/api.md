@@ -101,119 +101,7 @@ await dovenv.run(['check', '-k', 'pkg'])
 | `config` | `undefined` \| [`Config`](#config) | Configuration object for commands and options of the `Dovenv` instance. |
 | `dovenvConfigPath` | `undefined` \| `string` | Contains Dovenv config path. This property is used for user information purposes only. If the "config" option is added via the class constructor, this option will be undefined. In this case you can change its value, but this may alter the behavior of the class. Do so at your own risk. |
 
-***
-
-### PluginCore\<Opts\>
-
-Plugin core class.
-
-- Contains the plugin utilities, styles etc.
-- Makes it easy to create plugins.
-
-#### See
-
-https://dovenv.pigeonposse.com/guide/plugin
-
-#### Extends
-
-- `CommandSuper`\<`Opts`\>
-
-#### Type Parameters
-
-| Type Parameter | Default type |
-| ------ | ------ |
-| `Opts` | `undefined` |
-
-#### Constructors
-
-##### new PluginCore()
-
-```ts
-new PluginCore<Opts>(opts?: Opts, config?: Config): PluginCore<Opts>
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `opts`? | `Opts` |
-| `config`? | [`Config`](#config) |
-
-###### Returns
-
-[`PluginCore`](#plugincoreopts)\<`Opts`\>
-
-###### Overrides
-
-`CommandSuper<Opts>.constructor`
-
-#### Properties
-
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| [`Config`](#config) | `undefined` | The dovenv configuration. | - | `CommandSuper.config` |
-| `opts` | `undefined` \| `Opts` | `undefined` | Configuration options. | - | `CommandSuper.opts` |
-| `title` | `string` | `'plugin'` | The title of the application. Use in internal logs and functions. | `CommandSuper.title` | - |
-
 ## Functions
-
-### createPlugin()
-
-```ts
-function createPlugin<Param>(fn: (data: {
-  param: Param;
-  utils: PluginCore<Param>;
- }) => Config, dovenvConfig?: Config): (param?: Param) => Config
-```
-
-Create a plugin function.
-
-#### Type Parameters
-
-| Type Parameter | Default type | Description |
-| ------ | ------ | ------ |
-| `Param` | `unknown` | The type of the arguments to be passed to the plugin. |
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `fn` | (`data`: \{ `param`: `Param`; `utils`: [`PluginCore`](#plugincoreopts)\<`Param`\>; \}) => [`Config`](#config) | The plugin function. |
-| `dovenvConfig`? | [`Config`](#config) | Add a previous dovenv configuration if you need it. |
-
-#### Returns
-
-`Function`
-
-- The plugin function that can be passed to the dovenv.
-
-##### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `param`? | `Param` |
-
-##### Returns
-
-[`Config`](#config)
-
-#### Example
-
-```ts
-import { createPlugin } from '@dovenv/core'
-
-const plugin = createPlugin<{ title?: boolean }>( data => {
-	 if ( data.param?.title ) {
-		console.log( data.utils.style.title( 'Hello from plugin' ) )
-	 }
-
-	return {
-		// Your dovenv configuration here.
-	}
-} )
-```
-
-***
 
 ### defineConfig()
 
@@ -287,6 +175,14 @@ await run(['-c', 'my/config.js', 'check'])
 ```
 
 ## Type Aliases
+
+### CommandUtils
+
+```ts
+type CommandUtils: CommandSuper;
+```
+
+***
 
 ### Config
 

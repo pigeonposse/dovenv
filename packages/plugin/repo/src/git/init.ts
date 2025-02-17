@@ -14,34 +14,34 @@ export class GitInit extends GitSuper {
 
 	async isInit() {
 
-		return await existsDir( joinPath( this.wsDir, '.git' ) )
+		return await existsDir( joinPath( this.utils.wsDir, '.git' ) )
 
 	}
 
 	async #askOrigin() {
 
-		const repoId = this.pkg?.extra.repoId || this.pkg?.repoID || this.pkg?.name
-		const owner  = this.pkg?.extra.collective.id
-		const url    = repoId && owner ? `https://github.com/${owner}/${repoId}.git` : this.pkg?.reppsitory.url
+		const repoId = this.utils.pkg?.extra.repoId || this.utils.pkg?.repoID || this.utils.pkg?.name
+		const owner  = this.utils.pkg?.extra.collective.id
+		const url    = repoId && owner ? `https://github.com/${owner}/${repoId}.git` : this.utils.pkg?.reppsitory.url
 
 		if ( !url ) throw new Error( 'Invalid repository url: ' + url )
 
-		const value = await this.prompt.text( {
+		const value = await this.utils.prompt.text( {
 			message      : 'Write your origin git url',
 			placeholder  : url,
 			initialValue : url,
 		} )
 
-		if ( this.prompt.isCancel( value ) ) await this.onCancel()
+		if ( this.utils.prompt.isCancel( value ) ) await this.utils.onCancel()
 		return value as string
 
 	}
 
 	async #askForExecution() {
 
-		const value = await this.prompt.confirm( { message: 'Do you want to execute the command?' } )
+		const value = await this.utils.prompt.confirm( { message: 'Do you want to execute the command?' } )
 
-		if ( this.prompt.isCancel( value ) ) await this.onCancel()
+		if ( this.utils.prompt.isCancel( value ) ) await this.utils.onCancel()
 		return value as boolean
 
 	}
@@ -50,13 +50,13 @@ export class GitInit extends GitSuper {
 
 		const initialValue = `main`
 
-		const value = await this.prompt.text( {
+		const value = await this.utils.prompt.text( {
 			message      : 'Write your init branch',
 			placeholder  : initialValue,
 			initialValue : initialValue,
 		} )
 
-		if ( this.prompt.isCancel( value ) ) await this.onCancel()
+		if ( this.utils.prompt.isCancel( value ) ) await this.utils.onCancel()
 		return value as string
 
 	}
@@ -68,15 +68,21 @@ export class GitInit extends GitSuper {
 		if ( git ) {
 
 			if ( silent ) return
-			this.prompt.log.success( this.style.success.msg( 'Git is initialized ✨' ) )
-			this.prompt.log.step( '' )
+			this.utils.prompt.log.success( this.utils.style.success.msg( 'Git is initialized ✨' ) )
+			this.utils.prompt.log.step( '' )
 			return
 
 		}
 
-		this.prompt.log.info( this.style.p( 'Init your repository' ) )
-		const addInstance    = new GitAdd( this.opts, this.config )
-		const commitInstance = new GitCommit( this.opts, this.config )
+		this.utils.prompt.log.info( this.utils.style.p( 'Init your repository' ) )
+		const addInstance    = new GitAdd( {
+			opts  : this.opts,
+			utils : this.utils,
+		} )
+		const commitInstance = new GitCommit( {
+			opts  : this.opts,
+			utils : this.utils,
+		}  )
 
 		const add    = await addInstance.ask()
 		const commit = await commitInstance.ask( false )
@@ -90,20 +96,20 @@ git branch -M ${branch} &&
 git remote add origin ${origin} &&
 git push -u origin ${branch}`
 
-		this.prompt.note( `Command to be executed:\n\n${cmd}` )
+		this.utils.prompt.note( `Command to be executed:\n\n${cmd}` )
 		const exexute = await this.#askForExecution()
 		if ( exexute ) {
 
-			console.log( this.style.info.hr( 'git init' ) )
+			console.log( this.utils.style.info.hr( 'git init' ) )
 			await exec( cmd )
-			console.log( this.style.info.hr( ) )
-			this.prompt.log.success( this.style.success.msg( 'Git is initialized ✨' ) )
+			console.log( this.utils.style.info.hr( ) )
+			this.utils.prompt.log.success( this.utils.style.success.msg( 'Git is initialized ✨' ) )
 
 		}
 		else
-			this.prompt.log.success( this.style.success.msg( 'Git init skipped from execution ✨' ) )
+			this.utils.prompt.log.success( this.utils.style.success.msg( 'Git init skipped from execution ✨' ) )
 
-		this.prompt.log.step( '' )
+		this.utils.prompt.log.step( '' )
 
 	}
 

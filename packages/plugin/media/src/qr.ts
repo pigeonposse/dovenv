@@ -1,10 +1,41 @@
 import { qrcode } from '@dovenv/core/utils'
 
-export type QRcodeOpts = { input: string }
+import { Core } from './core'
 
-export const generateQR = async ( opts: QRcodeOpts ) => {
+type QRcodeOptsValue = {
+	input : string
+	/**
+	 * QR size
+	 * @default 'medium'
+	 */
+	size? : 'medium' | 'large'
+}
+export type QRcodeOpts = { [k: string]: QRcodeOptsValue }
 
-	const qr = await qrcode( opts.input )
-	console.log( qr )
+export class QRcode extends Core<QRcodeOpts> {
+
+	async exec( conf: QRcodeOptsValue ) {
+
+		const {
+			input, size,
+		} = conf
+
+		const qr = await qrcode( input, { small: size !== 'large' } )
+
+		console.log(  )
+		console.log( qr )
+		console.log(  )
+
+	}
+
+	async run( pattern?: string[] ) {
+
+		return await this.execFn( {
+			pattern,
+			desc : 'Generate QR',
+			fn   : d => this.exec( d ),
+		} )
+
+	}
 
 }

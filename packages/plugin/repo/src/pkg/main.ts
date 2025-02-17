@@ -38,16 +38,19 @@ export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 				desc : 'Get package size of package. (Local and NPM)',
 				opts : { input : {
 					alias : 'i',
-					desc  : 'input',
+					desc  : 'Local path package directory/file or npm package name',
 					type  : 'string',
 				} },
 			},
 		},
 		fn : async ( {
-			config, cmds, showHelp, opts,
+			utils, cmds, showHelp, opts,
 		} ) => {
 
-			const pkg = new Packages( conf, config )
+			const pkg = new Packages( {
+				opts : conf,
+				utils,
+			} )
 			if ( cmds?.includes( CMD.release ) )
 				await pkg.release()
 			else if ( cmds?.includes( CMD.publish ) )

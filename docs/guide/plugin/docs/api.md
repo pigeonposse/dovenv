@@ -103,18 +103,14 @@ This command is a wrapper of the `npx vitepress preview` command.
 
 ### DocsPlugin
 
-#### Extends
-
-- `PluginCore`\<[`DocsPluginConfig`](#docspluginconfig)\>
-
 #### Constructors
 
 ##### new DocsPlugin()
 
 ```ts
 new DocsPlugin(
-   opts?: DocsPluginConfig, 
-   config?: Config, 
+   utils: CommandSuper, 
+   opts?: DocsConfig, 
    docsOpts?: DocsParams): DocsPlugin
 ```
 
@@ -122,17 +118,13 @@ new DocsPlugin(
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`DocsPluginConfig`](#docspluginconfig) |
-| `config`? | `Config` |
+| `utils` | `CommandSuper` |
+| `opts`? | [`DocsConfig`](#docsconfig) |
 | `docsOpts`? | `DocsParams` |
 
 ###### Returns
 
 [`DocsPlugin`](#docsplugin)
-
-###### Overrides
-
-`PluginCore<DocsPluginConfig>.constructor`
 
 #### Methods
 
@@ -229,12 +221,10 @@ publishToCloudflare(opts: {
 
 #### Properties
 
-| Property | Modifier | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `public` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `docsOpts?` | `public` | `DocsParams` | `undefined` | - | - | - |
-| `opts` | `public` | `undefined` \| [`DocsPluginConfig`](#docspluginconfig) | `undefined` | Configuration options. | - | `PluginCore.opts` |
-| `title` | `public` | `string` | `'docs'` | - | `PluginCore.title` | - |
+| Property | Modifier | Type |
+| ------ | ------ | ------ |
+| `docsOpts?` | `public` | `DocsParams` |
+| `opts?` | `public` | [`DocsConfig`](#docsconfig) |
 
 ## Functions
 
@@ -263,7 +253,7 @@ The defined configuration object.
 ### docsPlugin()
 
 ```ts
-function docsPlugin(conf?: DocsPluginConfig): Config
+function docsPlugin(params?: DocsPluginConfig): Config
 ```
 
 Define a `dovenv` configuration that creates a documentation site for your workspace.
@@ -272,7 +262,7 @@ Define a `dovenv` configuration that creates a documentation site for your works
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `conf`? | [`DocsPluginConfig`](#docspluginconfig) | The configuration object. |
+| `params`? | [`DocsPluginConfig`](#docspluginconfig) | The configuration object. |
 
 #### Returns
 
@@ -485,7 +475,7 @@ type DocsConfig: {
 ### DocsPluginConfig
 
 ```ts
-type DocsPluginConfig: DocsConfig | (config?: DovenvConfig) => Promise<DocsConfig>;
+type DocsPluginConfig: DocsConfig | (utils: CommandUtils) => Promise<DocsConfig> | DocsConfig;
 ```
 
 ## References

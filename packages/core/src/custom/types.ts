@@ -1,43 +1,49 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import type { ArgvParsed } from '../_shared/types'
-import type { createCli }  from '@dovenv/utils'
+import type { CommandSuper } from '../_shared/cmd'
+import type {
+	ArgvParsed,
+	Response,
+} from '../_shared/types'
+import type { createCli } from '@dovenv/utils'
 
 export type ShowHelpFn = ( loglevel?: string ) => void
-type CommandFn = (
-	data: ArgvParsed & {
-		/** Print the usage data using the console function consoleLevel for printing. */
-		showHelp : ShowHelpFn } ) => Promise<void>
 export type Cli = Awaited<ReturnType<typeof createCli>>
+export type CommandUtils = CommandSuper
+
 type Opt = Parameters<Cli['option']>[0][number] & {
 	/** Description of the option */
-	desc : string }
-type SetOpts = {
-	/** key of the option */
-	[key in string]: Opt
-}
-type SetCmds = {
-	/** Key of the command */
-	[key in string]: Cmd
+	desc : string
 }
 
 type Cmd = {
 	/** Description of the command */
-	desc      : string
+	desc  : string
 	/** Options for the command if there are any */
-	opts?     : SetOpts
+	opts? :  {
+		/** key of the option */
+		[key in string]: Opt
+	}
 	/** Commands for the command if there are any */
-	cmds?     : SetCmds
+	cmds?     : {
+		/** Key of the command */
+		[key in string]: Cmd
+	}
 	/** Examples of the command */
-	examples? : Examples
+	examples? : {
+		/** Description of the example */
+		desc : string
+		/** Command to use */
+		cmd  : string
+	}[]
 }
 
-type Examples = {
-	/** Description of the example */
-	desc : string
-	/** Command to use */
-	cmd  : string
-}[]
+type CommandFn = (
+	data: ArgvParsed & {
+		/** Print the usage data using the console function consoleLevel for printing. */
+		showHelp : ShowHelpFn
+		utils    : CommandUtils
+	} ) => Response<void>
 
 export type CustomConfig = {
 	/** Key of the command */

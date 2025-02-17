@@ -4,10 +4,8 @@
  * looks for todos in comments in diferent fyle types.
  * @todo fix for accept "- [ ]" as custom tag without comments
  */
-import { PluginCore } from '@dovenv/core'
 import {
 	getExtName,
-
 	getPaths,
 	readFile,
 	relativePath,
@@ -23,20 +21,37 @@ import {
 
 import { homepage } from '../../package.json'
 
-import type { Config } from './types'
+import type { Config }       from './types'
+import type { CommandUtils } from '@dovenv/core'
 
 type TodoComments = Awaited<ReturnType<typeof parse>>
 
-export class Todo extends PluginCore<Config> {
+export class Todo  {
 
-	title = 'todo'
-	helpURL = homepage
+	opts  : Config | undefined
+	utils : CommandUtils
+
+	constructor( {
+		opts, utils,
+	}:{
+		opts? : Config
+		utils : CommandUtils
+	} ) {
+
+		this.opts          = opts
+		this.utils         = utils
+		this.utils.helpURL = homepage
+		this.utils.title   = 'todo'
+
+	}
+
 	async #fn( pattern?: string[] ): Promise<TodoComments | undefined> {
 
-		if ( !( await this.ensureOpts() ) || !this.opts ) return
-
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
+		const keys = await this.utils.getOptsKeys( {
+			input : this.opts,
+			pattern,
+		} )
+		if ( !keys || !this.opts ) return
 
 		const defaultType            = '.md'
 		const resTotal: TodoComments = []
@@ -44,7 +59,7 @@ export class Todo extends PluginCore<Config> {
 		for ( const key of keys ) {
 
 			const res: TodoComments = []
-			console.log( '\n' + this.style.info.h( `TODOs for ${this.style.badge( key )} key` ) )
+			console.log( '\n' + this.utils.style.info.h( `TODOs for ${this.utils.style.badge( key )} key` ) )
 
 			const opts  = this.opts[key]
 			const paths = await getPaths( opts.input, {
@@ -71,7 +86,7 @@ export class Todo extends PluginCore<Config> {
 
 				}
 				const todos = await parse( content, {
-					filename   : relativePath( this.process.cwd(), path ),
+					filename   : relativePath( this.utils.process.cwd(), path ),
 					extension  : filetype || defaultType,
 					customTags : ( opts.customTags
 						? opts.customTags
@@ -107,7 +122,7 @@ export class Todo extends PluginCore<Config> {
 
 			}
 
-			if ( res.length === 0 ) console.log(  '\n' + this.style.error.msg( 'No TODOs found' ) )
+			if ( res.length === 0 ) console.log(  '\n' + this.utils.style.error.msg( 'No TODOs found' ) )
 			else resTotal.push( ...res )
 
 		}
@@ -116,9 +131,9 @@ export class Todo extends PluginCore<Config> {
 
 	}
 
-	async run( pattern?: string[] ) {
+	async run( pattern?: string[] ): Promise<TodoComments | undefined> {
 
-		return await this.catchFn( this.#fn( pattern ) )
+		return await this.utils.catchFn( this.#fn( pattern ) )
 
 	}
 

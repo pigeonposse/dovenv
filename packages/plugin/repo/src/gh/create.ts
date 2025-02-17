@@ -9,7 +9,7 @@ export class GitHubCreate extends GHSuper {
 		await this.init()
 		await this.initGH()
 
-		console.log( this.style.info.hr( 'Publish packages' ) )
+		console.log( this.utils.style.info.hr( 'Publish packages' ) )
 
 		await exec( 'gh repo create' )
 

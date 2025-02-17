@@ -12,16 +12,16 @@ export class GitPull extends GitSuper {
 			const res = await execChild( `gh pr create --title "${title}" --body "${body}" --base ${branch}${open ? ' --web' : ''}` )
 			if ( res.stderr  && res.stderr.trim()  !== '' ) throw new Error( res.stderr )
 
-			this.prompt.log.success( res.stdout )
+			this.utils.prompt.log.success( res.stdout )
 			return true
 
 		}
 		catch ( e ) {
 
-			this.prompt.log.step( '' )
+			this.utils.prompt.log.step( '' )
 			// @ts-ignore
 			const res =  e?.stderr || e?.message
-			this.prompt.cancel( 'Error creating pull request:\n\n' + res )
+			this.utils.prompt.cancel( 'Error creating pull request:\n\n' + res )
 			return false
 
 		}
@@ -34,7 +34,10 @@ export class GitPull extends GitSuper {
 		await this.initGH()
 
 		const defaultBranch  = this.opts?.defaultBranch
-		const branchInstance = new GitBranch( this.opts, this.config )
+		const branchInstance = new GitBranch( {
+			opts  : this.opts,
+			utils : this.utils,
+		} )
 		const data           = {
 			title : 'title',
 			body  : 'body',
@@ -47,14 +50,14 @@ export class GitPull extends GitSuper {
 			[data.base]  : defaultBranch,
 			[data.open]  : false,
 		}
-		const cache          = await this.cache( 'pull', defaultData )
+		const cache          = await this.utils.cache( 'pull', defaultData )
 		const cached         = await cache.get()
 		console.debug( 'cached data', cached )
-		await this.promptGroup( {
-			outro    : `Finished ${this.style.badge( 'pull' )} process 🌈`,
-			onCancel : async () => this.onCancel(),
+		await this.utils.promptGroup( {
+			outro    : `Finished ${this.utils.style.badge( 'pull' )} process 🌈`,
+			onCancel : async () => this.utils.onCancel(),
 			list     : async p => ( {
-				desc         : () => p.log.info( this.style.p( 'Create a pull request on GitHub.' ) ),
+				desc         : () => p.log.info( this.utils.style.p( 'Create a pull request on GitHub.' ) ),
 				[data.title] : async () => {
 
 					const res = await p.text( {
@@ -112,7 +115,7 @@ export class GitPull extends GitSuper {
 
 					// @ts-ignore
 					const res = await this.#createPullRequest( results[data.title], results[data.body], results[data.base], results[data.open]  )
-					if ( !res ) this.process.exit( 0 )
+					if ( !res ) this.utils.process.exit( 0 )
 
 				},
 			} ),

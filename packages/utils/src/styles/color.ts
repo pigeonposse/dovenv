@@ -6,7 +6,7 @@ import {
 	xyzToCIELab,
 	hslToRgb,
 	hexToRgb,
-} from '@vibrant/color/lib/converter.js'
+} from '@vibrant/color'
 import chalk                         from 'chalk'
 import chromaJS                      from 'chroma-js'
 import { highlight as cliHighlight } from 'cli-highlight'

@@ -1,21 +1,21 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.3.2",
+	"version": "1.4.0",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
-		"env",
-		"development",
+		"aio",
+		"bin",
 		"cli",
+		"development",
+		"dovenv",
+		"env",
 		"library",
 		"node",
-		"tasks",
-		"workspace",
-		"aio",
-		"toolkit",
-		"bin",
 		"pigeonposse",
 		"pp",
-		"dovenv"
+		"tasks",
+		"toolkit",
+		"workspace"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/core",
 	"bugs": {
@@ -39,9 +39,16 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs",
-		"./client": "./dist/client.mjs",
-		"./utils": "./dist/utils.mjs"
+		".": {
+			"import": "./dist/main.mjs",
+			"require": "./dist/main.cjs",
+			"types": "./dist/main.d.ts"
+		},
+		"./utils": {
+			"import": "./dist/utils.mjs",
+			"require": "./dist/utils.cjs",
+			"types": "./dist/utils.d.ts"
+		}
 	},
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",

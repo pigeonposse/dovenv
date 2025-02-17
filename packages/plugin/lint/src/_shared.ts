@@ -1,5 +1,3 @@
-import { PluginCore } from '@dovenv/core'
-
 import { homepage } from '../package.json'
 
 export const CMDS = {
@@ -10,9 +8,22 @@ export const CMDS = {
 	custom     : 'custom',
 } as const
 
-export class LintSuper<Conf = unknown> extends PluginCore<Conf> {
+import type { CommandUtils } from '@dovenv/core'
 
-	title = 'lint'
-	helpURL = homepage
+export class LintSuper<Opts = unknown> {
+
+	constructor( public opts: Opts | undefined, public utils: CommandUtils ) {
+
+		this.utils.title   = 'lint'
+		this.utils.helpURL = homepage
+
+	}
+
+	protected transformHelpInfo( v:string ) {
+
+		this.utils.title   = this.utils.title + '.' + v
+		this.utils.helpURL = this.utils.helpURL + '#' + v
+
+	}
 
 }

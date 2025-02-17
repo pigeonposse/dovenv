@@ -83,7 +83,7 @@ export const PARTIAL_DIR = {
 	lint         : join( partialsDir, 'lint' ),
 } as const
 
-const mapID = < T extends Record<string, unknown> >( obj: T ) => ( {
+const mapID = <T extends Record<string, unknown>>( obj: T ) => ( {
 	...mapObject( obj, ( _v, k ) => k ) as ( { [key in keyof T]: key } ),
 	none : SELECT_NONE,
 } )

@@ -13,16 +13,10 @@ import {
 } from '@dovenv/theme-banda'
 import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
-import { getPigeonposseData } from './const'
-import { predocsPlugin }      from './docs/build'
-import { EMOJI }              from './docs/emoji'
-import {
-	markSchema,
-	pkgSchema,
-	templateMarkSchema,
-	validateSchema,
-	wsDirSchema,
-} from './schema'
+import { getPigeonposseData }  from './const'
+import { predocsPlugin }       from './docs/build'
+import { EMOJI }               from './docs/emoji'
+import { pigeonSchemas }       from './schema'
 import { bandaTemplateConfig } from './templates'
 import {
 	pigeonposseWebPlugin,
@@ -127,13 +121,13 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 			},
 			check : { pkg : {
 				include : ( {
-					path, config, content,
+					path, utils, content,
 				} ) => {
 
 					const ext    = '.{js,ts,mts,cts,cjs,mjs}'
 					const shared = [ 'package.json', 'README.md' ]
-					const wsDir  = typeof config.const?.workspaceDir  === 'string'
-						? config.const.workspaceDir
+					const wsDir  = typeof utils.config?.const?.workspaceDir  === 'string'
+						? utils.config.const.workspaceDir
 						:  ''
 					const isWs   = arePathsEqual( getDirName( path ), wsDir )
 
@@ -154,11 +148,11 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 
 				},
 				exclude : ( {
-					dir, config,
+					dir, utils,
 				} ) => {
 
-					const wsDir = typeof config.const?.workspaceDir  === 'string'
-						? config.const.workspaceDir
+					const wsDir = typeof utils.config?.const?.workspaceDir  === 'string'
+						? utils.config.const.workspaceDir
 						: ''
 					if ( arePathsEqual( dir, wsDir ) )
 						return [ 'src/*' ]
@@ -195,43 +189,26 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 	return defineConfig(
 		getPigeonposseData( core ),
 		pigeonposseWebPlugin( web ),
-		{
-
-			alias : {
-				'docs-assets' : {
-					desc : 'Create documentation assets based on the path "docs/public/logo.png"',
-					cmd  : async ( { exec } ) =>
-						await exec.current( 'docs generate-assets --flag=\\"--preset minimal\\" --flag=\\"docs/public/logo.png\\"' ),
-				},
-				'binarium' : {
-					desc : 'Create executables of your Node|Deno|Bun projects',
-					cmd  : async ( {
-						exec, data, opts,
-					} ) => await exec.command( `${data.pkgManagerCmds.exec} binarium ${opts?.join( ' ' ) || ''}` ),
-				},
-				'unbuild' : {
-					desc : 'Build libraries for your Node|Deno|Bun projects',
-					cmd  : async ( {
-						exec, data, opts,
-					} ) => await exec.command( `${data.pkgManagerCmds.exec} unbuild ${opts?.join( ' ' ) || ''}` ),
-				},
+		{ alias : {
+			'docs-assets' : {
+				desc : 'Create documentation assets based on the path "docs/public/logo.png"',
+				cmd  : async ( { exec } ) =>
+					await exec.current( 'docs generate-assets --flag=\\"--preset minimal\\" --flag=\\"docs/public/logo.png\\"' ),
 			},
-			check : { 'pigeonposse-consts' : {
-				type : 'custom',
-				desc : 'Check schemas for PigeonPosse necessary constants',
-				fn   : async ( { config } ) => {
-
-					await validateSchema( wsDirSchema, config?.const?.wsDir || config?.const?.workspaceDir, 'wsDirSchema' )
-					if ( !config?.const?.pkg ) throw new Error( 'Must exist [pkg] const in dovenv configuration' )
-					if ( !config.const?.mark ) throw new Error( 'Must exist [mark] const in dovenv config.\nThis must be a text, for example a watermark, a trademark, or a simple text about the project.' )
-
-					await validateSchema( pkgSchema, config.const.pkg, 'pkg' )
-					await validateSchema( markSchema, config.const.mark, 'mark' )
-					await validateSchema( templateMarkSchema, config.const.templateMark, 'templateMark' )
-
-				},
-			} },
-		},
+			'binarium' : {
+				desc : 'Create executables of your Node|Deno|Bun projects',
+				cmd  : async ( {
+					exec, data, opts,
+				} ) => await exec.command( `${data.pkgManagerCmds.exec} binarium ${opts?.join( ' ' ) || ''}` ),
+			},
+			'unbuild' : {
+				desc : 'Build libraries for your Node|Deno|Bun projects',
+				cmd  : async ( {
+					exec, data, opts,
+				} ) => await exec.command( `${data.pkgManagerCmds.exec} unbuild ${opts?.join( ' ' ) || ''}` ),
+			},
+		} },
+		pigeonSchemas,
 		bandaTheme( config ),
 	)
 

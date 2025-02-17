@@ -53,30 +53,54 @@ export type Config = {
  */
 export class Lint extends LintSuper<Config> {
 
+	#eslintInstance( o: Config['eslint'] ) {
+
+		return new Eslint(  o, this.utils )
+
+	}
+
+	#commitlintInstance( o: Config['commitlint'] ) {
+
+		return new CommitLint(  o, this.utils )
+
+	}
+
+	#stylelintInstance( o: Config['stylelint'] ) {
+
+		return new StyleLint(  o, this.utils )
+
+	}
+
+	#stagedInstamce( o: Config['staged'] ) {
+
+		return new StagedLint( o, this.utils )
+
+	}
+
 	async eslint( flags: string[] ) {
 
-		const ins = new Eslint( this.opts?.eslint )
+		const ins = this.#eslintInstance(  this.opts?.eslint )
 		return await ins.run( flags )
 
 	}
 
 	async commitlint( userMsg?: string ) {
 
-		const ins = new CommitLint( this.opts?.commitlint )
+		const ins = this.#commitlintInstance(  this.opts?.commitlint )
 		await ins.run( userMsg )
 
 	}
 
 	async stylelint( files?: string[], fix?: boolean ) {
 
-		const ins = new StyleLint( this.opts?.stylelint )
+		const ins = this.#stylelintInstance(  this.opts?.stylelint )
 		await ins.run( files, fix )
 
 	}
 
 	async staged() {
 
-		const ins = new StagedLint( this.opts?.staged )
+		const ins = this.#stagedInstamce( this.opts?.staged )
 		await ins.run()
 
 	}
@@ -85,28 +109,24 @@ export class Lint extends LintSuper<Config> {
 
 		const opts = this.opts?.custom
 
-		if ( !( await this.ensureOpts( {
-			value : opts,
-			name  : this.title + '.custom',
-		} ) ) || !opts ) return
-
-		const keys = this.getKeys( {
-			values : Object.keys( opts ),
+		const keys = await this.utils.getOptsKeys( {
+			input : opts,
 			pattern,
+			name  : this.utils.title + '.custom',
 		} )
-		if ( !keys ) return
+		if ( !keys || !opts ) return
 
 		for ( const key of keys ) {
 
-			console.log( this.style.info.h( `Custom lint for ${this.style.badge( key )} key` ) )
+			console.log( this.utils.style.info.h( `Custom lint for ${this.utils.style.badge( key )} key` ) )
 			const opt = opts[key]
 			await opt( {
-				config : this.config || {},
+				config : this.utils.config || {},
 				run    : {
-					[CMDS.eslint]     : async ( opts?: Eslint['opts'] ) => await ( new Eslint( opts ) ).run(),
-					[CMDS.commitlint] : async ( opts?: CommitLint['opts'] ) => await ( new CommitLint( opts ) ).run(),
-					[CMDS.stylelint]  : async ( opts?: StyleLint['opts'] ) => await ( new StyleLint( opts ) ).run(),
-					[CMDS.staged]     : async ( opts?: StagedLint['opts'] ) => await ( new StagedLint( opts ) ).run(),
+					[CMDS.eslint]     : async ( opts?: Eslint['opts'] ) => await this.#eslintInstance( opts ).run(),
+					[CMDS.commitlint] : async ( opts?: CommitLint['opts'] ) => await this.#commitlintInstance( opts ).run(),
+					[CMDS.stylelint]  : async ( opts?: StyleLint['opts'] ) => await this.#stylelintInstance( opts ).run(),
+					[CMDS.staged]     : async ( opts?: StagedLint['opts'] ) => await this.#stagedInstamce( opts ).run(),
 				},
 			} )
 
@@ -116,7 +136,7 @@ export class Lint extends LintSuper<Config> {
 
 	async custom( pattern?: string[] ) {
 
-		return await this.catchFn( this.#custom( pattern ) )
+		return await this.utils.catchFn( this.#custom( pattern ) )
 
 	}
 

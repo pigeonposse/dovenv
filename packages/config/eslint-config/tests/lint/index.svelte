@@ -1,12 +1,13 @@
 <script>
-	import { onMount }   from 'svelte'
 	import { Linter } from 'eslint'
-	import { lint } from './lint'
+	import { onMount }   from 'svelte'
+
 	import Component from './comp.svelte'
+	import { lint } from './lint'
 
-   console.log( 'lint', lint )
+	console.log( 'lint', lint, Linter, onMount, Component )
 
- </script>
+</script>
 
 <div>
 

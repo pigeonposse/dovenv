@@ -4,32 +4,28 @@
 
 ### Examples
 
-#### Extends
-
-- `PluginCore`\<[`Config`](#config)\>
-
 #### Constructors
 
 ##### new Examples()
 
 ```ts
-new Examples(opts?: Config, config?: Config): Examples
+new Examples(data: {
+  opts: Config;
+  utils: CommandSuper;
+ }): Examples
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`Config`](#config) |
-| `config`? | `Config` |
+| `data` | `object` |
+| `data.opts`? | [`Config`](#config) |
+| `data.utils` | `CommandSuper` |
 
 ###### Returns
 
 [`Examples`](#examples)
-
-###### Inherited from
-
-`PluginCore<Config>.constructor`
 
 #### Methods
 
@@ -222,7 +218,7 @@ A promise that resolves to the processed content as a string.
 ##### run()
 
 ```ts
-run(pattern?: string[]): Promise<unknown>
+run(pattern?: string[]): Promise<undefined | Record<string, string>>
 ```
 
 Process examples from the configuration object.
@@ -235,18 +231,16 @@ Process examples from the configuration object.
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `Record`\<`string`, `string`\>\>
 
 A promise that resolves to an object containing the content of each processed example.
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `const` | `__module` | `consts` | - | - | - |
-| `opts` | `undefined` \| [`Config`](#config) | `undefined` | Configuration options. | - | `PluginCore.opts` |
-| `title` | `string` | `'examples'` | - | `PluginCore.title` | - |
+| Property | Type | Default value |
+| ------ | ------ | ------ |
+| `const` | `__module` | `consts` |
+| `opts` | `undefined` \| [`Config`](#config) | `undefined` |
 
 ## Functions
 

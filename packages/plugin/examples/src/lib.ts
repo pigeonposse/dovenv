@@ -1,7 +1,7 @@
 /* eslint-disable jsdoc/require-param-type */
 /* eslint-disable jsdoc/require-returns-type */
 
-import { PluginCore } from '@dovenv/core'
+import { CommandUtils } from '@dovenv/core'
 import {
 	deepmergeCustom,
 	ensureDir,
@@ -35,18 +35,30 @@ import type { Any } from '@dovenv/core/utils'
 
 type ExampleConfig = NonNullable<ExampleConfigFileProps['config']>
 
-export class Examples extends PluginCore<Config> {
+export class Examples {
 
-	title = 'examples'
 	const = consts
-	protected helpURL = homepage
+	protected utils : CommandUtils
+	opts            : Config | undefined
+
+	constructor( data:{
+		opts? : Config
+		utils : CommandUtils
+	} ) {
+
+		this.utils         = data.utils
+		this.opts          = data.opts
+		this.utils.helpURL = homepage
+		this.utils.title   = 'examples'
+
+	}
 
 	async #setOutput( content:string, output?: string ) {
 
 		if ( !output ) return
 
 		await ensureDir( getDirName( output ) )
-		await writeFile( output, content  )
+		await writeFile( output, content )
 
 	}
 
@@ -79,7 +91,7 @@ export class Examples extends PluginCore<Config> {
 		const {
 			data,
 			header = 2,
-			path = this.process.cwd(),
+			path = this.utils.process.cwd(),
 			step = '\n\n',
 		} = props
 
@@ -90,9 +102,9 @@ export class Examples extends PluginCore<Config> {
 
 			const contentType = props.contentType || getStringType( v.input )
 
-			const desc    = v.desc ?  v.desc + step : ''
-			const outro   = v.outro ? step + v.outro  : ''
-			const title   = ( v.title ||  ( contentType === 'path' ? getBaseName( v.input ) : k ) ) + step
+			const desc    = v.desc ? v.desc + step : ''
+			const outro   = v.outro ? step + v.outro : ''
+			const title   = ( v.title || ( contentType === 'path' ? getBaseName( v.input ) : k ) ) + step
 			const type    = v.type || ( contentType === 'path' ? getExtName( v.input ).replace( '.', '' ) : 'markdown' )
 			const content = await getStringFrom( contentType === 'path' ? joinPath( path, v.input ) : v.input )
 			res          += `${h}${title}${desc}\`\`\`${type}\n${content}\n\`\`\`${outro}${step}`
@@ -114,8 +126,8 @@ export class Examples extends PluginCore<Config> {
 		for ( const [ key, value ] of Object.entries( data ) ) {
 
 			const title = ( value.title || key ) + step
-			const desc  = value.desc ?  value.desc + step : ''
-			const outro = value.outro ? step + value.outro  : ''
+			const desc  = value.desc ? value.desc + step : ''
+			const outro = value.outro ? step + value.outro : ''
 
 			const dataRes = value.data
 				? ( await this.#createExampleContent( {
@@ -135,19 +147,21 @@ export class Examples extends PluginCore<Config> {
 
 	async #fn( pattern?: string[] ) {
 
-		const v = await this.ensureOpts()
-		if ( !v || !this.opts ) return
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
+		const keys = await this.utils.getOptsKeys( {
+			input : this.opts,
+			pattern,
+		} )
+		if ( !keys || !this.opts ) return
 
 		const res: Record<string, string> = {}
+		const { style }                   = this.utils
 
 		for ( const key of keys ) {
 
 			const opt = this.opts[key]
-			console.log( this.style.info.h( `Example for ${this.style.badge( key )} key` ) )
+			console.log( style.info.h( `Example for ${style.badge( key )} key` ) )
 			res[key] = await this.get( opt )
-			console.log( '\n', this.style.success.msg( ` ✨ Successful!` ), '\n' )
+			console.log( '\n', style.success.msg( ` ✨ Successful!` ), '\n' )
 
 		}
 		return res
@@ -167,9 +181,9 @@ export class Examples extends PluginCore<Config> {
 		const merge     = deepmergeCustom<ExampleConfig>( {} )
 		const inputCong = typeof input === 'string' ? await getObjectFrom<ExampleConfig>( input ) : input
 		const config    = merge( inputCong, overrideConf || {} )
-		const path      = typeof input === 'string' ? getDirName( input ) : this.process.cwd()
+		const path      = typeof input === 'string' ? getDirName( input ) : this.utils.process.cwd()
 
-		await this.validateSchema( schema, config, { showValid: true } )
+		await this.utils.validateSchema( schema, config, { showValid: true } )
 
 		const res = await this.#createExample( config, path, {
 			title,
@@ -221,9 +235,9 @@ export class Examples extends PluginCore<Config> {
 	 */
 	async fromJsdoc( data:ExampleJsdocProps ) {
 
-		type Value = {
+		interface Value {
 			examples : string
-			meta         : {
+			meta : {
 				path     : string
 				filename : string
 			}
@@ -237,9 +251,9 @@ export class Examples extends PluginCore<Config> {
 
 		console.debug( { data } )
 		const jsdocData = await jsdoc.explain( {
-			files : input.map( p => relativePath( this.process.cwd(), p ) ),
+			files : input.map( p => relativePath( this.utils.process.cwd(), p ) ),
 			cache : false,
-		} ) as Array<Value>
+		} ) as Value[]
 
 		console.debug( { jsdocData } )
 
@@ -261,7 +275,7 @@ export class Examples extends PluginCore<Config> {
 		if ( !content || content.trim() == '' ) {
 
 			console.log()
-			console.warn( this.style.warn.msg( 'No JSODC examples retrived' ) )
+			console.warn( this.utils.style.warn.msg( 'No JSODC examples retrived' ) )
 			return ''
 
 		}
@@ -325,7 +339,7 @@ export class Examples extends PluginCore<Config> {
 		const T = this.const.TYPE
 
 		return await data.fn( {
-			config : this.config || {},
+			config : this.utils.config || {},
 			run    : {
 				[T.CONFIG]   : this.fromConfig.bind( this ),
 				[T.PATH]     : this.fromPath.bind( this ),
@@ -350,7 +364,7 @@ export class Examples extends PluginCore<Config> {
 			type, ...props
 		} = data
 
-		const handlers: Record< typeof T[keyof typeof T], ( props: Any ) => Promise<Any>> = {
+		const handlers: Record<typeof T[keyof typeof T], ( props: Any ) => Promise<Any>> = {
 			[T.CONFIG]   : this.fromConfig.bind( this ),
 			[T.PATH]     : this.fromPath.bind( this ),
 			[T.JSDOC]    : this.fromJsdoc.bind( this ),
@@ -371,7 +385,7 @@ export class Examples extends PluginCore<Config> {
 	 */
 	async run( pattern?: string[] ) {
 
-		return await this.catchFn( this.#fn( pattern ) )
+		return await this.utils.catchFn( this.#fn( pattern ) )
 
 	}
 

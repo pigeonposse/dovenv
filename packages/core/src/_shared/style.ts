@@ -110,7 +110,7 @@ const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof i
 		/** List item */
 		li : ( k:unknown, v:unknown ) => li( k, v ),
 		/** unordered list */
-		ul : ( list: Array< [ unknown, unknown ] > ) => list.map( ( [ k, v ] ) => li( k, v ) ).join( '\n' ),
+		ul : ( list: Array<[ unknown, unknown ]> ) => list.map( ( [ k, v ] ) => li( k, v ) ).join( '\n' ),
 		/** paragraph */
 		p  : desc,
 		/** Anchor */
@@ -141,12 +141,12 @@ export class CommandStyle {
 
 	////////////////////////////////////////////////////////////
 	// parts
-	main    = colorConstructor( 'magenta' )
-	section = colorConstructor( 'magenta', icon.triangleRightSmall )
+	main    = colorConstructor( 'blue' )
+	section = colorConstructor( 'blue', icon.triangleRightSmall )
 	error   = colorConstructor( 'red', icon.cross )
 	warn    = colorConstructor( 'yellow', icon.warning )
 	success = colorConstructor( 'green', icon.tick )
-	info    = colorConstructor( 'gray', icon.info )
+	info    = colorConstructor( undefined, icon.info )
 
 	////////////////////////////////////////////////////////////
 	// others

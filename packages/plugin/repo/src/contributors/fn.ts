@@ -60,7 +60,7 @@ export class Contributors<
 	async filterByRole( role: ( keyof ID )[] ): Promise<{
 		role?   : R
 		member? : Contributor<Extract<keyof R, string>>[]
-	} | undefined > {
+	} | undefined> {
 
 		const roleIds = role as string[]
 		if ( !roleIds.length ) return undefined
@@ -77,7 +77,7 @@ export class Contributors<
 	async filterByRolePattern( pattern: string[] ): Promise<{
 		role?   : R
 		member? : Contributor<Extract<keyof R, string>>[]
-	} | undefined > {
+	} | undefined> {
 
 		const roleIds = getMatch( Object.keys( this.opts.role ), pattern )
 		return this.filterByRole( roleIds as ( keyof ID )[] )

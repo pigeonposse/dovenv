@@ -1,7 +1,6 @@
 /* eslint-disable @stylistic/object-curly-newline */
 import type {
-	Config as DovenvConfig,
-	PluginCore,
+	CommandUtils,
 } from '@dovenv/core'
 import type {
 	PackageJSON,
@@ -24,7 +23,7 @@ type CheckOpts = {
 	 */
 	content : PackageJSON
 	/** Dovenv configuration */
-	config  : DovenvConfig
+	utils   : CommandUtils
 }
 type PatternCheck = string[] |
 	( ( opts: CheckOpts ) => Promise<string[] | undefined> | ( string[] | undefined ) )
@@ -94,7 +93,7 @@ export type Config = {
 		/**
 		 * Checks for packages
 		 */
-		pkg?: Prettify< Sharedcheck & {
+		pkg?: Prettify<Sharedcheck & {
 			/**
 			 * Schema for own package.json
 			 * @example
@@ -120,8 +119,8 @@ export type Config = {
 				 * Object data from package.json
 				 */
 				content : PackageJSON
-				/** Dovenv configuration */
-				config  : DovenvConfig
+				/** Dovenv utilities */
+				utils   : CommandUtils
 			} )=> Promise<ValidateAnyType | void> | ( ValidateAnyType | void )
 		}>
 	}
@@ -145,9 +144,9 @@ export type Config = {
 	/** custom configration for ws */
 	custom?: {
 		[key in string]: ( data: {
-			getPkgPaths   : PluginCore['getPkgPaths']
-			getRuntime    : PluginCore['getRuntime']
-			getPkgManager : PluginCore['getPkgManager']
+			getPkgPaths   : CommandUtils['getPkgPaths']
+			getRuntime    : CommandUtils['getRuntime']
+			getPkgManager : CommandUtils['getPkgManager']
 		} ) => Promise<unknown>
 	}
 }

@@ -1,7 +1,6 @@
 import {
 	execChild,
 	catchError,
-	process,
 } from '@dovenv/core/utils'
 
 import {
@@ -13,7 +12,6 @@ export type EslintConfig = { flags?: string[] }
 
 export class Eslint extends LintSuper<EslintConfig> {
 
-	title = CMDS.eslint
 	async #fn( flags?: string[] ) {
 
 		const setResponse = ( res: {
@@ -21,8 +19,12 @@ export class Eslint extends LintSuper<EslintConfig> {
 			stderr? : string
 		} ) => {
 
+			const {
+				process, style,
+			} = this.utils
 			if ( res?.stdout ) process.stdout.write( res.stdout )
 			if ( res?.stderr ) process.stderr.write( res?.stderr )
+			if ( res?.stdout?.trim() === '' && res?.stderr?.trim() === '' ) process.stdout.write( style.success.h( 'Succesfully linted!\n' ) )
 
 		}
 
@@ -49,7 +51,7 @@ export class Eslint extends LintSuper<EslintConfig> {
 			} )
 			else
 				console.error( 'Unexpected error running eslint', error?.message || error )
-			return
+			this.utils.exitWithError()
 
 		}
 		else setResponse( res )
@@ -58,7 +60,8 @@ export class Eslint extends LintSuper<EslintConfig> {
 
 	async run( flags?: string[] ) {
 
-		return await this.catchFn( this.#fn( flags ) )
+		this.transformHelpInfo( CMDS.eslint )
+		return await this.utils.catchFn( this.#fn( flags ) )
 
 	}
 

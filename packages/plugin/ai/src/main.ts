@@ -25,45 +25,33 @@ export { run }
  * @param {Config} [conf] - Optional configuration object for the plugin.
  * @returns {DovenvConfig} - Dovenv configuration for the plugin.
  */
-export const aiPlugin = ( conf?: Config ) => {
+export const aiPlugin = ( conf?: Config ): DovenvConfig => {
 
-	const keys = Object.keys( conf?.chat || [] )
-
-	const config: DovenvConfig =  { custom : { ai : {
+	return  { custom : { ai : {
 		desc : 'local AI assistant for your workspace',
 		opts : { key : {
 			// @ts-ignore
 			type    : 'choices',
 			alias   : 'k',
-			choices : keys,
+			choices : Object.keys( conf?.chat || [] ),
 			desc    : 'Select a Local AI assistant config key',
 		} },
-		fn : async ( { opts } ) => {
+		fn : async ( { opts, utils } ) => {
 
 			const config = conf?.chat
 			const key    = opts?.key as string
 
-			if ( !key || typeof key !== 'string' ) {
+			const userKey = await utils.getOptsKeys( {
+				input   : config,
+				pattern : typeof key === 'string' ? key : undefined,
+			} )
 
-				console.warn( 'No chat key provided. Use "--key|-k <chat>" for execute a local assistant chat' )
-				console.info( `Available keys: ${keys.join( ', ' )}` )
-				return
-
-			}
-
-			if ( !config ) {
-
-				console.warn( 'No AI assistant provided in your configuration' )
-				return
-
-			}
-			const chat = config[key]
+			if ( !userKey || !config ) return
+			const chat = config[userKey as string]
 			await run( chat )
 
 		},
 	} } }
-
-	return config
 
 }
 

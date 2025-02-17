@@ -6,7 +6,7 @@ const toConsole3 = ( ) => {}
 type DirectiveConfigSchema = | 'allow-with-description' |
 	{ descriptionFormat?: string }
 	| boolean
-type T2 = {
+interface T2 {
 	func  : ( arg: boolean ) => void
 	hola  : ( ) => void
 	otro? : ( ) => void

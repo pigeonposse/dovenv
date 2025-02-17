@@ -1,8 +1,8 @@
-import { Validator }       from '@cfworker/json-schema'
-import { compile }         from 'json-schema-to-typescript-lite'
-import { jsonSchemaToZod } from 'json-schema-to-zod'
-import { createGenerator } from 'ts-json-schema-generator'
-import { zodToJsonSchema } from 'zod-to-json-schema'
+import { Validator }       from '@cfworker/json-schema' // 174KB. @see https://pkg-size.dev/@cfworker/json-schema
+import { compile }         from 'json-schema-to-typescript-lite' // 1.4MB. @see https://pkg-size.dev/json-schema-to-typescript-lite
+import { jsonSchemaToZod } from 'json-schema-to-zod' // 15MB @see https://pkg-size.dev/json-schema-to-zod
+import { createGenerator } from 'ts-json-schema-generator'  // 28MB @see https://pkg-size.dev/ts-json-schema-generator
+import { zodToJsonSchema } from 'zod-to-json-schema' // 886KB. @see https://pkg-size.dev/zod-to-json-schema
 
 import {
 	catchError,

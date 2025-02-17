@@ -41,4 +41,7 @@ export const getObjectFromJSONContent = async <Res extends CommonObj = CommonObj
 export const json = {
 	deserialize : getObjectFromJSONContent,
 	serialize   : ( content: object ) => JSON.stringify( content ),
+	parser      : getObjectFromJSONContent,
+	stringify   : ( content: object ) => JSON.stringify( content ),
 }
+

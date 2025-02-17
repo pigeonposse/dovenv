@@ -1,11 +1,11 @@
-import { PluginCore } from '@dovenv/core'
+
 import {
 	isBun,
 	joinPath,
 	createDir,
 } from '@dovenv/core/utils'
 
-import type { Config } from '@dovenv/core'
+import { Core } from './core'
 
 type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
 	? Acc[number]
@@ -33,20 +33,18 @@ export type TermGifConfigValue = {
 }
 export type TermGifConfig = { [key: string]: TermGifConfigValue }
 
-export class TerminalGif extends PluginCore<TermGifConfig> {
+export class TerminalGif extends Core<TermGifConfig> {
 
-	title = 'termgif'
+	constructor( ...d: ConstructorParameters<typeof Core<TermGifConfig>> ) {
 
-	constructor( opts?: TermGifConfig, config?: Config ) {
-
-		super( opts, config )
+		super( ...d )
 		if ( isBun ) console.warn( 'Bun runtime is possibly incompatible with termgif' )
 
 	}
 
 	async #exec( args: string[] = [] ) {
 
-		await this.execPkgBin( 'terminalizer', args )
+		await this.utils.execPkgBin( 'terminalizer', args )
 
 	}
 
@@ -104,27 +102,18 @@ export class TerminalGif extends PluginCore<TermGifConfig> {
 
 	}
 
-	async #fn( pattern?: string[], type: 'render' | 'record' = 'render' ) {
-
-		if ( !( await this.ensureOpts() ) || !this.opts ) return
-
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
-
-		for ( const key of keys ) {
-
-			console.log( this.style.info.msg( `${this.style.badge( key )} ${this.title}`, type ) )
-
-			if ( type == 'record' ) await this.record( this.opts[key] )
-			else await this.render( this.opts[key] )
-
-		}
-
-	}
-
 	async run( pattern?: string[], type?: 'render' | 'record' ) {
 
-		return await this.catchFn( this.#fn( pattern, type ) )
+		if ( type === 'record' ) return await this.execFn( {
+			pattern,
+			desc : `Terminal Gift (${type})`,
+			fn   : d => this.record( d ),
+		} )
+		else return await this.execFn( {
+			pattern,
+			desc : `Terminal Gift (${type})`,
+			fn   : d => this.render( d ),
+		} )
 
 	}
 

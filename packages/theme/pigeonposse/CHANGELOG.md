@@ -1,5 +1,27 @@
 # @dovenv/theme-pigeonposse
 
+## 1.4.0
+
+### Minor Changes
+
+- Refactor all packages for improve performace. New issues may appear, but in theory it should remain the same for the user.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/theme-banda@2.0.0
+  - @dovenv/core@1.4.0
+
+## 1.3.3
+
+### Patch Changes
+
+- fix docs styles
+
+- Updated dependencies []:
+  - @dovenv/core@1.3.3
+  - @dovenv/theme-banda@1.3.3
+
 ## 1.3.2
 
 ### Patch Changes

@@ -1,11 +1,11 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
 import type { CMD }             from './_shared/const'
-import type { AliasesConfig }   from './core/aliases/main'
-import type { CheckConfig }     from './core/check/main'
-import type { ConstConfig }     from './core/const/main'
-import type { TransformConfig } from './core/transform/main'
-import type { CustomConfig }    from './custom/main'
+import type { AliasesConfig }   from './core/aliases/types'
+import type { CheckConfig }     from './core/check/types'
+import type { ConstConfig }     from './core/const/types'
+import type { TransformConfig } from './core/transform/types'
+import type { CustomConfig }    from './custom/types'
 
 export type Config = {
 	/**

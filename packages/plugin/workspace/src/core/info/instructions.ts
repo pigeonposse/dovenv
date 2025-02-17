@@ -23,7 +23,7 @@ export class Instructions extends Super implements InfoInterface {
 		this._title( 'Instructions' )
 
 		const content = await this.get( )
-		if ( !content ) return console.warn( this.style.warn.msg( 'No instructions found' ) )
+		if ( !content ) return console.warn( this.utils.style.warn.msg( 'No instructions found' ) )
 
 		console.log( content )
 

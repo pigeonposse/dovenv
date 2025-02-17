@@ -2,7 +2,6 @@ import {
 	capitalize,
 	joinPath,
 } from '@dovenv/core/utils'
-import { workspace } from '@dovenv/theme-banda'
 
 import * as CONSTS from './const'
 import {
@@ -19,10 +18,9 @@ import type {
 	SidebarConfig,
 	SidebarItems,
 } from './types'
-import type { Config }      from '@dovenv/core'
-import type { PackageJSON } from '@dovenv/core/utils'
+import type { CommandUtils } from '@dovenv/core'
+import type { PackageJSON }  from '@dovenv/core/utils'
 
-const { Workspace } = workspace
 const {
 	TYPE,
 	ID,
@@ -98,20 +96,25 @@ const getSidebarReferenceConstructor = async (
 
 /**
  * Generates a sidebar configuration for @dovenv/docs plugin.
- * @param {Config} dovenvConfig - The Dovenv configuration.
+ * @param {CommandUtils} utils - The Dovenv configuration.
  * @param {SidebarConfig} [opts] - The options.
  * @returns {Promise<SidebarItems>} The sidebar configuration.
  */
-export const getSidebar = async ( dovenvConfig: Config, opts?: SidebarConfig ): Promise<SidebarItems> => {
+export const getSidebar = async ( {
+	utils, opts,
+}: {
+	utils : CommandUtils
+	opts? : SidebarConfig
+} ): Promise<SidebarItems> => {
 
 	// const config     = { const: { ...CONSTS } as Config['const'] }
-	const emojis     = getEmojiList( opts?.emojis )
-	const wsInstance = new Workspace( undefined, dovenvConfig )
-	const pkgs       = await wsInstance.getPkgPaths()
-	const publicPkg  = await getPublicPackageData(
+	const emojis = getEmojiList( opts?.emojis )
+
+	const pkgs      = await utils.getPkgPaths()
+	const publicPkg = await getPublicPackageData(
 		pkgs,
-		dovenvConfig.const?.workspaceDir as string,
-		dovenvConfig.const?.pkg as PackageJSON,
+		utils.config?.const?.workspaceDir as string,
+		utils.config?.const?.pkg as PackageJSON,
 		emojis,
 	)
 

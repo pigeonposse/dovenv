@@ -1,5 +1,17 @@
 # @dovenv/eslint-config
 
+## 1.4.0
+
+### Minor Changes
+
+- Refactor all packages for improve performace. New issues may appear, but in theory it should remain the same for the user.
+
+## 1.3.3
+
+### Patch Changes
+
+- fix docs styles
+
 ## 1.3.2
 
 ### Patch Changes

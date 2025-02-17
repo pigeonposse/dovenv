@@ -11,10 +11,9 @@ export type LintStagedConfig = Record<string, string>
 
 export class StagedLint extends LintSuper<LintStagedConfig> {
 
-	title = CMDS.staged
 	async #fn() {
 
-		if ( !( await this.ensureOpts() ) ) return
+		if ( !( await this.utils.ensureOpts( { input: this.opts } ) ) ) return
 
 		console.debug( { lintStagedConf: this.opts } )
 		await lintStaged( { config: this.opts } )
@@ -23,7 +22,8 @@ export class StagedLint extends LintSuper<LintStagedConfig> {
 
 	async run( ) {
 
-		return await this.catchFn( this.#fn( ) )
+		this.transformHelpInfo( CMDS.staged )
+		return await this.utils.catchFn( this.#fn( ) )
 
 	}
 

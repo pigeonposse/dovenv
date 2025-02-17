@@ -349,32 +349,6 @@ console.log(asciiText);
 
 ***
 
-### base642ImageBuffer()
-
-```ts
-function base642ImageBuffer(input: string): Promise<Buffer<ArrayBuffer>>
-```
-
-Converts a base64-encoded image string into a Buffer.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `input` | `string` | The base64 string representing the image, including the data URI scheme. |
-
-#### Returns
-
-`Promise`\<`Buffer`\<`ArrayBuffer`\>\>
-
-- A promise that resolves to a Buffer containing the image data.
-
-#### Throws
-
-- If the input string is not a valid base64 image string.
-
-***
-
 ### box()
 
 ```ts
@@ -620,52 +594,57 @@ if (error) {
 #### chroma(color)
 
 ```ts
-function chroma(color: string | number | Color): Color
+function chroma(color: ChromaInput): Color
 ```
 
-Creates a color from a string representation (as supported in CSS).
-Creates a color from a number representation [0; 16777215]
+Attempts to guess the format of the input color for you.
+For instance, it will recognize any named color from the W3CX11 specification.
+If there's no matching named color, chroma.js checks for a hexadecimal string.
+It ignores case, the # sign is optional, and it can recognize the shorter three
+letter format as well. So, any of these are valid hexadecimal representations:
+
+#ff3399, FF3399, #f39, etc.
+
+In addition to hex strings, hexadecimal numbers (in fact, just any number between 0 and 16777215)
+will be recognized, too.
 
 ##### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `color` | `string` \| `number` \| `Color` | The string to convert to a color. |
+| Parameter | Type |
+| ------ | ------ |
+| `color` | `ChromaInput` |
 
 ##### Returns
 
 `Color`
 
-the color object.
-
-#### chroma(a, b, c, colorSpace)
+#### chroma(a, b, c, format)
 
 ```ts
 function chroma(
    a: number, 
    b: number, 
    c: number, 
-   colorSpace?: keyof ColorSpaces): Color
+   format?: keyof ColorFormats): Color
 ```
 
-Create a color in the specified color space using a, b and c as values.
+Create a color in the specified color format using a, b and c as values.
+The color format defaults to "rgb".
 
 ##### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `a` | `number` | - |
-| `b` | `number` | - |
-| `c` | `number` | - |
-| `colorSpace`? | keyof ColorSpaces | The color space to use. Defaults to "rgb". |
+| Parameter | Type |
+| ------ | ------ |
+| `a` | `number` |
+| `b` | `number` |
+| `c` | `number` |
+| `format`? | keyof ColorFormats |
 
 ##### Returns
 
 `Color`
 
-the color object.
-
-#### chroma(a, b, c, d, colorSpace)
+#### chroma(a, b, c, d, format)
 
 ```ts
 function chroma(
@@ -673,8 +652,11 @@ function chroma(
    b: number, 
    c: number, 
    d: number, 
-   colorSpace?: keyof ColorSpaces): Color
+   format?: keyof ColorFormats): Color
 ```
+
+Create a color in the specified color format using a, b, c, and d as values.
+The color format defaults to "rgb".
 
 ##### Parameters
 
@@ -684,32 +666,47 @@ function chroma(
 | `b` | `number` |
 | `c` | `number` |
 | `d` | `number` |
-| `colorSpace`? | keyof ColorSpaces |
+| `format`? | keyof ColorFormats |
 
 ##### Returns
 
 `Color`
 
-#### chroma(values, colorSpace)
+#### chroma(rgbArray)
 
 ```ts
-function chroma(values: number[], colorSpace?: keyof ColorSpaces): Color
+function chroma(rgbArray: [number, number, number]): Color
 ```
 
-Create a color in the specified color space using values.
+Create a color from an array of RGB values. Each parameter must be within 0..255.
 
 ##### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `values` | `number`[] | An array of values (e.g. [r, g, b, a?]). |
-| `colorSpace`? | keyof ColorSpaces | The color space to use. Defaults to "rgb". |
+| Parameter | Type |
+| ------ | ------ |
+| `rgbArray` | [`number`, `number`, `number`] |
 
 ##### Returns
 
 `Color`
 
-the color object.
+#### chroma(colorObject)
+
+```ts
+function chroma(colorObject: {}): Color
+```
+
+Create a color from an object with attributes corresponding to a color format.
+
+##### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `colorObject` | `object` |
+
+##### Returns
+
+`Color`
 
 ***
 
@@ -1154,6 +1151,88 @@ const symlinkResult = await createSymlink({
   input : '/path/to/source',
   output: '/path/to/destination',
 })
+```
+
+***
+
+### createValidateSchema()
+
+```ts
+function createValidateSchema<Type>(schemaFn: (v: __module) => ValidateType<Type>): ValidateType<Type>
+```
+
+Creates and immediately returns a validation schema for a given TypeScript type.
+
+#### Type Parameters
+
+| Type Parameter | Description |
+| ------ | ------ |
+| `Type` | The expected TypeScript type for the validation schema. |
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `schemaFn` | (`v`: `__module`) => [`ValidateType`](#validatetypet)\<`Type`\> | A function that defines the validation schema. |
+
+#### Returns
+
+[`ValidateType`](#validatetypet)\<`Type`\>
+
+- The resulting validation schema.
+
+#### Example
+
+```ts
+type User = { name: string}
+const userSchema = createValidateSchema<User>((v) => v.object({ name: v.string().min(3) }));
+```
+
+***
+
+### createValidateSchemaFn()
+
+```ts
+function createValidateSchemaFn<Type>(schemaFn: (v: __module) => ValidateType<Type>): (v: __module) => ValidateType<Type>
+```
+
+Creates a validation schema function for a given TypeScript type.
+
+#### Type Parameters
+
+| Type Parameter | Description |
+| ------ | ------ |
+| `Type` | The expected TypeScript type for the validation schema. |
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `schemaFn` | (`v`: `__module`) => [`ValidateType`](#validatetypet)\<`Type`\> | A function that defines the validation schema. |
+
+#### Returns
+
+`Function`
+
+- A function that returns the validation schema.
+
+##### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `v` | `__module` |
+
+##### Returns
+
+[`ValidateType`](#validatetypet)\<`Type`\>
+
+#### Example
+
+```ts
+import {validate} from '@dovenv/utils' // validate = Zod  wrapper
+type User = { name: string}
+const schemaFn = createValidateSchemaFn<User>((v) => v.object({ name: v.string().min(3) }));
+const userSchema = schemaFn(validate);
 ```
 
 ***
@@ -2671,6 +2750,47 @@ the title, level and anchor for each header found.
 
 ***
 
+### getMediaInput()
+
+```ts
+function getMediaInput(input: MediaInput): Promise<Buffer<ArrayBufferLike>>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | [`MediaInput`](#mediainput) |
+
+#### Returns
+
+`Promise`\<`Buffer`\<`ArrayBufferLike`\>\>
+
+***
+
+### getMediaPalette()
+
+```ts
+function getMediaPalette(input: MediaInput, colorCount: number): Promise<string[]>
+```
+
+Extracts a color palette from a PNG image using pngjs.
+
+#### Parameters
+
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `input` | [`MediaInput`](#mediainput) | `undefined` | The image file path or buffer. |
+| `colorCount` | `number` | `6` | Number of colors to extract. |
+
+#### Returns
+
+`Promise`\<`string`[]\>
+
+- Array of HEX color codes.
+
+***
+
 ### getModulePath()
 
 ```ts
@@ -3410,37 +3530,6 @@ console.log( object )
 
 ***
 
-### getPalette()
-
-```ts
-function getPalette(input: string | HTMLImageElement | Buffer<ArrayBufferLike>): Promise<Palette>
-```
-
-Extracts the color palette from the given image.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `input` | `string` \| `HTMLImageElement` \| `Buffer`\<`ArrayBufferLike`\> | The image path or URL or HTMLImageElement or buffer. |
-
-#### Returns
-
-`Promise`\<`Palette`\>
-
-- The color palette.
-
-#### Example
-
-```ts
-// simple use
-import { getPalette } from '@dovenv/utils'
-const palette = await getPalette( 'docs/public/logo.png' )
-console.log( palette )
-```
-
-***
-
 ### getPaths()
 
 Find files and directories using glob patterns.
@@ -3797,7 +3886,7 @@ console.log(data);
 ### getStringType()
 
 ```ts
-function getStringType(value: string): "text" | "path" | "url"
+function getStringType(value: string): "path" | "text" | "url"
 ```
 
 #### Parameters
@@ -3808,7 +3897,7 @@ function getStringType(value: string): "text" | "path" | "url"
 
 #### Returns
 
-`"text"` \| `"path"` \| `"url"`
+`"path"` \| `"text"` \| `"url"`
 
 ***
 
@@ -3825,194 +3914,6 @@ Returns the path to the operating system's temporary directory.
 `string`
 
 The path to the operating system's temporary directory.
-
-***
-
-### gif()
-
-```ts
-function gif(params: {
-  asciiOptions: {
-     c_ratio: number;
-     chars: string;
-     color: boolean;
-     fit:   | "box"
-        | "width"
-        | "none"
-        | "height"
-        | "original";
-    };
-  asciiOutput: boolean;
-  input: MediaInput;
- }): Promise<{
-  start: () => void;
-  stop: () => void;
-}>
-```
-
-Displays a GIF in the terminal.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Options for displaying the GIF. |
-| `params.asciiOptions`? | `object` | Options for asciiOutput. |
-| `params.asciiOptions.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
-| `params.asciiOptions.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.asciiOptions.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
-| `params.asciiOptions.fit`? | \| `"box"` \| `"width"` \| `"none"` \| `"height"` \| `"original"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
-| `params.asciiOutput`? | `boolean` | Enable a ascii output. **Default** `false` |
-| `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
-
-#### Returns
-
-`Promise`\<\{
-  `start`: () => `void`;
-  `stop`: () => `void`;
- \}\>
-
-- A promise that resolves with an object containing a single method `stop()`. Calling `stop()` will clear the GIF from the terminal.
-
-| Name | Type |
-| ------ | ------ |
-| `start` | () => `void` |
-| `stop` | () => `void` |
-
-#### Example
-
-```ts
-// simple use with url
-const myGif = await gif({
-  input: 'https://64.media.tumblr.com/38adef3da23d26058e3085ce271b39c1/tumblr_nil77wk20l1qhnszoo1_400.gifv'
-});
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-await myGif.start();
-await delay(5000);
-await myGif.stop();
-await delay(2000);
-await myGif.start();
-```
-
-***
-
-### gif2ascii()
-
-```ts
-function gif2ascii(params: {
-  animate: Omit<AnimateProps, "frames">;
-  c_ratio: number;
-  chars: string;
-  color: boolean;
-  fit:   | "box"
-     | "width"
-     | "none"
-     | "height"
-     | "original";
-  height: string | number;
-  input: MediaInput;
-  width: string | number;
- }): Promise<{
-  start: () => void;
-  stop: () => void;
-}>
-```
-
-Converts a GIF to an ASCII animation.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Options for converting the GIF. |
-| `params.animate`? | `Omit`\<`AnimateProps`, `"frames"`\> | Options for the animation. |
-| `params.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
-| `params.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
-| `params.fit`? | \| `"box"` \| `"width"` \| `"none"` \| `"height"` \| `"original"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
-| `params.height`? | `string` \| `number` | The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height. **Default** `100%` |
-| `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
-| `params.width`? | `string` \| `number` | The width to resize the image to. Use a percentage to set the image width to x% of the terminal window width. **Default** `100%` |
-
-#### Returns
-
-`Promise`\<\{
-  `start`: () => `void`;
-  `stop`: () => `void`;
- \}\>
-
-- A promise that resolves with a string containing the ASCII animation.
-
-| Name | Type |
-| ------ | ------ |
-| `start` | () => `void` |
-| `stop` | () => `void` |
-
-***
-
-### gif2asciiArray()
-
-```ts
-function gif2asciiArray(params: {
-  c_ratio: number;
-  chars: string;
-  color: boolean;
-  fit:   | "box"
-     | "width"
-     | "none"
-     | "height"
-     | "original";
-  height: string | number;
-  input: MediaInput;
-  width: string | number;
-}): Promise<string[]>
-```
-
-Converts each frame of a GIF image to an ASCII string.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Options for converting the GIF. |
-| `params.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
-| `params.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
-| `params.fit`? | \| `"box"` \| `"width"` \| `"none"` \| `"height"` \| `"original"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
-| `params.height`? | `string` \| `number` | The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height. **Default** `100%` |
-| `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
-| `params.width`? | `string` \| `number` | The width to resize the image to. Use a percentage to set the image width to x% of the terminal window width. **Default** `100%` |
-
-#### Returns
-
-`Promise`\<`string`[]\>
-
-- A promise that resolves with an array of ASCII strings, each representing a frame of the GIF.
-
-***
-
-### gif2images()
-
-```ts
-function gif2images(params: {
-  input: MediaInput;
-}): Promise<Buffer<ArrayBufferLike>[]>
-```
-
-Extracts frames from a GIF image and returns them as an array of buffers.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Options for extracting frames from the GIF. |
-| `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
-
-#### Returns
-
-`Promise`\<`Buffer`\<`ArrayBufferLike`\>[]\>
-
-- A promise that resolves with an array of buffers, each representing a frame of the GIF.
 
 ***
 
@@ -4169,114 +4070,6 @@ Converts HTML to a formatted string suitable for the terminal.
 `Promise`\<`string`\>
 
 - The formatted string.
-
-***
-
-### image()
-
-```ts
-function image(params: ImageProps): Promise<string>
-```
-
-Return an image for been print.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | [`ImageProps`](#imageprops) | Options to customize the display of the image. |
-
-#### Returns
-
-`Promise`\<`string`\>
-
-- Promise that resolves with the image formatted for the terminal.
-
-#### Examples
-
-```ts
-// simple use with url
-const IMG = await image( {
-   input: 'https://avatars.githubusercontent.com/u/111685953'
-});
-console.log( IMG );
-```
-
-```ts
-// simple use with path
-const IMG = await image( {
-  input: './image.png'
-});
-console.log( IMG );
-```
-
-```ts
-// ascii output
-const IMG = await image( {
-  input: 'https://avatars.githubusercontent.com/u/111685953',
-  asciiOutput: true
-});
-console.log(IMG);
-```
-
-```ts
-// ascii output with custom opts
-const IMG = await image( {
-   input: 'https://avatars.githubusercontent.com/u/111685953',
-   width: '100%',
-   height: '100%',
-   preserveAspectRatio: true,
-   asciiOutput: true,
-   asciiOptions: {
-      chars: ' #*',
-   }
-});
-console.log(IMG);
-```
-
-***
-
-### image2ascii()
-
-```ts
-function image2ascii(params: Image2AsciiProps): Promise<string>
-```
-
-Converts an image to ASCII art.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | [`Image2AsciiProps`](#image2asciiprops) | Parameters for the conversion. |
-
-#### Returns
-
-`Promise`\<`string`\>
-
-- Promise that resolves to the ASCII representation of the image.
-
-#### Examples
-
-```ts
-// simple use with url
-const IMG = await image2ascii( {
-   input: 'https://avatars.githubusercontent.com/u/111685953'
-});
-console.log( IMG );
-```
-
-```ts
-// simple use with path
-const IMG = await image2ascii( {
-  input: './image.png'
-});
-console.log( IMG );
-```
-
-```ts
-
-```
 
 ***
 
@@ -6061,176 +5854,6 @@ setTimeout(() => {
 
 ***
 
-### svg2ascii()
-
-```ts
-function svg2ascii(params: {
-  c_ratio: number;
-  chars: string;
-  color: boolean;
-  fit:   | "box"
-     | "width"
-     | "none"
-     | "height"
-     | "original";
-  height: string | number;
-  input: IconDefinition | MediaInput;
-  svgOptions: Svg2ImgCoreProps;
-  width: string | number;
-}): Promise<string>
-```
-
-Converts an SVG to ASCII art.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Parameters for the conversion. |
-| `params.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
-| `params.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
-| `params.fit`? | \| `"box"` \| `"width"` \| `"none"` \| `"height"` \| `"original"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
-| `params.height`? | `string` \| `number` | The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height. **Default** `100%` |
-| `params.input` | `IconDefinition` \| `MediaInput` | Input to the media PATH, URL, STRING, BUFFER or IconDefinition (FONTAWESOME). |
-| `params.svgOptions`? | `Svg2ImgCoreProps` | Svg options. |
-| `params.width`? | `string` \| `number` | The width to resize the image to. Use a percentage to set the image width to x% of the terminal window width. **Default** `100%` |
-
-#### Returns
-
-`Promise`\<`string`\>
-
-- Promise that resolves to the ASCII representation of the SVG.
-
-#### Examples
-
-```ts
-// simple use with string
-const svg = `<svg width="100" height="100">
-  <rect width="100%" height="100%" fill="red" />
-</svg>`
-const ascii = await svg2ascii( { input: svg } )
-console.log( ascii )
-```
-
-```ts
-// simple use with url
-const svg = `https://my-web.com/my-svg-code.svg`
-const ascii = await svg2ascii( { input: svg } )
-console.log( ascii )
-```
-
-```ts
-// simple use with path
-const svg = `./my-svg-path.svg`
-const ascii = await svg2ascii( { input: svg } )
-console.log( ascii )
-```
-
-***
-
-### svg2imageBuffer()
-
-```ts
-function svg2imageBuffer(params: {
-  input: IconDefinition | MediaInput;
-  svgOptions: Svg2ImgCoreProps;
-}): Promise<Buffer<ArrayBufferLike>>
-```
-
-Converts an SVG to an image buffer.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Parameters for the conversion. |
-| `params.input` | `IconDefinition` \| `MediaInput` | Input to the media PATH, URL, STRING, BUFFER or IconDefinition (FONTAWESOME). |
-| `params.svgOptions`? | `Svg2ImgCoreProps` | Svg options. |
-
-#### Returns
-
-`Promise`\<`Buffer`\<`ArrayBufferLike`\>\>
-
-- A promise that resolves to the image buffer.
-
-***
-
-### svg2terminal()
-
-```ts
-function svg2terminal(params: {
-  asciiOptions: {
-     c_ratio: number;
-     chars: string;
-     color: boolean;
-     fit:   | "box"
-        | "width"
-        | "none"
-        | "height"
-        | "original";
-    };
-  asciiOutput: boolean;
-  height: string | number;
-  input: IconDefinition | MediaInput;
-  preserveAspectRatio: boolean;
-  svgOptions: Svg2ImgCoreProps;
-  width: string | number;
-}): Promise<string>
-```
-
-Convert SVG to image string for terminal display.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `object` | Options object. |
-| `params.asciiOptions`? | `object` | Options for asciiOutput. |
-| `params.asciiOptions.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
-| `params.asciiOptions.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.asciiOptions.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
-| `params.asciiOptions.fit`? | \| `"box"` \| `"width"` \| `"none"` \| `"height"` \| `"original"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
-| `params.asciiOutput`? | `boolean` | Enable a ascii output. **Default** `false` |
-| `params.height`? | `string` \| `number` | Custom image height. Can be set as percentage or number of rows of the terminal. It is recommended to use the percentage options. |
-| `params.input` | `IconDefinition` \| `MediaInput` | Input to the media PATH, URL, STRING, BUFFER or IconDefinition (FONTAWESOME). |
-| `params.preserveAspectRatio`? | `boolean` | If false, the aspect ratio will not be preserved . **Default** `true` |
-| `params.svgOptions`? | `Svg2ImgCoreProps` | Svg options. |
-| `params.width`? | `string` \| `number` | Custom image width. Can be set as percentage or number of columns of the terminal. It is recommended to use the percentage options. |
-
-#### Returns
-
-`Promise`\<`string`\>
-
-- Image buffer.
-
-#### Examples
-
-```ts
-// simple use with string
-const svg = `<svg width="100" height="100">
-  <rect width="100%" height="100%" fill="red" />
-</svg>`
-const output = await svg2terminal( { input: svg } )
-console.log( output )
-```
-
-```ts
-// simple use with url
-const svg = `https://my-web.com/my-svg-code.svg`
-const output = await svg2terminal( { input: svg } )
-console.log( output )
-```
-
-```ts
-// simple use with path
-const svg = `./my-svg-path.svg`
-const output = await svg2terminal( { input: svg } )
-console.log( output )
-```
-
-***
-
 ### table()
 
 ```ts
@@ -6267,38 +5890,6 @@ const data = [
 ];
 const tableText = table(data);
 console.log(tableText);
-```
-
-***
-
-### text2image()
-
-```ts
-function text2image(params: Text2ImageProps): Promise<Buffer<ArrayBufferLike>>
-```
-
-Converts text to an image.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | [`Text2ImageProps`](#text2imageprops) | Parameters to convert text to image. |
-
-#### Returns
-
-`Promise`\<`Buffer`\<`ArrayBufferLike`\>\>
-
-The image buffer.
-
-#### Example
-
-```ts
-const buffer = await text2image( {
-  input : 'Hello world!',
-  fontSize : 42,
-  backgroundColor : '#fff',
-} )
 ```
 
 ***
@@ -6531,33 +6122,6 @@ import { writeFileContent } from '@dovenv/utils'
 
 await writeFileContent('./greetFile.txt', 'Hello')
 ```
-
-***
-
-### writeImageFromBase64()
-
-```ts
-function writeImageFromBase64(opts: {
-  input: string;
-  output: string;
-}): Promise<void>
-```
-
-Writes a base64-encoded image to a file.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `opts` | `object` | The options object containing the input and output file paths. |
-| `opts.input` | `string` | - |
-| `opts.output` | `string` | - |
-
-#### Returns
-
-`Promise`\<`void`\>
-
-- A promise that resolves when the file has been written.
 
 ***
 
@@ -6896,40 +6460,6 @@ type MixedProps = {name: string; setName: (name: string) => void; someKeys?: str
 
 ***
 
-### Gif2AsciiArrayProps
-
-```ts
-type Gif2AsciiArrayProps: Prettify<MediaSharedProps & Omit<AsciifyOptions, "input">>;
-```
-
-***
-
-### Gif2AsciiProps
-
-```ts
-type Gif2AsciiProps: Prettify<Gif2AsciiArrayProps & {
-  animate: Omit<AnimateProps, "frames">;
-}>;
-```
-
-***
-
-### Gif2ImagesProps
-
-```ts
-type Gif2ImagesProps: Prettify<MediaSharedProps>;
-```
-
-***
-
-### GifProps
-
-```ts
-type GifProps: Prettify<MediaSharedProps & Exclude<GifOptions, undefined> & AsciiOpts>;
-```
-
-***
-
 ### GradientColors
 
 ```ts
@@ -6967,18 +6497,10 @@ type HighlightOpts: Parameters<typeof highlight>[1];
 
 ***
 
-### Image2AsciiProps
+### MediaInput
 
 ```ts
-type Image2AsciiProps: MediaSharedProps & AsciifyOptions;
-```
-
-***
-
-### ImageProps
-
-```ts
-type ImageProps: MediaSharedProps & ImageParams & AsciiOpts;
+type MediaInput: URL | string | Buffer;
 ```
 
 ***
@@ -7229,30 +6751,6 @@ type ReturnAwaitedType<T>: Awaited<ReturnType<T>>;
 
 ***
 
-### Svg2AsciiProps
-
-```ts
-type Svg2AsciiProps: Prettify<SvgSharedProps & Omit<AsciifyOptions, "input">>;
-```
-
-***
-
-### Svg2ImageProps
-
-```ts
-type Svg2ImageProps: Prettify<SvgSharedProps>;
-```
-
-***
-
-### SvgProps
-
-```ts
-type SvgProps: Prettify<SvgSharedProps & Omit<ImageProps, "input">>;
-```
-
-***
-
 ### TableData
 
 ```ts
@@ -7281,19 +6779,31 @@ Parameters of the `table` function from the `@dovenv/utils` module.
 
 ***
 
-### Text2ImageProps
+### ToObjectValidate\<T\>
 
 ```ts
-type Text2ImageProps: {
-  input: string;
-} & Partial<IOptions>;
+type ToObjectValidate<T>: toZod<T>;
 ```
 
-#### Type declaration
+#### Type Parameters
 
-| Name | Type |
-| ------ | ------ |
-| `input` | `string` |
+| Type Parameter |
+| ------ |
+| `T` *extends* `object` |
+
+***
+
+### ToValidate\<T\>
+
+```ts
+type ToValidate<T>: z.ZodType<T, Any, Any>;
+```
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `T` |
 
 ***
 
@@ -7303,9 +6813,7 @@ type Text2ImageProps: {
 type Validate: typeof z;
 ```
 
-****************************************************************************
-TYPES
-****************************************************************************
+Validate type (zod type wrappper)
 
 ***
 
@@ -7499,7 +7007,9 @@ const isWebWorker: boolean;
 ```ts
 const json: {
   deserialize: getObjectFromJSONContent;
+  parser: getObjectFromJSONContent;
   serialize: (content: object) => string;
+  stringify: (content: object) => string;
 };
 ```
 
@@ -7508,7 +7018,9 @@ const json: {
 | Name | Type | Default value |
 | ------ | ------ | ------ |
 | `deserialize` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromJSONContent |
+| `parser` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromJSONContent |
 | `serialize` | (`content`: `object`) => `string` | - |
+| `stringify` | (`content`: `object`) => `string` | - |
 
 ***
 
@@ -7594,8 +7106,8 @@ const promptLineMethods: {
 
 ```ts
 const svg: {
-  deserialize: _parse;
-  serialize: _stringify;
+  deserialize: parse;
+  serialize: stringify;
 };
 ```
 
@@ -7603,8 +7115,8 @@ const svg: {
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `deserialize` | (`input`: `string`, `options`?: `IParseOptions`) => `Promise`\<`INode`\> | \_parse |
-| `serialize` | (`ast`: `INode`, `options`?: `IStringifyOptions`) => `string` | \_stringify |
+| `deserialize` | (`input`: `string`, `options`?: `IParseOptions`) => `Promise`\<`INode`\> | parse |
+| `serialize` | (`ast`: `INode`, `options`?: `IStringifyOptions`) => `string` | stringify |
 
 ***
 

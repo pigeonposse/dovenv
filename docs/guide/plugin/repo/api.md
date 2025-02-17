@@ -163,15 +163,19 @@ showTerminalOutput(opts?: {
 ##### new Git()
 
 ```ts
-new Git(opts?: GitConfig, config?: Config): Git
+new Git(data: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): Git
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `data` | `object` |
+| `data.opts`? | `GitConfig` |
+| `data.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -213,18 +217,16 @@ initGH(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `add` | [`GitAdd`](#gitadd) | `undefined` | - | - |
-| `branch` | [`GitBranch`](#gitbranch) | `undefined` | - | - |
-| `commit` | [`GitCommit`](#gitcommit) | `undefined` | - | - |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `Repo.config` |
-| `husky` | [`Husky`](#husky) | `undefined` | - | - |
-| `initialize` | [`GitInit`](#gitinit) | `undefined` | - | - |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `Repo.opts` |
-| `pull` | [`GitPull`](#gitpull) | `undefined` | - | - |
-| `push` | [`GitPush`](#gitpush) | `undefined` | - | - |
-| `title` | `string` | `'repo'` | - | `Repo.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `add` | [`GitAdd`](#gitadd) | - |
+| `branch` | [`GitBranch`](#gitbranch) | - |
+| `commit` | [`GitCommit`](#gitcommit) | - |
+| `husky` | [`Husky`](#husky) | - |
+| `initialize` | [`GitInit`](#gitinit) | - |
+| `opts` | `undefined` \| `GitConfig` | `Repo.opts` |
+| `pull` | [`GitPull`](#gitpull) | - |
+| `push` | [`GitPush`](#gitpush) | - |
 
 ***
 
@@ -239,15 +241,19 @@ initGH(): Promise<void>
 ##### new GitAdd()
 
 ```ts
-new GitAdd(opts?: GitConfig, config?: Config): GitAdd
+new GitAdd(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): GitAdd
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -345,11 +351,9 @@ run(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
 
 ***
 
@@ -364,15 +368,19 @@ run(): Promise<void>
 ##### new GitBranch()
 
 ```ts
-new GitBranch(opts?: GitConfig, config?: Config): GitBranch
+new GitBranch(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): GitBranch
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -601,11 +609,9 @@ Switch to an existing branch.
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
 
 ***
 
@@ -620,15 +626,19 @@ Switch to an existing branch.
 ##### new GitCommit()
 
 ```ts
-new GitCommit(opts?: GitConfig, config?: Config): GitCommit
+new GitCommit(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): GitCommit
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -774,44 +784,38 @@ run(): Promise<undefined | string>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `scopes` | `undefined` \| \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | `undefined` | - | - |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
-| `types` | `undefined` \| \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | `undefined` | - | - |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `scopes` | `undefined` \| \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | - |
+| `types` | `undefined` \| \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | - |
 
 ***
 
 ### GitHub
-
-#### Extends
-
-- `PluginCore`\<[`GitHubConfig`](#githubconfig)\>
 
 #### Constructors
 
 ##### new GitHub()
 
 ```ts
-new GitHub(opts?: GitHubConfig, config?: Config): GitHub
+new GitHub(__namedParameters: {
+  opts: GitHubConfig;
+  utils: CommandSuper;
+ }): GitHub
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`GitHubConfig`](#githubconfig) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
 [`GitHub`](#github)
-
-###### Overrides
-
-`PluginCore<GitHubConfig>.constructor`
 
 #### Methods
 
@@ -834,14 +838,12 @@ download(input: string, output: string): Promise<void>
 
 #### Properties
 
-| Property | Type | Description | Inherited from |
-| ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | The dovenv configuration. | `PluginCore.config` |
-| `create` | `GitHubCreate` | - | - |
-| `info` | [`GitHubInfo`](#githubinfo) | - | - |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | Configuration options. | `PluginCore.opts` |
-| `title` | `string` | The title of the application. Use in internal logs and functions. | `PluginCore.title` |
-| `workflow` | [`GitHubWorkflow`](#githubworkflow) | - | - |
+| Property | Type |
+| ------ | ------ |
+| `create` | `GitHubCreate` |
+| `info` | [`GitHubInfo`](#githubinfo) |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) |
+| `workflow` | [`GitHubWorkflow`](#githubworkflow) |
 
 ***
 
@@ -856,15 +858,19 @@ download(input: string, output: string): Promise<void>
 ##### new GitHubInfo()
 
 ```ts
-new GitHubInfo(opts?: GitHubConfig, config?: Config): GitHubInfo
+new GitHubInfo(__namedParameters: {
+  opts: GitHubConfig;
+  utils: CommandSuper;
+ }): GitHubInfo
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`GitHubConfig`](#githubconfig) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -977,11 +983,9 @@ viewAll(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GHSuper.config` |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `undefined` | Configuration options. | `GHSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GHSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `GHSuper.opts` |
 
 ***
 
@@ -996,15 +1000,19 @@ viewAll(): Promise<void>
 ##### new GitHubWorkflow()
 
 ```ts
-new GitHubWorkflow(opts?: GitHubConfig, config?: Config): GitHubWorkflow
+new GitHubWorkflow(__namedParameters: {
+  opts: GitHubConfig;
+  utils: CommandSuper;
+ }): GitHubWorkflow
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`GitHubConfig`](#githubconfig) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -1107,11 +1115,9 @@ run(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GHSuper.config` |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `undefined` | Configuration options. | `GHSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GHSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `GHSuper.opts` |
 
 ***
 
@@ -1126,15 +1132,19 @@ run(): Promise<void>
 ##### new GitInit()
 
 ```ts
-new GitInit(opts?: GitConfig, config?: Config): GitInit
+new GitInit(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): GitInit
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -1216,11 +1226,9 @@ run(silent: boolean): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
 
 ***
 
@@ -1235,15 +1243,19 @@ run(silent: boolean): Promise<void>
 ##### new GitPull()
 
 ```ts
-new GitPull(opts?: GitConfig, config?: Config): GitPull
+new GitPull(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): GitPull
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -1309,11 +1321,9 @@ run(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
 
 ***
 
@@ -1328,15 +1338,19 @@ run(): Promise<void>
 ##### new GitPush()
 
 ```ts
-new GitPush(opts?: GitConfig, config?: Config): GitPush
+new GitPush(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): GitPush
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -1418,11 +1432,9 @@ run(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
 
 ***
 
@@ -1437,15 +1449,19 @@ run(): Promise<void>
 ##### new Husky()
 
 ```ts
-new Husky(opts?: GitConfig, config?: Config): Husky
+new Husky(__namedParameters: {
+  opts: GitConfig;
+  utils: CommandSuper;
+ }): Husky
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `GitConfig` |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -1511,11 +1527,9 @@ run(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `GitSuper.config` |
-| `opts` | `undefined` \| `GitConfig` | `undefined` | Configuration options. | `GitSuper.opts` |
-| `title` | `string` | `'repo'` | - | `GitSuper.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
 
 ***
 
@@ -1530,15 +1544,19 @@ run(): Promise<void>
 ##### new Packages()
 
 ```ts
-new Packages(opts?: GitHubConfig, config?: Config): Packages
+new Packages(__namedParameters: {
+  opts: GitHubConfig;
+  utils: CommandSuper;
+ }): Packages
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`GitHubConfig`](#githubconfig) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -1695,11 +1713,9 @@ version(): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `Repo.config` |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `undefined` | Configuration options. | `Repo.opts` |
-| `title` | `string` | `'repo'` | - | `Repo.title` |
+| Property | Type | Inherited from |
+| ------ | ------ | ------ |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `Repo.opts` |
 
 ## Functions
 

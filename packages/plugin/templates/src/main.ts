@@ -12,9 +12,9 @@ export {
 
 /**
  * A plugin for dovenv to create templates.
- * @param {Config} [conf] - Optional configuration for the plugin.
+ * @param {Config} [params] - Optional configuration for the plugin.
  */
-export const templatesPlugin = ( conf?: Config ) => defineConfig( { custom : { templates : {
+export const templatesPlugin = ( params?: Config ) => defineConfig( { custom : { templates : {
 	desc : 'Toolkit for templates',
 	opts : { key : {
 		alias : 'k',
@@ -23,11 +23,15 @@ export const templatesPlugin = ( conf?: Config ) => defineConfig( { custom : { t
 	} },
 	cmds : { list: { desc: 'list of availale keys' } },
 	fn   : async ( {
-		config, cmds, opts,
+		utils, cmds, opts,
 	} ) => {
 
-		const temp = new Templates( conf, config )
 		const keys = opts?.key as string[] | undefined
+		const temp = new Templates( {
+			opts : params,
+			utils,
+		} )
+
 		if ( cmds?.includes( 'list' ) ) await temp.list( keys )
 		else await temp.run( keys )
 

@@ -2,5 +2,8 @@
 	"extends": "./node_modules/@dovenv/repo-config/tsconfig.json",
 	"include": [
 		"./src",
+	],
+	"exclude": [
+		"./node_modules/**"
 	]
 }

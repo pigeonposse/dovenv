@@ -3,13 +3,9 @@
 ## define js functiond
 
 ```js
+export const f = ( ) => console.log( dd )
 
-const f = ( ) => console.log( dd )
-
-/**
- * gjgj
- */
-async function logf() {
+export const logf = async () => {
 
  const OBJECT_1 = {
   EMPTY : {},
@@ -28,6 +24,7 @@ async function logf() {
    4,
   ],
  }
+ return OBJECT_1
 
 }
 ```

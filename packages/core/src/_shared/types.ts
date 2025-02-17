@@ -1,4 +1,4 @@
-import type { Config } from '../types'
+import { CommandSuper } from './cmd'
 
 export type ArgvPreParsed = {
 	[x: string] : unknown
@@ -7,10 +7,10 @@ export type ArgvPreParsed = {
 }
 
 export type ArgvParsed = {
-	bin     : string
-	cmds?   : Command
-	opts?   : Options
-	config? : Config
+	bin   : string
+	cmds? : Command
+	opts? : Options
+	utils : CommandSuper
 }
 export type Command = ( string | number )[]
 export type Options = { [x: string]: unknown }

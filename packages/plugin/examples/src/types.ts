@@ -7,7 +7,7 @@ import type { getPaths,
 	Prettify,
 	ValidateInfer } from '@dovenv/core/utils'
 
-type ExampleProps =  { [key in string]:  {
+type ExampleProps = { [key in string]: {
 	/**
 	 * Title of the example (optional).
 	 */
@@ -67,7 +67,7 @@ type Shared = {
 	desc?   : string
 }
 
-export type ExampleConfigFileProps =  Prettify<Shared & {
+export type ExampleConfigFileProps = Prettify<Shared & {
 	/** Override your config input */
 	config? : ExampleConfig
 	/**
@@ -78,14 +78,14 @@ export type ExampleConfigFileProps =  Prettify<Shared & {
 	input   : string | ExampleConfig
 }>
 type ExampleType = typeof TYPE[keyof typeof TYPE]
-export type ExamplePathProps = Prettify< Shared & {
+export type ExamplePathProps = Prettify<Shared & {
 	/** Input pattern */
 	input : string[]
 	/** Options for input patterns */
 	opts? : Parameters<typeof getPaths>[1]
 }>
 
-export type ExampleJsdocProps =  ExamplePathProps
+export type ExampleJsdocProps = ExamplePathProps
 
 export type ExampleMultipleProps = Prettify<Shared & {
 	[TYPE.JSDOC]?  : Omit<ExampleJsdocProps, 'output'>
@@ -111,10 +111,10 @@ type Set<T extends ExampleType, V extends object> = ( {
 } & V )
 
 type ConfigValue = Prettify<
-	Set< typeof TYPE.PATH, ExamplePathProps >
-	| Set< typeof TYPE.CONFIG, ExampleConfigFileProps >
-	| Set< typeof TYPE.JSDOC, ExampleJsdocProps >
-	| Set< typeof TYPE.MULTIPLE, ExampleMultipleProps >
-	| Set< typeof TYPE.CUSTOM, ExampleCustomProps >
+	Set<typeof TYPE.PATH, ExamplePathProps>
+	| Set<typeof TYPE.CONFIG, ExampleConfigFileProps>
+	| Set<typeof TYPE.JSDOC, ExampleJsdocProps>
+	| Set<typeof TYPE.MULTIPLE, ExampleMultipleProps>
+	| Set<typeof TYPE.CUSTOM, ExampleCustomProps>
 >
 export type Config = { [key in string]: ConfigValue }

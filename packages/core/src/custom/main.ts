@@ -4,8 +4,8 @@ import {
 } from '@dovenv/utils'
 
 import { schema }         from './schema'
-import { Command }        from '../_shared/cmd'
 import { GLOBAL_OPTIONS } from '../_shared/const'
+import { Command }        from '../core/_shared/main'
 
 import type {
 	Cli,
@@ -15,25 +15,19 @@ import type {
 import type {
 	ArgvPreParsed,
 } from '../_shared/types'
-import type { Config } from '../types'
-
-export type {
-	CustomConfig,
-}
 
 export const mergeCustomConfig = deepmergeCustom<CustomConfig>( {} )
 
 export class Custom extends Command<CustomConfig> {
 
-	schema = schema
-
 	cli
 
-	constructor( cli: Cli, opts?: CustomConfig, config?: Config ) {
+	constructor( cli: Cli, opts: CustomConfig, utils: Command['utils'] ) {
 
-		super( opts, config )
+		super( opts, utils )
 
-		this.cli = cli
+		this.cli    = cli
+		this.schema = schema( this.utils.validate )
 
 	}
 
@@ -106,29 +100,29 @@ export class Custom extends Command<CustomConfig> {
 
 		// console.debug( { argv } )
 
-		const time = this.performance()
+		const time = this.utils.performance()
 
-		const title = this.config?.name || undefined
-		const desc  = this.config?.desc || undefined
+		const title = this.utils.config?.name || undefined
+		const desc  = this.utils.config?.desc || undefined
 
 		const isQuiet = opts?.[GLOBAL_OPTIONS.QUIET.key] as boolean || false
 
 		if ( title && !isQuiet ) this.setMainTitle( title, desc )
 
-		this.title       = name
+		this.utils.title = name
 		this.description = prop.desc
 		if ( !isQuiet ) this.setTitle()
 
 		try {
 
-			if ( prop.settings?.wrapConsole === false ) this.log.restoreConsole()
-			else this.log.wrapConsole()
+			if ( prop.settings?.wrapConsole === false ) this.utils.log.restoreConsole()
+			else this.utils.log.wrapConsole()
 
 			await prop.fn( {
-				bin    : $0,
+				bin   : $0,
 				cmds,
 				opts,
-				config : this.config,
+				utils : this.utils,
 				showHelp,
 			} )
 
@@ -140,10 +134,10 @@ export class Custom extends Command<CustomConfig> {
 
 			// if ( prop.settings?.wrapConsole === false ) this.log.wrapAll()
 
-			this.log.error( e )
+			this.utils.log.error( e )
 			if ( !isQuiet ) this.setTime( time.prettyStop() )
 
-			this.exitWithError()
+			this.utils.exitWithError()
 
 		}
 
@@ -161,11 +155,11 @@ export class Custom extends Command<CustomConfig> {
 		}
 		catch ( e ) {
 
-			this.title       = 'custom'
+			this.utils.title = 'custom'
 			this.description = 'Custom commands'
 			// set title only in case of error
 			this.setTitle()
-			this.log.error( e )
+			this.utils.log.error( e )
 
 			return
 

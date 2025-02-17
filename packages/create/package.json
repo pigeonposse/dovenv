@@ -1,24 +1,44 @@
 {
 	"name": "create-dovenv",
-	"version": "1.3.2",
+	"version": "1.4.0",
 	"description": "Create dovenv project template",
 	"keywords": [
+		"cli",
+		"create",
+		"dovenv",
+		"library",
 		"pigeonposse",
 		"pp",
-		"dovenv",
-		"create",
-		"template",
-		"cli",
-		"library"
+		"template"
 	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/create",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/create"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
 	"type": "module",
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
 	"types": "dist/main.d.ts",
 	"bin": "dist/bin.mjs",
 	"files": [
-		"dist",
-		"data"
+		"data",
+		"dist"
 	],
 	"scripts": {
 		"build": "unbuild",
@@ -27,7 +47,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"creatium": "0.1.9",
+		"creatium": "0.1.12",
 		"latest-version": "9.0.0"
 	},
 	"devDependencies": {
@@ -36,25 +56,5 @@
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
-	},
-	"homepage": "https://dovenv.pigeonposse.com/guide/create",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
-		"directory": "packages/create"
-	},
-	"license": "GPL-3.0",
-	"funding": {
-		"type": "individual",
-		"url": "https://pigeonposse.com/?popup=donate"
-	},
-	"bugs": {
-		"url": "https://github.com/pigeonposse/dovenv/issues",
-		"email": "dev@pigeonposse.com"
-	},
-	"author": {
-		"name": "Angelo",
-		"email": "angelo@pigeonposse.com",
-		"url": "https://github.com/angelespejo"
 	}
 }

@@ -22,13 +22,13 @@ export class Packages extends Repo {
 			const alerts = deprecatedAlerts()
 			alerts.hide()
 
-			await this.execPkgBin( '@changesets/cli', args )
+			await this.utils.execPkgBin( '@changesets/cli', args )
 
 		}
 		catch ( error ) {
 
 			if ( error instanceof Error )
-				await this.onCancel()
+				await this.utils.onCancel()
 
 		}
 
@@ -42,7 +42,7 @@ export class Packages extends Repo {
 
 	async publish( preCmd?: string ) {
 
-		console.log( this.style.info.hr( 'Publish packages' ) )
+		console.log( this.utils.style.info.hr( 'Publish packages' ) )
 		if ( preCmd && typeof preCmd === 'string' ) await exec( preCmd )
 		return await this.#exec( [ 'publish' ] )
 
@@ -50,21 +50,21 @@ export class Packages extends Repo {
 
 	async version() {
 
-		console.log( this.style.info.hr( 'Update package version' ) )
+		console.log( this.utils.style.info.hr( 'Update package version' ) )
 		return await this.#exec( [ 'version' ] )
 
 	}
 
 	async prepare() {
 
-		console.log( this.style.info.hr( 'Prepare update' ) )
+		console.log( this.utils.style.info.hr( 'Prepare update' ) )
 		return await this.#exec( )
 
 	}
 
 	async getPkgVersion( npm = true, showPrivate = true ) {
 
-		const paths = await this.getPkgPaths()
+		const paths = await this.utils.getPkgPaths()
 		const res: {
 			name    : string
 			version : string
@@ -99,7 +99,7 @@ export class Packages extends Repo {
 
 	async showPackageVersion( npm = true ) {
 
-		const p = this.prompt
+		const p = this.utils.prompt
 		const s = p.spinner()
 
 		try {
@@ -111,7 +111,7 @@ export class Packages extends Repo {
 			p.log.step( '' )
 
 			await p.box( {
-				value : `Your package version(s):\n\n${pkg.map( l => this.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'none'}` : '' )  + ( l.private ? ` | private` : '' ) ) ).join( '\n' )}\n`,
+				value : `Your package version(s):\n\n${pkg.map( l => this.utils.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'none'}` : '' )  + ( l.private ? ` | private` : '' ) ) ).join( '\n' )}\n`,
 				opts  : {
 					borderStyle : 'none',
 					padding     : 0,
@@ -151,13 +151,13 @@ export class Packages extends Repo {
 			[data.command]      : '',
 		}
 
-		const cache  = await this.cache( 'pkg-ask', defaultData )
+		const cache  = await this.utils.cache( 'pkg-ask', defaultData )
 		const cached = await cache.get()
 
 		console.debug( 'cached data', cached )
 
-		return await this.promptGroup( {
-			onCancel : async () => await this.onCancel(),
+		return await this.utils.promptGroup( {
+			onCancel : async () => await this.utils.onCancel(),
 			list     : async p => ( {
 				prepare : async () => {
 
@@ -165,11 +165,11 @@ export class Packages extends Repo {
 						message      : 'Prepare new version(s)?',
 						initialValue : cached[data.prepare],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 					cache.set( { [data.prepare]: res } )
 					if ( !res ) return res
 					await this.prepare()
-					console.log( this.style.info.hr() )
+					console.log( this.utils.style.info.hr() )
 
 				},
 				[data.version] : async () => {
@@ -178,13 +178,13 @@ export class Packages extends Repo {
 						message      : 'Update the version of the package(s) with the new prepared versions?',
 						initialValue : cached[data.version],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 					cache.set( { [data.version]: res } )
 
 					if ( !res ) return res
 
 					await this.version()
-					console.log( this.style.info.hr() )
+					console.log( this.utils.style.info.hr() )
 					await this.showPackageVersion( false )
 					return res
 
@@ -203,7 +203,7 @@ export class Packages extends Repo {
 					]
 
 					await p.box( {
-						value : `Best practices before publishing:\n\n${list.map( l => this.style.section.lk( l ) ).join( '\n' )}\n`,
+						value : `Best practices before publishing:\n\n${list.map( l => this.utils.style.section.lk( l ) ).join( '\n' )}\n`,
 						opts  : {
 							borderStyle : 'none',
 							padding     : 0,
@@ -229,14 +229,14 @@ export class Packages extends Repo {
 						] as const,
 						initialValue : cached[data.publishOrRun],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
 					cache.set( { [data.publishOrRun]: res } )
 
 					if ( res === publishOrRun.publish ) {
 
 						await this.publish()
-						console.log( this.style.info.hr() )
+						console.log( this.utils.style.info.hr() )
 
 					}
 					else if ( res === publishOrRun.run ) {
@@ -246,14 +246,14 @@ export class Packages extends Repo {
 							initialValue : cached[data.command],
 						} )
 
-						if ( p.isCancel( command ) ) return await this.onCancel()
+						if ( p.isCancel( command ) ) return await this.utils.onCancel()
 						cache.set( { [data.command]: command } )
 						await this.publish( command )
-						console.log( this.style.info.hr() )
+						console.log( this.utils.style.info.hr() )
 
 					}
 					else if ( res !== publishOrRun.none )
-						console.error( this.style.error.msg( 'Unexpected error', 'No publish or run selected' ) )
+						console.error( this.utils.style.error.msg( 'Unexpected error', 'No publish or run selected' ) )
 
 				},
 			} ),
@@ -294,19 +294,19 @@ export class Packages extends Repo {
 
 		const isLocal = type !== 'string'
 		const getSize = ( v: number ) => `${( v / ( 1024 * 1024 ) ).toFixed( 3 )}mb (${( v / 1024 ).toFixed( 3 )}kb)`
-		const data    = this.style.table( [
-			[ 'Name', this.style.info.b( id ) ],
-			[ 'Packages Installed', this.style.p( packageNum ) ],
-			[ 'Local package', this.style.p( isLocal ) ],
+		let data      = this.utils.style.table( [
+			[ 'Name', this.utils.style.info.b( id ) ],
+			[ 'Packages Installed', this.utils.style.p( packageNum ) ],
+			[ 'Local package', this.utils.style.p( isLocal ) ],
 			[ '', '' ],
-			[ 'Unpacked size', this.style.p( getSize( packages[0].unpackedSize ) ) ],
-			[ 'Total size', this.style.success.p( getSize( size ) ) ],
+			[ 'Unpacked size', this.utils.style.p( getSize( packages[0].unpackedSize ) ) ],
+			[ 'Total size', this.utils.style.success.p( getSize( size ) ) ],
 		] )
 
-		console.log( data )
-
 		if ( !isLocal )
-			console.log( this.style.p( `View more details in ${this.style.a( `https://sizium.pigeonposse.com/?s=${name}` )}` ) )
+			data += '\n' + this.utils.style.p( `View more details in ${this.utils.style.a( `https://sizium.pigeonposse.com/?s=${name}` )}\n` )
+
+		this.utils.prompt.log.message( data )
 
 	}
 

@@ -16,17 +16,17 @@ export class Size extends Super implements InfoInterface {
 		try {
 
 			return await getCountFromPaths( {
-				input : [ joinPath( this.wsDir, '**/**' ) ],
+				input : [ joinPath( this.utils.wsDir, '**/**' ) ],
 				opts  : {
 					gitignore : true,
-					cwd       : this.wsDir,
+					cwd       : this.utils.wsDir,
 				},
 			} )
 
 		}
 		catch ( e ) {
 
-			console.warn( this.style.warn.msg( 'Error getting size',  e instanceof Error  ? e?.message : e ) )
+			console.warn( this.utils.style.warn.msg( 'Error getting size',  e instanceof Error  ? e?.message : e ) )
 
 			return
 
@@ -47,7 +47,7 @@ export class Size extends Super implements InfoInterface {
 			[ 'Chars', data.chars ],
 		] satisfies Array<[ string, number ]>
 
-		console.log( this.style.section.ul( res ) )
+		console.log( this.utils.style.section.ul( res ) )
 
 	}
 

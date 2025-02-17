@@ -9,15 +9,19 @@
 ##### new Workspace()
 
 ```ts
-new Workspace(opts?: Config, config?: Config): Workspace
+new Workspace(__namedParameters: {
+  opts: Config;
+  utils: CommandSuper;
+ }): Workspace
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`Config`](#config) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`Config`](#config) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -80,12 +84,12 @@ donate(open: boolean): Promise<void>
 ##### getPkgPaths()
 
 ```ts
-getPkgPaths(): Promise<string[]>
+getPkgPaths(): Promise<any>
 ```
 
 ###### Returns
 
-`Promise`\<`string`[]\>
+`Promise`\<`any`\>
 
 ##### info()
 
@@ -173,6 +177,12 @@ usefulCmds(): Promise<void>
 
 `Promise`\<`void`\>
 
+#### Properties
+
+| Property | Type |
+| ------ | ------ |
+| `opts` | `undefined` \| [`Config`](#config) |
+
 ## Functions
 
 ### workspacePlugin()
@@ -213,9 +223,9 @@ type Config: {
   check: {
      pkg: Prettify<Sharedcheck & {
         schema: (opts: {
-           config: DovenvConfig;
            content: PackageJSON;
            path: string;
+           utils: CommandUtils;
            v: Validate;
           }) => Promise<ValidateAnyType | void> | ValidateAnyType | void;
        }>;
@@ -243,8 +253,8 @@ type Config: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `check`? | \{ `pkg`: `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `config`: `DovenvConfig`; `content`: `PackageJSON`; `path`: `string`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>; \} | - |
-| `check.pkg`? | `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `config`: `DovenvConfig`; `content`: `PackageJSON`; `path`: `string`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\> | Checks for packages |
+| `check`? | \{ `pkg`: `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>; \} | - |
+| `check.pkg`? | `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\> | Checks for packages |
 | `custom`? | `{ [key in string]: Function }` | custom configration for ws |
 | `info`? | \{ `instructions`: `string`; `structure`: `object`; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace |
 | `info.instructions`? | `string` | Instructions for the workspace. Must be markdown format. Accepts string, URL or path **Example** `## Pre-requisites project needs the following tools to work: - `node` > 20 installed - `pnpm` > 9 installed - `gh` > 2 installed - `git` > 2 installed ## Init workspace pnpm install` |

@@ -4,8 +4,8 @@ import { Custom }  from './custom'
 import { Execute } from './exec'
 import { Info }    from './info/main'
 
-import type { Config }                  from './_super/types'
-import type { Config as  DovenvConfig } from '@dovenv/core'
+import type { Config }       from './_super/types'
+import type { CommandUtils } from '@dovenv/core'
 
 export class Workspace {
 
@@ -13,13 +13,22 @@ export class Workspace {
 	#check
 	#exec
 	#custom
+	opts            : Config | undefined
+	protected utils : CommandUtils
 
-	constructor( opts?: Config, config?: DovenvConfig ) {
+	constructor( {
+		opts, utils,
+	}:{
+		opts? : Config
+		utils : CommandUtils
+	} ) {
 
-		this.#info   = new Info( opts, config )
-		this.#check  = new Checks( opts, config )
-		this.#exec   = new Execute( opts, config )
-		this.#custom = new Custom( opts, config )
+		this.opts    = opts
+		this.utils   = utils
+		this.#info   = new Info( opts, utils )
+		this.#check  = new Checks( opts, utils )
+		this.#exec   = new Execute( opts, utils )
+		this.#custom = new Custom( opts, utils )
 
 	}
 

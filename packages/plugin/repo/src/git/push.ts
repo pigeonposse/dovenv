@@ -14,9 +14,9 @@ export class GitPush extends GitSuper {
 
 		const cmd = `git push -f origin ${branch}`
 
-		console.log( this.style.info.hr( cmd ) )
+		console.log( this.utils.style.info.hr( cmd ) )
 		await exec( cmd )
-		console.log( this.style.info.hr(  ) )
+		console.log( this.utils.style.info.hr(  ) )
 
 	}
 
@@ -24,13 +24,16 @@ export class GitPush extends GitSuper {
 
 		await this.init()
 
-		const defaultBranch = this.opts?.defaultBranch
-
-		const branchInstance = new GitBranch( this.opts, this.config )
-		const commitInstance = new GitCommit( this.opts, this.config )
-		const addInstance    = new GitAdd( this.opts, this.config )
-		const initInstance   = new GitInit( this.opts, this.config )
-		const pkgInstance    = new Packages( this.opts, this.config )
+		const defaultBranch  = this.opts?.defaultBranch
+		const params         = {
+			opts  : this.opts,
+			utils : this.utils,
+		}
+		const branchInstance = new GitBranch( params )
+		const commitInstance = new GitCommit( params )
+		const addInstance    = new GitAdd( params )
+		const initInstance   = new GitInit( params )
+		const pkgInstance    = new Packages( params )
 
 		await initInstance.run( true )
 
@@ -52,28 +55,28 @@ export class GitPush extends GitSuper {
 			[data.workflow] : false,
 		}
 
-		const cache  = await this.cache( 'push', defaultData )
+		const cache  = await this.utils.cache( 'push', defaultData )
 		const cached = await cache.get()
 		console.debug( 'cached data', cached )
 
-		await this.promptGroup( {
-			outro    : `Finished ${this.style.badge( 'push' )} process 🌈`,
-			onCancel : async () => await this.onCancel(),
+		await this.utils.promptGroup( {
+			outro    : `Finished ${this.utils.style.badge( 'push' )} process 🌈`,
+			onCancel : async () => await this.utils.onCancel(),
 			list     : async p => ( {
-				'desc'        : async () => p.log.info( this.style.p( 'Push your repository' ) ),
+				'desc'        : async () => p.log.info( this.utils.style.p( 'Push your repository' ) ),
 				[data.staged] : async () => {
 
 					const res = await p.confirm( {
 						message      : 'View staged files?',
 						initialValue : cached[data.staged],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
 					cache.set( { [data.staged]: res } )
 					if ( !res ) return
 
 					const files = await commitInstance.getStagedFiles()
-					p.log.message( this.style.p( files ) )
+					p.log.message( this.utils.style.p( files ) )
 					return res
 
 				},
@@ -83,7 +86,7 @@ export class GitPush extends GitSuper {
 						message      : 'View package version(s)?',
 						initialValue : cached[data.view],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
 					cache.set( { [data.view]: res } )
 
@@ -97,7 +100,7 @@ export class GitPush extends GitSuper {
 						message      : 'Update the version(s)?',
 						initialValue : cached[data.update],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
 					cache.set( { [data.update]: res } )
 
@@ -112,7 +115,7 @@ export class GitPush extends GitSuper {
 					await pkgInstance.ask()
 
 				},
-				'desc-add'    : async () => p.log.info( this.style.p( 'Prompt for add to repository' ) ),
+				'desc-add'    : async () => p.log.info( this.utils.style.p( 'Prompt for add to repository' ) ),
 				[data.add]    : async () => await addInstance.ask( cached[data.add] ),
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
 				'add-res'     : async ( { results } ) => {
@@ -135,14 +138,14 @@ export class GitPush extends GitSuper {
 							await this.exec( res[data.origin] )
 							console.log()
 
-							p.log.success( this.style.success.h( `Successfully pushed to` ) + ' ' + this.style.success.p( `${this.style.a( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
+							p.log.success( this.utils.style.success.h( `Successfully pushed to` ) + ' ' + this.utils.style.success.p( `${this.utils.style.a( await this.getGitRemoteURL() || '[no repoURL provided]' )}\n` ) )
 
 						}
 						catch ( e ) {
 
 							if ( e instanceof Error )
 								p.log.error( e.message )
-							await this.onCancel()
+							await this.utils.onCancel()
 
 						}
 
@@ -155,7 +158,7 @@ export class GitPush extends GitSuper {
 						message      : 'Run GitHub workflow?',
 						initialValue : cached[data.workflow],
 					} )
-					if ( p.isCancel( res ) ) return await this.onCancel()
+					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
 					cache.set( { [data.workflow]: res } )
 
@@ -168,7 +171,10 @@ export class GitPush extends GitSuper {
 					const res = results[data.workflow] as boolean
 					if ( !res ) return
 
-					const wf = new GitHubWorkflow( this.opts, this.config )
+					const wf = new GitHubWorkflow( {
+						opts  : this.opts,
+						utils : this.utils,
+					} )
 					await wf.run()
 
 				},

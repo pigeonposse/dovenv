@@ -20,7 +20,7 @@ if ( dovenvError ) throw dovenvError
 export default defineConfig(
 	{ const: core },
 	mediaPlugin( {
-	/** Minify config */
+		/** Minify config */
 		min : {
 			images : {
 				input  : [ joinPath( imageFolder, '*' ) ],
@@ -52,6 +52,10 @@ export default defineConfig(
 			output     : joinPath( buildFolder, 'test-record' ),
 		// command    : 'zsh',
 		// quality    : 100,
+		} },
+		qr : { pigeonposse : {
+			input : 'https://pigeonposse.com/',
+			size  : 'large',
 		} },
 
 	} ) )

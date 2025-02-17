@@ -1,7 +1,7 @@
 /* eslint-disable jsdoc/require-param-type */
 /* eslint-disable jsdoc/require-returns-type */
 
-import { PluginCore } from '@dovenv/core'
+import { CommandUtils } from '@dovenv/core'
 import {
 	ensureDir,
 	existsFile,
@@ -18,10 +18,24 @@ import type { Config } from './types'
 type Data = Parameters<NonNullable<NonNullable<Config[number]['hook']>['before']>>[0]
 type ReplaceContent = Pick<Config[number], 'transform' | 'hook' | 'opts'>
 
-export 	class Templates extends PluginCore<Config> {
+export class Templates {
 
-	title = 'templates'
-	helpURL = homepage
+	protected utils : CommandUtils
+	opts
+
+	constructor( {
+		opts, utils,
+	}:{
+		opts? : Config
+		utils : CommandUtils
+	} ) {
+
+		this.opts          = opts
+		this.utils         = utils
+		this.utils.helpURL = homepage
+		this.utils.title   = 'templates'
+
+	}
 
 	async #replaceContent( content: string, params: Parameters<typeof replacePlaceholders>[0]['params'], data?: ReplaceContent ) {
 
@@ -65,8 +79,8 @@ export 	class Templates extends PluginCore<Config> {
 			let keyRes: Data = {
 				content : await getStringFrom( partial.input ),
 				const   : res.const,
-				config  : this.config,
 				output  : res.output,
+				utils   : this.utils,
 			}
 
 			keyRes     = ( await partial.hook?.before?.( keyRes ) ) || keyRes
@@ -81,7 +95,7 @@ export 	class Templates extends PluginCore<Config> {
 			let keyRes: Data = {
 				content : parts[key],
 				const   : res.const,
-				config  : this.config,
+				utils   : this.utils,
 				output  : res.output,
 			}
 
@@ -111,10 +125,10 @@ export 	class Templates extends PluginCore<Config> {
 		let res: Data = {
 			content : await getStringFrom( data.input ),
 			const   : {
-				...( this.config?.const || {} ),
+				...( this.utils.config?.const || {} ),
 				...data.const,
 			},
-			config : this.config,
+			utils  : this.utils,
 			output : data.output,
 		}
 
@@ -125,7 +139,7 @@ export 	class Templates extends PluginCore<Config> {
 		res = await this.#getContent( parts.res, data, parts.partials )
 
 		if ( !data.output ) return res.content
-		const out    = this.getWsPath( data.output )
+		const out    = this.utils.getWsPath( data.output )
 		const exists = await existsFile( out )
 
 		if ( isOverrite || ( exists && !isOverrite ) ) {
@@ -134,12 +148,12 @@ export 	class Templates extends PluginCore<Config> {
 			if ( isOverrite === 'ask' && exists ) {
 
 				console.log()
-				const res         = await this.prompt.confirm( {
+				const res         = await this.utils.prompt.confirm( {
 					message      : `Output [${data.output}] exists. Do you want to overwrite the content?`,
 					initialValue : true,
 				} )
-				const isCancelled = this.prompt.isCancel( res )
-				if ( isCancelled ) await this.onCancel()
+				const isCancelled = this.utils.prompt.isCancel( res )
+				if ( isCancelled ) await this.utils.onCancel()
 
 				over = res as boolean
 
@@ -149,10 +163,12 @@ export 	class Templates extends PluginCore<Config> {
 
 				await ensureDir( getDirName( out ) )
 				await writeFile( out, res.content )
-				this.prompt.log.success( this.style.info.msg( 'Overwrite content to', out  ) )
+				this.utils.prompt.log.success( this.utils.style.info.msg( 'Overwrite content to', out  ) )
 
 			}
-			else this.prompt.log.info( this.style.info.p( 'output not overwritten' ) )
+			else this.utils.prompt.log.info( this.utils.style.info.p( 'output not overwritten' ) )
+			// this.utils.prompt.log.success( this.utils.style.success.msg( ` ✨ Successful!` ) )
+			// this.utils.prompt.log.step( '' )
 
 		}
 
@@ -162,18 +178,18 @@ export 	class Templates extends PluginCore<Config> {
 
 	async #fn( pattern?: string[] ) {
 
-		if ( !( await this.ensureOpts() ) || !this.opts ) return
-
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
+		const keys = await this.utils.getOptsKeys( {
+			input : this.opts,
+			pattern,
+		} )
+		if ( !keys || !this.opts ) return
 
 		const res: Record<string, string> = {}
 		for ( const key of keys ) {
 
 			const opt = this.opts[key]
-			console.log( this.style.info.h( `${this.style.badge( key )} template` ) )
+			console.log( this.utils.style.info.h( `${this.utils.style.badge( key )} template` ) )
 			res[key] = await this.get( opt )
-			console.log( '\n', this.style.success.msg( ` ✨ Successful!` ) )
 
 		}
 		return res
@@ -182,8 +198,11 @@ export 	class Templates extends PluginCore<Config> {
 
 	async list( pattern?: string[] ) {
 
-		const data = this.getKeys( { pattern } )
-		console.info( this.style.info.msg( 'List of keys', data?.join( ', ' ) || 'NONE' ) )
+		const keys = await this.utils.getOptsKeys( {
+			input : this.opts,
+			pattern,
+		} )
+		console.info( this.utils.style.info.msg( 'List of keys', keys?.join( ', ' ) || 'NONE' ) )
 
 	}
 
@@ -194,7 +213,7 @@ export 	class Templates extends PluginCore<Config> {
 	 */
 	async run( pattern?: string[] ) {
 
-		return await this.catchFn( this.#fn( pattern ) )
+		return await this.utils.catchFn( this.#fn( pattern ) )
 
 	}
 

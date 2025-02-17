@@ -211,8 +211,8 @@ import {
 } from '@dovenv/utils'
 
 import pkg              from '../../../package.json'
+import { defineConfig } from '../dist/main.mjs' // change it for @dovenv/core
 import { version }      from '../package.json'
-import { defineConfig } from '../src/main' // change it for @dovenv/core
 
 const currentDir = getCurrentDir( import.meta.url )
 const wsDir      = joinPath( currentDir, '..', '..', '..' ) // My workspace path
@@ -279,7 +279,7 @@ export default defineConfig( {
 		 */
 		structure : {
 			desc : 'Print structure for the workspace.',
-			fn   : async ( { config } ) => console.log( config?.const?.sctructure ),
+			fn   : async ( { utils } ) => console.log( utils.config?.const?.sctructure ),
 		},
 		/**
 		 * Create nested command
@@ -437,7 +437,7 @@ export default defineConfig( {
 			validateAll : async ( { paths } ) => {
 
 				const validFiles = paths.filter( p =>
-					p.endsWith( 'index.md' ) || p.endsWith( 'posts.md' ),
+					p.endsWith( 'index.md' ) || p.endsWith( 'contributors.md' ),
 				)
 				if ( validFiles.length !== 2 ) throw new Error( 'File [docs/index.md] and [docs/posts.md] must exist' )
 				if ( paths.length < 3 ) throw new Error( `File [${paths}] must not exist` )
@@ -476,11 +476,11 @@ export default defineConfig( {
 				'.vscode/extensions.json',
 			],
 			validateAll : async ( {
-				paths, config,
+				paths, utils,
 			} ) => {
 
 				if ( paths.length !== 7 )
-					throw new Error( `Monorepo must have this structure:\n ${config?.const?.sctructure}` )
+					throw new Error( `Monorepo must have this structure:\n ${utils.config?.const?.sctructure}` )
 
 			},
 
@@ -495,7 +495,8 @@ export default defineConfig( {
 
 				if ( !content ) throw new Error( `File [${path}] must exist` )
 				const c = JSON.parse( content )
-				if ( !( 'version' in c ) ) throw new Error( `File [${path}] must have version field` )
+				if ( !( 'version' in c ) && !( 'private' in c && c.private === true ) )
+					throw new Error( `File [${path}] must have version field` )
 
 			},
 		},

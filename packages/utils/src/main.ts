@@ -4,7 +4,6 @@
  */
 
 export * from './styles/main'
-export * from './media/main'
 export * from './sys/main'
 export * from './tree/main'
 export * from './schema/main'
@@ -17,4 +16,5 @@ export * from './validate/main'
 export * from './error/main'
 export * from './qr/main'
 export * from './pkg/main'
+export * from './media/main'
 export type * from './ts/main'

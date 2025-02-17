@@ -21,7 +21,7 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Audition' )
 
-		const cmd = this.getPkgManagerCmds()
+		const cmd = this.utils.getPkgManagerCmds()
 		this.output.start()
 		await exec( cmd.audit )
 			.catch( () => '' )
@@ -33,7 +33,7 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Fix Audition' )
 
-		const cmd = this.getPkgManagerCmds()
+		const cmd = this.utils.getPkgManagerCmds()
 
 		this.output.start()
 		await exec( cmd.auditFix )
@@ -46,7 +46,7 @@ export class Execute extends Super {
 
 		this._sectionTitle( 'Packages outdated' )
 
-		const cmd = this.getPkgManagerCmds()
+		const cmd = this.utils.getPkgManagerCmds()
 
 		this.output.start()
 		await exec( cmd.outdated )
@@ -57,7 +57,7 @@ export class Execute extends Super {
 
 	async #auditAndOutdated( fix?: boolean  ) {
 
-		const cmd = this.getPkgManagerCmds()
+		const cmd = this.utils.getPkgManagerCmds()
 
 		if ( fix ) await this.#auditFix()
 		else {
@@ -66,8 +66,8 @@ export class Execute extends Super {
 			await this.#outdated()
 
 			console.log(  )
-			console.log( this.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmd.auditFix}` ) )
-			console.log( this.style.section.li( 'For outdated dependencies use', cmd.upDeps ) )
+			console.log( this.utils.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmd.auditFix}` ) )
+			console.log( this.utils.style.section.li( 'For outdated dependencies use', cmd.upDeps ) )
 			console.log(  )
 
 		}
@@ -80,7 +80,7 @@ export class Execute extends Super {
 
 		if ( this.opts?.reinstall?.hook?.before ) await this.opts.reinstall.hook.before()
 
-		const paths = await getPaths( [ joinPath( this.wsDir, '**/node_modules' ) ], {
+		const paths = await getPaths( [ joinPath( this.utils.wsDir, '**/node_modules' ) ], {
 			onlyDirectories : true,
 			ignore          : [ '**/node_modules/**/node_modules' ],
 		} )
@@ -92,7 +92,7 @@ export class Execute extends Super {
 
 		}
 
-		const cmds = this.getPkgManagerCmds()
+		const cmds = this.utils.getPkgManagerCmds()
 		// await exec( 'pnpm store prune' )
 		// await exec( 'pnpm cache delete' )
 		await exec( cmds.install  )

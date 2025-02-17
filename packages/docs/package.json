@@ -3,10 +3,10 @@
 	"private": true,
 	"description": "Documentation page for dovenv",
 	"keywords": [
-		"pigeonposse",
-		"pp",
+		"docs",
 		"dovenv",
-		"docs"
+		"pigeonposse",
+		"pp"
 	],
 	"homepage": "https://dovenv.pigeonposse.com",
 	"bugs": {

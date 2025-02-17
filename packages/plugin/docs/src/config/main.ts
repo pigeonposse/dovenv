@@ -125,7 +125,10 @@ export class Config {
 					const { default: dovenvConfig } = await import( this.fnPath + `?update=${Date.now()}` )
 					const pkg                       = dovenvConfig?.const?.pkg as Record<string, unknown> | undefined
 					const dovenvDocsConfigConst     = dovenvConfig?.const?.[globals.DOVENV_DOCS_CONFIG] as DocsPluginConfig | undefined
-					const dovenvDocsConfig          = typeof dovenvDocsConfigConst === 'function' ?  await dovenvDocsConfigConst( dovenvConfig ) : dovenvDocsConfigConst as DocsConfig
+					const utils                     = getGlobals( globals.DOVENV_UTILS )
+					if ( !utils ) throw new Error( `Must exists global: ${globals.DOVENV_UTILS}` )
+
+					const dovenvDocsConfig = typeof dovenvDocsConfigConst === 'function' ?  await dovenvDocsConfigConst( utils ) : dovenvDocsConfigConst as DocsConfig
 
 					if ( dovenvDocsConfig ) {
 
@@ -145,8 +148,8 @@ export class Config {
 			catch ( e ) {
 
 				if ( e instanceof Error )
-					console.warn( 'Error getting fn config "pkg" data', e?.message )
-				else console.warn( 'Error getting fn config "pkg" data', e )
+					console.warn( 'Error getting fn config "pkg" data:', e?.message )
+				else console.warn( 'Error getting fn config "pkg" data:', e )
 
 			}
 

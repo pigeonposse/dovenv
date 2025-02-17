@@ -1,15 +1,15 @@
 {
 	"name": "@dovenv/theme-pigeonposse",
-	"version": "1.3.2",
+	"version": "1.4.0",
 	"description": "A dovenv configuration and tools for Pigeonposse team",
 	"keywords": [
-		"theme",
-		"cli",
-		"library",
 		"aio",
+		"cli",
+		"dovenv",
+		"library",
 		"pigeonposse",
 		"pp",
-		"dovenv"
+		"theme"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/theme/pigeonposse",
 	"bugs": {

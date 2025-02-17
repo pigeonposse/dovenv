@@ -21,6 +21,11 @@ export type WebConfig = {
 	values?       : Record<string, unknown> | false
 	/** Merge with general values */
 	customValues? : Record<string, unknown>
+	/**
+	 * Version of the web
+	 * @default latest
+	 */
+	version?      : string
 }
 
 /**
@@ -35,40 +40,55 @@ export type WebConfig = {
  */
 export const pigeonposseWebPlugin = ( params?: WebConfig ) => {
 
-	return defineConfig( { transform : { 'pigeonposse.yml' : {
+	return defineConfig( {
+		check : { 'pigeonposse.com' : {
+			desc : 'Check if your workspace meets the requirements for the pigeonposse.com website',
+			type : 'custom',
+			fn   : async ( { utils } ) => {
 
-		input : [ params?.input || './.pigeonposse.yml' ],
-		fn    : async ( { config } ) => {
+				await utils.execPkgBin( '@pigeonposse/check-2025', [ '--cwd', utils.wsDir ] )
 
-			const c   = config?.const
-			const pkg = c?.pkg as PackageJSON | undefined
+			},
+		} },
+		transform : { 'pigeonposse.com' : {
+			desc  : 'Create your pigeonposse.yml based on the contents of your workspace pkg',
+			input : params?.input ? [ params?.input ] : [ './.dovenv/pigeonposse.yml' ],
+			fn    : async ( { utils } ) => {
 
-			if ( !pkg || typeof pkg !== 'object' ) throw new Error( `No "pkg" const in dovenv configuration` )
+				const c   = utils.config?.const
+				const pkg = c?.pkg as PackageJSON | undefined
 
-			const id                             = pkg.extra?.id || pkg.name
-			const data : Record<string, unknown> = {}
+				if ( !pkg || typeof pkg !== 'object' ) throw new Error( `No "pkg" const in dovenv configuration` )
 
-			if ( params?.values !== false )
-				data.web = [
-					deepmerge( {
-						id          : id,
-						name        : pkg.extra?.productName || id,
-						version     : pkg.version,
-						description : pkg.description,
-						homepage    : pkg.homepage,
-						type        : pkg.extra.type,
-						subtype     : pkg.extra.subtype,
-						repo        : typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url,
-						license     : pkg.extra.licenseURL || pkg.extra.licenseUrl,
-						status      : 'active',
-					}, params?.values || {} ),
-				]
+				const id                             = pkg.extra?.id || pkg.name
+				const data : Record<string, unknown> = {}
 
-			const res = yaml.serialize( deepmerge( data, params?.customValues || {} ) )
+				if ( params?.values !== false )
+					data.web = { [id] : deepmerge( {
+						name      : pkg.extra?.productName || id,
+						version   : pkg.version,
+						desc      : pkg.description,
+						homepage  : pkg.homepage,
+						library   : pkg.extra?.libraryURL,
+						changelog : pkg.extra?.changelogURL,
+						docs      : pkg.extra?.docsURL,
+						container : pkg.extra.containerURL,
+						type      : typeof pkg.extra?.type === 'string' ? [ pkg.extra.type ] : Array.isArray( pkg.extra?.type ) ? pkg.extra?.type : 'library',
+						license   : pkg.license && ( pkg.extra.licenseURL || pkg.extra.licenseUrl )
+							? {
+								name : pkg.license,
+								url  : pkg.extra.licenseURL || pkg.extra.licenseUrl,
+							}
+							: undefined,
+						status : 'active',
+					}, params?.values || {} ) }
 
-			return ( c?.templateMark || '' ) + `\n` + res
+				const res    = yaml.serialize( deepmerge( data, params?.customValues || {} ) )
+				const schema = `# yaml-language-server: $schema=https://www.unpkg.com/@pigeonposse/api-2025@${params?.version || 'latest'}/dist/schema/config.json`
+				return schema + `\n` + ( c?.templateMark || '' ) + `\n\n` + res
 
-		},
-	} } } )
+			},
+		} },
+	} )
 
 }

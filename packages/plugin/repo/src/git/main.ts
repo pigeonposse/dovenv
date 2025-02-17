@@ -32,16 +32,19 @@ export class Git extends Repo<GitConfig> {
 	push       : GitPush
 	initialize : GitInit
 
-	constructor( opts?: GitConfig, config?: Repo['config'] ) {
+	constructor( data:{
+		opts? : GitConfig
+		utils : Repo['utils']
+	} ) {
 
-		super( opts, config )
-		this.add        = new GitAdd( this.opts, this.config )
-		this.branch     = new GitBranch( this.opts, this.config )
-		this.commit     = new GitCommit( this.opts, this.config )
-		this.husky      = new Husky( this.opts, this.config )
-		this.pull       = new GitPull( this.opts, this.config )
-		this.push       = new GitPush( this.opts, this.config )
-		this.initialize = new GitInit( this.opts, this.config )
+		super( data )
+		this.add        = new GitAdd( data )
+		this.branch     = new GitBranch( data )
+		this.commit     = new GitCommit( data )
+		this.husky      = new Husky( data )
+		this.pull       = new GitPull( data )
+		this.push       = new GitPush( data )
+		this.initialize = new GitInit( data )
 
 	}
 
@@ -112,11 +115,14 @@ export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 			[CMD.husky] : { desc: 'Husky configuration' },
 		},
 		fn : async ( {
-			cmds, config, opts, showHelp,
+			cmds, utils, opts, showHelp,
 		} ) => {
 
 			const list = ( v:Record<string, string> ) => Object.values( v ).map( v => color.gray.dim.italic( v ) ).join( ', ' )
-			const git  = new Git( conf, config )
+			const git  = new Git( {
+				opts : conf,
+				utils,
+			} )
 			if ( cmds?.includes( CMD.commit ) ) await git.commit.run( )
 			else if ( cmds?.includes( CMD.init ) ) await git.initialize.run( )
 			else if ( cmds?.includes( CMD.add ) ) await git.add.run( )

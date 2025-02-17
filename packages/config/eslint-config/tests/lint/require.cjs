@@ -1,4 +1,5 @@
 
-console.log( process.argv )
+const config = require( '../eslint.config' )
 
-module.exports = require( process.argv[2] )
+module.exports = config
+

@@ -9,8 +9,8 @@ import { Size }         from './size'
 import { Structure }    from './structure'
 import { Super }        from '../_super/main'
 
-import type { Config }                  from '../_super/types'
-import type { Config as  DovenvConfig } from '@dovenv/core'
+import type { Config }       from '../_super/types'
+import type { CommandUtils } from '@dovenv/core'
 
 export class Info extends Super {
 
@@ -21,16 +21,16 @@ export class Info extends Super {
 	structure    : Structure
 	scripts      : Scripts
 
-	constructor( opts?: Config, config?: DovenvConfig ) {
+	constructor( opts: Config | undefined, utils: CommandUtils ) {
 
-		super( opts, config )
+		super( opts, utils )
 
-		this.size         = new Size( opts, config )
-		this.instructions = new Instructions( opts, config )
-		this.donate       = new Donate( opts, config )
-		this.usefulCmds   = new UsefulCmds( opts, config )
-		this.structure    = new Structure( opts, config )
-		this.scripts      = new Scripts( opts, config )
+		this.size         = new Size( opts, utils )
+		this.instructions = new Instructions( opts, utils )
+		this.donate       = new Donate( opts, utils )
+		this.usefulCmds   = new UsefulCmds( opts, utils )
+		this.structure    = new Structure( opts, utils )
+		this.scripts      = new Scripts( opts, utils )
 
 	}
 
@@ -38,7 +38,7 @@ export class Info extends Super {
 
 		this._title( 'Workspace Information' )
 
-		const pkgs         = ( await this.getPkgPaths() ).map( p => getDirName( p ) )
+		const pkgs         = ( await this.utils.getPkgPaths() ).map( p => getDirName( p ) )
 		const pkgNum       = pkgs.length
 		const size         = await this.size.get()
 		const structure    = await this.structure.get()
@@ -47,15 +47,15 @@ export class Info extends Super {
 		const scripts      = await this.scripts.get()
 
 		const content = [
-			[ 'Monorepo', this.isMonorepo() ],
-			[ 'Runtime', this.getRuntime() ],
-			[ 'Package manager', this.getPkgManager() ],
+			[ 'Monorepo', this.utils.isMonorepo() ],
+			[ 'Runtime', this.utils.getRuntime() ],
+			[ 'Package manager', this.utils.getPkgManager() ],
 			[ 'Package Num', pkgNum ],
 			[
 				'Package Paths',
 				pkgNum
-					? '\n' + this.style.box( {
-						data   : pkgs.map( p => this.style.section.p( p ) ).join( '\n' ),
+					? '\n' + this.utils.style.box( {
+						data   : pkgs.map( p => this.utils.style.section.p( p ) ).join( '\n' ),
 						border : false,
 					} ) + '\n'
 					: 'none',
@@ -72,7 +72,7 @@ export class Info extends Super {
 
 		for ( const c of content ) {
 
-			console.log( this.style.section.lk( c[0] ), c[1] )
+			console.log( this.utils.style.section.lk( c[0] ), c[1] )
 
 		}
 

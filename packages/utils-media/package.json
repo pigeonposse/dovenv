@@ -1,0 +1,78 @@
+{
+	"name": "@dovenv/utils-media",
+	"version": "1.4.0",
+	"description": "Extra Media Utilities for dovenv",
+	"keywords": [
+		"aio",
+		"cli",
+		"dovenv",
+		"library",
+		"media",
+		"node",
+		"pigeonposse",
+		"pp",
+		"process",
+		"terminal",
+		"utils"
+	],
+	"homepage": "https://dovenv.pigeonposse.com/guide/utils-media",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/dovenv/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pigeonposse/dovenv",
+		"directory": "packages/utils-media"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": "./dist/main.mjs",
+		"./client": "./dist/client.mjs"
+	},
+	"main": "dist/main.mjs",
+	"types": "dist/main.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"b": "tsup",
+		"build": "unbuild",
+		"dev": "tsx examples/main.ts",
+		"test": "vitest run -r src --passWithNoTests"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "6.7.2",
+		"@fortawesome/free-brands-svg-icons": "6.7.2",
+		"@fortawesome/free-regular-svg-icons": "6.7.2",
+		"@fortawesome/free-solid-svg-icons": "6.7.2",
+		"@resvg/resvg-js": "2.6.2",
+		"gif-frames": "1.0.1",
+		"jimp-compact": "0.16.1-2",
+		"svg2img": "1.0.0-beta.2",
+		"terminal-image": "3.0.0"
+	},
+	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*"
+	},
+	"peerDependencies": {
+		"@dovenv/utils": "workspace:*"
+	},
+	"optionalDependencies": {
+		"ultimate-text-to-image": "1.0.1"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}

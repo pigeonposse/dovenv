@@ -8,6 +8,6 @@ const mdProcessor = unified().use( remarkParse ).use( remarkStringify )
 
 type MarkdownObject = Root
 
-export const deserialize = ( str: string ) => mdProcessor.parse( str )
+export const deserialize = ( str: string ): MarkdownObject => mdProcessor.parse( str )
 
-export const serialize = ( obj: MarkdownObject ) => mdProcessor.stringify( obj )
+export const serialize = ( obj: MarkdownObject ): string => mdProcessor.stringify( obj )

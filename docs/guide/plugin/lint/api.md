@@ -13,15 +13,15 @@
 ##### new CommitLint()
 
 ```ts
-new CommitLint(opts?: CommitlintConfig, config?: Config): CommitLint
+new CommitLint(opts: undefined | CommitlintConfig, utils: CommandSuper): CommitLint
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `CommitlintConfig` |
-| `config`? | `Config` |
+| `opts` | `undefined` \| `CommitlintConfig` |
+| `utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -36,7 +36,7 @@ new CommitLint(opts?: CommitlintConfig, config?: Config): CommitLint
 ##### run()
 
 ```ts
-run(userMsg?: string): Promise<unknown>
+run(userMsg?: string): Promise<undefined | void>
 ```
 
 ###### Parameters
@@ -47,16 +47,14 @@ run(userMsg?: string): Promise<unknown>
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `void`\>
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `LintSuper.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | - | `LintSuper.helpURL` |
-| `opts` | `undefined` \| `CommitlintConfig` | `undefined` | Configuration options. | - | `LintSuper.opts` |
-| `title` | `"commitlint"` | `CMDS.commitlint` | - | `LintSuper.title` | - |
+| Property | Modifier | Type | Inherited from |
+| ------ | ------ | ------ | ------ |
+| `opts` | `public` | `undefined` \| `CommitlintConfig` | `LintSuper.opts` |
+| `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
 
 ***
 
@@ -71,15 +69,15 @@ run(userMsg?: string): Promise<unknown>
 ##### new Eslint()
 
 ```ts
-new Eslint(opts?: EslintConfig, config?: Config): Eslint
+new Eslint(opts: undefined | EslintConfig, utils: CommandSuper): Eslint
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `EslintConfig` |
-| `config`? | `Config` |
+| `opts` | `undefined` \| `EslintConfig` |
+| `utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -94,7 +92,7 @@ new Eslint(opts?: EslintConfig, config?: Config): Eslint
 ##### run()
 
 ```ts
-run(flags?: string[]): Promise<unknown>
+run(flags?: string[]): Promise<undefined | void>
 ```
 
 ###### Parameters
@@ -105,16 +103,14 @@ run(flags?: string[]): Promise<unknown>
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `void`\>
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `LintSuper.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | - | `LintSuper.helpURL` |
-| `opts` | `undefined` \| `EslintConfig` | `undefined` | Configuration options. | - | `LintSuper.opts` |
-| `title` | `"eslint"` | `CMDS.eslint` | - | `LintSuper.title` | - |
+| Property | Modifier | Type | Inherited from |
+| ------ | ------ | ------ | ------ |
+| `opts` | `public` | `undefined` \| `EslintConfig` | `LintSuper.opts` |
+| `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
 
 ***
 
@@ -131,15 +127,15 @@ Lint class with all lint functions
 ##### new Lint()
 
 ```ts
-new Lint(opts?: Config, config?: Config): Lint
+new Lint(opts: undefined | Config, utils: CommandSuper): Lint
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`Config`](#config) |
-| `config`? | `Config` |
+| `opts` | `undefined` \| [`Config`](#config) |
+| `utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -170,7 +166,7 @@ commitlint(userMsg?: string): Promise<void>
 ##### custom()
 
 ```ts
-custom(pattern?: string[]): Promise<unknown>
+custom(pattern?: string[]): Promise<undefined | void>
 ```
 
 ###### Parameters
@@ -181,12 +177,12 @@ custom(pattern?: string[]): Promise<unknown>
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `void`\>
 
 ##### eslint()
 
 ```ts
-eslint(flags: string[]): Promise<unknown>
+eslint(flags: string[]): Promise<undefined | void>
 ```
 
 ###### Parameters
@@ -197,7 +193,7 @@ eslint(flags: string[]): Promise<unknown>
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `void`\>
 
 ##### staged()
 
@@ -228,12 +224,10 @@ stylelint(files?: string[], fix?: boolean): Promise<void>
 
 #### Properties
 
-| Property | Type | Default value | Description | Inherited from |
-| ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | `LintSuper.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | `LintSuper.helpURL` |
-| `opts` | `undefined` \| [`Config`](#config) | `undefined` | Configuration options. | `LintSuper.opts` |
-| `title` | `string` | `'lint'` | - | `LintSuper.title` |
+| Property | Modifier | Type | Inherited from |
+| ------ | ------ | ------ | ------ |
+| `opts` | `public` | `undefined` \| [`Config`](#config) | `LintSuper.opts` |
+| `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
 
 ***
 
@@ -248,15 +242,15 @@ stylelint(files?: string[], fix?: boolean): Promise<void>
 ##### new StagedLint()
 
 ```ts
-new StagedLint(opts?: LintStagedConfig, config?: Config): StagedLint
+new StagedLint(opts: undefined | LintStagedConfig, utils: CommandSuper): StagedLint
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `LintStagedConfig` |
-| `config`? | `Config` |
+| `opts` | `undefined` \| `LintStagedConfig` |
+| `utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -271,21 +265,19 @@ new StagedLint(opts?: LintStagedConfig, config?: Config): StagedLint
 ##### run()
 
 ```ts
-run(): Promise<unknown>
+run(): Promise<undefined | void>
 ```
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `void`\>
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `LintSuper.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | - | `LintSuper.helpURL` |
-| `opts` | `undefined` \| `LintStagedConfig` | `undefined` | Configuration options. | - | `LintSuper.opts` |
-| `title` | `"staged"` | `CMDS.staged` | - | `LintSuper.title` | - |
+| Property | Modifier | Type | Inherited from |
+| ------ | ------ | ------ | ------ |
+| `opts` | `public` | `undefined` \| `LintStagedConfig` | `LintSuper.opts` |
+| `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
 
 ***
 
@@ -300,15 +292,15 @@ run(): Promise<unknown>
 ##### new StyleLint()
 
 ```ts
-new StyleLint(opts?: LinterOptions, config?: Config): StyleLint
+new StyleLint(opts: undefined | LinterOptions, utils: CommandSuper): StyleLint
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `LinterOptions` |
-| `config`? | `Config` |
+| `opts` | `undefined` \| `LinterOptions` |
+| `utils` | `CommandSuper` |
 
 ###### Returns
 
@@ -323,7 +315,7 @@ new StyleLint(opts?: LinterOptions, config?: Config): StyleLint
 ##### run()
 
 ```ts
-run(files?: string[], fix?: boolean): Promise<unknown>
+run(files?: string[], fix?: boolean): Promise<undefined | void>
 ```
 
 ###### Parameters
@@ -335,16 +327,14 @@ run(files?: string[], fix?: boolean): Promise<unknown>
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `void`\>
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `LintSuper.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | - | `LintSuper.helpURL` |
-| `opts` | `undefined` \| `LinterOptions` | `undefined` | Configuration options. | - | `LintSuper.opts` |
-| `title` | `"stylelint"` | `CMDS.stylelint` | - | `LintSuper.title` | - |
+| Property | Modifier | Type | Inherited from |
+| ------ | ------ | ------ | ------ |
+| `opts` | `public` | `undefined` \| `LinterOptions` | `LintSuper.opts` |
+| `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
 
 ## Functions
 

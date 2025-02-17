@@ -35,7 +35,7 @@ export class GitHubInfo extends GHSuper {
 			} = this.opts || {}
 
 			if ( !repoURL )
-				return this.prompt.log.warn( this.style.warn.msg( `No repo url provided`, `You need to provide a repo url` ) )
+				return this.utils.prompt.log.warn( this.utils.style.warn.msg( `No repo url provided`, `You need to provide a repo url` ) )
 
 			const homepage    = homepageURL ? `--homepage "${homepageURL}"` : ''
 			const topics      = tags ? `--add-topic "${tags}"` : ''
@@ -47,8 +47,8 @@ export class GitHubInfo extends GHSuper {
 				[ 'description', desc || 'none' ],
 			]
 
-			await this.prompt.box( {
-				value : `Repo info to update:\n\n${list.map( l => this.style.info.li( ...l ) ).join( '\n' )}\n`,
+			await this.utils.prompt.box( {
+				value : `Repo info to update:\n\n${list.map( l => this.utils.style.info.li( ...l ) ).join( '\n' )}\n`,
 				opts  : {
 					borderStyle : 'none',
 					padding     : 0,
@@ -61,12 +61,12 @@ export class GitHubInfo extends GHSuper {
 
 				const { stderr } = await execChild( `gh repo edit "${repoURL}" ${homepage} ${topics} ${description}` )
 
-				if ( stderr ) return this.prompt.log.error( this.style.error.msg( 'Error updating repo info', stderr ) )
-				else this.prompt.log.success( this.style.success.h( `Updated repo info in` ) + ' ' + this.style.success.p( `${this.style.a( repoURL )}` ) )
+				if ( stderr ) return this.utils.prompt.log.error( this.utils.style.error.msg( 'Error updating repo info', stderr ) )
+				else this.utils.prompt.log.success( this.utils.style.success.h( `Updated repo info in` ) + ' ' + this.utils.style.success.p( `${this.utils.style.a( repoURL )}` ) )
 
 			}
-			else this.prompt.log.error( this.style.error.msg( 'Nothing to update.' ) )
-			this.prompt.log.step( '' )
+			else this.utils.prompt.log.error( this.utils.style.error.msg( 'Nothing to update.' ) )
+			this.utils.prompt.log.step( '' )
 
 		}
 		catch ( e ) {

@@ -27,9 +27,9 @@ export const workspacePlugin = ( params?: Config ) => defineConfig( {
 		ws : {
 			type : 'custom',
 			desc : 'Check for workspace structure rules',
-			fn   : async ( { config } ) => {
+			fn   : async ( { utils } ) => {
 
-				const check = new Checks( params, config )
+				const check = new Checks( params, utils )
 				await check.run()
 
 			},
@@ -93,12 +93,16 @@ export const workspacePlugin = ( params?: Config ) => defineConfig( {
 				cmds,
 				opts,
 				showHelp,
-				config,
+				utils,
 			} ) => {
 
 				try {
 
-					const ws = new Workspace( params, config )
+					const ws = new Workspace( {
+						opts : params,
+						utils,
+					} )
+
 					if ( cmds?.includes( 'info' ) ) {
 
 						if ( opts?.instructions ) await ws.instructions()

@@ -17,12 +17,14 @@
 
 Run ESLint to analyze and fix JavaScript/TypeScript code.
 
+> It is required to have eslint installed.
+
 ```bash
-dovenv eslint
+dovenv lint eslint
 ```
 
 ```bash
-dovenv eslint --fix
+dovenv lint eslint --fix
 ```
 
 You can pass eslint options to the plugin.
@@ -41,7 +43,7 @@ export default defineConfig( lintPlugin( {
 Run Stylelint to analyze and fix CSS/SCSS files.
 
 ```bash
-dovenv stylelint
+dovenv lint stylelint
 ```
 
 You can pass stylelint options to the plugin.
@@ -60,7 +62,7 @@ export default defineConfig( lintPlugin( {
 Run Commitlint to enforce commit message conventions.
 
 ```bash
-dovenv commitlint
+dovenv lint commitlint
 ```
 
 You can pass commitlint options to the plugin.

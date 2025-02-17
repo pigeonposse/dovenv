@@ -3,18 +3,18 @@
 	"private": true,
 	"description": "Toolkit for make your code workspace easier. Create documentation, add beautiful commits, lint and much more.",
 	"keywords": [
-		"env",
-		"devs",
-		"development",
-		"js",
-		"ts",
+		"bin",
+		"binaries",
 		"cli",
+		"development",
+		"devs",
+		"env",
+		"js",
 		"library",
 		"node",
-		"binaries",
-		"bin",
 		"pigeonposse",
-		"pp"
+		"pp",
+		"ts"
 	],
 	"homepage": "https://dovenv.pigeonposse.com",
 	"bugs": {
@@ -52,8 +52,8 @@
 		"build": "pnpm run --sequential \"/build:.*/\"",
 		"build-assets": "pnpm . docs generate-assets --flag=\"--preset minimal\" --flag=\"docs/public/logo.png\"",
 		"build-doc": "pnpm -F @dovenv/_doc build",
-		"build:config": "pnpm -F @dovenv/eslint-config build",
-		"build:core": "pnpm -F @dovenv/utils build && pnpm -F @dovenv/core build",
+		"build:config": "pnpm -F @dovenv/eslint-config build && pnpm -F @dovenv/eslint-config build",
+		"build:core": "pnpm -F @dovenv/utils build && pnpm -F @dovenv/utils-media build && pnpm -F @dovenv/core build",
 		"build:plugin": "pnpm -F './packages/plugin/**' build",
 		"build:theme": "pnpm -F './packages/theme/**' build",
 		"build:xtra": "pnpm -F create-dovenv build",
@@ -66,18 +66,33 @@
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "0.5.0",
-		"@playwright/test": "1.49.1",
-		"@types/node": "22.10.5",
+		"@playwright/test": "1.50.1",
+		"@types/node": "22.13.4",
+		"eslint": "9.20.1",
 		"tslib": "2.8.1",
 		"tsx": "4.19.2",
 		"typescript": "5.7.3",
-		"unbuild": "3.3.0",
-		"vitest": "2.1.8"
+		"unbuild": "3.3.1",
+		"vitest": "3.0.5"
 	},
-	"packageManager": "pnpm@9.11.0",
+	"packageManager": "pnpm@10.4.1",
 	"engines": {
 		"node": ">=20.0.0",
 		"pnpm": ">=8.10.0"
+	},
+	"pnpm": {
+		"overrides": {
+			"cross-spawn@<6.0.6": ">=6.0.6",
+			"got": "^11.8.5",
+			"got@<11.8.5": ">=11.8.5",
+			"http-cache-semantics@<4.1.1": ">=4.1.1",
+			"jpeg-js@<0.4.0": ">=0.4.0",
+			"jpeg-js@<0.4.4": ">=0.4.4",
+			"phin@<3.7.1": ">=3.7.1",
+			"semver-regex@<3.1.3": ">=3.1.3",
+			"semver-regex@<3.1.4": ">=3.1.4",
+			"tough-cookie@<4.1.3": ">=4.1.3"
+		}
 	},
 	"extra": {
 		"id": "dovenv",
@@ -92,11 +107,13 @@
 		"repoID": "dovenv",
 		"rawRepoURL": "https://raw.githubusercontent.com/pigeonposse/dovenv",
 		"docsURL": "https://dovenv.pigeonposse.com",
-		"type": "library",
-		"subtype": [
-			"bin",
+		"type": [
+			"library",
+			"js-library",
+			"ts-library",
+			"toolkit",
 			"cli",
-			"env"
+			"bin"
 		],
 		"collective": {
 			"id": "pigeonposse",
@@ -117,20 +134,6 @@
 				"instagram": "https://www.instagram.com/pigeon.posse/",
 				"medium": "https://medium.com/@pigeonposse"
 			}
-		}
-	},
-	"pnpm": {
-		"overrides": {
-			"got": "^11.8.5",
-			"got@<11.8.5": ">=11.8.5",
-			"jpeg-js@<0.4.4": ">=0.4.4",
-			"http-cache-semantics@<4.1.1": ">=4.1.1",
-			"semver-regex@<3.1.3": ">=3.1.3",
-			"semver-regex@<3.1.4": ">=3.1.4",
-			"jpeg-js@<0.4.0": ">=0.4.0",
-			"phin@<3.7.1": ">=3.7.1",
-			"tough-cookie@<4.1.3": ">=4.1.3",
-			"cross-spawn@<6.0.6": ">=6.0.6"
 		}
 	}
 }

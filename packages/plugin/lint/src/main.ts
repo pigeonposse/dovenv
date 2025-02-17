@@ -89,10 +89,10 @@ export const lintPlugin = ( conf?: Config ): DovenvConfig => ( { custom : { lint
 		},
 	],
 	fn : async ( {
-		opts, cmds, showHelp, config,
+		opts, cmds, showHelp, utils,
 	} ) => {
 
-		const lint = new Lint( conf, config )
+		const lint = new Lint( conf, utils )
 		if ( cmds?.includes( CMDS.staged ) ) await lint.staged(  )
 		else if ( cmds?.includes( CMDS.stylelint ) )
 			await lint.stylelint( opts?.files as string[], opts?.fix as boolean )

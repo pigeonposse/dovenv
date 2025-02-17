@@ -24,7 +24,7 @@ export class GitHubWorkflow extends GHSuper {
 
 		console.debug( { workflowsDir } )
 		const fileNames = await getPaths( [ workflowsDir + '/*.yml' ], { onlyFiles: true  } )
-		const color     = this.style.color
+		const color     = this.utils.style.color
 		let content     = ( fileNames && fileNames.length )
 			? await getDirTree( {
 				name  : '.github/workflows\n',
@@ -32,8 +32,8 @@ export class GitHubWorkflow extends GHSuper {
 			} )
 			: color.cyan( `No workflows found it!` )
 
-		content  += '\n' + ( color.cyan( `PATH: ` ) + this.style.p( relativePath( this.process.cwd(), workflowsDir ) ) )
-		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + this.style.p( this.style.a( repoURL ) ) : ''
+		content  += '\n' + ( color.cyan( `PATH: ` ) + this.utils.style.p( relativePath( this.utils.process.cwd(), workflowsDir ) ) )
+		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + this.utils.style.p( this.utils.style.a( repoURL ) ) : ''
 		const res = box( content, {
 			padding     : 1,
 			dimBorder   : true,
@@ -56,7 +56,7 @@ export class GitHubWorkflow extends GHSuper {
 		const exist = workflowsDir ? await existsDir( workflowsDir ) : false
 		if ( !exist || !workflowsDir ) {
 
-			this.prompt.log.warn( this.style.warn.msg( `Does not exist workflows directory:`, workflowsDir ) )
+			this.utils.prompt.log.warn( this.utils.style.warn.msg( `Does not exist workflows directory:`, workflowsDir ) )
 			return
 
 		}
@@ -67,7 +67,7 @@ export class GitHubWorkflow extends GHSuper {
 
 		if ( !fileNames.length ) {
 
-			this.prompt.log.warn( this.style.warn.msg( `No local workflows found in`, workflowsDir ) )
+			this.utils.prompt.log.warn( this.utils.style.warn.msg( `No local workflows found in`, workflowsDir ) )
 			return
 
 		}
@@ -79,13 +79,13 @@ export class GitHubWorkflow extends GHSuper {
 			[data.file]   : fileNames[0],
 			[data.inputs] : workflowDefaultInputs || '',
 		}
-		const cache       = await this.cache( 'workflow', defaultData )
+		const cache       = await this.utils.cache( 'workflow', defaultData )
 		const cached      = await cache.get()
 
-		await this.promptGroup( {
-			onCancel : this.onCancel,
+		await this.utils.promptGroup( {
+			onCancel : this.utils.onCancel,
 			list     : async p => ( {
-				desc        : () => p.log.info( this.style.p( 'Prompt for run workflow' ) ),
+				desc        : () => p.log.info( this.utils.style.p( 'Prompt for run workflow' ) ),
 				[data.file] : async () =>  p.select( {
 					message : 'Select a workflow:',
 					options : fileNames.map( value => ( {
@@ -96,13 +96,13 @@ export class GitHubWorkflow extends GHSuper {
 				} ),
 				[data.inputs] : async () => p.text( {
 					initialValue : cached[data.inputs],
-					message      : `Set inputs for workflow in comma separed. ${this.style.color.dim( '(Leave empty to not use any input)' )}`,
+					message      : `Set inputs for workflow in comma separed. ${this.utils.style.color.dim( '(Leave empty to not use any input)' )}`,
 				} ),
 				fn : async ( { results } ) => {
 
 					try {
 
-						const answers = results as unknown as Record< string, string >
+						const answers = results as unknown as Record<string, string>
 
 						let formattedInputs = ''
 						if ( answers.inputs && answers.inputs.trim() !== '' ) {
@@ -135,11 +135,11 @@ export class GitHubWorkflow extends GHSuper {
 						const result = await execChild( 'echo $(gh run list --limit 1 --json databaseId,url --jq \'.[0].url\')' )
 
 						if ( result.stdout && result.stdout.trim() !== '' )
-							p.log.info( `GitHub action url: ` + this.style.p( result.stdout ) )
+							p.log.info( `GitHub action url: ` + this.utils.style.p( result.stdout ) )
 
 						p.log.success( repoURL
-							? this.style.success.msg( `See action progress:`, this.style.a( joinUrl( repoURL, 'actions' ) ) )
-							:  this.style.success.msg( 'Succesfully finished 🌈' ),
+							? this.utils.style.success.msg( `See action progress:`, this.utils.style.a( joinUrl( repoURL, 'actions' ) ) )
+							:  this.utils.style.success.msg( 'Succesfully finished 🌈' ),
 						)
 
 					}
@@ -153,7 +153,7 @@ export class GitHubWorkflow extends GHSuper {
 									? JSON.stringify( e )
 									: `${e}`
 
-						p.log.error( this.style.error.msg( 'Workflow error\n', msg ) )
+						p.log.error( this.utils.style.error.msg( 'Workflow error\n', msg ) )
 
 					}
 

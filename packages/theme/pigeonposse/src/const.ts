@@ -8,14 +8,7 @@ import {
 	socialBadges,
 } from './utils'
 
-import type { pkgSchema } from './schema'
-import type {
-	DeepPartial,
-	PackageJSON,
-	ValidateInfer,
-} from '@dovenv/core/utils'
-
-type PKG_SCHEMA = ValidateInfer<typeof pkgSchema>
+import type { PackageJSON } from '@dovenv/core/utils'
 
 export type ConstsConfig = {
 	/**
@@ -53,7 +46,7 @@ export type ConstsConfig = {
 
 export const getPigeonposseData = ( params: ConstsConfig = {} ): Record<string, unknown> => {
 
-	const pkg = params.pkg as ( PackageJSON & DeepPartial<PKG_SCHEMA> )
+	const pkg = params.pkg as ( PackageJSON )
 
 	if ( !pkg || typeof pkg !== 'object' ) return {}
 

@@ -4,32 +4,28 @@
 
 ### Templates
 
-#### Extends
-
-- `PluginCore`\<[`Config`](#config)\>
-
 #### Constructors
 
 ##### new Templates()
 
 ```ts
-new Templates(opts?: Config, config?: Config): Templates
+new Templates(__namedParameters: {
+  opts: Config;
+  utils: CommandSuper;
+ }): Templates
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | [`Config`](#config) |
-| `config`? | `Config` |
+| `__namedParameters` | `object` |
+| `__namedParameters.opts`? | [`Config`](#config) |
+| `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
 
 [`Templates`](#templates)
-
-###### Inherited from
-
-`PluginCore<Config>.constructor`
 
 #### Methods
 
@@ -55,10 +51,26 @@ Perfect method to be used outside an `Dovenv` environment.
 
 A promise that resolves to the processed content as a string.
 
+##### list()
+
+```ts
+list(pattern?: string[]): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `pattern`? | `string`[] |
+
+###### Returns
+
+`Promise`\<`void`\>
+
 ##### run()
 
 ```ts
-run(pattern?: string[]): Promise<unknown>
+run(pattern?: string[]): Promise<undefined | Record<string, string>>
 ```
 
 Process templates from the configuration object.
@@ -71,25 +83,22 @@ Process templates from the configuration object.
 
 ###### Returns
 
-`Promise`\<`unknown`\>
+`Promise`\<`undefined` \| `Record`\<`string`, `string`\>\>
 
 A promise that resolves to an object containing the content of each processed template.
 
 #### Properties
 
-| Property | Type | Default value | Description | Overrides | Inherited from |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| `config` | `undefined` \| `Config` | `undefined` | The dovenv configuration. | - | `PluginCore.config` |
-| `helpURL` | `string` | `homepage` | Help url for your application | `PluginCore.helpURL` | - |
-| `opts` | `undefined` \| [`Config`](#config) | `undefined` | Configuration options. | - | `PluginCore.opts` |
-| `title` | `string` | `'templates'` | - | `PluginCore.title` | - |
+| Property | Type |
+| ------ | ------ |
+| `opts` | `undefined` \| [`Config`](#config) |
 
 ## Functions
 
 ### templatesPlugin()
 
 ```ts
-function templatesPlugin(conf?: Config): Config
+function templatesPlugin(params?: Config): Config
 ```
 
 A plugin for dovenv to create templates.
@@ -98,7 +107,7 @@ A plugin for dovenv to create templates.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `conf`? | [`Config`](#config) | Optional configuration for the plugin. |
+| `params`? | [`Config`](#config) | Optional configuration for the plugin. |
 
 #### Returns
 

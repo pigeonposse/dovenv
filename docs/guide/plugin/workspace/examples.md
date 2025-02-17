@@ -30,7 +30,7 @@ export default defineConfig(
 		workspaceDir : workspaceDir,
 	} },
 	workspacePlugin( {
-		exec : { binarium: { desc: 'Tool to create executables of your Node, Deno or Bun projects' } },
+		// exec : { binarium: { desc: 'Tool to create executables of your Node, Deno or Bun projects' } },
 		info : {
 			usefulCmds : [
 				{

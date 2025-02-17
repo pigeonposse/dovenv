@@ -8,6 +8,9 @@ import {
 	zerialize,
 } from 'zodex'
 
+import { Any } from '../main'
+
+import type { toZod }   from 'tozod'
 import type { ZodType } from 'zod'
 
 /**
@@ -15,18 +18,43 @@ import type { ZodType } from 'zod'
  * TYPES
  * ****************************************************************************
  */
+/** Validate type (zod type wrappper) */
 export type Validate = typeof z
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ValidateAnyType = ZodType<any, any, any>
 export type ValidateErrorType = ZodError
 export type ValidateInfer<O extends ValidateAnyType> = z.infer<O>
 export type ValidateType<T> = ZodType<T>
+export type ToObjectValidate<T extends object> = toZod<T>
+export type ToValidate<T> = z.ZodType<T, Any, Any>
 
 /**
- * ****************************************************************************
- * FUNCTIONS
- * ****************************************************************************
+ * Creates a validation schema function for a given TypeScript type.
+ * @template Type - The expected TypeScript type for the validation schema.
+ * @param {(v: Validate) => ValidateType<Type>} schemaFn - A function that defines the validation schema.
+ * @returns {(v: Validate) => ValidateType<Type>} - A function that returns the validation schema.
+ * @example
+ * import {validate} from '@dovenv/utils' // validate = Zod  wrapper
+ * type User = { name: string}
+ * const schemaFn = createValidateSchemaFn<User>((v) => v.object({ name: v.string().min(3) }));
+ * const userSchema = schemaFn(validate);
  */
+export const createValidateSchemaFn = <Type>(
+	schemaFn: ( v: Validate ) => ValidateType<Type>,
+): ( v: Validate ) => ValidateType<Type> => schemaFn
+
+/**
+ * Creates and immediately returns a validation schema for a given TypeScript type.
+ * @template Type - The expected TypeScript type for the validation schema.
+ * @param {(v: Validate) => ValidateType<Type>} schemaFn - A function that defines the validation schema.
+ * @returns {ValidateType<Type>} - The resulting validation schema.
+ * @example
+ * type User = { name: string}
+ * const userSchema = createValidateSchema<User>((v) => v.object({ name: v.string().min(3) }));
+ */
+export const createValidateSchema = <Type>(
+	schemaFn: ( v: Validate ) => ValidateType<Type>,
+): ValidateType<Type> => schemaFn( validate )
 
 /**
  * Converts a validation error into a pretty string.

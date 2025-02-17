@@ -1,12 +1,13 @@
-import { PluginCore } from '@dovenv/core'
+
 import {
-	process,
 	getStringType,
 	joinPath,
 	writeFileContent,
 	removeFileIfExist,
 	ensureDir,
 } from '@dovenv/core/utils'
+
+import { Core } from './core'
 
 export type CodeImageConfigValue = {
 	/** The input path, URL or Code string to generate the image from */
@@ -24,9 +25,7 @@ export type CodeImageConfigValue = {
 
 export type CodeImageConfig =  { [key: string]: CodeImageConfigValue }
 
-export class CodeImage extends PluginCore<CodeImageConfig> {
-
-	title = 'codeimage'
+export class CodeImage extends Core<CodeImageConfig> {
 
 	async exec( opts: CodeImageConfigValue ) {
 
@@ -35,7 +34,7 @@ export class CodeImage extends PluginCore<CodeImageConfig> {
 		try {
 
 			const {
-				output = process.cwd(),
+				output = this.utils.process.cwd(),
 				filename,
 				flags = [],
 			} = opts
@@ -53,7 +52,7 @@ export class CodeImage extends PluginCore<CodeImageConfig> {
 
 			}
 
-			await this.execPkgBin( 'carbon-now-cli', [
+			await this.utils.execPkgBin( 'carbon-now-cli', [
 				input,
 				`--save-to ${output}`,
 				...( filename ? [ `--save-as ${filename}` ] : [] ),
@@ -74,25 +73,13 @@ export class CodeImage extends PluginCore<CodeImageConfig> {
 
 	}
 
-	async #fn( pattern?: string[] ) {
-
-		if ( !( await this.ensureOpts() ) || !this.opts ) return
-
-		const keys = this.getKeys( { pattern } )
-		if ( !keys ) return
-
-		for ( const key of keys ) {
-
-			console.log( this.style.info.h( `${this.style.badge( key )} ${this.title}`  ) )
-			await this.exec( this.opts[key] )
-
-		}
-
-	}
-
 	async run( pattern?: string[] ) {
 
-		return await this.catchFn( this.#fn( pattern ) )
+		return await this.execFn( {
+			pattern,
+			desc : 'Code Image Generation',
+			fn   : d => this.exec( d ),
+		} )
 
 	}
 

@@ -1,4 +1,3 @@
-
 export type Config = {
 	/**
 	 * Name of the repository

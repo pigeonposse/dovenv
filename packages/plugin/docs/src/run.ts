@@ -1,4 +1,3 @@
-
 import {
 	replaceStd,
 	process,
@@ -59,6 +58,7 @@ export class Docs {
 			this.outputReplaced.start()
 
 			const configInstance = new Config( this.config, this.opts?.configPath  )
+
 			await configInstance.setGlobals()
 
 			const path    = VITEPRESS_DIR

@@ -32,7 +32,7 @@ export class Checks extends Super {
 
 		if ( this.pkgs ) return this.pkgs
 
-		const pkgPaths = await this.getPkgPaths()
+		const pkgPaths = await this.utils.getPkgPaths()
 
 		this.pkgs = []
 
@@ -64,7 +64,7 @@ export class Checks extends Super {
 				v       : validate,
 				path    : pkg.path,
 				content : pkg.content,
-				config  : this.config || {},
+				utils   : this.utils,
 			} )
 
 			if ( !schema ) continue
@@ -80,20 +80,20 @@ export class Checks extends Super {
 					noUnknownObject : true,
 				} ) )
 
-				const errortitle = `Error in ${this.style.b( pkg.id )} package.json\n\n`
-				const errorMsg   = this.style.error.ul( [
+				const errortitle = `Error in ${this.utils.style.b( pkg.id )} package.json\n\n`
+				const errorMsg   = this.utils.style.error.ul( [
 					[ `Path`, pkg.path ],
 					[ `Schema must be`, content ],
 					[ errorMessage, '' ],
 				] )
 
-				throw new Error( errortitle + this.style.indent( errorMsg ) )
+				throw new Error( errortitle + this.utils.style.indent( errorMsg ) )
 
 			}
 
 		}
 
-		console.log( this.style.success.h( 'Schema check passed' ) )
+		console.log( this.utils.style.success.h( 'Schema check passed' ) )
 
 	}
 
@@ -113,7 +113,7 @@ export class Checks extends Super {
 					dir     : dir,
 					path    : pkg.path,
 					content : pkg.content,
-					config  : this.config || {},
+					utils   : this.utils,
 				}
 
 				if ( type?.custom ) await type.custom( cbData )
@@ -134,18 +134,18 @@ export class Checks extends Super {
 					const paths = await getPaths( [ pattern ],  patternOpts )
 
 					let errorMsg = `Error in [${pkg.id}] file structure.\n\n`
-					errorMsg    += this.style.error.lk( `Pattern: ${getDirName( joinPath( dir, pattern ) )}\n` )
+					errorMsg    += this.utils.style.error.lk( `Pattern: ${getDirName( joinPath( dir, pattern ) )}\n` )
 
 					if ( exists && !paths.length ) {
 
-						errorMsg += this.style.error.lk( `Validation error: Must exists Pattern: ${pattern}` )
+						errorMsg += this.utils.style.error.lk( `Validation error: Must exists Pattern: ${pattern}` )
 
 						throw new Error( errorMsg )
 
 					}
 					else if ( !exists && paths.length ) {
 
-						errorMsg += this.style.error.lk( `Validation error: Must not exists Pattern: ${pattern}` )
+						errorMsg += this.utils.style.error.lk( `Validation error: Must not exists Pattern: ${pattern}` )
 
 						throw new Error( errorMsg )
 
@@ -162,12 +162,12 @@ export class Checks extends Super {
 							patternOpts : { onlyFiles: true },
 						} )
 						let errorMsg        = `Error in [${pkg.id}] file structure.\n\n`
-						errorMsg           += this.style.error.lk( `Path: ${pkg.path}.\n` )
-						errorMsg           += this.style.error.lk( `Valid structure:\n${this.style.box( {
+						errorMsg           += this.utils.style.error.lk( `Path: ${pkg.path}.\n` )
+						errorMsg           += this.utils.style.error.lk( `Valid structure:\n${this.utils.style.box( {
 							title : pkg.id,
 							data  : structurePath,
 						} )}\n` )
-						errorMsg           += this.style.error.lk( `Validation error: Must ${exists ? 'exists' : 'not exists'} path: ${path}` )
+						errorMsg           += this.utils.style.error.lk( `Validation error: Must ${exists ? 'exists' : 'not exists'} path: ${path}` )
 
 						throw new Error( errorMsg )
 
@@ -182,7 +182,7 @@ export class Checks extends Super {
 		if ( type?.include ) await set( type.include, true )
 		if ( type?.exclude ) await set( type.exclude, false )
 
-		console.log( this.style.success.h( 'Structure check passed' ) )
+		console.log( this.utils.style.success.h( 'Structure check passed' ) )
 
 	}
 

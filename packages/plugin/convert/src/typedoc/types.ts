@@ -9,7 +9,7 @@ type PluginOpts = Partial<PluginOptions>
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type EmptyObject = {}
 
-export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyObject> = Prettify< ConvertPropsSuper & {
+export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyObject> = Prettify<ConvertPropsSuper & {
 	/**
 	 * Options
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/convert
@@ -56,7 +56,7 @@ export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyOb
 
 export type Typescript2HtmlProps = TypescriptSharedProps
 
-export type Typescript2MarkdownProps = TypescriptSharedProps< {
+export type Typescript2MarkdownProps = TypescriptSharedProps<{
 	/**
 	 * Typedoc markdown options
 	 * @see @see https://typedoc-plugin-markdown.org/docs/options

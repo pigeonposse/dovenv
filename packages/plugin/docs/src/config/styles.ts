@@ -3,7 +3,7 @@ import {
 	existsPath,
 	joinPath,
 	chroma,
-	getPalette,
+	getMediaPalette,
 } from '@dovenv/core/utils'
 
 import type {
@@ -59,13 +59,13 @@ export const getStylesConfig = async ( config: DocsConfig, input: string, logoPa
 
 	if ( existLogo && !config.styles.color.primary ) {
 
-		const palette = await getPalette( logo )
+		const palette = await getMediaPalette( logo )
 
 		colors = {
-			primary   : palette?.Vibrant?.hex as string,
-			secondary : palette?.LightVibrant?.hex as string,
-			terciary  : palette?.DarkVibrant?.hex as string,
-			fourth    : palette?.Muted?.hex as string,
+			primary   : palette[0],
+			secondary : palette[1],
+			terciary  : palette[3],
+			fourth    : palette[4],
 		}
 
 	}

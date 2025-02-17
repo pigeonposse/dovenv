@@ -32,15 +32,15 @@ export class Husky extends GitSuper {
 
 	async run( ) {
 
-		const path = this.opts?.husky?.path ?? joinPath( this.wsDir, '.dovenv/husky' )
+		const path = this.opts?.husky?.path ?? joinPath( this.utils.wsDir, '.dovenv/husky' )
 
 		const [ error, res ] = await catchError( ( async () => this.#fn( path ) )() )
 
-		if ( error ) return console.log( this.style.error.msg( error.message ) )
+		if ( error ) return console.log( this.utils.style.error.msg( error.message ) )
 
-		if ( res ) console.log( this.style.success.msg( `Husky exists in:`, path ) )
-		else console.log( this.style.success.msg( `Husky folder is now in`, path ) )
-		console.log( this.style.success.p( `\nAdd now you Git hooks!\nMore info: ${this.style.a( 'https://typicode.github.io/husky' )}` ) )
+		if ( res ) console.log( this.utils.style.success.msg( `Husky exists in:`, path ) )
+		else console.log( this.utils.style.success.msg( `Husky folder is now in`, path ) )
+		console.log( this.utils.style.success.p( `\nAdd now you Git hooks!\nMore info: ${this.utils.style.a( 'https://typicode.github.io/husky' )}` ) )
 
 	}
 

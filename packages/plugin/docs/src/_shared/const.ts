@@ -1,8 +1,11 @@
+import { CommandUtils } from '@dovenv/core'
+
 import {
 	name,
 	version,
 	dependencies,
 	description,
+	homepage,
 } from '../../package.json'
 
 import type {
@@ -13,6 +16,7 @@ import type {
 export const vitepressVersion = dependencies.vitepress
 export const globals = {
 	DOVENV_CONFIG_PATH      : 'DOVENV_CONFIG_PATH',
+	DOVENV_UTILS            : 'DOVENV_UTILS',
 	DOVENV_DOCS_CONFIG_PATH : 'DOVENV_DOCS_CONFIG_PATH',
 	DOVENV_DOCS_CONFIG      : 'DOVENV_DOCS_CONFIG',
 	DOVENV_DOCS_DATA        : 'DOVENV_DOCS_DATA',
@@ -21,6 +25,7 @@ export const globals = {
 
 export type Global = typeof globals[keyof typeof globals]
 export type Globals = {
+	[globals.DOVENV_UTILS]            : CommandUtils
 	[globals.DOVENV_CONFIG_PATH]      : string | undefined
 	[globals.DOVENV_DOCS_CONFIG_PATH] : string | undefined
 	[globals.DOVENV_DOCS_CONFIG]      : RequiredDocsConfig | undefined
@@ -50,4 +55,5 @@ export {
 	name,
 	version,
 	description,
+	homepage,
 }

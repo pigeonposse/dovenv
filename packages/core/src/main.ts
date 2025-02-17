@@ -5,15 +5,16 @@ import {
 
 import { Dovenv } from './cli'
 
+import type { CommandUtils } from './custom/types'
 import type {
 	Config,
 	Params,
 } from './types'
 
-export * from './plugin/main'
 export type {
 	Config,
 	Params,
+	CommandUtils,
 }
 export { Dovenv }
 

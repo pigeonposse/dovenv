@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import type { PluginCore }          from '@dovenv/core'
+import type { CommandUtils }        from '@dovenv/core'
 import type { replacePlaceholders } from '@dovenv/core/utils'
 
 type ReplaceOpts = Parameters<typeof replacePlaceholders>[0]
@@ -13,7 +13,7 @@ type Data = {
 	/** Template output */
 	output  : string | undefined
 	/** Dovenv configurtion */
-	config  : PluginCore['config']
+	utils   : CommandUtils
 }
 type Opts = ReplaceOpts['opts'] & {
 	/**

@@ -4,7 +4,7 @@ export const config = {
 	sourcemap   : false,
 	declaration : true,
 	rollup      : { esbuild : {
-		minify : false,
+		minify : true,
 		target : 'node20',
 	} },
 	failOnWarn : true,

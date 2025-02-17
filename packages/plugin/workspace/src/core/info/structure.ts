@@ -11,7 +11,7 @@ export class Structure extends Super implements InfoInterface {
 
 		if ( !this.opts?.info?.structure ) return
 
-		return this.style.box( {
+		return this.utils.style.box( {
 			data   : setDirTree( { structure: this.opts.info.structure } ),
 			border : false,
 		} )
@@ -25,7 +25,7 @@ export class Structure extends Super implements InfoInterface {
 		const struct = await this.get()
 
 		if ( struct ) console.log( struct )
-		else console.warn( this.style.warn.msg( 'No structure found' ) )
+		else console.warn( this.utils.style.warn.msg( 'No structure found' ) )
 
 	}
 

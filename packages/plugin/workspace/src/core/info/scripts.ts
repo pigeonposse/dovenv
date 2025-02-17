@@ -13,7 +13,7 @@ export class Scripts extends Super implements InfoInterface {
 
 	async get( key?: string[] ) {
 
-		let paths = await this.getPkgPaths(),
+		let paths = await this.utils.getPkgPaths(),
 			res   = ''
 
 		if ( key && key?.length !== 0  ) paths = getMatch( paths, key )
@@ -34,30 +34,30 @@ export class Scripts extends Super implements InfoInterface {
 
 				for ( const key in data.scripts ) {
 
-					scripts.push( [ this.style.section.lk(  key  ), this.style.section.lv( data.scripts[key]  || '' ) ] )
+					scripts.push( [ this.utils.style.section.lk(  key  ), this.utils.style.section.lv( data.scripts[key]  || '' ) ] )
 
 				}
 
 			}
 			const tableContent = [
-				[ 'Path', this.style.section.lv( relativePath( this.process.cwd(), path ) ) ],
+				[ 'Path', this.utils.style.section.lv( relativePath( this.utils.process.cwd(), path ) ) ],
 				...( scripts.length
 					? [ [ '', '' ], ...scripts ]
 					: [] ),
 			]
 
-			const content = this.style.table( tableContent, { singleLine: true } )
+			const content = this.utils.style.table( tableContent, { singleLine: true } )
 
-			res += this.style.box(  {
+			res += this.utils.style.box(  {
 				data   : content,
-				title  : this.style.section.msg( data.name || '' ),
+				title  : this.utils.style.section.msg( data.name || '' ),
 				border : false,
 			} )
 
 			if ( lastIndex !== index ) res += '\n\n'
 
 		}
-		return this.style.box(  {
+		return this.utils.style.box(  {
 			data   : res,
 			border : false,
 		} )
@@ -73,8 +73,8 @@ export class Scripts extends Super implements InfoInterface {
 		if ( paths ) console.log( paths )
 		else {
 
-			if ( key && key?.length !== 0 ) console.warn( this.style.warn.msg( 'No packages found in workspace with patterns:', key?.join( ', ' ) ) )
-			else console.warn( this.style.warn.msg( 'No packages found in workspace.' ) )
+			if ( key && key?.length !== 0 ) console.warn( this.utils.style.warn.msg( 'No packages found in workspace with patterns:', key?.join( ', ' ) ) )
+			else console.warn( this.utils.style.warn.msg( 'No packages found in workspace.' ) )
 
 		}
 
