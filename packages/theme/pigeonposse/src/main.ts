@@ -68,7 +68,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 	} = params || {}
 
 	const config = mergeBandaConfig( {
-		lint      : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'dovenv lint eslint --fix --silent' } },
+		lint      : { staged: params?.lint?.staged || { '**/*.{js,ts,jsx,tsx,json}': 'dovenv lint eslint --fix --silent' } },
 		workspace : {
 			info : {
 				usefulCmds : [

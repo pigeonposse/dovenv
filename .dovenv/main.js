@@ -3,8 +3,5 @@ import { defineConfig }             from '../packages/core/dist/main.mjs'
 import { pigeonposseMonorepoTheme } from '../packages/theme/pigeonposse/dist/main.mjs'
 
 export default defineConfig(
-	pigeonposseMonorepoTheme( {
-		core,
-		lint : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'pnpm --silent . lint eslint --fix --silent' } },
-	} ),
+	pigeonposseMonorepoTheme( { core } ),
 )

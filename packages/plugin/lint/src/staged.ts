@@ -16,7 +16,8 @@ export class StagedLint extends LintSuper<LintStagedConfig> {
 		if ( !( await this.utils.ensureOpts( { input: this.opts } ) ) ) return
 
 		console.debug( { lintStagedConf: this.opts } )
-		await lintStaged( { config: this.opts } )
+		const res = await lintStaged( { config: this.opts } )
+		if ( !res ) throw Error( 'Unsuccessful response 😢' )
 
 	}
 
