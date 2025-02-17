@@ -1,5 +1,6 @@
-import { config }            from '../../config/repo-config/build.config'
 import { defineBuildConfig } from 'unbuild'
+
+import { config } from '../../config/repo-config/build.config'
 
 export default defineBuildConfig( [
 	{

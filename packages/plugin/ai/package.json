@@ -4,12 +4,12 @@
 	"description": "AI plugin for dovenv",
 	"keywords": [
 		"ai",
-		"llm",
-		"chat",
 		"assistant",
+		"chat",
+		"dovenv",
+		"llm",
 		"pigeonposse",
-		"pp",
-		"dovenv"
+		"pp"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/ai",
 	"bugs": {

@@ -6,7 +6,7 @@ import { responseSchema }  from '../_shared/schema'
 export const schema = createValidateSchemaFn<TransformConfig>( v => v.record(
 	v.string(),
 	v.object( {
-		desc: v.string().optional(),
+		desc  : v.string().optional(),
 		input : v.array( v.string() ).nonempty(),
 		fn    : v.function()
 			.args( v.object( {

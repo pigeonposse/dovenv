@@ -3,16 +3,15 @@
 	"version": "0.0.1",
 	"description": "Add your description here",
 	"keywords": [
+		"dovenv",
 		"pigeonposse",
-		"pp",
-		"dovenv"
+		"pp"
 	],
+	"devDependencies": {
+		"@{{prompt.name}}/_config": "workspace:*"
+	},
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
-	},
-	"devDependencies": {
-		"@{{prompt.name}}/_config": "workspace:*"
 	}
-
 }

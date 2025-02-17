@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-param-names */
 import {
 	capitalize,
 	joinPath,

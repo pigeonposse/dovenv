@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 /* eslint-disable jsdoc/require-param-type */
 /* eslint-disable jsdoc/require-param-description */
 /* eslint-disable jsdoc/require-returns */
@@ -510,9 +510,7 @@ const outputParameters = (
 	let output = ''
 	if ( p['query'] ) {
 
-		output
-      += '#### Parameters(Query)\n\n'
-      + outputParamSchemas( apiDocument, p['query'] )
+		output += '#### Parameters(Query)\n\n' + outputParamSchemas( apiDocument, p['query'] )
 
 	}
 	if ( p['body'] ) {

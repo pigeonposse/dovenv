@@ -49,6 +49,6 @@ export type PathsStructureParams = SharedStructure & {
 	patternOpts? : Parameters<typeof getPaths>[1]
 }
 
-export type PathTreeOpts = Prettify< Omit<SetDirTree, 'structure'> & DirStructureParams >
-export type PatternTreeOpts = Prettify< Omit<SetDirTree, 'structure'> & PathsStructureParams >
+export type PathTreeOpts = Prettify<Omit<SetDirTree, 'structure'> & DirStructureParams>
+export type PatternTreeOpts = Prettify<Omit<SetDirTree, 'structure'> & PathsStructureParams>
 

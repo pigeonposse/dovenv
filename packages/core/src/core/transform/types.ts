@@ -7,7 +7,7 @@ import { Command } from '../_shared/main'
 export type TransformConfig = {
 	[key in string]: {
 		/** Description */
-		desc?: string
+		desc? : string
 		/** Array of input patterns */
 		input : string[]
 		/**

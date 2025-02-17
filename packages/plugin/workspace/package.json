@@ -3,16 +3,16 @@
 	"version": "1.4.0",
 	"description": "A dovenv plugin with utilities for the workspace",
 	"keywords": [
-		"theme",
-		"cli",
-		"library",
 		"aio",
-		"workspace",
-		"utils",
+		"cli",
 		"dev",
+		"dovenv",
+		"library",
 		"pigeonposse",
 		"pp",
-		"dovenv"
+		"theme",
+		"utils",
+		"workspace"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/workspace",
 	"bugs": {

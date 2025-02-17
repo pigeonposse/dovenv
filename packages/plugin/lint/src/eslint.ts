@@ -49,8 +49,7 @@ export class Eslint extends LintSuper<EslintConfig> {
 				stdout : error.stdout as string,
 				stderr : error.stderr as string,
 			} )
-			else
-				console.error( 'Unexpected error running eslint', error?.message || error )
+			else console.error( 'Unexpected error running eslint', error?.message || error )
 			this.utils.exitWithError()
 
 		}

@@ -3,19 +3,19 @@
 	"version": "1.4.0",
 	"description": "Repository tools for any runtime",
 	"keywords": [
-		"repo",
-		"cli",
-		"git",
-		"update",
+		"aio",
 		"changelog",
+		"cli",
 		"contributors",
-		"publish",
+		"dovenv",
+		"git",
 		"github",
 		"library",
-		"aio",
 		"pigeonposse",
 		"pp",
-		"dovenv"
+		"publish",
+		"repo",
+		"update"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/repo",
 	"bugs": {

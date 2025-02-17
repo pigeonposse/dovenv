@@ -3,13 +3,13 @@
 	"version": "1.4.0",
 	"description": "All in One dovenv tools for large and complete repositories",
 	"keywords": [
-		"theme",
-		"cli",
-		"library",
 		"aio",
+		"cli",
+		"dovenv",
+		"library",
 		"pigeonposse",
 		"pp",
-		"dovenv"
+		"theme"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/theme/banda",
 	"bugs": {

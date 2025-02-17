@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 /**
  * @see https://www.npmjs.com/package/browser-or-node
  */
@@ -21,13 +21,8 @@ const isJsDom: boolean = ( typeof window !== 'undefined' && window.name === 'nod
 		&& ( navigator.userAgent.includes( 'Node.js' )
 			|| navigator.userAgent.includes( 'jsdom' ) ) )
 
-const isDeno: boolean
-  // @ts-expect-error
-  = typeof Deno !== 'undefined'
-  // @ts-expect-error
-  && typeof Deno.version !== 'undefined'
-  // @ts-expect-error
-  && typeof Deno.version.deno !== 'undefined'
+// @ts-ignore
+const isDeno: boolean = typeof Deno !== 'undefined' && typeof Deno.version !== 'undefined' && typeof Deno.version.deno !== 'undefined'
 
 const isBun = typeof process !== 'undefined' && process.versions != null && process.versions.bun != null
 

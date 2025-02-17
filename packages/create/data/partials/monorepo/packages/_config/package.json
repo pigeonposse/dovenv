@@ -4,12 +4,12 @@
 	"private": true,
 	"description": "Add your description here",
 	"keywords": [
+		"dovenv",
 		"pigeonposse",
-		"pp",
-		"dovenv"
+		"pp"
 	],
 	"files": [
-		"dist",
-		"data"
+		"data",
+		"dist"
 	]
 }

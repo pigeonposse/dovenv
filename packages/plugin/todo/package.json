@@ -3,13 +3,13 @@
 	"version": "1.4.0",
 	"description": "TODO tools for dovenv",
 	"keywords": [
-		"todo",
-		"cli",
-		"library",
 		"aio",
+		"cli",
+		"dovenv",
+		"library",
 		"pigeonposse",
 		"pp",
-		"dovenv"
+		"todo"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/todo",
 	"bugs": {

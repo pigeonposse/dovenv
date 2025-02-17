@@ -8,6 +8,8 @@ const ignore = dovenv.setIgnoreConfig( [
 	'**/examples/**/partials/*',
 	'**/.dovenv/**/partials/*',
 	'**/.dovenv/**/templates/*',
+	'**/packages/create/data/**',
+	'**/packages/config/**/tests/**',
 ] )
 
 export default [

@@ -3,13 +3,13 @@
 	"version": "1.4.0",
 	"description": "Media configuration for dovenv",
 	"keywords": [
-		"media",
-		"cli",
-		"library",
 		"aio",
+		"cli",
+		"dovenv",
+		"library",
+		"media",
 		"pigeonposse",
-		"pp",
-		"dovenv"
+		"pp"
 	],
 	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/media",
 	"bugs": {
