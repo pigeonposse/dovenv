@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.4.2
+
+### Patch Changes
+
+- try catch get palette fn
+
 ## 1.4.1
 
 ### Patch Changes

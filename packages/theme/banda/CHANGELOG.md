@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.4.2
+
+### Patch Changes
+
+- try catch get palette fn
+
+- Updated dependencies []:
+  - @dovenv/docs@1.4.2
+  - @dovenv/core@1.4.2
+  - @dovenv/convert@1.4.2
+  - @dovenv/examples@1.4.2
+  - @dovenv/lint@1.4.2
+  - @dovenv/repo@1.4.2
+  - @dovenv/templates@1.4.2
+  - @dovenv/todo@1.4.2
+  - @dovenv/workspace@1.4.2
+
 ## 1.4.1
 
 ### Patch Changes

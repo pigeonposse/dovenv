@@ -56,16 +56,31 @@ export const getStylesConfig = async ( config: DocsConfig, input: string, logoPa
 	if ( !config.styles.color ) config.styles.color = {}
 
 	let colors: DynamicColors
-
+	const defColors = {
+		primary   : stylesDefault.color.primary,
+		secondary : stylesDefault.color.secondary,
+		terciary  : stylesDefault.color.terciary,
+		fourth    : stylesDefault.color.fourth,
+	}
 	if ( existLogo && !config.styles.color.primary ) {
 
-		const palette = await getMediaPalette( logo )
+		try {
 
-		colors = {
-			primary   : palette[0],
-			secondary : palette[1],
-			terciary  : palette[3],
-			fourth    : palette[4],
+			const palette = await getMediaPalette( logo )
+
+			colors = {
+				primary   : palette[0],
+				secondary : palette[1],
+				terciary  : palette[3],
+				fourth    : palette[4],
+			}
+
+		}
+		catch ( e ) {
+
+			console.warn( e instanceof Error ? e.message : e )
+			colors = defColors
+
 		}
 
 	}
@@ -81,12 +96,7 @@ export const getStylesConfig = async ( config: DocsConfig, input: string, logoPa
 		}
 
 	}
-	else colors = {
-		primary   : stylesDefault.color.primary,
-		secondary : stylesDefault.color.secondary,
-		terciary  : stylesDefault.color.terciary,
-		fourth    : stylesDefault.color.fourth,
-	}
+	else colors = defColors
 
 	const themeColors: Colors = {
 		...colors,

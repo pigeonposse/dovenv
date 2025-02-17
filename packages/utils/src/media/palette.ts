@@ -12,56 +12,65 @@ import { MediaInput }    from './types'
  */
 export const getMediaPalette = async ( input: MediaInput, colorCount = 6 ): Promise<string[]> => {
 
-	const inputBuffer = await getMediaInput( input )
+	try {
 
-	return new Promise( ( resolve, reject ) => {
+		const inputBuffer = await getMediaInput( input )
 
-		const png = new PNG()
+		return new Promise( ( resolve, reject ) => {
 
-		const processImage = ( data: Buffer ) => {
+			const png = new PNG()
 
-			png.parse( data, ( err, image ) => {
+			const processImage = ( data: Buffer ) => {
 
-				if ( err ) return reject( err )
+				png.parse( data, ( err, image ) => {
 
-				const pixels: [number, number, number][] = []
+					if ( err ) return reject( err )
 
-				for ( let i = 0; i < image.data.length; i += 4 ) {
+					const pixels: [number, number, number][] = []
 
-					const r     = image.data[i]
-					const g     = image.data[i + 1]
-					const b     = image.data[i + 2]
-					const alpha = image.data[i + 3]
+					for ( let i = 0; i < image.data.length; i += 4 ) {
 
-					if ( alpha > 0 ) pixels.push( [
+						const r     = image.data[i]
+						const g     = image.data[i + 1]
+						const b     = image.data[i + 2]
+						const alpha = image.data[i + 3]
+
+						if ( alpha > 0 ) pixels.push( [
+							r,
+							g,
+							b,
+						] ) // Ignore transparent pixels
+
+					}
+
+					const colorMap = quantize( pixels, colorCount )
+					// @ts-ignore
+					const palette = colorMap.palette().map( ( [
+						// @ts-ignore
 						r,
+						// @ts-ignore
 						g,
+						// @ts-ignore
 						b,
-					] ) // Ignore transparent pixels
+					] ) =>
+						`#${( ( 1 << 24 ) | ( r << 16 ) | ( g << 8 ) | b ).toString( 16 ).slice( 1 )}`,
+					)
 
-				}
+					resolve( palette )
 
-				const colorMap = quantize( pixels, colorCount )
-				// @ts-ignore
-				const palette = colorMap.palette().map( ( [
-					// @ts-ignore
-					r,
-					// @ts-ignore
-					g,
-					// @ts-ignore
-					b,
-				] ) =>
-					`#${( ( 1 << 24 ) | ( r << 16 ) | ( g << 8 ) | b ).toString( 16 ).slice( 1 )}`,
-				)
+				} )
 
-				resolve( palette )
+			}
 
-			} )
+			processImage( inputBuffer )
 
-		}
+		} )
 
-		processImage( inputBuffer )
+	}
+	catch ( e ) {
 
-	} )
+		throw new Error( `Error getting media Palette: ${e instanceof Error ? e.message : e}` )
+
+	}
 
 }

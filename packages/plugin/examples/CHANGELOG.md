@@ -1,5 +1,14 @@
 # @dovenv/examples
 
+## 1.4.2
+
+### Patch Changes
+
+- try catch get palette fn
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.2
+
 ## 1.4.1
 
 ### Patch Changes
