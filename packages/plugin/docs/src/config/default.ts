@@ -50,6 +50,7 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 		siteName    : name,
 		description : desc,
 	},
+
 	rss : url
 		? {
 			title       : name || '',

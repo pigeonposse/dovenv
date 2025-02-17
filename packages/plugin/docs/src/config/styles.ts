@@ -4,6 +4,7 @@ import {
 	joinPath,
 	chroma,
 	getMediaPalette,
+	resolvePath,
 } from '@dovenv/core/utils'
 
 import type {
@@ -49,8 +50,11 @@ const stylesDefault = {
 export const getStylesConfig = async ( config: DocsConfig, input: string, logoPath: string ): Promise<DocsConfig> => {
 
 	const docsPublic = joinPath( input, 'public' )
-	const logo       = joinPath( docsPublic, logoPath )
-	const existLogo  = await existsPath( logo )
+	const logo       = resolvePath( docsPublic, logoPath )
+
+	console.debug( { logoPath: logo } )
+
+	const existLogo = await existsPath( logo )
 
 	if ( !config.styles ) config.styles = {}
 	if ( !config.styles.color ) config.styles.color = {}

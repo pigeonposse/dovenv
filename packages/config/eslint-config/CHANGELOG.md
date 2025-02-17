@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.4.3
+
+### Patch Changes
+
+- fix logo in docs
+
 ## 1.4.2
 
 ### Patch Changes

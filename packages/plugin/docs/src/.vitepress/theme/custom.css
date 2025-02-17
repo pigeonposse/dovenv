@@ -35,7 +35,7 @@ video,
   }
   
 .medium-zoom-image {
-z-index: 21;
+	z-index: 21;
 }
   
 
@@ -270,6 +270,10 @@ header .home .divider {
 .VPNav .content-body {
 	/* background: transparent !important; */
 	transition: none !important;
+}
+
+img.VPImage.image-src {
+    width: 100% !important;
 }
 
 :root {

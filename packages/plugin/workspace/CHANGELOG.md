@@ -1,5 +1,14 @@
 # @dovenv/workspace
 
+## 1.4.3
+
+### Patch Changes
+
+- fix logo in docs
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.3
+
 ## 1.4.2
 
 ### Patch Changes

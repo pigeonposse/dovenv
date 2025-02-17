@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.4.3
+
+### Patch Changes
+
+- fix logo in docs
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.4.3
+  - @dovenv/stylelint-config@1.4.3
+  - @dovenv/core@1.4.3
+
 ## 1.4.2
 
 ### Patch Changes

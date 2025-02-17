@@ -108,6 +108,11 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 	const shortDesc       = pkgData.extra.shortDesc
 	const contributingURL = pkgData.extra.contributingURL || pkgData.extra.contributingUrl
 
+	config.footer.copy = {
+		name : pkgData.extra.collective?.name || pkgData.extra.collective?.id,
+		url  : pkgData.extra.collective?.url,
+	}
+
 	if ( changlog ) config.changelogURL = changlog
 	if ( license ) config.license.url = license
 	if ( library ) config.npmURL = library

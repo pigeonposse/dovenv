@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.4.3
+
+### Patch Changes
+
+- fix logo in docs
+
+- Updated dependencies []:
+  - @dovenv/docs@1.4.3
+  - @dovenv/core@1.4.3
+  - @dovenv/convert@1.4.3
+  - @dovenv/examples@1.4.3
+  - @dovenv/lint@1.4.3
+  - @dovenv/repo@1.4.3
+  - @dovenv/templates@1.4.3
+  - @dovenv/todo@1.4.3
+  - @dovenv/workspace@1.4.3
+
 ## 1.4.2
 
 ### Patch Changes
