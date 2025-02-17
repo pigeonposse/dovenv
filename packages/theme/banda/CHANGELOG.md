@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.4.1
+
+### Patch Changes
+
+- fix stylelint deps
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.1
+  - @dovenv/convert@1.4.1
+  - @dovenv/docs@1.4.1
+  - @dovenv/examples@1.4.1
+  - @dovenv/lint@1.4.1
+  - @dovenv/repo@1.4.1
+  - @dovenv/templates@1.4.1
+  - @dovenv/todo@1.4.1
+  - @dovenv/workspace@1.4.1
+
 ## 1.4.0
 
 ### Minor Changes

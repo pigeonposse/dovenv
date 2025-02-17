@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.4.1
+
+### Patch Changes
+
+- fix stylelint deps
+
 ## 1.4.0
 
 ### Minor Changes

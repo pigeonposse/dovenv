@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.4.1
+
+### Patch Changes
+
+- fix stylelint deps
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.4.1
+  - @dovenv/eslint-config@1.4.1
+  - @dovenv/core@1.4.1
+
 ## 1.4.0
 
 ### Minor Changes

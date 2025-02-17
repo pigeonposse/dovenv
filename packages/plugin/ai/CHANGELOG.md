@@ -1,5 +1,14 @@
 # @dovenv/ai
 
+## 1.4.1
+
+### Patch Changes
+
+- fix stylelint deps
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.1
+
 ## 1.4.0
 
 ### Minor Changes

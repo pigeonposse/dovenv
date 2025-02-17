@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/stylelint-config",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"description": "Stylelint configuration for dovenv",
 	"keywords": [
 		"config",
@@ -56,8 +56,10 @@
 		"stylelint-config-standard": "37.0.0",
 		"stylelint-order": "6.0.4"
 	},
+	"devDependencies": {
+		"@dovenv/repo-config": "workspace:*"
+	},
 	"peerDependencies": {
-		"@dovenv/repo-config": "workspace:*",
 		"stylelint": ">=16.14.1"
 	},
 	"publishConfig": {
