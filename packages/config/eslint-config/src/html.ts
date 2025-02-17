@@ -5,7 +5,7 @@ import htmlPlugin from 'eslint-plugin-html'
 import type { Config } from './_types'
 
 export const generealConfig = ( rules?: Config['rules'] ): Config => ( {
-	...html.configs['flat/recommended'],
+	...html.configs['flat/recommended'] as Config,
 	rules : {
 		'@html-eslint/indent'               : [ 'error', 'tab' ],
 		'@html-eslint/sort-attrs'           : [ 'error' ],

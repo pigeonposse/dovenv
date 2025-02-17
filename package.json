@@ -92,7 +92,20 @@
 			"semver-regex@<3.1.3": ">=3.1.3",
 			"semver-regex@<3.1.4": ">=3.1.4",
 			"tough-cookie@<4.1.3": ">=4.1.3"
-		}
+		},
+		"onlyBuiltDependencies": [
+			"@homebridge/node-pty-prebuilt-multiarch",
+			"canvas",
+			"carbon-now-cli",
+			"cwebp-bin",
+			"electron",
+			"esbuild",
+			"gifsicle",
+			"jpegtran-bin",
+			"optipng-bin",
+			"pngquant-bin",
+			"protobufjs"
+		]
 	},
 	"extra": {
 		"id": "dovenv",
