@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.4.4
+
+### Patch Changes
+
+- PERFORMANCE IMPROVEMENT and add feats
+
+- Updated dependencies []:
+  - @dovenv/examples@1.4.4
+  - @dovenv/docs@1.4.4
+  - @dovenv/core@1.4.4
+  - @dovenv/convert@1.4.4
+  - @dovenv/lint@1.4.4
+  - @dovenv/repo@1.4.4
+  - @dovenv/templates@1.4.4
+  - @dovenv/todo@1.4.4
+  - @dovenv/workspace@1.4.4
+
 ## 1.4.3
 
 ### Patch Changes

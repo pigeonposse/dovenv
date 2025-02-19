@@ -1,45 +1,54 @@
+
 import {
 	replaceStd,
-	process,
 	deprecatedAlerts,
 } from '@dovenv/core/utils'
 
-import { VITEPRESS_DIR } from './.vitepress/config'
+import { DocsParams }    from './types'
+import { VITEPRESS_DIR } from '../.vitepress/config'
+import { homepage }      from '../_shared/const'
 import {
 	name,
 	version,
 	vitepressVersion,
-} from './_shared/const'
-import { Config } from './config/main'
+} from '../_shared/const'
+import { setConfigGlobals } from '../config/main'
 
-import type { DocsConfig } from './main'
+export class DocsCore {
 
-export type DocsParams = {
-	configPath? : string
-	debug?      : boolean
-	port?       : number
-}
+	protected utils : DocsParams['utils']
+	public opts     : DocsParams['opts']
 
-/**
- * Documentation class
- *
- * For `build`, `dev` and `preview` documentation pages
- */
-export class Docs {
+	constructor( {
+		utils,
+		opts,
+	}: DocsParams ) {
 
-	config : DocsConfig | undefined
-	opts   : DocsParams
-	outputReplaced
+		this.opts          = opts
+		this.utils         = utils
+		this.utils.title   = 'docs'
+		this.utils.helpURL = homepage
 
-	constructor( conf?: DocsConfig, opts?: DocsParams ) {
+		console.debug( { opts } )
 
-		this.config = conf || undefined
-		this.opts   = opts || {}
+	}
+
+	// Set globals for read in .vitepress/config
+	async #setGlobals() {
+
+		setConfigGlobals( {
+			configPath      : this.opts?.configPath,
+			packageJsonPath : this.opts?.packageJsonPath,
+		} )
+
+	}
+
+	async #runVipressCli( type: 'dev' | 'build' | 'preview',  flags?: string[] ) {
 
 		const depAlert = deprecatedAlerts()
 		depAlert.hide()
 
-		this.outputReplaced = replaceStd( {
+		const outputReplaced = replaceStd( {
 			params : {
 				vitepress                : name,
 				[`/.${name}`]            : `/.vitepress`,
@@ -47,43 +56,36 @@ export class Docs {
 			},
 			type : [ 'stderr', 'stdout' ],
 		} )
-		if ( !this.opts.debug ) console.debug = () => {}
-
-	}
-
-	async #runVipressCli( type: 'dev' | 'build' | 'preview',  flags?: string[] ) {
 
 		try {
 
-			this.outputReplaced.start()
+			outputReplaced.start()
 
-			const configInstance = new Config( this.config, this.opts?.configPath  )
-
-			await configInstance.setGlobals()
+			await this.#setGlobals()
 
 			const path    = VITEPRESS_DIR
 			const oldArgv = process.argv
 
-			process.argv = [
-				...process.argv.slice( 0, 2 ),
+			this.utils.process.argv = [
+				...this.utils.process.argv.slice( 0, 2 ),
 				type,
 				path,
 				...( flags ?? [] ),
 				...(  this.opts?.port ? [ `--port=${this.opts.port}` ] : [] ),
 			]
 
-			console.debug( 'docs cli argv:', process.argv )
+			console.debug( { 'docs-cli-argv': this.utils.process.argv } )
 			// @ts-ignore
 			await import( 'vitepress/dist/node/cli.js' )
-			process.argv = oldArgv
+			this.utils.process.argv = oldArgv
 
 		}
 		catch ( error ) {
 
 			//@ts-ignore
 			console.error( error.message )
-			this.outputReplaced.stop()
-			process.exit( 0 )
+			outputReplaced.stop()
+			this.utils.process.exit( 0 )
 
 		}
 
@@ -126,6 +128,31 @@ export class Docs {
 	async preview( flags?: string[] ) {
 
 		await this.#runVipressCli( 'preview', flags )
+
+	}
+
+	/**
+	 * Generate assets for PWA
+	 * @param {string[]} [flags] Flags to pass '@vite-pwa/assets-generator' cli
+	 * @see https://vite-pwa-org.netlify.app/assets-generator/cli.html
+	 */
+	async generatePWAassets( flags?: string[]  ) {
+
+		await this.utils.execPkgBin( '@vite-pwa/assets-generator', flags, { forceExec: true } )
+
+	}
+
+	async publishToCloudflare( opts: {
+		dir  : string
+		name : string
+	} ) {
+
+		await this.utils.execPkgBin( 'wrangler', [
+			'pages',
+			'deploy',
+			opts.dir,
+			`--project-name=${opts.name}`,
+		] )
 
 	}
 

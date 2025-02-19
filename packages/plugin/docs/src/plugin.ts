@@ -1,115 +1,47 @@
-
 import { defineConfig as defineDovenvConfig } from '@dovenv/core'
 
-import {
-	globals,
-	homepage,
-} from './_shared/const'
-import { Docs } from './run'
+import { globals }  from './_shared/const'
+import { DocsCore } from './core/main'
 
-import type { DocsConfig } from './main'
-import type { DocsParams } from './run'
-import type {
-	CommandUtils,
-	Config as DovenvConfig,
-} from '@dovenv/core'
+import type { DocsParams } from './core/types'
 
-export type DocsPluginConfig =  DocsConfig | ( ( utils: CommandUtils ) => Promise<DocsConfig> | DocsConfig )
-
-export class DocsPlugin {
-
-	#docs
-
-	constructor(
-		protected utils : CommandUtils,
-		public opts?: DocsConfig,
-		public docsOpts?:DocsParams,
-	) {
-
-		this.opts          = opts
-		this.utils.title   = 'docs'
-		this.utils.helpURL = homepage
-		this.#docs         = new Docs( opts, docsOpts )
-		// this.#docs.utils   = utils
-
-	}
-
-	async dev( flags?: string[] ) {
-
-		return await this.#docs.dev( flags )
-
-	}
-
-	async preview( flags?: string[] ) {
-
-		return await this.#docs.preview( flags )
-
-	}
-
-	async build( flags?: string[] ) {
-
-		return await this.#docs.build( flags )
-
-	}
-
-	/**
-	 * Generate assets for PWA
-	 * @param {string[]} [flags] Flags to pass '@vite-pwa/assets-generator' cli
-	 * @see https://vite-pwa-org.netlify.app/assets-generator/cli.html
-	 */
-	async generatePWAassets( flags?: string[]  ) {
-
-		await this.utils.execPkgBin( '@vite-pwa/assets-generator', flags, { forceExec: true } )
-
-	}
-
-	async publishToCloudflare( opts: {
-		dir  : string
-		name : string
-	} ) {
-
-		await this.utils.execPkgBin( 'wrangler', [
-			'pages',
-			'deploy',
-			opts.dir,
-			`--project-name=${opts.name}`,
-		] )
-
-	}
-
-}
+const opts = {
+	'port' : {
+		type : 'number',
+		desc : 'Port to listen on',
+	},
+	'config-path' : {
+		type : 'string',
+		desc : 'Docs config path',
+	},
+	'pkg-path' : {
+		type : 'string',
+		desc : 'Custom packageJSON path',
+	},
+} as const
 
 /**
  * Define a `dovenv` configuration that creates a documentation site for your workspace.
- * @param {DocsPluginConfig} [params] - The configuration object.
- * @returns {DovenvConfig} The dovenv configuration object.
+ * @param {DocsParams['config'] } [config] - The configuration object.
+ * @returns {DocsParams['utils']['config']} The dovenv configuration object.
  */
-export const docsPlugin = ( params: DocsPluginConfig = {} ) => defineDovenvConfig( {
+export const docsPlugin = ( config: DocsParams['config'] = {} ) => defineDovenvConfig( {
 	// @ts-ignore
-	const  : { [globals.DOVENV_DOCS_CONFIG]: params },
+	const  : { [globals.DOVENV_DOCS_CONFIG]: config },
 	custom : { docs : {
 		desc : 'Create documentation pages',
 		cmds : {
 			'dev' : {
 				desc : 'Run the documentation dev server',
-				opts : { port : {
-					type : 'number',
-					desc : 'Port to listen on',
-				} },
+				opts,
 			},
 			'build' : {
 				desc : 'Build the documentation',
-				opts : { port : {
-					type : 'number',
-					desc : 'Port to listen on',
-				} },
+				opts,
 			},
 			'preview' : {
 				desc : 'Preview the documentation',
-				opts : { port : {
-					type : 'number',
-					desc : 'Port to listen on',
-				} },
+				opts,
 			},
 			'publish-cf' : {
 				desc : 'Publish documentation to Cloudflare pages',
@@ -137,16 +69,29 @@ export const docsPlugin = ( params: DocsPluginConfig = {} ) => defineDovenvConfi
 				],
 			},
 		},
-		settings : { wrapConsole: false },
-		fn       : async ( {
+		examples : [
+			{
+				cmd  : '$0 docs dev --port 1312',
+				desc : 'Run dev server with custom port',
+			},
+			{
+				cmd  : '$0 docs generate-assets --flag="--preset=minimal" --flag=public/logo.svg',
+				desc : 'Generate assets',
+			},
+		],
+		// settings : { wrapConsole: false },
+		fn : async ( {
 			cmds, showHelp, opts, utils,
 		} ) => {
 
-			const docsConfig =  ( typeof params === 'function' ? await params( utils ) : params )
-
-			const docs = new DocsPlugin( utils, docsConfig, {
-				debug : opts?.verbose as boolean,
-				port  : opts?.port as number,
+			const docs = new DocsCore( {
+				utils,
+				opts : {
+					port            : opts?.port as number,
+					configPath      : opts?.['config-path'] as string,
+					packageJsonPath : opts?.['package-path'] as string,
+					debug           : opts?.verbose as boolean,
+				},
 			} )
 
 			if ( cmds?.includes( 'dev' ) ) await docs.dev()

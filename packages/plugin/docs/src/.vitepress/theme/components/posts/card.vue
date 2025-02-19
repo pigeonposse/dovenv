@@ -1,4 +1,3 @@
-
 <template>
 	<a
 		:href="href"

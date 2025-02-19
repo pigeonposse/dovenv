@@ -67,6 +67,7 @@ export default {
 		// eslint-disable-next-line vue/multi-word-component-names, vue/component-definition-name-casing
 		app.component( 'contributors', Contributtors )
 		app.use( TwoslashFloatingVue )
+
 		if ( typeof window === 'undefined' ) return
 		window.addEventListener( 'load', () => {
 

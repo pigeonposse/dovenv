@@ -1,4 +1,7 @@
 /* eslint-disable @stylistic/object-curly-newline */
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
+
 import type { DeepNonNullable } from '@dovenv/core/utils'
 import type { PwaOptions }      from '@vite-pwa/vitepress'
 import type {
@@ -56,7 +59,10 @@ export type DocsData = {
 	pathConfig?    : GetConfig
 	packageConfig? : GetConfig
 }
-
+export type ConfigResponse = {
+	config : RequiredDocsConfig
+	data   : DocsData
+}
 export type RequiredDocsConfig = DocsConfig & DeepNonNullable<
 	Pick<
 		DocsConfig,
@@ -298,6 +304,10 @@ export type DocsConfig = {
 			type? : string
 		} }
 	}
+	/** Group icon options */
+	groupIcon?    : Parameters<typeof groupIconVitePlugin>[0] | false
+	/** twoslash options */
+	twoslash?     : Parameters<typeof transformerTwoslash>[0] | false
 	/** VitePress user configuration for additional options. */
 	vitepress?    : UserConfig
 	/**

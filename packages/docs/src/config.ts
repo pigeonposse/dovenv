@@ -26,6 +26,7 @@ export default defineConfig(
 				...data,
 				input,
 				output,
+
 				version   : core.corePkg?.version,
 				vitepress : {
 					ignoreDeadLinks : true,
@@ -41,6 +42,7 @@ export default defineConfig(
 					intro     : false,
 					reference : false,
 				},
+
 				pwa : { manifest : { icons : [
 					{
 						src   : 'pwa-64x64.png',

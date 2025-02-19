@@ -4,6 +4,8 @@ import markdownItContainer     from 'markdown-it-container'
 import MarkdownItTaskList    from 'markdown-it-task-lists'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
+import { ConfigResponse } from '../config/types'
+
 import type { UserConfig } from 'vitepress'
 
 type MD = NonNullable<UserConfig['markdown']>
@@ -55,14 +57,29 @@ const markdownItSteps = ( md: MDIt ) => {
 
 }
 
-export const markdown: UserConfig['markdown'] = {
+const line = '------------------------'
+
+export const markdown = ( {
+	data, config,
+}: ConfigResponse ): UserConfig['markdown'] => ( {
 	config : md => {
 
-		md.use( groupIconMdPlugin )
 		md.use( MarkdownItTaskList )
 		md.use( markdownItSteps )
+		if ( config.groupIcon !== false ) md.use( groupIconMdPlugin )
 
 	},
-	// @ts-ignore
-	codeTransformers : [ transformerTwoslash() ],
-}
+	codeTransformers : config.twoslash !== false
+		? [
+			transformerTwoslash( {
+				throws          : !data.devMode,
+				onShikiError    : error => console[data.devMode ? 'warn' : 'error']( error ),
+				onTwoslashError : ( e, code, lang ) => console[data.devMode ? 'warn' : 'error'](
+					`Twoslash (${lang}) Error:\n\n${line}\n${e instanceof Error ? e.message : ''}\n\n${line}\n\n${code}\n\n${line}`,
+				),
+				...config.twoslash,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			} ) as any,
+		]
+		: undefined,
+} )

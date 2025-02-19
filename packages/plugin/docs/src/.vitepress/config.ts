@@ -9,148 +9,48 @@
 import {
 	joinUrl,
 	joinPath,
-	process,
 	getCurrentDir,
-	copyDir,
-	removePathIfExist,
-	existsPath,
 } from '@dovenv/core/utils'
 import { withPwa }     from '@vite-pwa/vitepress'
 import { mergeConfig } from 'vitepress'
 
-import { markdown }   from './md'
-import { getGlobals } from '../_shared/const'
-import { setNav }     from './nav/main'
-import { vite }       from './vite'
-import { Config }     from '../config/main'
+import { markdown } from './md'
+import { setNav }   from './nav/main'
+import { vite }     from './vite'
+import { Config }   from '../config/main'
 
-// const npmSVG    = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>npm</title><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>`
 const donateSVG = '<svg class="svg-donate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>'
 
-export const VITEPRESS_DIR = joinPath( getCurrentDir( import.meta.url ), '..' ) // MUST BE PARENT OF .vitepress
+export const VITEPRESS_DIR = joinPath( getCurrentDir( import.meta.url ), '..' ) // MUST BE PARENT OF .vitepress folder
 
 export default async () => {
 
-	const configInstance = new Config(	)
-	await configInstance.updateGlobals()
-
-	const data = getGlobals( 'DOVENV_DOCS_DATA' )
-	const conf = getGlobals( 'DOVENV_DOCS_CONFIG' )
-
-	console.debug( 'DOVENV_DOCS_DATA', data )
-	console.debug( 'DOVENV_DOCS_CONFIG', conf )
-
-	// console.log( 'config set' )
-
-	if ( !conf ) {
-
-		console.error( 'Unexpected: DOVENV configuration not found' )
-		return process.exit( 1 )
-
-	}
-	if ( !data ) {
-
-		console.error( 'Unexpected: DOVENV data not found' )
-		return process.exit( 1 )
-
-	}
-
-	if ( !data.devMode && !conf?.experimental?.noTempDirOnBuild ) {
-
-		console.debug( 'Copy dir to temp dir' )
-		await copyDir( {
-			input  : data.srcDir,
-			output : data.tempDir,
-		}  )
-
-		data.srcDir = data.tempDir
-		process.on( 'exit', async () => {
-
-			console.debug( 'Remove temp dir' )
-			await removePathIfExist( data.tempDir )
-
-		} )
-
-	}
-
+	const configInstance = new Config()
 	const {
-		srcDir,
-		outDir,
-		cacheDir,
-	} = data
-
-	// PWA CHECK
-	if ( conf.pwa && conf.pwa.pwaAssets?.image ) {
-
-		const imageDir = joinPath( srcDir, conf.pwa.pwaAssets.image )
-		console.debug( { imageDir } )
-		const exists = await existsPath( imageDir )
-
-		if ( !exists ) {
-
-			console.warn( `Disable PWA, because image [${imageDir}] does not exists` )
-			conf.pwa = false
-
-		}
-
-	}
-
-	// LOGO & FAVICON CHECK
-	if ( conf.logo ) {
-
-		const logoSrc = joinPath( srcDir, 'public', conf.logo )
-		console.debug( { logoSrc } )
-		const exists = await existsPath( logoSrc )
-
-		if ( !exists ) {
-
-			console.warn( `Disable "logo" because it does not exist at path [${logoSrc}].` )
-			// @ts-ignore
-			conf.logo = conf.logo = undefined
-
-		}
-
-	}
-
-	if ( conf.favicon ) {
-
-		const faviconSrc = joinPath( srcDir, 'public', conf.favicon )
-		console.debug( { faviconSrc } )
-		const exists = await existsPath( faviconSrc )
-
-		if ( !exists ) {
-
-			console.warn( `Disable "favicon" because it does not exist at path [${faviconSrc}].` )
-
-			if ( conf.logo ) console.info( 'Changed the "favicon" path to the "logo" path because the "logo" path exists' )
-
-			conf.favicon = conf.logo
-
-		}
-
-	}
-
-	if ( conf.favicon && !conf.logo ) {
-
-		console.info( 'Changed the "logo" path to the "favicon" path because the "favicon" path exists' )
-		conf.logo = conf.favicon
-
-	}
+		data,
+		config: conf,
+	} = await configInstance.updateGlobals()
 
 	const config = await withPwa( {
 		title         : conf.shortDesc ? `${conf.name} - ${conf.shortDesc}` : conf.name,
 		titleTemplate : `:title - Documentation`,
 		description   : conf.desc,
 		lang          : conf.lang,
-		markdown      : markdown,
-		vite          : vite( conf, data ),
-		cacheDir, // Default: ./.vitepress/cache
-		outDir, // Default: ./.vitepress/dist. The build output location for the site, relative to project root.
-		srcDir, // Default: . .The directory where your markdown pages are stored, relative to project root. Also see Root and Source Directory.
-		cleanUrls     : true,
-		pwa           : conf.pwa ? conf.pwa : undefined,
+		markdown      : markdown( {
+			data,
+			config : conf,
+		} ),
+		vite : vite( {
+			data,
+			config : conf,
+		} ),
+		cacheDir  : data.cacheDir, // Default: ./.vitepress/cache
+		outDir    : data.outDir,   // Default: ./.vitepress/dist. The build output location for the site, relative to project root.
+		srcDir    : data.srcDir,   // Default: . .The directory where your markdown pages are stored, relative to project root. Also see Root and Source Directory.
+		cleanUrls : true,
+		pwa       : conf.pwa ? conf.pwa : undefined,
 		// ignoreDeadLinks : true,
-		head          : [
+		head      : [
 			[
 				'style',
 				{
@@ -313,6 +213,7 @@ export default async () => {
 			},
 			contributors : conf.contributors,
 			links        : conf.links,
+
 		},
 	} )
 

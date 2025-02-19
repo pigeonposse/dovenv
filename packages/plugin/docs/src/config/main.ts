@@ -18,52 +18,73 @@ import {
 	color,
 } from '@dovenv/core/utils'
 
-import { mergeConfig }  from './_utils'
-import { setConfig }    from './merge'
-import { getPkgConfig } from './pkg'
+import { mergeConfig }    from './_utils'
+import { setConfig }      from './merge'
+import { getPkgConfig }   from './pkg'
+import { validateConfig } from './validate'
 import {
 	getGlobals,
 	globals,
 	setGlobals,
 } from '../_shared/const'
+import { DocsParams } from '../main'
 
-import type { DocsPluginConfig } from '../plugin'
 import type {
+	ConfigResponse,
 	DocsConfig,
-	DocsData,
 	GetConfig,
-	RequiredDocsConfig,
 } from './types'
 
+type ConfigParams = {
+	configPath?       : string
+	packageJsonPath?  : string
+	dovenvConfigPath? : string
+}
+export const setConfigGlobals = ( {
+	configPath, packageJsonPath,
+}: ConfigParams ) => {
+
+	setGlobals( globals.DOVENV_DOCS_CONFIG_PATH, configPath )
+	setGlobals( globals.DOVENV_DOCS_PKG_PATH, packageJsonPath )
+
+}
+
+const getConfigGlobals = ( ): ConfigParams => {
+
+	return {
+		configPath       : getGlobals( globals.DOVENV_DOCS_CONFIG_PATH ),
+		packageJsonPath  : getGlobals( globals.DOVENV_DOCS_PKG_PATH ),
+		dovenvConfigPath : getGlobals( globals.DOVENV_CONFIG_PATH ),
+	}
+
+}
 export class Config {
 
-	config      : DocsConfig | undefined
-	cwd         : string
-	configPath  : string | undefined
-	packagePath : string
-	fnPath      : string
-	isRestart
+	cwd : string
 
-	// #paths: {
-	// 	input  : string | undefined
-	// 	output : string | undefined
-	// } = {
-	// 		input  : undefined,
-	// 		output :	undefined,
-	// 	}
+	configPath       : string | undefined
+	packagePath      : string
+	dovenvConfigPath : string
 
-	constructor( config?: DocsConfig, configPath?: string ) {
+	constructor(  ) {
 
-		this.config      = config
-		this.configPath  = configPath || getGlobals( globals.DOVENV_DOCS_CONFIG_PATH )
-		this.cwd         = process.cwd()
-		this.packagePath = joinPath( this.cwd, 'package.json' )
-		this.fnPath      = getGlobals( globals.DOVENV_CONFIG_PATH ) || fileURLToPath( import.meta.url )
-		this.isRestart   = false
+		const configGlobals = getConfigGlobals()
+
+		this.cwd = process.cwd()
+
+		this.configPath       = configGlobals.configPath
+		this.packagePath      = configGlobals.packageJsonPath || joinPath( this.cwd, 'package.json' )
+		this.dovenvConfigPath = configGlobals.dovenvConfigPath || fileURLToPath( import.meta.url )
+
+		console.debug( {
+			configPath       : this.configPath,
+			packagePath      : this.packagePath,
+			dovenvConfigPath : this.dovenvConfigPath,
+		} )
 
 	}
 
-	async getPathConfig(  ): Promise<GetConfig | undefined> {
+	async #getPathConfig(  ): Promise<GetConfig | undefined> {
 
 		let path = this.configPath
 
@@ -94,7 +115,7 @@ export class Config {
 
 	}
 
-	async getPackageConfig(): Promise<GetConfig | undefined> {
+	async #getPackageConfig(): Promise<GetConfig | undefined> {
 
 		const pkg = await existsPath( this.packagePath )
 			? await getObjectFromJSONFile<Record<string, unknown>>( this.packagePath )
@@ -111,34 +132,42 @@ export class Config {
 
 	}
 
-	async getFnConfig( ): Promise<GetConfig | undefined> {
+	async #getDovenvConfig( ): Promise<GetConfig | undefined> {
 
-		if ( !this.config && !this.fnPath ) return undefined
-		if ( this.fnPath ) {
+		let config: DocsConfig = {}
+
+		if ( !this.dovenvConfigPath ) return undefined
+		if ( this.dovenvConfigPath ) {
 
 			try {
 
-				const exists =  await existsPath( this.fnPath )
+				const exists =  await existsPath( this.dovenvConfigPath )
 				if ( exists ) {
 
 					// `?update=${Date.now()}` is important for update the data when restart server
-					const { default: dovenvConfig } = await import( this.fnPath + `?update=${Date.now()}` )
+					const { default: dovenvConfig } = await import( this.dovenvConfigPath + `?update=${Date.now()}` )
 					const pkg                       = dovenvConfig?.const?.pkg as Record<string, unknown> | undefined
-					const dovenvDocsConfigConst     = dovenvConfig?.const?.[globals.DOVENV_DOCS_CONFIG] as DocsPluginConfig | undefined
-					const utils                     = getGlobals( globals.DOVENV_UTILS )
-					if ( !utils ) throw new Error( `Must exists global: ${globals.DOVENV_UTILS}` )
+					const dovenvDocsConfigConst     = dovenvConfig?.const?.[globals.DOVENV_DOCS_CONFIG] as DocsParams['config'] | undefined
 
-					const dovenvDocsConfig = typeof dovenvDocsConfigConst === 'function' ?  await dovenvDocsConfigConst( utils ) : dovenvDocsConfigConst as DocsConfig
+					if ( dovenvDocsConfigConst ) {
 
-					if ( dovenvDocsConfig ) {
+						let dovenvDocsConfig: DocsConfig
+						if ( typeof dovenvDocsConfigConst === 'function' ) {
 
-						this.config = mergeConfig( dovenvDocsConfig, this.config || {} )
+							const utils = getGlobals( globals.DOVENV_UTILS )
+							if ( !utils ) throw new Error( `Must exists global: ${globals.DOVENV_UTILS}` )
+							dovenvDocsConfig = await dovenvDocsConfigConst( utils )
+
+						}
+						else dovenvDocsConfig = dovenvDocsConfigConst
+
+						config = mergeConfig( dovenvDocsConfig, config )
 
 					}
+
 					if ( pkg ) {
 
-						const config = await getPkgConfig( pkg )
-						this.config  = mergeConfig( config, this.config || {} )
+						config = mergeConfig(  await getPkgConfig( pkg ), config )
 
 					}
 
@@ -155,23 +184,20 @@ export class Config {
 
 		}
 
-		if ( !this.config ) return undefined
+		if ( !config ) return undefined
 		return {
-			config : this.config,
-			path   : this.fnPath,
-			dir    : getDirName( this.fnPath ),
+			config,
+			path : this.dovenvConfigPath,
+			dir  : getDirName( this.dovenvConfigPath ),
 		}
 
 	}
 
-	async getAll(): Promise<{
-		config : RequiredDocsConfig
-		data   : DocsData
-	}> {
+	async #getAll(): Promise<ConfigResponse> {
 
-		const pathConfig    = await this.getPathConfig( )
-		const packageConfig = await this.getPackageConfig( )
-		const fnConfig      = await this.getFnConfig( )
+		const pathConfig    = await this.#getPathConfig( )
+		const packageConfig = await this.#getPackageConfig( )
+		const fnConfig      = await this.#getDovenvConfig( )
 
 		const root       = this.cwd
 		const devMode    = isDev()
@@ -188,7 +214,7 @@ export class Config {
 		const cacheDir = joinPath( mergedConf.outDir, '.cache' )
 		const srcDir   = mergedConf.srcDir
 
-		return {
+		return await validateConfig( {
 			config : config,
 			data   : {
 				devMode,
@@ -202,27 +228,27 @@ export class Config {
 				fnConfig,
 				packageConfig,
 			},
-		}
-
-	}
-
-	async setGlobals() {
-
-		const config = await this.getAll()
-
-		setGlobals( globals.DOVENV_DOCS_CONFIG_PATH, config.data.pathConfig?.path )
-		setGlobals( globals.DOVENV_DOCS_CONFIG, config.config )
-		setGlobals( globals.DOVENV_DOCS_DATA, config.data )
+		} )
 
 	}
 
 	async updateGlobals() {
 
 		console.log( color.green( '\n✨ Update DOVENV globals\n' ) )
-		await this.setGlobals()
 
-		// const fnConfig = await this.getFnConfig( )
-		// console.log( fnConfig, this.fnPath, this.configPath, this.cwd, this.packagePath )
+		const config = await this.#getAll()
+
+		setGlobals( globals.DOVENV_DOCS_CONFIG_PATH, config.data.pathConfig?.path )
+		setGlobals( globals.DOVENV_DOCS_CONFIG, config.config )
+		setGlobals( globals.DOVENV_DOCS_DATA, config.data )
+
+		console.debug( 'DOVENV_DOCS_DATA',  config.data )
+		console.debug( 'DOVENV_DOCS_CONFIG',  config.config )
+
+		return {
+			config : config.config,
+			data   : config.data,
+		}
 
 	}
 

@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.4.4
+
+### Patch Changes
+
+- PERFORMANCE IMPROVEMENT and add feats
+
+- Updated dependencies []:
+  - @dovenv/utils@1.4.4
+
 ## 1.4.3
 
 ### Patch Changes

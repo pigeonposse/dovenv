@@ -47,10 +47,10 @@ const stylesDefault = {
 	},
 	radius : '20px',
 }
-export const getStylesConfig = async ( config: DocsConfig, input: string, logoPath: string ): Promise<DocsConfig> => {
+export const getStylesConfig = async ( config: DocsConfig, input: string, logoPath: string, root: string ): Promise<DocsConfig> => {
 
 	const docsPublic = joinPath( input, 'public' )
-	const logo       = resolvePath( docsPublic, logoPath )
+	const logo       = resolvePath( root, joinPath( docsPublic, logoPath ) )
 
 	console.debug( { logoPath: logo } )
 
@@ -66,6 +66,7 @@ export const getStylesConfig = async ( config: DocsConfig, input: string, logoPa
 		terciary  : stylesDefault.color.terciary,
 		fourth    : stylesDefault.color.fourth,
 	}
+
 	if ( existLogo && !config.styles.color.primary ) {
 
 		try {

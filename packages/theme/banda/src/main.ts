@@ -33,7 +33,7 @@ export type Config = {
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/docs
 	 * @see https://www.npmjs.com/package/@dovenv/docs
 	 */
-	docs?      : docs.DocsPluginConfig
+	docs?      : docs.Config
 	/**
 	 * Convert configuration.
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/convert

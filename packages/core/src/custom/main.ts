@@ -134,7 +134,7 @@ export class Custom extends Command<CustomConfig> {
 
 			// if ( prop.settings?.wrapConsole === false ) this.log.wrapAll()
 
-			this.utils.log.error( e )
+			this.utils.log.error( e instanceof Error ? e.message : e )
 			if ( !isQuiet ) this.setTime( time.prettyStop() )
 
 			this.utils.exitWithError()
@@ -155,12 +155,13 @@ export class Custom extends Command<CustomConfig> {
 		}
 		catch ( e ) {
 
+			// this is for ubicate to  user that the error is in "custom"
 			this.utils.title = 'custom'
 			this.description = 'Custom commands'
 			// set title only in case of error
 			this.setTitle()
-			this.utils.log.error( e )
-
+			this.utils.log.error( e instanceof Error ? e.message : e )
+			this.utils.exitWithError()
 			return
 
 		}

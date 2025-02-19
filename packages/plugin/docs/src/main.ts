@@ -1,28 +1,28 @@
 
-import { deepmergeCustom } from '@dovenv/core/utils'
+import { createMergeDataFn } from '@dovenv/core/utils'
 
-import { autoPWAConfig }  from './config/default'
-import { getPkgConfig }   from './config/pkg'
-import {
-	docsPlugin,
-	DocsPlugin,
-	type DocsPluginConfig,
-} from './plugin'
-import { Docs } from './run'
+import { autoPWAConfig } from './config/default'
+import { getPkgConfig }  from './config/pkg'
+import { docs }          from './lib'
+import { docsPlugin }    from './plugin'
 
 import type { DocsConfig } from './config/types'
+import type {
+	DocsParams,
+	Config,
+} from './core/types'
 
 export type {
 	DocsConfig,
-	DocsPluginConfig,
+	DocsParams,
+	Config,
 }
 
 export {
-	getPkgConfig,
-	Docs,
+	docs,
 	docsPlugin,
 	autoPWAConfig,
-	DocsPlugin,
+	getPkgConfig,
 }
 
 export default docsPlugin
@@ -32,21 +32,5 @@ export default docsPlugin
  * @param {( DocsConfig | DocsConfig[] )[]} config - The configuration object.
  * @returns {DocsConfig} The defined configuration object.
  */
-export const defineConfig = ( ...config: ( DocsConfig | DocsConfig[] )[] ) => {
+export const defineConfig = createMergeDataFn<DocsConfig>()
 
-	const mergeConfig = ( ...configs: DocsConfig[] ): DocsConfig =>
-		deepmergeCustom<DocsConfig>( {} )( ...configs ) as DocsConfig
-	if ( config.length === 1 ) {
-
-		const [ single ] = config
-
-		if ( Array.isArray( single ) )
-			return mergeConfig( ...single )
-
-		return single
-
-	}
-
-	return mergeConfig( ...( config as DocsConfig[] ) )
-
-}

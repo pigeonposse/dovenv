@@ -3,9 +3,11 @@ import {
 	process,
 } from '@dovenv/utils'
 
-import { Dovenv } from './cli'
+import { getCommandUtils } from './_shared/cmd-utils'
+import { Dovenv }          from './cli'
+import { createCLI }       from './cli-create'
 
-import type { CommandUtils } from './custom/types'
+import type { CommandUtils } from './_shared/cmd-utils'
 import type {
 	Config,
 	Params,
@@ -16,7 +18,11 @@ export type {
 	Params,
 	CommandUtils,
 }
-export { Dovenv }
+export {
+	Dovenv,
+	getCommandUtils,
+	createCLI,
+}
 
 /**
  * Runs the build process with the given arguments.

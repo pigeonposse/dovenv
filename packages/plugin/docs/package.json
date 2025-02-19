@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "1.4.3",
+	"version": "1.4.4",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -46,14 +46,14 @@
 	],
 	"scripts": {
 		"build": "unbuild",
-		"build-preview": "node dist/bin.mjs -c examples/docs.config.js",
+		"build-preview": "node dist/bin.mjs --config-path examples/docs.config.js",
 		"dev": "tsx examples/ws/main.ts",
-		"dev-bin": "tsx src/bin.ts dev -c examples/bin/docs.config.js",
+		"dev-bin": "tsx src/bin.ts --config-path examples/bin/docs.config.js",
 		"dev-simple": "tsx examples/simple/main.ts docs",
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"@shikijs/vitepress-twoslash": "2.4.1",
+		"@shikijs/vitepress-twoslash": "3.0.0",
 		"@vite-pwa/vitepress": "0.5.3",
 		"markdown-it-container": "4.0.0",
 		"markdown-it-task-lists": "2.1.1",

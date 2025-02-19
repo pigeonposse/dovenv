@@ -1,8 +1,6 @@
 /**
  * VITE CONFIG
  */
-
-// import { VitePWA }             from 'vite-plugin-pwa'
 import ViteRestart             from 'vite-plugin-restart'
 import { type UserConfig }     from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
@@ -16,15 +14,11 @@ import {
 import { setNav }     from './nav/main'
 import { setSidebar } from './sidebar/main'
 
-import type {
-	DocsData,
-	RequiredDocsConfig,
-} from '../config/types'
+import type { ConfigResponse } from '../config/types'
 
-export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['vite'] = ( conf, data ) => {
-
-	// const confRelative = relativePath( opts.srcDir, opts.configPath )
-	// include : [ data.packageConfig?.path || '', data.fnConfig?.path || '' ],
+export const vite = ( {
+	config: conf, data,
+}: ConfigResponse ):  UserConfig['vite'] => {
 
 	return {
 		optimizeDeps : { exclude: [ 'virtual:group-icons.css'  ] },
@@ -32,19 +26,6 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 		// this can be remove for fix build icon and twoslash comments
 		// build        : { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } },
 		plugins      : [
-			// {
-			// 	name     : name + '--post-pre-build',
-			// 	buildEnd : async () => {
-
-			// 		if ( !data.devMode ) {
-
-			// 			console.debug( 'remove temp dir' )
-			// 			await removePathIfExist( data.tempDir )
-
-			// 		}
-
-			// 	},
-			// },
 			{
 				name : name + '--listen-to-server',
 				configureServer( server ) {
@@ -129,9 +110,9 @@ export const vite: ( conf: RequiredDocsConfig, data: DocsData ) => UserConfig['v
 				},
 
 			},
-			groupIconVitePlugin(  ),
+
+			...(  conf.groupIcon === false ?  [] : [ groupIconVitePlugin( conf.groupIcon ) ]  ),
 			...(  conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
-			// ...( conf.pwa === false ? [] : [ VitePWA( conf.pwa ) ] ),
 			ViteRestart( {
 				reload  : [ ...( conf?.server?.hotReloadFiles ? conf.server.hotReloadFiles : [] ) ],
 				restart : [ ...( conf?.server?.restartFiles ? conf.server.restartFiles : [] ) ],

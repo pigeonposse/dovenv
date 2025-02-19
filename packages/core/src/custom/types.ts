@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import type { CommandSuper } from '../_shared/cmd'
+import type { CommandUtils } from '../_shared/cmd-utils'
 import type {
 	ArgvParsed,
 	Response,
@@ -9,7 +9,6 @@ import type { createCli } from '@dovenv/utils'
 
 export type ShowHelpFn = ( loglevel?: string ) => void
 export type Cli = Awaited<ReturnType<typeof createCli>>
-export type CommandUtils = CommandSuper
 
 type Opt = Parameters<Cli['option']>[0][number] & {
 	/** Description of the option */

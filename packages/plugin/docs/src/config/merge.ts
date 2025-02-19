@@ -33,6 +33,8 @@ export const setConfig = async ( {
 	outDir  : string
 }> => {
 
+	console.debug( { root } )
+
 	// the order is important
 	const initConf = mergeConfig(
 		fixedDefConf,
@@ -46,7 +48,7 @@ export const setConfig = async ( {
 	// 	pathConfig,
 	// 	fnConfig,
 	// } )
-	const styledConf  = await getStylesConfig( initConf, initConf.input, initConf.logo )
+	const styledConf  = await getStylesConfig( initConf, initConf.input, initConf.logo, root )
 	const defaultConf = await getDefaultConf( styledConf )
 
 	const conf = await mergeConfig( defaultConf, styledConf ) as RequiredDocsConfig
@@ -54,6 +56,7 @@ export const setConfig = async ( {
 	const srcDir    = isAbsolutePath( conf.input ) ? conf.input : joinPath( root, conf.input )
 	const outDir    = isAbsolutePath( conf.output ) ? conf.output : joinPath( root, conf.output )
 	const existDocs = await existsPath( srcDir )
+
 	if ( !existDocs ) {
 
 		console.error( color.red( `Docs path not found in ${srcDir}\n` ) )

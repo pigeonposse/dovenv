@@ -1,5 +1,14 @@
 # @dovenv/repo
 
+## 1.4.4
+
+### Patch Changes
+
+- PERFORMANCE IMPROVEMENT and add feats
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.4
+
 ## 1.4.3
 
 ### Patch Changes

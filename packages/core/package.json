@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.4.3",
+	"version": "1.4.4",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"aio",
@@ -62,6 +62,7 @@
 	"scripts": {
 		"build": "unbuild",
 		"dev": "tsx examples/main.ts",
+		"dev-bin": "tsx src/bin.ts",
 		"preview": "node dist/bin.mjs",
 		"test": "vitest run -r src --passWithNoTests"
 	},

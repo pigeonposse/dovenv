@@ -6,6 +6,7 @@ import {
 	dependencies,
 	description,
 	homepage,
+	bin,
 } from '../../package.json'
 
 import type {
@@ -18,6 +19,7 @@ export const globals = {
 	DOVENV_CONFIG_PATH      : 'DOVENV_CONFIG_PATH',
 	DOVENV_UTILS            : 'DOVENV_UTILS',
 	DOVENV_DOCS_CONFIG_PATH : 'DOVENV_DOCS_CONFIG_PATH',
+	DOVENV_DOCS_PKG_PATH    : 'DOVENV_DOCS_PKG_PATH',
 	DOVENV_DOCS_CONFIG      : 'DOVENV_DOCS_CONFIG',
 	DOVENV_DOCS_DATA        : 'DOVENV_DOCS_DATA',
 	VITEPRESS_CONFIG        : 'VITEPRESS_CONFIG',
@@ -28,6 +30,7 @@ export type Globals = {
 	[globals.DOVENV_UTILS]            : CommandUtils
 	[globals.DOVENV_CONFIG_PATH]      : string | undefined
 	[globals.DOVENV_DOCS_CONFIG_PATH] : string | undefined
+	[globals.DOVENV_DOCS_PKG_PATH]    : string | undefined
 	[globals.DOVENV_DOCS_CONFIG]      : RequiredDocsConfig | undefined
 	[globals.DOVENV_DOCS_DATA]        : DocsData | undefined
 	[globals.VITEPRESS_CONFIG]   : {
@@ -50,7 +53,7 @@ export const getGlobals = <ID extends Global>( type: ID ): Globals[ID] | undefin
 	return globals[type] in globalThis ? globalThis[globals[type] as keyof Globals] : undefined
 
 }
-
+export const binName = Object.keys( bin )[0]
 export {
 	name,
 	version,

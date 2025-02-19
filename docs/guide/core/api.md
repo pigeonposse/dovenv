@@ -103,6 +103,24 @@ await dovenv.run(['check', '-k', 'pkg'])
 
 ## Functions
 
+### createCLI()
+
+```ts
+function createCLI(opts?: CreateCliParams): Promise<Argv<{}>>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts`? | `CreateCliParams` |
+
+#### Returns
+
+`Promise`\<`Argv`\<\{\}\>\>
+
+***
+
 ### defineConfig()
 
 ```ts
@@ -144,6 +162,41 @@ export default defineConfig(config1, config2);
 ```ts
 // Example 3: An array of configurations
 export default defineConfig([config1, config2]);
+```
+
+***
+
+### getCommandUtils()
+
+```ts
+function getCommandUtils(data?: {
+  pkg: Record<string, unknown>;
+  wsDir: string;
+}): Promise<CommandSuper>
+```
+
+Retrieves command utilities for the given workspace directory.
+If a package.json object is not provided, it reads and parses it from the workspace directory.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `data`? | `object` | Data |
+| `data.pkg`? | `Record`\<`string`, `unknown`\> | Optional package.json content as an object. |
+| `data.wsDir`? | `string` | The workspace directory path. **Default** `process.cwd()` |
+
+#### Returns
+
+`Promise`\<`CommandSuper`\>
+
+- A promise that resolves to the command utilities.
+
+#### Example
+
+```ts
+const utils = await getCommandUtils();
+console.log(utils);
 ```
 
 ***

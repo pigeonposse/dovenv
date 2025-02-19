@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.4.4
+
+### Patch Changes
+
+- PERFORMANCE IMPROVEMENT and add feats
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.4
+  - @dovenv/eslint-config@1.4.4
+  - @dovenv/stylelint-config@1.4.4
+
 ## 1.4.3
 
 ### Patch Changes

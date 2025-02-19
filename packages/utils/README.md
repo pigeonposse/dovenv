@@ -1,8 +1,8 @@
 # Dovenv Utils Package
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
-[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com?popup=about)
-[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)](https://pigeonposse.com/?popup=donate)
+[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com/about)
+[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)](https://pigeonposse.com/contribute)
 [![Twitter](https://img.shields.io/badge/Twitter-black?style=for-the-badge&logoColor=white&logo=twitter)](https://twitter.com/pigeonposse_)
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
@@ -47,22 +47,22 @@ deno add @dovenv/utils
 - ⚒️ [Utils](https://dovenv.pigeonposse.com/guide/utils)
 - [Utils-media](https://dovenv.pigeonposse.com/guide/utils-media)
 - 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
-  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
-  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
-  - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
+  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
   - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
+  - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
+  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
 - ⚙️ [Config](https://dovenv.pigeonposse.com/guide/config)
   - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
   - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
 - 🎨 [Theme](https://dovenv.pigeonposse.com/guide/theme)
-  - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
   - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
+  - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
 
 
 ---
@@ -98,8 +98,8 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
-[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com?popup=about)
-[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)](https://pigeonposse.com/?popup=donate)
+[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com/about)
+[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)](https://pigeonposse.com/contribute)
 [![Twitter](https://img.shields.io/badge/Twitter-black?style=for-the-badge&logoColor=white&logo=twitter)](https://twitter.com/pigeonposse_)
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)

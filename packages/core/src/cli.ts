@@ -1,18 +1,18 @@
 import {
 	catchError,
 	color,
-	createCli,
 	process,
 	deprecatedAlerts,
 } from '@dovenv/utils'
 
-import { CommandSuper } from './_shared/cmd'
-import { getConfig }    from './_shared/config'
-import * as CONSTS      from './_shared/const'
-import { Aliases }      from './core/aliases/main'
-import { Check }        from './core/check/main'
-import { Constant }     from './core/const/main'
-import { Transform }    from './core/transform/main'
+import { CommandSuper }          from './_shared/cmd'
+import { getConfig }             from './_shared/config'
+import * as CONSTS               from './_shared/const'
+import { _createCliConstructor } from './cli-create'
+import { Aliases }               from './core/aliases/main'
+import { Check }                 from './core/check/main'
+import { Constant }              from './core/const/main'
+import { Transform }             from './core/transform/main'
 import {
 	Custom,
 	mergeCustomConfig,
@@ -104,46 +104,23 @@ export class Dovenv {
 	async run( args: string[] = [] ) {
 
 		this.#deprecatedAlerts.hide()
-		await createCli( {
+		const {
+			CMD,
+			GLOBAL_OPTIONS,
+			OPTIONS,
+			BIN_NAME: name,
+		} = CONSTS
+
+		await _createCliConstructor( {
 			args,
-			fn : async cli => {
-
-				const {
-					CMD,
-					GLOBAL_OPTIONS,
-					OPTIONS,
-					BIN_NAME: name,
-					VERSION,
-				} = CONSTS
-
-				cli.scriptName( name )
-					.version( VERSION )
-					.usage( 'Usage: $0 <command> [options]' )
-					.locale( 'en' )
-					.help( false )
-					.updateStrings( { 'Options:': 'Global Options:' } )
-					.showHelpOnFail( false )
-					.wrap( cli.terminalWidth() )
-					.alias( GLOBAL_OPTIONS.HELP.key, GLOBAL_OPTIONS.HELP.alias )
-					.alias( GLOBAL_OPTIONS.VERSION.key, GLOBAL_OPTIONS.VERSION.alias )
-					.option(  GLOBAL_OPTIONS.VERBOSE.key, {
-						desc : 'Verbose mode',
-						type : 'boolean',
-					} )
-					.option(  GLOBAL_OPTIONS.QUIET.key, {
-						desc : 'Quiet mode',
-						type : 'boolean',
-					} )
-					.option( GLOBAL_OPTIONS.CONFIG.key, {
-						alias : GLOBAL_OPTIONS.CONFIG.alias,
-						desc  : 'Dovenv configuration file path',
-						type  : 'string',
-					} )
-					// .option( GLOBAL_OPTIONS.HELP.key, {
-					// 	alias : GLOBAL_OPTIONS.HELP.alias,
-					// 	desc  : 'Show help',
-					// 	type  : 'boolean',
-					// } )
+			opts : { [GLOBAL_OPTIONS.CONFIG.key] : {
+				alias : GLOBAL_OPTIONS.CONFIG.alias,
+				desc  : 'Dovenv configuration file path',
+				type  : 'string',
+			} },
+			hook : async ( {
+				cli, argv,
+			} ) => {
 
 				const defaultCmds: CustomConfig = {
 					[CMD.CHECK] : {
@@ -245,7 +222,6 @@ export class Dovenv {
 						},
 					},
 				}
-				const argv = await cli.argv
 
 				const [ errorConfig, configRes ] = this.config
 					? [
@@ -295,13 +271,209 @@ export class Dovenv {
 				)
 
 				await custom.run()
-
-				if ( !argv._.length ) cli.showHelp( 'log' )
-
 				return cli
 
 			},
 		} )
+
+		// await createCli( {
+		// 	args,
+		// 	fn : async cli => {
+
+		// 		const {
+		// 			CMD,
+		// 			GLOBAL_OPTIONS,
+		// 			OPTIONS,
+		// 			BIN_NAME: name,
+		// 			VERSION,
+		// 		} = CONSTS
+
+		// 		cli.scriptName( name )
+		// 			.version( VERSION )
+		// 			.usage( 'Usage: $0 <command> [options]' )
+		// 			.locale( 'en' )
+		// 			.help( false )
+		// 			.updateStrings( { 'Options:': 'Global Options:' } )
+		// 			.showHelpOnFail( false )
+		// 			.wrap( cli.terminalWidth() )
+		// 			.alias( GLOBAL_OPTIONS.HELP.key, GLOBAL_OPTIONS.HELP.alias )
+		// 			.alias( GLOBAL_OPTIONS.VERSION.key, GLOBAL_OPTIONS.VERSION.alias )
+		// 			.option(  GLOBAL_OPTIONS.VERBOSE.key, {
+		// 				desc : 'Verbose mode',
+		// 				type : 'boolean',
+		// 			} )
+		// 			.option(  GLOBAL_OPTIONS.QUIET.key, {
+		// 				desc : 'Quiet mode',
+		// 				type : 'boolean',
+		// 			} )
+		// 			.option( GLOBAL_OPTIONS.CONFIG.key, {
+		// 				alias : GLOBAL_OPTIONS.CONFIG.alias,
+		// 				desc  : 'Dovenv configuration file path',
+		// 				type  : 'string',
+		// 			} )
+		// 			// .option( GLOBAL_OPTIONS.HELP.key, {
+		// 			// 	alias : GLOBAL_OPTIONS.HELP.alias,
+		// 			// 	desc  : 'Show help',
+		// 			// 	type  : 'boolean',
+		// 			// } )
+
+		// 		const defaultCmds: CustomConfig = {
+		// 			[CMD.CHECK] : {
+		// 				desc : 'Make rules from your workspaces files or directories',
+		// 				opts : { [OPTIONS.KEY.key] : {
+		// 					alias : OPTIONS.KEY.alias,
+		// 					desc  : 'Set key patterns for check',
+		// 					type  : 'array',
+		// 				} },
+		// 				fn : async argv => {
+
+		// 					const instance = new Check( argv )
+		// 					await instance.run()
+
+		// 				},
+		// 			},
+		// 			[CMD.CONSTANTS] : {
+		// 				desc : 'Constants of your workspace',
+		// 				cmds : {
+		// 					view : { desc: 'View all constants' },
+		// 					add  : { desc: 'Add new constant' },
+		// 				},
+		// 				opts : { [OPTIONS.KEY.key] : {
+		// 					alias : OPTIONS.KEY.alias,
+		// 					desc  : 'Set key patterns of your constants for viewed',
+		// 					type  : 'array',
+		// 				} },
+		// 				examples : [
+		// 					{
+		// 						desc : 'View all constants',
+		// 						cmd  : '$0 const',
+		// 					},
+		// 					{
+		// 						desc : 'View all constants less "pkg"',
+		// 						cmd  : `$0 const -k '!pkg'`,
+		// 					},
+		// 				],
+		// 				fn : async argv => {
+
+		// 					const instance = new Constant( argv )
+		// 					await instance.run()
+
+		// 				},
+		// 			},
+		// 			[CMD.TRANSFORM] : {
+		// 				desc : 'Transform your workspaces paths',
+		// 				opts : { [OPTIONS.KEY.key] : {
+		// 					alias : OPTIONS.KEY.alias,
+		// 					desc  : 'Set key patterns of your transforms',
+		// 					type  : 'array',
+		// 				} },
+		// 				examples : [
+		// 					{
+		// 						desc : 'Transform all',
+		// 						cmd  : '$0 transform',
+		// 					},
+		// 					{
+		// 						desc : 'Transforms all less "pkg"',
+		// 						cmd  : `$0 transform -k '!pkg'`,
+		// 					},
+		// 				],
+		// 				fn : async argv => {
+
+		// 					const instance = new Transform( argv )
+		// 					await instance.run()
+
+		// 				},
+		// 			},
+		// 			[CMD.ALIASES] : {
+		// 				desc : `List aliases of your config. For execute use: ${name} x\n`,
+		// 				fn   : async argv => {
+
+		// 					const instance = new Aliases( argv )
+		// 					await instance.run()
+
+		// 				},
+		// 			},
+		// 			[CMD.ALIAS_EXEC] : {
+		// 				desc     : 'Execute aliases of your config',
+		// 				settings : {
+		// 					//  @ts-ignore
+		// 					core : true,
+		// 					hide : true,
+		// 				},
+		// 				fn : async argv => {
+
+		// 					const instance = new Aliases( argv )
+		// 					await instance.run()
+
+		// 				},
+		// 			},
+		// 			[CMD.CONFIG] : {
+		// 				desc     : 'Show your config',
+		// 				settings : { hide: true },
+		// 				fn       : async ( { utils } ) => {
+
+		// 					console.dir( utils.config || {}, { depth: Infinity } )
+
+		// 				},
+		// 			},
+		// 		}
+		// 		const argv = await cli.argv
+
+		// 		const [ errorConfig, configRes ] = this.config
+		// 			? [
+		// 				undefined,
+		// 				{
+		// 					config : this.config,
+		// 					path   : this.dovenvConfigPath,
+		// 				},
+		// 			]
+		// 			: await catchError( getConfig( argv.config && typeof argv.config === 'string' ? argv.config : undefined ) )
+
+		// 		// Show help when is not set a config file and is not set a command
+		// 		if ( ( argv[GLOBAL_OPTIONS.HELP.key] && errorConfig ) || ( !argv._.length && errorConfig ) ) cli.showHelp( 'log' )
+		// 		if ( errorConfig ) {
+
+		// 			console.error( '\n' + color.red( errorConfig.message ) )
+		// 			process.exit( 0 )
+
+		// 		}
+		// 		const config = configRes.config as Config
+		// 		const utils  = new CommandSuper( config )
+		// 		// @ts-ignore
+		// 		globalThis.DOVENV_CONFIG = Object.freeze( config )
+		// 		// @ts-ignore
+		// 		globalThis.DOVENV_UTILS = utils
+		// 		// @ts-ignore
+		// 		globalThis.DOVENV_CONFIG_PATH = configRes.path as const
+
+		// 		// if ( !config.const ) config.const = {}
+		// 		// config.const.DOVENV_CONFIG_PATH = configRes.path as string
+
+		// 		const conf   = config.custom || undefined
+		// 		const custom = new Custom(
+		// 			cli,
+		// 			conf
+		// 				? mergeCustomConfig(
+		// 					// "defaultCmds" must be the first to make "\n" in the help output.
+		// 					// This means that default commands can be overridden,
+		// 					// If the user adds a custom variable with the same key as any of the default commands, it will be overridden.
+		// 					// This way the user can still change any description of the default commands or even hide them if he wants.
+		// 					// There is a risk that the user can change the behavior of the default commands, but this is not important since no command should affect the behavior of the core.
+		// 					defaultCmds,
+		// 					conf,
+		// 				)
+		// 				: defaultCmds,
+		// 			utils,
+		// 		)
+
+		// 		await custom.run()
+
+		// 		if ( !argv._.length ) cli.showHelp( 'log' )
+
+		// 		return cli
+
+		// 	},
+		// } )
 
 		// this.#deprecatedAlerts.show()
 

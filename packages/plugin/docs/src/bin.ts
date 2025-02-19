@@ -1,60 +1,29 @@
 #!/usr/bin/env node
 
+import { createCLI } from '@dovenv/core'
+
 import {
-	createCli,
-	process,
-	hideBin,
-} from '@dovenv/core/utils'
+	binName as name,
+	version,
+} from './_shared/const'
+import { docsPlugin } from './plugin'
 
-import { Docs } from './run'
+const { custom } = docsPlugin()
+const COMMAD     = custom?.docs
 
-await createCli( {
-	args : hideBin( process.argv ),
-	fn   : async cli => {
-
-		cli
-			.option( 'config', {
-				alias    : 'c',
-				describe : 'Configuration file path',
-				type     : 'string',
-			} )
-			.option( 'verbose', {
-				describe : 'Verbose mode',
-				type     : 'boolean',
-			} )
-			.command( 'build', 'Run the build process', () => {}, async argvChild => {
-
-				const docs = new Docs( undefined, {
-					configPath : argvChild.config,
-					debug      : argvChild.verbose,
-				} )
-
-				await docs.build()
-
-			} )
-			.command( 'dev', 'Run the dev server', () => {}, async argvChild => {
-
-				const docs = new Docs( undefined, {
-					configPath : argvChild.config,
-					debug      : argvChild.verbose,
-				} )
-
-				await docs.dev()
-
-			} )
-			.command( 'preview', 'Run the preview server', () => {}, async argvChild => {
-
-				const docs = new Docs( undefined, {
-					configPath : argvChild.config,
-					debug      : argvChild.verbose,
-				} )
-
-				await docs.preview()
-
-			} )
-			.demandCommand( 1, 'You need to specify a command (build, dev, or preview)' )
-
-		return cli
-
-	},
+await createCLI( {
+	name,
+	version,
+	opts : COMMAD?.opts,
+	// examples : COMMAD?.examples,
+	cmds : COMMAD?.cmds
+		? Object.fromEntries( Object.entries( COMMAD.cmds ).map( ( [ key, value ] ) => [
+			key,
+			{
+				...value,
+				settings : COMMAD.settings,
+				fn       : COMMAD.fn,
+			},
+		] ) )
+		: undefined,
 } )

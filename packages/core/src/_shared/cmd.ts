@@ -29,6 +29,17 @@ import type { Config }          from '../types'
 import type { ValidateAnyType } from '@dovenv/utils'
 import type { PackageJSON }     from '@dovenv/utils'
 
+/**
+ * Class for setting up Dovenv command utilities.
+ *
+ * Recommended usage:
+ * ```ts
+ * const commandUtils = new CommandSuper({ const: { pkg, wsDir } });
+ * ```
+ * @example
+ * const utils = new CommandSuper({ const: { pkg: myPackage, wsDir: '/workspace' } });
+ * console.log(utils);
+ */
 export class CommandSuper {
 
 	/**

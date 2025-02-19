@@ -20,7 +20,7 @@ export default defineConfig(
 	docsPlugin( {
 		input    : '../../../docs',
 		output   : './build/ws',
-		name     : 'dovenv',
+		name     : 'dovenvff',
 		// styles : { color : {
 		// 	primary   : '#6f42c1',
 		// 	secondary : '#f59e0b',
@@ -71,6 +71,29 @@ export default defineConfig(
 				},
 			},
 		},
+		pwa : { manifest : { icons : [
+			{
+				src   : 'pwa-64x64.png',
+				sizes : '64x64',
+				type  : 'image/png',
+			},
+			{
+				src   : 'pwa-192x192.png',
+				sizes : '192x192',
+				type  : 'image/png',
+			},
+			{
+				src   : 'pwa-512x512.png',
+				sizes : '512x512',
+				type  : 'image/png',
+			},
+			{
+				src     : 'maskable-icon-512x512.png',
+				sizes   : '512x512',
+				type    : 'image/png',
+				purpose : 'maskable',
+			},
+		] } },
 		links : [
 			{
 				text  : 'Project',

@@ -94,15 +94,6 @@ export const fixedDefConf: Omit<RequiredDocsConfig, 'styles'> = {
 	lang     : 'en',
 }
 
-type DefParams = {
-	lang?    : DocsConfig['lang']
-	name?    : DocsConfig['name']
-	url?     : DocsConfig['url']
-	repoURL? : DocsConfig['repoURL']
-	desc?    : DocsConfig['desc']
-	styles?  : DocsConfig['styles']
-}
-
 export const getDefaultConf = ( {
 	desc,
 	lang,
@@ -110,7 +101,14 @@ export const getDefaultConf = ( {
 	url,
 	repoURL,
 	styles,
-}: DefParams = {} ): RequiredDocsConfig => {
+}: {
+	lang?    : DocsConfig['lang']
+	name?    : DocsConfig['name']
+	url?     : DocsConfig['url']
+	repoURL? : DocsConfig['repoURL']
+	desc?    : DocsConfig['desc']
+	styles?  : DocsConfig['styles']
+} = {} ): RequiredDocsConfig => {
 
 	return  mergeConfig(
 		getRepoConf( repoURL || undefined ),

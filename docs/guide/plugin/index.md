@@ -1,22 +1,10 @@
 # 🔌 Plugins
 
-## 🔄 Convert
-
-Convert utils for dovenv
-
-- [Read more](/guide/plugin/convert)
-
 ## 🤖 Ai
 
 AI plugin for dovenv
 
 - [Read more](/guide/plugin/ai)
-
-## 💡 Examples
-
-Tools for Examples files/directories for dovenv
-
-- [Read more](/guide/plugin/examples)
 
 ## 📚 Docs
 
@@ -24,11 +12,11 @@ Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
 
-## 🎥 Media
+## 💡 Examples
 
-Media configuration for dovenv
+Tools for Examples files/directories for dovenv
 
-- [Read more](/guide/plugin/media)
+- [Read more](/guide/plugin/examples)
 
 ## 🧹 Lint
 
@@ -36,17 +24,29 @@ Lint configuration for dovenv
 
 - [Read more](/guide/plugin/lint)
 
-## 🖼️ Templates
+## 🎥 Media
 
 Media configuration for dovenv
 
-- [Read more](/guide/plugin/templates)
+- [Read more](/guide/plugin/media)
 
 ## 🗃️ Repo
 
 Repository tools for any runtime
 
 - [Read more](/guide/plugin/repo)
+
+## 🖼️ Templates
+
+Media configuration for dovenv
+
+- [Read more](/guide/plugin/templates)
+
+## 🔄 Convert
+
+Convert utils for dovenv
+
+- [Read more](/guide/plugin/convert)
 
 ## ✅ Todo
 

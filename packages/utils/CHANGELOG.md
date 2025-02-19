@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.4.4
+
+### Patch Changes
+
+- PERFORMANCE IMPROVEMENT and add feats
+
 ## 1.4.3
 
 ### Patch Changes

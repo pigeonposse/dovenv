@@ -19,7 +19,7 @@ const exec = async  () => {
 
 	const args   = hideBin( process.argv )
 	const dovenv = new Dovenv()
-	await dovenv.run(  args )
+	await dovenv.run( args )
 
 	console.debug( `⏱ Dovenv's initiation took place over a period of time of: ${startTime.prettyStop()}` )
 

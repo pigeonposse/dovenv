@@ -1,6 +1,19 @@
 <script setup>
-import ArticleCard          from './card.vue'
-import { data as articles } from './posts.data.ts'
+import {
+	shallowRef,
+	onMounted,
+} from 'vue'
+
+import ArticleCard from './card.vue'
+
+const articles = shallowRef( [] )
+
+onMounted( async () => {
+
+	const { data } = await import( './posts.data.ts' )
+	articles.value = data
+
+} )
 </script>
 
 <template>
@@ -8,6 +21,7 @@ import { data as articles } from './posts.data.ts'
 		<!-- eslint-disable vue/valid-v-for -->
 		<ArticleCard
 			v-for="article in articles"
+			v-memo="[article]"
 			:title="article.title"
 			:href="article.url"
 			:date="article.date.string"
