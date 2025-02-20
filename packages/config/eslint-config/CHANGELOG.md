@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.4.5
+
+### Patch Changes
+
+- up workspace repo, now check prop is a object
+
 ## 1.4.4
 
 ### Patch Changes

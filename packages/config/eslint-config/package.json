@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "1.4.4",
+	"version": "1.4.5",
 	"description": "Eslint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -82,7 +82,7 @@
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",
-		"@types/eslint-plugin-markdown": "^2.0.2",
+		"@types/eslint-plugin-markdown": "2.0.2",
 		"@types/eslint__js": "8.42.3",
 		"eslint": "9.20.1",
 		"svelte": "5.20.1"

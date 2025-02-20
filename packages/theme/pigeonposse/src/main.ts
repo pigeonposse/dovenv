@@ -120,69 +120,96 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 				} },
 			},
 			check : { pkg : {
-				include : ( {
-					path, utils, content,
-				} ) => {
+				deps : {
+					desc   : 'Static dependencies',
+					custom : async ( {
+						content, path, utils,
+					} ) => {
 
-					const ext    = '.{js,ts,mts,cts,cjs,mjs}'
-					const shared = [ 'package.json', 'README.md' ]
-					const wsDir  = typeof utils.config?.const?.workspaceDir  === 'string'
-						? utils.config.const.workspaceDir
-						:  ''
-					const isWs   = arePathsEqual( getDirName( path ), wsDir )
+						const deps = {
+							...content.devDependencies || {},
+							...content.dependencies || {},
+						}
+						Object.entries( deps ).forEach( ( [ k, v ] ) => {
 
-					if ( content.private ) return shared
+							if ( v?.startsWith( '^' ) ) throw new Error( utils.style.error.msg(
+								path,
+								`\n\nThe dependency version [${utils.style.error.b( k )}] (${v}) should be static for better version control and a more stable project.\n`,
+							) )
 
-					else if ( isWs && content.workspaces ) return [ 'docs/index.md', ...shared ]
-					else if ( isWs ) return [
-						'packages/*',
-						'.gitignore',
-						'LICENSE',
-						'package.json',
-						'README.md',
-						'.dovenv/main' + ext,
-					]
+						} )
 
-					//'examples/**/*' + ext,
-					return [ 'src/*' + ext, ...shared ]
-
+					},
 				},
-				exclude : ( {
-					dir, utils,
-				} ) => {
+				files : {
+					desc    : 'Allowed and disallowed files',
+					include : ( {
+						path, utils, content,
+					} ) => {
 
-					const wsDir = typeof utils.config?.const?.workspaceDir  === 'string'
-						? utils.config.const.workspaceDir
-						: ''
-					if ( arePathsEqual( dir, wsDir ) )
-						return [ 'src/*' ]
+						const ext    = '.{js,ts,mts,cts,cjs,mjs}'
+						const shared = [ 'package.json', 'README.md' ]
+						const wsDir  = typeof utils.config?.const?.workspaceDir  === 'string'
+							? utils.config.const.workspaceDir
+							:  ''
+						const isWs   = arePathsEqual( getDirName( path ), wsDir )
 
+						if ( content.private ) return shared
+
+						else if ( isWs && content.workspaces ) return [ 'docs/index.md', ...shared ]
+						else if ( isWs ) return [
+							'packages/*',
+							'.gitignore',
+							'LICENSE',
+							'package.json',
+							'README.md',
+							'.dovenv/main' + ext,
+						]
+
+						//'examples/**/*' + ext,
+						return [ 'src/*' + ext, ...shared ]
+
+					},
+
+					exclude : ( {
+						dir, utils,
+					} ) => {
+
+						const wsDir = typeof utils.config?.const?.workspaceDir  === 'string'
+							? utils.config.const.workspaceDir
+							: ''
+						if ( arePathsEqual( dir, wsDir ) )
+							return [ 'src/*' ]
+
+					},
 				},
-				schema : ( {
-					v, content, path,
-				} ) => {
+				packagejsom : {
+					desc   : 'package.json schema',
+					schema : ( {
+						v, content, path,
+					} ) => {
 
-					if ( !content ) throw new Error( `No data in ${path}` )
-					if ( 'private' in content ) return
+						if ( !content ) throw new Error( `No data in ${path}` )
+						if ( 'private' in content ) return
 
-					if ( !content?.keywords?.includes( 'pp' ) || !content?.keywords?.includes( 'pigeonposse' ) )
-						throw new Error( `You must add "pigeonposse" and "pp" keywords in ${path}` )
+						if ( !content?.keywords?.includes( 'pp' ) || !content?.keywords?.includes( 'pigeonposse' ) )
+							throw new Error( `You must add "pigeonposse" and "pp" keywords in ${path}` )
 
-					return v.object( {
-						name          : v.string(),
-						version       : v.string(),
-						description   : v.string(),
-						files         : v.array( v.string() ),
-						keywords      : v.array( v.string() ),
-						publishConfig : v.object( {
-							access   : v.literal( 'public' ),
-							registry : v.string(),
-						} ),
-					} )
+						return v.object( {
+							name          : v.string(),
+							version       : v.string(),
+							description   : v.string(),
+							files         : v.array( v.string() ),
+							keywords      : v.array( v.string() ),
+							publishConfig : v.object( {
+								access   : v.literal( 'public' ),
+								registry : v.string(),
+							} ),
+						} )
 
+					},
 				},
 			} },
-
 		},
 	}, bandaTemplateConfig, bandaConf )
 

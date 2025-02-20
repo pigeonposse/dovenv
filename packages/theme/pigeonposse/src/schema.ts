@@ -49,10 +49,10 @@ export const pigeonSchemas = defineConfig( { check : { 'pigeonposse-consts' : {
 				// licenseUrl : z.string().url().optional().describe( 'Deprecated' ),
 
 				repoID          : z.string().optional(),
-				libraryID       : z.string(),
-				libraryURL      : z.string().url(),
-				licenseURL      : z.string().url(),
-				docsURL         : z.string().url(),
+				libraryID       : z.string().optional(),
+				libraryURL      : z.string().url().optional(),
+				licenseURL      : z.string().url().optional(),
+				docsURL         : z.string().url().optional(),
 				changelogURL    : z.string().url().optional(),
 				contributingURL : z.string().url().optional(),
 				rawRepoURL      : z.string().url().optional(),
@@ -70,8 +70,7 @@ export const pigeonSchemas = defineConfig( { check : { 'pigeonposse-consts' : {
 						twitter   : z.string().optional(),
 						instagram : z.string().optional(),
 						medium    : z.string().optional(),
-					} )
-						.optional(),
+					} ).optional(),
 					social : z.object( {
 						twitter   : z.string().url(),
 						instagram : z.string().url(),
@@ -79,7 +78,7 @@ export const pigeonSchemas = defineConfig( { check : { 'pigeonposse-consts' : {
 					} ),
 				} ),
 
-			} ),
+			} ).optional(),
 		} ), config.const.pkg, 'pkg' )
 
 	},

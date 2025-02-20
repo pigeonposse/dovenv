@@ -18,7 +18,8 @@ import { Super } from './_super/main'
 import type { PackageJSON } from '@dovenv/core/utils'
 
 type CheckType = NonNullable<NonNullable<Checks['opts']>['check']>
-type CheckPattern = NonNullable<NonNullable<CheckType['pkg']>['include']>
+type CheckPkgValue = NonNullable<NonNullable<CheckType['pkg']>[number]>
+type CheckPattern = CheckPkgValue['include']
 
 export class Checks extends Super {
 
@@ -51,9 +52,9 @@ export class Checks extends Super {
 
 	}
 
-	async schemaPKG() {
+	async #schemaPKG( value: CheckPkgValue ) {
 
-		const type = this.opts?.check?.pkg
+		const type = value
 		if ( !type?.schema ) return
 
 		const pkgs = await this.#getPKGs()
@@ -93,18 +94,17 @@ export class Checks extends Super {
 
 		}
 
-		console.log( this.utils.style.success.h( 'Schema check passed' ) )
+		console.log( this.utils.style.success.h( 'Check passed for schema' ) )
 
 	}
 
-	async structure() {
+	async #structure( value: CheckPkgValue ) {
 
-		const type = this.opts?.check?.pkg
+		const type = value
 		if ( !type ) return
 
-		const pkgs = await this.#getPKGs()
-
-		const set = async ( data: CheckPattern, exists = false ) => {
+		const pkgs   = await this.#getPKGs()
+		const custom = async () => {
 
 			for ( const pkg of pkgs ) {
 
@@ -116,7 +116,30 @@ export class Checks extends Super {
 					utils   : this.utils,
 				}
 
-				if ( type?.custom ) await type.custom( cbData )
+				if ( type?.custom ) {
+
+					await type.custom( cbData )
+
+				}
+
+			}
+
+			console.log( this.utils.style.success.h(
+				'Custom check passed',
+			) )
+
+		}
+		const set = async ( data: CheckPattern, exists = false ) => {
+
+			for ( const pkg of pkgs ) {
+
+				const dir    = getDirName( pkg.path )
+				const cbData = {
+					dir     : dir,
+					path    : pkg.path,
+					content : pkg.content,
+					utils   : this.utils,
+				}
 
 				const res = typeof data === 'function'
 					? await data( cbData )
@@ -181,23 +204,46 @@ export class Checks extends Super {
 
 		if ( type?.include ) await set( type.include, true )
 		if ( type?.exclude ) await set( type.exclude, false )
+		if ( type?.custom ) await custom()
 
-		console.log( this.utils.style.success.h( 'Structure check passed' ) )
+		if ( type?.include || type?.exclude ) console.log( this.utils.style.success.h(
+			'Check passed for routes (include/exclude)',
+		) )
 
 	}
 
-	async #fn( ) {
+	async runOne( opt: CheckPkgValue ) {
+
+		await this.#structure( opt )
+		await this.#schemaPKG( opt )
+		console.log()
+
+	}
+
+	async #fn( pattern?: string[] ) {
 
 		// this._title( 'Checks workspace structure' )
+		const input = this.opts?.check?.pkg
+		const keys  = await this.utils.getOptsKeys( {
+			input,
+			pattern,
+		} )
 
-		await this.structure( )
-		await this.schemaPKG( )
+		if ( !keys || !this.opts ) return
+		for ( const key of keys ) {
+
+			const opt = input?.[key]
+			if ( !opt ) continue
+
+			await this.runOne( opt )
+
+		}
 
 	}
 
-	async run(  ) {
+	async run( pattern?: string[] ) {
 
-		return await this._envolvefn( this.#fn(  ) )
+		return await this._envolvefn( this.#fn( pattern ) )
 
 	}
 

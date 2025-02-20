@@ -83,6 +83,7 @@
 	"pnpm": {
 		"overrides": {
 			"cross-spawn@<6.0.6": ">=6.0.6",
+			"esbuild@<=0.24.2": ">=0.25.0",
 			"got": "^11.8.5",
 			"got@<11.8.5": ">=11.8.5",
 			"http-cache-semantics@<4.1.1": ">=4.1.1",

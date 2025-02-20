@@ -29,6 +29,7 @@ type PatternCheck = string[] |
 	( ( opts: CheckOpts ) => Promise<string[] | undefined> | ( string[] | undefined ) )
 
 type Sharedcheck = {
+	desc?    : string
 	/**
 	 * Files that must exist
 	 */
@@ -91,9 +92,11 @@ export type Config = {
 	}
 	check?: {
 		/**
-		 * Checks for packages
+		 * Checks for workspace package(s)
 		 */
-		pkg?: Prettify<Sharedcheck & {
+		pkg?: Record<
+			string,
+			Prettify<Sharedcheck & {
 			/**
 			 * Schema for own package.json
 			 * @example
@@ -106,23 +109,24 @@ export type Config = {
 			 *  })
 			 * }
 			 */
-			schema? : ( opts: {
+				schema? : ( opts: {
 				/**
 				 * Validation (Zod wrapper)
 				 */
-				v       : Validate
-				/**
-				 * Path to package.json
-				 */
-				path    : string
-				/**
-				 * Object data from package.json
-				 */
-				content : PackageJSON
-				/** Dovenv utilities */
-				utils   : CommandUtils
-			} )=> Promise<ValidateAnyType | void> | ( ValidateAnyType | void )
-		}>
+					v       : Validate
+					/**
+					 * Path to package.json
+					 */
+					path    : string
+					/**
+					 * Object data from package.json
+					 */
+					content : PackageJSON
+					/** Dovenv utilities */
+					utils   : CommandUtils
+				} )=> Promise<ValidateAnyType | void> | ( ValidateAnyType | void )
+			}>
+		>
 	}
 	/** List of commands for run */
 	// exec? : {

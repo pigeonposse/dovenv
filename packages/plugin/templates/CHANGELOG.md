@@ -1,5 +1,14 @@
 # @dovenv/templates
 
+## 1.4.5
+
+### Patch Changes
+
+- up workspace repo, now check prop is a object
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.5
+
 ## 1.4.4
 
 ### Patch Changes

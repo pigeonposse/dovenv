@@ -23,18 +23,23 @@ export {
  * export default defineConfig( workspacePlugin() )
  */
 export const workspacePlugin = ( params?: Config ) => defineConfig( {
-	check : {
-		ws : {
-			type : 'custom',
-			desc : 'Check for workspace structure rules',
-			fn   : async ( { utils } ) => {
+	check : params?.check?.pkg
+		? Object.fromEntries( Object.entries( params.check.pkg ).map(
+			( [ k, v ] ) => [
+				`ws.pkg.${k}`,
+				{
+					type : 'custom',
+					desc : v.desc  ? `Check workspace rules: ${v.desc}` : 'Check workspace rules',
+					fn   : async ( { utils } ) => {
 
-				const check = new Checks( params, utils )
-				await check.run()
+						const check = new Checks( params, utils )
+						await check.runOne( v )
 
-			},
-		},
-	},
+					},
+				},
+			],
+		) )
+		: undefined,
 	custom : {
 		ws : {
 			desc : 'Toolkit for Workspace',
