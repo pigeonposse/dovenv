@@ -5,15 +5,20 @@ import type {
 import type { PackageJSON } from '@dovenv/core/utils'
 
 const extractGithubUsername = ( input: string ): string => {
-
-	if ( input.includes( 'github.com' ) ) {
-
-		const match = input.match( /github\.com\/([^/]+)/ )
-		return match ? match[1] : 'unknown'
-
-	}
-	return input.split( '@' )[0] || 'unknown'
-
+    try {
+        const url = new URL(input);
+        if (url.hostname === 'github.com') {
+            const match = url.pathname.match( /\/([^/]+)/ );
+            return match ? match[1] : 'unknown';
+        }
+    } catch (e) {
+        // If input is not a valid URL, fall back to the original logic
+        if (input.includes('github.com')) {
+            const match = input.match(/github\.com\/([^/]+)/);
+            return match ? match[1] : 'unknown';
+        }
+    }
+    return input.split('@')[0] || 'unknown';
 }
 
 export const package2Contributors = ( pkg: PackageJSON ): {
