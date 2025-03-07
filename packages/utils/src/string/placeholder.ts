@@ -86,7 +86,7 @@ export const replacePlaceholders = async ( props: Props ): Promise<string> => {
 			if ( part.includes( '[' ) && part.includes( ']' ) ) {
 
 				const [ arrayName, indexStr ] = part.split( '[' )
-				const index                   = parseInt( indexStr.replace( ']', '' ), 10 )
+				const index                   = parseInt( indexStr.replace( /\]/g, '' ), 10 )
 				result                        = result[arrayName]?.[index]
 
 			}
