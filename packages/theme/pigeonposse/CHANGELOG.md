@@ -1,5 +1,15 @@
 # @dovenv/theme-pigeonposse
 
+## 1.4.6
+
+### Patch Changes
+
+- add llms.txt support in documentation plugin
+
+- Updated dependencies []:
+  - @dovenv/core@1.4.6
+  - @dovenv/theme-banda@1.4.6
+
 ## 1.4.5
 
 ### Patch Changes

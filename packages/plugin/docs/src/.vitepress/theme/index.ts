@@ -10,13 +10,15 @@ import DefaultTheme        from 'vitepress/theme'
 import {
 	onMounted,
 	h,
-	render,
+	Fragment,
+	// render,
 }    from 'vue'
 
-import BackToTop     from './components/back-to-top.vue'
+// import BackToTop     from './components/back-to-top.vue'
 import Contributtors from './components/contributors/layout.vue'
 import Footer        from './components/footer.vue'
 import LinksLayout   from './components/links/layout.vue'
+import Llmstxt       from './components/llmstxt.vue'
 import Posts         from './components/posts/archive.vue'
 import PostAuthor    from './components/posts/author.vue'
 import PostHeader    from './components/posts/header.vue'
@@ -25,6 +27,7 @@ import PostTopBar    from './components/posts/top-bar.vue'
 import ShareButtons  from './components/share-buttons.vue'
 import './custom.css'
 
+/** @type {import('vitepress').Theme} */
 export default {
 	extends : DefaultTheme,
 
@@ -42,11 +45,12 @@ export default {
 		} )
 
 	},
-	Layout() {
+	Layout( ) {
 
 		return h( DefaultTheme.Layout, null, {
 			'aside-outline-before' : () => h( PostAuthor ),
-			'aside-outline-after'  : () => h( ShareButtons, { type: 'sidebar' } ),
+			'aside-outline-after'  : () => h( Fragment, [ h( Llmstxt ), h( ShareButtons, { type: 'sidebar' } ) ] ),
+			// 'aside-outline-after'  : () => h( Llmstxt ),
 			'doc-before'           : () => h( PostHeader ),
 			'doc-after'            : () => h( ShareButtons ),
 			'layout-top'           : () => h( PostTopBar ),
@@ -68,17 +72,20 @@ export default {
 		app.component( 'contributors', Contributtors )
 		app.use( TwoslashFloatingVue )
 
-		if ( typeof window === 'undefined' ) return
-		window.addEventListener( 'load', () => {
+		// if ( typeof window === 'undefined' ) return
 
-			const wrapper = document.createElement( 'div' )
-			document.body.appendChild( wrapper )
-			render(
-				h( BackToTop, { threshold: 200 } ),
-				wrapper,
-			)
+		// window.addEventListener( 'load', () => {
 
-		} )
+		// 	console.log( 'loaded' )
+		// 	const wrapper = document.createElement( 'div' )
+		// 	wrapper.id    = 'dovenv-go-to'
+		// 	document.body.appendChild( wrapper )
+		// 	render(
+		// 		h( BackToTop, { threshold: 200 } ),
+		// 		wrapper,
+		// 	)
+
+		// } )
 
 	},
 }

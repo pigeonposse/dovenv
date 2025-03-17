@@ -1,9 +1,11 @@
 /**
  * VITE CONFIG
  */
+
 import ViteRestart             from 'vite-plugin-restart'
 import { type UserConfig }     from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
+import llmstxtPlugin           from 'vitepress-plugin-llmstxt'
 import { RssPlugin }           from 'vitepress-plugin-rss'
 
 import {
@@ -117,6 +119,7 @@ export const vite = ( {
 				reload  : [ ...( conf?.server?.hotReloadFiles ? conf.server.hotReloadFiles : [] ) ],
 				restart : [ ...( conf?.server?.restartFiles ? conf.server.restartFiles : [] ) ],
 			} ),
+			...(  conf.llms === false ?  [] : [ llmstxtPlugin( conf.llms ) ] ),
 		],
 	}
 

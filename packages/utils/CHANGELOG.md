@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.4.6
+
+### Patch Changes
+
+- add llms.txt support in documentation plugin
+
 ## 1.4.5
 
 ### Patch Changes

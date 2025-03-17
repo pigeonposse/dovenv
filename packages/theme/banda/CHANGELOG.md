@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.4.6
+
+### Patch Changes
+
+- add llms.txt support in documentation plugin
+
+- Updated dependencies []:
+  - @dovenv/examples@1.4.6
+  - @dovenv/docs@1.4.6
+  - @dovenv/core@1.4.6
+  - @dovenv/convert@1.4.6
+  - @dovenv/lint@1.4.6
+  - @dovenv/repo@1.4.6
+  - @dovenv/templates@1.4.6
+  - @dovenv/todo@1.4.6
+  - @dovenv/workspace@1.4.6
+
 ## 1.4.5
 
 ### Patch Changes

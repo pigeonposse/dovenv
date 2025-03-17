@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.4.6
+
+### Patch Changes
+
+- add llms.txt support in documentation plugin
+
+- Updated dependencies []:
+  - @dovenv/utils@1.4.6
+
 ## 1.4.5
 
 ### Patch Changes

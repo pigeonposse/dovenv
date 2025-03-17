@@ -106,6 +106,14 @@ export default async () => {
 		`,
 			],
 			[
+				'style',
+				{
+					type : 'text/css',
+					id   : conf.name + 'llmstxt-css',
+				},
+				conf.llms === false ? `.llmstxt-section {display: none;}` : '',
+			],
+			[
 				'link',
 				{
 					rel  : 'icon',
