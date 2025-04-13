@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "1.4.6",
+	"version": "1.4.7",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -61,8 +61,8 @@
 		"vite-plugin-full-reload": "1.2.0",
 		"vite-plugin-restart": "0.4.2",
 		"vitepress": "1.6.3",
-		"vitepress-plugin-group-icons": "1.3.7",
-		"vitepress-plugin-llmstxt": "0.0.4",
+		"vitepress-plugin-group-icons": "1.3.8",
+		"vitepress-plugin-llmstxt": "0.1.0",
 		"vitepress-plugin-rss": "0.3.1",
 		"vue": "3.5.13",
 		"vue-social-sharing": "3.0.9"

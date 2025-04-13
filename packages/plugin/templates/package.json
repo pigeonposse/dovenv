@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/templates",
-	"version": "1.4.6",
+	"version": "1.4.7",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"aio",

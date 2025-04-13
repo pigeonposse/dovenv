@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.4.7
+
+### Patch Changes
+
+- up docs deps
+
+- Updated dependencies []:
+  - @dovenv/utils@1.4.7
+
 ## 1.4.6
 
 ### Patch Changes

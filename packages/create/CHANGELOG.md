@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.4.7
+
+### Patch Changes
+
+- up docs deps
+
 ## 1.4.6
 
 ### Patch Changes

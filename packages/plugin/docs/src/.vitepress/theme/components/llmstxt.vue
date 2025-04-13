@@ -19,7 +19,8 @@ const joinUrl = ( ...parts ) => {
 
 const llmsUrl = computed( () => {
 
-	return joinUrl( route.path, `llms.txt` )
+	const path = ( route.path === '/' ? '/index' : route.path.endsWith( '/' ) ? route.path.slice( 0, -1 ) : route.path ) + '.md'
+	return joinUrl( path )
 
 } )
 </script>
