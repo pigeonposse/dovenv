@@ -1,7 +1,7 @@
 import {
 	getExtName,
 	readFile,
-} from './super'
+} from '@/sys/super'
 
 /**
  * Converts an image file to a Data URI.
