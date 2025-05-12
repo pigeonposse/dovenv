@@ -1,5 +1,16 @@
 # @dovenv/utils-media
 
+## 1.5.0
+
+### Minor Changes
+
+- fix some issues, add feats, deprecate functions, not add several changes
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.0
+
 ## 1.4.7
 
 ### Patch Changes

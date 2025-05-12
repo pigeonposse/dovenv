@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.0
+
+### Minor Changes
+
+- fix some issues, add feats, deprecate functions, not add several changes
+
 ## 1.4.7
 
 ### Patch Changes
