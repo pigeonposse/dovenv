@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.1
+
+### Patch Changes
+
+- improve performance, fix issues with new minor version etc
+
 ## 1.5.0
 
 ### Minor Changes

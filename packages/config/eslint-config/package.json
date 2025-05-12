@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"description": "Eslint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -80,7 +80,6 @@
 		"eslint-plugin-package-json": "0.31.0",
 		"eslint-plugin-playwright": "2.2.0",
 		"eslint-plugin-promise": "7.2.1",
-		"eslint-plugin-svelte": "3.5.1",
 		"eslint-plugin-toml": "0.12.0",
 		"eslint-plugin-vue": "10.1.0",
 		"eslint-plugin-yml": "1.18.0",
@@ -96,6 +95,9 @@
 	},
 	"peerDependencies": {
 		"eslint": ">=9"
+	},
+	"optionalDependencies": {
+		"eslint-plugin-svelte": "3.5.1"
 	},
 	"publishConfig": {
 		"access": "public",

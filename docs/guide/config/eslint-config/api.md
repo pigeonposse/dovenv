@@ -448,7 +448,7 @@ const config = setSchemaConfig()
 ### setSvelteConfig()
 
 ```ts
-function setSvelteConfig(params?: Partial<SvelteParams>): Config[]
+function setSvelteConfig(params?: Partial<SvelteParams>): Promise<Config[]>
 ```
 
 SET SVELTE ESLINT CONFIG.
@@ -463,7 +463,7 @@ Creates a config for svelte.
 
 #### Returns
 
-`Config`[]
+`Promise`\<`Config`[]\>
 
 A list of configurations.
 
@@ -645,7 +645,6 @@ type ConfigParams: {
   package: boolean;
   playwright: boolean | Parameters<typeof setPlaywrightConfig>[0];
   schema: boolean;
-  svelte: boolean | Parameters<typeof setSvelteConfig>[0];
   toml: boolean;
   vue: boolean;
   yaml: boolean;
@@ -667,7 +666,6 @@ type ConfigParams: {
 | `package` | `boolean` | - |
 | `playwright` | `boolean` \| `Parameters`\<*typeof* [`setPlaywrightConfig`](#setplaywrightconfig)\>\[`0`\] | - |
 | `schema` | `boolean` | - |
-| `svelte` | `boolean` \| `Parameters`\<*typeof* [`setSvelteConfig`](#setsvelteconfig)\>\[`0`\] | - |
 | `toml` | `boolean` | - |
 | `vue` | `boolean` | - |
 | `yaml` | `boolean` | - |

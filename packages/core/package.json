@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"aio",
@@ -78,7 +78,7 @@
 	},
 	"dependencies": {
 		"@dovenv/utils": "workspace:*",
-		"update-notifier": "7.3.1"
+		"tiny-updater": "3.5.3"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*",

@@ -73,7 +73,7 @@ export type ConfigParams = {
 	schema     : boolean
 	vue        : boolean
 	playwright : boolean | Parameters<typeof setPlaywrightConfig>[0]
-	svelte     : boolean | Parameters<typeof setSvelteConfig>[0]
+	// svelte     : boolean | Parameters<typeof setSvelteConfig>[0]
 	/**
 	 * Ignore files from gitignore.
 	 * If a string is provided, it will be used as the path to the .gitignore file.
@@ -113,7 +113,7 @@ export const setConfig = (
 		...( props.schema ? schemaConfig : [] ),
 		...( props.vue ? vueConfig : [] ),
 		...( props.playwright ? setPlaywrightConfig( typeof props.playwright === 'boolean' ? undefined : props.playwright ) : [] ),
-		...( props.svelte ? setSvelteConfig( typeof props.svelte === 'boolean' ? undefined : props.svelte ) : [] ),
+		// ...( props.svelte ? setSvelteConfig( typeof props.svelte === 'boolean' ? undefined : props.svelte ) : [] ),
 		...( props.gitignore ? [ includeGitIgnore( typeof props.gitignore === 'string' ? props.gitignore : undefined ) ] : [] ),
 		...( props.ignore && Array.isArray( props.ignore ) ? [ setIgnoreConfig( props.ignore ) ] : [] ),
 	]

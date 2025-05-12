@@ -524,7 +524,7 @@ export class Predocs {
 			const bannerUrl       = localPkgBanner ? localPkgBanner : ( await existsFile( localBanner ) ? remoteBannerURL : undefined )
 
 			const banner = bannerUrl
-				? `[![BANNER](${bannerUrl}](${this.#corePkg.homepage})`
+				? `[![BANNER](${bannerUrl})](${this.#corePkg.homepage})`
 				: ''
 
 			const contributorHtml = undefined //await this.#getContributorsHTML()

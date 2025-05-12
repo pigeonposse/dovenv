@@ -29,11 +29,15 @@ export const setPWA = async ( conf: RequiredDocsConfig, data: DocsData ):Promise
 	const imagePath = joinPath( data.srcDir, image )
 	// const imageRelative = relativePath( data.srcDir, imageDir )
 
-	console.debug( {
-		src : data.srcDir,
-		imagePath,
-		// imageRelative,
-	} )
+	console.debug( [
+		'PWA',
+		{
+			out : data.outDir,
+			src : data.srcDir,
+			imagePath,
+			image,
+		},
+	] )
 	const exists = await existsPath( imagePath )
 
 	if ( !exists ) {
@@ -45,7 +49,7 @@ export const setPWA = async ( conf: RequiredDocsConfig, data: DocsData ):Promise
 
 	return {
 		pwaAssets : {
-			image  : imagePath,
+			image  : image,
 			preset : {
 				...minimal2023Preset,
 				appleSplashScreens : createAppleSplashScreens( {

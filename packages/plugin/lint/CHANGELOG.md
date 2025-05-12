@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.5.1
+
+### Patch Changes
+
+- improve performance, fix issues with new minor version etc
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.1
+  - @dovenv/core@1.5.1
+  - @dovenv/stylelint-config@1.5.1
+
 ## 1.5.0
 
 ### Minor Changes

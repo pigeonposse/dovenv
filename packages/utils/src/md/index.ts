@@ -1,6 +1,9 @@
 import { Marked }         from 'marked'
 import { markedTerminal } from 'marked-terminal'
-import TurndownService    from 'turndown'
+import rehypeParse        from 'rehype-parse'
+import rehypeRemark       from 'rehype-remark'
+import remarkStringify    from 'remark-stringify'
+import { unified }        from 'unified'
 
 import type { MarkedExtension } from 'marked'
 
@@ -127,8 +130,13 @@ export const html2md = async ( input: string ) => {
 
 	input = await _getInput( input )
 
-	const turndownService = new TurndownService()
-	return turndownService.turndown( input )
+	const file = await unified()
+		.use( rehypeParse )
+		.use( rehypeRemark )
+		.use( remarkStringify )
+		.process( input )
+
+	return String( file )
 
 }
 

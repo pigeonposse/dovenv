@@ -1,8 +1,10 @@
 import * as dovenv from '../dist/main.mjs'
 
+const svelteConf = await dovenv.setSvelteConfig( { ts: true } )
+
 export default [
 	...dovenv.config,
 	...dovenv.cssConfig,
-	...dovenv.setSvelteConfig( { ts: true } ),
+	...svelteConf,
 	...dovenv.vueConfig,
 ]
