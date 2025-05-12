@@ -91,3 +91,9 @@ export const joinUrl = ( ...parts: string[] ) => {
  */
 export const object2string = ( data: unknown ): string => JSON.stringify( data, null, '\t' ) + '\n'
 
+/**
+ * Generates a random UUID.
+ *
+ * @returns {string} - The generated UUID.
+ */
+export const getRandomUUID = () => crypto.randomUUID()

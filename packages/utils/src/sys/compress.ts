@@ -1,217 +1,304 @@
 
-import archiver   from 'archiver'
-import decompress from 'decompress'
-// @ts-ignore
-import decompressTargz       from 'decompress-targz'
-import { createWriteStream } from 'node:fs'
 import {
-	mkdir,
-	readdir,
-	rename,
-	rm,
-} from 'node:fs/promises'
-import { cpus } from 'node:os'
-import {
-
-	basename,
-	extname,
-} from 'node:path'
+	zip,
+	tar,
+	tgz,
+	gzip,
+} from 'compressing'
 
 import {
-	existsPath,
+	ensureDir,
+	getBaseName,
+	getExtName,
+	getPaths,
+	isDirectory,
 	joinPath as join,
+	removeFile,
+	renamePath,
 } from './super'
 
+import { getRandomUUID } from '@/string'
+
+const FORMATS = {
+	ZIP : 'zip',
+	TAR : 'tar',
+	TGZ : 'tgz',
+	GZ  : 'gz',
+} as const
+
+type CompressFormat = typeof FORMATS[keyof typeof FORMATS]
+type CompressTypeAdvancedOpts = {
+	zip?  : Record<string, unknown>
+	tar?  : Record<string, unknown>
+	tgz?  : Record<string, unknown>
+	gzip? : Record<string, unknown>
+}
 type DecompresFileOptions = {
+	/**
+	 * The path to the input compressed file.
+	 */
 	input    : string
+	/**
+	 * The directory where the file should be decompressed.
+	 */
 	output   : string
+	/**
+	 * The new name for the decompressed file or directory.
+	 */
 	newName? : string
+	/**
+	 * The format of the compressed file.
+	 * Automatically detected if not specified.
+	 *
+	 * @default 'auto'
+	 */
+	format?  : CompressFormat | 'auto'
+	/**
+	 * Whether to remove the original compressed file after decompression.
+	 *
+	 * @default false
+	 */
 	remove?  : boolean
+	/**
+	 * Additional options for compression.
+	 *
+	 * @see https://www.npmjs.com/package/compressing
+	 */
+	opts?    : CompressTypeAdvancedOpts
+}
+type CompressOptionsShared = {
+	/**
+	 * Output directory
+	 *
+	 * @default process.cwd()
+	 */
+	output? : string
+	/**
+	 * The format of the compressed file.
+	 * Automatically detected if not specified.
+	 *
+	 * @default 'zip'
+	 */
+	format? : CompressFormat
+	/**
+	 * Additional options for compression.
+	 *
+	 * @see https://www.npmjs.com/package/compressing
+	 */
+	opts?   : CompressTypeAdvancedOpts
 }
 
-type ZipDirOptions = {
-	input    : string
-	output   : string
-	onDone?  : ( n: string ) => void
-	onError? : ( n: string, err: Error ) => void
+type CompressOptions = CompressOptionsShared & {
+	/**
+	 * The path to the input file or directory.
+	 */
+	input : string
+	/**
+	 * The new name for the compressed file.
+	 * If not specified, random UUID will be used.
+	 */
+	name? : string
 }
-type ZipFileOptions = {
-	input    : string
-	output   : string
-	name?    : string
-	onDone?  : ( n: string ) => void
-	onError? : ( n: string, err: Error ) => void
+type CompressDirOptions = CompressOptionsShared & {
+	/**
+	 * The path to the input directory.
+	 */
+	input : string
+	/**
+	 * The new name for the compressed file.
+	 * If not specified, random UUID will be used.
+	 */
+	name? : string
+}
+
+type CompressFileOptions = CompressOptionsShared & {
+	/**
+	 * The path to the input file.
+	 */
+	input : string
+	/**
+	 * The new name for the compressed file.
+	 * If not specified, random UUID will be used.
+	 */
+	name? : string
+}
+
+type CompressFilesOptions = CompressOptionsShared & {
+	/**
+	 * Array of patterns to compress.
+	 *
+	 * @example ['dist/*.js']
+	 */
+	input      : string[]
+	/**
+	 * Additional options for input patterns.
+	 */
+	inputOpts? : Parameters<typeof getPaths>[1]
+	/**
+	 * Hook functions.
+	 */
+	hook? : {
+		/**
+		 * Before compressing a file.
+		 */
+		beforeFile? : ( n: string ) => void | Promise<void>
+		/**
+		 * After compressing a file.
+		 */
+		afterFile?  : ( n: string ) => void | Promise<void>
+	}
+}
+
+const _FORMAT_DEFAULT            = FORMATS.ZIP
+const AUTO_FORMAT                = 'auto'
+const _getDefaultOutputDirectory = () => process.cwd()
+const _sanitizeExt               = ( f: string ) => f.toLowerCase().replace( '.', '' )
+const _setErrorFormat            = ( v: string ) => `Unsupported compression format: ${v}. Supported formats: ${Object.values( FORMATS ).join( ', ' )}`
+
+export {
+	tgz,
+	tar,
+	zip,
+	gzip,
 }
 
 /**
  * Decompresses an archive file (zip, tar, tgz) to a specified output directory.
  *
- * @param {object}  options           - The options object.
- * @param {string}  options.input     - The path to the input compressed file.
- * @param {string}  options.output    - The directory where the file should be decompressed.
- * @param {string}  [options.newName] - The new name for the decompressed file or directory.
- * @param {boolean} [options.remove]  - Whether to remove the original compressed file after decompression.
- * @example decompressFile( {
-  input   : resolve(  'downloads', 'example-file.zip' ), // Path to the compressed file
-  output  : resolve(  'decompressed' ), // Directory where the file should be decompressed
-  newName : 'renamed-decompressed-file', // New name for the decompressed file or directory (optional)
-  remove  : true, // Remove the original compressed file after decompression
-  } )
+ * @param   {object}          params - The options object.
+ * @returns {Promise<string>}        - A promise that resolves to the path of the decompressed file or directory.
+ * @example
+ * await decompressFile( {
+ *   input   : resolve(  'downloads', 'example-file.zip' ), // Path to the compressed file
+ *   output  : resolve(  'decompressed' ),                  // Directory where the file should be decompressed
+ *   newName : 'renamed-decompressed-file',                 // New name for the decompressed file or directory (optional)
+ *   remove  : true,                                        // Remove the original compressed file after decompression
+ * } )
  */
-export async function decompressFile( {
-	input, output, newName, remove = false,
-} : DecompresFileOptions ) {
+export const decompress = async ( params : DecompresFileOptions ) => {
 
-	const ext            = extname( input ).toLowerCase()
-	const outputFileName = newName || basename( input, ext )
+	const {
+		input,
+		output,
+		newName,
+		remove = false,
+		format = AUTO_FORMAT,
+		opts,
+	} = params
+
+	const ext            = getExtName( input )
+	const formatC        = format !== AUTO_FORMAT ? format : _sanitizeExt( ext )
+	const outputFileName = newName || getBaseName( input, ext )
 	const outputPath     = join( output, outputFileName )
 
-	try {
+	if ( formatC === FORMATS.ZIP )
+		await zip.uncompress( input, output, opts?.zip || { strip: 1 } )
+	else if ( formatC === FORMATS.TAR )
+		await tar.uncompress( input, output, opts?.tar || { strip: 1 } )
+	else if ( formatC === FORMATS.TGZ )
+		await tgz.uncompress( input, output, opts?.tgz || { strip: 1 } )
+	else if ( formatC === FORMATS.GZ )
+		await gzip.uncompress( input, output, opts?.gzip || { strip: 1 } )
+	else throw new Error( _setErrorFormat( format ) )
 
-		if ( ext === '.zip' ) {
+	if ( newName ) await renamePath( join( output, getBaseName( input, ext ) ), outputPath )
+	if ( remove ) await removeFile( input )
 
-			await decompress( input, output, { strip: 1 } )
-			console.log( `File decompressed successfully to ${output}` )
-
-		}
-		else if ( ext === '.tar' || ext === '.tgz' || ext === '.gz' ) {
-
-			await decompress( input, output, {
-				plugins : [ decompressTargz() ],
-				strip   : 1,
-			} )
-			console.log( `File decompressed successfully to ${output}` )
-
-		}
-		else {
-
-			throw new Error( `Unsupported file extension: ${ext}` )
-
-		}
-
-		if ( newName ) {
-
-			await rename( join( output, basename( input, ext ) ), outputPath )
-			console.log( `File renamed successfully to ${outputPath}` )
-
-		}
-
-		if ( remove ) {
-
-			await rm( input )
-			console.log( `Original file ${input} removed successfully` )
-
-		}
-
-	}
-	catch ( error ) {
-
-		// @ts-ignore
-		console.error( `Error during decompression: ${error.message}` )
-
-	}
+	return output
 
 }
 
-const zipFileWorker = ( sourceFilePath: string, zipName: string, outputDirectory: string, onDone: ( n: string ) => void, onError: ( n: string, err: Error ) => void ) => {
+export const compressFiles = async ( params: CompressFilesOptions ) => {
 
-	return new Promise<void>( ( resolve, reject ) => {
+	const {
+		input,
+		output = _getDefaultOutputDirectory(),
+		hook,
+		format = _FORMAT_DEFAULT,
+		inputOpts = {},
+	} = params
 
-		const output  = createWriteStream( join( outputDirectory, zipName ) )
-		const archive = archiver( 'zip', { zlib: { level: 6 } } ) // Reduced compression level for speed
+	await ensureDir( output )
 
-		output.on( 'close', () => {
-
-			onDone( zipName )
-			resolve()
-
-		} )
-
-		archive.on( 'error', err => {
-
-			onError( zipName, err )
-			reject( err )
-
-		} )
-
-		archive.pipe( output )
-		archive.file( sourceFilePath, { name: zipName.replace( '.zip', '' ) } )
-		archive.finalize()
-
+	const files = await getPaths( input, {
+		onlyFiles : true,
+		dot       : true,
+		...inputOpts,
 	} )
 
-}
+	await Promise.all( files.map( async file => {
 
-/**
- * Zips the specified file and saves it to the output directory.
- *
- * @param   {ZipFileOptions} options           - An object with properties.
- * @param   {string}         options.input     - The path to the file to be zipped.
- * @param   {string}         options.output    - The directory where the zip file should be saved.
- * @param   {string}         [options.name]    - The desired name for the zip file. If not provided, the original file name with `.zip` appended will be used.
- * @param   {Function}       [options.onDone]  - A callback to be called after the zip file is created. Takes a single argument of the zip file name.
- * @param   {Function}       [options.onError] - A callback to be called if an error occurs during the zipping process. Takes two arguments: the zip file name, and the error.
- * @returns {Promise<void>}
- */
-export const zipFile = async ( {
-	input,
-	output,
-	name,
-	onDone = () => {},
-	onError = () => {},
-}: ZipFileOptions ) => {
-
-	const zipName = name ? ( name.endsWith( '.zip' ) ? name : `${name}.zip` ) : basename( input )
-	return await zipFileWorker( input, zipName, output, onDone, onError )
-
-}
-
-/**
- * Zips the files in the specified source directory and saves them to the output directory.
- *
- * @param   {ZipDirOptions} options           - An object with properties.
- * @param   {string}        options.input     - The path to the source directory containing files to zip.
- * @param   {string}        options.output    - The path to the output directory where zip files will be saved.
- * @param   {Function}      [options.onDone]  - A function to be called after each zip file is created. Takes a string argument of the created zip file name.
- * @param   {Function}      [options.onError] - A function to be called if an error occurs. Takes two arguments: the zip file name, and the error.
- * @returns {Promise<void>}
- */
-export const zipFilesInDirectory = async ( {
-	input,
-	output,
-	onDone = () => {},
-	onError = () => {},
-}: ZipDirOptions ) => {
-
-	const createZipForFileInThread = async ( sourceDirectory: string, file: string, outputDirectory: string, onDone: ( n: string ) => void, onError: ( n: string, err: Error ) => void ) => {
-
-		const sourceFilePath = join( sourceDirectory, file )
-		const zipName        = `${file}.zip`
-		return zipFileWorker( sourceFilePath, zipName, outputDirectory, onDone, onError )
-
-	}
-
-	const filter = ( file: string ) => !( /(^|\/)\.[^\\/\\.]/g ).test( file )
-
-	// Ensure that the output directory exists or create it if it doesn't
-	if ( !( await existsPath( input ) ) ) await mkdir( output, { recursive: true } )
-
-	const files        = await readdir( input )
-	const visibleFiles = files.filter( filter )
-	const cpuCount     = cpus().length
-	const fileChunks   = []
-
-	for ( let i = 0; i < visibleFiles.length; i += cpuCount ) {
-
-		fileChunks.push( visibleFiles.slice( i, i + cpuCount ) )
-
-	}
-
-	// Process each chunk in parallel using workers
-	await Promise.all( fileChunks.map( async chunk => {
-
-		await Promise.all( chunk.map( file => createZipForFileInThread( input, file, output, onDone, onError ) ) )
+		await hook?.beforeFile?.( file )
+		await compressFile( {
+			input : file,
+			output,
+			name  : getBaseName( file ),
+			format,
+		} )
+		await hook?.afterFile?.( file )
 
 	} ) )
+
+}
+
+export const compressFile = async ( params: CompressFileOptions ) => {
+
+	const {
+		input,
+		output = _getDefaultOutputDirectory(),
+		name = getRandomUUID(),
+		format = _FORMAT_DEFAULT,
+		opts,
+	} = params
+
+	const archiveName = `${name}.${format}`
+	const archivePath = join( output, archiveName )
+
+	if ( format === FORMATS.ZIP )
+		await zip.compressFile( input, archivePath, opts?.zip )
+	else if ( format === FORMATS.TAR )
+		await tar.compressFile( input, archivePath, opts?.tar )
+	else if ( format === FORMATS.TGZ )
+		await tgz.compressFile( input, archivePath, opts?.tgz )
+	else if ( format === FORMATS.GZ )
+		await gzip.compressFile( input, archivePath, opts?.gzip )
+	else throw new Error( _setErrorFormat( format ) )
+
+	return archivePath
+
+}
+
+export const compressDir = async ( params: CompressDirOptions ): Promise<string> => {
+
+	const {
+		input,
+		output = _getDefaultOutputDirectory(),
+		name = getRandomUUID(),
+		format = _FORMAT_DEFAULT,
+		opts,
+	} = params
+
+	const archiveName = `${name}.${format}`
+	const archivePath = join( output, archiveName )
+
+	if ( format === FORMATS.ZIP )
+		await zip.compressDir( input, archivePath, opts?.zip )
+	else if ( format === FORMATS.TAR )
+		await tar.compressDir( input, archivePath, opts?.tar )
+	else if ( format === FORMATS.TGZ )
+		await tgz.compressDir( input, archivePath, opts?.tgz )
+	else if ( format === FORMATS.GZ )
+		throw new Error( 'Gzip compression of directories is not supported.' )
+	else throw new Error( _setErrorFormat( format ) )
+
+	return archivePath
+
+}
+
+export const compress = async ( opts: CompressOptions ) => {
+
+	const isDir = await isDirectory( opts.input )
+	if ( isDir ) await compressDir( opts )
+	else await compressFile( opts )
 
 }

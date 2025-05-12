@@ -22,6 +22,7 @@ import {
 	unlink,
 	copyFile as nodeCopyFile,
 	rm,
+	rename,
 } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import {
@@ -39,13 +40,74 @@ import {
 	pathToFileURL,
 } from 'node:url'
 
+/**
+ * Resolves a sequence of paths or path segments into an absolute path.
+ *
+ * @example
+ * resolvePath('foo', 'bar') // '/absolute/path/foo/bar'
+ */
 export const resolvePath = resolve
+
+/**
+ * Determines the relative path from one location to another.
+ *
+ * @example
+ * relativePath('/data/source', '/data/source/project') // 'project'
+ */
 export const relativePath = relative
+
+/**
+ * Returns the file extension of a path.
+ *
+ * @example
+ * getExtName('file.txt') // '.txt'
+ */
 export const getExtName = extname
+
+/**
+ * Returns the directory name of a path.
+ *
+ * @example
+ * getDirName('/path/to/file.txt') // '/path/to'
+ */
 export const getDirName = dirname
+
+/**
+ * Returns the last portion of a path.
+ *
+ * @example
+ * getBaseName('/path/file.txt') // 'file.txt'
+ * getBaseName('/path/file.txt', '.txt') // 'file'
+ */
 export const getBaseName = basename
+
+/**
+ * Determines whether a path is absolute.
+ *
+ * @example
+ * isAbsolutePath('/usr/bin') // true
+ * isAbsolutePath('file.txt') // false
+ */
 export const isAbsolutePath = isAbsolute
+
+/**
+ * Normalizes a path, resolving '..', '.', and redundant separators.
+ *
+ * @example
+ * normalizePath('foo//bar/../baz') // 'foo/baz'
+ */
 export const normalizePath = normalize
+
+/**
+ * Renames (moves) a file or directory asynchronously.
+ *
+ * @param   {string}        oldPath - The current name or path of the file/directory.
+ * @param   {string}        newPath - The new name or path for the file/directory.
+ * @returns {Promise<void>}         Resolves when the operation is complete.
+ * @example
+ * await renamePath('./old-name.txt', './new-name.txt')
+ */
+export const renamePath = rename
 
 export {
 	createWriteStream,

@@ -46,7 +46,6 @@
 		"+": "run() { pnpm -F @dovenv/\"${@:1}\"; }; run $@",
 		"++": "pnpm -F $@",
 		".": "node packages/core/dist/bin.mjs",
-		"b": "----------------------- BUILD ----------------------------",
 		"build": "pnpm run --sequential \"/build:.*/\"",
 		"build-doc": "pnpm -F @dovenv/_doc build",
 		"build:config": "pnpm -F @dovenv/eslint-config build && pnpm -F @dovenv/stylelint-config build",
@@ -54,12 +53,14 @@
 		"build:extra": "pnpm -F create-dovenv build",
 		"build:plugin": "pnpm -F './packages/plugin/**' build",
 		"build:theme": "pnpm -F './packages/theme/**' build",
-		"t": "----------------------- TESTS ----------------------------",
+		"lint:eslint": "node --run . -- lint eslint",
+		"lint:pkg": "node --run . -- lint custom -k pkg",
+		"lint:staged": "node --run . -- lint staged --silent",
 		"test": "pnpm run --sequential \"/test:.*/\"",
-		"test:check": "pnpm -F '*dovenv*' run check",
-		"test:check-ws": "pnpm --silent . check --silent",
+		"test:check": "pnpm --parallel check",
+		"test:check-ws": "node --run . -- check --silent",
 		"test:pkg": "pnpm --parallel test",
-		"test:transform-ws": "pnpm --silent . transform --silent"
+		"test:transform-ws": "node --run . -- transform --silent"
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "0.5.1",

@@ -71,12 +71,12 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 	const config = mergeBandaConfig( {
 		lint : {
 			staged : params?.lint?.staged || { '**/*.{js,ts,jsx,tsx,json}': 'dovenv lint eslint --fix --silent' },
-			custom : { ws : async ( {
+			custom : { pkg : async ( {
 				utils, run,
 			} ) => {
 
 				const pkgs = await utils.getPkgsData()
-				const pack = await utils.getPkgManager()
+				const pack = utils.packageManager.value
 
 				for ( const pkg of pkgs ) {
 

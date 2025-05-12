@@ -71,20 +71,26 @@ docs/dev-dist
 **/docs/dev-dist
 **/.wrangler/**
 `,
-	eslintConfig : `import * as dovenv from '@dovenv/theme-pigeonposse'
+	eslintConfig : `import {lint} from '@dovenv/theme-pigeonposse'
 
-export default [
-	dovenv.includeGitIgnore(),
-	...dovenv.config,
-	dovenv.setIgnoreConfig( [
+export default lint.dovenvEslintConfig.setConfig( [
+	general   : 'js',
+	toml      : true,
+	json      : true,
+	package   : true,
+	yaml      : true,
+	jsdoc     : false,
+	md        : true,
+	gitignore : true,
+	ignore    : [
 		'./docs/**.md',
 		'**/docs/data/**/*.md',
 		'**/CHANGELOG.md',
 		'**/examples/**/partials/*',
 		'**/.dovenv/**/partials/*',
 		'**/.dovenv/**/templates/*',
-	] ),
-]
+	],
+] )
 `,
 	editorconfig : `# #############################################################################
 # EditorConfig config.
