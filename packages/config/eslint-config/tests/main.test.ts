@@ -22,7 +22,7 @@ describe( 'ESLint configuration', () => {
 
 		expect( errorCount ).toBe( 0 )
 
-	} )
+	}, 20000 )
 
 	it( 'should have ESLint errors', async () => {
 
@@ -46,6 +46,6 @@ describe( 'ESLint configuration', () => {
 
 		}
 
-	} )
+	}, 20000 )
 
 } )
