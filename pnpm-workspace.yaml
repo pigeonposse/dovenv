@@ -1,5 +1,9 @@
 packages:
-  - 'packages/*'
-  - 'packages/plugin/*'
-  - 'packages/config/*'
-  - 'packages/theme/*'
+  - packages/*
+  - packages/plugin/*
+  - packages/config/*
+  - packages/theme/*
+onlyBuiltDependencies:
+  - carbon-now-cli
+  - esbuild
+  - sharp

@@ -3,6 +3,7 @@ import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { LlmsConfig }          from 'vitepress-plugin-llmstxt'
 
+import type { Meta }            from '../.vitepress/meta/types'
 import type { DeepNonNullable } from '@dovenv/core/utils'
 import type { PwaOptions }      from '@vite-pwa/vitepress'
 import type {
@@ -21,7 +22,7 @@ type Link = {
 	text : string
 	desc : string
 	/**
-	 * Icons IDs: https://simpleicons.org/
+	 * Icons IDs: https://simpleicons.org/.
 	 */
 	icon : SocialLink
 	link : string
@@ -67,47 +68,62 @@ export type ConfigResponse = {
 export type RequiredDocsConfig = DocsConfig & DeepNonNullable<
 	Pick<
 		DocsConfig,
-		'input' | 'output' | 'docsPath' | 'logo' | 'favicon' | 'name' | 'desc' | 'styles' | 'lang'
+		'input' | 'output' | 'docsPath' | 'logo' | 'favicon' | 'name' | 'desc' | 'styles' | 'lang' | 'titleTemplate'
 	>
 > & { license: { type: string } }
 
 export type DocsConfig = {
 	/**
 	 * Input directory for documentation files.
+	 *
 	 * @default './docs'
 	 */
-	input?    : string
+	input?         : string
 	/**
 	 * Output directory for the built documentation.
+	 *
 	 * @default './build'
 	 */
-	output?   : string
+	output?        : string
 	/**
 	 * Logo URL for the documentation site.
+	 *
 	 * @default '/logo.png'
 	 */
-	logo?     : string
+	logo?          : string
 	/**
 	 * Favicon URL for the documentation site.
+	 *
 	 * @default '/favicon.png'
 	 */
-	favicon?  : string
+	favicon?       : string
 	/**
 	 * Name of the project or documentation.
+	 *
 	 * @default 'DOVENV'
 	 */
-	name?     : string
+	name?          : string
+	/**
+	 * titleTemplate for the documentation site.
+	 */
+	titleTemplate? : ( data:{
+		title : string
+		name  : string
+	} ) => string
 	/**
 	 * Short description of the project or documentation.
+	 *
 	 * @default 'Workspace documentation'
 	 */
 	/**
 	 * Language code for the documentation, e.g., 'en' for English.
+	 *
 	 * @default 'en'
 	 */
 	lang?     : string
 	/**
-	 * Path to the documentation files. Used for editLink in pages
+	 * Path to the documentation files. Used for editLink in pages.
+	 *
 	 * @default 'docs'
 	 */
 	docsPath? : string
@@ -115,6 +131,7 @@ export type DocsConfig = {
 	license?: {
 		/**
 		 * Type of license (e.g., MIT, GPL).
+		 *
 		 * @default 'MIT'
 		 */
 		type? : string
@@ -139,7 +156,7 @@ export type DocsConfig = {
 	/** Version of the project. */
 	/** CHANGELOG url of the project. */
 	changelogURL?    : string | false
-	/** contributing url of the project. */
+	/** Contributing url of the project. */
 	contributingURL? : string | false
 	version?         : string
 	/** Array of previous versions of the project, each with a name and a URL. */
@@ -169,7 +186,12 @@ export type DocsConfig = {
 		/** Border radius for elements in the theme. */
 		radius? : string
 	}
-	/** Open Graph meta tags for better link previews on social media. */
+	meta? : Meta
+	/**
+	 * Open Graph meta tags for better link previews on social media.
+	 *
+	 * @deprecated
+	 */
 	og?: {
 		/** Description for the Open Graph metadata. */
 		description?    : string
@@ -214,7 +236,8 @@ export type DocsConfig = {
 		}
 	}
 	/**
-	 * Configuration for LLMs text files
+	 * Configuration for LLMs text files.
+	 *
 	 * @see https://llmstxt.org/
 	 */
 	llms?        : LlmsConfig | false
@@ -224,21 +247,25 @@ export type DocsConfig = {
 	autoSidebar? : {
 		/**
 		 * Display the "Get started" section in the sidebar.
+		 *
 		 * @default true
 		 */
 		intro?      : boolean
 		/**
 		 * Display the "Reference" section in the sidebar.
+		 *
 		 * @default true
 		 */
 		reference?  : boolean
 		/**
 		 * Display the "Contribute" section in the sidebar.
+		 *
 		 * @default true
 		 */
 		contribute? : boolean
 		/**
 		 * Display the "About" section in the sidebar.
+		 *
 		 * @default true
 		 */
 		about?      : boolean
@@ -247,7 +274,7 @@ export type DocsConfig = {
 	nav?      : Nav
 	/**
 	 * Additional navigation links.
-	 * Icons IDs: https://simpleicons.org/
+	 * Icons IDs: https://simpleicons.org/.
 	 */
 	navLinks? : SocialLinks
 	/** Server-related configurations, including file watching settings. */
@@ -273,7 +300,7 @@ export type DocsConfig = {
 		desc?       : string
 		/**
 		 * Social links for the member (e.g., GitHub, Twitter).
-		 * Icons IDs: https://simpleicons.org/
+		 * Icons IDs: https://simpleicons.org/.
 		 */
 		links?      : SocialLinks
 		/** URL for the sponsor page for the member. */
@@ -288,6 +315,7 @@ export type DocsConfig = {
 		/**
 		 * Optional grouping of download items by category.
 		 * Each key in the object represents a group name and maps to a string label.
+		 *
 		 * @example
 		 * {
 		 *   "extension": "extension",
@@ -312,20 +340,21 @@ export type DocsConfig = {
 	}
 	/** Group icon options */
 	groupIcon?    : Parameters<typeof groupIconVitePlugin>[0] | false
-	/** twoslash options */
+	/** Twoslash options */
 	twoslash?     : Parameters<typeof transformerTwoslash>[0] | false
 	/** VitePress user configuration for additional options. */
 	vitepress?    : UserConfig
 	/**
 	 * Settings for experimental options.
 	 *
-	 * **Use at your own risk**
+	 * **Use at your own risk**.
 	 */
 	experimental? : {
 		/**
 		 * Disable temp directory during compilation.
 		 * The temp directory is used to store documentation files in the output directory during the compilation process.
-		 * Used to allow input paths with '../'
+		 * Used to allow input paths with '../'.
+		 *
 		 * @default false
 		 */
 		noTempDirOnBuild? : boolean

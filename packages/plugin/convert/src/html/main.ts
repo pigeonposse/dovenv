@@ -36,7 +36,7 @@ export class Html2Markdown extends ConvertSuper<Html2MarkdownProps> {
 				id : i.id,
 				content,
 			} )
-			if (  this.props.output ) await this._writeOutput( this.props.output, i.id, content )
+			if ( this.props.output ) await this._writeOutput( this.props.output, i.id, content )
 
 		}
 

@@ -221,14 +221,14 @@ export default defineConfig( workspacePlugin() )
 ```ts
 type Config: {
   check: {
-     pkg: Prettify<Sharedcheck & {
+     pkg: Record<string, Prettify<Sharedcheck & {
         schema: (opts: {
            content: PackageJSON;
            path: string;
            utils: CommandUtils;
            v: Validate;
           }) => Promise<ValidateAnyType | void> | ValidateAnyType | void;
-       }>;
+       }>>;
     };
   custom: { [key in string]: Function };
   info: {
@@ -253,13 +253,13 @@ type Config: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `check`? | \{ `pkg`: `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>; \} | - |
-| `check.pkg`? | `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\> | Checks for packages |
-| `custom`? | `{ [key in string]: Function }` | custom configration for ws |
-| `info`? | \{ `instructions`: `string`; `structure`: `object`; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace |
-| `info.instructions`? | `string` | Instructions for the workspace. Must be markdown format. Accepts string, URL or path **Example** `## Pre-requisites project needs the following tools to work: - `node` > 20 installed - `pnpm` > 9 installed - `gh` > 2 installed - `git` > 2 installed ## Init workspace pnpm install` |
-| `info.structure`? | `object` | Structure of the workspace |
-| `info.usefulCmds`? | \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[] | Add more commands to the list of useful commands **Example** `usefullCmds : [ 	{ 		desc : 'Checks for outdated packages.', 		cmd : 'pnpm -r outdated', 	}, ]` |
+| `check`? | \{ `pkg`: `Record`\<`string`, `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>\>; \} | - |
+| `check.pkg`? | `Record`\<`string`, `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>\> | Checks for workspace package(s). |
+| `custom`? | `{ [key in string]: Function }` | Custom configration for ws |
+| `info`? | \{ `instructions`: `string`; `structure`: `object`; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace. |
+| `info.instructions`? | `string` | Instructions for the workspace. Must be markdown format. Accepts string, URL or path. **Example** `## Pre-requisites project needs the following tools to work: - `node` > 20 installed - `pnpm` > 9 installed - `gh` > 2 installed - `git` > 2 installed ## Init workspace pnpm install` |
+| `info.structure`? | `object` | Structure of the workspace. |
+| `info.usefulCmds`? | \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[] | Add more commands to the list of useful commands. **Example** `usefullCmds : [ 	{ 		desc : 'Checks for outdated packages.', 		cmd : 'pnpm -r outdated', 	}, ]` |
 | `reinstall`? | \{ `hook`: \{ `after`: () => `Promise`\<`void`\>; `before`: () => `Promise`\<`void`\>; \}; \} | Reinstall the workspace options |
 | `reinstall.hook`? | \{ `after`: () => `Promise`\<`void`\>; `before`: () => `Promise`\<`void`\>; \} | - |
 | `reinstall.hook.after`? | () => `Promise`\<`void`\> | Hook after reinstallation |

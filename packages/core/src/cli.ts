@@ -41,7 +41,8 @@ export { CONSTS }
  * - Transform paths with configurable patterns.
  * - Extend or override default behaviors with custom configurations.
  *
- * ---
+ * ---.
+ *
  * @see https://dovenv.pigeonposse.com/guide/core
  * @example
  * // Create an instance with custom configurations
@@ -78,7 +79,8 @@ export class Dovenv {
 
 	/**
 	 * Creates a new `Dovenv` instance.
-	 * @param {Params} [params] - Optional initialization parameters.
+	 *
+	 * @param {Params}           [params]        - Optional initialization parameters.
 	 * @param {Params['config']} [params.config] - Configuration object for commands and options.
 	 */
 	constructor( params?: Params ) {
@@ -89,7 +91,8 @@ export class Dovenv {
 
 	/**
 	 * Runs the build process with the given arguments.
-	 * @param {string[]} args Arguments to pass to the run process.
+	 *
+	 * @param {string[]} args - Arguments to pass to the run process.
 	 * @example
 	 * const dovenv = new Dovenv({
 	 *   config: {

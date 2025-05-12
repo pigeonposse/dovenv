@@ -3,14 +3,15 @@ import type {
 	onConsoleOpts,
 	ReplaceConsoleOpts,
 } from './types'
-import type { AnyArray } from '../../ts/main'
+import type { AnyArray } from '../../ts'
 
 /**
  * Intercepts console methods and applies a transformation function to all arguments.
  *
  * Useful for replacing certain values in console output, such as API keys or other sensitive information.
- * @param {onConsoleOpts} opts - Options for the console interceptor.
- * @returns {object} A Object with `start` and `stop` methods.
+ *
+ * @param   {onConsoleOpts} opts - Options for the console interceptor.
+ * @returns {object}             A Object with `start` and `stop` methods.
  * @example
  * import { onConsole } from '@dovenv/utils'
  * const secretOut = onConsole({
@@ -86,8 +87,9 @@ export const onConsole = ( opts: onConsoleOpts ) => {
 
 /**
  * Replaces values in console output using a set of parameters.
- * @param {ReplaceConsoleOpts} opts - Options for the console output replacer.
- * @returns {object} A Object with `start` and `stop` methods.
+ *
+ * @param   {ReplaceConsoleOpts} opts - Options for the console output replacer.
+ * @returns {object}                  A Object with `start` and `stop` methods.
  * @example
  * import { replaceConsole } from '@dovenv/utils'
  * const versionOut = replaceConsole({

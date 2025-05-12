@@ -18,7 +18,7 @@ Features:
 - Transform paths with configurable patterns.
 - Extend or override default behaviors with custom configurations.
 
----
+---.
 
 #### See
 
@@ -182,7 +182,7 @@ If a package.json object is not provided, it reads and parses it from the worksp
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `data`? | `object` | Data |
+| `data`? | `object` | Data. |
 | `data.pkg`? | `Record`\<`string`, `unknown`\> | Optional package.json content as an object. |
 | `data.wsDir`? | `string` | The workspace directory path. **Default** `process.cwd()` |
 
@@ -255,13 +255,13 @@ type Config: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `alias`? | `AliasesConfig` | Configuration for the `aliases` |
-| `check`? | `CheckConfig` | Configuration for the `check` command |
-| `const`? | `ConstConfig` | Configuration for set the constants used in templates |
-| `custom`? | `CustomConfig` | Configuration for create `custom` commands |
-| `desc`? | `string` | Description of the project |
-| `name`? | `string` | Name of the project |
-| `transform`? | `TransformConfig` | Configuration for the `transform` command |
+| `alias`? | `AliasesConfig` | Configuration for the `aliases`. |
+| `check`? | `CheckConfig` | Configuration for the `check` command. |
+| `const`? | `ConstConfig` | Configuration for set the constants used in templates. |
+| `custom`? | `CustomConfig` | Configuration for create `custom` commands. |
+| `desc`? | `string` | Description of the project. |
+| `name`? | `string` | Name of the project. |
+| `transform`? | `TransformConfig` | Configuration for the `transform` command. |
 
 ***
 
@@ -277,4 +277,4 @@ type Params: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `config`? | [`Config`](#config) | Configuration for dovenv **See** https://dovenv.pigeonposse.com/guide/core/api#config |
+| `config`? | [`Config`](#config) | Configuration for dovenv. **See** https://dovenv.pigeonposse.com/guide/core/api#config |

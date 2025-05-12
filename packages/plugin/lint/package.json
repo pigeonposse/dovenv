@@ -25,7 +25,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
+		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/plugin/lint"
 	},
 	"funding": {
@@ -40,7 +40,16 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs"
+		".": {
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
+		}
 	},
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
@@ -54,15 +63,16 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@commitlint/format": "19.5.0",
-		"@commitlint/lint": "19.7.1",
-		"@commitlint/load": "19.6.1",
-		"@commitlint/read": "19.5.0",
+		"@commitlint/format": "19.8.1",
+		"@commitlint/lint": "19.8.1",
+		"@commitlint/load": "19.8.1",
+		"@commitlint/read": "19.8.1",
 		"@dovenv/eslint-config": "workspace:*",
 		"@dovenv/stylelint-config": "workspace:*",
 		"commitlint-config-gitmoji": "2.3.1",
-		"lint-staged": "15.4.3",
-		"stylelint": "16.14.1",
+		"lint-staged": "15.5.2",
+		"publint": "0.3.12",
+		"stylelint": "16.19.1",
 		"stylelint-formatter-pretty": "4.0.1"
 	},
 	"devDependencies": {

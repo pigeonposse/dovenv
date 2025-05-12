@@ -9,7 +9,7 @@ const secretOut = onStd( {
 } )
 secretOut.start()
 process.stdout.write( 'My pass is hiiden: secret\n' )
-process.stderr.write(  'is not pass: secret\n' )
+process.stderr.write( 'is not pass: secret\n' )
 secretOut.stop()
 process.stdout.write( 'My pass is visible: secret\n' )
 

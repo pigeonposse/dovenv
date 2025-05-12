@@ -4,6 +4,7 @@ import { LocalStorage  } from 'node-localstorage'
 
 /**
  * Creates a new instance of LocalStorage with the specified location.
+ *
  * @param   {string}       location - The location where the local storage data will be stored.
  * @returns {LocalStorage}          - A new instance of LocalStorage.
  * @example import { localStorage } from "@dovenv/utils"

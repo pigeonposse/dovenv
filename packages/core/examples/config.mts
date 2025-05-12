@@ -1,4 +1,4 @@
-import { defineConfig } from '../src/main'
+import { defineConfig } from '../src/main' // change it for @dovenv/core
 
 export default defineConfig( {
 	name : 'MTS WORKSPACE',

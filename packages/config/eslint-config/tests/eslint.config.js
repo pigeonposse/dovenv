@@ -1,4 +1,8 @@
-import * as dovenv  from '../dist/main.mjs'
-import svelteConfig from '../dist/svelte.mjs'
-// console.dir( dovenv.generalConfig, { depth: 4 } )
-export default [ ...dovenv.config, ...svelteConfig ]
+import * as dovenv from '../dist/main.mjs'
+
+export default [
+	...dovenv.config,
+	...dovenv.cssConfig,
+	...dovenv.setSvelteConfig( { ts: true } ),
+	...dovenv.vueConfig,
+]

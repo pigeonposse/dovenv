@@ -18,11 +18,11 @@ export const templateConstructor = ( emojis?: EmojiObject | false ) => {
 
 	return {
 		/**
-		 * Returns the readme template for a package
+		 * Returns the readme template for a package.
 		 *
-		 * **required const**: title, pkg, socialBadges, pkgBadges, toc, banner
+		 * **required const**: title, pkg, socialBadges, pkgBadges, toc, banner.
 		 *
-		 * **required partial**: installation, toc, content
+		 * **required partial**: installation, toc, content.
 		 */
 		readmePkg : `# {{const.title}}
 
@@ -52,9 +52,9 @@ export const templateConstructor = ( emojis?: EmojiObject | false ) => {
 		/**
 		 * Returns a index template for a `dovenv` docs page.
 		 *
-		 * **required const**: templateMark, docsIndex
+		 * **required const**: templateMark, docsIndex.
 		 *
-		 * **required partial**: installationGroup
+		 * **required partial**: installationGroup.
 		 */
 		docsIndex : `---
 {{const.templateMark}}
@@ -68,9 +68,9 @@ export const templateConstructor = ( emojis?: EmojiObject | false ) => {
 		/**
 		 * Returns a index template for a `dovenv` docs page with project creation instructions.
 		 *
-		 * **required const**: templateMark, docsIndex
+		 * **required const**: templateMark, docsIndex.
 		 *
-		 * **required partial**: installationGroup
+		 * **required partial**: installationGroup.
 		 */
 		docsIndexWithCreate : `---
 {{const.templateMark}}
@@ -88,7 +88,7 @@ export const templateConstructor = ( emojis?: EmojiObject | false ) => {
 		/**
 		 * Returns a contributors index template for a `dovenv` docs page.
 		 *
-		 * **required const**: templateMark
+		 * **required const**: templateMark.
 		 */
 		docsContributors : `---
 {{const.templateMark}}

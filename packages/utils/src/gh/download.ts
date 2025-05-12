@@ -1,9 +1,10 @@
 /**
  * Download a GitHub repository directory.
- * Forked from https://github.com/eilrix/github-directory-downloader/blob/master/src/types.ts
- * @todo Improve performance
- * @todo that you can download files or directories
- * @todo Make it so that you don't need to type the URL, just the paths
+ * Forked from https://github.com/eilrix/github-directory-downloader/blob/master/src/types.ts.
+ *
+ * @todo Improve performance.
+ * @todo That you can download files or directories.
+ * @todo Make it so that you don't need to type the URL, just the paths.
  */
 import { pipeline }  from 'node:stream'
 import { promisify } from 'node:util'
@@ -14,7 +15,7 @@ import {
 	resolvePath,
 	createWriteStream,
 	ensureDir,
-} from '../sys/main'
+} from '../sys'
 
 import type {
 	Config,
@@ -342,10 +343,11 @@ const downloadGH = async ( source: string, saveTo: string, config?: Config ): Pr
 
 /**
  * Downloads a directory from GitHub.
- * @param {string} args - An object containing the URL of the GitHub repo directory and the path to the output directory.
- * @param {string} args.input - The URL of the GitHub repo directory.
- * @param {string} args.output - The path to the output directory.
- * @param {string} [args.token] - The GitHub token for authentication.
+ *
+ * @param   {string}        args         - An object containing the URL of the GitHub repo directory and the path to the output directory.
+ * @param   {string}        args.input   - The URL of the GitHub repo directory.
+ * @param   {string}        args.output  - The path to the output directory.
+ * @param   {string}        [args.token] - The GitHub token for authentication.
  * @returns {Promise<void>}
  * @example
  *

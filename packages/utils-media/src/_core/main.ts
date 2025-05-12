@@ -2,6 +2,7 @@
 /**
  * Inspired from `asciify-image` library.
  * Is the same as the `asciify` but with modern code and no dependencies.
+ *
  * @see https://github.com/ajay-gandhi/asciify-image/
  */
 
@@ -10,7 +11,7 @@ import {
 	color as Couleurs,
 	getPlatform,
 	readFile,
-}     from '@dovenv/utils'
+} from '@dovenv/utils'
 import Jimp       from 'jimp-compact' // 1.3MB @see https://pkg-size.dev/jimp-compact
 import { Buffer } from 'node:buffer'
 
@@ -32,7 +33,7 @@ const getTerminalSize = (): {
 
 	return {
 		width  : process.stdout.columns || 80, // Ancho predeterminado en caso de no estar disponible
-		height : process.stdout.rows || 24,  // Alto predeterminado en caso de no estar disponible
+		height : process.stdout.rows || 24, // Alto predeterminado en caso de no estar disponible
 	}
 
 }
@@ -210,7 +211,7 @@ export const _getMediaInput = async ( input: string | Buffer ): Promise<Buffer> 
 
 		if ( type === 'url' ) return await _fetchImage( input )
 		else if ( type === 'path' ) return await readFile( input )
-		else return Buffer.from( input,  'utf-8' )
+		else return Buffer.from( input, 'utf-8' )
 
 	}
 	else if ( Buffer.isBuffer( input ) ) return input
@@ -226,7 +227,7 @@ export const _getMediaInputString = async ( input: string | Buffer ): Promise<st
 
 		if ( type === 'url' ) input = await _fetchImage( input )
 		else if ( type === 'path' ) input = await readFile( input )
-		else input = Buffer.from( input,  'utf-8' )
+		else input = Buffer.from( input, 'utf-8' )
 
 	}
 

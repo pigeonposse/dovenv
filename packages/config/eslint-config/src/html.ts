@@ -1,64 +1,76 @@
 import html from '@html-eslint/eslint-plugin'
-// @ts-ignore
-import htmlPlugin from 'eslint-plugin-html'
 
-import type { Config } from './_types'
+import { FILES } from './const'
 
-export const generealConfig = ( rules?: Config['rules'] ): Config => ( {
-	...html.configs['flat/recommended'] as Config,
-	rules : {
-		'@html-eslint/indent'               : [ 'error', 'tab' ],
-		'@html-eslint/sort-attrs'           : [ 'error' ],
-		'@html-eslint/quotes'               : [ 'error', 'double' ],
-		'@html-eslint/element-newline'      : [ 'error', { skip: [ 'li' ] } ],
-		'@html-eslint/attrs-newline'        : 'error',
-		'@html-eslint/no-script-style-type' : 'error',
-		'@html-eslint/no-duplicate-id'      : 'error',
-		'@html-eslint/no-obsolete-tags'     : 'error',
-		'@html-eslint/require-li-container' : 'error',
-		'@html-eslint/no-multiple-h1'       : 'error',
-		'@html-eslint/require-attrs'        : [
-			'error',
-			{
-				tag  : 'img',
-				attr : 'alt',
-			},
-			{
-				tag  : 'img',
-				attr : 'src',
-			},
-			{
-				tag  : 'svg',
-				attr : 'viewBox',
-			},
-		],
-		...( rules ? rules : {} ),
-	},
-} )
+import type {
+	Config,
+	ConfigParamsSuper,
+} from './_types'
+
+export type HtmlConfigParmas = ConfigParamsSuper
 
 /**
- * HTML Eslint config
- *  @see https://www.npmjs.com/package/eslint-plugin-html
+ * Set HTML ESLint config.
+ *
+ * Generates an HTML ESLint config based on the given parameters.
+ *
+ * @param   {HtmlConfigParmas} [params] - Custom rules to apply.
+ * @returns {Config[]}                  - The generated HTML ESLint config.
+ * @see https://html-eslint.org/docs/rules
+ * @example
+ * // Generates a basic HTML ESLint config.
+ * const config = setHtmlConfig()
+ *
+ * // Generates an HTML ESLint config with custom rules.
+ * const config = setHtmlConfig({
+ *   rules: {
+ *     '@html-eslint/indent' : [ 'error', 'tab' ],
+ *     '@html-eslint/sort-attrs' : [ 'error' ],
+ *     // ... other rules
+ *   },
+ * })
  */
-export const config: Config[] = [
+export const setHtmlConfig = ( params?: HtmlConfigParmas ): Config[] => [
 	{
-		files           : [ '**/*.html', '**/*.we' ],
-		plugins         : { htmlPlugin },
-		languageOptions : { sourceType: 'module' },
-		settings        : {
-			'html/xtml-extensions'   : [ '.html' ],
-			'html/html-extensions'   : [ '.html', '.we' ], // consider .html and .we files as HTML
-			'html/indent'            : 'tab', // indentation is one tab at the beginning of the line.
-			'html/report-bad-indent' : 'error',
-		},
-	},
-	{
-		// recommended configuration included in the plugin
-		...generealConfig( {
+		...html.configs['flat/recommended'] as Config,
+		files : [ FILES.HTML ],
+		rules : {
+			'@html-eslint/indent'               : [ 'error', 'tab' ],
+			'@html-eslint/sort-attrs'           : [ 'error' ],
+			'@html-eslint/quotes'               : [ 'error', 'double' ],
+			'@html-eslint/element-newline'      : [ 'error', { skip: [ 'li' ] } ],
+			'@html-eslint/attrs-newline'        : 'error',
+			'@html-eslint/no-script-style-type' : 'error',
+			'@html-eslint/no-duplicate-id'      : 'error',
+			'@html-eslint/no-obsolete-tags'     : 'error',
+			'@html-eslint/require-li-container' : 'error',
+			'@html-eslint/no-multiple-h1'       : 'error',
 			'@html-eslint/require-closing-tags' : 'error',
 			'@html-eslint/lowercase'            : 'error',
-		} ),
-		files : [ '**/*.html' ],
+			'@html-eslint/require-attrs'        : [
+				'error',
+				{
+					tag  : 'img',
+					attr : 'alt',
+				},
+				{
+					tag  : 'img',
+					attr : 'src',
+				},
+				{
+					tag  : 'svg',
+					attr : 'viewBox',
+				},
+			],
+			...( params?.rules ? params.rules : {} ),
+		},
 	},
 ]
-export default config
+
+/**
+ * HTML Eslint config.
+ *
+ * @see https://html-eslint.org/docs/rules
+ */
+export const htmlConfig = setHtmlConfig( )
+

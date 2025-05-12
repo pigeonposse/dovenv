@@ -4,7 +4,7 @@ import {
 	getCurrentDir,
 	joinPath,
 } from '@dovenv/core/utils'
-import { lintPlugin } from '@dovenv/lint'
+// import { lintPlugin } from '@dovenv/lint'
 
 import pkg            from '../../../../package.json'
 import { repoPlugin } from '../src/main'
@@ -14,7 +14,7 @@ export default defineConfig( [
 		pkg,
 		workspaceDir : joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
 	} },
-	lintPlugin( { commitlint: { gitmoji: true } } ),
+	// lintPlugin( { commitlint: { gitmoji: true } } ),
 	repoPlugin( {
 		URL          : 'https://github.com/pigeonposse/dovenv',
 		contributors : {

@@ -11,7 +11,8 @@ export type TransformConfig = {
 		/** Array of input patterns */
 		input : string[]
 		/**
-		 * Function for transform inputs
+		 * Function for transform inputs.
+		 *
 		 * @example ({content}) => content.trim() === '' ? 'Default content' : content
 		 */
 		fn : ( data: {

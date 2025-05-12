@@ -116,7 +116,7 @@ run(flags?: string[]): Promise<undefined | void>
 
 ### Lint
 
-Lint class with all lint functions
+Lint class with all lint functions.
 
 #### Extends
 
@@ -166,7 +166,7 @@ commitlint(userMsg?: string): Promise<void>
 ##### custom()
 
 ```ts
-custom(pattern?: string[]): Promise<undefined | void>
+custom(pattern?: string[]): Promise<void>
 ```
 
 ###### Parameters
@@ -177,7 +177,7 @@ custom(pattern?: string[]): Promise<undefined | void>
 
 ###### Returns
 
-`Promise`\<`undefined` \| `void`\>
+`Promise`\<`void`\>
 
 ##### eslint()
 
@@ -194,6 +194,22 @@ eslint(flags: string[]): Promise<undefined | void>
 ###### Returns
 
 `Promise`\<`undefined` \| `void`\>
+
+##### publint()
+
+```ts
+publint(keys?: string[]): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `keys`? | `string`[] |
+
+###### Returns
+
+`Promise`\<`void`\>
 
 ##### staged()
 
@@ -227,6 +243,78 @@ stylelint(files?: string[], fix?: boolean): Promise<void>
 | Property | Modifier | Type | Inherited from |
 | ------ | ------ | ------ | ------ |
 | `opts` | `public` | `undefined` \| [`Config`](#config) | `LintSuper.opts` |
+| `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
+
+***
+
+### PubLint
+
+#### Extends
+
+- `LintSuper`\<`PubLintConfig`\>
+
+#### Constructors
+
+##### new PubLint()
+
+```ts
+new PubLint(opts: undefined | PubLintConfig, utils: CommandSuper): PubLint
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts` | `undefined` \| `PubLintConfig` |
+| `utils` | `CommandSuper` |
+
+###### Returns
+
+[`PubLint`](#publint-1)
+
+###### Inherited from
+
+`LintSuper<PubLintConfig>.constructor`
+
+#### Methods
+
+##### run()
+
+```ts
+run(keys?: string[]): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `keys`? | `string`[] |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+##### runOne()
+
+```ts
+runOne(opts?: PubLintOpts): Promise<void>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts`? | `PubLintOpts` |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+#### Properties
+
+| Property | Modifier | Type | Inherited from |
+| ------ | ------ | ------ | ------ |
+| `opts` | `public` | `undefined` \| `PubLintConfig` | `LintSuper.opts` |
 | `utils` | `public` | `CommandSuper` | `LintSuper.utils` |
 
 ***
@@ -358,13 +446,13 @@ Configures and returns a DovenvConfig object for linting tools.
 
 A configuration object with custom lint commands and descriptions.
 
-Provides linting commands for different file types and commit messages:
-- `staged`: Lints staged git files.
-- `stylelint`: Lints CSS/SCSS/LESS/SASS/PostCSS files with options to fix errors and specify files.
-- `eslint`: Lints JS/TS/MD/JSON/YAML files.
-- `commitlint`: Lints commit messages, either the last commit message or a specified message.
+                               Provides linting commands for different file types and commit messages:
+                               - `staged`: Lints staged git files.
+                               - `stylelint`: Lints CSS/SCSS/LESS/SASS/PostCSS files with options to fix errors and specify files.
+                               - `eslint`: Lints JS/TS/MD/JSON/YAML files.
+                               - `commitlint`: Lints commit messages, either the last commit message or a specified message.
 
-Examples include linting CSS files, JS files, commit messages, and staged files.
+                               Examples include linting CSS files, JS files, commit messages, and staged files.
 
 ## Type Aliases
 
@@ -375,6 +463,7 @@ type Config: {
   commitlint: CommitlintConfig;
   custom: { [key in string]: Function };
   eslint: EslintConfig;
+  publint: PubLintConfig;
   staged: LintStagedConfig;
   stylelint: StylelintConfig;
 };
@@ -385,8 +474,9 @@ type Config: {
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | `commitlint`? | `CommitlintConfig` | Config for lint commit messages |
-| `custom`? | `{ [key in string]: Function }` | - |
-| `eslint`? | `EslintConfig` | Config for lint JS/TS/MD/JSON/YAML.. files |
+| `custom`? | `{ [key in string]: Function }` | Custom lint |
+| `eslint`? | `EslintConfig` | Config for lint JS/TS/MD/JSON/YAML.. Files |
+| `publint`? | `PubLintConfig` | Config for publint |
 | `staged`? | `LintStagedConfig` | Config for lint staged GIT files |
 | `stylelint`? | `StylelintConfig` | Config for lint CSS/SCSS/LESS/SASS/PostCSS files |
 

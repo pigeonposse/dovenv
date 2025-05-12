@@ -9,16 +9,18 @@ import {
 	promptLineMethods,
 	type PromptLineParams,
 } from './types'
-import {
-	box,
-	columns,
-	table,
-}              from '../../../styles/main'
+import { process }                       from '../../core'
 import { promptGroup as promptEnquirer } from '../prompt/main'
 
 import type { State }                 from './state'
 import type { PromptLineCancelProps } from './types'
 import type { PromptParams }          from '../prompt/types'
+
+import {
+	box,
+	columns,
+	table,
+} from '@/styles'
 
 const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 
@@ -79,6 +81,16 @@ export const promptLineEnquirer = enquirer2clack
 
 export const promptLine = {
 	...promptLineCore,
+	log : {
+		...promptLineCore.log,
+		errorWithExit : ( m: string ) => {
+
+			promptLineCore.log.error( m )
+			console.log()
+			process.exit( 1 )
+
+		},
+	},
 	number,
 	...printOptions,
 }
@@ -86,6 +98,7 @@ export const promptLine = {
 /**
  *
  * Define a group of prompts to be displayed and return a results of objects within the group.
+ *
  * @param   {PromptLineParams} params - PromptLine options .
  * @returns {Promise<*>}              - Object with answers.
  * @example

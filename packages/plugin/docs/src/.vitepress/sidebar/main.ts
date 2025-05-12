@@ -11,7 +11,7 @@ import type {
 
 const capitalize = ( s: string ) => s.charAt( 0 ).toUpperCase() + s.slice( 1 )
 
-const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined )  => {
+const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined ) => {
 
 	try {
 
@@ -19,7 +19,7 @@ const setPath: SetPath = ( title, path, items = undefined, collapsed = undefined
 			{
 				text      : title,
 				items     : items,
-				collapsed : collapsed !== undefined  && typeof collapsed === 'boolean' ? collapsed : undefined,
+				collapsed : collapsed !== undefined && typeof collapsed === 'boolean' ? collapsed : undefined,
 			},
 		]
 		else if ( path ) {

@@ -1,9 +1,10 @@
-import { fetch2string }     from './content'
-import { getCharsAndWords } from '../string/count'
+import { fetch2string } from './content'
 import {
 	getPaths,
 	readFile,
-} from './super/main'
+} from './super'
+
+import { getCharsAndWords } from '@/string/count'
 
 type GetCharsAndWordsFromPathsOptions = {
 	input : string[]
@@ -25,8 +26,9 @@ type GetCharsAndWordsFromResponse = {
 
 /**
  * Gets the total number of characters and words in all files matching the given glob pattern.
- * @param {GetCharsAndWordsFromPathsOptions} param0 - An object containing the input glob pattern and options.
- * @returns {Promise<{ files: number, chars: number, words: number }>} - An object with properties for the number of files, the total number of characters, and the total number of words.
+ *
+ * @param   {GetCharsAndWordsFromPathsOptions}                         param0 - An object containing the input glob pattern and options.
+ * @returns {Promise<{ files: number, chars: number, words: number }>}        - An object with properties for the number of files, the total number of characters, and the total number of words.
  * @throws {Error} If there is an error while reading the files.
  */
 export const getCountFromPaths = async ( {
@@ -60,8 +62,9 @@ export const getCountFromPaths = async ( {
 
 /**
  * Gets the total number of characters and words in all files matching the given glob pattern.
- * @param {GetCharsAndWordsFromPathsOptions} param0 - An object containing the input glob pattern and options.
- * @returns {Promise<GetCharsAndWordsFromResponse>} - An object with the total number of characters and words.
+ *
+ * @param   {GetCharsAndWordsFromPathsOptions}      param0 - An object containing the input glob pattern and options.
+ * @returns {Promise<GetCharsAndWordsFromResponse>}        - An object with the total number of characters and words.
  * @throws {Error} If an error occurs while reading the files.
  * @example const result = await getCharsAndWordsFromPaths({ input: ['*.md'] });
  * console.log(result.chars); // Total characters
@@ -89,8 +92,9 @@ export const getCharsAndWordsFromPaths = async ( {
 
 /**
  * Gets the total number of characters and words from the given URLs.
- * @param {GetCharsAndWordsFromPathsOptions} param0 - An object containing the input URLs.
- * @returns {Promise<GetCharsAndWordsFromResponse>} - An object with the total number of characters and words.
+ *
+ * @param   {GetCharsAndWordsFromPathsOptions}      param0 - An object containing the input URLs.
+ * @returns {Promise<GetCharsAndWordsFromResponse>}        - An object with the total number of characters and words.
  * @throws {Error} If an error occurs while fetching the URLs.
  * @example const result = await getCharsAndWordsFromUrl({ input: ['https://example.com'] });
  * console.log(result.chars); // Total characters
@@ -120,8 +124,9 @@ export const getCharsAndWordsFromUrl = async ( { input }: GetCharsAndWordsFromPa
 
 /**
  * Calculates the total number of characters and words from a list of string content.
- * @param {GetCharsAndWordsFromContentOptions} param0 - An object containing the input strings to analyze.
- * @returns {Promise<GetCharsAndWordsFromResponse>} - An object with the total number of characters and words.
+ *
+ * @param   {GetCharsAndWordsFromContentOptions}    param0 - An object containing the input strings to analyze.
+ * @returns {Promise<GetCharsAndWordsFromResponse>}        - An object with the total number of characters and words.
  * @example
  * const result = await getCharsAndWordsFromContent({ input: ['Hello world!', 'This is a test.'] });
  * console.log(result.chars); // Total characters
@@ -150,12 +155,13 @@ export const getCharsAndWordsFromContent = async ( { input }: GetCharsAndWordsFr
 
 /**
  * Gets the total number of characters and words from various sources: glob pattern, URL, or string content.
- * @param {object} options - Options for processing content.
- * @param {string[]} [options.paths] - Glob pattern to search for files.
- * @param {string} [options.url] - URL to fetch content from.
- * @param {string} [options.content] - Direct string content to analyze.
- * @param {GetCharsAndWordsFromOptions['opts']}[options.opts] - Additional options for processing content.
- * @returns {Promise<{ chars: number, words: number }>} - Total characters and words in the content.
+ *
+ * @param   {object}                                    options           - Options for processing content.
+ * @param   {string[]}                                  [options.paths]   - Glob pattern to search for files.
+ * @param   {string}                                    [options.url]     - URL to fetch content from.
+ * @param   {string}                                    [options.content] - Direct string content to analyze.
+ * @param   {GetCharsAndWordsFromOptions['opts']}       [options.opts]    - Additional options for processing content.
+ * @returns {Promise<{ chars: number, words: number }>}                   - Total characters and words in the content.
  * @throws {Error} If an error occurs while processing.
  * @example
  * const result = await getCharsAndWordsFrom({ pattern: ['*.md'] });

@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 import { joinUrl } from '@dovenv/core/utils'
 
 import { mergeConfig } from './_utils'
@@ -12,7 +12,8 @@ import type { PwaOptions } from '@vite-pwa/vitepress'
 /**
  * Configuration for auto PWA assets generation.
  *
- * **Requires**: `@vite-pwa/assets-generator`
+ * **Requires**: `@vite-pwa/assets-generator`.
+ *
  * @type {PwaOptions['pwaAssets']}
  * @example
  * const docsConfig = {
@@ -41,16 +42,8 @@ export const getRepoConf = ( repoURL?: string ): DocsConfig => {
 
 }
 
-export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: string, styles?: DocsConfig['styles'] ): DocsConfig => ( {
+export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: string, _styles?: DocsConfig['styles'] ): DocsConfig => ( {
 	url,
-	og : {
-		image       : url ? joinUrl( url, 'banner.png' ) : '',
-		title       : name,
-		url         : url,
-		siteName    : name,
-		description : desc,
-	},
-
 	rss : url
 		? {
 			title       : name || '',
@@ -61,37 +54,47 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 			ignoreHome  : true,
 		}
 		: undefined,
-	pwa : {
-		mode           : 'development',
-		injectRegister : 'script-defer',
-		registerType   : 'autoUpdate',
-		workbox        : { globPatterns: [ '**/*.{css,js,html,svg,png,ico,txt,woff2}' ] },
-		experimental   : { includeAllowlist: true },
-		devOptions     : {
-			enabled          : true,
-			suppressWarnings : true,
-			navigateFallback : '/',
-		},
-		manifest : {
-			description : desc,
-			name        : name,
-			short_name  : name,
-			start_url   : '/?source=pwa',
-			theme_color : styles?.color?.primary,
-		},
-	},
+	// pwa : {
+
+	// 	pwaAssets : {
+
+	// 		image  : '/logo.png',
+	// 		preset : minimal2023Preset,
+	// 	},
+	// 	mode           : 'development',
+	// 	injectRegister : 'script-defer',
+	// 	registerType   : 'autoUpdate',
+	// 	workbox        : { globPatterns: [ '**/*.{css,js,html,svg,png,ico,txt,woff2}' ] },
+	// 	experimental   : { includeAllowlist: true },
+	// 	devOptions     : {
+	// 		enabled          : true,
+	// 		suppressWarnings : true,
+	// 		navigateFallback : '/',
+	// 	},
+	// 	manifest : {
+	// 		description      : desc,
+	// 		name             : name,
+	// 		short_name       : name,
+	// 		start_url        : '/?source=pwa',
+	// 		theme_color      : styles?.color?.primary,
+	// 		background_color : styles?.color?.dark?.bg,
+	// 	},
+	// },
 } )
 
 export const fixedDefConf: Omit<RequiredDocsConfig, 'styles'> = {
-	input    : './docs',
-	output   : './build',
-	logo     : '/logo.png',
-	favicon  : '/favicon.png',
-	name     : 'DOVENV',
-	desc     : 'Workspace documentation',
-	license  : { type: 'MIT' },
-	docsPath : 'docs',
-	lang     : 'en',
+	input         : './docs',
+	output        : './build',
+	logo          : '/logo.png',
+	favicon       : '/favicon.png',
+	name          : 'DOVENV',
+	desc          : 'Workspace documentation',
+	license       : { type: 'MIT' },
+	docsPath      : 'docs',
+	lang          : 'en',
+	titleTemplate : ( {
+		title, name,
+	} ) => `${title} | ${name}`,
 }
 
 export const getDefaultConf = ( {
@@ -110,7 +113,7 @@ export const getDefaultConf = ( {
 	styles?  : DocsConfig['styles']
 } = {} ): RequiredDocsConfig => {
 
-	return  mergeConfig(
+	return mergeConfig(
 		getRepoConf( repoURL || undefined ),
 		getUrlConf( url, name, lang, desc, styles ),
 		{

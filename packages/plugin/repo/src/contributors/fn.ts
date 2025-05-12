@@ -18,7 +18,7 @@ export type Contributor<ID extends string = string> = {
 	/** Role id */
 	role       : ID
 	/**
-	  Github name id from user or organization.
+	   Github name id from user or organization.
 	 */
 	ghUsername : string // if user dont have a github profile, use organization profile
 	/** Contributor name */

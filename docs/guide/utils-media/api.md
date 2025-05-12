@@ -60,7 +60,7 @@ Displays a GIF in the terminal.
 | `params.asciiOptions`? | `object` | Options for asciiOutput. |
 | `params.asciiOptions.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
 | `params.asciiOptions.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.asciiOptions.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
+| `params.asciiOptions.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`). **Default** `true` |
 | `params.asciiOptions.fit`? | \| `"box"` \| `"width"` \| `"height"` \| `"original"` \| `"none"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
 | `params.asciiOutput`? | `boolean` | Enable a ascii output. **Default** `false` |
 | `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
@@ -128,7 +128,7 @@ Converts a GIF to an ASCII animation.
 | `params.animate`? | `Omit`\<`AnimateProps`, `"frames"`\> | Options for the animation. |
 | `params.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
 | `params.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
+| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`). **Default** `true` |
 | `params.fit`? | \| `"box"` \| `"width"` \| `"height"` \| `"original"` \| `"none"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
 | `params.height`? | `string` \| `number` | The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height. **Default** `100%` |
 | `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
@@ -177,7 +177,7 @@ Converts each frame of a GIF image to an ASCII string.
 | `params` | `object` | Options for converting the GIF. |
 | `params.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
 | `params.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
+| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`). **Default** `true` |
 | `params.fit`? | \| `"box"` \| `"width"` \| `"height"` \| `"original"` \| `"none"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
 | `params.height`? | `string` \| `number` | The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height. **Default** `100%` |
 | `params.input` | `MediaInput` | Input to the media PATH, URL, STRING or BUFFER. |
@@ -352,7 +352,7 @@ Converts an SVG to ASCII art.
 | `params` | `object` | Parameters for the conversion. |
 | `params.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
 | `params.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
+| `params.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`). **Default** `true` |
 | `params.fit`? | \| `"box"` \| `"width"` \| `"height"` \| `"original"` \| `"none"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
 | `params.height`? | `string` \| `number` | The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height. **Default** `100%` |
 | `params.input` | `IconDefinition` \| `MediaInput` | Input to the media PATH, URL, STRING, BUFFER or IconDefinition (FONTAWESOME). |
@@ -452,7 +452,7 @@ Convert SVG to image string for terminal display.
 | `params.asciiOptions`? | `object` | Options for asciiOutput. |
 | `params.asciiOptions.c_ratio`? | `number` | Since a monospace character is taller than it is wide, this property defines the integer approximation of the ratio of the width to height. You probably don't need to change this. **Default** `2` |
 | `params.asciiOptions.chars`? | `string` | The characters to use for the asciified image. **Default** ` .,:;i1tfLCG08@` |
-| `params.asciiOptions.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`) **Default** `true` |
+| `params.asciiOptions.color`? | `boolean` | Defines if the output should be colored (`true`) or black and white (`false`). **Default** `true` |
 | `params.asciiOptions.fit`? | \| `"box"` \| `"width"` \| `"height"` \| `"original"` \| `"none"` | The fit to resize the image to: • `box` - Resize the image such that it fits inside a bounding box defined by the specified width and height. Maintains aspect ratio. • `width` - Resize the image by scaling the width to the specified width. Maintains aspect ratio. • `height` - Resize the image by scaling the height to the specified height. Maintains aspect ratio. • `original` - Doesn't resize the image. • `none` - Scales the width and height to the specified values, ignoring original aspect ratio. **Default** `box` |
 | `params.asciiOutput`? | `boolean` | Enable a ascii output. **Default** `false` |
 | `params.height`? | `string` \| `number` | Custom image height. Can be set as percentage or number of rows of the terminal. It is recommended to use the percentage options. |

@@ -10,8 +10,6 @@ import {
 	cache,
 	joinPath,
 	getPaths,
-	existsPath,
-	getObjectFromYAMLFile,
 	catchError,
 	formatValidationError,
 	getMatch,
@@ -20,22 +18,27 @@ import {
 	getLocalPkgPath,
 	exec,
 	validate,
+	getPackageManagerFromContent,
+	getPackageRuntimeFromContent,
+	getPackageWorkspacePaths,
+	getPackageDataFromPath,
 } from '@dovenv/utils'
 
 import * as consts      from './const'
 import { CommandStyle } from './style'
 
-import type { Config }          from '../types'
-import type { ValidateAnyType } from '@dovenv/utils'
-import type { PackageJSON }     from '@dovenv/utils'
+import type { Config } from '../types'
+import type {
+	PackageData,
+	PackageManagerData,
+	RuntimeData,
+	ValidateAnyType,
+} from '@dovenv/utils'
+import type { PackageJSON } from '@dovenv/utils'
 
 /**
  * Class for setting up Dovenv command utilities.
  *
- * Recommended usage:
- * ```ts
- * const commandUtils = new CommandSuper({ const: { pkg, wsDir } });
- * ```
  * @example
  * const utils = new CommandSuper({ const: { pkg: myPackage, wsDir: '/workspace' } });
  * console.log(utils);
@@ -43,44 +46,44 @@ import type { PackageJSON }     from '@dovenv/utils'
 export class CommandSuper {
 
 	/**
-	 * Logger utils
+	 * Logger utils.
 	 */
 	log
 
 	/**
-	 * Validate utils (zod wraper)
+	 * Validate utils (zod wraper).
 	 */
 	validate : typeof validate = validate
 
 	/**
-	 * Prompt utils
+	 * Prompt utils.
 	 */
-	prompt : typeof promptLine  = promptLine
+	prompt : typeof promptLine = promptLine
 
 	/**
-	 * Sett a group of prompts with a single call
+	 * Sett a group of prompts with a single call.
 	 */
-	promptGroup : typeof promptLineGroup  = promptLineGroup
+	promptGroup : typeof promptLineGroup = promptLineGroup
 
 	/**
-	 * Process utils ('node:process' wrapper)
+	 * Process utils ('node:process' wrapper).
 	 */
 	process = process
 
 	/**
-	 * Styles of the application
+	 * Styles of the application.
 	 */
-	style  = new CommandStyle()
+	style = new CommandStyle()
 
 	/**
-	 * Set performance
+	 * Set performance.
 	 */
-	performance  = performance
+	performance = performance
 
 	/**
-	 * Create spinner
+	 * Create spinner.
 	 */
-	spinner  = spinner
+	spinner = spinner
 
 	/**
 	 * The title of the command.
@@ -114,26 +117,27 @@ export class CommandSuper {
 	version = consts.VERSION
 
 	/**
-	 * Help url for your command
+	 * Help url for your command.
 	 */
 	helpURL = consts.HELP_URL
 
 	/**
 	 * The package.json of the workspace.
 	 *
-	 * Getted from the dovenv configuration: `this.config.const.pkg`
+	 * Getted from the dovenv configuration: `this.config.const.pkg`.
 	 */
 	pkg : PackageJSON | undefined
 
 	/**
 	 * The directory of the workspace.
 	 *
-	 * Getted from the dovenv configuration: `this.config.const.workspaceDir` | `this.config.const.wsDir` | `process.cwd()`
+	 * Getted from the dovenv configuration: `this.config.const.workspaceDir` | `this.config.const.wsDir` | `process.cwd()`.
 	 */
 	wsDir : string = process.cwd()
 
 	/**
 	 * The messages of the application.
+	 *
 	 * @protected
 	 */
 	protected message
@@ -141,19 +145,20 @@ export class CommandSuper {
 	/**
 	 * Use this method to add debug logic.
 	 * This method is called when the class is instantiated.
+	 *
 	 * @param {... Parameters<typeof console.debug>} args - The arguments to be passed to the console.debug method.
 	 */
 	onDebug = ( ...args: Parameters<typeof console.debug> ) => {
 
 		console.log( this.style.info.hr(
-			this.style.info.b( 'DEBUG' ) + ( this.title && this.title.length ? ' ' +  this.title.toUpperCase()  : '' ),
+			this.style.info.b( 'DEBUG' ) + ( this.title && this.title.length ? ' ' + this.title.toUpperCase() : '' ),
 			'top-center',
 			true,
 		) )
 
 		for ( let i = 0; i < args.length; i++ ) {
 
-			if ( typeof args === 'object'  ) console.dir( args, { depth: Infinity } )
+			if ( typeof args === 'object' ) console.dir( args, { depth: Infinity } )
 			else console.log( args )
 
 		}
@@ -165,6 +170,7 @@ export class CommandSuper {
 	/**
 	 * Use this method to add warn logic.
 	 * This method is called when the class is instantiated.
+	 *
 	 * @param {... Parameters<typeof console.warn>} args - The arguments to be passed to the console.warn method.
 	 */
 	onWarn = ( ...args: Parameters<typeof console.warn> ) => {
@@ -176,11 +182,12 @@ export class CommandSuper {
 	/**
 	 * Use this method to add error logic.
 	 * This method is called when the class is instantiated.
+	 *
 	 * @param {... Parameters<typeof console.erro>} args - The arguments to be passed to the console.error method.
 	 */
 	onError = ( ...args: Parameters<typeof console.error> ) => {
 
-		console.log( this.style.error.h1( 'ERROR' ), ...args )
+		if ( args && args.length ) console.log( this.style.error.h1( 'ERROR' ), ...args )
 		process.exit( 0 )
 
 	}
@@ -195,7 +202,7 @@ export class CommandSuper {
 	// }
 
 	/**
-	 * Cancel the process with the prompt line style
+	 * Cancel the process with the prompt line style.
 	 */
 	onCancel = async () => {
 
@@ -296,9 +303,10 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Use dovenv `cache` system to create a caching mechanism for storing and retrieving values of your plugin.
 	 *
 	 * Caches values, and returns an object with methods to interact with the cache.
-	 * @param {string} id Unique identifier for the cache.
-	 * @param {object} values Values to cache.
-	 * @returns {object} An object with methods to interact with the cache.
+	 *
+	 * @param   {string} id     - Unique identifier for the cache.
+	 * @param   {object} values - Values to cache.
+	 * @returns {object}        An object with methods to interact with the cache.
 	 * @example
 	 * const { get, set } = await command.cache( 'example-setting', {
 	 *   boolean : true,
@@ -352,15 +360,48 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	}
 
+	#pkgManager : PackageManagerData | undefined
+	#runtime    : RuntimeData | undefined
+	#pkgPaths   : string[] | undefined
+	#pkgData    : PackageData[] | undefined
+
+	get monorepo() {
+
+		if ( !this.pkg ) throw new Error( this.message.pkgError )
+		return !!this.pkg?.workspaces
+
+	}
+
+	get runtime() {
+
+		if ( !this.pkg ) throw new Error( this.message.pkgError )
+		if ( this.#runtime ) return this.#runtime
+		this.#runtime = getPackageRuntimeFromContent( this.pkg )
+
+		return this.#runtime
+
+	}
+
+	get packageManager() {
+
+		if ( !this.pkg ) throw new Error( this.message.pkgError )
+		if ( this.#pkgManager ) return this.#pkgManager
+		this.#pkgManager = getPackageManagerFromContent( this.pkg )
+
+		return this.#pkgManager
+
+	}
+
 	/**
 	 * Determines if the current package is part of a monorepo.
 	 * Checks for the presence of the `workspaces` field in the package.json.
+	 *
 	 * @returns {boolean} True if the package is part of a monorepo, otherwise false.
+	 * @deprecated
 	 */
-	isMonorepo() {
+	isMonorepo(): boolean {
 
-		if ( !this.pkg ) throw new Error( this.message.pkgError )
-		return this.pkg?.workspaces ? true : false
+		return this.monorepo
 
 	}
 
@@ -368,19 +409,13 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Gets the package manager name.
 	 * Checks the "packageManager" property in the package.json.
 	 * If it doesn't exist, returns "npm".
+	 *
 	 * @returns {string} The package manager name.
+	 * @deprecated
 	 */
 	getPkgManager() {
 
-		if ( !this.pkg ) throw new Error( this.message.pkgError )
-
-		const pkgManager      = this.pkg.packageManager
-		const { PKG_MANAGER } = consts
-
-		if ( pkgManager?.includes( PKG_MANAGER.PNPM ) ) return PKG_MANAGER.PNPM
-		if ( pkgManager?.includes( PKG_MANAGER.YARN ) ) return PKG_MANAGER.YARN
-		if ( pkgManager?.includes( PKG_MANAGER.BUN ) ) return PKG_MANAGER.BUN
-		return PKG_MANAGER.NPM
+		return this.packageManager.value
 
 	}
 
@@ -389,58 +424,13 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 *
 	 * The returned object contains commands for various package management tasks,
 	 * such as auditing, updating, installing, and executing packages.
+	 *
 	 * @returns {object} An object containing package manager commands.
+	 * @deprecated
 	 */
-	getPkgManagerCmds(): {
-		/** Audit package(s) */
-		audit    : string
-		/** Fix Audition package(s) */
-		auditFix : string
-		outdated : string
-		upDeps   : string
-		/** Fetches a package from the registry without installing it as a dependency, hotloads it, and runs whatever default command binary it exposes. */
-		exec     : string
-		/** Install packages */
-		install  : string
-	} {
+	getPkgManagerCmds() {
 
-		const manager  = this.getPkgManager()
-		const monoRepo = this.isMonorepo()
-		const cmds     = {
-			pnpm : {
-				audit    : 'pnpm audit',
-				auditFix : 'pnpm audit --fix',
-				outdated : monoRepo ? 'pnpm -r outdated' : 'pnpm outdated',
-				upDeps   : monoRepo ? 'pnpm -r up' : 'pmpn up',
-				exec     : 'pnpx',
-				install  : 'pnpm install',
-			},
-			npm : {
-				audit    : 'npm audit',
-				auditFix : 'npm audit fix',
-				outdated : 'npm outdated',
-				upDeps   : 'npm update',
-				exec     : 'npx',
-				install  : 'npm install',
-			},
-			yarn : {
-				audit    : 'yarn audit',
-				auditFix : 'yarn audit fix',
-				outdated : 'yarn outdated',
-				upDeps   : 'yarn upgrade',
-				exec     : 'yarn dlx',
-				install  : 'yarn install',
-			},
-			bun : {
-				audit    : 'bun audit',
-				auditFix : 'bun audit fix',
-				outdated : 'bun outdated',
-				upDeps   : 'bun update',
-				exec     : 'bunx',
-				install  : 'bun install',
-			},
-		}
-		return cmds[manager]
+		return this.packageManager.cmds
 
 	}
 
@@ -448,21 +438,13 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Determines the runtime of the current package.
 	 * Checks the "engines" field in the package.json.
 	 * If it doesn't exist, throws an error.
+	 *
 	 * @returns {string} The runtime name.
+	 * @deprecated
 	 */
 	getRuntime() {
 
-		if ( !this.pkg ) throw new Error( this.message.pkgError )
-
-		const runtime = this.pkg.engines || this.pkg.devEngines
-		const erroMsg = this.message.noRuntime
-
-		if ( !runtime ) throw new Error( erroMsg )
-		if ( runtime?.node ) return consts.RUNTIME.NODE
-		if ( runtime?.bun ) return consts.RUNTIME.BUN
-		if ( runtime?.deno ) return consts.RUNTIME.DENO
-
-		throw new Error( erroMsg )
+		return this.runtime.value
 
 	}
 
@@ -470,44 +452,55 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Gets the paths of the packages in the workspace.
 	 * If the current package is part of a monorepo managed by pnpm, it reads the package paths from the "pnpm-workspace.yaml" file.
 	 * Otherwise, it reads the package paths from the "workspaces" field in the package.json.
+	 *
 	 * @returns {Promise<string[]>} An array of paths to the package.json files of the packages in the workspace.
 	 */
-	async getPkgPaths(  ) {
+	async getPkgPaths( ) {
 
 		if ( !this.pkg ) throw new Error( this.message.pkgError )
+		if ( this.#pkgPaths ) return this.#pkgPaths
 
-		const manager = this.getPkgManager()
-		if ( manager == consts.PKG_MANAGER.PNPM ) {
+		this.#pkgPaths = await getPackageWorkspacePaths( {
+			wsDir   : this.wsDir,
+			pkg     : this.pkg,
+			manager : this.packageManager.value,
+		} )
+		return this.#pkgPaths
 
-			const monoPath = joinPath( this.wsDir, 'pnpm-workspace.yaml' )
-			const exists   = await existsPath( monoPath )
-			const packages = exists ? ( await getObjectFromYAMLFile<{ packages: string[] }>( monoPath ) ).packages : []
-			packages.push( '.' )
+	}
 
-			return await getPaths( packages.map( p => joinPath( this.wsDir, p, 'package.json' ) ) )
+	/**
+	 * Retrieves an array of package data objects containing the package name, path to the package.json file, and the package data itself.
+	 *
+	 * @returns {Promise<object[]>} An array of package data objects.
+	 */
+	async getPkgsData() {
+
+		if ( this.#pkgData ) return this.#pkgData
+
+		const pkgPaths = await this.getPkgPaths()
+
+		this.#pkgData = []
+
+		for ( const pkgPath of pkgPaths ) {
+
+			const data = await getPackageDataFromPath( pkgPath )
+
+			this.#pkgData.push( data )
 
 		}
-		else {
-
-			const wsData   = this.pkg?.workspaces
-			const packages = ( wsData && !Array.isArray( wsData )
-				? wsData.packages
-				: wsData ) || []
-
-			packages.push( '.' )
-			return await getPaths( packages.map( p => joinPath( this.wsDir, p, 'package.json' ) ) )
-
-		}
+		return this.#pkgData
 
 	}
 
 	/**
 	 * Resolves and normalizes file paths based on the provided input and options.
 	 * Ensures that all returned paths are absolute and within the workspace directory.
-	 * @param {string[]} input - An array of file or directory paths to process.
-	 * @param {Omit<Parameters<typeof getPaths>[1], 'cwd'>} [opts] - Optional configuration for path resolution,
-	 * excluding the `cwd` property, which is automatically set to the workspace directory.
-	 * @returns {Promise<string[]>} - A promise that resolves to an array of normalized absolute paths.
+	 *
+	 * @param   {string[]}                                    input  - An array of file or directory paths to process.
+	 * @param   {Omit<Parameters<typeof getPaths>[1], 'cwd'>} [opts] - Optional configuration for path resolution,
+	 *                                                               excluding the `cwd` property, which is automatically set to the workspace directory.
+	 * @returns {Promise<string[]>}                                  - A promise that resolves to an array of normalized absolute paths.
 	 */
 	async getPaths( input: string[], opts: Omit<Parameters<typeof getPaths>[1], 'cwd'> = {} ) {
 
@@ -522,8 +515,9 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Gets the absolute workspace path.
 	 *
 	 * If the given path is not inside the workspace directory, it prepends the workspace directory path.
-	 * @param {string} path - The relative or absolute path.
-	 * @returns {string} The resolved workspace path.
+	 *
+	 * @param   {string} path - The relative or absolute path.
+	 * @returns {string}      The resolved workspace path.
 	 */
 	getWsPath( path: string ) {
 
@@ -535,13 +529,14 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	/**
 	 * Executes a binary from a local package or falls back to the package manager if it's not installed.
-	 * @param {string} name - The name of the package whose binary you want to execute.
-	 * @param {string[]} [args] - An optional array of arguments to pass to the binary.
-	 * @param {object} opts - Options-
-	 * @param {string} opts.path - Custom path.
-	 * @param {boolean} opts.forceExec - Force execution with current runtime and not check if exists in 'node_modules'
-	 * @param {string} opts.remoteVersion - Set version of the package. Only is used when package is not in local enviroment.
-	 * @returns {Promise<void>} A promise that resolves when the execution is complete.
+	 *
+	 * @param   {string}        name               - The name of the package whose binary you want to execute.
+	 * @param   {string[]}      [args]             - An optional array of arguments to pass to the binary.
+	 * @param   {object}        opts               - Options-.
+	 * @param   {string}        opts.path          - Custom path.
+	 * @param   {boolean}       opts.forceExec     - Force execution with current runtime and not check if exists in 'node_modules'.
+	 * @param   {string}        opts.remoteVersion - Set version of the package. Only is used when package is not in local enviroment.
+	 * @returns {Promise<void>}                    A promise that resolves when the execution is complete.
 	 * @throws {Error} If an error occurs during execution, it triggers the `onCancel` method.
 	 * @example
 	 * await execPkgBin('@changesets/cli', ['--help']);
@@ -549,12 +544,14 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	async execPkgBin( name: string, args?: string[], opts?:{
 		/**
 		 * Custom path from package root.
-		 * Only affects when name no exists in node_modules
+		 * Only affects when name no exists in node_modules.
+		 *
 		 * @experimental
 		 */
 		path?          : string
 		/**
-		 * Force execution with current package manager and not check if exists in 'node_modules'
+		 * Force execution with current package manager and not check if exists in 'node_modules'.
+		 *
 		 * @default false
 		 */
 		forceExec?     : boolean
@@ -610,12 +607,13 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	/**
 	 * Validate data against a schema.
-	 * @param {ValidateAnyType} schema - The schema to validate with.
-	 * @param {unknown} data - The data to validate.
-	 * @param {object} opts - Options for function
-	 * @param {boolean} [opts.showValid] - Show valid schema data on Error. Default: false.
-	 * @param {boolean} [opts.validSchema] - Set a custom valid schema
-	 * @returns {unknown} The validated data.
+	 *
+	 * @param   {ValidateAnyType} schema             - The schema to validate with.
+	 * @param   {unknown}         data               - The data to validate.
+	 * @param   {object}          opts               - Options for function.
+	 * @param   {boolean}         [opts.showValid]   - Show valid schema data on Error. Default: false.
+	 * @param   {boolean}         [opts.validSchema] - Set a custom valid schema
+	 * @returns {unknown}                            The validated data.
 	 * @throws If the data is invalid, an error is generated with a human-readable description.
 	 */
 	async validateSchema<D = unknown>( schema: ValidateAnyType, data: D, opts?: {
@@ -651,11 +649,12 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	/**
 	 * Retrieves matching keys from a given list of values based on a pattern.
+	 *
 	 * @template K - An array of string keys.
-	 * @param {object} props - The function parameters.
-	 * @param {K} props.input - The list of available keys.
-	 * @param {string[]} [props.pattern] - An optional pattern to filter the keys.
-	 * @returns {K[number][] | undefined} The matched keys, or `undefined` if no matches are found.
+	 * @param   {object}                  props           - The function parameters.
+	 * @param   {K}                       props.input     - The list of available keys.
+	 * @param   {string[]}                [props.pattern] - An optional pattern to filter the keys.
+	 * @returns {K[number][] | undefined}                 The matched keys, or `undefined` if no matches are found.
 	 */
 	getKeys<K extends string[]>( props: {
 		input    : K
@@ -705,10 +704,11 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	/**
 	 *
 	 * Ensure data.
-	 * @param {object} data -
-	 * @param {Record<string, unknown>} data.input - Options, if passed and not empty, will return true.
-	 * @param {string} data.name - Name to be used in the warning message.  default: this.title
-	 * @returns {Promise<boolean>} - If opts is not empty, will return true, else will return false and print a warning message to the console
+	 *
+	 * @param   {object}                  data       -.
+	 * @param   {Record<string, unknown>} data.input - Options, if passed and not empty, will return true.
+	 * @param   {string}                  data.name  - Name to be used in the warning message.  Default: this.title.
+	 * @returns {Promise<boolean>}                   - If opts is not empty, will return true, else will return false and print a warning message to the console.
 	 */
 	async ensureOpts<V extends Record<string, unknown> | undefined>( data: {
 		input : V
@@ -772,6 +772,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 */
 	exitWithError() {
 
+		// this.process.exitCode = 1
 		this.process.exit( 1 )
 
 	}
@@ -779,11 +780,12 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	/**
 	 * Catch Promise function.
 	 *
-	 * if error print in console and exit from process
+	 * If error print in console and exit from process.
+	 *
 	 * @template T - The expected return type.
-	 * @param {Promise<T>} fn - The Promise to handle.
-	 * @param {string} [title] - Optional title for the error output.
-	 * @returns {Promise<T>} The resolved value of the Promise.
+	 * @param   {Promise<T>} fn      - The Promise to handle.
+	 * @param   {string}     [title] - Optional title for the error output.
+	 * @returns {Promise<T>}         The resolved value of the Promise.
 	 */
 	async catchFn<Res>( fn: Promise<Res>, title?:string ) {
 
@@ -792,7 +794,6 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 		if ( !err ) return res
 		else {
 
-			// console.log( '\n' )
 			console.log(
 				this.style.error.h1( this.title ) + ( title ? ` ${this.style.error.h( title )}` : '' ),
 				this.style.error.p( err.message ),

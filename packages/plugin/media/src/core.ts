@@ -16,7 +16,7 @@ export class Core<Opts extends Record<string, unknown> | undefined = undefined> 
 	}:{
 		desc     : string
 		pattern? : string[]
-		fn       : ( v: Opts[keyof Opts]  ) => Promise<void>
+		fn       : ( v: Opts[keyof Opts] ) => Promise<void>
 	} ) {
 
 		const catchedFunction = async () => {

@@ -87,7 +87,7 @@ letterSpacing: 0
 
 # Theme
 theme:
-  background: "#1D1D1D"  #"transparent" # "#161616" # instead of transparent "transparent" #
+  background: "#1D1D1D" #"transparent" # "#161616" # instead of transparent "transparent" #
   foreground: "#afafaf"
   cursor: "#c7c7c7"
   black: "#161616"

@@ -55,7 +55,7 @@ type MarkdownInfo = { more: string } & { [key in MdInfoKey]? : string }
 
 type Emoji = ObjectValues<NonNullable<ReturnType<typeof getEmojiList>>> | string
 
-export class Predocs  {
+export class Predocs {
 
 	#examples
 	#templates
@@ -94,7 +94,7 @@ export class Predocs  {
 		const { config }    = this.utils
 		this.#examples      = new Examples( { utils } )
 		this.#templates     = new Templates( { utils } )
-		this.#convert       = new Convert(  )
+		this.#convert       = new Convert( )
 		this.#pkgData       = undefined
 		this.#wsPkg         = ( this.utils.pkg || {} ) as PackageJSON
 		this.#corePkg       = ( config?.const?.corePkg || config?.const?.pkg ) as PackageJSON
@@ -137,7 +137,7 @@ export class Predocs  {
 	#setMdTitle( v:string, i?: string | Emoji, h?: number ) {
 
 		if ( !h ) h = 2
-		return '#'.repeat( h ) + ( i ? ` ${i} ${v}\n\n` :  ` ${v}\n\n` )
+		return '#'.repeat( h ) + ( i ? ` ${i} ${v}\n\n` : ` ${v}\n\n` )
 
 	}
 
@@ -443,7 +443,7 @@ export class Predocs  {
 			// INDEX (DOCS)
 
 			await this.#templates.get( {
-				input   : publicPkg.package.docsFile  ? publicPkg.package.docsFile : `# ${publicPkg.name}\n\n${publicPkg.data.description}\n\n{{partial.installation}}\n`,
+				input   : publicPkg.package.docsFile ? publicPkg.package.docsFile : `# ${publicPkg.name}\n\n${publicPkg.data.description}\n\n{{partial.installation}}\n`,
 				output  : publicPkg.docs.indexFile,
 				const   : { libPkg: publicPkg.data },
 				partial : { installation: { input: this.partial.installationGroup } },
@@ -474,7 +474,7 @@ export class Predocs  {
 			//////////////////////////////////////////////////////////////////////////////
 			// API (DOCS)
 
-			if ( publicPkg.docs.apiFile && publicPkg.package.isTs )  {
+			if ( publicPkg.docs.apiFile && publicPkg.package.isTs ) {
 
 				const ts2md = await this.#convert.ts2md( {
 					input : [ publicPkg.package.srcFile ],
@@ -518,15 +518,16 @@ export class Predocs  {
 			}
 			content += info.more
 
-			const localBanner = this.utils.pkg?.extra?.bannerURL ? this.utils.pkg?.extra?.bannerURL as string : await existsFile( joinPath( this.utils.wsDir, 'docs/public/banner.png' ) )
+			const localPkgBanner  = this.utils.pkg?.extra?.bannerURL && typeof this.utils.pkg?.extra?.bannerURL === 'string' ? this.utils.pkg?.extra?.bannerURL as string : undefined
+			const localBanner     = joinPath( this.utils.wsDir, 'docs/public/banner.png' )
+			const remoteBannerURL = joinUrl( this.#REPO_URL, 'blob/main/docs/public/banner.png?raw=true' )
+			const bannerUrl       = localPkgBanner ? localPkgBanner : ( await existsFile( localBanner ) ? remoteBannerURL : undefined )
 
-			const banner = localBanner && typeof localBanner == 'string'
-				? localBanner
-				: localBanner
-					? `[![BANNER]({{const.pkg.repository.url}}/blob/main/docs/public/banner.png?raw=true)]({{const.pkg.homepage}})`
-					: ''
+			const banner = bannerUrl
+				? `[![BANNER](${bannerUrl}](${this.#corePkg.homepage})`
+				: ''
 
-			const contributorHtml = undefined//await this.#getContributorsHTML()
+			const contributorHtml = undefined //await this.#getContributorsHTML()
 
 			const setReadmeFile = async ( i:string, o: string ) => await this.#templates.get( {
 				input  : i,

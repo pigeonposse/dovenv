@@ -11,7 +11,8 @@ type EmptyObject = {}
 
 export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyObject> = Prettify<ConvertPropsSuper & {
 	/**
-	 * Options
+	 * Options.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/convert
 	 */
 	opts? : Prettify<{
@@ -19,6 +20,7 @@ export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyOb
 		 * __Cuaton tsconfig path__.
 		 *
 		 * Used for getting the ts config of the output.
+		 *
 		 * @default
 		 * join( process.cwd(), "tsconfig.ts" )
 		 */
@@ -27,6 +29,7 @@ export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyOb
 		 * __Package.json path__.
 		 *
 		 * This path is used to extract specific properties from the `package.json` file.
+		 *
 		 * @default
 		 * join( process.cwd(), "package.json" )
 		 */
@@ -47,7 +50,8 @@ export type TypescriptSharedProps<Opts extends Record<string, unknown> = EmptyOb
 		 */
 		transform? : ( content: string ) => Promise<string>
 		/**
-		 * Typedoc options
+		 * Typedoc options.
+		 *
 		 * @see https://typedoc.org/options/
 		 */
 		typedoc?   : TypedocOpts
@@ -58,7 +62,8 @@ export type Typescript2HtmlProps = TypescriptSharedProps
 
 export type Typescript2MarkdownProps = TypescriptSharedProps<{
 	/**
-	 * Typedoc markdown options
+	 * Typedoc markdown options.
+	 *
 	 * @see @see https://typedoc-plugin-markdown.org/docs/options
 	 */
 	typedocMarkdown? : PluginOpts

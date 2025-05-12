@@ -4,7 +4,8 @@
 /* eslint-disable jsdoc/require-returns */
 
 /**
- * COPY FROM "openapi-to-md" PACKAGE but without commander
+ * COPY FROM "openapi-to-md" PACKAGE but without commander.
+ *
  * @see https://github.com/SoraKumo001/openapi-to-md
  */
 
@@ -163,6 +164,7 @@ const outputReferenceTable = ( apiDocument: ApiDocument ) => {
 
 /**
  * Return the name of a reference object.
+ *
  * @param refObject
  */
 const getRefName = (

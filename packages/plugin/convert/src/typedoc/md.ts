@@ -22,7 +22,8 @@ export class Typescript2Markdown extends TypescriptSuper<Typescript2MarkdownProp
 		const { typedocMarkdown } = props
 
 		/**
-		 * markdown.
+		 * Markdown..
+		 *
 		 * @see https://typedoc-plugin-markdown.org/docs/options
 		 */
 		const configMD: Partial<PluginOptions> = {

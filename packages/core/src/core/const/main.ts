@@ -27,7 +27,7 @@ export class Constant extends Command<ConstConfig> {
 
 		if ( typeof value === 'function' ) {
 
-			const [ e, result ] = await this.catchError( ( async () => await value() )()  )
+			const [ e, result ] = await this.catchError( ( async () => await value() )() )
 
 			if ( !e ) return result
 			return 'Error setting value of ' + key + ':\n' + e.message
@@ -45,7 +45,7 @@ export class Constant extends Command<ConstConfig> {
 
 			const value = await this.#getValue( key )
 
-			if ( value )  {
+			if ( value ) {
 
 				console.log( '\n' + this.utils.style.info.h1( key ) )
 				console.dir( value, {
@@ -83,7 +83,7 @@ export class Constant extends Command<ConstConfig> {
 		await this.validateSchema( this.opts )
 
 		const entries = await Promise.all( Object.entries( this.opts ).map(
-			async  ( [ key ] ) => [ key, await this.#getValue( key ) ],
+			async ( [ key ] ) => [ key, await this.#getValue( key ) ],
 		) )
 
 		const res = Object.fromEntries( entries )
@@ -93,7 +93,7 @@ export class Constant extends Command<ConstConfig> {
 
 	async #fn() {
 
-		if ( !( await  this.utils.ensureOpts( { input: this.opts } ) ) ) return
+		if ( !( await this.utils.ensureOpts( { input: this.opts } ) ) ) return
 
 		await this.validateSchema( this.opts )
 		await this.#view( this.opts || {} )
@@ -102,7 +102,7 @@ export class Constant extends Command<ConstConfig> {
 
 	async run( ) {
 
-		return await  this.utils.catchFn( this.#fn( ) )
+		return await this.utils.catchFn( this.#fn( ) )
 
 	}
 

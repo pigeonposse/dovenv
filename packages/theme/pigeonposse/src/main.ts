@@ -1,4 +1,3 @@
-
 import { defineConfig }                from '@dovenv/core'
 import { type Config as DovenvConfig } from '@dovenv/core'
 import {
@@ -40,7 +39,8 @@ export type Config = BandaConfig & {
 	/** Configuration for the pigeonposse web File data */
 	web?  : WebConfig
 	/**
-	 * Set the pigeonposse theme constants and information
+	 * Set the pigeonposse theme constants and information.
+	 *
 	 * @example
 	 * import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse'
 	 * const core = await getWorkspaceConfig({metaURL : import.meta.url, path : '../../../../'} )
@@ -51,15 +51,16 @@ export type Config = BandaConfig & {
 /**
  * Merges multiple `theme-pigeonposse` configuration objects into a single configuration.
  */
-export const mergeConfig = createMergeDataFn<Config>(  )
+export const mergeConfig = createMergeDataFn<Config>( )
 
 /**
  * The `PigeonPosse` theme for Dovenv.
- * @param {Config} [params] - The configuration for the theme.
- * @returns {DovenvConfig} The merged configuration.
  *
- * This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
- * It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
+ * @param   {Config}       [params] - The configuration for the theme.
+ * @returns {DovenvConfig}          The merged configuration.
+ *
+ *                                  This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
+ *                                  It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
  */
 export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 
@@ -68,7 +69,30 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 	} = params || {}
 
 	const config = mergeBandaConfig( {
-		lint      : { staged: params?.lint?.staged || { '**/*.{js,ts,jsx,tsx,json}': 'dovenv lint eslint --fix --silent' } },
+		lint : {
+			staged : params?.lint?.staged || { '**/*.{js,ts,jsx,tsx,json}': 'dovenv lint eslint --fix --silent' },
+			custom : { ws : async ( {
+				utils, run,
+			} ) => {
+
+				const pkgs = await utils.getPkgsData()
+				const pack = await utils.getPkgManager()
+
+				for ( const pkg of pkgs ) {
+
+					if ( pkg.content.private === true ) continue
+
+					await run.publint( {
+						title  : pkg.id,
+						pack,
+						pkgDir : pkg.dir,
+						strict : true,
+					} )
+
+				}
+
+			} },
+		},
 		workspace : {
 			info : {
 				usefulCmds : [
@@ -149,9 +173,9 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 
 						const ext    = '.{js,ts,mts,cts,cjs,mjs}'
 						const shared = [ 'package.json', 'README.md' ]
-						const wsDir  = typeof utils.config?.const?.workspaceDir  === 'string'
+						const wsDir  = typeof utils.config?.const?.workspaceDir === 'string'
 							? utils.config.const.workspaceDir
-							:  ''
+							: ''
 						const isWs   = arePathsEqual( getDirName( path ), wsDir )
 
 						if ( content.private ) return shared
@@ -175,7 +199,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 						dir, utils,
 					} ) => {
 
-						const wsDir = typeof utils.config?.const?.workspaceDir  === 'string'
+						const wsDir = typeof utils.config?.const?.workspaceDir === 'string'
 							? utils.config.const.workspaceDir
 							: ''
 						if ( arePathsEqual( dir, wsDir ) )
@@ -248,16 +272,18 @@ export type MonorepoConfig = Config & { predocs?: PredocsConfig | false }
  * The `pigeonposseMonorepoTheme` for Dovenv.
  * This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
  * It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
- * @param {Config} [params] - The configuration for the theme.
- * @returns {DovenvConfig} The merged configuration.
+ *
+ * @param   {Config}       [params] - The configuration for the theme.
+ * @returns {DovenvConfig}          The merged configuration.
  */
 export const pigeonposseMonorepoTheme = ( params?: MonorepoConfig ) => {
 
 	const {
-		predocs, ...restParams
+		predocs,
+		...restParams
 	} = params || {}
 
-	const defaultConf = ( !restParams?.repo?.commit?.scopes )
+	const defaultConf: Config = ( !restParams?.repo?.commit?.scopes )
 		? { repo : { commit : { scopes : [
 			{
 				value : 'core',
@@ -288,7 +314,7 @@ export const pigeonposseMonorepoTheme = ( params?: MonorepoConfig ) => {
 
 	return defineConfig(
 		pigeonposseTheme( deepmerge( defaultConf, restParams ) ),
-		typeof predocs === 'boolean' &&  predocs === false ? { } : predocsPlugin( predocs ),
+		typeof predocs === 'boolean' && predocs === false ? { } : predocsPlugin( predocs ),
 	)
 
 }

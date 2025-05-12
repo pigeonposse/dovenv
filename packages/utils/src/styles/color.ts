@@ -43,6 +43,7 @@ export const colorConversion = {
 
 /**
  * Highlights the given code using CLI highlighting.
+ *
  * @param   {string}        code            - The code to highlight.
  * @param   {HighlightOpts} [opts]          - Optional options for highlighting.
  * @param   {string}        [opts.language] - The language of the code to highlight. Defaults to 'auto'.
@@ -63,6 +64,7 @@ export const highlight = ( code: string, opts?: HighlightOpts ): string => cliHi
 
 /**
  * Provides colors for terminal output.
+ *
  * @type {object}
  * @example
  * console.log(color.green('This text is green'));
@@ -71,6 +73,7 @@ export const color: Color = chalk
 
 /**
  * Generates a gradient string with the specified colors.
+ *
  * @param   {string}         txt    - The text to apply the gradient to.
  * @param   {GradientColors} colors - An array of color names or hex values.
  * @param   {GradientOpts}   [opts] - Custom opts.

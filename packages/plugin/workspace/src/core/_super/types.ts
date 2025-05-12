@@ -11,15 +11,15 @@ import type {
 
 type CheckOpts = {
 	/**
-	 * Directory to check
+	 * Directory to check.
 	 */
 	dir     : string
 	/**
-	 * Path to package.json
+	 * Path to package.json.
 	 */
 	path    : string
 	/**
-	 * Object data from package.json
+	 * Object data from package.json.
 	 */
 	content : PackageJSON
 	/** Dovenv configuration */
@@ -31,28 +31,29 @@ type PatternCheck = string[] |
 type Sharedcheck = {
 	desc?    : string
 	/**
-	 * Files that must exist
+	 * Files that must exist.
 	 */
 	include? : PatternCheck
 	/**
-	 * Files that must not exist
+	 * Files that must not exist.
 	 */
 	exclude? : PatternCheck
 	/**
-	 * Custom check function
+	 * Custom check function.
 	 */
 	custom?  : ( opts: CheckOpts ) => Promise<void>
 }
 
 export type Config = {
 	/**
-	 * Information for the workspace
+	 * Information for the workspace.
 	 */
 	info? : {
 		/**
 		 * Instructions for the workspace.
 		 * Must be markdown format.
-		 * Accepts string, URL or path
+		 * Accepts string, URL or path.
+		 *
 		 * @example
 		 * ```markdown
 		 * ## Pre-requisites
@@ -67,7 +68,8 @@ export type Config = {
 		 */
 		instructions? : string
 		/**
-		 * Add more commands to the list of useful commands
+		 * Add more commands to the list of useful commands.
+		 *
 		 * @example
 		 * usefullCmds : [
 		 * 	{
@@ -80,25 +82,26 @@ export type Config = {
 			desc  : string
 			cmd   : string
 			/**
-			 * URL to more info
+			 * URL to more info.
 			 */
 			info? : string
 		}[]
 		/**
-		 * Structure of the workspace
+		 * Structure of the workspace.
 		 */
 		structure? : object
 
 	}
 	check?: {
 		/**
-		 * Checks for workspace package(s)
+		 * Checks for workspace package(s).
 		 */
 		pkg?: Record<
 			string,
 			Prettify<Sharedcheck & {
 			/**
-			 * Schema for own package.json
+			 * Schema for own package.json.
+			 *
 			 * @example
 			 * const schema = ({v, path, data}) => {
 			 *  if(data.private) return
@@ -111,15 +114,15 @@ export type Config = {
 			 */
 				schema? : ( opts: {
 				/**
-				 * Validation (Zod wrapper)
+				 * Validation (Zod wrapper).
 				 */
 					v       : Validate
 					/**
-					 * Path to package.json
+					 * Path to package.json.
 					 */
 					path    : string
 					/**
-					 * Object data from package.json
+					 * Object data from package.json.
 					 */
 					content : PackageJSON
 					/** Dovenv utilities */
@@ -145,7 +148,7 @@ export type Config = {
 			after?  : ( ) => Promise<void>
 		}
 	}
-	/** custom configration for ws */
+	/** Custom configration for ws */
 	custom?: {
 		[key in string]: ( data: {
 			getPkgPaths   : CommandUtils['getPkgPaths']

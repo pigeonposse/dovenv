@@ -12,6 +12,7 @@ export {
 
 /**
  * A plugin for dovenv to create templates.
+ *
  * @param {Config} [params] - Optional configuration for the plugin.
  */
 export const templatesPlugin = ( params?: Config ) => defineConfig( { custom : { templates : {

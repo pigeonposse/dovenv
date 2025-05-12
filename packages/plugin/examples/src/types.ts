@@ -56,30 +56,32 @@ type Shared = {
 	/** Write a output if you want */
 	output? : string
 	/**
-	 * h1 for markdown
+	 * H1 for markdown.
+	 *
 	 * @default 'Examples'
 	 */
 	title?  : string | false
 	/**
-	 * Description
+	 * Description.
+	 *
 	 * @default 'Examples'
 	 */
 	desc?   : string
 }
 
 export type ExampleConfigFileProps = Prettify<Shared & {
-	/** Override your config input */
+	/** Override your config input. */
 	config? : ExampleConfig
 	/**
-	 * Input of your config (path or config object)
+	 * Input of your config (path or config object).
 	 *
-	 * Path formats: JSON, YAML, TOML JS etc
+	 * Path formats: JSON, YAML, TOML JS etc.
 	 */
 	input   : string | ExampleConfig
 }>
 type ExampleType = typeof TYPE[keyof typeof TYPE]
 export type ExamplePathProps = Prettify<Shared & {
-	/** Input pattern */
+	/** Input pattern. */
 	input : string[]
 	/** Options for input patterns */
 	opts? : Parameters<typeof getPaths>[1]
@@ -106,7 +108,7 @@ export type ExampleCustomProps = {
 	} ) => Promise<unknown>
 }
 type Set<T extends ExampleType, V extends object> = ( {
-	/** type of configuration */
+	/** Type of configuration */
 	type : T
 } & V )
 

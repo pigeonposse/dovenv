@@ -22,8 +22,9 @@ const opts = {
 
 /**
  * Define a `dovenv` configuration that creates a documentation site for your workspace.
- * @param {DocsParams['config'] } [config] - The configuration object.
- * @returns {DocsParams['utils']['config']} The dovenv configuration object.
+ *
+ * @param   {DocsParams['config'] }         [config] - The configuration object.
+ * @returns {DocsParams['utils']['config']}          The dovenv configuration object.
  */
 export const docsPlugin = ( config: DocsParams['config'] = {} ) => defineDovenvConfig( {
 	// @ts-ignore

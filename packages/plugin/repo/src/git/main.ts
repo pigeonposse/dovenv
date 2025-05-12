@@ -110,8 +110,20 @@ export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 					},
 				},
 			},
-			[CMD.pull]  : { desc: 'Pull request configuration' },
-			[CMD.push]  : { desc: 'Push your code to a branch' },
+			[CMD.pull] : { desc: 'Pull request configuration' },
+			[CMD.push] : {
+				desc : 'Push your code to a branch',
+				opts : {
+					'skip-update' : {
+						desc : 'Skip update',
+						type : 'boolean',
+					},
+					'skip-wf' : {
+						desc : 'Skip workflow',
+						type : 'boolean',
+					},
+				},
+			},
 			[CMD.husky] : { desc: 'Husky configuration' },
 		},
 		fn : async ( {
@@ -139,7 +151,10 @@ export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 				else console.warn( `No option provided. Use: ${list( branch )}` )
 
 			}
-			else if ( cmds?.includes( CMD.push ) ) await git.push.run()
+			else if ( cmds?.includes( CMD.push ) ) await git.push.run( {
+				skipUpdate   : opts?.['skip-update'] as boolean,
+				skipWorkflow : opts?.['skipWorkflow'] as boolean,
+			} )
 			else if ( cmds?.includes( CMD.husky ) ) await git.husky.run( )
 			else showHelp()
 

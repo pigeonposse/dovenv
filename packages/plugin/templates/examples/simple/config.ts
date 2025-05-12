@@ -13,7 +13,7 @@ import pkg                 from '../../../../../package.json'
 import { templatesPlugin } from '../../src/main'
 
 const currDir  = getCurrentDir( import.meta.url )
-const pkgDir   = joinPath( currDir, '..', '..'  )
+const pkgDir   = joinPath( currDir, '..', '..' )
 const wsDir    = joinPath( pkgDir, '..', '..', '..' )
 const buildDir = joinPath( pkgDir, 'build', 'simple' )
 

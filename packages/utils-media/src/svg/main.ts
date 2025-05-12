@@ -21,9 +21,10 @@ import type {
 
 /**
  * Converts an SVG to an image buffer.
- * @param {Svg2ImageProps} params - Parameters for the conversion.
- * @param {Svg2ImageProps['input']} params.input - Input SVG data.
- * @returns {Promise<Buffer>} - A promise that resolves to the image buffer.
+ *
+ * @param   {Svg2ImageProps}          params       - Parameters for the conversion.
+ * @param   {Svg2ImageProps['input']} params.input - Input SVG data.
+ * @returns {Promise<Buffer>}                      - A promise that resolves to the image buffer.
  */
 export const svg2imageBuffer = async ( params: Svg2ImageProps ): Promise<Buffer> => {
 
@@ -40,9 +41,10 @@ export const svg2imageBuffer = async ( params: Svg2ImageProps ): Promise<Buffer>
 
 /**
  * Converts an SVG to ASCII art.
- * @param   {Svg2AsciiProps} params - Parameters for the conversion.
+ *
+ * @param   {Svg2AsciiProps}          params       - Parameters for the conversion.
  * @param   {Svg2AsciiProps['input']} params.input - Input SVG data.
- * @returns {Promise<string>} - Promise that resolves to the ASCII representation of the SVG.
+ * @returns {Promise<string>}                      - Promise that resolves to the ASCII representation of the SVG.
  * @example
  * // simple use with string
  * const svg = `<svg width="100" height="100">
@@ -82,9 +84,10 @@ export const svg2ascii = async ( params: Svg2AsciiProps ) => {
 
 /**
  * Convert SVG to image string for terminal display.
- * @param {SvgProps} params - Options object.
- * @param {SvgProps['input']} params.input - SVG data.
- * @returns {Promise<Buffer>} - Image buffer.
+ *
+ * @param   {SvgProps}          params       - Options object.
+ * @param   {SvgProps['input']} params.input - SVG data.
+ * @returns {Promise<Buffer>}                - Image buffer.
  * @example
  * // simple use with string
  * const svg = `<svg width="100" height="100">

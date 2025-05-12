@@ -36,11 +36,12 @@ type WorkspaceParams = WsOpts & {
 	 */
 	packages?     : WsOpts
 	/**
-	  Relative to workspace dir
+	   Relative to workspace dir.
 	 */
 	corePath?     : string
 	/**
-	 * Relative to workspace dir
+	 * Relative to workspace dir.
+	 *
 	 * @default
 	 * join(workspaceDir, 'packages')
 	 */
@@ -48,11 +49,12 @@ type WorkspaceParams = WsOpts & {
 }
 /**
  * Get the workspace configuration.
- * @param {WorkspaceParams} [opts] - The options for getting the workspace configuration.
- * @param {string} [opts.metaURL] The URL of the current module.
- * @param {string} [opts.path] The path to the workspace.
- * @param {{ metaURL?: string, path?: string }} [opts.core] The options for the core package.
- * @returns {Promise<ConstsConfig>} The workspace configuration.
+ *
+ * @param   {WorkspaceParams}                     [opts]         - The options for getting the workspace configuration.
+ * @param   {string}                              [opts.metaURL] - The URL of the current module.
+ * @param   {string}                              [opts.path]    - The path to the workspace.
+ * @param   {{ metaURL?: string, path?: string }} [opts.core]    - The options for the core package.
+ * @returns {Promise<ConstsConfig>}                              The workspace configuration.
  */
 export const getWorkspaceConfig = async ( {
 	path = '',
@@ -103,8 +105,9 @@ export const getWorkspaceConfig = async ( {
 
 /**
  * Generates markdown links for social badges.
- * @param {SocialLinks} data - The social links data.
- * @returns {string|undefined} The generated markdown links or undefined if no links are provided.
+ *
+ * @param   {SocialLinks}      data - The social links data.
+ * @returns {string|undefined}      The generated markdown links or undefined if no links are provided.
  */
 export const socialBadges = ( data: SocialLinks ) => {
 
@@ -175,8 +178,9 @@ type PkgBadgesOptions = {
 
 /**
  * Generates markdown links for package-related badges.
- * @param {PkgBadgesOptions} options - The package badge options.
- * @returns {string} The generated markdown links.
+ *
+ * @param   {PkgBadgesOptions} options - The package badge options.
+ * @returns {string}                   The generated markdown links.
  */
 export const pkgBadges = ( {
 	licensePath = '/LICENSE',

@@ -11,11 +11,11 @@ import {
 } from '@dovenv/utils'
 
 type ExtractLiterals<T> = T extends string ? ( string extends T ? never : T ) : never
-type Line =  NonNullable<Parameters<typeof line>[0]>
+type Line = NonNullable<Parameters<typeof line>[0]>
 type Color = NonNullable<Line['lineColor']>
 type ColorLiteral = ExtractLiterals<Color>
 
-const 		codeConstructor = ( {
+const codeConstructor = ( {
 	data,
 	title = undefined,
 	lang = undefined,
@@ -27,7 +27,7 @@ const 		codeConstructor = ( {
 	borderColor? : NonNullable<Parameters<typeof box>[1]>['borderColor']
 } ) => {
 
-	return box( highlight( data, { language: lang  } ), {
+	return box( highlight( data, { language: lang } ), {
 		title,
 		dimBorder : true,
 		borderColor,
@@ -60,10 +60,10 @@ const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof i
 	const listKey   = ( v:unknown ) => c( icon.bullet + ' ' + v )
 	const listValue = ( v:unknown ) => desc( v )
 	const li        = ( t:unknown, v:unknown ) => listKey( t ) + ' ' + listValue( v )
-	const a         = ( msg: string ) => c.italic.underline(  msg )
+	const a         = ( msg: string ) => c.italic.underline( msg )
 	const badge     = ( msg: unknown ) => c.inverse( ' ' + msg + ' ' )
 	const bold      = ( msg: unknown ) => c.bold( msg )
-	const hr        = ( title?: string, titleAlign?: Line['titleAlign'], dim?: boolean  ) => {
+	const hr        = ( title?: string, titleAlign?: Line['titleAlign'], dim?: boolean ) => {
 
 		return `\n${line( {
 			title      : title || title?.trim() !== '' ? title : '',
@@ -77,11 +77,11 @@ const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof i
 
 	return {
 		icon : mainIcon,
-		/** main title */
+		/** Main title */
 		h1   : ( v:unknown ) => title( badge( bold( v ) ) ),
-		/** general title */
+		/** General title */
 		h    : ( v:unknown ) => title( bold( v ) ),
-		/** general text */
+		/** General text */
 		text : ( v:unknown ) => c( v ),
 		msg  : ( t:string, msg?:unknown ) => bold( t ) + ( msg ? ' ' + desc( msg ) : '' ),
 		code : ( {
@@ -109,9 +109,9 @@ const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof i
 		lv : ( v:unknown ) => desc( v ),
 		/** List item */
 		li : ( k:unknown, v:unknown ) => li( k, v ),
-		/** unordered list */
+		/** Unordered list */
 		ul : ( list: Array<[ unknown, unknown ]> ) => list.map( ( [ k, v ] ) => li( k, v ) ).join( '\n' ),
-		/** paragraph */
+		/** Paragraph */
 		p  : desc,
 		/** Anchor */
 		a,
@@ -133,41 +133,42 @@ export class CommandStyle {
 
 	/**
 	 * Indent text.
-	 * @param {string} v - text
-	 * @param {string} [prefix] - prefix
-	 * @returns {string} Text indented
+	 *
+	 * @param   {string} v        - text.
+	 * @param   {string} [prefix] - prefix
+	 * @returns {string}          Text indented
 	 */
 	indent = indent
 
 	////////////////////////////////////////////////////////////
 	// parts
-	main    = colorConstructor( 'blue' )
+	main = colorConstructor( 'blue' )
 	section = colorConstructor( 'blue', icon.triangleRightSmall )
-	error   = colorConstructor( 'red', icon.cross )
-	warn    = colorConstructor( 'yellow', icon.warning )
+	error = colorConstructor( 'red', icon.cross )
+	warn = colorConstructor( 'yellow', icon.warning )
 	success = colorConstructor( 'green', icon.tick )
-	info    = colorConstructor( undefined, icon.info )
+	info = colorConstructor( undefined, icon.info )
 
 	////////////////////////////////////////////////////////////
 	// others
 
 	/**
-	 * Anchor (LINK)
+	 * Anchor (LINK).
 	 */
 	a = noColor.a
 
 	/**
-	 * Paragraph
+	 * Paragraph.
 	 */
 	p = noColor.p
 
 	/**
-	 * Badge
+	 * Badge.
 	 */
 	badge = noColor.badge
 
 	/**
-	 * Bold
+	 * Bold.
 	 */
 	b = noColor.b
 

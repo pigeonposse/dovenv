@@ -13,10 +13,11 @@ export type CommandUtils = CommandSuper
 /**
  * Retrieves command utilities for the given workspace directory.
  * If a package.json object is not provided, it reads and parses it from the workspace directory.
- * @param {object} data - Data
- * @param {string} [data.wsDir] - The workspace directory path. Default: `process.cwd()`.
- * @param {Record<string, unknown>} [data.pkg] - Optional package.json content as an object.
- * @returns {Promise<CommandUtils>} - A promise that resolves to the command utilities.
+ *
+ * @param   {object}                  data         - Data.
+ * @param   {string}                  [data.wsDir] - The workspace directory path. Default: `process.cwd()`.
+ * @param   {Record<string, unknown>} [data.pkg]   - Optional package.json content as an object.
+ * @returns {Promise<CommandUtils>}                - A promise that resolves to the command utilities.
  * @example
  * const utils = await getCommandUtils();
  * console.log(utils);
@@ -24,6 +25,7 @@ export type CommandUtils = CommandSuper
 export const getCommandUtils = async ( data?:{
 	/**
 	 * The workspace directory path.
+	 *
 	 * @default process.cwd()
 	 */
 	wsDir? : string

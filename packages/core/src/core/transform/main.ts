@@ -68,7 +68,7 @@ export class Transform extends Command<TransformConfig> {
 			}
 			catch ( e ) {
 
-				this.load.fail( this.utils.style.error.msg( key, 'Transformation failed. ' +  ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
+				this.load.fail( this.utils.style.error.msg( key, 'Transformation failed. ' + ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
 
 				this.utils.exitWithError()
 

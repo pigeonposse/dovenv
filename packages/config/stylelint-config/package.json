@@ -22,7 +22,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
+		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/config/stylelint-config"
 	},
 	"funding": {
@@ -37,7 +37,16 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs"
+		".": {
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
+		}
 	},
 	"main": "./dist/main.mjs",
 	"types": "./dist/main.d.ts",
@@ -52,9 +61,9 @@
 		"postcss-html": "1.8.0",
 		"stylelint-config-html": "1.1.0",
 		"stylelint-config-recess-order": "6.0.0",
-		"stylelint-config-recommended": "15.0.0",
-		"stylelint-config-standard": "37.0.0",
-		"stylelint-order": "6.0.4"
+		"stylelint-config-recommended": "16.0.0",
+		"stylelint-config-standard": "38.0.0",
+		"stylelint-order": "7.0.0"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*"

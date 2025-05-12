@@ -15,8 +15,8 @@ onMounted( () => {
 	window.onscroll = function () {
 
 		var winScroll           = document.body.scrollTop || document.documentElement.scrollTop,
-			height              = document.documentElement.scrollHeight - document.documentElement.clientHeight,
-			scrolled            = ( winScroll / height ) * 100
+			height = document.documentElement.scrollHeight - document.documentElement.clientHeight,
+			scrolled = ( winScroll / height ) * 100
 		const progressBar       = document.querySelector( '.progress-bar' )
 		const progressContainer = document.querySelector( '.progress-container' )
 		if ( progressBar && progressContainer ) {

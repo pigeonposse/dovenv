@@ -4,7 +4,7 @@ export type Config = {
 
 	/**
 	 * Max number of async requests at the same time. 10 by default.
-	 * download-directory.github.io has no limit, but it can lead to IP blocking
+	 * Download-directory.github.io has no limit, but it can lead to IP blocking.
 	 */
 	requests? : number
 

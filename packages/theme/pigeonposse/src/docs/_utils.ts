@@ -1,4 +1,4 @@
-export const addExtension = <T extends Record<string, string>, E extends string>( base: T, extension: E  ) => {
+export const addExtension = <T extends Record<string, string>, E extends string>( base: T, extension: E ) => {
 
 	return Object.fromEntries(
 		Object.entries( base ).map( ( [ key, value ] ) => [ key, `${value}.${extension}` ] ),

@@ -82,7 +82,7 @@ export class GitInit extends GitSuper {
 		const commitInstance = new GitCommit( {
 			opts  : this.opts,
 			utils : this.utils,
-		}  )
+		} )
 
 		const add    = await addInstance.ask()
 		const commit = await commitInstance.ask( false )

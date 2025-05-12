@@ -35,7 +35,7 @@ const exts       = CONFIG_EXTS
 
 const paths = pathsNames
 	.flatMap( name => exts.flatMap( ext => [ `.${name}.${ext}`, `${name}.${ext}` ] ) )
-	.sort( a => a.startsWith( '.'  ) ? -1 : 1 )
+	.sort( a => a.startsWith( '.' ) ? -1 : 1 )
 	.map( file => joinPath( root, file ) )
 
 const boxProps  = {
@@ -89,7 +89,7 @@ const getValidatedConf = async ( path: string ) => {
 	if ( !exist ) throw new ErrorConfig( ERROR.NO_ROUTE, { data: `${color.bold( errorTilte )}\n\n${errorInfo}\n${errorInfoMore}` } )
 
 	const [ error, config ] = await catchError( getObjectFromJSFile( path ) )
-	if ( error ) throw new ErrorConfig( ERROR.CONFIG_FILE_ERROR, { data: `${error.message.trim()}\n${error.stack ? erroStack( error ) : ''}\n${errorInfoMore}`  } )
+	if ( error ) throw new ErrorConfig( ERROR.CONFIG_FILE_ERROR, { data: `${error.message.trim()}\n${error.stack ? erroStack( error ) : ''}\n${errorInfoMore}` } )
 
 	return {
 		config : config,

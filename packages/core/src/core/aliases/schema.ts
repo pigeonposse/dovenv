@@ -10,7 +10,7 @@ export const schema = createValidateSchemaFn<AliasesConfig>( v => v.record(
 		cmd  : v.string()
 			.or(
 				v.function()
-					.returns(  responseSchema( v.void(), v ) ),
+					.returns( responseSchema( v.void(), v ) ),
 			),
 	} ).strict(),
 ) )

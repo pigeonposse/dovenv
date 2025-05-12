@@ -6,7 +6,8 @@ export type GitConfig = Config & {
 	commit? : {
 		/**
 		 * Type of commit message.
-		 * Add types for your commits
+		 * Add types for your commits.
+		 *
 		 * @example
 		 * [
 		 *   {value: 'feat', title: 'A new feature'},
@@ -20,6 +21,7 @@ export type GitConfig = Config & {
 		}>
 		/**
 		 * Scope of commit message.
+		 *
 		 * @example
 		 * [
 		 * 	{value: 'core'},
@@ -43,7 +45,8 @@ export type GitConfig = Config & {
 	 */
 	husky?  : {
 		/**
-		 * The path to set the '.husky' directory
+		 * The path to set the '.husky' directory.
+		 *
 		 * @default '.dovenv/.husky'
 		 */
 		path : string

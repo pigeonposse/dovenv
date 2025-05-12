@@ -44,6 +44,7 @@ export type CheckFile = CheckShared & {
 	} ) => Response<void>
 	/**
 	 * Validation function. It is called every time a file path is read.
+	 *
 	 * @example
 	 * const validate = async ( {path, content} ) => {
 	 *   if ( !content ) throw new Error(`File [${path}] must exist`)

@@ -6,8 +6,9 @@ import type {
 } from './super'
 
 /**
- * DeepRequired
- * @description Required that works for deeply nested structure
+ * DeepRequired.
+ *
+ * @description Required that works for deeply nested structure.
  * @example
  *   type NestedProps = {
  *     first?: {
@@ -34,7 +35,7 @@ type _DeepRequired<T> = T extends ( ...args: AnyArray ) => Any
 			? Prettify<_DeepRequiredObject<T>>
 			: T
 
-type  _DeepRequiredArray<T> = Array<_DeepRequired<NonUndefined<T>>>
+type _DeepRequiredArray<T> = Array<_DeepRequired<NonUndefined<T>>>
 
 type _DeepRequiredObject<T> = {
 	[P in keyof T]-?: _DeepRequired<NonUndefined<T[P]>>;

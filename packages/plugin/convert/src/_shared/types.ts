@@ -1,8 +1,9 @@
-export type ConvertPropsSuper =  {
+export type ConvertPropsSuper = {
 	/**
 	 * Input patterns.
 	 *
 	 * Accepts glob patterns, urls, and strings.
+	 *
 	 * @example [
 	 *   'https://pigeonposse.com',
 	 *   './docs/*.md',
@@ -14,18 +15,18 @@ export type ConvertPropsSuper =  {
 	 */
 	input   : string[] | string
 	/**
-	 * Output path
+	 * Output path.
 	 */
 	output? : string
 }
 
 export type ConvertResponse = {
 	/**
-	 * Id of the path
+	 * Id of the path.
 	 */
 	id      : string
 	/**
-	 * Content of the path
+	 * Content of the path.
 	 */
 	content : string
 }[]

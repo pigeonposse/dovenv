@@ -3,8 +3,9 @@ import {
 	getPaths,
 	readFile,
 	validateHomeDir,
-} from './super/main'
-import { getStringType } from '../string/main'
+} from './super'
+
+import { getStringType } from '@/string'
 
 export const getFileText = async ( path:string ) => {
 
@@ -17,6 +18,7 @@ export const getFileText = async ( path:string ) => {
 
 /**
  * Fetch content from a URL to string.
+ *
  * @param   {string}          url - URL of the resource.
  * @returns {Promise<string>}     - The fetched content.
  * @throws {Error} If there is an error fetching content from the URL.
@@ -60,6 +62,7 @@ export async function fetch2string( url: string ): Promise<string> {
 /**
  * Retrieves a string from either a file specified by path or a URL.
  * Supports fetching remote content via URLs and reading local files.
+ *
  * @param   {string}          input - Path to a file or URL of the resource.
  * @returns {Promise<string>}       - The string retrieved from the file or URL.
  * @throws {Error} If there is an error fetching data or parsing the string.
@@ -77,7 +80,7 @@ export const getStringFrom = async ( input: string ) => {
 	if ( type === 'path' )
 		return await getFileText( input )
 	else if ( type === 'url' )
-		return  await fetch2string( input )
+		return await fetch2string( input )
 	else
 		return input
 
@@ -86,8 +89,9 @@ export const getStringFrom = async ( input: string ) => {
 /**
  *
  * Fetches all strings from a given patterns (URLs or paths).
- * @param   {string[]} patterns - An array of strings with URLs or paths.
- * @returns {Promise<object[]>} - The fetched content.
+ *
+ * @param   {string[]}          patterns - An array of strings with URLs or paths.
+ * @returns {Promise<object[]>}          - The fetched content.
  * @throws {Error} If there is an error fetching content from the URLs or paths.
  * @example import { getStringsFrom } from '@dovenv/utils'
  *

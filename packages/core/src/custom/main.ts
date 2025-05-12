@@ -134,7 +134,7 @@ export class Custom extends Command<CustomConfig> {
 
 			// if ( prop.settings?.wrapConsole === false ) this.log.wrapAll()
 
-			this.utils.log.error( e instanceof Error ? e.message : e )
+			this.utils.log.error( e instanceof Error ? e.message : e || 'No error message specified' )
 			if ( !isQuiet ) this.setTime( time.prettyStop() )
 
 			this.utils.exitWithError()

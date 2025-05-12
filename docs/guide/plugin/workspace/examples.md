@@ -87,40 +87,48 @@ export default defineConfig(
 			} },
 		},
 		check : { pkg : {
-			include : ( { path } ) => {
+			packageJSON : {
+				desc   : 'Check package(s) structure',
+				schema : ( {
+					v, content,
+				} ) => {
 
-				const shared = [ 'package.json', 'README.md' ]
+					if ( content.private === true ) return undefined
+					if ( content.name !== 'dovenv-monorepo' ) return v.object( {
+						name    : v.string(),
+						version : v.string(),
+					} )
+					else return v.object( { extra: v.object( {} ) } )
 
-				if (  path.includes( '/config/' ) ) return shared
-				else if ( path === pkgPath )  return [ 'docs/index.md', ...shared ]
-
-				return [
-					'src/*{.js,.ts}',
-					'examples/**/*{.js,.ts}',
-					...shared,
-				]
-
+				},
 			},
-			exclude : ( { dir } ) => {
+			files : {
+				include : ( {
+					path, content,
+				} ) => {
 
-				if ( arePathsEqual( dir, workspaceDir ) )
-					return [ 'src/*' ]
+					if ( content.private === true ) return []
+					const shared = [ 'package.json', 'README.md' ]
 
-			},
-			schema : ( {
-				v, content,
-			} ) => {
+					if ( path.includes( '/config/' ) ) return shared
+					else if ( path === pkgPath ) return [ 'docs/index.md', ...shared ]
 
-				if ( content.name !== 'dovenv-monorepo' ) return v.object( {
-					name    : v.string(),
-					version : v.string(),
-				} )
-				else return v.object( { extra: v.object( {} ) } )
+					return [
+						'src/*{.js,.ts}',
+						'examples/**/*{.js,.ts}',
+						...shared,
+					]
 
+				},
+				exclude : ( { dir } ) => {
+
+					if ( arePathsEqual( dir, workspaceDir ) )
+						return [ 'src/*' ]
+
+				},
 			},
 		} },
-	},
-	),
+	} ),
 )
 
 ```

@@ -8,8 +8,9 @@ export { Examples }
 
 /**
  * A plugin for `dovenv` providing tools for managing example paths.
- * @param {Config} [conf] - Configuration for the plugin.
- * @returns {DovenvConfig} - The plugin configuration with custom examples.
+ *
+ * @param   {Config}       [conf] - Configuration for the plugin.
+ * @returns {DovenvConfig}        - The plugin configuration with custom examples.
  */
 export const examplesPlugin = ( conf?: Config ): DovenvConfig => {
 

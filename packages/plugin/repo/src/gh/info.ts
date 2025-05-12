@@ -61,11 +61,11 @@ export class GitHubInfo extends GHSuper {
 
 				const { stderr } = await execChild( `gh repo edit "${repoURL}" ${homepage} ${topics} ${description}` )
 
-				if ( stderr ) return this.utils.prompt.log.error( this.utils.style.error.msg( 'Error updating repo info', stderr ) )
+				if ( stderr ) return this.utils.prompt.log.errorWithExit( this.utils.style.error.msg( 'Error updating repo info', stderr ) )
 				else this.utils.prompt.log.success( this.utils.style.success.h( `Updated repo info in` ) + ' ' + this.utils.style.success.p( `${this.utils.style.a( repoURL )}` ) )
 
 			}
-			else this.utils.prompt.log.error( this.utils.style.error.msg( 'Nothing to update.' ) )
+			else this.utils.prompt.log.errorWithExit( this.utils.style.error.msg( 'Nothing to update.' ) )
 			this.utils.prompt.log.step( '' )
 
 		}

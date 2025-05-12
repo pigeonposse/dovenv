@@ -5,7 +5,7 @@ import {
 	deprecatedAlerts,
 	exec,
 	getObjectFromFile,
-	getPKGVersion,
+	getPackageVersion,
 } from '@dovenv/core/utils'
 import { Sizium } from '@sizium/core'
 
@@ -82,7 +82,7 @@ export class Packages extends Repo {
 
 			if ( !( pkg.name && pkg.version ) ) continue
 
-			const [ _, npmVersion ] = npm && !pkgPrivate ? await catchError( getPKGVersion( pkg.name ) ) : [ undefined, undefined ]
+			const [ _, npmVersion ] = npm && !pkgPrivate ? await catchError( getPackageVersion( pkg.name ) ) : [ undefined, undefined ]
 
 			res.push( {
 				name    : pkg.name,
@@ -111,7 +111,7 @@ export class Packages extends Repo {
 			p.log.step( '' )
 
 			await p.box( {
-				value : `Your package version(s):\n\n${pkg.map( l => this.utils.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'none'}` : '' )  + ( l.private ? ` | private` : '' ) ) ).join( '\n' )}\n`,
+				value : `Your package version(s):\n\n${pkg.map( l => this.utils.style.section.li( l.name, `local: ${l.version}` + ( npm ? ` | npm: ${l.npm || 'none'}` : '' ) + ( l.private ? ` | private` : '' ) ) ).join( '\n' )}\n`,
 				opts  : {
 					borderStyle : 'none',
 					padding     : 0,

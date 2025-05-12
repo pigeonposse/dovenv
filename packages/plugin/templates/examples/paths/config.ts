@@ -16,7 +16,7 @@ import pkg                 from '../../../../../package.json'
 import { templatesPlugin } from '../../src/main'
 
 const currDir    = getCurrentDir( import.meta.url )
-const pkgDir     = joinPath( currDir, '..', '..'  )
+const pkgDir     = joinPath( currDir, '..', '..' )
 const wsDir      = joinPath( pkgDir, '..', '..', '..' )
 const buildDir   = joinPath( pkgDir, 'build', 'paths' )
 const partialDir = joinPath( currDir, 'partials' )
@@ -42,7 +42,7 @@ export default defineConfig( [
 			pkgBadges : pkgBadges( {
 				pkgName  : pkg.extra.id,
 				repoName : pkg.extra.collective.id + '/' + ( pkg.extra.repoID ),
-			}  ),
+			} ),
 			socialBadges : socialBadges( {
 				...pkg.extra.collective.social,
 				web    : pkg.extra.collective.web,

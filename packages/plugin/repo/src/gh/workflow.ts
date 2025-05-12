@@ -23,7 +23,7 @@ export class GitHubWorkflow extends GHSuper {
 		if ( !workflowsDir ) return console.warn( `No workflows dir provided. You need to provide a workflows dir` )
 
 		console.debug( { workflowsDir } )
-		const fileNames = await getPaths( [ workflowsDir + '/*.yml' ], { onlyFiles: true  } )
+		const fileNames = await getPaths( [ workflowsDir + '/*.yml' ], { onlyFiles: true } )
 		const color     = this.utils.style.color
 		let content     = ( fileNames && fileNames.length )
 			? await getDirTree( {
@@ -33,7 +33,7 @@ export class GitHubWorkflow extends GHSuper {
 			: color.cyan( `No workflows found it!` )
 
 		content  += '\n' + ( color.cyan( `PATH: ` ) + this.utils.style.p( relativePath( this.utils.process.cwd(), workflowsDir ) ) )
-		content  += ( repoURL )  ? '\n' + color.cyan( `URL: ` ) + this.utils.style.p( this.utils.style.a( repoURL ) ) : ''
+		content  += ( repoURL ) ? '\n' + color.cyan( `URL: ` ) + this.utils.style.p( this.utils.style.a( repoURL ) ) : ''
 		const res = box( content, {
 			padding     : 1,
 			dimBorder   : true,
@@ -86,7 +86,7 @@ export class GitHubWorkflow extends GHSuper {
 			onCancel : this.utils.onCancel,
 			list     : async p => ( {
 				desc        : () => p.log.info( this.utils.style.p( 'Prompt for run workflow' ) ),
-				[data.file] : async () =>  p.select( {
+				[data.file] : async () => p.select( {
 					message : 'Select a workflow:',
 					options : fileNames.map( value => ( {
 						value,
@@ -139,7 +139,7 @@ export class GitHubWorkflow extends GHSuper {
 
 						p.log.success( repoURL
 							? this.utils.style.success.msg( `See action progress:`, this.utils.style.a( joinUrl( repoURL, 'actions' ) ) )
-							:  this.utils.style.success.msg( 'Succesfully finished 🌈' ),
+							: this.utils.style.success.msg( 'Succesfully finished 🌈' ),
 						)
 
 					}

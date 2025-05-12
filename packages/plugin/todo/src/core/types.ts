@@ -4,17 +4,19 @@ export type Config = {
 	/** Id  of the TODO */
 	[key in string]: {
 		/**
-		 Input pattern for get TODOs
+		   Input pattern for get TODOs.
 		 */
 		input       : string[]
 		/**
 		 * Output for add all TODOs in markdown format.
 		 * Override if exists content.
+		 *
 		 * @example undefined
 		 */
 		output?     : string
 		/**
-		 * Options for get TODOs
+		 * Options for get TODOs.
+		 *
 		 * @default
 		 * {
 		 *   gitignore : true,
@@ -24,7 +26,8 @@ export type Config = {
 		 */
 		inputOpts?  : Parameters<typeof getPaths>[1]
 		/**
-		 * custom tags to get TODOs
+		 * Custom tags to get TODOs.
+		 *
 		 * @default
 		 * [ 'TODO', '@todo', '@fixme' ]
 		 */

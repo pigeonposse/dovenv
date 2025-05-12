@@ -1,10 +1,12 @@
-/* eslint-disable jsdoc/require-jsdoc */
-import { readFile } from '@dovenv/utils'
-import { svg }      from '@dovenv/utils'
-import { icon }     from '@fortawesome/fontawesome-svg-core'
-import { Resvg }    from '@resvg/resvg-js'
-import Jimp         from 'jimp-compact'
-import { Buffer }   from 'node:buffer'
+
+import {
+	readFile,
+	svg,
+} from '@dovenv/utils'
+import { icon }   from '@fortawesome/fontawesome-svg-core'
+import { Resvg }  from '@resvg/resvg-js'
+import Jimp       from 'jimp-compact'
+import { Buffer } from 'node:buffer'
 
 import { _getMediaInputString } from '../_core/main'
 
@@ -15,22 +17,26 @@ type INode = Awaited<ReturnType<typeof svg['deserialize']>>
 
 export type Svg2ImgCoreProps = {
 	/**
-	 * Format of the image
+	 * Format of the image.
+	 *
 	 * @default png
 	 */
 	format?        : 'png' | 'jpeg' | 'jpg'
 	/**
-	 * Quality of the image
+	 * Quality of the image.
+	 *
 	 * @default 75
 	 */
 	quality?       : number
 	/**
-	 * Resvg options
+	 * Resvg options.
+	 *
 	 * @see https://github.com/thx/resvg-js
 	 */
 	resvg?         : ResvgRenderOptions
 	/**
-	 * Transform the SVG tree before rendering
+	 * Transform the SVG tree before rendering.
+	 *
 	 * @see https://www.npmjs.com/package/svgson
 	 */
 	transformNode? : ( node: INode ) => Promise<INode> | INode
@@ -39,10 +45,11 @@ export type Svg2ImgCoreProps = {
 type Svg2ImgCallback = ( error: Error | null, result?: Buffer ) => void
 
 /**
- * Main method
- * @param  {string | Buffer} svg - A SVG string, Buffer or a base64 string starting with "data:image/svg+xml;base64", or a file URL (http or local)
- * @param  {Svg2ImgCoreProps} [options] - options
- * @param  {Svg2ImgCallback} callback - result callback, 2 parameters: error, and result image buffer
+ * Main method.
+ *
+ * @param {string | Buffer}  svg       - A SVG string, Buffer or a base64 string starting with "data:image/svg+xml;base64", or a file URL (http or local).
+ * @param {Svg2ImgCoreProps} [options] - Options.
+ * @param {Svg2ImgCallback}  callback  - Result callback, 2 parameters: error, and result image buffer.
  */
 async function svg2img( svg: string | Buffer, options: Svg2ImgCoreProps | Svg2ImgCallback, callback?: Svg2ImgCallback ): Promise<void> {
 
@@ -111,7 +118,7 @@ async function svg2img( svg: string | Buffer, options: Svg2ImgCoreProps | Svg2Im
 
 }
 
-function loadSVGContent( svg: string | Buffer, callback: ( error: Error | null, content?: string | Buffer ) => void ): void {
+const loadSVGContent = ( svg: string | Buffer, callback: ( error: Error | null, content?: string | Buffer ) => void ): void => {
 
 	if ( typeof svg === 'string' && svg.startsWith( 'data:image/svg+xml;base64,' ) ) {
 
@@ -140,7 +147,7 @@ function loadSVGContent( svg: string | Buffer, callback: ( error: Error | null, 
 
 }
 
-async function loadRemoteImage( url: string, onComplete: ( error: Error | null, data?: Buffer ) => void ): Promise<Promise<void>> {
+const loadRemoteImage = async ( url: string, onComplete: ( error: Error | null, data?: Buffer ) => void ): Promise<Promise<void>> => {
 
 	const protocol = url.startsWith( 'https' )
 		? await import( 'node:https' )
@@ -155,7 +162,7 @@ async function loadRemoteImage( url: string, onComplete: ( error: Error | null, 
 
 }
 
-function isFunction( func: unknown ):  boolean {
+const isFunction = ( func: unknown ): boolean => {
 
 	return typeof func === 'function'
 

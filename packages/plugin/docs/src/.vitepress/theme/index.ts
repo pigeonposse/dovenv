@@ -62,13 +62,9 @@ export default {
 	async enhanceApp( { app } ) {
 
 		app.component( 'ShareButtons', ShareButtons )
-		// eslint-disable-next-line vue/multi-word-component-names
 		app.component( 'Posts', Posts )
-		// eslint-disable-next-line vue/multi-word-component-names, vue/component-definition-name-casing
 		app.component( 'posts', PostsLayout )
-		// eslint-disable-next-line vue/multi-word-component-names, vue/component-definition-name-casing
 		app.component( 'links', LinksLayout )
-		// eslint-disable-next-line vue/multi-word-component-names, vue/component-definition-name-casing
 		app.component( 'contributors', Contributtors )
 		app.use( TwoslashFloatingVue )
 

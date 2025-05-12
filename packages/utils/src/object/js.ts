@@ -1,12 +1,13 @@
 import { pathToFileURL } from 'node:url'
 
-import { validateHomeDir } from '../sys/super/main'
+import { validateHomeDir } from '../sys/super'
 
 import type { CommonObj } from './_super'
-import type { Any }       from '../ts/main'
+import type { Any }       from '../ts'
 
 /**
  * Get object from a JavaScript file.
+ *
  * @param   {string}                     path - Path to the JavaScript file.
  * @param   {string}                     part - The part of the module to import. Defaults to 'default'.
  * @returns {Promise<object | object[]>}      - The imported object.

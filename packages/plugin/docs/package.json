@@ -18,7 +18,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
+		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/plugin/docs"
 	},
 	"funding": {
@@ -33,7 +33,16 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs"
+		".": {
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
+		}
 	},
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
@@ -49,23 +58,28 @@
 		"build-preview": "node dist/bin.mjs --config-path examples/docs.config.js",
 		"dev": "tsx examples/ws/main.ts",
 		"dev-bin": "tsx src/bin.ts --config-path examples/bin/docs.config.js",
+		"dev-og": "tsx src/.vitepress/og/core.example.ts",
 		"dev-simple": "tsx examples/simple/main.ts docs",
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"@shikijs/vitepress-twoslash": "3.2.1",
-		"@vite-pwa/vitepress": "0.5.3",
+		"@resvg/resvg-js": "2.6.2",
+		"@shikijs/vitepress-twoslash": "3.4.0",
+		"@vite-pwa/assets-generator": "1.0.0",
+		"@vite-pwa/vitepress": "1.0.0",
 		"markdown-it-container": "4.0.0",
 		"markdown-it-task-lists": "2.1.1",
 		"medium-zoom": "1.1.0",
+		"satori": "0.12.2",
+		"satori-html": "0.3.2",
 		"vite-plugin-full-reload": "1.2.0",
+		"vite-plugin-pwa": "1.0.0",
 		"vite-plugin-restart": "0.4.2",
 		"vitepress": "1.6.3",
-		"vitepress-plugin-group-icons": "1.3.8",
+		"vitepress-plugin-group-icons": "1.5.2",
 		"vitepress-plugin-llmstxt": "0.1.0",
 		"vitepress-plugin-rss": "0.3.1",
-		"vue": "3.5.13",
-		"vue-social-sharing": "3.0.9"
+		"vue": "3.5.13"
 	},
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",

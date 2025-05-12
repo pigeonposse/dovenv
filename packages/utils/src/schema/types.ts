@@ -1,17 +1,17 @@
 
-import type { ValidateAnyType } from '../validate/main'
+import type { ValidateAnyType } from '@/validate'
 import type {
 	Options,
 	compile,
 } from 'json-schema-to-typescript-lite'
 import type { Options as Schema2ZodOpts } from 'json-schema-to-zod'
-import type { Config as Ts2schemaConf }   from 'ts-json-schema-generator'
-import type { Options as Zod2JsonOpts }   from 'zod-to-json-schema'
+// import type { Config as Ts2schemaConf }   from 'ts-json-schema-generator'
+import type { Options as Zod2JsonOpts } from 'zod-to-json-schema'
 
 export type schemaString = Parameters<typeof compile>[0]
 export type SchemaObject = Parameters<typeof compile>[0] | object
 
-export type Ts2Schema = { config: Ts2schemaConf }
+// export type Ts2Schema = { config: Ts2schemaConf }
 export type Zod2schema = {
 	/**
 	 * The JSON Schema object to convert to a TypeScript type.
@@ -19,7 +19,7 @@ export type Zod2schema = {
 	 */
 	schema : ValidateAnyType
 	/**
-	 * Options for convert process
+	 * Options for convert process.
 	 */
 	opts?  : Zod2JsonOpts
 }
@@ -30,7 +30,7 @@ export type Schema2zod = {
 	 */
 	schema : SchemaObject
 	/**
-	 * Options for convert process
+	 * Options for convert process.
 	 */
 	opts?  : Schema2ZodOpts
 }
@@ -55,12 +55,14 @@ export type Schema2tsProps = {
 
 export type Schema2typeProps = Pick<Schema2tsProps, 'schema'> & {
 	/**
-	 * Remove all `?` from the generated type
+	 * Remove all `?` from the generated type.
+	 *
 	 * @default false
 	 */
 	required?        : boolean
 	/**
-	 * Remove all `[k: string]: unknown` from the generated type
+	 * Remove all `[k: string]: unknown` from the generated type.
+	 *
 	 * @default false
 	 */
 	noUnknownObject? : boolean

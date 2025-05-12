@@ -128,8 +128,9 @@ export const core = new CreatiumCore( {
 
 /**
  * Function for create a new project template.
- * @param {CreateTemplateParams} params - The values to create the template.
- * @returns {Promise<void>} - A promise that resolves when the template is created.
+ *
+ * @param   {CreateTemplateParams} params - The values to create the template.
+ * @returns {Promise<void>}               - A promise that resolves when the template is created.
  */
 export const createTemplate = async ( params: CreateTemplateParams ) => {
 
@@ -149,7 +150,7 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 			...consts
 		} = params
 
-		if ( !output )  throw new Error( 'Output is required' )
+		if ( !output ) throw new Error( 'Output is required' )
 		if ( !projectName ) throw new Error( 'Project name is required' )
 
 		spinner.start( 'Creating project' )
@@ -261,7 +262,7 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 		spinner.message( 'Defining dovenv config' )
 		const getPluginDovenvConfig = () => {
 
-			if ( !dataPlugin || dataPlugin.length === 0  ) return ''
+			if ( !dataPlugin || dataPlugin.length === 0 ) return ''
 
 			const imports        = dataPlugin.map( item => item.import ).join( '\n' )
 			const configurations = dataPlugin.map( item => item.config ).join( ',\n  ' )

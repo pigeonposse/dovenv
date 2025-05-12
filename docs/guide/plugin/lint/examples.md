@@ -33,7 +33,11 @@ export default defineConfig( lintPlugin( {
 		configFile : 'stylelint.config.js',
 		files      : '**/*.css',
 	},
-	staged : { '**/*.{js,ts,jsx,tsx}': 'eslint' },
+	staged  : { '**/*.{js,ts,jsx,tsx}': 'eslint' },
+	publint : {
+		this     : {},
+		examples : { pkgDir: '../examples' },
+	},
 	custom : {
 		test : async ( { run } ) => {
 

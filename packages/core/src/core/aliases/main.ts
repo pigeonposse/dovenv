@@ -33,7 +33,7 @@ export class Aliases extends Command<AliasesConfig> {
 
 			const { desc } = this.opts[key]
 
-			console.log( this.utils.style.indent( this.utils.style.info.li( key, desc  ) ) )
+			console.log( this.utils.style.indent( this.utils.style.info.li( key, desc ) ) )
 
 		}
 		console.log( )
@@ -114,7 +114,7 @@ export class Aliases extends Command<AliasesConfig> {
 		await this.validateSchema( this.opts )
 
 		if ( this.argv?.cmds?.includes( this.id ) ) await this.#list()
-		else if ( this.argv?.cmds?.includes( this.consts.CMD.ALIAS_EXEC ) )  await this.#exec()
+		else if ( this.argv?.cmds?.includes( this.consts.CMD.ALIAS_EXEC ) ) await this.#exec()
 
 	}
 

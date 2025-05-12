@@ -43,7 +43,7 @@ export class DocsCore {
 
 	}
 
-	async #runVipressCli( type: 'dev' | 'build' | 'preview',  flags?: string[] ) {
+	async #runVipressCli( type: 'dev' | 'build' | 'preview', flags?: string[] ) {
 
 		const depAlert = deprecatedAlerts()
 		depAlert.hide()
@@ -71,7 +71,7 @@ export class DocsCore {
 				type,
 				path,
 				...( flags ?? [] ),
-				...(  this.opts?.port ? [ `--port=${this.opts.port}` ] : [] ),
+				...( this.opts?.port ? [ `--port=${this.opts.port}` ] : [] ),
 			]
 
 			console.debug( { 'docs-cli-argv': this.utils.process.argv } )
@@ -95,9 +95,10 @@ export class DocsCore {
 	 * __Starts the development server__.
 	 *
 	 * This command is a wrapper of the `npx vitepress dev` command.
-	 * @param {string[]} [flags] Flags to pass to the underlying `vitepress dev`
-	 * command. The `--force` flag is always passed to ensure the server starts
-	 * without prompting the user.
+	 *
+	 * @param {string[]} [flags] - Flags to pass to the underlying `vitepress dev`
+	 *                           command. The `--force` flag is always passed to ensure the server starts
+	 *                           without prompting the user.
 	 */
 	async dev( flags?: string[] ) {
 
@@ -109,8 +110,9 @@ export class DocsCore {
 	 * __Builds the documentation site__.
 	 *
 	 * This command is a wrapper of the `npx vitepress build` command.
-	 * @param {string[]} [flags] Flags to pass to the underlying `vitepress build`
-	 * command. This allows for customization and control over the build process.
+	 *
+	 * @param {string[]} [flags] - Flags to pass to the underlying `vitepress build`
+	 *                           command. This allows for customization and control over the build process.
 	 */
 	async build( flags?: string[] ) {
 
@@ -122,8 +124,9 @@ export class DocsCore {
 	 * __Starts the preview server__.
 	 *
 	 * This command is a wrapper of the `npx vitepress preview` command.
-	 * @param {string[]} [flags] Flags to pass to the underlying `vitepress preview`
-	 * command. This allows for customization and control over the preview process.
+	 *
+	 * @param {string[]} [flags] - Flags to pass to the underlying `vitepress preview`
+	 *                           command. This allows for customization and control over the preview process.
 	 */
 	async preview( flags?: string[] ) {
 
@@ -132,11 +135,12 @@ export class DocsCore {
 	}
 
 	/**
-	 * Generate assets for PWA
-	 * @param {string[]} [flags] Flags to pass '@vite-pwa/assets-generator' cli
+	 * Generate assets for PWA.
+	 *
+	 * @param {string[]} [flags] - Flags to pass '@vite-pwa/assets-generator' cli.
 	 * @see https://vite-pwa-org.netlify.app/assets-generator/cli.html
 	 */
-	async generatePWAassets( flags?: string[]  ) {
+	async generatePWAassets( flags?: string[] ) {
 
 		await this.utils.execPkgBin( '@vite-pwa/assets-generator', flags, { forceExec: true } )
 

@@ -1,7 +1,7 @@
 
 import process from 'node:process'
 
-import { color } from '../../../styles/main'
+import { color } from '../../../styles'
 
 import type { State } from '@clack/core'
 

@@ -3,9 +3,10 @@ import prettyMilliseconds      from 'pretty-ms'
 
 /**
  * Creates a performance tracker to measure elapsed time.
- * @returns {object} An object containing methods to stop and retrieve the elapsed time.
- * @property {Function} stop - Returns the elapsed time in seconds as a fixed-point number.
+ *
+ * @property {Function} stop       - Returns the elapsed time in seconds as a fixed-point number.
  * @property {Function} prettyStop - Returns the elapsed time formatted as a human-readable string.
+ * @returns  {object}              An object containing methods to stop and retrieve the elapsed time.
  */
 export const performance = () => {
 
@@ -14,11 +15,13 @@ export const performance = () => {
 	return {
 		/**
 		 * Calculates and returns the elapsed time in seconds.
+		 *
 		 * @returns {number} Elapsed time in seconds as a floating-point number.
 		 */
 		stop       : () => ( stopNum() / 1000 ),
 		/**
 		 * Formats and returns the elapsed time as a human-readable string.
+		 *
 		 * @returns {string} Elapsed time formatted in milliseconds, seconds, or minutes.
 		 */
 		prettyStop : () => prettyMilliseconds( stopNum() ),
@@ -28,8 +31,9 @@ export const performance = () => {
 
 /**
  * Waits for the given number of milliseconds before resolving.
- * @param {number} ms - The number of milliseconds to wait.
- * @returns {Promise<void>} - A promise that resolves when the delay has finished.
+ *
+ * @param   {number}        ms - The number of milliseconds to wait.
+ * @returns {Promise<void>}    - A promise that resolves when the delay has finished.
  * @example
  * await delay( 1000 ); // waits 1 second
  */
@@ -38,6 +42,7 @@ export const delay = async ( ms: number ) =>
 
 /**
  * Gets the current date and time as an object containing separate fields for year, month, day, hours, minutes, and seconds.
+ *
  * @returns {{ year: string; month: string; day: string; hours: string; minutes: string; seconds: string }} - An object representing the current date and time.
  */
 export const getCurrentDateTime = (): {
@@ -70,6 +75,7 @@ export const getCurrentDateTime = (): {
 
 /**
  * Gets the current date and time in ISO 8601 format as a string.
+ *
  * @returns {string} - The current date and time as an ISO 8601 string.
  */
 export const getCurrentDateTimeString = (): string => {

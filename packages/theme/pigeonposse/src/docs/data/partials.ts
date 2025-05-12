@@ -18,9 +18,9 @@ export const partialConstructor = ( emojis?: EmojiObject | false ) => {
 
 	return {
 	/**
-	 * Returns the installation instructions for the library
+	 * Returns the installation instructions for the library.
 	 *
-	 * **required const**: libPkg
+	 * **required const**: libPkg.
 	 */
 		installation : `\`\`\`bash 
 npm install {{const.libPkg.name}}
@@ -34,9 +34,9 @@ bun add {{const.libPkg.name}}
 deno add {{const.libPkg.name}}
 \`\`\``,
 		/**
-		 * Returns the installation instructions for the library
+		 * Returns the installation instructions for the library.
 		 *
-		 * **required const**: libPkg
+		 * **required const**: libPkg.
 		 */
 		installationGroup : `::: code-group
 
@@ -63,9 +63,9 @@ deno add {{const.libPkg.name}}
 :::`,
 
 		/**
-		 * Returns the creation instructions for the library
+		 * Returns the creation instructions for the library.
 		 *
-		 * **required const**: libPkg
+		 * **required const**: libPkg.
 		 */
 		creationGroup : `::: code-group
 
@@ -92,9 +92,9 @@ deno init --npm {{const.libPkg.name}}
 :::`,
 
 		/**
-		 * Returns the creation instructions for the library
+		 * Returns the creation instructions for the library.
 		 *
-		 * **required const**: libPkg
+		 * **required const**: libPkg.
 		 */
 		creation : `\`\`\`bash 
 npm create {{const.libPkg.name}}
@@ -109,16 +109,16 @@ deno init --npm {{const.libPkg.name}}
 \`\`\``,
 
 		/**
-		 * Returns the footer for the documentation
+		 * Returns the footer for the documentation.
 		 *
-		 * **required const**: pkg, socialBadges, mark, contributors
+		 * **required const**: pkg, socialBadges, mark, contributors.
 		 */
 		footer : `## ${getIcon( 'development' )}Development
 
 __{{const.pkg.extra.productName}}__ is an open-source project and its development is open to anyone who wants to participate.
 
-[![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)]({{const.pkg.repository.url}}/issues)
-[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)]({{const.pkg.repository.url}}/pulls)
+[![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)]({{const.REPO_URL}}issues)
+[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)]({{const.REPO_URL}}pulls)
 [![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)]({{const.pkg.homepage}})
 
 ## ${getIcon( 'donate' )}Donate

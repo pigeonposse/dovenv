@@ -3,8 +3,10 @@ import type {
 	AsciiOpts,
 	MediaSharedProps,
 } from '../_core/types'
-import type { Prettify }  from '@dovenv/utils'
-import type { animate }   from '@dovenv/utils'
+import type {
+	Prettify,
+	animate,
+} from '@dovenv/utils'
 import type terminalImage from 'terminal-image'
 
 type GifOptions = Parameters<typeof terminalImage.gifFile>[1]

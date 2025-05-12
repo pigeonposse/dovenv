@@ -5,7 +5,7 @@ import type {
 import type {
 	ObjectValues,
 	Prettify,
-} from '../../ts/main'
+} from '../../ts'
 
 export type StdType = ObjectValues<typeof stdType>
 export type ConsoleType = ObjectValues<typeof consoleType>
@@ -13,6 +13,7 @@ export type ConsoleType = ObjectValues<typeof consoleType>
 export type onStdOpts = {
 	/**
 	 * Function to transform the output before replacing it.
+	 *
 	 * @example
 	 * const fn = ( { data, type } ) => {
 	 *    return type === 'stderr' ? data.toUpperCase() : data
@@ -23,12 +24,14 @@ export type onStdOpts = {
 		type : StdType
 	} ) => string
 	/**
-	 * processs object to replace output in.
+	 * Processs object to replace output in..
+	 *
 	 * @default process
 	 */
 	process? : NodeJS.Process
 	/**
 	 * Type of stream to replace output in.
+	 *
 	 * @default 'stdout'
 	 */
 	type?    : Prettify<StdType[] | StdType>
@@ -37,6 +40,7 @@ export type onStdOpts = {
 export type ReplaceStdOpts = Prettify<Omit<onStdOpts, 'fn'> & {
 	/**
 	 * Params object containing key-value pairs where each key is a string to be replaced by its corresponding value in the output.
+	 *
 	 * @example {
 	 *   'error': 'warning'
 	 * }
@@ -44,6 +48,7 @@ export type ReplaceStdOpts = Prettify<Omit<onStdOpts, 'fn'> & {
 	params     : Record<string, string>
 	/**
 	 * Function to transform the output before replacing it.
+	 *
 	 * @example
 	 * const transform = ( { data, type } ) => {
 	 *    return type === 'stderr' ? data.toUpperCase() : data
@@ -55,6 +60,7 @@ export type ReplaceStdOpts = Prettify<Omit<onStdOpts, 'fn'> & {
 export type onConsoleOpts = {
 	/**
 	 * Function to transform the output before replacing it.
+	 *
 	 * @example
 	 * const fn = ( { data, type } ) => {
 	 *    return type === 'error' ? data.toUpperCase() : data
@@ -66,6 +72,7 @@ export type onConsoleOpts = {
 	} ) => string
 	/**
 	 * Type of stream to replace output in.
+	 *
 	 * @default 'log'
 	 */
 	type? : Prettify<ConsoleType[] | ConsoleType>
@@ -74,6 +81,7 @@ export type onConsoleOpts = {
 export type ReplaceConsoleOpts = Prettify<Omit<onConsoleOpts, 'fn'> & {
 	/**
 	 * Params object containing key-value pairs where each key is a string to be replaced by its corresponding value in the output.
+	 *
 	 * @example {
 	 *   'error': 'warning'
 	 * }
@@ -81,6 +89,7 @@ export type ReplaceConsoleOpts = Prettify<Omit<onConsoleOpts, 'fn'> & {
 	params     : Record<string, string>
 	/**
 	 * Function to transform the output before replacing it.
+	 *
 	 * @example
 	 * const transform = ( { data, type } ) => {
 	 *    return type === 'warm' ? data.toUpperCase() : data

@@ -1,27 +1,77 @@
 
-/**
- * SVELTE
- *  @see https://typescript-eslint.io/getting-started/
- */
-
 import eslintPluginSvelte from 'eslint-plugin-svelte'
+import ts                 from 'typescript-eslint'
+
+import { FILES } from './const'
 
 import type { Config } from './_types'
 
-const config: Config[] = [
-	...eslintPluginSvelte.configs['flat/recommended'],
-	// {
-	// 	...generealConfig(),
-	// 	files : [ '**/*.svelte' ],
-	// },
+export type SvelteParams = {
+	/**
+	 * Svelte config file params.
+	 */
+	svelteConfig : Record<string, unknown>
+	/**
+	 * Additional rules for .svelte files.
+	 */
+	rules        : Config['rules']
+	/**
+	 * Enable typescript support.
+	 *
+	 * @default false
+	 */
+	ts           : NonNullable<Config['languageOptions']>['parserOptions'] | boolean
+}
+
+/**
+ * SET SVELTE ESLINT CONFIG.
+ *
+ * Creates a config for svelte.
+ *
+ * @param   {Partial<SvelteParams>} params - Parameters.
+ * @returns {Config[]}                     A list of configurations.
+ * @see https://sveltejs.github.io/eslint-plugin-svelte/
+ */
+export const setSvelteConfig = ( params?: Partial<SvelteParams> ): Config[] => [
+	...eslintPluginSvelte.configs.recommended.map( d => {
+
+		if ( d.rules ) return {
+			...d,
+			files : [ FILES.SVELTE ],
+		}
+		return d
+
+	} ),
 	{
-		files : [ '**/*.svelte' ],
+		files           : [ FILES.SVELTE, FILES.SVELTE_FILE ],
+		languageOptions : { parserOptions : {
+			...( params?.ts
+				? {
+					projectService      : true,
+					extraFileExtensions : [ '.svelte' ], // Add support for additional file extensions, such as .svelte
+					parser              : ts.parser,
+					...( typeof params.ts === 'boolean' ? {} : params.ts ),
+				}
+				: {}
+			),
+			svelteConfig : params?.svelteConfig,
+		} },
+	},
+	{
+		files : [ FILES.SVELTE ],
 		rules : {
-			'align-import/align-import' : 'off',
-			'align-import/trim-import'  : 'off',
-			'no-undef'                  : 'off',
-			'one-var'                   : 'off',
-			'svelte/button-has-type'    : [
+			'align-import/align-import'            : 'off',
+			'align-import/trim-import'             : 'off',
+			'no-undef'                             : 'off',
+			'one-var'                              : 'off',
+			'svelte/require-each-key'              : 'off',
+			'svelte/sort-attributes'               : 'error',
+			'svelte/max-attributes-per-line'       : 'error',
+			'svelte/mustache-spacing'              : 'error',
+			'svelte/first-attribute-linebreak'     : 'error',
+			'svelte/html-closing-bracket-spacing'  : 'error',
+			'svelte/html-closing-bracket-new-line' : 'error',
+			'svelte/button-has-type'               : [
 				'error',
 				{
 					button : true,
@@ -85,17 +135,16 @@ const config: Config[] = [
 					'distinctGroup'           : false,
 				},
 			],
+			...( params?.rules || {} ),
 		},
 	},
 	{
-		files : [ '**/+*.ts', '**/*.svelte' ],
+		files : [ FILES.SVELTE ],
 		rules : { 'jsdoc/require-jsdoc': 'off' },
 	},
-	{
-		files : [ '**/*.js' ],
-		rules : { 'jsdoc/valid-types': 'off' },
-	},
+	// {
+	// 	files : [ FILES.JS ],
+	// 	rules : { 'jsdoc/valid-types': 'off' },
+	// },
 ]
 
-export const svelteConfig = config
-export default config

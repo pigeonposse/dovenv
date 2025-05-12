@@ -117,8 +117,9 @@ export class Templates {
 	 * Get a custom template.
 	 *
 	 * Perfect method to be used outside an `Dovenv` environment.
+	 *
 	 * @param data - Configuration object containing input details, constants, and optional output path.
-	 * @returns A promise that resolves to the processed content as a string.
+	 * @returns    A promise that resolves to the processed content as a string.
 	 */
 	async get( data: Config[number] ) {
 
@@ -163,7 +164,7 @@ export class Templates {
 
 				await ensureDir( getDirName( out ) )
 				await writeFile( out, res.content )
-				this.utils.prompt.log.success( this.utils.style.info.msg( 'Overwrite content to', out  ) )
+				this.utils.prompt.log.success( this.utils.style.info.msg( 'Overwrite content to', out ) )
 
 			}
 			else this.utils.prompt.log.info( this.utils.style.info.p( 'output not overwritten' ) )
@@ -208,8 +209,9 @@ export class Templates {
 
 	/**
 	 * Process templates from the configuration object.
+	 *
 	 * @param pattern - An array of template names to process. If not provided, all templates will be processed.
-	 * @returns A promise that resolves to an object containing the content of each processed template.
+	 * @returns       A promise that resolves to an object containing the content of each processed template.
 	 */
 	async run( pattern?: string[] ) {
 

@@ -46,11 +46,11 @@ fromConfig(data: {
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `data` | `object` | - |
-| `data.config`? | `ExampleProps`\<`ExampleProps`\> | Override your config input |
-| `data.desc`? | `string` | Description **Default** `'Examples'` |
-| `data.input` | `string` \| `ExampleProps`\<`ExampleProps`\> | Input of your config (path or config object) Path formats: JSON, YAML, TOML JS etc |
+| `data.config`? | `ExampleProps`\<`ExampleProps`\> | Override your config input. |
+| `data.desc`? | `string` | Description. **Default** `'Examples'` |
+| `data.input` | `string` \| `ExampleProps`\<`ExampleProps`\> | Input of your config (path or config object). Path formats: JSON, YAML, TOML JS etc. |
 | `data.output`? | `string` | Write a output if you want |
-| `data.title`? | `string` \| `false` | h1 for markdown **Default** `'Examples'` |
+| `data.title`? | `string` \| `false` | H1 for markdown. **Default** `'Examples'` |
 
 ###### Returns
 
@@ -99,11 +99,11 @@ Process jsdoc examples.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `data` | `object` | Example data. |
-| `data.desc`? | `string` | Description **Default** `'Examples'` |
-| `data.input` | `string`[] | Input pattern |
+| `data.desc`? | `string` | Description. **Default** `'Examples'` |
+| `data.input` | `string`[] | Input pattern. |
 | `data.opts`? | `Options` | Options for input patterns |
 | `data.output`? | `string` | Write a output if you want |
-| `data.title`? | `string` \| `false` | h1 for markdown **Default** `'Examples'` |
+| `data.title`? | `string` \| `false` | H1 for markdown. **Default** `'Examples'` |
 
 ###### Returns
 
@@ -154,11 +154,11 @@ Process multiple examples.
 | ------ | ------ | ------ |
 | `data` | `object` | Example data. |
 | `data.config`? | `Omit`\<\{ `config`: `ExampleProps`\<`ExampleProps`\>; `desc`: `string`; `input`: `string` \| `ExampleProps`\<`ExampleProps`\>; `output`: `string`; `title`: `string` \| `false`; \}, `"output"`\> | - |
-| `data.desc`? | `string` | Description **Default** `'Examples'` |
+| `data.desc`? | `string` | Description. **Default** `'Examples'` |
 | `data.jsdoc`? | `Omit`\<\{ `desc`: `string`; `input`: `string`[]; `opts`: `Options`; `output`: `string`; `title`: `string` \| `false`; \}, `"output"`\> | - |
 | `data.output`? | `string` | Write a output if you want |
 | `data.path`? | `Omit`\<\{ `desc`: `string`; `input`: `string`[]; `opts`: `Options`; `output`: `string`; `title`: `string` \| `false`; \}, `"output"`\> | - |
-| `data.title`? | `string` \| `false` | h1 for markdown **Default** `'Examples'` |
+| `data.title`? | `string` \| `false` | H1 for markdown. **Default** `'Examples'` |
 
 ###### Returns
 
@@ -183,11 +183,11 @@ fromPath(data: {
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `data` | `object` | - |
-| `data.desc`? | `string` | Description **Default** `'Examples'` |
-| `data.input` | `string`[] | Input pattern |
+| `data.desc`? | `string` | Description. **Default** `'Examples'` |
+| `data.input` | `string`[] | Input pattern. |
 | `data.opts`? | `Options` | Options for input patterns |
 | `data.output`? | `string` | Write a output if you want |
-| `data.title`? | `string` \| `false` | h1 for markdown **Default** `'Examples'` |
+| `data.title`? | `string` \| `false` | H1 for markdown. **Default** `'Examples'` |
 
 ###### Returns
 

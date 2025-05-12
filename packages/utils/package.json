@@ -25,7 +25,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
+		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/utils"
 	},
 	"funding": {
@@ -41,9 +41,14 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"import": "./dist/main.mjs",
-			"require": "./dist/main.cjs",
-			"types": "./dist/main.d.ts"
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
 		}
 	},
 	"main": "dist/main.mjs",
@@ -57,10 +62,13 @@
 		"dev": "tsx examples/main.ts",
 		"test": "vitest run -r src --passWithNoTests"
 	},
+	"overrides": {
+		"marked": "15.0.11"
+	},
 	"dependencies": {
 		"@cfworker/json-schema": "4.1.1",
-		"@clack/core": "0.4.1",
-		"@clack/prompts": "0.10.0",
+		"@clack/core": "0.4.2",
+		"@clack/prompts": "0.10.1",
 		"@schemastore/package": "0.0.10",
 		"@vibrant/color": "4.0.0",
 		"ansi-align": "3.0.1",
@@ -72,15 +80,15 @@
 		"cli-highlight": "2.1.11",
 		"columnify": "1.6.0",
 		"conf": "13.1.0",
-		"consola": "3.4.0",
+		"consola": "3.4.2",
 		"csv-parse": "5.6.0",
 		"csv-stringify": "6.5.2",
 		"decompress": "4.2.1",
 		"decompress-targz": "4.1.1",
-		"deepmerge-ts": "7.1.4",
+		"deepmerge-ts": "7.1.5",
 		"enquirer": "2.4.1",
-		"fast-xml-parser": "4.5.1",
-		"figlet": "1.8.0",
+		"fast-xml-parser": "5.2.2",
+		"figlet": "1.8.1",
 		"figures": "6.1.0",
 		"github-directory-downloader": "1.3.6",
 		"globby": "14.1.0",
@@ -88,14 +96,14 @@
 		"ini": "5.0.0",
 		"js-yaml": "4.1.0",
 		"json-schema-to-typescript-lite": "14.1.0",
-		"json-schema-to-zod": "2.6.0",
+		"json-schema-to-zod": "2.6.1",
 		"log-update": "6.1.0",
-		"marked": "15.0.3",
-		"marked-terminal": "7.2.1",
+		"marked": "15.0.11",
+		"marked-terminal": "7.3.0",
 		"matcher": "5.0.0",
 		"node-localstorage": "3.0.5",
 		"npm-run-path": "6.0.0",
-		"open": "10.1.0",
+		"open": "10.1.2",
 		"ora": "8.2.0",
 		"pngjs": "7.0.0",
 		"pretty-ms": "9.2.0",
@@ -103,21 +111,20 @@
 		"quantize": "1.0.2",
 		"remark-parse": "11.0.0",
 		"remark-stringify": "11.0.0",
-		"smol-toml": "1.3.1",
+		"smol-toml": "1.3.4",
 		"string-width": "7.2.0",
 		"svgson": "5.3.1",
 		"table": "6.9.0",
 		"terminal-char-width": "1.0.11",
-		"terminal-link": "3.0.0",
+		"terminal-link": "4.0.0",
 		"terminal-size": "4.0.0",
 		"tozod": "3.0.0",
-		"ts-json-schema-generator": "2.3.0",
 		"turndown": "7.2.0",
 		"unified": "11.0.5",
 		"yargs": "17.7.2",
-		"zod": "3.24.2",
-		"zod-to-json-schema": "3.24.2",
-		"zod-validation-error": "3.4.0",
+		"zod": "3.24.4",
+		"zod-to-json-schema": "3.24.5",
+		"zod-validation-error": "3.4.1",
 		"zodex": "0.18.2"
 	},
 	"devDependencies": {
@@ -132,21 +139,16 @@
 		"@types/ini": "4.1.1",
 		"@types/js-yaml": "4.0.9",
 		"@types/marked-terminal": "6.1.1",
-		"@types/mdast": "4.0.4",
 		"@types/node-localstorage": "1.3.3",
 		"@types/pngjs": "6.0.5",
 		"@types/qrcode-terminal": "0.12.2",
 		"@types/quantize": "1.0.2",
 		"@types/turndown": "5.0.5",
 		"@types/update-notifier": "6.0.8",
-		"@types/yargs": "17.0.33",
-		"mdast": "3.0.0"
+		"@types/yargs": "17.0.33"
 	},
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
-	},
-	"overrides": {
-		"marked": "15.0.3"
 	}
 }

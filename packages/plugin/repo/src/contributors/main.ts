@@ -12,7 +12,8 @@ export { package2Contributors } from './parse'
 
 export type ContributorsConfig<ID extends string, R extends Role<ID>> = {
 	/**
-	 * Set contributor roles
+	 * Set contributor roles.
+	 *
 	 * @example
 	 * {
 	 *     owner: { name: 'Owner', emoji: '👑' },
@@ -24,7 +25,8 @@ export type ContributorsConfig<ID extends string, R extends Role<ID>> = {
 	 */
 	role   : R
 	/**
-	 * Set contributor members
+	 * Set contributor members.
+	 *
 	 * @example
 	 * [
 	 *     { ghUsername: 'angelespejo', name: 'Angelo', role: 'author' },

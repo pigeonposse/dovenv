@@ -1,8 +1,9 @@
 /**
  * TODO CORE.
  *
- * looks for todos in comments in diferent fyle types.
- * @todo fix for accept "- [ ]" as custom tag without comments
+ * Looks for todos in comments in diferent fyle types.
+ *
+ * @todo Fix for accept "- [ ]" as custom tag without comments.
  */
 import {
 	getExtName,
@@ -26,7 +27,7 @@ import type { CommandUtils } from '@dovenv/core'
 
 type TodoComments = Awaited<ReturnType<typeof parse>>
 
-export class Todo  {
+export class Todo {
 
 	opts  : Config | undefined
 	utils : CommandUtils
@@ -122,7 +123,7 @@ export class Todo  {
 
 			}
 
-			if ( res.length === 0 ) console.log(  '\n' + this.utils.style.error.msg( 'No TODOs found' ) )
+			if ( res.length === 0 ) console.log( '\n' + this.utils.style.error.msg( 'No TODOs found' ) )
 			else resTotal.push( ...res )
 
 		}

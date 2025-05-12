@@ -4,7 +4,7 @@
 
 ### Convert
 
-Convertion class
+Convertion class.
 
 #### Example
 
@@ -245,7 +245,7 @@ ts2html(params: {
 | ------ | ------ | ------ |
 | `params` | `object` | - |
 | `params.input` | `string` \| `string`[] | Input patterns. Accepts glob patterns, urls, and strings. **Examples** `[ 'https://pigeonposse.com', './docs/*.md', 'Just a simple string' ]` `'./my/file'` `'https://pigeonposse.com'` `'my content string data'` |
-| `params.opts`? | `object` | Options **See** https://dovenv.pigeonposse.com/guide/plugin/convert |
+| `params.opts`? | `object` | Options. **See** https://dovenv.pigeonposse.com/guide/plugin/convert |
 | `params.opts.hooks`? | `object` | Hooks. |
 | `params.opts.hooks.after`? | () => `string` \| `Promise`\<`string`\> | - |
 | `params.opts.hooks.before`? | () => `string` \| `Promise`\<`string`\> | - |
@@ -253,8 +253,8 @@ ts2html(params: {
 | `params.opts.packageJsonPath`? | `string` | __Package.json path__. This path is used to extract specific properties from the `package.json` file. **Default** `join( process.cwd(), "package.json" )` |
 | `params.opts.transform`? | (`content`: `string`) => `Promise`\<`string`\> | Transform function. |
 | `params.opts.tsconfigPath`? | `string` | __Cuaton tsconfig path__. Used for getting the ts config of the output. **Default** `join( process.cwd(), "tsconfig.ts" )` |
-| `params.opts.typedoc`? | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options **See** https://typedoc.org/options/ |
-| `params.output`? | `string` | Output path |
+| `params.opts.typedoc`? | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options. **See** https://typedoc.org/options/ |
+| `params.output`? | `string` | Output path. |
 
 ###### Returns
 
@@ -297,7 +297,7 @@ ts2md(params: {
 | ------ | ------ | ------ |
 | `params` | `object` | - |
 | `params.input` | `string` \| `string`[] | Input patterns. Accepts glob patterns, urls, and strings. **Examples** `[ 'https://pigeonposse.com', './docs/*.md', 'Just a simple string' ]` `'./my/file'` `'https://pigeonposse.com'` `'my content string data'` |
-| `params.opts`? | `object` | Options **See** https://dovenv.pigeonposse.com/guide/plugin/convert |
+| `params.opts`? | `object` | Options. **See** https://dovenv.pigeonposse.com/guide/plugin/convert |
 | `params.opts.hooks`? | `object` | Hooks. |
 | `params.opts.hooks.after`? | () => `string` \| `Promise`\<`string`\> | - |
 | `params.opts.hooks.before`? | () => `string` \| `Promise`\<`string`\> | - |
@@ -305,9 +305,9 @@ ts2md(params: {
 | `params.opts.packageJsonPath`? | `string` | __Package.json path__. This path is used to extract specific properties from the `package.json` file. **Default** `join( process.cwd(), "package.json" )` |
 | `params.opts.transform`? | (`content`: `string`) => `Promise`\<`string`\> | Transform function. |
 | `params.opts.tsconfigPath`? | `string` | __Cuaton tsconfig path__. Used for getting the ts config of the output. **Default** `join( process.cwd(), "tsconfig.ts" )` |
-| `params.opts.typedoc`? | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options **See** https://typedoc.org/options/ |
-| `params.opts.typedocMarkdown`? | `Partial`\<`PluginOptions`\> | Typedoc markdown options **See** - - https://typedoc-plugin-markdown.org/docs/options |
-| `params.output`? | `string` | Output path |
+| `params.opts.typedoc`? | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options. **See** https://typedoc.org/options/ |
+| `params.opts.typedocMarkdown`? | `Partial`\<`PluginOptions`\> | Typedoc markdown options. **See** - - https://typedoc-plugin-markdown.org/docs/options |
+| `params.output`? | `string` | Output path. |
 
 ###### Returns
 
@@ -660,7 +660,7 @@ new Typescript2Markdown(props: {
 | ------ | ------ | ------ |
 | `props` | `object` | - |
 | `props.input` | `string` \| `string`[] | Input patterns. Accepts glob patterns, urls, and strings. **Examples** `[ 'https://pigeonposse.com', './docs/*.md', 'Just a simple string' ]` `'./my/file'` `'https://pigeonposse.com'` `'my content string data'` |
-| `props.opts`? | `object` | Options **See** https://dovenv.pigeonposse.com/guide/plugin/convert |
+| `props.opts`? | `object` | Options. **See** https://dovenv.pigeonposse.com/guide/plugin/convert |
 | `props.opts.hooks`? | `object` | Hooks. |
 | `props.opts.hooks.after`? | () => `string` \| `Promise`\<`string`\> | - |
 | `props.opts.hooks.before`? | () => `string` \| `Promise`\<`string`\> | - |
@@ -668,9 +668,9 @@ new Typescript2Markdown(props: {
 | `props.opts.packageJsonPath`? | `string` | __Package.json path__. This path is used to extract specific properties from the `package.json` file. **Default** `join( process.cwd(), "package.json" )` |
 | `props.opts.transform`? | (`content`: `string`) => `Promise`\<`string`\> | Transform function. |
 | `props.opts.tsconfigPath`? | `string` | __Cuaton tsconfig path__. Used for getting the ts config of the output. **Default** `join( process.cwd(), "tsconfig.ts" )` |
-| `props.opts.typedoc`? | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options **See** https://typedoc.org/options/ |
-| `props.opts.typedocMarkdown`? | `Partial`\<`PluginOptions`\> | Typedoc markdown options **See** - - https://typedoc-plugin-markdown.org/docs/options |
-| `props.output`? | `string` | Output path |
+| `props.opts.typedoc`? | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options. **See** https://typedoc.org/options/ |
+| `props.opts.typedocMarkdown`? | `Partial`\<`PluginOptions`\> | Typedoc markdown options. **See** - - https://typedoc-plugin-markdown.org/docs/options |
+| `props.output`? | `string` | Output path. |
 
 ###### Returns
 
@@ -740,7 +740,7 @@ runTypedoc<C>(customConf?: C): Promise<{
 | ------ | ------ | ------ | ------ |
 | `props` | \{ `input`: `string` \| `string`[]; `opts`: \{ `hooks`: \{ `after`: () => `string` \| `Promise`\<`string`\>; `before`: () => `string` \| `Promise`\<`string`\>; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<`string`\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\>; `typedocMarkdown`: `Partial`\<`PluginOptions`\>; \}; `output`: `string`; \} | - | `TypescriptSuper.props` |
 | `props.input` | `string` \| `string`[] | Input patterns. Accepts glob patterns, urls, and strings. **Examples** `[ 'https://pigeonposse.com', './docs/*.md', 'Just a simple string' ]` `'./my/file'` `'https://pigeonposse.com'` `'my content string data'` | - |
-| `props.opts?` | \{ `hooks`: \{ `after`: () => `string` \| `Promise`\<`string`\>; `before`: () => `string` \| `Promise`\<`string`\>; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<`string`\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\>; `typedocMarkdown`: `Partial`\<`PluginOptions`\>; \} | Options **See** https://dovenv.pigeonposse.com/guide/plugin/convert | - |
+| `props.opts?` | \{ `hooks`: \{ `after`: () => `string` \| `Promise`\<`string`\>; `before`: () => `string` \| `Promise`\<`string`\>; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<`string`\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\>; `typedocMarkdown`: `Partial`\<`PluginOptions`\>; \} | Options. **See** https://dovenv.pigeonposse.com/guide/plugin/convert | - |
 | `props.opts.hooks?` | \{ `after`: () => `string` \| `Promise`\<`string`\>; `before`: () => `string` \| `Promise`\<`string`\>; \} | Hooks. | - |
 | `props.opts.hooks.after?` | () => `string` \| `Promise`\<`string`\> | - | - |
 | `props.opts.hooks.before?` | () => `string` \| `Promise`\<`string`\> | - | - |
@@ -748,9 +748,9 @@ runTypedoc<C>(customConf?: C): Promise<{
 | `props.opts.packageJsonPath?` | `string` | __Package.json path__. This path is used to extract specific properties from the `package.json` file. **Default** `join( process.cwd(), "package.json" )` | - |
 | `props.opts.transform?` | (`content`: `string`) => `Promise`\<`string`\> | Transform function. | - |
 | `props.opts.tsconfigPath?` | `string` | __Cuaton tsconfig path__. Used for getting the ts config of the output. **Default** `join( process.cwd(), "tsconfig.ts" )` | - |
-| `props.opts.typedoc?` | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options **See** https://typedoc.org/options/ | - |
-| `props.opts.typedocMarkdown?` | `Partial`\<`PluginOptions`\> | Typedoc markdown options **See** - - https://typedoc-plugin-markdown.org/docs/options | - |
-| `props.output?` | `string` | Output path | - |
+| `props.opts.typedoc?` | `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\> | Typedoc options. **See** https://typedoc.org/options/ | - |
+| `props.opts.typedocMarkdown?` | `Partial`\<`PluginOptions`\> | Typedoc markdown options. **See** - - https://typedoc-plugin-markdown.org/docs/options | - |
+| `props.output?` | `string` | Output path. | - |
 
 ## Functions
 

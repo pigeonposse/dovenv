@@ -4,6 +4,6 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig( [
 	{
 		...config,
-		externals : [ 'ultimate-text-to-image', 'svgson' ],
+		externals : [ 'svgson' ],
 	},
 ] )

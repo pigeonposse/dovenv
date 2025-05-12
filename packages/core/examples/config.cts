@@ -1,5 +1,5 @@
 
-const { defineConfig } = require( '../dist/main.mjs' )
+const { defineConfig } = require( '../dist/main.mjs' ) // change it for @dovenv/core
 
 module.exports = defineConfig( {
 	name : 'CTS WORKSPACE',

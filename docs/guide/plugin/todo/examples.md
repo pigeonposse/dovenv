@@ -13,7 +13,7 @@ import {
 
 import { todoPlugin } from '../src/main'
 
-const pluginDir = joinPath( getCurrentDir( import.meta.url ), '..'  )
+const pluginDir = joinPath( getCurrentDir( import.meta.url ), '..' )
 const wsDir     = joinPath( pluginDir, '..', '..', '..' )
 
 // const buildDir  = joinPath( pluginDir, 'build' )

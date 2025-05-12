@@ -26,7 +26,8 @@ export {
 
 /**
  * Runs the build process with the given arguments.
- * @param {string[]} args Arguments to pass to the build process.
+ *
+ * @param {string[]} args - Arguments to pass to the build process.
  * @example
  * import { run } from '@dovenv/core'
  *
@@ -45,8 +46,9 @@ export const run = async ( args: string[] ) => {
 
 /**
  * Defines and returns the given configuration object.
- * @param {...(Config | Config[])} config - The configuration object to define.
- * @returns {Config} - The defined configuration object.
+ *
+ * @param   {...(Config | Config[])} config - The configuration object to define.
+ * @returns {Config}                        - The defined configuration object.
  * @see https://dovenv.pigeonposse.com/guide/core
  *
  * ---

@@ -1,5 +1,13 @@
 {
 	"extends": "./node_modules/@dovenv/repo-config/tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@/*": [
+				"./src/*"
+			]
+		}
+	},
 	"exclude": [
 		"**/*.example.ts"
 	]

@@ -1,5 +1,6 @@
 /**
  * Get releases url.
+ *
  * @description Get releases url.
  */
 

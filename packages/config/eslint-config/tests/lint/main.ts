@@ -1,7 +1,7 @@
 import * as eslint from 'eslint'
 
 const toConsole  =  'holaaaa'
-const toConsole2 =   _d => {}
+const toConsole2 =   ( _d: string ) => {}
 const toConsole3 = ( ) => {}
 type DirectiveConfigSchema = | 'allow-with-description' |
 	{ descriptionFormat?: string }
@@ -12,6 +12,7 @@ interface T2 {
 	otro? : ( ) => void
 
 }
+
 interface T3 {
 	func  : ( ( arg: number ) => void ) & ( ( arg: string ) => void ) & ( ( arg: boolean ) => void )
 	hola  : ( ) => void
@@ -20,11 +21,12 @@ interface T3 {
 
 const f: DirectiveConfigSchema & T3 & T2 = {} as DirectiveConfigSchema & T3 & T2
 console.log( f )
+
 /**
- * plugin-promiseplugin-promiseplugin-promise
- * plugin-promiseplugin-promiseplugin-promiseplugin-promise
+ * Plugin-promiseplugin-promiseplugin-promise.
+ *
  * @see https://github.com/eslint-community/eslint-plugin-promisehttps://github.com/eslint-community/eslint-plugin-promise
- * @see github.com/eslint-community/eslint-plugin-promiseplugin-promiseplugin-promiseplugin-promise
+ * @see https://github.com/eslint-community/eslint-plugin-promiseplugin-promiseplugin-promiseplugin-promise
  */
 async function logf() {
 

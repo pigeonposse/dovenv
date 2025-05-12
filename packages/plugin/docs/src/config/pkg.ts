@@ -1,10 +1,13 @@
+import { getPackageRepoUrlFromContent } from '@dovenv/core/utils'
+
 import type { DocsConfig }  from './types'
 import type { PackageJSON } from '../_shared/types'
 
 /**
  * Extracts and constructs documentation configuration from package JSON data.
- * @param {PackageJSON} pkgData - The package JSON data object.
- * @returns {Promise<DocsConfig>} A promise that resolves to a `DocsConfig` object containing extracted configuration details like funding URL, bugs URL, license, homepage URL, description, name, version, and contributors.
+ *
+ * @param   {PackageJSON}         pkgData - The package JSON data object.
+ * @returns {Promise<DocsConfig>}         A promise that resolves to a `DocsConfig` object containing extracted configuration details like funding URL, bugs URL, license, homepage URL, description, name, version, and contributors.
  */
 export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> => {
 
@@ -31,10 +34,7 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 
 	}
 
-	if ( typeof pkgData?.repository === 'object' && typeof pkgData?.repository.url === 'string' )
-		config.repoURL = pkgData.repository.url
-	else if ( typeof pkgData?.repository === 'string' )
-		config.repoURL = pkgData.repository
+	if ( pkgData?.repository ) config.repoURL = getPackageRepoUrlFromContent( pkgData )
 
 	if ( typeof pkgData?.bugs === 'object' && typeof pkgData?.bugs?.url === 'string' )
 		config.bugsURL = pkgData.bugs.url
@@ -50,7 +50,7 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 
 	if ( typeof pkgData?.version === 'string' ) config.version = pkgData.version
 
-	type ContributorPkg =  NonNullable<PackageJSON['contributors']>[number] | PackageJSON['author']
+	type ContributorPkg = NonNullable<PackageJSON['contributors']>[number] | PackageJSON['author']
 	type Contributor = NonNullable<DocsConfig['contributors']>
 	const setCont = ( contributor: ContributorPkg, type: string ): Contributor => {
 
@@ -69,7 +69,7 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 				title  : type,
 				avatar : isGithub ? contributor.url + '.png' : '',
 				links  : ( isGithub
-					?  [
+					? [
 						{
 							icon : 'github',
 							link : contributor.url,
@@ -83,7 +83,7 @@ export const getPkgConfig = async ( pkgData: PackageJSON ): Promise<DocsConfig> 
 	}
 
 	config.contributors = [ ...setCont( pkgData?.author, 'Author' ) ]
-	if ( pkgData.contributors && Array.isArray( pkgData.contributors )  ) {
+	if ( pkgData.contributors && Array.isArray( pkgData.contributors ) ) {
 
 		for ( let index = 0; index < pkgData.contributors.length; index++ ) {
 

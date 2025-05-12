@@ -3,7 +3,7 @@ import columnify               from 'columnify'
 import { table as tableFunct } from 'table'
 
 import type { Options }         from 'boxen'
-import type { TableUserConfig } from 'table/dist/src/types/api'
+import type { TableUserConfig } from 'table'
 
 export type TableData = unknown[][]
 export type TableOpts = TableUserConfig
@@ -13,6 +13,7 @@ export type ColumnData = Record<string, unknown> | Record<string, unknown>[]
 
 /**
  * Generates a text-based table from the provided data array.
+ *
  * @param   {TableData} data      - The data to display in the table.
  * @param   {TableOpts} [options] - Optional configuration options for the table.
  * @returns {string}              - The text-based table.
@@ -31,6 +32,7 @@ export const table = ( data: TableData, options?: TableOpts ): string => tableFu
 
 /**
  * Creates a styled box around the provided text.
+ *
  * @param   {string}  text      - The text to display inside the box.
  * @param   {BoxOpts} [options] - Optional configuration options for the box.
  * @returns {string}            - The text with the styled box around it.
@@ -43,6 +45,7 @@ export const box = ( text: string, options?: BoxOpts ): string => boxen( text, o
 
 /**
  * Formats data into aligned columns for better readability.
+ *
  * @param   {ColumnData} data      - The data to format into columns.
  * @param   {ColumnOpts} [options] - Optional configuration options for column formatting.
  * @returns {string}               - The text with the data formatted into columns.

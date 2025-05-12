@@ -10,10 +10,11 @@ export {
 
 /**
  * Creates a function to merge multiple configuration objects into a single configuration.
+ *
  * @template Config - The type of the configuration objects.
- * @param {object} [opts] - Optional merge options for `deepmergeCustom`.
- * @returns {Function} A function that accepts multiple configuration objects or arrays of configuration objects
- * and returns a single merged configuration object.
+ * @param   {object}   [opts] - Optional merge options for `deepmergeCustom`.
+ * @returns {Function}        A function that accepts multiple configuration objects or arrays of configuration objects
+ *                            and returns a single merged configuration object.
  * @example
  * const mergeConfig = createMergeDataFn<{ foo: string; bar: string }>()
  * const config1 = { foo: 'bar' }

@@ -1,4 +1,3 @@
-
 <script setup>
 
 // @see https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/components/VPSocialLinks.vue

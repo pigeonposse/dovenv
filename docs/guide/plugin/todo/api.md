@@ -73,15 +73,15 @@ A plugin for dovenv to get TODOs in a workspace.
 `Config`
 
 - The plugin.
-import { defineConfig } from '@dovenv/core'
-import { todoPlugin } from '@dovenv/todo'
-export default defineConfig(
-    todoPlugin( {
-      example : {
-        input : [ 'src/*.{ts,tsx,js,jsx,md}' ],
-      },
-    } ),
-)
+                                 import { defineConfig } from '@dovenv/core'
+                                 import { todoPlugin } from '@dovenv/todo'
+                                 export default defineConfig(
+                                 todoPlugin( {
+                                 example : {
+                                 input : [ 'src/*.{ts,tsx,js,jsx,md}' ],
+                                 },
+                                 } ),
+                                 ).
 
 ## Type Aliases
 

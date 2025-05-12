@@ -24,7 +24,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
+		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/core"
 	},
 	"funding": {
@@ -40,14 +40,24 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"import": "./dist/main.mjs",
-			"require": "./dist/main.cjs",
-			"types": "./dist/main.d.ts"
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
 		},
 		"./utils": {
-			"import": "./dist/utils.mjs",
-			"require": "./dist/utils.cjs",
-			"types": "./dist/utils.d.ts"
+			"import": {
+				"types": "./dist/utils.d.mts",
+				"default": "./dist/utils.mjs"
+			},
+			"require": {
+				"types": "./dist/utils.d.cts",
+				"default": "./dist/utils.cjs"
+			}
 		}
 	},
 	"main": "dist/main.mjs",

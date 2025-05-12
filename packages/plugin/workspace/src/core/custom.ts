@@ -25,9 +25,9 @@ export class Custom extends Super {
 
 	}
 
-	async run(  ) {
+	async run( ) {
 
-		return await this._envolvefn( this.#fn(  ) )
+		return await this._envolvefn( this.#fn( ) )
 
 	}
 

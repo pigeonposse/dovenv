@@ -17,13 +17,14 @@ export type CodeImageConfigValue = {
 	/** The filename of the image. If not provided, the original filename will be used. */
 	filename? : string
 	/**
-	 * Flags to pass to the command `carbon-now-cli`
+	 * Flags to pass to the command `carbon-now-cli`.
+	 *
 	 * @see https://www.npmjs.com/package/carbon-now-cli
 	 */
 	flags?    : string[]
 }
 
-export type CodeImageConfig =  { [key: string]: CodeImageConfigValue }
+export type CodeImageConfig = { [key: string]: CodeImageConfigValue }
 
 export class CodeImage extends Core<CodeImageConfig> {
 

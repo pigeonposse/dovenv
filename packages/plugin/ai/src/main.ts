@@ -21,13 +21,14 @@ export { run }
  * by key. The function also defines the behavior for running the assistant
  * with the selected configuration.
  *
- * ---
- * @param {Config} [conf] - Optional configuration object for the plugin.
- * @returns {DovenvConfig} - Dovenv configuration for the plugin.
+ * ---.
+ *
+ * @param   {Config}       [conf] - Optional configuration object for the plugin.
+ * @returns {DovenvConfig}        - Dovenv configuration for the plugin.
  */
 export const aiPlugin = ( conf?: Config ): DovenvConfig => {
 
-	return  { custom : { ai : {
+	return { custom : { ai : {
 		desc : 'local AI assistant for your workspace',
 		opts : { key : {
 			// @ts-ignore

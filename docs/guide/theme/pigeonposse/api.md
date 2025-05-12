@@ -106,7 +106,7 @@ setIndexFile(config?: {
 | `config`? | `object` | - |
 | `config.content`? | `string` | Add content after frontmatter |
 | `config.creationTemplate`? | `boolean` | Change template to `creation` template |
-| `config.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page **See** https://vitepress.dev/reference/default-theme-home-page |
+| `config.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page. **See** https://vitepress.dev/reference/default-theme-home-page |
 | `config.noAction`? | `boolean` | Remove default action |
 | `config.noFeatures`? | `boolean` | Remove default features |
 
@@ -130,17 +130,17 @@ setPkgFiles(): Promise<void>
 | ------ | ------ | ------ | ------ |
 | `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | - |
 | `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | - |
-| `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg |
-| `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library **required const**: libPkg |
-| `partial.footer` | `string` | `undefined` | Returns the footer for the documentation **required const**: pkg, socialBadges, mark, contributors |
-| `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg |
-| `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library **required const**: libPkg |
+| `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library. **required const**: libPkg. |
+| `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library. **required const**: libPkg. |
+| `partial.footer` | `string` | `undefined` | Returns the footer for the documentation. **required const**: pkg, socialBadges, mark, contributors. |
+| `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library. **required const**: libPkg. |
+| `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library. **required const**: libPkg. |
 | `projectName` | `any` | `undefined` | - |
 | `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | - |
-| `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark |
-| `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex **required partial**: installationGroup |
-| `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex **required partial**: installationGroup |
-| `template.readmePkg` | `string` | `undefined` | Returns the readme template for a package **required const**: title, pkg, socialBadges, pkgBadges, toc, banner **required partial**: installation, toc, content |
+| `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark. |
+| `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
+| `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
+| `template.readmePkg` | `string` | `undefined` | Returns the readme template for a package. **required const**: title, pkg, socialBadges, pkgBadges, toc, banner. **required partial**: installation, toc, content. |
 | `title` | `string` | `'predocs'` | - |
 
 ## Functions
@@ -297,8 +297,8 @@ The `PigeonPosse` theme for Dovenv.
 
 The merged configuration.
 
-This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
-It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
+                                 This theme is a fork of the Banda theme with some changes to make it more suitable for the PigeonPosse monorepo.
+                                 It includes the same basic configuration as Banda, but adds some additional features and changes some of the defaults.
 
 ***
 
@@ -408,7 +408,7 @@ type Config: BandaConfig & {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `core`? | `ConstsConfig` | Set the pigeonposse theme constants and information **Example** `import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse' const core = await getWorkspaceConfig({metaURL : import.meta.url, path : '../../../../'} )` |
+| `core`? | `ConstsConfig` | Set the pigeonposse theme constants and information. **Example** `import { getWorkspaceConfig } from '@dovenv/theme-pigeonposse' const core = await getWorkspaceConfig({metaURL : import.meta.url, path : '../../../../'} )` |
 | `web`? | [`WebConfig`](#webconfig) | Configuration for the pigeonposse web File data |
 
 ***
@@ -527,7 +527,7 @@ type PredocsConfig: {
 | `index`? | \{ `content`: `string`; `creationTemplate`: `boolean`; `custom`: `Record`\<`string`, `unknown`\>; `noAction`: `boolean`; `noFeatures`: `boolean`; \} | Set index page options |
 | `index.content`? | `string` | Add content after frontmatter |
 | `index.creationTemplate`? | `boolean` | Change template to `creation` template |
-| `index.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page **See** https://vitepress.dev/reference/default-theme-home-page |
+| `index.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page. **See** https://vitepress.dev/reference/default-theme-home-page |
 | `index.noAction`? | `boolean` | Remove default action |
 | `index.noFeatures`? | `boolean` | Remove default features |
 
@@ -547,7 +547,7 @@ type SidebarConfig: {
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | `emojis`? | `EmojiObject` \| `false` | Change, remove or add emojis to sidebar |
-| `onlyReference`? | `boolean` | Get only sidebar reference **Default** `false` |
+| `onlyReference`? | `boolean` | Get only sidebar reference. **Default** `false` |
 
 ***
 
@@ -576,8 +576,8 @@ type WebConfig: {
 | ------ | ------ | ------ |
 | `customValues`? | `Record`\<`string`, `unknown`\> | Merge with general values |
 | `input`? | `string` | **Default** `'.pigeonposse.yml'` |
-| `values`? | `Record`\<`string`, `unknown`\> \| `false` | override values. set to `false` to disable default values |
-| `version`? | `string` | Version of the web **Default** `latest` |
+| `values`? | `Record`\<`string`, `unknown`\> \| `false` | Override values. Set to `false` to disable default values |
+| `version`? | `string` | Version of the web. **Default** `latest` |
 
 ## References
 
@@ -603,11 +603,11 @@ const partial: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `creation` | `string` | Returns the creation instructions for the library **required const**: libPkg |
-| `creationGroup` | `string` | Returns the creation instructions for the library **required const**: libPkg |
-| `footer` | `string` | Returns the footer for the documentation **required const**: pkg, socialBadges, mark, contributors |
-| `installation` | `string` | Returns the installation instructions for the library **required const**: libPkg |
-| `installationGroup` | `string` | Returns the installation instructions for the library **required const**: libPkg |
+| `creation` | `string` | Returns the creation instructions for the library. **required const**: libPkg. |
+| `creationGroup` | `string` | Returns the creation instructions for the library. **required const**: libPkg. |
+| `footer` | `string` | Returns the footer for the documentation. **required const**: pkg, socialBadges, mark, contributors. |
+| `installation` | `string` | Returns the installation instructions for the library. **required const**: libPkg. |
+| `installationGroup` | `string` | Returns the installation instructions for the library. **required const**: libPkg. |
 
 ***
 
@@ -626,10 +626,10 @@ const template: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `docsContributors` | `string` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark |
-| `docsIndex` | `string` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex **required partial**: installationGroup |
-| `docsIndexWithCreate` | `string` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex **required partial**: installationGroup |
-| `readmePkg` | `string` | Returns the readme template for a package **required const**: title, pkg, socialBadges, pkgBadges, toc, banner **required partial**: installation, toc, content |
+| `docsContributors` | `string` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark. |
+| `docsIndex` | `string` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
+| `docsIndexWithCreate` | `string` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
+| `readmePkg` | `string` | Returns the readme template for a package. **required const**: title, pkg, socialBadges, pkgBadges, toc, banner. **required partial**: installation, toc, content. |
 
 ## Namespaces
 

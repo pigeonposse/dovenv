@@ -1,16 +1,16 @@
 import * as eslint from 'eslint'
 
 const toConsole  = 'holaaaa'
-const toConsole2 =   _d => {}
+const toConsole2 =  _d => {}
 const toConsole3 = ( ) => {}
 
 /**
- * plugin-promiseplugin-promiseplugin-promise
- * plugin-promiseplugin-promiseplugin-promiseplugin-promise
+ * Plugin-promiseplugin-promiseplugin-promiseplugin-promise..
+ *
  * @see https://github.com/eslint-community/eslint-plugin-promisehttps://github.com/eslint-community/eslint-plugin-promise
  * @see github.com/eslint-community/eslint-plugin-promiseplugin-promiseplugin-promiseplugin-promise
  */
-async function logf() {
+async function logf( ) {
 
 	const b         = 'https://github.com/eslint-community/eslint-plugin-promiseplugin-promiseplugin-promise'
 	const OBJECT_1  = {

@@ -4,12 +4,13 @@ import { deepmergeCustom } from 'deepmerge-ts'
 
 /**
  * Creates a caching mechanism for storing and retrieving values.
- * @param   {object} params             - Parameters for configuring the cache.
- * @param   {string} params.id          - Unique identifier for the cache.
- * @param   {object} params.values      - Initial values to cache.
- * @param   {string} params.projectName - Name of the project to use for configuration.
- * @param {string } [params.cwd]        - The current working directory. Defaults to process.
- * @returns {object}                    - An object with methods to interact with the cache.
+ *
+ * @param   {object}  params             - Parameters for configuring the cache.
+ * @param   {string}  params.id          - Unique identifier for the cache.
+ * @param   {object}  params.values      - Initial values to cache.
+ * @param   {string}  params.projectName - Name of the project to use for configuration.
+ * @param   {string } [params.cwd]       - The current working directory. Defaults to process.
+ * @returns {object}                     - An object with methods to interact with the cache.
  * @throws {Error} If the cache value is unexpected or not found.
  * @example import { cache } from "@dovenv/utils"
  *
@@ -102,7 +103,7 @@ export const cache = async <Values extends Record<string, unknown>>( {
 		config.reset( id )
 
 	// set default values if not already set
-	if ( !config.get( id ) ) set(  values )
+	if ( !config.get( id ) ) set( values )
 
 	return {
 		/**
@@ -111,6 +112,7 @@ export const cache = async <Values extends Record<string, unknown>>( {
 		defaultValues : values,
 		/**
 		 * Retrieve a value from the cache.
+		 *
 		 * @example
 		 * const theme = get('theme');
 		 * console.log(theme); // Output: 'light'
@@ -124,6 +126,7 @@ export const cache = async <Values extends Record<string, unknown>>( {
 		set,
 		/**
 		 * Resets the cache to its default values.
+		 *
 		 * @example
 		 * reset();
 		 */

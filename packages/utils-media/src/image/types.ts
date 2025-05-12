@@ -18,6 +18,7 @@ type ImageParams = Readonly<{
 	width?               : string | number | undefined
 	/**
 	 * If false, the aspect ratio will not be preserved .
+	 *
 	 * @default true
 	 */
 	preserveAspectRatio? : boolean | undefined

@@ -6,6 +6,7 @@ import {
 
 /**
  * Get object from a JSON file.
+ *
  * @param   {string}                     path - Path to the JSON file.
  * @returns {Promise<object | object[]>}      - The parsed JSON object.
  * @throws {Error} If there is an error reading the JSON file.

@@ -14,15 +14,17 @@ type UserConfig = Exclude<Parameters<typeof load>[0], undefined>
 
 export type CommitlintConfig = {
 	/**
-	 * User config for commitlint
+	 * User config for commitlint.
+	 *
 	 * @see https://commitlint.js.org/reference/rules-configuration.html
 	 */
 	config?  : UserConfig
 	/**
 	 * Enable gitmoji Config to commitlint
-	 * this activates the `gitmoji` plugin
-	 * @see https://www.npmjs.com/package/commitlint-config-gitmoji
+	 * this activates the `gitmoji` plugin.
+	 *
 	 * @default false
+	 * @see https://www.npmjs.com/package/commitlint-config-gitmoji
 	 */
 	gitmoji? : boolean
 }
@@ -77,7 +79,7 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 
 		console.debug( 'formated response', res )
 
-		if ( res && res !== '' ) this.utils.prompt.log.error( res )
+		if ( res && res !== '' ) this.utils.prompt.log.errorWithExit( res )
 		if ( report.valid ) {
 
 			this.utils.prompt.log.success( this.utils.style.success.h( 'Commit format is valid!' ) )

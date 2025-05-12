@@ -229,8 +229,9 @@ export class Examples {
 
 	/**
 	 * Process jsdoc examples.
+	 *
 	 * @param data - Example data.
-	 * @returns Resolved example content.
+	 * @returns    Resolved example content.
 	 * @see https://github.com/jsdoc2md/jsdoc-api/blob/master/docs/api.md
 	 */
 	async fromJsdoc( data:ExampleJsdocProps ) {
@@ -292,8 +293,9 @@ export class Examples {
 
 	/**
 	 * Process multiple examples.
+	 *
 	 * @param data - Example data.
-	 * @returns Resolved example content.
+	 * @returns    Resolved example content.
 	 */
 	async fromMultiple( data: ExampleMultipleProps ) {
 
@@ -331,8 +333,9 @@ export class Examples {
 	 * This method allows dynamic processing of example data based on the type
 	 * by binding specific handler functions for each type. The function received
 	 * in the data parameter is invoked with an object containing these handlers.
+	 *
 	 * @param data - Object containing the function to execute with the handlers.
-	 * @returns A promise that resolves to the result of the executed function.
+	 * @returns    A promise that resolves to the result of the executed function.
 	 */
 	async fromCustom( data: ExampleCustomProps ) {
 
@@ -354,8 +357,9 @@ export class Examples {
 	 * Get a custom Example content template.
 	 *
 	 * Perfect method to be used outside an `Dovenv` environment.
+	 *
 	 * @param data - Configuration object.
-	 * @returns A promise that resolves to the processed content as a string.
+	 * @returns    A promise that resolves to the processed content as a string.
 	 */
 	async get( data: Config[number] ) {
 
@@ -380,8 +384,9 @@ export class Examples {
 
 	/**
 	 * Process examples from the configuration object.
+	 *
 	 * @param pattern - An array of examples names to process. If not provided, all examples will be processed.
-	 * @returns A promise that resolves to an object containing the content of each processed example.
+	 * @returns       A promise that resolves to an object containing the content of each processed example.
 	 */
 	async run( pattern?: string[] ) {
 

@@ -17,7 +17,8 @@ type Data = {
 }
 type Opts = ReplaceOpts['opts'] & {
 	/**
-	 * Overwrite output if exists
+	 * Overwrite output if exists.
+	 *
 	 *  @default true
 	 */
 	overwrite? : boolean | 'ask'
@@ -25,7 +26,8 @@ type Opts = ReplaceOpts['opts'] & {
 type Response<V> = Promise<V> | V
 type SharedHooks = {
 	/**
-	 * Before create template
+	 * Before create template.
+	 *
 	 * @example
 	 *
 	 * import { geMDTocString }   from '@dovenv/core/utils'
@@ -41,7 +43,8 @@ type SharedHooks = {
 	 */
 	before? : ( data: Data ) => Response<Data>
 	/**
-	 * After create template
+	 * After create template.
+	 *
 	 * @example
 	 * const after = (data) => {
 	 *    data.content += '\n\n<!-- end of content -->\n\n'
@@ -51,10 +54,10 @@ type SharedHooks = {
 	after?  : ( data: Data ) => Response<Data>
 }
 
-type ConfigValue =  {
-	/** input of template (path or string) */
+type ConfigValue = {
+	/** Input of template (path or string) */
 	input      : string
-	/** constants for templates. */
+	/** Constants for templates. */
 	const?     : Params
 	transform? : ReplaceOpts['transform']
 	/** Custom options */
@@ -62,7 +65,7 @@ type ConfigValue =  {
 	hook?      : SharedHooks & {
 		/**
 		 * After create partials
-		 * Before add consts
+		 * Before add consts.
 		 */
 		afterPartials? : ( data: Data ) => Response<Data>
 	}
@@ -73,11 +76,11 @@ type ConfigValue =  {
 	 * The order of partials is important for overrides.
 	 */
 	partial? : { [key in string]: {
-		/** input of template (path or string) */
+		/** Input of template (path or string) */
 		input : string
 		hook? : SharedHooks
 	} }
-	/** output file for write content */
+	/** Output file for write content */
 	output? : string
 }
 

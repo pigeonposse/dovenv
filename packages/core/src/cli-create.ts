@@ -11,7 +11,7 @@ import { getCommandUtils } from './main'
 
 type Cli = Parameters<Parameters<typeof createCliCore>[0]['fn']>[0]
 type Argv = Awaited<Cli['argv']>
-type CreateCliContructorParams =  {
+type CreateCliContructorParams = {
 	/** CLI name */
 	name?     : string
 	/** CLI version */
@@ -25,7 +25,7 @@ type CreateCliContructorParams =  {
 	/**
 	 * CLI Hook.
 	 *
-	 * `yargs` parser
+	 * `yargs` parser.
 	 */
 	hook?     : <C extends Cli>( data: {
 		cli  : C

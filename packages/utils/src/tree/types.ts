@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
-import type { getPaths } from '../sys/super/main'
-import type { Prettify } from '../ts/main'
+import type { getPaths } from '@/sys/super'
+import type { Prettify } from '@/ts'
 
 export type SetDirTreeStyleParams = {
 	/** Name of the file or folder */
@@ -27,6 +27,7 @@ type SharedStructure = {
 	max?  : number
 	/**
 	 * The order to traverse the directories.
+	 *
 	 * @default 'atoz'
 	 */
 	sort? : 'atoz' | 'ztoa'

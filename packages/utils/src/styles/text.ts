@@ -13,6 +13,7 @@ export { Fonts }
 
 /**
  * Unicode symbols with fallbacks for older terminals.
+ *
  * @see https://github.com/sindresorhus/figures/blob/main/index.js
  * @example
  * console.log(
@@ -26,6 +27,7 @@ export const icon = figures
 
 /**
  * Generates ASCII art text using the specified font.
+ *
  * @param   {string} txt    - The text to render as ASCII art.
  * @param   {Fonts}  [font] - The font to use for rendering. Defaults to 'Standard'.
  * @returns {string}        - The ASCII art text.
@@ -47,6 +49,7 @@ export const asciiFont = ( txt: string, font: Fonts = 'Standard' ): string => {
 /**
  * Creates a clickable hyperlink in the terminal, if supported.
  * If terminal doesn't support clickable links, returns the URL string.
+ *
  * @param   {string} text - The text to display as the link.
  * @param   {string} url  - The URL to link to.
  * @returns {string}      - The clickable hyperlink or URL string.

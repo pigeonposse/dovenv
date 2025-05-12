@@ -1,5 +1,6 @@
-import { box }          from './table'
-import { terminalSize } from '../process/core/main'
+import { box } from './table'
+
+import { terminalSize } from '@/process/core'
 
 type LineAlign = 'left' | 'center' | 'right'
 type TitleAlign = `${LineAlign}` | `top-${LineAlign}` | `bottom-${LineAlign}`
@@ -59,9 +60,10 @@ const createLine = ( props: CreateLine ) => {
 
 /**
  * Generates a line with a title and customizable alignment for both the title and line.
- * @param {LineProps} props - Options object
- * @returns {string} Formatted line
- * @throws {Error} If `width` is not between 1 and 100
+ *
+ * @param   {LineProps} props - Options object.
+ * @returns {string}          Formatted line.
+ * @throws {Error} If `width` is not between 1 and 100.
  */
 export const line = ( props?: LineProps ): string => {
 

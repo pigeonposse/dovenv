@@ -101,8 +101,8 @@ export default defineConfig(
 					if ( content.private === true ) return []
 					const shared = [ 'package.json', 'README.md' ]
 
-					if (  path.includes( '/config/' ) ) return shared
-					else if ( path === pkgPath )  return [ 'docs/index.md', ...shared ]
+					if ( path.includes( '/config/' ) ) return shared
+					else if ( path === pkgPath ) return [ 'docs/index.md', ...shared ]
 
 					return [
 						'src/*{.js,.ts}',

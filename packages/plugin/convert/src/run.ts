@@ -37,7 +37,7 @@ type ConvertConfig = {
 				config : DovenvConfig
 				run    : Prettify<Omit<ConvertInterface, 'custom'>>
 			} ) => Promise<void> }
-		run : (  ) => Promise<void>
+		run : ( ) => Promise<void>
 	}
 }
 
@@ -49,7 +49,7 @@ type ConfigValue = {
 	// eslint-disable-next-line @stylistic/object-curly-newline
 	[key in keyof ConvertConfig]: {
 		/**
-		 * Type of conversion
+		 * Type of conversion.
 		 */
 		type : key } & ConvertConfig[key]['props']
 }[keyof ConvertConfig]
@@ -65,7 +65,8 @@ export {
 }
 
 /**
- * Convertion class
+ * Convertion class.
+ *
  * @example
  * // convert ts files to markdown
  * const convert = new Convert()
@@ -167,7 +168,7 @@ export class MultipleConvert {
 			pattern,
 		} )
 
-		if ( !keys || typeof keys === 'string'  || !this.opts ) return
+		if ( !keys || typeof keys === 'string' || !this.opts ) return
 
 		const { style } = this.utils
 

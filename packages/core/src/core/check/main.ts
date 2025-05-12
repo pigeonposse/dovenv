@@ -62,7 +62,7 @@ export class Check extends Command<CheckConfig> {
 		}
 		if ( !prop.validateAll && !prop.validate ) {
 
-			this.load.warn( this.utils.style.warn.msg(  'Skipped because no validate function exists' ) )
+			this.load.warn( this.utils.style.warn.msg( 'Skipped because no validate function exists' ) )
 			return
 
 		}
@@ -89,13 +89,13 @@ export class Check extends Command<CheckConfig> {
 			}
 
 		}
-		this.load.succeed(  this.utils.style.success.msg( 'All file checks passed' ) )
+		this.load.succeed( this.utils.style.success.msg( 'All file checks passed' ) )
 
 	}
 
 	async dir( prop: CheckDir ) {
 
-		const paths = ( await  this.utils.getPaths( prop.patterns, {
+		const paths = ( await this.utils.getPaths( prop.patterns, {
 			onlyDirectories : true,
 		} ) )
 
@@ -151,7 +151,7 @@ export class Check extends Command<CheckConfig> {
 		const userKeys = this.getKeysFromArgv( Object.keys( props ), this.argv )
 		if ( !userKeys || !userKeys.length ) return
 		const { style } = this.utils
-		for ( const key of userKeys  ) {
+		for ( const key of userKeys ) {
 
 			const prop = props[key]
 
@@ -164,7 +164,7 @@ export class Check extends Command<CheckConfig> {
 			if ( prop.type === TYPE.DIR )
 				await this.dir( prop )
 			else if ( prop.type === TYPE.FILE )
-				await this.file( prop  )
+				await this.file( prop )
 			else if ( prop.type === TYPE.CUSTOM )
 				await this.custom( prop )
 			else console.warn( style.warn.p( `Unexpected or not provided type in ${style.badge( key )}` ) )

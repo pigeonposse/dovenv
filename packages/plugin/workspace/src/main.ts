@@ -14,8 +14,9 @@ export {
 
 /**
  * Workspace plugin for Dovenv.
- * @param {Config} [params] - Plugin config.
- * @returns {import('@dovenv/core').Config} - A config with commands for workspace.
+ *
+ * @param   {Config}                        [params] - Plugin config.
+ * @returns {import('@dovenv/core').Config}          - A config with commands for workspace.
  * @example
  * import { defineConfig } from '@dovenv/core'
  * import { workspacePlugin } from '@dovenv/workspace'
@@ -29,7 +30,7 @@ export const workspacePlugin = ( params?: Config ) => defineConfig( {
 				`ws.pkg.${k}`,
 				{
 					type : 'custom',
-					desc : v.desc  ? `Check workspace rules: ${v.desc}` : 'Check workspace rules',
+					desc : v.desc ? `Check workspace rules: ${v.desc}` : 'Check workspace rules',
 					fn   : async ( { utils } ) => {
 
 						const check = new Checks( params, utils )

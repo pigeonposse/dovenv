@@ -1,7 +1,8 @@
 /**
  * Gets the total number of characters and words in a given string.
- * @param {string} text - The string to analyze.
- * @returns {{ chars: number, words: number }} - An object containing the total number of characters and words.
+ *
+ * @param   {string}                           text - The string to analyze.
+ * @returns {{ chars: number, words: number }}      - An object containing the total number of characters and words.
  * @example
  * const result = getCharsAndWords("Hello world!");
  * console.log(result.chars); // 12

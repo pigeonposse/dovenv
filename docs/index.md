@@ -15,7 +15,7 @@ hero:
       link: /guide
     - theme: alt
       text: View on GitHub
-      link: https://github.com/pigeonposse/dovenv
+      link: https://github.com/pigeonposse/dovenv/
 features:
   - title: Get started
     icon: 🏁

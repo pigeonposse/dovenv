@@ -6,9 +6,10 @@ import { MediaInput }    from './types'
 
 /**
  * Extracts a color palette from a PNG image using pngjs.
- * @param {MediaInput} input - The image file path or buffer.
- * @param {number} colorCount - Number of colors to extract.
- * @returns {Promise<string[]>} - Array of HEX color codes.
+ *
+ * @param   {MediaInput}        input      - The image file path or buffer.
+ * @param   {number}            colorCount - Number of colors to extract.
+ * @returns {Promise<string[]>}            - Array of HEX color codes.
  */
 export const getMediaPalette = async ( input: MediaInput, colorCount = 6 ): Promise<string[]> => {
 

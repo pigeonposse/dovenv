@@ -16,7 +16,7 @@ includes a description and options for selecting a specific chat configuration
 by key. The function also defines the behavior for running the assistant
 with the selected configuration.
 
----
+---.
 
 #### Parameters
 

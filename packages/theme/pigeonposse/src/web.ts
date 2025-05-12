@@ -17,12 +17,13 @@ export type WebConfig = {
 	 * @default '.pigeonposse.yml'
 	 */
 	input?        : string
-	/** override values. set to `false` to disable default values */
+	/** Override values. Set to `false` to disable default values */
 	values?       : Record<string, unknown> | false
 	/** Merge with general values */
 	customValues? : Record<string, unknown>
 	/**
-	 * Version of the web
+	 * Version of the web.
+	 *
 	 * @default latest
 	 */
 	version?      : string
@@ -30,8 +31,9 @@ export type WebConfig = {
 
 /**
  * Plugin for set the pigeonposse web configuration.
- * @param {WebConfig} [params] - Optional parameters for the plugin.
- * @returns {import('@dovenv/core').Config} - A Dovenv configuration with a "transform" command for the `.pigeonposse.yml` file.
+ *
+ * @param   {WebConfig}                     [params] - Optional parameters for the plugin.
+ * @returns {import('@dovenv/core').Config}          - A Dovenv configuration with a "transform" command for the `.pigeonposse.yml` file.
  * @example
  * import { defineConfig } from '@dovenv/core'
  * import { pigeonposseWebPlugin } from '@dovenv/theme-pigeonposse'

@@ -5,7 +5,8 @@ import { Core } from './core'
 type QRcodeOptsValue = {
 	input : string
 	/**
-	 * QR size
+	 * QR size.
+	 *
 	 * @default 'medium'
 	 */
 	size? : 'medium' | 'large'
@@ -22,9 +23,9 @@ export class QRcode extends Core<QRcodeOpts> {
 
 		const qr = await qrcode( input, { small: size !== 'large' } )
 
-		console.log(  )
+		console.log( )
 		console.log( qr )
-		console.log(  )
+		console.log( )
 
 	}
 

@@ -16,11 +16,14 @@ export class GitPush extends GitSuper {
 
 		console.log( this.utils.style.info.hr( cmd ) )
 		await exec( cmd )
-		console.log( this.utils.style.info.hr(  ) )
+		console.log( this.utils.style.info.hr( ) )
 
 	}
 
-	async run( ) {
+	async run( opts?: {
+		skipUpdate?   : boolean
+		skipWorkflow? : boolean
+	} ) {
 
 		await this.init()
 
@@ -63,58 +66,63 @@ export class GitPush extends GitSuper {
 			outro    : `Finished ${this.utils.style.badge( 'push' )} process 🌈`,
 			onCancel : async () => await this.utils.onCancel(),
 			list     : async p => ( {
-				'desc'        : async () => p.log.info( this.utils.style.p( 'Push your repository' ) ),
-				[data.staged] : async () => {
+				'desc' : async () => p.log.info( this.utils.style.p( 'Push your repository' ) ),
+				...( opts?.skipUpdate
+					? {}
+					: {
+						[data.staged] : async () => {
 
-					const res = await p.confirm( {
-						message      : 'View staged files?',
-						initialValue : cached[data.staged],
-					} )
-					if ( p.isCancel( res ) ) return await this.utils.onCancel()
+							const res = await p.confirm( {
+								message      : 'View staged files?',
+								initialValue : cached[data.staged],
+							} )
+							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-					cache.set( { [data.staged]: res } )
-					if ( !res ) return
+							cache.set( { [data.staged]: res } )
+							if ( !res ) return
 
-					const files = await commitInstance.getStagedFiles()
-					p.log.message( this.utils.style.p( files ) )
-					return res
+							const files = await commitInstance.getStagedFiles()
+							p.log.message( this.utils.style.p( files ) )
+							return res
 
-				},
-				[data.view] : async () => {
+						},
+						[data.view] : async () => {
 
-					const res = await p.confirm( {
-						message      : 'View package version(s)?',
-						initialValue : cached[data.view],
-					} )
-					if ( p.isCancel( res ) ) return await this.utils.onCancel()
+							const res = await p.confirm( {
+								message      : 'View package version(s)?',
+								initialValue : cached[data.view],
+							} )
+							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-					cache.set( { [data.view]: res } )
+							cache.set( { [data.view]: res } )
 
-					if ( res ) await pkgInstance.showPackageVersion()
-					return res
+							if ( res ) await pkgInstance.showPackageVersion()
+							return res
 
-				},
-				[data.update] : async () => {
+						},
+						[data.update] : async () => {
 
-					const res = await p.confirm( {
-						message      : 'Update the version(s)?',
-						initialValue : cached[data.update],
-					} )
-					if ( p.isCancel( res ) ) return await this.utils.onCancel()
+							const res = await p.confirm( {
+								message      : 'Update the version(s)?',
+								initialValue : cached[data.update],
+							} )
+							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-					cache.set( { [data.update]: res } )
+							cache.set( { [data.update]: res } )
 
-					return res
+							return res
 
-				},
-				'update-res' : async ( { results } ) => {
+						},
+						'update-res' : async ( { results } ) => {
 
-					// @ts-ignore
-					if ( !results[data.update] ) return
+							// @ts-ignore
+							if ( !results[data.update] ) return
 
-					await pkgInstance.ask()
+							await pkgInstance.ask()
 
-				},
+						},
+					}
+				),
 				'desc-add'    : async () => p.log.info( this.utils.style.p( 'Prompt for add to repository' ) ),
 				[data.add]    : async () => await addInstance.ask( cached[data.add] ),
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
@@ -152,32 +160,37 @@ export class GitPush extends GitSuper {
 					}
 
 				},
-				[data.workflow] : async () => {
+				...( opts?.skipWorkflow
+					? {}
+					: {
+						[data.workflow] : async () => {
 
-					const res = await p.confirm( {
-						message      : 'Run GitHub workflow?',
-						initialValue : cached[data.workflow],
-					} )
-					if ( p.isCancel( res ) ) return await this.utils.onCancel()
+							const res = await p.confirm( {
+								message      : 'Run GitHub workflow?',
+								initialValue : cached[data.workflow],
+							} )
+							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-					cache.set( { [data.workflow]: res } )
+							cache.set( { [data.workflow]: res } )
 
-					return res
+							return res
 
-				},
-				'workflow-res' : async ( { results } ) => {
+						},
+						'workflow-res' : async ( { results } ) => {
 
-					// @ts-ignore
-					const res = results[data.workflow] as boolean
-					if ( !res ) return
+							// @ts-ignore
+							const res = results[data.workflow] as boolean
+							if ( !res ) return
 
-					const wf = new GitHubWorkflow( {
-						opts  : this.opts,
-						utils : this.utils,
-					} )
-					await wf.run()
+							const wf = new GitHubWorkflow( {
+								opts  : this.opts,
+								utils : this.utils,
+							} )
+							await wf.run()
 
-				},
+						},
+					}
+				),
 			} ),
 
 		} )

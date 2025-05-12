@@ -2,6 +2,7 @@ import {
 	existsLocalBin,
 	joinPath,
 	isGitHubAuthenticated,
+	getPackageRepoUrlFromContent,
 } from '@dovenv/core/utils'
 
 import { homepage } from '../../package.json'
@@ -9,7 +10,7 @@ import { homepage } from '../../package.json'
 import type { Config }       from './types'
 import type { CommandUtils } from '@dovenv/core'
 
-export class Repo<C extends Config = Config>  {
+export class Repo<C extends Config = Config> {
 
 	protected utils : CommandUtils
 	opts
@@ -48,11 +49,7 @@ export class Repo<C extends Config = Config>  {
 		if ( !this.opts?.defaultBranch ) this.opts.defaultBranch = 'main'
 
 		// REPO
-		if ( !this.opts?.URL && this.utils.pkg?.repository
-			&& typeof this.utils.pkg.repository === 'object'
-			&& 'url' in this.utils.pkg.repository && this.utils.pkg.repository.url
-		)
-			this.opts.URL = this.utils.pkg.repository.url as string
+		if ( !this.opts?.URL && this.utils.pkg ) this.opts.URL = getPackageRepoUrlFromContent( this.utils.pkg )
 
 		if ( !this.opts?.ID && this.utils.pkg?.extra && this.utils.pkg.extra.repoID )
 			this.opts.ID = this.utils.pkg.extra.repoID

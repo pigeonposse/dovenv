@@ -36,6 +36,7 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Get the current branch name.
+	 *
 	 * @returns {Promise<string>} - The name of the current branch.
 	 */
 	async getCurrent() {
@@ -48,6 +49,7 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Shows the current branch name.
+	 *
 	 * @returns {Promise<void>}
 	 */
 	async showCurrent() {
@@ -60,8 +62,9 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Get all branches in the repository.
-	 * @param {boolean} remote - If true, shows remote branches as well.
-	 * @returns {Promise<string[]>} - An array of branch names.
+	 *
+	 * @param   {boolean}           remote - If true, shows remote branches as well.
+	 * @returns {Promise<string[]>}        - An array of branch names.
 	 */
 	async getAll( remote = true ): Promise<string[]> {
 
@@ -76,22 +79,24 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Show all branches in the repository.
-	 * @param {boolean} remote - If true, shows remote branches as well.
+	 *
+	 * @param   {boolean}       remote - If true, shows remote branches as well.
 	 * @returns {Promise<void>}
 	 */
 	async showAll( remote = true ) {
 
 		const res     = await this.getAll( remote )
 		const content = res.map( b => ( this.utils.style.info.lk( b ) ) ).join( '\n' )
-		this.utils.prompt.note(  content, 'All branches' )
+		this.utils.prompt.note( content, 'All branches' )
 		this.utils.prompt.log.step( '' )
 
 	}
 
 	/**
 	 * Change to a specified branch.
-	 * @param {string} branchName - The name of the branch to switch to.
-	 * @param {boolean} force - If true, force switches to the branch, discarding local changes.
+	 *
+	 * @param   {string}        branchName - The name of the branch to switch to.
+	 * @param   {boolean}       force      - If true, force switches to the branch, discarding local changes.
 	 * @returns {Promise<void>}
 	 */
 	async change( branchName?: string, force = false ): Promise<void> {
@@ -109,7 +114,8 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Switch to an existing branch.
-	 * @param {string} [branchName] - The name of the branch to switch to.
+	 *
+	 * @param   {string}        [branchName] - The name of the branch to switch to.
 	 * @returns {Promise<void>}
 	 */
 	async switch( branchName?: string ): Promise<void> {
@@ -127,7 +133,8 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Create a new branch without switching to it.
-	 * @param {string} [branchName] - The name of the branch to create.
+	 *
+	 * @param   {string}        [branchName] - The name of the branch to create.
 	 * @returns {Promise<void>}
 	 */
 	async create( branchName?: string ): Promise<void> {
@@ -145,7 +152,8 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Create a new branch and switch to it.
-	 * @param {string} [branchName] - The name of the branch to create and switch to.
+	 *
+	 * @param   {string}        [branchName] - The name of the branch to create and switch to.
 	 * @returns {Promise<void>}
 	 */
 	async createAndSwitch( branchName?: string ): Promise<void> {
@@ -163,8 +171,9 @@ export class GitBranch extends GitSuper {
 
 	/**
 	 * Delete a branch.
-	 * @param {string} [branchName] - The name of the branch to delete.
-	 * @param {boolean} force - If true, forces deletion of the branch.
+	 *
+	 * @param   {string}        [branchName] - The name of the branch to delete.
+	 * @param   {boolean}       force        - If true, forces deletion of the branch.
 	 * @returns {Promise<void>}
 	 */
 	async delete( branchName?: string, force = false ): Promise<void> {

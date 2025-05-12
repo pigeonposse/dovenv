@@ -59,7 +59,8 @@ export type PredocsConfig = {
 	/** Set index page options */
 	index?: {
 		/**
-		 * Add custom content to index doc page
+		 * Add custom content to index doc page.
+		 *
 		 * @see https://vitepress.dev/reference/default-theme-home-page
 		 */
 		custom?           : Record<string, unknown>
@@ -74,6 +75,7 @@ export type PredocsConfig = {
 	}
 	/**
 	 * Set emojis for your packages.
+	 *
 	 * @example
 	 * {
 	 *   core: '🌞',
@@ -98,7 +100,8 @@ export type SidebarItems = ExtractSidebarArray<Sidebar>
 
 export type SidebarConfig = {
 	/**
-	 * Get only sidebar reference
+	 * Get only sidebar reference.
+	 *
 	 * @default false
 	 */
 	onlyReference? : boolean

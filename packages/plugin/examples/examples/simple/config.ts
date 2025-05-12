@@ -8,7 +8,7 @@ import pkg            from '../../package.json'
 import examplesPlugin from '../../src/main'
 
 const currDir = getCurrentDir( import.meta.url )
-const pkgDir  = joinPath( currDir, '..', '..'  ) // Your package dir
+const pkgDir  = joinPath( currDir, '..', '..' ) // Your package dir
 const wsDir   = joinPath( pkgDir, '..', '..', '..' ) // Your workspace dir (if you are in a monorepo)
 
 const packagesDir = joinPath( wsDir, 'packages' )

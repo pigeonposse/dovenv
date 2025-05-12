@@ -1,5 +1,3 @@
-
-// @ts-ignore
 import lintStaged from 'lint-staged'
 
 import {

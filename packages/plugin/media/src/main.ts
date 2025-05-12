@@ -30,8 +30,9 @@ type Config = {
 
 /**
  * A plugin for dovenv to handle media tasks.
- * @param {Config} [conf] - The configuration object.
- * @returns {DovenvConfig} - The plugin.
+ *
+ * @param   {Config}       [conf] - The configuration object.
+ * @returns {DovenvConfig}        - The plugin.
  * @example
  * import { defineConfig } from '@dovenv/core'
  * import { mediaPlugin } from '@dovenv/media'
@@ -59,7 +60,7 @@ type Config = {
  *     } ),
  * )
  */
-export const mediaPlugin = ( conf?:  Config ) => {
+export const mediaPlugin = ( conf?: Config ) => {
 
 	const data: DovenvConfig = { custom : { media : {
 		desc : 'Media Tools for your workspace',

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {
 	process,
 	hideBin,
@@ -11,7 +13,7 @@ import {
 import { updateNotifier } from './_shared/up'
 import { Dovenv }         from './cli'
 
-const exec = async  () => {
+const exec = async () => {
 
 	const startTime = performance()
 	const up        = updateNotifier( PKG_NAME, VERSION )

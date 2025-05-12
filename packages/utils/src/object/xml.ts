@@ -11,9 +11,10 @@ import {
 
 /**
  * Fetches and parses an XML file into a JavaScript object.
+ *
  * @template Res - The expected return type of the parsed object.
- * @param {string} path - The file path of the XML file to be read and parsed.
- * @returns {Promise<Res>} - A promise that resolves to the parsed XML as an object.
+ * @param   {string}       path - The file path of the XML file to be read and parsed.
+ * @returns {Promise<Res>}      - A promise that resolves to the parsed XML as an object.
  * @throws {Error} If there is an error reading or parsing the XML file.
  */
 export const getObjectFromXMLFile = async <Res extends CommonObj = CommonObj>( path: string ) => {
@@ -35,9 +36,10 @@ export const getObjectFromXMLFile = async <Res extends CommonObj = CommonObj>( p
 
 /**
  * Parses an XML content string into a JavaScript object.
+ *
  * @template Res - The expected return type of the parsed object.
- * @param {string} content - The XML content string to be parsed.
- * @returns {Promise<Res>} - A promise that resolves to the parsed XML as an object.
+ * @param   {string}       content - The XML content string to be parsed.
+ * @returns {Promise<Res>}         - A promise that resolves to the parsed XML as an object.
  * @throws {Error} If there is an error parsing the XML content.
  */
 export const getObjectFromXMLContent = async <Res extends CommonObj = CommonObj>( content: string ) => {
@@ -59,11 +61,12 @@ export const getObjectFromXMLContent = async <Res extends CommonObj = CommonObj>
 
 /**
  * Converts a JavaScript object into an XML string.
+ *
  * @template I - The type of the object to be converted.
- * @param {I} obj - The object to be converted.
- * @returns {Promise<string>} - A promise that resolves to the XML string.
+ * @param   {I}               obj - The object to be converted.
+ * @returns {Promise<string>}     - A promise that resolves to the XML string.
  */
-const objectToXML = async  <I extends CommonObj = CommonObj>( obj: I ) => {
+const objectToXML = async <I extends CommonObj = CommonObj>( obj: I ) => {
 
 	const builder = new XMLBuilder()
 	return builder.build( obj )

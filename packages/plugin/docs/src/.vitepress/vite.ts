@@ -1,5 +1,5 @@
 /**
- * VITE CONFIG
+ * VITE CONFIG.
  */
 
 import ViteRestart             from 'vite-plugin-restart'
@@ -20,10 +20,10 @@ import type { ConfigResponse } from '../config/types'
 
 export const vite = ( {
 	config: conf, data,
-}: ConfigResponse ):  UserConfig['vite'] => {
+}: ConfigResponse ): UserConfig['vite'] => {
 
 	return {
-		optimizeDeps : { exclude: [ 'virtual:group-icons.css'  ] },
+		optimizeDeps : { exclude: [ 'virtual:group-icons.css' ] },
 		server       : { fs: { strict: false } },
 		// this can be remove for fix build icon and twoslash comments
 		// build        : { rollupOptions: { external: [ 'vue/server-renderer', 'vue' ] } },
@@ -61,9 +61,9 @@ export const vite = ( {
 					// @ts-ignore: 	config.vitepress is not typed
 					const configDeps = config.vitepress.configDeps
 
-					if ( data.packageConfig?.path  && !configDeps.includes( data.packageConfig?.path ) ) configDeps.push( data.packageConfig?.path )
-					if ( data.pathConfig?.path     && !configDeps.includes( data.pathConfig?.path ) ) configDeps.push( data.pathConfig?.path )
-					if ( data.fnConfig?.path       && !configDeps.includes( data.fnConfig?.path ) ) configDeps.push( data.fnConfig?.path )
+					if ( data.packageConfig?.path && !configDeps.includes( data.packageConfig?.path ) ) configDeps.push( data.packageConfig?.path )
+					if ( data.pathConfig?.path && !configDeps.includes( data.pathConfig?.path ) ) configDeps.push( data.pathConfig?.path )
+					if ( data.fnConfig?.path && !configDeps.includes( data.fnConfig?.path ) ) configDeps.push( data.fnConfig?.path )
 
 					console.debug( { configDeps } )
 
@@ -107,19 +107,19 @@ export const vite = ( {
 
 					// @ts-ignore: 	config.vitepress is not typed
 					config.vitepress.logger.info( 'Sidebar data updated successfully', { timestamp: true } )
-					console.log(  )
+					console.log( )
 
 				},
 
 			},
 
-			...(  conf.groupIcon === false ?  [] : [ groupIconVitePlugin( conf.groupIcon ) ]  ),
-			...(  conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
+			...( conf.groupIcon === false ? [] : [ groupIconVitePlugin( conf.groupIcon ) ] ),
+			...( conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
 			ViteRestart( {
 				reload  : [ ...( conf?.server?.hotReloadFiles ? conf.server.hotReloadFiles : [] ) ],
 				restart : [ ...( conf?.server?.restartFiles ? conf.server.restartFiles : [] ) ],
 			} ),
-			...(  conf.llms === false ?  [] : [ llmstxtPlugin( conf.llms ) ] ),
+			...( conf.llms === false ? [] : [ llmstxtPlugin( conf.llms ) ] ),
 		],
 	}
 

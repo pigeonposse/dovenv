@@ -5,10 +5,11 @@ import type { exec } from '@dovenv/utils'
 
 export type AliasesConfig = {
 	[key in string]: {
-		/** description of your alias */
+		/** Description of your alias */
 		desc : string
 		/**
-		 * command of your alias.
+		 * Command of your alias..
+		 *
 		 * @example
 		 * {
 		 *   cmd : 'dovenv check'
@@ -35,8 +36,9 @@ export type AliasesConfig = {
 			exec: {
 				/**
 				 * Executes a given command in the shell.
-				 * @param {string} command - The command to be executed.
-				 * @returns {Promise<string>} - Resolves with the output of the command.
+				 *
+				 * @param   {string}          command - The command to be executed.
+				 * @returns {Promise<string>}         - Resolves with the output of the command.
 				 * @example
 				 * command('ls -la')
 				 */
@@ -44,8 +46,9 @@ export type AliasesConfig = {
 
 				/**
 				 * Executes a command in the shell based in your current JS runtime.
-				 * @param {string} runtime - The runtime (e.g., `node`) to use for execution.
-				 * @returns {Promise<string>} - Resolves with the runtime execution result.
+				 *
+				 * @param   {string}          runtime - The runtime (e.g., `node`) to use for execution.
+				 * @returns {Promise<string>}         - Resolves with the runtime execution result.
 				 * @example
 				 * runtime('./src/bin.js')
 				 */
@@ -53,15 +56,17 @@ export type AliasesConfig = {
 
 				/**
 				 * Executes a command in the shell based in your current JS manager.
-				 * @param {string} pkgManager - The package manager (e.g., `npm`, `yarn`, `pnpm`) to use for execution.
-				 * @returns {Promise<string>} - Resolves with the output of the package manager command.
+				 *
+				 * @param   {string}          pkgManager - The package manager (e.g., `npm`, `yarn`, `pnpm`) to use for execution.
+				 * @returns {Promise<string>}            - Resolves with the output of the package manager command.
 				 */
 				pkgManager : typeof exec
 
 				/**
 				 * Executes dovenv command in shell.
-				 * @param {string} cmd - The command to execute.
-				 * @returns {Promise<string>} - Resolves with the binary execution output.
+				 *
+				 * @param   {string}          cmd - The command to execute.
+				 * @returns {Promise<string>}     - Resolves with the binary execution output.
 				 * @example
 				 * current('alias') // Return the dovenv aliases
 				 */
@@ -69,11 +74,12 @@ export type AliasesConfig = {
 
 				/**
 				 * Executes a command related to a package's binary.
+				 *
 				 * @type {Command['utils']['execPkgBin']}
 				 */
 				pkgBin : Command['utils']['execPkgBin']
 			}
-			/** workspace data to be used */
+			/** Workspace data to be used */
 			data: {
 				/**
 				 * The runtime to be used (e.g., `node`).

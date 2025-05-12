@@ -1,5 +1,5 @@
 /**
- * see: https://github.com/commitizen/cz-cli?tab=readme-ov-file#1-create-your-own-entry-point-script
+ * See: https://github.com/commitizen/cz-cli?tab=readme-ov-file#1-create-your-own-entry-point-script.
  */
 
 import {
@@ -102,7 +102,8 @@ export class GitCommit extends GitSuper {
 
 	/**
 	 * Get list of staged files.
-	 * @returns {Promise<string[]>} List of staged files
+	 *
+	 * @returns {Promise<string[]>} List of staged files.
 	 */
 	async getStagedFilesList() {
 
@@ -113,6 +114,7 @@ export class GitCommit extends GitSuper {
 
 	/**
 	 * Get the last commit message.
+	 *
 	 * @returns {Promise<string>} The last commit message.
 	 */
 	async getLastCommit() {
@@ -135,7 +137,7 @@ export class GitCommit extends GitSuper {
 
 		console.log( this.utils.style.info.hr( 'git commit' ) )
 		await exec( cmd )
-		console.log( this.utils.style.info.hr(  ) )
+		console.log( this.utils.style.info.hr( ) )
 
 	}
 

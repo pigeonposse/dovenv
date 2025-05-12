@@ -26,8 +26,9 @@ export type Config<I extends string, R extends Role<I>> = RepoConfig & GitConfig
 
 /**
  * Dovenv plugin for managing a repository.
- * @param {Config} opts - Optional configuration.
- * @returns {DovenvConfig} - The plugin configuration.
+ *
+ * @param   {Config}       opts - Optional configuration.
+ * @returns {DovenvConfig}      - The plugin configuration.
  */
 export const repoPlugin = <Contr extends string, R extends Role<Contr>>( opts?: Config<Contr, R> ): DovenvConfig => {
 

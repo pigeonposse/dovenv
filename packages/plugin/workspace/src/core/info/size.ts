@@ -26,7 +26,7 @@ export class Size extends Super implements InfoInterface {
 		}
 		catch ( e ) {
 
-			console.warn( this.utils.style.warn.msg( 'Error getting size',  e instanceof Error  ? e?.message : e ) )
+			console.warn( this.utils.style.warn.msg( 'Error getting size', e instanceof Error ? e?.message : e ) )
 
 			return
 
@@ -34,7 +34,7 @@ export class Size extends Super implements InfoInterface {
 
 	}
 
-	async #fn(  ) {
+	async #fn( ) {
 
 		this._title( 'Size information' )
 

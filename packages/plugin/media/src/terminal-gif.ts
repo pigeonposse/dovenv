@@ -18,7 +18,7 @@ export type TermGifConfigValue = {
 	output      : string
 	/**
 	 * The path of the config file. Overwrite the default configurations.
-	 * create your own config file with command `termgif config`
+	 * Create your own config file with command `termgif config`.
 	 */
 	configPath? : string
 	/** The command to be executed */
@@ -26,7 +26,8 @@ export type TermGifConfigValue = {
 	/** The quality of the rendered image (1 - 100)  */
 	quality?    : IntRange<1, 101>
 	/**
-	 * To reduce the number of rendered frames (step > 1)
+	 * To reduce the number of rendered frames (step > 1).
+	 *
 	 * @default 1
 	 */
 	step?       : number
@@ -79,7 +80,7 @@ export class TerminalGif extends Core<TermGifConfig> {
 
 	}
 
-	async render( opts: TermGifConfig[number]  ) {
+	async render( opts: TermGifConfig[number] ) {
 
 		const gifFile = joinPath( opts.output, 'gif' )
 		const quality = opts.quality ? [ '--quality', String( opts.quality ) ] : []

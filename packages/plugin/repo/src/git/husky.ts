@@ -11,7 +11,8 @@ export class Husky extends GitSuper {
 
 	async #fn( path:string ) {
 
-		const exist = await existsDir( path )
+		const huskyInitPath = joinPath( path, '_' )
+		const exist         = await existsDir( huskyInitPath )
 
 		console.debug( {
 			path,

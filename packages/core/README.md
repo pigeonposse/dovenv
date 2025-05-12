@@ -7,7 +7,7 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com)
+[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true](https://dovenv.pigeonposse.com/guide/core)
 
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
@@ -57,13 +57,13 @@ deno add @dovenv/core
 - [Utils-media](https://dovenv.pigeonposse.com/guide/utils-media)
 - 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
-  - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
+  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
-  - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
+  - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
   - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
-  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
 - ⚙️ [Config](https://dovenv.pigeonposse.com/guide/config)
@@ -81,8 +81,8 @@ deno add @dovenv/core
 __dovenv__ is an open-source project and its development is open to anyone who wants to participate.
 
 [![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/issues)
-[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)]({{const.pkg.repository.url}}/pulls)
-[![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)]({{const.pkg.homepage}})
+[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/pulls)
+[![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)](https://dovenv.pigeonposse.com)
 
 ## ❤️ Donate
 

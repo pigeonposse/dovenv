@@ -1,10 +1,10 @@
 /**
- * LINTER FILE
+ * LINTER FILE.
  *
- * Set linter config
+ * Set linter config.
  *
- * since version 1.0.0
+ * Since version 1.0.0.
  */
-import config from './src/main.mjs'
+import config from './dist/main.mjs'
 
 export default config

@@ -2,12 +2,9 @@ import remarkParse     from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified }     from 'unified'
 
-import type { Root } from 'mdast'
+const processor = unified().use( remarkParse ).use( remarkStringify )
+type MarkdownObject = ReturnType<( typeof processor )['parse']>
 
-const mdProcessor = unified().use( remarkParse ).use( remarkStringify )
+export const deserialize = ( str: string ): MarkdownObject => processor.parse( str )
 
-type MarkdownObject = Root
-
-export const deserialize = ( str: string ): MarkdownObject => mdProcessor.parse( str )
-
-export const serialize = ( obj: MarkdownObject ): string => mdProcessor.stringify( obj )
+export const serialize = ( obj: MarkdownObject ): string => processor.stringify( obj )

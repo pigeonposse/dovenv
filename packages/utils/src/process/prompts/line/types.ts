@@ -3,7 +3,7 @@ import type {
 	box,
 	columns,
 	table,
-}              from '../../../styles/main'
+}              from '../../../styles'
 import type { PromptParams } from '../prompt/types'
 import type * as p           from '@clack/prompts'
 
@@ -69,7 +69,7 @@ export type PromptLineCancelProps = typeof p & {
 		value : ColumnsParams[0]
 		opts? : ColumnsParams[1]
 		type? : PromptLineMethod
-	}  ) => void
+	} ) => void
 }
 
 /**

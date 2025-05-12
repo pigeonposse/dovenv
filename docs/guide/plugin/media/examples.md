@@ -17,7 +17,7 @@ import {
 import core            from '../../../../.dovenv/const.js'
 import { mediaPlugin } from '../src/main'
 
-const exampleFolder = resolvePath(  'examples' )
+const exampleFolder = resolvePath( 'examples' )
 const buildFolder   = resolvePath( 'build' )
 const imageFolder   = joinPath( exampleFolder, 'images' )
 const termFolder    = joinPath( exampleFolder, 'termgif' )

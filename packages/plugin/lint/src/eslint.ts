@@ -45,7 +45,7 @@ export class Eslint extends LintSuper<EslintConfig> {
 
 		if ( error ) {
 
-			if ( typeof error === 'object' && 'stdout' in  error && 'stderr' in error ) setResponse( {
+			if ( typeof error === 'object' && 'stdout' in error && 'stderr' in error ) setResponse( {
 				stdout : error.stdout as string,
 				stderr : error.stderr as string,
 			} )

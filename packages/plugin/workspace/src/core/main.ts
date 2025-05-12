@@ -45,9 +45,9 @@ export class Workspace {
 
 	}
 
-	async outdated(  ) {
+	async outdated( ) {
 
-		await this.#exec.outdated(  )
+		await this.#exec.outdated( )
 
 	}
 

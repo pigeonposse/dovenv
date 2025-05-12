@@ -1,16 +1,18 @@
-import { process } from '../process/main'
 import {
 	existsPath,
 	joinPath,
-} from './super/main'
+} from './super'
+
+import { process } from '@/process'
 
 /**
  * Resolves the directory path of a specified module entry.
- * @param {object} opts - An object with options for resolving the module path.
- * @param {string} opts.id - The module entry name to resolve, such as a package name.
- * @param {string[]} opts.path - Optional additional path segments to join with the resolved module directory.
- * @param {string} opts.from - The path to resolve the module from. Defaults to the current working directory.
- * @returns {string} - The resolved directory path of the module.
+ *
+ * @param   {object}   opts      - An object with options for resolving the module path.
+ * @param   {string}   opts.id   - The module entry name to resolve, such as a package name.
+ * @param   {string[]} opts.path - Optional additional path segments to join with the resolved module directory.
+ * @param   {string}   opts.from - The path to resolve the module from. Defaults to the current working directory.
+ * @returns {string}             - The resolved directory path of the module.
  * @throws {Error} If the module cannot be found in the lookup paths.
  * @example
  *
@@ -28,6 +30,7 @@ export const getModulePath = async ( {
 }:{
 	/**
 	 * The path to resolve the module from.
+	 *
 	 * @default process.cwd()
 	 */
 	from? : string
@@ -55,7 +58,7 @@ export const getModulePath = async ( {
 
 		const lookupPaths = resolvedModule.map( p => joinPath( p, packageName ) )
 		let res           = lookupPaths.find( async p => await existsPath( p ) )
-		if ( !res ) throw new ModuleError( errorMsg +  'Failed in lookupPaths' )
+		if ( !res ) throw new ModuleError( errorMsg + 'Failed in lookupPaths' )
 
 		if ( path ) res = joinPath( res, ...path )
 		if ( !await existsPath( res ) ) throw new ModuleError( errorMsg + 'Path does not exist' )

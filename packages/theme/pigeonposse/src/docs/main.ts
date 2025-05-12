@@ -7,9 +7,9 @@ export {
 	Predocs,
 } from './build'
 
-export { getSidebar }     from './sidebar'
+export { getSidebar } from './sidebar'
 
 export const template = templateConstructor( EMOJI )
 export const partial = partialConstructor( EMOJI )
 
-export type *  from './types'
+export type * from './types'

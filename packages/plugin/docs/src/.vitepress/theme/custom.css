@@ -140,6 +140,7 @@ video,
 	backdrop-filter: blur(40px);
 	/* background: var(--vp-c-bg-alt) !important; */
 }
+
 .shell, .search-bar, .shell .result {
 	border: 1px solid var(--vp-c-divider);
 	border-radius: var(--pp-radius) !important;

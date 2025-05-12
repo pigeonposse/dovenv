@@ -17,13 +17,14 @@ export const fontAwesomeBrandsIcons = brands
 
 /**
  * Get the SVG string of a font awesome icon.
- * @param {IconDefinition} iconDefinition
- * The font awesome icon definition.
+ *
+ * @param   {IconDefinition}     iconDefinition
+ *                                              - The font awesome icon definition.
  * @returns {string | undefined}
- * The SVG string of the icon, or undefined if the icon definition is not found.
+ *                                              The SVG string of the icon, or undefined if the icon definition is not found.
  */
 export const fa2svg = (
-	iconDefinition:  IconDefinition,
+	iconDefinition: IconDefinition,
 ): string | undefined => {
 
 	const svgIcon = icon( iconDefinition )

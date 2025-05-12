@@ -2,20 +2,16 @@ import {
 	open as _open,
 	existsFile,
 	formatValidationError,
-	getBaseName,
 	getPaths,
 	getPathsTree,
 	schema2type,
 	serializeValidation,
 	validate,
-	getObjectFromJSONFile,
 	getDirName,
 	joinPath,
 } from '@dovenv/core/utils'
 
 import { Super } from './_super/main'
-
-import type { PackageJSON } from '@dovenv/core/utils'
 
 type CheckType = NonNullable<NonNullable<Checks['opts']>['check']>
 type CheckPkgValue = NonNullable<NonNullable<CheckType['pkg']>[number]>
@@ -23,47 +19,18 @@ type CheckPattern = CheckPkgValue['include']
 
 export class Checks extends Super {
 
-	pkgs : ( {
-		id      : string
-		path    : string
-		content : PackageJSON
-	} )[] | undefined
-
-	async #getPKGs() {
-
-		if ( this.pkgs ) return this.pkgs
-
-		const pkgPaths = await this.utils.getPkgPaths()
-
-		this.pkgs = []
-
-		for ( const pkgPath of pkgPaths ) {
-
-			const pkg = await getObjectFromJSONFile<PackageJSON>( pkgPath )
-
-			this.pkgs.push( {
-				id      : pkg.name || getBaseName( pkgPath ),
-				path    : pkgPath,
-				content : pkg,
-			} )
-
-		}
-		return this.pkgs
-
-	}
-
 	async #schemaPKG( value: CheckPkgValue ) {
 
 		const type = value
 		if ( !type?.schema ) return
 
-		const pkgs = await this.#getPKGs()
+		const pkgs = await this.utils.getPkgsData()
 
 		for ( const pkg of pkgs ) {
 
 			const schema = await type.schema( {
 				v       : validate,
-				path    : pkg.path,
+				path    : pkg.packagePath,
 				content : pkg.content,
 				utils   : this.utils,
 			} )
@@ -83,7 +50,7 @@ export class Checks extends Super {
 
 				const errortitle = `Error in ${this.utils.style.b( pkg.id )} package.json\n\n`
 				const errorMsg   = this.utils.style.error.ul( [
-					[ `Path`, pkg.path ],
+					[ `Path`, pkg.packagePath ],
 					[ `Schema must be`, content ],
 					[ errorMessage, '' ],
 				] )
@@ -103,15 +70,14 @@ export class Checks extends Super {
 		const type = value
 		if ( !type ) return
 
-		const pkgs   = await this.#getPKGs()
+		const pkgs   = await this.utils.getPkgsData()
 		const custom = async () => {
 
 			for ( const pkg of pkgs ) {
 
-				const dir    = getDirName( pkg.path )
 				const cbData = {
-					dir     : dir,
-					path    : pkg.path,
+					dir     : pkg.dir,
+					path    : pkg.packagePath,
 					content : pkg.content,
 					utils   : this.utils,
 				}
@@ -133,10 +99,9 @@ export class Checks extends Super {
 
 			for ( const pkg of pkgs ) {
 
-				const dir    = getDirName( pkg.path )
 				const cbData = {
-					dir     : dir,
-					path    : pkg.path,
+					dir     : pkg.dir,
+					path    : pkg.packagePath,
 					content : pkg.content,
 					utils   : this.utils,
 				}
@@ -148,16 +113,16 @@ export class Checks extends Super {
 				if ( !res ) continue
 
 				const patternOpts: Parameters<typeof getPaths>[1] = {
-					cwd       : dir,
+					cwd       : pkg.dir,
 					onlyFiles : true,
 				}
 
 				for ( const pattern of res ) {
 
-					const paths = await getPaths( [ pattern ],  patternOpts )
+					const paths = await getPaths( [ pattern ], patternOpts )
 
 					let errorMsg = `Error in [${pkg.id}] file structure.\n\n`
-					errorMsg    += this.utils.style.error.lk( `Pattern: ${getDirName( joinPath( dir, pattern ) )}\n` )
+					errorMsg    += this.utils.style.error.lk( `Pattern: ${getDirName( joinPath( pkg.dir, pattern ) )}\n` )
 
 					if ( exists && !paths.length ) {
 
@@ -176,7 +141,7 @@ export class Checks extends Super {
 
 					for ( const path of paths ) {
 
-						const existsCurr = await existsFile( joinPath( dir, path ) )
+						const existsCurr = await existsFile( joinPath( pkg.dir, path ) )
 
 						if ( existsCurr === exists ) continue
 
@@ -185,7 +150,7 @@ export class Checks extends Super {
 							patternOpts : { onlyFiles: true },
 						} )
 						let errorMsg        = `Error in [${pkg.id}] file structure.\n\n`
-						errorMsg           += this.utils.style.error.lk( `Path: ${pkg.path}.\n` )
+						errorMsg           += this.utils.style.error.lk( `Path: ${pkg.packagePath}.\n` )
 						errorMsg           += this.utils.style.error.lk( `Valid structure:\n${this.utils.style.box( {
 							title : pkg.id,
 							data  : structurePath,

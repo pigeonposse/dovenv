@@ -1,7 +1,7 @@
-import { terminalSize } from '../main'
 import { color }        from './color'
 import { box }          from './table'
 import { icon }         from './text'
+import { terminalSize } from '../main'
 
 const { columns } = terminalSize( )
 const lineChar    = icon.line

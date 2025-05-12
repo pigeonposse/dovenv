@@ -6,7 +6,7 @@ import {
 
 import convertPlugin from '../../src/main'
 
-const pkgDir = joinPath( getCurrentDir( import.meta.url ), '..'  )
+const pkgDir = joinPath( getCurrentDir( import.meta.url ), '..' )
 
 export default defineConfig( { const: { pkgDir } }, convertPlugin( {
 	1 : {
@@ -56,4 +56,4 @@ export default defineConfig( { const: { pkgDir } }, convertPlugin( {
 
 		},
 	},
-}  ) )
+} ) )

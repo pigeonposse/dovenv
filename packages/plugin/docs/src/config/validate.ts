@@ -10,7 +10,7 @@ import {
 	RequiredDocsConfig,
 } from './types'
 
-export const validateConfig = async  ( {
+export const validateConfig = async ( {
 	config, data,
 }:{
 	config : RequiredDocsConfig
@@ -36,7 +36,7 @@ export const validateConfig = async  ( {
 		await copyDir( {
 			input  : data.srcDir,
 			output : data.tempDir,
-		}  )
+		} )
 
 		data.srcDir = data.tempDir
 		process.on( 'exit', async () => {
@@ -49,22 +49,6 @@ export const validateConfig = async  ( {
 	}
 
 	const { srcDir } = data
-
-	// PWA CHECK
-	if ( config.pwa && config.pwa.pwaAssets?.image ) {
-
-		const imageDir = joinPath( srcDir, config.pwa.pwaAssets.image )
-		console.debug( { imageDir } )
-		const exists = await existsPath( imageDir )
-
-		if ( !exists ) {
-
-			console.warn( `Disable PWA, because image [${imageDir}] does not exists` )
-			config.pwa = false
-
-		}
-
-	}
 
 	// LOGO & FAVICON CHECK
 	if ( config.logo ) {

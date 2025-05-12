@@ -8,8 +8,9 @@ export * from './run'
 
 /**
  * A plugin for `dovenv` to convert files from one format to another.
- * @param {Config} [conf] - Configuration for the plugin.
- * @returns {DovenvConfig} - The plugin.
+ *
+ * @param   {Config}       [conf] - Configuration for the plugin.
+ * @returns {DovenvConfig}        - The plugin.
  * @example
  * import { defineConfig } from '@dovenv/core'
  * import { convertPlugin } from '@dovenv/convert'

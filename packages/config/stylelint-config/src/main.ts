@@ -1,7 +1,7 @@
 /**
- * LINTER FILE
+ * LINTER FILE.
  *
- * Set linter config
+ * Set linter config.
  */
 
 // @ts-ignore

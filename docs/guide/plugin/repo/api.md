@@ -732,7 +732,7 @@ Get list of staged files.
 
 `Promise`\<`string`[]\>
 
-List of staged files
+List of staged files.
 
 ##### init()
 
@@ -888,7 +888,7 @@ new GitHubInfo(__namedParameters: {
 getRepoList(opts?: {
   archived: boolean;
   fork: boolean;
-  visibility: "public" | "private" | "internal";
+  visibility: "private" | "public" | "internal";
  }): Promise<{
   desc: undefined | string;
   homepage: undefined | string;
@@ -906,7 +906,7 @@ getRepoList(opts?: {
 | `opts`? | `object` |
 | `opts.archived`? | `boolean` |
 | `opts.fork`? | `boolean` |
-| `opts.visibility`? | `"public"` \| `"private"` \| `"internal"` |
+| `opts.visibility`? | `"private"` \| `"public"` \| `"internal"` |
 
 ###### Returns
 
@@ -1030,7 +1030,7 @@ new GitHubWorkflow(__namedParameters: {
 getRepoList(opts?: {
   archived: boolean;
   fork: boolean;
-  visibility: "public" | "private" | "internal";
+  visibility: "private" | "public" | "internal";
  }): Promise<{
   desc: undefined | string;
   homepage: undefined | string;
@@ -1048,7 +1048,7 @@ getRepoList(opts?: {
 | `opts`? | `object` |
 | `opts.archived`? | `boolean` |
 | `opts.fork`? | `boolean` |
-| `opts.visibility`? | `"public"` \| `"private"` \| `"internal"` |
+| `opts.visibility`? | `"private"` \| `"public"` \| `"internal"` |
 
 ###### Returns
 
@@ -1423,8 +1423,19 @@ initGH(): Promise<void>
 ##### run()
 
 ```ts
-run(): Promise<void>
+run(opts?: {
+  skipUpdate: boolean;
+  skipWorkflow: boolean;
+}): Promise<void>
 ```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts`? | `object` |
+| `opts.skipUpdate`? | `boolean` |
+| `opts.skipWorkflow`? | `boolean` |
 
 ###### Returns
 
@@ -1783,7 +1794,35 @@ function gitPlugin(conf?: GitConfig): Config
 ### package2Contributors()
 
 ```ts
-function package2Contributors(pkg: JSONSchemaForNPMPackageJsonFiles): {
+function package2Contributors(pkg: {
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+ }): {
   member: Contributor[];
   role: Role;
 }
@@ -1791,9 +1830,15 @@ function package2Contributors(pkg: JSONSchemaForNPMPackageJsonFiles): {
 
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `pkg` | `JSONSchemaForNPMPackageJsonFiles` |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `pkg` | `object` | - |
+| `pkg.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Returns
 
@@ -1901,8 +1946,8 @@ type ContributorsConfig<ID, R>: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `member` | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] | Set contributor members **Example** `[ { ghUsername: 'angelespejo', name: 'Angelo', role: 'author' }, { ghUsername: 'pigeonposse', name: 'PigeonPosse', role: 'organization' }, ]` |
-| `role` | `R` | Set contributor roles **Example** `{ 	 * owner: { name: 'Owner', emoji: '👑' }, 	 * developer: { name: 'Developer', emoji: '🤝' }, 	 * organization: { name: 'Organization', emoji: '🏢' }, 	 * sponsor: { name: 'Sponsor', emoji: '🤝' }, 	 * translator: { name: 'Translator', emoji: '🌏' } 	 * },` |
+| `member` | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] | Set contributor members. **Example** `[ { ghUsername: 'angelespejo', name: 'Angelo', role: 'author' }, { ghUsername: 'pigeonposse', name: 'PigeonPosse', role: 'organization' }, ]` |
+| `role` | `R` | Set contributor roles. **Example** `{ 	 * owner: { name: 'Owner', emoji: '👑' }, 	 * developer: { name: 'Developer', emoji: '🤝' }, 	 * organization: { name: 'Organization', emoji: '🏢' }, 	 * sponsor: { name: 'Sponsor', emoji: '🤝' }, 	 * translator: { name: 'Translator', emoji: '🌏' } 	 * },` |
 
 ***
 
@@ -1926,15 +1971,15 @@ type GitHubConfig: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `defaultBranch`? | `string` | Primary branch from the repository **Example** `"main"` |
-| `desc`? | `string` | Description of the repository **Example** `"This is a cool project"` |
+| `defaultBranch`? | `string` | Primary branch from the repository. **Example** `"main"` |
+| `desc`? | `string` | Description of the repository. **Example** `"This is a cool project"` |
 | `homepageURL`? | `string` | The URL of the project's homepage. **Example** `"https://pigeonposse.com"` |
-| `ID`? | `string` | Name of the repository **Example** `"dovenv"` |
-| `tags`? | `string`[] | Tags or topics associated with the repository **Example** `[ "web", "api", "rest-api", "openapi", "library", "node", "js"]` |
-| `URL`? | `string` | URL of the repopository **Example** `"https://github.com/pigeonposse/dovenv"` |
-| `userID`? | `string` | GitHub user|org ID |
-| `workflowDefaultInputs`? | `string` | Workflow default inputs |
-| `workflowsDir`? | `string` | Path to .github/workflows directory |
+| `ID`? | `string` | Name of the repository. **Example** `"dovenv"` |
+| `tags`? | `string`[] | Tags or topics associated with the repository. **Example** `[ "web", "api", "rest-api", "openapi", "library", "node", "js"]` |
+| `URL`? | `string` | URL of the repopository. **Example** `"https://github.com/pigeonposse/dovenv"` |
+| `userID`? | `string` | GitHub user|org ID. |
+| `workflowDefaultInputs`? | `string` | Workflow default inputs. |
+| `workflowsDir`? | `string` | Path to .github/workflows directory. |
 
 ## References
 

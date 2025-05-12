@@ -3,9 +3,9 @@
 /* eslint-disable jsdoc/require-param */
 import { makeBadge } from 'badge-maker'
 
-import { joinUrl } from '../string/main'
-
 import type { Format } from 'badge-maker'
+
+import { joinUrl } from '@/string'
 
 type MdLink = {
 	name    : string
@@ -15,10 +15,11 @@ type MdLink = {
 
 /**
  * Creates a Markdown link or image from a name and URL.
- * @param {string} name - The name of the link.
- * @param {string} URL - The URL of the link.
- * @param {string} [imgURL] - The URL of an image of the link. If 'img', the function will return an image link.
- * @returns {string} - The constructed Markdown link or image.
+ *
+ * @param   {string} name     - The name of the link.
+ * @param   {string} URL      - The URL of the link.
+ * @param   {string} [imgURL] - The URL of an image of the link. If 'img', the function will return an image link.
+ * @returns {string}          - The constructed Markdown link or image.
  */
 export const createMdLink = ( {
 	name, URL, imgURL,
@@ -30,8 +31,9 @@ export const createMdLink = ( {
 
 /**
  * Constructs Markdown links or images from an array of links.
- * @param {Array<MdLink>} links - The links to construct.
- * @returns {string} - The constructed Markdown string.
+ *
+ * @param   {Array<MdLink>} links - The links to construct.
+ * @returns {string}              - The constructed Markdown string.
  */
 export const createMdLinks = (
 	links: Array<MdLink>,
@@ -50,6 +52,7 @@ export const createMdLinks = (
 
 /**
  * Cheate shields.io SVGs.
+ *
  * @see https://www.npmjs.com/package/badge-maker
  */
 export const createBadgeSVG = makeBadge
@@ -70,7 +73,8 @@ type BadgeURL = {
 }
 
 /**
- * Create shields.io URL
+ * Create shields.io URL.
+ *
  * @see https://shields.io/badges/
  * @example
  * const badgeURL = createBadgeURL({path: 'badge/any_text-you_like-blue'})

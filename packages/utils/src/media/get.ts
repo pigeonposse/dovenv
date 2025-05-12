@@ -1,6 +1,7 @@
-import { MediaInput }    from './types'
-import { getStringType } from '../string/main'
-import { readFile }      from '../sys/super/main'
+import { MediaInput } from './types'
+
+import { getStringType } from '@/string'
+import { readFile }      from '@/sys/super'
 
 const _fetchImage = async ( url: string | URL ) => {
 
@@ -29,7 +30,7 @@ export const getMediaInput = async ( input: MediaInput ): Promise<Buffer> => {
 		const type = getStringType( input )
 		if ( type === 'url' ) return await _fetchImage( input )
 		else if ( type === 'path' ) return await readFile( input )
-		else return Buffer.from( input,  'utf-8' )
+		else return Buffer.from( input, 'utf-8' )
 
 	}
 	else if ( input instanceof URL )

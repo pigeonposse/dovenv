@@ -1,5 +1,5 @@
-import { promptLine } from './main'
-import { color }      from '../../../styles/color'
+import { promptLineGroup } from './main'
+import { color }           from '../../../styles/color'
 
 // log.verbose = true
 // log.error( 'es un error' )
@@ -8,7 +8,7 @@ import { color }      from '../../../styles/color'
 // log.debug( 'es un debug' )
 // log.fatal( 'es un fatal' )
 
-const results = await promptLine( {
+const results = await promptLineGroup( {
 	intro    : color.white( color.bgCyan( ' clippo init ' ) ),
 	outro    : 'Succesfully finished 🌈',
 	onCancel : p => {
@@ -46,8 +46,9 @@ const results = await promptLine( {
 			],
 			type : 'error',
 		} ),
-		columns : () => p.columns( { value : [
-			[
+
+		columns : () => p.columns( {
+			value : [
 				{
 					version     : '0.0.1',
 					name        : 'mod1',
@@ -59,13 +60,13 @@ const results = await promptLine( {
 					description : 'another description larger than the max',
 				},
 			],
-			{
+			opts : {
 				showHeaders : false,
 				minWidth    : 12,
 				config      : { description: { maxWidth: 30 } },
 			},
-		] } ),
-		form : () => p.typePrompt( 		{
+		} ),
+		form : () => p.typePrompt( {
 			type    : 'form',
 			message : 'Please provide the following information:',
 			choices : [
@@ -87,7 +88,7 @@ const results = await promptLine( {
 				},
 			],
 		} ),
-		nose : () => p.typePrompt( 		{
+		nose : () => p.typePrompt( {
 			type    : 'scale',
 			message : 'Please rate your experience',
 			// @ts-ignore

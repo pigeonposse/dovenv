@@ -2,6 +2,188 @@
 
 ## Classes
 
+### PackageManagerData
+
+#### Accessors
+
+##### cmds
+
+###### Get Signature
+
+```ts
+get cmds(): PackageManagerCmdsValue
+```
+
+Retrieves the command mappings for the package manager.
+
+The returned object contains commands for various package management tasks,
+such as auditing, updating, installing, and executing packages.
+
+###### Returns
+
+[`PackageManagerCmdsValue`](#packagemanagercmdsvalue)
+
+An object containing package manager commands.
+
+##### dev
+
+###### Get Signature
+
+```ts
+get dev(): undefined | PackageManager
+```
+
+Gets the package manager name in development mode.
+
+Checks the "devEngines.packageManager.name" property in the package.json.
+
+###### Returns
+
+`undefined` \| [`PackageManager`](#packagemanager)
+
+The package manager name.
+
+##### devCmds
+
+###### Get Signature
+
+```ts
+get devCmds(): undefined | PackageManagerCmdsValue
+```
+
+Retrieves the command mappings for the package manager in development mode.
+
+The returned object contains commands for various package management tasks,
+such as auditing, updating, installing, and executing packages, specifically
+configured for development environments.
+
+###### Returns
+
+`undefined` \| [`PackageManagerCmdsValue`](#packagemanagercmdsvalue)
+
+An object containing package manager commands for development mode, or undefined if no package manager is found.
+
+##### prod
+
+###### Get Signature
+
+```ts
+get prod(): undefined | PackageManager
+```
+
+Gets the package manager name.
+Checks the "packageManager" property in the package.json.
+
+###### Returns
+
+`undefined` \| [`PackageManager`](#packagemanager)
+
+The package manager name.
+
+##### prodCmds
+
+###### Get Signature
+
+```ts
+get prodCmds(): undefined | PackageManagerCmdsValue
+```
+
+Retrieves the command mappings for the package manager in production mode.
+
+The returned object contains commands for various package management tasks,
+such as auditing, updating, installing, and executing packages, specifically
+configured for production environments.
+
+###### Returns
+
+`undefined` \| [`PackageManagerCmdsValue`](#packagemanagercmdsvalue)
+
+An object containing package manager commands for production mode, or undefined if no package manager is found.
+
+##### value
+
+###### Get Signature
+
+```ts
+get value(): PackageManager
+```
+
+Retrieves the active package manager name.
+
+This method returns the package manager in the following order of precedence:
+- Development mode package manager, if specified.
+- Production mode package manager, if specified.
+- Default package manager.
+
+###### Returns
+
+[`PackageManager`](#packagemanager)
+
+The name of the active package manager.
+
+#### Constructors
+
+##### new PackageManagerData()
+
+```ts
+new PackageManagerData(__namedParameters: {
+  pkg: {
+     devEngines: {
+        cpu: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        libc: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        os: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        packageManager: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        runtime: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+       };
+    };
+ }): PackageManagerData
+```
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `__namedParameters` | `object` | - |
+| `__namedParameters.pkg` | `object` | - |
+| `__namedParameters.pkg.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `__namedParameters.pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+###### Returns
+
+[`PackageManagerData`](#packagemanagerdata)
+
+#### Properties
+
+| Property | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `default` | `"npm"` | `PKG_MANAGER.NPM` | Default package manager |
+
+***
+
 ### RunLocalNodeBinError
 
 #### Extends
@@ -53,6 +235,127 @@ new RunLocalNodeBinError(message?: string, options?: ErrorOptions): RunLocalNode
 
 ***
 
+### RuntimeData
+
+#### Accessors
+
+##### dev
+
+###### Get Signature
+
+```ts
+get dev(): undefined | Runtime
+```
+
+Gets the runtime of the current package in development mode.
+
+Checks the "devEngines.runtime.name" property in the package.json.
+
+###### Returns
+
+`undefined` \| [`Runtime`](#runtime)
+
+The runtime name.
+
+##### prod
+
+###### Get Signature
+
+```ts
+get prod(): undefined | Runtime
+```
+
+Gets the runtime of the current package in production mode.
+
+Checks the "engines" property in the package.json.
+
+###### Returns
+
+`undefined` \| [`Runtime`](#runtime)
+
+The runtime name.
+
+##### value
+
+###### Get Signature
+
+```ts
+get value(): Runtime
+```
+
+Gets the runtime of the current package.
+
+Checks the "engines.runtime.name" property in the package.json.
+
+###### Returns
+
+[`Runtime`](#runtime)
+
+The runtime name.
+
+#### Constructors
+
+##### new RuntimeData()
+
+```ts
+new RuntimeData(__namedParameters: {
+  pkg: {
+     devEngines: {
+        cpu: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        libc: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        os: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        packageManager: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+        runtime: undefined | {
+           name: string;
+           onFail: "error" | "warn" | "ignore";
+           version: string;
+          };
+       };
+    };
+ }): RuntimeData
+```
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `__namedParameters` | `object` | - |
+| `__namedParameters.pkg` | `object` | - |
+| `__namedParameters.pkg.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `__namedParameters.pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+###### Returns
+
+[`RuntimeData`](#runtimedata)
+
+#### Properties
+
+| Property | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `default` | `"node"` | `RUNTIME.NODE` | Default package Runtime |
+
+***
+
 ### TypedError\<M, D\>
 
 A generic error class that extends the native `Error` class to include
@@ -61,7 +364,7 @@ additional contextual data.
 This class is useful for creating strongly-typed errors in TypeScript, allowing
 you to provide structured data along with the error message for improved error handling.
 
----
+---.
 
 #### Examples
 
@@ -302,7 +605,7 @@ function arePathsEqual(path1: string, path2: string): boolean
 Checks if two file paths are equal after normalization.
 Normalization ensures that differences like trailing slashes or redundant path segments are ignored.
 
----
+---.
 
 #### Parameters
 
@@ -477,6 +780,72 @@ try {
 
 ***
 
+### camel2Kebab()
+
+```ts
+function camel2Kebab(str: string): string
+```
+
+camelCase → kebab-case
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### camel2Pascal()
+
+```ts
+function camel2Pascal(str: string): string
+```
+
+camelCase → PascalCase
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### camel2Snake()
+
+```ts
+function camel2Snake(str: string): string
+```
+
+camelCase → snake_case
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
 ### cancel()
 
 ```ts
@@ -541,8 +910,8 @@ Catches errors from a promise and returns a tuple indicating success or failure.
 `Promise`\<[`undefined`, `T`] \| [`Error`]\>
 
 A promise that resolves to a tuple.
-         The tuple contains either `[undefined, T]` if the promise is resolved successfully,
-         or `[Error]` if an error occurs.
+                                                     The tuple contains either `[undefined, T]` if the promise is resolved successfully,
+                                                     or `[Error]` if an error occurs.
 
 ***
 
@@ -913,7 +1282,7 @@ https://www.npmjs.com/package/badge-maker
 function createBadgeURL(params: BadgeURL): string
 ```
 
-Create shields.io URL
+Create shields.io URL.
 
 #### Parameters
 
@@ -1087,7 +1456,7 @@ Creates a function to merge multiple configuration objects into a single configu
 `Function`
 
 A function that accepts multiple configuration objects or arrays of configuration objects
-and returns a single merged configuration object.
+                           and returns a single merged configuration object.
 
 ##### Parameters
 
@@ -1344,7 +1713,7 @@ show()
 function deserializeValidation(shape: SzType, opts?: Partial<DezerializerOptions>): ZodTypes
 ```
 
-Deserializes
+Deserializes.
 
 #### Parameters
 
@@ -1902,13 +2271,13 @@ Creates a Markdown index from the given Markdown string.
 - If the input is a path, reads the file input.
 - If the input is a URL, fetches the content.
 - if the input is a string, gets it directly.
----
+---.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `opts` | `MdTocStringOpts` | Options |
+| `opts` | `MdTocStringOpts` | Options. |
 
 #### Returns
 
@@ -1983,10 +2352,10 @@ Gets the values of a flag passed to the process.
 `undefined` \| `string`[]
 
 The values of the flag if it exists, or undefined.
-The values are returned as an array. If the flag appears multiple times, their values are concatenated.
-The flag can appear in two formats:
-- `--key=value1,value2,...` - The values are separated by commas.
-- `--key value1 value2 ...` - The values follow the flag in separate arguments.
+                                    The values are returned as an array. If the flag appears multiple times, their values are concatenated.
+                                    The flag can appear in two formats:
+                                    - `--key=value1,value2,...` - The values are separated by commas.
+                                    - `--key value1 value2 ...` - The values follow the flag in separate arguments.
 
 ***
 
@@ -2577,7 +2946,7 @@ Retrieves the HTML content from a given path or URL or string.
 - If the input is a path, reads the file content.
 - If the input is a URL, fetches the content.
 - If the input is a string, returns it directly.
----
+---.
 
 #### Parameters
 
@@ -2695,7 +3064,7 @@ Retrieves the Markdown content from a given path or URL or string.
 - If the input is a path, reads the file content.
 - If the input is a URL, fetches the content.
 - If the input is a string, returns it directly.
----
+---.
 
 #### Parameters
 
@@ -2727,7 +3096,7 @@ the title, level and anchor for each header found.
 - If the input is a path, reads the file input.
 - If the input is a URL, fetches the content.
 - if the input is a string, gets it directly.
----
+---.
 
 #### Parameters
 
@@ -2744,9 +3113,9 @@ the title, level and anchor for each header found.
  \}[]\>
 
 - An array of objects with the following properties:
-  - `level`: The header level (1-6).
-  - `title`: The header title.
-  - `anchor`: The header anchor.
+                                   - `level`: The header level (1-6).
+                                   - `title`: The header title.
+                                   - `anchor`: The header anchor.
 
 ***
 
@@ -3530,6 +3899,1062 @@ console.log( object )
 
 ***
 
+### getPackage()
+
+```ts
+function getPackage(input: PackageInput, opts?: PackageOpts): Promise<{
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+}>
+```
+
+Retrieves a package from either a file specified by path, a URL, or a package name.
+
+If the input is a URL, it retrieves the package from the npm registry.
+If the input is a path, it retrieves the package from the file at the path or the package.json file in the directory.
+If the input is a string, it retrieves the package from the npm registry with the given package name.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | [`PackageInput`](#packageinput) | The package name, URL, or path to the package. |
+| `opts`? | [`PackageOpts`](#packageopts) | Options object. |
+
+#### Returns
+
+`Promise`\<\{
+  `devEngines`: \{
+     `cpu`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `libc`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `os`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `packageManager`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `runtime`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+    \};
+ \}\>
+
+The package object.
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+#### Throws
+
+If the package is not found.
+
+#### Example
+
+```ts
+const pkg = await getPackage('@dovenv/core')
+console.log(pkg)
+
+// from npm web
+const pkg = await getPackage('https://www.npmjs.com/package/@dovenv/core')
+console.log(pkg)
+
+// from directory
+const pkg = await getPackage('./packages/core')
+console.log(pkg)
+```
+
+***
+
+### getPackageDataFromPath()
+
+```ts
+function getPackageDataFromPath(input: string): Promise<PackageData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | `string` |
+
+#### Returns
+
+`Promise`\<[`PackageData`](#packagedata)\>
+
+***
+
+### getPackageFromName()
+
+```ts
+function getPackageFromName(input: string, opts?: PackageRemoteOpts): Promise<{
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+}>
+```
+
+Retrieves a package from the npm registry.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `string` | The name of the package you want to retrieve. |
+| `opts`? | [`PackageRemoteOpts`](#packageremoteopts) | Options object. |
+
+#### Returns
+
+`Promise`\<\{
+  `devEngines`: \{
+     `cpu`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `libc`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `os`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `packageManager`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `runtime`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+    \};
+ \}\>
+
+The package object.
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+#### Throws
+
+If the package is not found.
+
+#### Example
+
+```ts
+const pkg = await getPackageFromName('@dovenv/utils')
+console.log(pkg)
+```
+
+***
+
+### getPackageFromPath()
+
+```ts
+function getPackageFromPath(input: string): Promise<{
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+}>
+```
+
+Retrieves a package from a local file path.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `string` | The path to the package. Supoorts directory paths or package.json file paths. |
+
+#### Returns
+
+`Promise`\<\{
+  `devEngines`: \{
+     `cpu`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `libc`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `os`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `packageManager`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `runtime`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+    \};
+ \}\>
+
+The package object.
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+#### Throws
+
+If the package is not found.
+
+#### Example
+
+```ts
+const pkg = await getPackageFromPath('./packages/core/package.json')
+console.log(pkg)
+
+// from directory
+const pkg = await getPackageFromPath('./packages/core')
+console.log(pkg)
+```
+
+***
+
+### getPackageFromUrl()
+
+```ts
+function getPackageFromUrl(input: PackageURL, opts?: PackageRemoteOpts): Promise<{
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+}>
+```
+
+Retrieves a package from the npm registry.
+
+If the input is a URL, it extracts the package name from the path.
+If the path starts with '/package/', the package name is the next part of the path.
+Otherwise, the package name is the first part of the path.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | [`PackageURL`](#packageurl) | The name or URL of the package you want to retrieve. |
+| `opts`? | [`PackageRemoteOpts`](#packageremoteopts) | Options object. |
+
+#### Returns
+
+`Promise`\<\{
+  `devEngines`: \{
+     `cpu`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `libc`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `os`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `packageManager`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+     `runtime`: `undefined` \| \{
+        `name`: `string`;
+        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `version`: `string`;
+       \};
+    \};
+ \}\>
+
+The package object.
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+#### Throws
+
+If the package is not found.
+
+#### Example
+
+```ts
+const pkg = await getPackageFromUrl('https://registry.npmjs.org/@dovenv/utils')
+console.log(pkg)
+
+// from npm web
+const pkg = await getPackageFromUrl('https://www.npmjs.com/package/backan?activeTab=code')
+console.log(pkg)
+```
+
+***
+
+### getPackageJsonPath()
+
+```ts
+function getPackageJsonPath(input: string): string
+```
+
+Returns the path to the package.json file for the given package path.
+
+If the given path is a directory, it appends 'package.json' to the path.
+If the given path is a file, it returns the path as is.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `string` | The path to the package. Supports directory paths or package.json file paths. |
+
+#### Returns
+
+`string`
+
+The path to the package.json file.
+
+#### Example
+
+```ts
+const pkgJsonPath = getPackageJsonPath('./packages/core/package.json')
+console.log(pkgJsonPath)
+
+// from directory
+const pkgJsonPath = getPackageJsonPath('./packages/core')
+console.log(pkgJsonPath)
+```
+
+***
+
+### getPackageManager()
+
+```ts
+function getPackageManager(input: PackageInput, opts?: {
+  pkg: PackageOpts;
+}): Promise<PackageManagerData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | [`PackageInput`](#packageinput) |
+| `opts`? | `object` |
+| `opts.pkg`? | [`PackageOpts`](#packageopts) |
+
+#### Returns
+
+`Promise`\<[`PackageManagerData`](#packagemanagerdata)\>
+
+***
+
+### getPackageManagerCommands()
+
+```ts
+function getPackageManagerCommands(manager: PackageManager, monoRepo: boolean): PackageManagerCmdsValue
+```
+
+Retrieves the package manager commands for the given package manager and monorepo mode.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `manager` | [`PackageManager`](#packagemanager) | The package manager. |
+| `monoRepo` | `boolean` | Whether the workspace is a monorepo. |
+
+#### Returns
+
+[`PackageManagerCmdsValue`](#packagemanagercmdsvalue)
+
+The package manager commands.
+
+***
+
+### getPackageManagerFromContent()
+
+```ts
+function getPackageManagerFromContent(input: {
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+ }): PackageManagerData
+```
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `object` | - |
+| `input.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `input.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+#### Returns
+
+[`PackageManagerData`](#packagemanagerdata)
+
+***
+
+### getPackageManagerFromName()
+
+```ts
+function getPackageManagerFromName(input: string, opts?: {
+  pkg: PackageRemoteOpts;
+}): Promise<PackageManagerData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | `string` |
+| `opts`? | `object` |
+| `opts.pkg`? | [`PackageRemoteOpts`](#packageremoteopts) |
+
+#### Returns
+
+`Promise`\<[`PackageManagerData`](#packagemanagerdata)\>
+
+***
+
+### getPackageManagerFromPath()
+
+```ts
+function getPackageManagerFromPath(input: string): Promise<PackageManagerData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | `string` |
+
+#### Returns
+
+`Promise`\<[`PackageManagerData`](#packagemanagerdata)\>
+
+***
+
+### getPackageManagerFromUrl()
+
+```ts
+function getPackageManagerFromUrl(input: PackageURL, opts?: {
+  pkg: PackageRemoteOpts;
+}): Promise<PackageManagerData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | [`PackageURL`](#packageurl) |
+| `opts`? | `object` |
+| `opts.pkg`? | [`PackageRemoteOpts`](#packageremoteopts) |
+
+#### Returns
+
+`Promise`\<[`PackageManagerData`](#packagemanagerdata)\>
+
+***
+
+### getPackageRepoUrl()
+
+```ts
+function getPackageRepoUrl(input: PackageInput, opts?: PackageRepoUrlOpts & {
+  pkg: PackageOpts;
+}): Promise<undefined | string>
+```
+
+Retrieves the repository URL for a package given its path, URL, name, or content.
+
+This function takes an input which can be a package path, URL, name, or content,
+and returns the repository URL, optionally appending the directory if specified in the options.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | [`PackageInput`](#packageinput) | The package path, URL, name, or content to retrieve the repository URL for. |
+| `opts`? | [`PackageRepoUrlOpts`](#packagerepourlopts) & \{ `pkg`: [`PackageOpts`](#packageopts); \} | Options for URL retrieval, including whether to append the directory. |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
+
+A promise resolving to the sanitized repository URL with optional directory, or undefined if not found.
+
+#### Throws
+
+Will throw an error if there is an unexpected error retrieving the URL.
+
+#### Example
+
+```ts
+const repoUrl = await getPackageRepoUrl('./packages/core')
+console.log(repoUrl)
+
+// from npm web
+const repoUrl = await getPackageRepoUrl('https://www.npmjs.com/package/@dovenv/utils')
+console.log(repoUrl)
+
+// from package name
+const repoUrl = await getPackageRepoUrl('@dovenv/utils')
+console.log(repoUrl)
+
+// from package content
+const pkg = await getPackage('@dovenv/utils')
+const repoUrl = await getPackageRepoUrl(pkg)
+console.log(repoUrl)
+```
+
+***
+
+### getPackageRepoUrlFromContent()
+
+```ts
+function getPackageRepoUrlFromContent(input: {
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+ }, opts?: PackageRepoUrlOpts): undefined | string
+```
+
+Retrieves the repository URL from the given package JSON content.
+
+If the repository is an object with a 'url' property, and the 'dir' option is true,
+the directory is appended to the URL.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `object` | The package JSON object containing repository information. |
+| `input.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `input.devEngines.cpu`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.libc`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.os`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.packageManager`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.runtime`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `opts`? | [`PackageRepoUrlOpts`](#packagerepourlopts) | Options for URL retrieval. |
+
+#### Returns
+
+`undefined` \| `string`
+
+The sanitized repository URL with optional directory, or undefined if not found.
+
+#### Throws
+
+Will throw an error if there is an unexpected error retrieving the URL.
+
+#### Example
+
+```ts
+const pkg = await getPackage('@dovenv/utils') // get package.json object
+const repoUrl = await getPackageRepoUrlFromContent(pkg)
+console.log(repoUrl)
+```
+
+***
+
+### getPackageRepoUrlFromName()
+
+```ts
+function getPackageRepoUrlFromName(input: string, opts?: PackageRepoUrlOpts & {
+  pkg: PackageRemoteOpts;
+}): Promise<undefined | string>
+```
+
+Retrieves the repository URL for a package given its name.
+
+This function fetches the package JSON using the package name and extracts
+the repository URL, optionally appending the directory if specified in the options.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `string` | The name of the package to retrieve the repository URL for. |
+| `opts`? | [`PackageRepoUrlOpts`](#packagerepourlopts) & \{ `pkg`: [`PackageRemoteOpts`](#packageremoteopts); \} | Options for URL retrieval, including whether to append the directory. |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
+
+A promise resolving to the sanitized repository URL with optional directory, or undefined if not found.
+
+#### Throws
+
+Will throw an error if there is an unexpected error retrieving the URL.
+
+#### Example
+
+```ts
+const repoUrl = await getPackageRepoUrlFromName('@dovenv/utils')
+console.log(repoUrl)
+```
+
+***
+
+### getPackageRepoUrlFromPath()
+
+```ts
+function getPackageRepoUrlFromPath(input: string, opts?: PackageRepoUrlOpts): Promise<undefined | string>
+```
+
+Retrieves the repository URL for a package given its file path.
+
+This function fetches the package JSON using the package path and extracts
+the repository URL, optionally appending the directory if specified in the options.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `string` | The file path of the package to retrieve the repository URL for. |
+| `opts`? | [`PackageRepoUrlOpts`](#packagerepourlopts) | Options for URL retrieval, including whether to append the directory. |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
+
+A promise resolving to the sanitized repository URL with optional directory, or undefined if not found.
+
+#### Throws
+
+Will throw an error if there is an unexpected error retrieving the URL.
+
+#### Example
+
+```ts
+const repoUrl = await getPackageRepoUrlFromPath('./packages/core')
+console.log(repoUrl)
+```
+
+***
+
+### getPackageRepoUrlFromUrl()
+
+```ts
+function getPackageRepoUrlFromUrl(input: PackageURL, opts?: PackageRepoUrlOpts & {
+  pkg: PackageRemoteOpts;
+}): Promise<undefined | string>
+```
+
+Retrieves the repository URL for a package given its URL.
+
+This function fetches the package JSON using the package URL and extracts
+the repository URL, optionally appending the directory if specified in the options.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | [`PackageURL`](#packageurl) | The URL of the package to retrieve the repository URL for. |
+| `opts`? | [`PackageRepoUrlOpts`](#packagerepourlopts) & \{ `pkg`: [`PackageRemoteOpts`](#packageremoteopts); \} | Options for URL retrieval, including whether to append the directory. |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
+
+A promise resolving to the sanitized repository URL with optional directory, or undefined if not found.
+
+#### Throws
+
+Will throw an error if there is an unexpected error retrieving the URL.
+
+#### Example
+
+```ts
+const repoUrl = await getPackageRepoUrlFromUrl('https://registry.npmjs.org/@dovenv/utils')
+console.log(repoUrl)
+```
+
+***
+
+### getPackageRuntime()
+
+```ts
+function getPackageRuntime(input: PackageInput, opts?: {
+  pkg: PackageOpts;
+}): Promise<RuntimeData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | [`PackageInput`](#packageinput) |
+| `opts`? | `object` |
+| `opts.pkg`? | [`PackageOpts`](#packageopts) |
+
+#### Returns
+
+`Promise`\<[`RuntimeData`](#runtimedata)\>
+
+***
+
+### getPackageRuntimeFromContent()
+
+```ts
+function getPackageRuntimeFromContent(input: {
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "error" | "warn" | "ignore";
+        version: string;
+       };
+    };
+ }): RuntimeData
+```
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `object` | - |
+| `input.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `input.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+
+#### Returns
+
+[`RuntimeData`](#runtimedata)
+
+***
+
+### getPackageRuntimeFromName()
+
+```ts
+function getPackageRuntimeFromName(input: string, opts?: {
+  pkg: PackageRemoteOpts;
+}): Promise<RuntimeData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | `string` |
+| `opts`? | `object` |
+| `opts.pkg`? | [`PackageRemoteOpts`](#packageremoteopts) |
+
+#### Returns
+
+`Promise`\<[`RuntimeData`](#runtimedata)\>
+
+***
+
+### getPackageRuntimeFromPath()
+
+```ts
+function getPackageRuntimeFromPath(input: string): Promise<RuntimeData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | `string` |
+
+#### Returns
+
+`Promise`\<[`RuntimeData`](#runtimedata)\>
+
+***
+
+### getPackageRuntimeFromUrl()
+
+```ts
+function getPackageRuntimeFromUrl(input: PackageURL, opts?: {
+  pkg: PackageRemoteOpts;
+}): Promise<RuntimeData>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `input` | [`PackageURL`](#packageurl) |
+| `opts`? | `object` |
+| `opts.pkg`? | [`PackageRemoteOpts`](#packageremoteopts) |
+
+#### Returns
+
+`Promise`\<[`RuntimeData`](#runtimedata)\>
+
+***
+
+### getPackageVersion()
+
+```ts
+function getPackageVersion(input: PackageInput): Promise<undefined | string>
+```
+
+Retrieves the version of a package.
+
+This function takes an input which can be a package name, URL, or path,
+and returns the version of the specified package.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | [`PackageInput`](#packageinput) | The package identifier (name, URL, or path). |
+
+#### Returns
+
+`Promise`\<`undefined` \| `string`\>
+
+A promise that resolves to the package version.
+
+#### Throws
+
+If the package is not found or an error occurs during retrieval.
+
+***
+
+### getPackageWorkspacePaths()
+
+```ts
+function getPackageWorkspacePaths(opts: Required<WorkspaceOpts> & {
+  manager: PackageManager;
+}): Promise<string[]>
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts` | `Required`\<[`WorkspaceOpts`](#workspaceopts)\> & \{ `manager`: [`PackageManager`](#packagemanager); \} |
+
+#### Returns
+
+`Promise`\<`string`[]\>
+
+***
+
 ### getPaths()
 
 Find files and directories using glob patterns.
@@ -3696,43 +5121,6 @@ function getPathsTree(props: {
 #### Returns
 
 `Promise`\<`string`\>
-
-***
-
-### getPKG()
-
-```ts
-function getPKG(packageName: string, opts?: Opts): Promise<JSONSchemaForNPMPackageJsonFiles>
-```
-
-#### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `packageName` | `string` |
-| `opts`? | `Opts` |
-
-#### Returns
-
-`Promise`\<`JSONSchemaForNPMPackageJsonFiles`\>
-
-***
-
-### getPKGVersion()
-
-```ts
-function getPKGVersion(packageName: string): Promise<undefined | string>
-```
-
-#### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `packageName` | `string` |
-
-#### Returns
-
-`Promise`\<`undefined` \| `string`\>
 
 ***
 
@@ -3917,6 +5305,24 @@ The path to the operating system's temporary directory.
 
 ***
 
+### getWorkspaceUtils()
+
+```ts
+function getWorkspaceUtils(opts?: WorkspaceOpts): WorkspaceData
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `opts`? | [`WorkspaceOpts`](#workspaceopts) |
+
+#### Returns
+
+`WorkspaceData`
+
+***
+
 ### gradient()
 
 ```ts
@@ -4030,7 +5436,7 @@ Converts HTML to Markdown.
 - If the input is a path, reads the file and converts its content.
 - If the input is a URL, fetches the content and converts it.
 - if the input is a string, converts it directly.
----
+---.
 
 #### Parameters
 
@@ -4057,7 +5463,7 @@ Converts HTML to a formatted string suitable for the terminal.
 - If the input is a path, reads the file and converts its content.
 - If the input is a URL, fetches the content and converts it.
 - if the input is a string, converts it directly.
----
+---.
 
 #### Parameters
 
@@ -4070,6 +5476,39 @@ Converts HTML to a formatted string suitable for the terminal.
 `Promise`\<`string`\>
 
 - The formatted string.
+
+***
+
+### image2DataUri()
+
+```ts
+function image2DataUri(opts: {
+  input: string;
+  type: string;
+}): Promise<string>
+```
+
+Converts an image file to a Data URI.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts` | `object` | Options. |
+| `opts.input` | `string` | The path to the image file. |
+| `opts.type`? | `string` | The MIME type to use for the Data URI. If not provided, the function will try to guess the type based on the file extension. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+- A promise that resolves to the Data URI.
+
+#### Example
+
+```ts
+const dataUri = await image2DataUri({ input: './logo.png' })
+```
 
 ***
 
@@ -4286,6 +5725,72 @@ Joins the given URL parts into a single string.
 
 ***
 
+### kebab2Camel()
+
+```ts
+function kebab2Camel(str: string): string
+```
+
+kebab-case → camelCase
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### kebab2Pascal()
+
+```ts
+function kebab2Pascal(str: string): string
+```
+
+kebab-case → PascalCase
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### kebab2Snake()
+
+```ts
+function kebab2Snake(str: string): string
+```
+
+kebab-case → snake_case
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
 ### line()
 
 ```ts
@@ -4298,17 +5803,17 @@ Generates a line with a title and customizable alignment for both the title and 
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `props`? | `LineProps` | Options object |
+| `props`? | `LineProps` | Options object. |
 
 #### Returns
 
 `string`
 
-Formatted line
+Formatted line.
 
 #### Throws
 
-If `width` is not between 1 and 100
+If `width` is not between 1 and 100.
 
 ***
 
@@ -4389,7 +5894,7 @@ Converts Markdown input to HTML.
 - If the input is a path, reads the file and converts its content.
 - If the input is a URL, fetches the content and converts it.
 - if the input is a string, converts it directly.
----
+---.
 
 #### Parameters
 
@@ -4416,14 +5921,14 @@ Converts a Markdown input to a terminal formatted string.
 - If the input is a path, reads the file and converts its content.
 - If the input is a URL, fetches the content and converts it.
 - if the input is a string, converts it directly.
----
+---.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `input` | `string` | The Markdown string, path or URL to convert. |
-| `opts`? | `Md2TerminalOpts` | Options |
+| `opts`? | `Md2TerminalOpts` | Options. |
 
 #### Returns
 
@@ -4732,6 +6237,102 @@ await openApp('xcode');
 
 ***
 
+### pascal2Camel()
+
+```ts
+function pascal2Camel(str: string): string
+```
+
+PascalCase → camelCase
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### pascal2Kebab()
+
+```ts
+function pascal2Kebab(str: string): string
+```
+
+PascalCase → kebab-case
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### pascal2Snake()
+
+```ts
+function pascal2Snake(str: string): string
+```
+
+PascalCase → snake_case
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### path2FileUrl()
+
+```ts
+function path2FileUrl(input: string): string
+```
+
+Converts a file path to a file URL.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `input` | `string` | The file path to convert. |
+
+#### Returns
+
+`string`
+
+The file URL.
+
+#### Example
+
+```ts
+const fileUrl = path2FileUrl('./path/to/file')
+console.log(fileUrl)
+//=> 'file:///path/to/file'
+```
+
+***
+
 ### performance()
 
 ```ts
@@ -4781,6 +6382,10 @@ Ask questions to user with prompt function.
 
 - Promise resolving to answers.
 
+#### See
+
+https://www.npmjs.com/package/enquirer
+
 #### Example
 
 ```ts
@@ -4800,10 +6405,6 @@ const answers = await promptGroup([
 ]);
 console.log(answers.ready, answers.age)
 ```
-
-#### See
-
-https://www.npmjs.com/package/enquirer
 
 ***
 
@@ -4919,7 +6520,7 @@ try {
 ### readDir()
 
 ```ts
-function readDir(path: string): Promise<Dirent[]>
+function readDir(path: string): Promise<Dirent<string>[]>
 ```
 
 Reads the contents of a directory.
@@ -4932,7 +6533,7 @@ Reads the contents of a directory.
 
 #### Returns
 
-`Promise`\<`Dirent`[]\>
+`Promise`\<`Dirent`\<`string`\>[]\>
 
 - A promise that resolves to an array of [fs.Dirent](https://nodejs.org/api/fs.html#class-fs-dirent) objects.
 
@@ -5462,7 +7063,7 @@ This function overrides the write method of the specified stream to replace occu
 of specified strings in the output with replacement strings. It supports custom process
 objects and stream types.
 
----
+---.
 
 #### Parameters
 
@@ -5470,7 +7071,7 @@ objects and stream types.
 | ------ | ------ | ------ |
 | `opts` | `object` | The options for replacing output. |
 | `opts.params` | `Record`\<`string`, `string`\> | Params object containing key-value pairs where each key is a string to be replaced by its corresponding value in the output. **Example** `{ 	 * 'error': 'warning' 	 * }` |
-| `opts.process`? | `Process` | processs object to replace output in. **Default** `process` |
+| `opts.process`? | `Process` | Processs object to replace output in.. **Default** `process` |
 | `opts.transform`? | (`opts`: \{ `data`: `string`; `type`: `StdType`; \}) => `string` | Function to transform the output before replacing it. **Example** `const transform = ( { data, type } ) => { return type === 'stderr' ? data.toUpperCase() : data }` |
 | `opts.type`? | [`Prettify`](#prettifyt)\<StdType \| StdType\[\]\> | Type of stream to replace output in. **Default** `'stdout'` |
 
@@ -5547,7 +7148,7 @@ function rmDeprecationAlerts(): void
 
 Suppresses deprecation warnings in the process.
 
-This function sets the `process.noDeprecation` property to `true`,
+This function sets the `process.noDeprecation` property to `true`,.
 
 Note: This is not recommended for production environments, as it might
 hide useful deprecation warnings that should be addressed.
@@ -5638,7 +7239,7 @@ console.log(obj.foo); // Output: "bar"
 function schema2ts(params: Schema2tsProps): Promise<string>
 ```
 
-JSON schema to typescript type string
+JSON schema to typescript type string.
 
 Useful, for example, to display a schema in a readable way for the user.
 
@@ -5652,7 +7253,7 @@ Useful, for example, to display a schema in a readable way for the user.
 
 `Promise`\<`string`\>
 
----
+---.
 
 #### Example
 
@@ -5689,7 +7290,7 @@ Converts a JSON schema to a TypeScript type string.
 `Promise`\<`string`\>
 
 - The TypeScript type string representation of the schema.
----
+                                                     ---.
 
 #### Example
 
@@ -5714,7 +7315,7 @@ console.log(typeString);
 function schema2zod(params: Schema2zod): Promise<string>
 ```
 
-JSON schema to zod type
+JSON schema to zod type.
 
 #### Parameters
 
@@ -5726,7 +7327,7 @@ JSON schema to zod type
 
 `Promise`\<`string`\>
 
-- zodtype in string
+- Zodtype in string.
 
 #### Example
 
@@ -5749,7 +7350,7 @@ console.log(zodSchema)
 function serializeValidation<T>(schema: T, opts?: Partial<ZerializerOptions>): Zerialize<T>
 ```
 
-Serializes and simplifies types into a JSON format
+Serializes and simplifies types into a JSON format.
 
 #### Type Parameters
 
@@ -5794,7 +7395,7 @@ Returns a string representing the content of an object as a directory structure.
 
 A string representing the content of `structure` as a directory structure.
 
----
+                                   ---.
 
 #### Example
 
@@ -5818,6 +7419,72 @@ const result = setDirTree({
 
 console.log(result);
 ```
+
+***
+
+### snake2Camel()
+
+```ts
+function snake2Camel(str: string): string
+```
+
+snake_case → camelCase
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### snake2Kebab()
+
+```ts
+function snake2Kebab(str: string): string
+```
+
+snake_case → kebab-case
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
+
+***
+
+### snake2Pascal()
+
+```ts
+function snake2Pascal(str: string): string
+```
+
+snake_case → PascalCase
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `str` | `string` | The string to convert. |
+
+#### Returns
+
+`string`
+
+- The converted string.
 
 ***
 
@@ -5894,38 +7561,30 @@ console.log(tableText);
 
 ***
 
-### ts2schema()
+### truncate()
 
 ```ts
-function ts2schema(params: Ts2Schema): Promise<SchemaObject>
+function truncate(
+   text: string, 
+   maxLength: number, 
+   ellipsis?: string): string
 ```
 
-Converts a TypeScript type to a JSON schema.
+Truncates a given string to a maximum length and adds an ellipsis (...) at the end.
 
 #### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `Ts2Schema` | Options. |
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `text` | `string` | `undefined` | The string to truncate. |
+| `maxLength` | `number` | `undefined` | The maximum length of the string. |
+| `ellipsis`? | `string` | `'…'` | The ellipsis to add at the end of the truncated string (default is '…'). |
 
 #### Returns
 
-`Promise`\<`SchemaObject`\>
+`string`
 
-The JSON schema.
-
-#### Example
-
-```ts
-const jsonSchema = await ts2schema({
-  config: {
-    path: 'path/to/MyType.ts',
-    type: 'MyType',
-  },
-})
-
-console.log(jsonSchema)
-```
+- The truncated string.
 
 ***
 
@@ -6207,7 +7866,7 @@ type Any: any;
 ```
 
 Any type
-Same as `any` type. Used only for prevent ts errors
+Same as `any` type. Used only for prevent ts errors.
 
 ***
 
@@ -6218,7 +7877,7 @@ type AnyArray: any[];
 ```
 
 Any Array type
-Same as `any[]` type. Used only for prevent ts errors
+Same as `any[]` type. Used only for prevent ts errors.
 
 ***
 
@@ -6228,7 +7887,7 @@ Same as `any[]` type. Used only for prevent ts errors
 type AssertEqual<T, U>: <V>() => V extends T ? 1 : 2 extends <V>() => V extends U ? 1 : 2 ? true : false;
 ```
 
-AssertEqual
+AssertEqual.
 
 #### Type Parameters
 
@@ -6304,7 +7963,7 @@ Parameters of the `columns` function from the `@dovenv/utils` module.
 type DeepNonNullable<T>: Prettify<_DeepNonNullable<T>>;
 ```
 
-DeepNonNullable
+DeepNonNullable.
 
 #### Type Parameters
 
@@ -6314,7 +7973,7 @@ DeepNonNullable
 
 #### Description
 
-NonNullable that works for deeply nested structure
+NonNullable that works for deeply nested structure.
 
 #### Example
 
@@ -6345,7 +8004,7 @@ type NestedProps = {
 type DeepPartial<T>: T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
 ```
 
-DeepPartial
+DeepPartial.
 
 #### Type Parameters
 
@@ -6361,7 +8020,7 @@ DeepPartial
 type DeepRequired<T>: Prettify<_DeepRequired<T>>;
 ```
 
-DeepRequired
+DeepRequired.
 
 #### Type Parameters
 
@@ -6371,7 +8030,7 @@ DeepRequired
 
 #### Description
 
-Required that works for deeply nested structure
+Required that works for deeply nested structure.
 
 #### Example
 
@@ -6401,7 +8060,7 @@ type NestedProps = {
 type ExpectEqual<T, U>: AssertEqual<T, U> extends true ? T : never;
 ```
 
-ExpectEqual
+ExpectEqual.
 
 #### Type Parameters
 
@@ -6437,7 +8096,7 @@ type Fonts: figlet.Fonts;
 type FunctionKeys<T>: { [K in keyof T]-?: NonUndefined<T[K]> extends Function ? K : never }[keyof T];
 ```
 
-FunctionKeys
+FunctionKeys.
 
 #### Type Parameters
 
@@ -6447,7 +8106,7 @@ FunctionKeys
 
 #### Description
 
-Get union type of keys that are functions in object type `T`
+Get union type of keys that are functions in object type `T`.
 
 #### Example
 
@@ -6511,7 +8170,7 @@ type MediaInput: URL | string | Buffer;
 type NonFunctionKeys<T>: { [K in keyof T]-?: NonUndefined<T[K]> extends Function ? never : K }[keyof T];
 ```
 
-NonFunctionKeys
+NonFunctionKeys.
 
 #### Type Parameters
 
@@ -6521,7 +8180,7 @@ NonFunctionKeys
 
 #### Description
 
-Get union type of keys that are non-functions in object type `T`
+Get union type of keys that are non-functions in object type `T`.
 
 #### Example
 
@@ -6540,7 +8199,7 @@ type MixedProps = {name: string; setName: (name: string) => void; someKeys?: str
 type NonUndefined<A>: A extends undefined ? never : A;
 ```
 
-NonUndefined
+NonUndefined.
 
 #### Type Parameters
 
@@ -6550,7 +8209,7 @@ NonUndefined
 
 #### Description
 
-Exclude undefined from set `A`
+Exclude undefined from set `A`.
 
 #### Example
 
@@ -6589,7 +8248,7 @@ NUMBER.
 type ObjectKeys<Values>: keyof Values;
 ```
 
-Keys of Object
+Keys of Object.
 
 #### Type Parameters
 
@@ -6605,7 +8264,7 @@ Keys of Object
 type ObjectValues<Values>: Values[keyof Values];
 ```
 
-Values of Object
+Values of Object.
 
 #### Type Parameters
 
@@ -6615,10 +8274,168 @@ Values of Object
 
 ***
 
+### PackageContent
+
+```ts
+type PackageContent: PackageJSON;
+```
+
+***
+
+### PackageData
+
+```ts
+type PackageData: {
+  content: PackageContent;
+  dir: string;
+  id: string;
+  packagePath: string;
+  repoUrl: string;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `content` | [`PackageContent`](#packagecontent) | Package.json content |
+| `dir` | `string` | Directory of package |
+| `id` | `string` | name of the package or basename to package.json |
+| `packagePath` | `string` | Path to package.json |
+| `repoUrl`? | `string` | Sanitized Repository URL |
+
+***
+
+### PackageInput
+
+```ts
+type PackageInput: PackagePath | PackageURL | PackageName | PackageContent;
+```
+
+***
+
 ### PackageJSON
 
 ```ts
-type PackageJSON: JSONSchemaForNPMPackageJsonFiles;
+type PackageJSON: Prettify<JSONSchemaForNPMPackageJsonFiles & {
+  devEngines: { [key in "cpu" | "os" | "libc" | "runtime" | "packageManager"]?: Object };
+}>;
+```
+
+***
+
+### PackageManager
+
+```ts
+type PackageManager: typeof PKG_MANAGER[keyof typeof PKG_MANAGER];
+```
+
+***
+
+### PackageManagerCmds
+
+```ts
+type PackageManagerCmds: Record<PackageManager, PackageManagerCmdsValue>;
+```
+
+***
+
+### PackageManagerCmdsValue
+
+```ts
+type PackageManagerCmdsValue: {
+  audit: string;
+  auditFix: string;
+  exec: string;
+  install: string;
+  outdated: string;
+  upDeps: string;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `audit` | `string` | Audit package(s) |
+| `auditFix` | `string` | Fix Audition package(s) |
+| `exec` | `string` | Fetches a package from the registry without installing it as a dependency, hotloads it, and runs whatever default command binary it exposes. |
+| `install` | `string` | Install packages |
+| `outdated` | `string` | Checks for outdated packages |
+| `upDeps` | `string` | Update dependencies |
+
+***
+
+### PackageName
+
+```ts
+type PackageName: string;
+```
+
+***
+
+### PackageOpts
+
+```ts
+type PackageOpts: {
+  remote: PackageRemoteOpts;
+};
+```
+
+#### Type declaration
+
+| Name | Type |
+| ------ | ------ |
+| `remote`? | [`PackageRemoteOpts`](#packageremoteopts) |
+
+***
+
+### PackagePath
+
+```ts
+type PackagePath: string;
+```
+
+***
+
+### PackageRemoteOpts
+
+```ts
+type PackageRemoteOpts: {
+  registry: string;
+  version: number | string;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `registry`? | `string` | Registry to get package from **Default** `'https://registry.npmjs.org'` |
+| `version` | `number` \| `string` | Package version **Default** `'latest'` |
+
+***
+
+### PackageRepoUrlOpts
+
+```ts
+type PackageRepoUrlOpts: {
+  dir: boolean;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `dir` | `boolean` | Returns url with directory if has one. **Default** `true` |
+
+***
+
+### PackageURL
+
+```ts
+type PackageURL: string | URL;
 ```
 
 ***
@@ -6629,7 +8446,7 @@ type PackageJSON: JSONSchemaForNPMPackageJsonFiles;
 type Prettify<T>: { [K in keyof T]: T[K] } & {};
 ```
 
-Prettify your type for better readability
+Prettify your type for better readability.
 
 #### Type Parameters
 
@@ -6751,6 +8568,14 @@ type ReturnAwaitedType<T>: Awaited<ReturnType<T>>;
 
 ***
 
+### Runtime
+
+```ts
+type Runtime: typeof RUNTIME[keyof typeof RUNTIME];
+```
+
+***
+
 ### TableData
 
 ```ts
@@ -6858,6 +8683,40 @@ type ValidateType<T>: ZodType<T>;
 | Type Parameter |
 | ------ |
 | `T` |
+
+***
+
+### WorkspaceOpts
+
+```ts
+type WorkspaceOpts: {
+  pkg: PackageContent;
+  wsDir: string;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `pkg`? | [`PackageContent`](#packagecontent) | Main package json |
+| `wsDir`? | `string` | Workspace directory **Default** `process.cwd()` |
+
+***
+
+### WorkspaceParams
+
+```ts
+type WorkspaceParams: {
+  pkg: PackageJSON;
+};
+```
+
+#### Type declaration
+
+| Name | Type |
+| ------ | ------ |
+| `pkg` | [`PackageJSON`](#packagejson) |
 
 ## Variables
 
@@ -7046,6 +8905,9 @@ const promptLine: {
      type: PromptLineMethod;
      value: ColumnData;
     }) => void;
+  log: {
+     errorWithExit: (m: string) => never;
+    };
   number: (opts: NumberParams) => Promise<string | symbol>;
   table: (opts: {
      opts: TableUserConfig;
@@ -7061,6 +8923,8 @@ const promptLine: {
 | ------ | ------ |
 | `box` | (`opts`: \{ `opts`: `Options`; `type`: [`PromptLineMethod`](#promptlinemethod); `value`: `string`; \}) => `void` |
 | `columns` | (`opts`: \{ `opts`: `GlobalOptions`; `type`: [`PromptLineMethod`](#promptlinemethod); `value`: [`ColumnData`](#columndata); \}) => `void` |
+| `log` | \{ `errorWithExit`: (`m`: `string`) => `never`; \} |
+| `log.errorWithExit` | (`m`: `string`) => `never` |
 | `number` | (`opts`: [`NumberParams`](#numberparams)) => `Promise`\<`string` \| `symbol`\> |
 | `table` | (`opts`: \{ `opts`: `TableUserConfig`; `type`: [`PromptLineMethod`](#promptlinemethod); `value`: [`TableData`](#tabledata); \}) => `void` |
 
@@ -7182,7 +9046,7 @@ const xml: {
 | Name | Type | Default value |
 | ------ | ------ | ------ |
 | `deserialize` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromXMLContent |
-| `serialize` | \<`I`\>(`obj`: `I`) => `Promise`\<`any`\> | objectToXML |
+| `serialize` | \<`I`\>(`obj`: `I`) => `Promise`\<`string`\> | objectToXML |
 
 ***
 

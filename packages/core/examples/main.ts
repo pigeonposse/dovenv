@@ -1,12 +1,12 @@
 import {
 	getCurrentDir,
 	hideBin,
+	joinPath,
 } from '@dovenv/utils'
 import process from 'node:process'
 
-import config       from './config'
-import { joinPath } from '../../utils/src/sys/main'
-import { Dovenv }   from '../src/main'
+import config     from './config'
+import { Dovenv } from '../src/main'
 
 const dovenv = new Dovenv( { config } )
 

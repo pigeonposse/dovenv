@@ -24,7 +24,7 @@ console.log( await image( {
 	},
 } ) )
 
-console.log( await image(  {
+console.log( await image( {
 	input        : 'https://avatars.githubusercontent.com/u/111685953',
 	width        : '70%',
 	height       : '70%',

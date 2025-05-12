@@ -4,8 +4,9 @@
 import type { Text2ImageProps } from './types'
 /**
  * Converts text to an image.
- * @param {Text2ImageProps} params Parameters to convert text to image.
- * @returns {Promise<Buffer>} The image buffer.
+ *
+ * @param   {Text2ImageProps} params - Parameters to convert text to image.
+ * @returns {Promise<Buffer>}        The image buffer.
  * @example
  * const buffer = await text2image( {
  *   input : 'Hello world!',

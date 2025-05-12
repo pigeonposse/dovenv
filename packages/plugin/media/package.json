@@ -18,7 +18,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pigeonposse/dovenv",
+		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/plugin/media"
 	},
 	"funding": {
@@ -33,7 +33,16 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/main.mjs"
+		".": {
+			"import": {
+				"types": "./dist/main.d.mts",
+				"default": "./dist/main.mjs"
+			},
+			"require": {
+				"types": "./dist/main.d.cts",
+				"default": "./dist/main.cjs"
+			}
+		}
 	},
 	"main": "dist/main.mjs",
 	"module": "dist/main.mjs",
@@ -48,11 +57,10 @@
 	},
 	"dependencies": {
 		"carbon-now-cli": "2.1.0",
-		"imagemin": "9.0.0",
+		"imagemin": "9.0.1",
 		"imagemin-gifsicle": "7.0.0",
 		"imagemin-jpegtran": "8.0.0",
 		"imagemin-optipng": "8.0.0",
-		"imagemin-pngquant": "10.0.0",
 		"imagemin-svgo": "11.0.1",
 		"imagemin-webp": "8.0.0",
 		"terminalizer": "0.12.0"
@@ -60,7 +68,7 @@
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",
 		"@dovenv/repo-config": "workspace:*",
-		"@types/imagemin": "9.0.0",
+		"@types/imagemin": "9.0.1",
 		"@types/imagemin-gifsicle": "7.0.4",
 		"@types/imagemin-jpegtran": "5.0.4",
 		"@types/imagemin-optipng": "5.2.4",

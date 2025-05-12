@@ -71,29 +71,39 @@ export default defineConfig(
 				},
 			},
 		},
-		pwa : { manifest : { icons : [
-			{
-				src   : 'pwa-64x64.png',
-				sizes : '64x64',
-				type  : 'image/png',
-			},
-			{
-				src   : 'pwa-192x192.png',
-				sizes : '192x192',
-				type  : 'image/png',
-			},
-			{
-				src   : 'pwa-512x512.png',
-				sizes : '512x512',
-				type  : 'image/png',
-			},
-			{
-				src     : 'maskable-icon-512x512.png',
-				sizes   : '512x512',
-				type    : 'image/png',
-				purpose : 'maskable',
-			},
-		] } },
+		twoslash  : false,
+		vitepress : {
+			ignoreDeadLinks : true,
+			vite            : { build : {
+				chunkSizeWarningLimit : 800,
+				rollupOptions         : { output : { manualChunks( id ) {
+
+					if ( id.includes( 'node_modules' ) ) return 'vendor'
+
+					return null
+
+				} } },
+			} },
+		},
+
+		// meta : { onPage : ( { context: c } ) => {
+
+		// 	// console.log( 'onPage',c.pageData.title, c.title )
+		// 	return [
+		// 		[
+		// 			'meta',
+		// 			{
+		// 				property : 'og:title',
+		// 				content  : c.pageData.title.length > 0 ? c.pageData.title : c.title,
+		// 			},
+		// 		],
+		// 	]
+
+		// } },
+
+		// pwa : { pwaAssets : {
+		// 	image  : '/public/logo.png',
+		// } },
 		links : [
 			{
 				text  : 'Project',
@@ -102,25 +112,25 @@ export default defineConfig(
 				items : [
 					{
 						text : 'Website',
-						icon : { svg: fa2svg( faGlobe ) as string  },
+						icon : { svg: fa2svg( faGlobe ) as string },
 						desc : 'Enjoy our application!',
 						link : 'https://super8.pigeonposse.com',
 					},
 					{
 						text : 'Docs',
-						icon : { svg: fa2svg( faBook )  as string },
+						icon : { svg: fa2svg( faBook ) as string },
 						desc : 'Read our documentation!',
 						link : 'https://docs.super8.pigeonposse.com',
 					},
 					{
 						text : 'Repo',
-						icon : { svg: fa2svg(  faCode ) as string },
+						icon : { svg: fa2svg( faCode ) as string },
 						desc : 'Star us on GitHub!',
 						link : 'https://github.com/pigeonposse/super8',
 					},
 					{
 						text : 'Releases',
-						icon : { svg: fa2svg( faDownload )  as string },
+						icon : { svg: fa2svg( faDownload ) as string },
 						desc : 'Check out our releases!',
 						link : 'https://github.com/pigeonposse/super8/releases',
 					},

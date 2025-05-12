@@ -1,231 +1,5 @@
 # `@dovenv/docs` - API documentation
 
-## Classes
-
-### Docs
-
-Documentation class
-
-For `build`, `dev` and `preview` documentation pages
-
-#### Constructors
-
-##### new Docs()
-
-```ts
-new Docs(conf?: DocsConfig, opts?: DocsParams): Docs
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `conf`? | [`DocsConfig`](#docsconfig) |
-| `opts`? | `DocsParams` |
-
-###### Returns
-
-[`Docs`](#docs)
-
-#### Methods
-
-##### build()
-
-```ts
-build(flags?: string[]): Promise<void>
-```
-
-__Builds the documentation site__.
-
-This command is a wrapper of the `npx vitepress build` command.
-
-###### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `flags`? | `string`[] | Flags to pass to the underlying `vitepress build` command. This allows for customization and control over the build process. |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-##### dev()
-
-```ts
-dev(flags?: string[]): Promise<void>
-```
-
-__Starts the development server__.
-
-This command is a wrapper of the `npx vitepress dev` command.
-
-###### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `flags`? | `string`[] | Flags to pass to the underlying `vitepress dev` command. The `--force` flag is always passed to ensure the server starts without prompting the user. |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-##### preview()
-
-```ts
-preview(flags?: string[]): Promise<void>
-```
-
-__Starts the preview server__.
-
-This command is a wrapper of the `npx vitepress preview` command.
-
-###### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `flags`? | `string`[] | Flags to pass to the underlying `vitepress preview` command. This allows for customization and control over the preview process. |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-#### Properties
-
-| Property | Type |
-| ------ | ------ |
-| `config` | `undefined` \| [`DocsConfig`](#docsconfig) |
-| `opts` | `DocsParams` |
-| `outputReplaced` | \{ `start`: () => `void`; `stop`: () => `void`; \} |
-| `outputReplaced.start` | () => `void` |
-| `outputReplaced.stop` | () => `void` |
-
-***
-
-### DocsPlugin
-
-#### Constructors
-
-##### new DocsPlugin()
-
-```ts
-new DocsPlugin(
-   utils: CommandSuper, 
-   opts?: DocsConfig, 
-   docsOpts?: DocsParams): DocsPlugin
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `utils` | `CommandSuper` |
-| `opts`? | [`DocsConfig`](#docsconfig) |
-| `docsOpts`? | `DocsParams` |
-
-###### Returns
-
-[`DocsPlugin`](#docsplugin)
-
-#### Methods
-
-##### build()
-
-```ts
-build(flags?: string[]): Promise<void>
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `flags`? | `string`[] |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-##### dev()
-
-```ts
-dev(flags?: string[]): Promise<void>
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `flags`? | `string`[] |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-##### generatePWAassets()
-
-```ts
-generatePWAassets(flags?: string[]): Promise<void>
-```
-
-Generate assets for PWA
-
-###### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `flags`? | `string`[] | Flags to pass '@vite-pwa/assets-generator' cli |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-###### See
-
-https://vite-pwa-org.netlify.app/assets-generator/cli.html
-
-##### preview()
-
-```ts
-preview(flags?: string[]): Promise<void>
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `flags`? | `string`[] |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-##### publishToCloudflare()
-
-```ts
-publishToCloudflare(opts: {
-  dir: string;
-  name: string;
-}): Promise<void>
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `opts` | `object` |
-| `opts.dir` | `string` |
-| `opts.name` | `string` |
-
-###### Returns
-
-`Promise`\<`void`\>
-
-#### Properties
-
-| Property | Modifier | Type |
-| ------ | ------ | ------ |
-| `docsOpts?` | `public` | `DocsParams` |
-| `opts?` | `public` | [`DocsConfig`](#docsconfig) |
-
 ## Functions
 
 ### defineConfig()
@@ -250,10 +24,34 @@ The defined configuration object.
 
 ***
 
+### docs()
+
+```ts
+function docs(args?: Omit<DocsParams, "utils">, utils?: {
+  pkg: Record<string, unknown>;
+  wsDir: string;
+}): Promise<DocsCore>
+```
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `args`? | `Omit`\<[`DocsParams`](#docsparams), `"utils"`\> | - |
+| `utils`? | `object` | - |
+| `utils.pkg`? | `Record`\<`string`, `unknown`\> | Optional package.json content as an object. |
+| `utils.wsDir`? | `string` | The workspace directory path. **Default** `process.cwd()` |
+
+#### Returns
+
+`Promise`\<`DocsCore`\>
+
+***
+
 ### docsPlugin()
 
 ```ts
-function docsPlugin(params?: DocsPluginConfig): Config
+function docsPlugin(config?: Config): Config
 ```
 
 Define a `dovenv` configuration that creates a documentation site for your workspace.
@@ -262,7 +60,7 @@ Define a `dovenv` configuration that creates a documentation site for your works
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `params`? | [`DocsPluginConfig`](#docspluginconfig) | The configuration object. |
+| `config`? | [`Config`](#config) | The configuration object. |
 
 #### Returns
 
@@ -275,7 +73,35 @@ The dovenv configuration object.
 ### getPkgConfig()
 
 ```ts
-function getPkgConfig(pkgData: JSONSchemaForNPMPackageJsonFiles): Promise<DocsConfig>
+function getPkgConfig(pkgData: {
+  devEngines: {
+     cpu: undefined | {
+        name: string;
+        onFail: "warn" | "error" | "ignore";
+        version: string;
+       };
+     libc: undefined | {
+        name: string;
+        onFail: "warn" | "error" | "ignore";
+        version: string;
+       };
+     os: undefined | {
+        name: string;
+        onFail: "warn" | "error" | "ignore";
+        version: string;
+       };
+     packageManager: undefined | {
+        name: string;
+        onFail: "warn" | "error" | "ignore";
+        version: string;
+       };
+     runtime: undefined | {
+        name: string;
+        onFail: "warn" | "error" | "ignore";
+        version: string;
+       };
+    };
+}): Promise<DocsConfig>
 ```
 
 Extracts and constructs documentation configuration from package JSON data.
@@ -284,7 +110,13 @@ Extracts and constructs documentation configuration from package JSON data.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `pkgData` | `JSONSchemaForNPMPackageJsonFiles` | The package JSON data object. |
+| `pkgData` | `object` | The package JSON data object. |
+| `pkgData.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `pkgData.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkgData.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkgData.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkgData.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkgData.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Returns
 
@@ -293,6 +125,14 @@ Extracts and constructs documentation configuration from package JSON data.
 A promise that resolves to a `DocsConfig` object containing extracted configuration details like funding URL, bugs URL, license, homepage URL, description, name, version, and contributors.
 
 ## Type Aliases
+
+### Config
+
+```ts
+type Config: DocsConfig | (utils: CommandUtils) => Response<DocsConfig>;
+```
+
+***
 
 ### DocsConfig
 
@@ -343,6 +183,7 @@ type DocsConfig: {
        };
     };
   fundingURL: string | false;
+  groupIcon: Parameters<typeof groupIconVitePlugin>[0] | false;
   input: string;
   lang: string;
   license: {
@@ -350,7 +191,9 @@ type DocsConfig: {
      url: string;
     };
   links: Links;
+  llms: LlmsConfig | false;
   logo: string;
+  meta: Meta;
   moreURL: string | false;
   name: string;
   nav: Nav;
@@ -389,6 +232,11 @@ type DocsConfig: {
        };
      radius: string;
     };
+  titleTemplate: (data: {
+     name: string;
+     title: string;
+    }) => string;
+  twoslash: Parameters<typeof transformerTwoslash>[0] | false;
   url: string;
   version: string;
   vitepress: UserConfig;
@@ -406,16 +254,16 @@ type DocsConfig: {
 | `autoSidebar.reference`? | `boolean` | Display the "Reference" section in the sidebar. **Default** `true` |
 | `bugsURL`? | `string` \| `false` | URL for the project's issue tracker or bug reports. |
 | `changelogURL`? | `string` \| `false` | CHANGELOG url of the project. |
-| `contributingURL`? | `string` \| `false` | contributing url of the project. |
+| `contributingURL`? | `string` \| `false` | Contributing url of the project. |
 | `contributors`? | \{ `actionText`: `string`; `avatar`: `string`; `desc`: `string`; `links`: `SocialLinks`; `name`: `string`; `org`: `string`; `orgLink`: `string`; `sponsor`: `string`; `title`: `string`; \}[] | Contributors information including their details and social links. |
 | `css`? | `string` | Custom CSS for the documentation site. |
 | `desc`? | `string` | - |
-| `docsPath`? | `string` | Path to the documentation files. Used for editLink in pages **Default** `'docs'` |
+| `docsPath`? | `string` | Path to the documentation files. Used for editLink in pages. **Default** `'docs'` |
 | `download`? | \{ `groups`: \{\}; `items`: \{\}; \} | Data related to downloads and version releases. |
 | `download.groups`? | \{\} | Optional grouping of download items by category. Each key in the object represents a group name and maps to a string label. **Example** `{ 		 * "extension": "extension", 		 * "app": "app", 		 * }` |
 | `download.items`? | \{\} | Optional list of downloadable items, where each key represents an item identifier. Each item includes details such as name, URL, and optionally a logo and type. |
-| `experimental`? | \{ `noTempDirOnBuild`: `boolean`; \} | Settings for experimental options. **Use at your own risk** |
-| `experimental.noTempDirOnBuild`? | `boolean` | Disable temp directory during compilation. The temp directory is used to store documentation files in the output directory during the compilation process. Used to allow input paths with '../' **Default** `false` |
+| `experimental`? | \{ `noTempDirOnBuild`: `boolean`; \} | Settings for experimental options. **Use at your own risk**. |
+| `experimental.noTempDirOnBuild`? | `boolean` | Disable temp directory during compilation. The temp directory is used to store documentation files in the output directory during the compilation process. Used to allow input paths with '../'. **Default** `false` |
 | `favicon`? | `string` | Favicon URL for the documentation site. **Default** `'/favicon.png'` |
 | `footer`? | \{ `copy`: \{ `name`: `string`; `url`: `string`; \}; `links`: \{ `email`: `string`; `instagram`: `string`; `medium`: `string`; `twitter`: `string`; `web`: `string`; \}; \} | Footer configuration with links and copyright information. |
 | `footer.copy`? | \{ `name`: `string`; `url`: `string`; \} | Copyright information for the project. |
@@ -428,19 +276,22 @@ type DocsConfig: {
 | `footer.links.twitter`? | `string` | Twitter link for the project or organization. |
 | `footer.links.web`? | `string` | Website link for the project or organization. |
 | `fundingURL`? | `string` \| `false` | URL for funding or sponsorship of the project. |
+| `groupIcon`? | `Parameters`\<*typeof* `groupIconVitePlugin`\>\[`0`\] \| `false` | Group icon options |
 | `input`? | `string` | Input directory for documentation files. **Default** `'./docs'` |
 | `lang`? | `string` | Language code for the documentation, e.g., 'en' for English. **Default** `'en'` |
 | `license`? | \{ `type`: `string`; `url`: `string`; \} | License information for the project. |
 | `license.type`? | `string` | Type of license (e.g., MIT, GPL). **Default** `'MIT'` |
 | `license.url`? | `string` | URL to the full license text. |
 | `links`? | `Links` | Additional links to display in a special page. |
+| `llms`? | `LlmsConfig` \| `false` | Configuration for LLMs text files. **See** https://llmstxt.org/ |
 | `logo`? | `string` | Logo URL for the documentation site. **Default** `'/logo.png'` |
+| `meta`? | `Meta` | - |
 | `moreURL`? | `string` \| `false` | Additional URL for more resources or links related to the project. |
 | `name`? | `string` | Name of the project or documentation. **Default** `'DOVENV'` |
 | `nav`? | `Nav` | Navigation configuration for links at the top of the documentation. |
-| `navLinks`? | `SocialLinks` | Additional navigation links. Icons IDs: https://simpleicons.org/ |
+| `navLinks`? | `SocialLinks` | Additional navigation links. Icons IDs: https://simpleicons.org/. |
 | `npmURL`? | `string` \| `false` | NPM package URL for the project. |
-| `og`? | \{ `description`: `string`; `image`: `string`; `siteName`: `string`; `title`: `string`; `twitterAccount`: `string`; `url`: `string`; \} | Open Graph meta tags for better link previews on social media. |
+| `og`? | \{ `description`: `string`; `image`: `string`; `siteName`: `string`; `title`: `string`; `twitterAccount`: `string`; `url`: `string`; \} | Open Graph meta tags for better link previews on social media. **Deprecated** |
 | `og.description`? | `string` | Description for the Open Graph metadata. |
 | `og.image`? | `string` | Image URL for the Open Graph metadata. |
 | `og.siteName`? | `string` | Site name for Open Graph metadata. |
@@ -466,23 +317,46 @@ type DocsConfig: {
 | `styles.color.secondary`? | `string` | Secondary color for the theme. |
 | `styles.color.terciary`? | `string` | Tertiary color for the theme. |
 | `styles.radius`? | `string` | Border radius for elements in the theme. |
+| `titleTemplate`? | (`data`: \{ `name`: `string`; `title`: `string`; \}) => `string` | titleTemplate for the documentation site. |
+| `twoslash`? | `Parameters`\<*typeof* `transformerTwoslash`\>\[`0`\] \| `false` | Twoslash options |
 | `url`? | `string` | URL of the project or documentation site. |
 | `version`? | `string` | - |
 | `vitepress`? | `UserConfig` | VitePress user configuration for additional options. |
 
 ***
 
-### DocsPluginConfig
+### DocsParams
 
 ```ts
-type DocsPluginConfig: DocsConfig | (utils: CommandUtils) => Promise<DocsConfig> | DocsConfig;
+type DocsParams: {
+  config: Config;
+  opts: {
+     configPath: string;
+     debug: boolean;
+     packageJsonPath: string;
+     port: number;
+    };
+  utils: CommandUtils;
+};
 ```
+
+#### Type declaration
+
+| Name | Type |
+| ------ | ------ |
+| `config`? | [`Config`](#config) |
+| `opts`? | \{ `configPath`: `string`; `debug`: `boolean`; `packageJsonPath`: `string`; `port`: `number`; \} |
+| `opts.configPath`? | `string` |
+| `opts.debug`? | `boolean` |
+| `opts.packageJsonPath`? | `string` |
+| `opts.port`? | `number` |
+| `utils` | `CommandUtils` |
 
 ## References
 
 ### default
 
-Renames and re-exports [docsPlugin](#docsplugin-1)
+Renames and re-exports [docsPlugin](#docsplugin)
 
 ## Variables
 
@@ -494,7 +368,7 @@ const autoPWAConfig: PwaOptions["pwaAssets"];
 
 Configuration for auto PWA assets generation.
 
-**Requires**: `@vite-pwa/assets-generator`
+**Requires**: `@vite-pwa/assets-generator`.
 
 #### Example
 

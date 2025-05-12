@@ -22,7 +22,7 @@ export const setConfig = async ( {
 }:{
 	root           : string
 	fnConfig?      : DocsConfig
-	/** configuration in init process. Usefull for update data */
+	/** Configuration in init process. Usefull for update data */
 	initConfig?    : DocsConfig
 	pathConfig?    : DocsConfig
 	packageConfig? : DocsConfig

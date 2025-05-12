@@ -19,8 +19,8 @@ type Cmd = {
 	/** Description of the command */
 	desc  : string
 	/** Options for the command if there are any */
-	opts? :  {
-		/** key of the option */
+	opts? : {
+		/** Key of the option */
 		[key in string]: Opt
 	}
 	/** Commands for the command if there are any */
@@ -52,12 +52,14 @@ export type CustomConfig = {
 		/** Settings for your custom command */
 		settings?: {
 			/**
-			 * Wrap the console output with the app logger
+			 * Wrap the console output with the app logger.
+			 *
 			 * @default true
 			 */
 			wrapConsole? : boolean
 			/**
-			 * Hide the command from the help menu
+			 * Hide the command from the help menu.
+			 *
 			 * @default false
 			 */
 			hide?        : boolean

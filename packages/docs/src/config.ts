@@ -17,7 +17,7 @@ export default defineConfig(
 				utils,
 				opts : { emojis: { 'utils-media': '📷' } },
 			} )
-			const pkg     = typeof utils?.config?.const?.pkg === 'object' ?  utils.config.const.pkg : {}
+			const pkg     = typeof utils?.config?.const?.pkg === 'object' ? utils.config.const.pkg : {}
 			const data    = await docs.getPkgConfig( pkg )
 			const input   = resolve( '../../docs' )
 			const output  = resolve( './build' )

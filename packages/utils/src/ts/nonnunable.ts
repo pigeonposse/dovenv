@@ -5,8 +5,9 @@ import type {
 } from './super'
 
 /**
- * DeepNonNullable
- * @description NonNullable that works for deeply nested structure
+ * DeepNonNullable.
+ *
+ * @description NonNullable that works for deeply nested structure.
  * @example
  *   type NestedProps = {
  *     first?: null | {

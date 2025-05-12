@@ -4,8 +4,9 @@ import type { Ascci2ImgOptions } from './types'
 
 /**
  * Sanitizes ASCII input by removing non-printable characters and normalizing newlines.
- * @param {string} input - The ASCII string to sanitize.
- * @returns {string} The sanitized ASCII string.
+ *
+ * @param   {string} input - The ASCII string to sanitize.
+ * @returns {string}       The sanitized ASCII string.
  */
 const sanitizeAscii = ( input: string ): string => {
 
@@ -16,8 +17,9 @@ const sanitizeAscii = ( input: string ): string => {
 
 /**
  * Convert an ASCII string to a PNG image.
- * @param {Ascci2ImgOptions} options - Options for the conversion.
- * @returns {Promise<Buffer>} The PNG image as a Buffer.
+ *
+ * @param   {Ascci2ImgOptions} options - Options for the conversion.
+ * @returns {Promise<Buffer>}          The PNG image as a Buffer.
  */
 export const ascii2image = async ( {
 	input,

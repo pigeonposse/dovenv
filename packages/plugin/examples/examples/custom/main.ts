@@ -13,7 +13,7 @@ import pkg            from '../../package.json'
 import examplesPlugin from '../../src/main'
 
 const currDir     = getCurrentDir( import.meta.url )
-const pkgDir      = joinPath( currDir, '..', '..'  )
+const pkgDir      = joinPath( currDir, '..', '..' )
 const wsDir       = joinPath( pkgDir, '..', '..', '..' )
 const packagesDir = joinPath( wsDir, 'packages' )
 const pluginDir   = joinPath( packagesDir, 'plugin' )

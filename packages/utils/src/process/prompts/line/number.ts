@@ -5,12 +5,13 @@ import {
 	symbol,
 	symbols,
 }  from './state'
-import { color } from '../../../styles/main'
+import { color } from '../../../styles'
 
 import type { NumberParams } from './types'
 
 /**
  * Prompt for number type.
+ *
  * @param   {NumberParams}             opts - NumberOptions.
  * @returns {Promise<string | symbol>}      - Promise resolving the answer.
  * @example

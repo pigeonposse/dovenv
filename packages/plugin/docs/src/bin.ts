@@ -11,7 +11,7 @@ import { docsPlugin } from './plugin'
 const { custom } = docsPlugin()
 const COMMAD     = custom?.docs
 
-await createCLI( {
+createCLI( {
 	name,
 	version,
 	opts : COMMAD?.opts,

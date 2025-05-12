@@ -26,14 +26,14 @@ export class GitAdd extends GitSuper {
 
 			console.log( this.utils.style.info.hr( cmd ) )
 			console.log( this.utils.style.success.p( out ) )
-			console.log( this.utils.style.info.hr(  ) )
+			console.log( this.utils.style.info.hr( ) )
 
 		}
 		// this._prompt.log.success( `Added to ${value} branch` )
 
 	}
 
-	async run(  ) {
+	async run( ) {
 
 		await this.init()
 		const value = await this.ask()

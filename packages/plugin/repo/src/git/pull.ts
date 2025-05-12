@@ -10,7 +10,7 @@ export class GitPull extends GitSuper {
 		try {
 
 			const res = await execChild( `gh pr create --title "${title}" --body "${body}" --base ${branch}${open ? ' --web' : ''}` )
-			if ( res.stderr  && res.stderr.trim()  !== '' ) throw new Error( res.stderr )
+			if ( res.stderr && res.stderr.trim() !== '' ) throw new Error( res.stderr )
 
 			this.utils.prompt.log.success( res.stdout )
 			return true
@@ -114,7 +114,7 @@ export class GitPull extends GitSuper {
 				run : async ( { results } ) => {
 
 					// @ts-ignore
-					const res = await this.#createPullRequest( results[data.title], results[data.body], results[data.base], results[data.open]  )
+					const res = await this.#createPullRequest( results[data.title], results[data.body], results[data.base], results[data.open] )
 					if ( !res ) this.utils.process.exit( 0 )
 
 				},

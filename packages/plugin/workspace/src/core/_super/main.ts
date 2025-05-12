@@ -25,7 +25,7 @@ Read more: ${joinUrl( this.utils.helpURL )}`
 
 	protected _title( title: string ) {
 
-		console.log( this.utils.style.section.h( title ) + '\n'  )
+		console.log( this.utils.style.section.h( title ) + '\n' )
 
 	}
 

@@ -3,9 +3,8 @@ import imagemin         from 'imagemin'
 import imageminGif      from 'imagemin-gifsicle'
 import imageminJpegtran from 'imagemin-jpegtran'
 import imageminOptipng  from 'imagemin-optipng'
-// import imageminPngquant from 'imagemin-pngquant'
-import imageminSvgo from 'imagemin-svgo'
-import imageminWebp from 'imagemin-webp'
+import imageminSvgo     from 'imagemin-svgo'
+import imageminWebp     from 'imagemin-webp'
 
 import { Core } from './core'
 
@@ -14,7 +13,7 @@ export type WebpOpts = Parameters<typeof imageminWebp>[0]
 type GifOpts = imageminGif.Options
 type JpegOpts = Parameters<typeof imageminJpegtran>[0]
 type PngOpts = Parameters<typeof imageminOptipng>[0]
-type SvgOpts =  Parameters<typeof imageminSvgo>[0]
+type SvgOpts = Parameters<typeof imageminSvgo>[0]
 
 export type ImageMinConfigValue = {
 	input   : string[]

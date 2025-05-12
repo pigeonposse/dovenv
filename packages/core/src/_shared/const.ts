@@ -27,7 +27,7 @@ export const CONFIG_EXTS = [
 	'ts',
 	'mts',
 	'cts',
-]  as const
+] as const
 
 export const OPTIONS = { KEY : {
 	key   : 'key',

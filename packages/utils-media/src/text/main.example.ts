@@ -1,15 +1,15 @@
 
-import { text2image } from './main'
 import {
 	asciiFont as font,
 	icon,
-} from '../../styles/main'
-import {
 	ensureDir,
 	getCurrentDir,
 	joinPath,
 	writeFile,
-} from '../../sys/main'
+} from '@dovenv/utils'
+
+import { text2image } from './main'
+
 // import { image } from '../image/main'
 
 const ascii = {

@@ -3,13 +3,13 @@ import {
 	box,
 } from '@dovenv/utils'
 
-import { defineConfig } from '../dist/main.mjs'
+import { defineConfig } from '../dist/main.mjs' // change it for @dovenv/core
 
 const setStructure = () => {
 
 	try {
 
-		console.log(  '\n' + box( setDirTree(  { structure : {
+		console.log( '\n' + box( setDirTree( { structure : {
 			'.vscode' : {
 				'settings.json'   : null,
 				'extensions.json' : null,

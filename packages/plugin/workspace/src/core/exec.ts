@@ -55,7 +55,7 @@ export class Execute extends Super {
 
 	}
 
-	async #auditAndOutdated( fix?: boolean  ) {
+	async #auditAndOutdated( fix?: boolean ) {
 
 		const cmd = this.utils.getPkgManagerCmds()
 
@@ -65,10 +65,10 @@ export class Execute extends Super {
 			await this.#audit()
 			await this.#outdated()
 
-			console.log(  )
+			console.log( )
 			console.log( this.utils.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmd.auditFix}` ) )
 			console.log( this.utils.style.section.li( 'For outdated dependencies use', cmd.upDeps ) )
-			console.log(  )
+			console.log( )
 
 		}
 
@@ -95,7 +95,7 @@ export class Execute extends Super {
 		const cmds = this.utils.getPkgManagerCmds()
 		// await exec( 'pnpm store prune' )
 		// await exec( 'pnpm cache delete' )
-		await exec( cmds.install  )
+		await exec( cmds.install )
 
 		if ( this.opts?.reinstall?.hook?.after ) await this.opts.reinstall.hook.after()
 
@@ -113,13 +113,14 @@ export class Execute extends Super {
 	/**
 	 * Runs an audit on the current project to check for vulnerabilities
 	 * and tries to fix them.
+	 *
 	 * @example
 	 * const x = new Execute({ ... });
 	 * await x.auditFix();
 	 */
 	async auditFix() {
 
-		await this._envolvefn( this.#auditFix(  ) )
+		await this._envolvefn( this.#auditFix( ) )
 
 	}
 
@@ -128,31 +129,34 @@ export class Execute extends Super {
 	 * If issues are found, they will be displayed in the console.
 	 * This function does not automatically fix the issues.
 	 * Use `auditFix` for automatic fixing.
+	 *
 	 * @example
 	 * const x = new Execute({ ... });
 	 * await x.audit();
 	 */
 	async audit() {
 
-		await this._envolvefn( this.#audit(  ) )
+		await this._envolvefn( this.#audit( ) )
 
 	}
 
 	/**
 	 * Checks for outdated packages in the current project.
+	 *
 	 * @example
 	 * const x = new Execute({ ... });
 	 * await x.outdated();
 	 */
 	async outdated() {
 
-		await this._envolvefn( this.#outdated(  ) )
+		await this._envolvefn( this.#outdated( ) )
 
 	}
 
 	/**
 	 * Run the audit and check outdated packages. If the `fix` property is set to true,
 	 * the audit will be fixed.
+	 *
 	 * @param {boolean} [fix] - Whether to fix the audit automatically.
 	 * @example
 	 * const x = new Execute( { ... } )
@@ -160,7 +164,7 @@ export class Execute extends Super {
 	 * ...
 	 * await x.auditAndOutdated( true )
 	 */
-	async auditAndOutdated( fix?: boolean  ) {
+	async auditAndOutdated( fix?: boolean ) {
 
 		await this._envolvefn( this.#auditAndOutdated( fix ) )
 

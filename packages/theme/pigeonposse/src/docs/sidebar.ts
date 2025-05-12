@@ -97,9 +97,10 @@ const getSidebarReferenceConstructor = async (
 
 /**
  * Generates a sidebar configuration for @dovenv/docs plugin.
- * @param {CommandUtils} utils - The Dovenv configuration.
- * @param {SidebarConfig} [opts] - The options.
- * @returns {Promise<SidebarItems>} The sidebar configuration.
+ *
+ * @param   {CommandUtils}          utils  - The Dovenv configuration.
+ * @param   {SidebarConfig}         [opts] - The options.
+ * @returns {Promise<SidebarItems>}        The sidebar configuration.
  */
 export const getSidebar = async ( {
 	utils, opts,

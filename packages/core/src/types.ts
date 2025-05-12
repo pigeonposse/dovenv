@@ -9,38 +9,39 @@ import type { CustomConfig }    from './custom/types'
 
 export type Config = {
 	/**
-	 * Name of the project
+	 * Name of the project.
 	 */
 	name?            : string
 	/**
-	 * Description of the project
+	 * Description of the project.
 	 */
 	desc?            : string
 	/**
-	 * Configuration for create `custom` commands
+	 * Configuration for create `custom` commands.
 	 */
 	custom?          : CustomConfig
 	/**
-	 * Configuration for the `check` command
+	 * Configuration for the `check` command.
 	 */
 	[CMD.CHECK]?     : CheckConfig
 	/**
-	 * Configuration for set the constants used in templates
+	 * Configuration for set the constants used in templates.
 	 */
 	[CMD.CONSTANTS]? : ConstConfig
 	/**
-	 * Configuration for the `transform` command
+	 * Configuration for the `transform` command.
 	 */
 	[CMD.TRANSFORM]? : TransformConfig
 	/**
-	 * Configuration for the `aliases`
+	 * Configuration for the `aliases`.
 	 */
 	[CMD.ALIASES]?   : AliasesConfig
 }
 
 export type Params = {
 	/**
-	 * Configuration for dovenv
+	 * Configuration for dovenv.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/core/api#config
 	 */
 	config? : Config

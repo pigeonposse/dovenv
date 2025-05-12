@@ -15,7 +15,7 @@ export class StyleLint extends LintSuper<StylelintConfig> {
 
 		this.opts = {
 			...this.opts,
-			...( files ? { files: files  } : {} ),
+			...( files ? { files: files } : {} ),
 			...( fix ? { fix: true } : {} ),
 		}
 

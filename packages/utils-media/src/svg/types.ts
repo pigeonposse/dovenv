@@ -8,7 +8,7 @@ import type { IconDefinition } from '../icons/types'
 import type { ImageProps }     from '../types'
 import type { Prettify }       from '@dovenv/utils'
 
-type SvgSharedProps =  {
+type SvgSharedProps = {
 	/**
 	 * Input to the media PATH, URL, STRING, BUFFER or IconDefinition (FONTAWESOME).
 	 */

@@ -1,5 +1,6 @@
 /**
  * Vitepress config.
+ *
  * @description Vitepress config.
  * @see https://vitepress.dev/reference/site-config
  * @see https://vitepress.dev/reference/default-theme-config
@@ -66,7 +67,7 @@ export class Config {
 	packagePath      : string
 	dovenvConfigPath : string
 
-	constructor(  ) {
+	constructor( ) {
 
 		const configGlobals = getConfigGlobals()
 
@@ -84,7 +85,7 @@ export class Config {
 
 	}
 
-	async #getPathConfig(  ): Promise<GetConfig | undefined> {
+	async #getPathConfig( ): Promise<GetConfig | undefined> {
 
 		let path = this.configPath
 
@@ -167,7 +168,7 @@ export class Config {
 
 					if ( pkg ) {
 
-						config = mergeConfig(  await getPkgConfig( pkg ), config )
+						config = mergeConfig( await getPkgConfig( pkg ), config )
 
 					}
 
@@ -242,8 +243,8 @@ export class Config {
 		setGlobals( globals.DOVENV_DOCS_CONFIG, config.config )
 		setGlobals( globals.DOVENV_DOCS_DATA, config.data )
 
-		console.debug( 'DOVENV_DOCS_DATA',  config.data )
-		console.debug( 'DOVENV_DOCS_CONFIG',  config.config )
+		console.debug( 'DOVENV_DOCS_DATA', config.data )
+		console.debug( 'DOVENV_DOCS_CONFIG', config.config )
 
 		return {
 			config : config.config,

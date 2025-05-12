@@ -16,7 +16,7 @@ export class Scripts extends Super implements InfoInterface {
 		let paths = await this.utils.getPkgPaths(),
 			res   = ''
 
-		if ( key && key?.length !== 0  ) paths = getMatch( paths, key )
+		if ( key && key?.length !== 0 ) paths = getMatch( paths, key )
 
 		console.debug( {
 			key,
@@ -34,7 +34,7 @@ export class Scripts extends Super implements InfoInterface {
 
 				for ( const key in data.scripts ) {
 
-					scripts.push( [ this.utils.style.section.lk(  key  ), this.utils.style.section.lv( data.scripts[key]  || '' ) ] )
+					scripts.push( [ this.utils.style.section.lk( key ), this.utils.style.section.lv( data.scripts[key] || '' ) ] )
 
 				}
 
@@ -48,7 +48,7 @@ export class Scripts extends Super implements InfoInterface {
 
 			const content = this.utils.style.table( tableContent, { singleLine: true } )
 
-			res += this.utils.style.box(  {
+			res += this.utils.style.box( {
 				data   : content,
 				title  : this.utils.style.section.msg( data.name || '' ),
 				border : false,
@@ -57,7 +57,7 @@ export class Scripts extends Super implements InfoInterface {
 			if ( lastIndex !== index ) res += '\n\n'
 
 		}
-		return this.utils.style.box(  {
+		return this.utils.style.box( {
 			data   : res,
 			border : false,
 		} )

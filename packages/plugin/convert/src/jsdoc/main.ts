@@ -11,7 +11,7 @@ import type {
 
 export type Jsdoc2MarkdownProps = ConvertPropsSuper & {
 	/**
-	 * Jsdoc options
+	 * Jsdoc options.
 	 */
 	opts? : jsdoc2md.RenderOptions | jsdoc2md.JsdocOptions
 }

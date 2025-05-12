@@ -13,8 +13,8 @@ import {
 } from '@dovenv/utils'
 
 import pkg              from '../../../package.json'
-import { defineConfig } from '../dist/main.mjs' // change it for @dovenv/core
 import { version }      from '../package.json'
+import { defineConfig } from '../src/main' // change it for @dovenv/core
 
 const currentDir = getCurrentDir( import.meta.url )
 const wsDir      = joinPath( currentDir, '..', '..', '..' ) // My workspace path
@@ -73,18 +73,18 @@ export default defineConfig( {
 		},
 	},
 	/**
-	 * Create custom commands
+	 * Create custom commands.
 	 */
 	custom : {
 		/**
-		 * Create simple command for show structure
+		 * Create simple command for show structure.
 		 */
 		structure : {
 			desc : 'Print structure for the workspace.',
 			fn   : async ( { utils } ) => console.log( utils.config?.const?.sctructure ),
 		},
 		/**
-		 * Create nested command
+		 * Create nested command.
 		 */
 		greet : {
 			desc : 'Say hello to username',
@@ -165,14 +165,14 @@ export default defineConfig( {
 		},
 	},
 	/**
-	 * Create a alias for `struture` command
+	 * Create a alias for `struture` command.
 	 */
 	alias : { struct : {
 		desc : 'Set structure for the workspace',
 		cmd  : 'dovenv structure --silent',
 	} },
 	/**
-	 * Configuration for the transform command
+	 * Configuration for the transform command.
 	 */
 	transform : {
 		none : {
@@ -185,7 +185,7 @@ export default defineConfig( {
 		},
 	},
 	/**
-	 * Configuration for the check command
+	 * Configuration for the check command.
 	 */
 	check : {
 		packages : {

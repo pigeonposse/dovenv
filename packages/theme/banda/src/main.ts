@@ -24,48 +24,56 @@ export {
 export type Config = {
 	/**
 	 * Lint configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/lint
 	 * @see https://www.npmjs.com/package/@dovenv/lint
 	 */
 	lint?      : lint.Config
 	/**
 	 * Documentation configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/docs
 	 * @see https://www.npmjs.com/package/@dovenv/docs
 	 */
 	docs?      : docs.Config
 	/**
 	 * Convert configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/convert
 	 * @see https://www.npmjs.com/package/@dovenv/convert
 	 */
 	convert?   : convert.Config
 	/**
 	 * To-Do configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/todo
 	 * @see https://www.npmjs.com/package/@dovenv/todo
 	 */
 	todo?      : todo.Config
 	/**
 	 * Examples configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/examples
 	 * @see https://www.npmjs.com/package/@dovenv/examples
 	 */
 	examples?  : examples.Config
 	/**
 	 * Templates configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/templates
 	 * @see https://www.npmjs.com/package/@dovenv/templates
 	 */
 	templates? : templates.Config
 	/**
 	 * Workspace configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/workspace
 	 * @see https://www.npmjs.com/package/@dovenv/workspace
 	 */
 	workspace? : workspace.Config
 	/**
 	 * Repository configuration.
+	 *
 	 * @see https://dovenv.pigeonposse.com/guide/plugin/repo
 	 * @see https://www.npmjs.com/package/@dovenv/repo
 	 */
@@ -75,15 +83,16 @@ export type Config = {
 /**
  * Merges multiple `banda-theme` configuration objects into a single configuration.
  */
-export const mergeConfig = createMergeDataFn<Config>(  )
+export const mergeConfig = createMergeDataFn<Config>( )
 
 /**
  * Banda theme configuration for `dovenv`.
  *
  * This function takes an optional object with keys matching the plugin names
  * and values that are the respective plugin's configuration objects.
- * @param {Config} opts - Optional configuration options.
- * @returns {import('@dovenv/core').Config} The `dovenv` configuration object.
+ *
+ * @param   {Config}                        opts - Optional configuration options.
+ * @returns {import('@dovenv/core').Config}      The `dovenv` configuration object.
  * @example
  * import { bandaTheme } from '@dovenv/theme-banda'
  *

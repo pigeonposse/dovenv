@@ -20,7 +20,7 @@ export class ConvertSuper<Props extends ConvertPropsSuper> {
 
 	}
 
-	protected async  _getContent( input: string[] | string ) {
+	protected async _getContent( input: string[] | string ) {
 
 		return await getStringsFrom(
 			typeof input === 'string'
