@@ -7,4 +7,4 @@ export * from './cache'
 export * from './os'
 export * from './compress'
 export * from './extra'
-
+export * from './env-paths'

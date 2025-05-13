@@ -78,7 +78,7 @@ export class GitPush extends GitSuper {
 							} )
 							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-							cache.set( { [data.staged]: res } )
+							await cache.set( { [data.staged]: res } )
 							if ( !res ) return
 
 							const files = await commitInstance.getStagedFiles()
@@ -94,7 +94,7 @@ export class GitPush extends GitSuper {
 							} )
 							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-							cache.set( { [data.view]: res } )
+							await cache.set( { [data.view]: res } )
 
 							if ( res ) await pkgInstance.showPackageVersion()
 							return res
@@ -108,7 +108,7 @@ export class GitPush extends GitSuper {
 							} )
 							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-							cache.set( { [data.update]: res } )
+							await cache.set( { [data.update]: res } )
 
 							return res
 
@@ -135,7 +135,7 @@ export class GitPush extends GitSuper {
 						[data.origin] : results[data.origin] as string,
 					}
 
-					cache.set( res )
+					await cache.set( res )
 					if ( res[data.add] && res[data.origin] ) {
 
 						try {
@@ -171,7 +171,7 @@ export class GitPush extends GitSuper {
 							} )
 							if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-							cache.set( { [data.workflow]: res } )
+							await cache.set( { [data.workflow]: res } )
 
 							return res
 

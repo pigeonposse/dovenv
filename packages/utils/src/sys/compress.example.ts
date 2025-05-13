@@ -1,30 +1,35 @@
-import fs   from 'fs'
-import path from 'path'
-
 import {
 	compressFile,
 	decompress,
 	compressDir,
 	compressFiles,
-} from './compress'
+	ensureDir,
+	resolvePath,
+	joinPath,
+	existsFile,
+	writeFile,
+	existsDir,
+	copyFile,
+	createDir,
+} from '.'
 
-const output    = path.join( process.cwd(), 'build', 'compress' )
-const testDir   = path.resolve( output, 'testDir' )
-const testFile  = path.resolve( output, 'testFile.txt' )
-const outputDir = path.resolve( output, 'output' )
+const output    = joinPath( process.cwd(), 'build', 'compress' )
+const testDir   = resolvePath( output, 'testDir' )
+const testFile  = resolvePath( output, 'testFile.txt' )
+const outputDir = resolvePath( output, 'output' )
 
-// Helper function to create a test file
-if ( !fs.existsSync( testFile ) ) {
+await ensureDir( output )
 
-	fs.writeFileSync( testFile, 'This is a test file content' )
+if ( !await existsFile( testFile ) )
+	await writeFile( testFile, 'This is a test file content' )
 
-}
+if ( !await existsDir( testDir ) ) {
 
-// Helper function to create a test directory and a test file inside it
-if ( !fs.existsSync( testDir ) ) {
-
-	fs.mkdirSync( testDir, { recursive: true } )
-	fs.copyFileSync( testFile, path.join( testDir, 'testFile.txt' ) ) // Copy the test file inside the directory
+	await createDir( testDir )
+	await copyFile( {
+		input  : testFile,
+		output : joinPath( testDir, 'testFile.txt' ),
+	} )
 
 }
 
@@ -41,8 +46,7 @@ console.log( 'Testing file decompression...' )
 await decompress( {
 	input  : compressedFilePath,
 	output : outputDir,
-	format : 'zip',
-	remove : true, // Optionally remove the original compressed file
+	remove : false, // Optionally remove the original compressed file
 } )
 console.log( 'File decompressed successfully.' )
 
@@ -58,10 +62,10 @@ console.log( 'Directory compressed to:', compressedDirPath )
 // Test decompressing a directory
 console.log( 'Testing directory decompression...' )
 await decompress( {
-	input  : compressedDirPath,
-	output : outputDir,
-	format : 'tgz',
-	remove : true,
+	input   : compressedDirPath,
+	output  : outputDir,
+	newName : 'decompressed',
+	format  : 'tgz',
 } )
 console.log( 'Directory decompressed successfully.' )
 

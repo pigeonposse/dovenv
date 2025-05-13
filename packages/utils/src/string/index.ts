@@ -1,5 +1,6 @@
 
 import { matcher } from 'matcher'
+import * as emoji  from 'node-emoji'
 import stringWidth from 'string-width'
 
 import { isPath } from '@/sys/super'
@@ -7,8 +8,12 @@ import { isPath } from '@/sys/super'
 export * from './placeholder'
 export * from './count'
 export * from './cases'
+export * from './ansi'
 
-export { stringWidth }
+export {
+	stringWidth,
+	emoji,
+}
 
 /**
  * Indents a given string by prefixing each line with a given prefix

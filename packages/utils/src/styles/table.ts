@@ -1,6 +1,8 @@
-import boxen                   from 'boxen'
-import columnify               from 'columnify'
-import { table as tableFunct } from 'table'
+import boxen                       from 'boxen'
+import Table                       from 'cli-table3'
+import { TableConstructorOptions } from 'cli-table3'
+import columnify                   from 'columnify'
+import { table as tableFunct }     from 'table'
 
 import type { Options }         from 'boxen'
 import type { TableUserConfig } from 'table'
@@ -10,6 +12,9 @@ export type TableOpts = TableUserConfig
 export type BoxOpts = Options
 export type ColumnOpts = columnify.GlobalOptions
 export type ColumnData = Record<string, unknown> | Record<string, unknown>[]
+
+export type { TableConstructorOptions }
+export { Table }
 
 /**
  * Generates a text-based table from the provided data array.

@@ -128,7 +128,7 @@ export class GitHubWorkflow extends GHSuper {
 
 						}
 
-						cache.set( answers )
+						await cache.set( answers )
 						const createdWorkflow = await execChild( `gh workflow run ${answers.file}.yml ${formattedInputs}` )
 						if ( createdWorkflow.stderr ) throw Error( 'Error creating workflow' )
 

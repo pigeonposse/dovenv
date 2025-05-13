@@ -1,4 +1,3 @@
-import ansiAlign    from 'ansi-align'
 import figlet       from 'figlet'
 import figures      from 'figures'
 import terminalLink from 'terminal-link'
@@ -63,7 +62,3 @@ export const link = ( text: string, url: string ): string => {
 
 }
 
-/**
- * Aligns text in the terminal.
- */
-export const align: typeof ansiAlign = ansiAlign

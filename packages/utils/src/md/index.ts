@@ -1,9 +1,10 @@
-import { Marked }         from 'marked'
-import { markedTerminal } from 'marked-terminal'
-import rehypeParse        from 'rehype-parse'
-import rehypeRemark       from 'rehype-remark'
-import remarkStringify    from 'remark-stringify'
-import { unified }        from 'unified'
+import { Marked }      from 'marked'
+import rehypeParse     from 'rehype-parse'
+import rehypeRemark    from 'rehype-remark'
+import remarkStringify from 'remark-stringify'
+import { unified }     from 'unified'
+
+import { markedTerminal } from './terminal'
 
 import type { MarkedExtension } from 'marked'
 

@@ -81,8 +81,7 @@
 		"tiny-updater": "3.5.3"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*",
-		"@types/update-notifier": "6.0.8"
+		"@dovenv/repo-config": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

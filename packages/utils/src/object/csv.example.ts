@@ -9,4 +9,5 @@ Charlie,35,Chicago
 
 const obj    = await csv.deserialize( csvData )
 const string = await csv.serialize( obj )
+
 console.log( obj, string )

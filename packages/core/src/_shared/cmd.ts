@@ -22,6 +22,7 @@ import {
 	getPackageRuntimeFromContent,
 	getPackageWorkspacePaths,
 	getPackageDataFromPath,
+	getBaseName,
 } from '@dovenv/utils'
 
 import * as consts      from './const'
@@ -350,10 +351,11 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 *   updatedRes,
 	 * } )
 	 */
-	async cache<V extends Record<string, unknown>>( id: string, values: V ) {
+	async cache<V extends Record<string, unknown>>( id: string, values: V ): ReturnType<typeof cache<V>> {
 
-		return await cache( {
-			projectName : consts.BIN_NAME,
+		return await cache<V>( {
+			projectName : this.pkg?.name || getBaseName( this.wsDir ) || 'shared',
+			suffix      : consts.BIN_NAME,
 			id,
 			values      : values,
 		} )

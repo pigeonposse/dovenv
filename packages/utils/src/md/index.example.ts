@@ -50,3 +50,8 @@ console.log( await geMDTocString( {
 	title    : 'Table of contents',
 	removeH1 : true,
 } ) )
+
+title( 'URL markdown to terminal' )
+console.log(
+	await md2terminal( 'https://raw.githubusercontent.com/pigeonposse/.github/refs/heads/main/profile/README.md' ),
+)

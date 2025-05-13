@@ -1,14 +1,21 @@
-/* eslint-disable camelcase */
-import { parse }     from 'csv-parse'
-import { stringify } from 'csv-stringify/sync'
+
+import {
+	format,
+	parseString as parse,
+} from 'fast-csv'
 
 import { getFileContent } from './_super'
 
-import type { CommonObj }                   from './_super'
-import type { Options as ParseOptions }     from 'csv-parse'
-import type { Options as StringifyOptions } from 'csv-stringify'
+import type { CommonObj } from './_super'
+import type {
+	ParserOptionsArgs,
+	FormatterOptionsArgs,
+} from 'fast-csv'
+
+import { Any } from '@/ts'
 
 type CommonCSV = CommonObj
+
 export const getObjectFromCSVFile = async <Res extends CommonCSV = CommonCSV>( path: string ) => {
 
 	try {
@@ -28,36 +35,51 @@ export const getObjectFromCSVFile = async <Res extends CommonCSV = CommonCSV>( p
 
 export const getObjectFromCSVContent = async <Res extends CommonCSV = CommonCSV>(
 	content: string,
-	options: ParseOptions = {
-		delimiter        : ',',
-		columns          : true,
-		skip_empty_lines : true,
+	options: ParserOptionsArgs = {
+		delimiter   : ',',
+		ignoreEmpty : true,
+		headers     : true,
 	},
 ): Promise<Res> => {
 
 	return new Promise( ( resolve, reject ) => {
 
-		parse( content, options, ( err, output ) => {
-
-			if ( err ) reject( err )
-			else resolve( output as Res )
-
-		} )
+		const rows: Any[] = []
+		parse( content, options )
+			.on( 'data', row => rows.push( row ) )
+			.on( 'end', () => resolve( rows as Res ) )
+			.on( 'error', err => reject( err ) )
 
 	} )
 
 }
 
-const object2csv = async <I extends CommonCSV>( obj: I, options?: StringifyOptions ): Promise<string> => {
+const object2csv = async <I extends CommonCSV>(
+	obj: I,
+	options: FormatterOptionsArgs<Any, Any> = {
+		delimiter : ',',
+		headers   : true,
+	},
+): Promise<string> => {
 
-	if ( Array.isArray( obj ) ) return stringify( obj, {
-		header : true,
-		...options,
-	} )
-	// @ts-ignore
-	return stringify( obj, {
-		header : true,
-		...options,
+	return new Promise( ( resolve, reject ) => {
+
+		const result: string[] = []
+		const writeStream      = format( {
+			...options,
+			headers : true,
+		} )
+
+		writeStream
+			.on( 'data', ( chunk: string ) => result.push( chunk ) )
+			.on( 'end', () => resolve( result.join( '' ) ) )
+			.on( 'error', err => reject( err ) )
+
+		if ( Array.isArray( obj ) ) obj.forEach( row => writeStream.write( row ) )
+		else writeStream.write( obj )
+
+		writeStream.end()
+
 	} )
 
 }

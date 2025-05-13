@@ -166,7 +166,7 @@ export class Packages extends Repo {
 						initialValue : cached[data.prepare],
 					} )
 					if ( p.isCancel( res ) ) return await this.utils.onCancel()
-					cache.set( { [data.prepare]: res } )
+					await cache.set( { [data.prepare]: res } )
 					if ( !res ) return res
 					await this.prepare()
 					console.log( this.utils.style.info.hr() )
@@ -179,7 +179,7 @@ export class Packages extends Repo {
 						initialValue : cached[data.version],
 					} )
 					if ( p.isCancel( res ) ) return await this.utils.onCancel()
-					cache.set( { [data.version]: res } )
+					await cache.set( { [data.version]: res } )
 
 					if ( !res ) return res
 
@@ -231,7 +231,7 @@ export class Packages extends Repo {
 					} )
 					if ( p.isCancel( res ) ) return await this.utils.onCancel()
 
-					cache.set( { [data.publishOrRun]: res } )
+					await cache.set( { [data.publishOrRun]: res } )
 
 					if ( res === publishOrRun.publish ) {
 
@@ -247,7 +247,7 @@ export class Packages extends Repo {
 						} )
 
 						if ( p.isCancel( command ) ) return await this.utils.onCancel()
-						cache.set( { [data.command]: command } )
+						await cache.set( { [data.command]: command } )
 						await this.publish( command )
 						console.log( this.utils.style.info.hr() )
 

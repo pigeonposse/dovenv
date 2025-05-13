@@ -71,7 +71,7 @@ export class GitPull extends GitSuper {
 						},
 					} ) as string
 
-					cache.set( { [data.title]: res } )
+					await cache.set( { [data.title]: res } )
 					return res
 
 				},
@@ -89,14 +89,14 @@ export class GitPull extends GitSuper {
 						},
 					} ) as string
 
-					cache.set( { [data.body]: res } )
+					await cache.set( { [data.body]: res } )
 					return res
 
 				},
 				[data.base] : async () => {
 
 					const res = await branchInstance.askSelectBranch( cached[data.base] || defaultBranch )
-					cache.set( { [data.base]: res } )
+					await cache.set( { [data.base]: res } )
 					return res
 
 				},
@@ -107,7 +107,7 @@ export class GitPull extends GitSuper {
 						initialValue : cached[data.open],
 					} ) as boolean
 
-					cache.set( { [data.open]: res } )
+					await cache.set( { [data.open]: res } )
 					return res
 
 				},

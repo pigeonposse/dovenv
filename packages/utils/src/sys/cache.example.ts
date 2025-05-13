@@ -1,8 +1,6 @@
 import { cache } from './cache'
 
-const {
-	get, set, defaultValues,
-} = await cache( {
+const c      = await cache( {
 	projectName : 'dovenv',
 	id          : 'example-setting',
 	values      : {
@@ -21,18 +19,21 @@ const {
 		],
 	},
 } )
-
-const res = {
-	boolean    : get( 'boolean' ),
-	number     : get( 'number' ),
-	string     : get( 'string' ),
-	array      : get( 'array' ),
-	arrayMulti : get( 'arrayMulti' ),
+const {
+	get, set, path,
+} = c
+const cached = {
+	boolean     : await get( 'boolean' ),
+	number      : await get( 'number' ),
+	string      : await get( 'string' ),
+	array       : await get( 'array' ),
+	nonExistent : await get( 'nonExistent' ),
+	arrayMulti  : await get( 'arrayMulti' ),
 }
 
-set( {
+await set( {
 	boolean : false,
-	number  : 10,
+	number  : 12,
 	string  : 'es',
 	array   : [
 		0,
@@ -42,10 +43,15 @@ set( {
 	],
 } )
 
-const updatedRes = get()
+await c.reset()
+
+const updated = await get()
 
 console.log( {
-	initRes : res,
-	updatedRes,
-	defaultValues,
+	default     : c.defaultValues,
+	cached,
+	updated,
+	path,
+	projectName : 'dovenv',
+	id          : 'example-setting',
 } )

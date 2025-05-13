@@ -176,7 +176,7 @@ export class GitCommit extends GitSuper {
 								initialValue : types.some( t => t.value === cached[data.type] ) ? cached[data.type] : undefined,
 							} ) as string
 							: undefined
-						cache.set( { [data.type]: result } )
+						await cache.set( { [data.type]: result } )
 						return result
 
 					},
@@ -194,7 +194,7 @@ export class GitCommit extends GitSuper {
 							} ) as string
 							: undefined
 
-						cache.set( { [data.scope]: result } )
+						await cache.set( { [data.scope]: result } )
 						return result
 
 					},
@@ -202,17 +202,17 @@ export class GitCommit extends GitSuper {
 
 						const result = await p.text( {
 							message     : 'Commit message',
-							placeholder : cache.get( data.msg ),
+							placeholder : await cache.get( data.msg ),
 							validate    : ( msg: string ) => {
 
 								if ( !msg.trim() ) return 'Commit message is required'
 
 							},
 							// Disabled because it's for better user experience
-							//initialValue : cache.get( data.msg ),
+							//initialValue : await cache.get( data.msg ),
 						} ) as string
 
-						cache.set( { [data.msg]: result } )
+						await cache.set( { [data.msg]: result } )
 						return result
 
 					},

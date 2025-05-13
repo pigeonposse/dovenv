@@ -14,7 +14,6 @@ import {
 	isDirectory,
 	joinPath as join,
 	removeFile,
-	renamePath,
 } from './super'
 
 import { getRandomUUID } from '@/string'
@@ -41,7 +40,7 @@ type DecompresFileOptions = {
 	/**
 	 * The directory where the file should be decompressed.
 	 */
-	output   : string
+	output?  : string
 	/**
 	 * The new name for the decompressed file or directory.
 	 */
@@ -66,6 +65,7 @@ type DecompresFileOptions = {
 	 */
 	opts?    : CompressTypeAdvancedOpts
 }
+
 type CompressOptionsShared = {
 	/**
 	 * Output directory
@@ -179,7 +179,7 @@ export const decompress = async ( params : DecompresFileOptions ) => {
 
 	const {
 		input,
-		output,
+		output = _getDefaultOutputDirectory(),
 		newName,
 		remove = false,
 		format = AUTO_FORMAT,
@@ -192,21 +192,37 @@ export const decompress = async ( params : DecompresFileOptions ) => {
 	const outputPath     = join( output, outputFileName )
 
 	if ( formatC === FORMATS.ZIP )
-		await zip.uncompress( input, output, opts?.zip || { strip: 1 } )
+		await zip.uncompress( input, outputPath, opts?.zip || { strip: 1 } )
 	else if ( formatC === FORMATS.TAR )
-		await tar.uncompress( input, output, opts?.tar || { strip: 1 } )
+		await tar.uncompress( input, outputPath, opts?.tar || { strip: 1 } )
 	else if ( formatC === FORMATS.TGZ )
-		await tgz.uncompress( input, output, opts?.tgz || { strip: 1 } )
+		await tgz.uncompress( input, outputPath, opts?.tgz || { strip: 1 } )
 	else if ( formatC === FORMATS.GZ )
-		await gzip.uncompress( input, output, opts?.gzip || { strip: 1 } )
+		await gzip.uncompress( input, outputPath, opts?.gzip || { strip: 1 } )
 	else throw new Error( _setErrorFormat( format ) )
 
-	if ( newName ) await renamePath( join( output, getBaseName( input, ext ) ), outputPath )
 	if ( remove ) await removeFile( input )
 
-	return output
+	return outputPath
 
 }
+
+/**
+ * Compresses multiple files matching the given input patterns to a specified output directory.
+ *
+ * @param   {CompressFilesOptions} params - The options object.
+ * @returns {Promise<void>}               - A promise that resolves when all files have been compressed.
+ * @example
+ * await compressFiles( {
+ *   input  : [ 'src/*.js' ],
+ *   output : 'compressed',
+ *   format : 'tar',
+ *   hook   : {
+ *     beforeFile: (file) => console.log(`Compressing ${file}...`),
+ *     afterFile : (file) => console.log(`${file} compressed.`),
+ *   },
+ * } )
+ */
 
 export const compressFiles = async ( params: CompressFilesOptions ) => {
 
@@ -241,6 +257,24 @@ export const compressFiles = async ( params: CompressFilesOptions ) => {
 
 }
 
+/**
+ * Compresses a file to a specified output directory.
+ *
+ * @param   {object}          params - The options object.
+ * @returns {Promise<string>}        - A promise that resolves to the path of the compressed file.
+ * @example
+ * const compressedFilePath = await compressFile( {
+ *   input : resolve( 'file.txt' ),
+ *   output: resolve( 'compressed' ),
+ *   name  : 'renamed-compressed-file',
+ *   format: 'tar',
+ *   opts  : {
+ *     tar: {
+ *       strip: 1,
+ *     },
+ *   },
+ * } )
+ */
 export const compressFile = async ( params: CompressFileOptions ) => {
 
 	const {
@@ -253,6 +287,8 @@ export const compressFile = async ( params: CompressFileOptions ) => {
 
 	const archiveName = `${name}.${format}`
 	const archivePath = join( output, archiveName )
+
+	await ensureDir( output )
 
 	if ( format === FORMATS.ZIP )
 		await zip.compressFile( input, archivePath, opts?.zip )
@@ -268,6 +304,19 @@ export const compressFile = async ( params: CompressFileOptions ) => {
 
 }
 
+/**
+ * Compresses a directory to a specified output directory.
+ *
+ * @param   {object}          params - The options object.
+ * @returns {Promise<string>}        - A promise that resolves to the path of the compressed archive file.
+ * @example
+ * const compressedFilePath = await compressDir( {
+ *   input   : resolve(  'build' ), // Path to the directory to compress
+ *   output  : resolve(  'dist' ), // Directory where the compressed file should be saved
+ *   name    : 'compressed-archive', // Optional name for the compressed archive file
+ *   format  : 'zip', // Optional format for the compressed archive file
+ * } )
+ */
 export const compressDir = async ( params: CompressDirOptions ): Promise<string> => {
 
 	const {
@@ -280,6 +329,8 @@ export const compressDir = async ( params: CompressDirOptions ): Promise<string>
 
 	const archiveName = `${name}.${format}`
 	const archivePath = join( output, archiveName )
+
+	await ensureDir( output )
 
 	if ( format === FORMATS.ZIP )
 		await zip.compressDir( input, archivePath, opts?.zip )
@@ -295,10 +346,24 @@ export const compressDir = async ( params: CompressDirOptions ): Promise<string>
 
 }
 
+/**
+ * Compresses a file or directory to a specified output directory.
+ *
+ * @param   {object}          opts - The options object.
+ * @returns {Promise<string>}      - A promise that resolves to the path of the compressed archive file.
+ * @example
+ * const compressedFilePath = await compress( {
+ *   input   : resolve(  'build' ), // Path to the directory or file to compress
+ *   output  : resolve(  'dist' ), // Directory where the compressed file should be saved
+ *   name    : 'compressed-archive', // Optional name for the compressed archive file
+ *   format  : 'zip', // Optional format for the compressed archive file
+ * } )
+ */
 export const compress = async ( opts: CompressOptions ) => {
 
 	const isDir = await isDirectory( opts.input )
-	if ( isDir ) await compressDir( opts )
-	else await compressFile( opts )
+	return ( isDir )
+		? await compressDir( opts )
+		: await compressFile( opts )
 
 }
