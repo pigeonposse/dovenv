@@ -1,5 +1,16 @@
 # @dovenv/lint
 
+## 1.5.2
+
+### Patch Changes
+
+- performance, and feats
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.2
+  - @dovenv/eslint-config@1.5.2
+  - @dovenv/core@1.5.2
+
 ## 1.5.1
 
 ### Patch Changes

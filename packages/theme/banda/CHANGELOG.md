@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.2
+
+### Patch Changes
+
+- performance, and feats
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.2
+  - @dovenv/workspace@1.5.2
+  - @dovenv/examples@1.5.2
+  - @dovenv/convert@1.5.2
+  - @dovenv/docs@1.5.2
+  - @dovenv/lint@1.5.2
+  - @dovenv/repo@1.5.2
+  - @dovenv/todo@1.5.2
+  - @dovenv/core@1.5.2
+
 ## 1.5.1
 
 ### Patch Changes

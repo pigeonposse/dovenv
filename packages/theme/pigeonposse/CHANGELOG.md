@@ -1,5 +1,15 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.2
+
+### Patch Changes
+
+- performance, and feats
+
+- Updated dependencies []:
+  - @dovenv/theme-banda@1.5.2
+  - @dovenv/core@1.5.2
+
 ## 1.5.1
 
 ### Patch Changes

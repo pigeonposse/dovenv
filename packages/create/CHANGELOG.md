@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.5.2
+
+### Patch Changes
+
+- performance, and feats
+
 ## 1.5.1
 
 ### Patch Changes

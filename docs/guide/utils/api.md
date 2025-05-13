@@ -517,50 +517,6 @@ const myUnion = createLiteralUnion( ['one', 'two', 'three'] )
 
 ## Functions
 
-### align()
-
-Aligns text in the terminal.
-
-#### align(text, opts)
-
-```ts
-function align(text: string, opts?: {}): string
-```
-
-Aligns text in the terminal.
-
-##### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `text` | `string` |
-| `opts`? | `object` |
-
-##### Returns
-
-`string`
-
-#### align(text, opts)
-
-```ts
-function align(text: readonly string[], opts?: {}): string[]
-```
-
-Aligns text in the terminal.
-
-##### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `text` | readonly `string`[] |
-| `opts`? | `object` |
-
-##### Returns
-
-`string`[]
-
-***
-
 ### animate()
 
 ```ts
@@ -593,6 +549,56 @@ Creates an animation function that can be started and stopped.
 | ------ | ------ |
 | `start` | () => `void` |
 | `stop` | () => `void` |
+
+***
+
+### ansiRegex()
+
+```ts
+function ansiRegex(options: {
+  onlyFirst: false;
+ }): RegExp
+```
+
+Creates a regular expression to match ANSI escape codes.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `options` | `object` | Optional configuration object. |
+| `options.onlyFirst` | `undefined` \| `boolean` | If true, the regex will stop after the first match. |
+
+#### Returns
+
+`RegExp`
+
+A regular expression for matching ANSI escape codes.
+
+                                     This function generates a regular expression that can be used to identify
+                                     ANSI escape codes within a string. These codes are often used in terminal
+                                     emulators to apply text formatting such as colors, styles, and hyperlinks.
+                                     The regex pattern accommodates various ANSI sequences, including those
+                                     terminated by BEL, ESC\, or 0x9c.
+
+#### Example
+
+```ts
+ansiRegex().test('\u001B[4mcake\u001B[0m');
+//=> true
+
+ansiRegex().test('cake');
+//=> false
+
+'\u001B[4mcake\u001B[0m'.match(ansiRegex());
+//=> ['\u001B[4m', '\u001B[0m']
+
+'\u001B[4mcake\u001B[0m'.match(ansiRegex({onlyFirst: true}));
+//=> ['\u001B[4m']
+
+'\u001B]8;;https://github.com\u0007click\u001B]8;;\u0007'.match(ansiRegex());
+//=> ['\u001B]8;;https://github.com\u0007', '\u001B]8;;\u0007']
+```
 
 ***
 
@@ -689,17 +695,12 @@ console.log(boxedText);
 ### cache()
 
 ```ts
-function cache<Values>(params: {
-  cwd: string;
-  id: string;
-  projectName: string;
-  values: Values;
- }): Promise<{
+function cache<Values>(opts: CacheOptions<Values>): Promise<{
   defaultValues: values;
-  get: <ID>(v?: ID) => ID extends keyof Values ? Values[ID<ID>] : Values;
-  path: config.path;
-  reset: () => void;
-  set: (obj: Partial<Values>) => void;
+  get: <ID>(v?: ID) => Promise<ID extends keyof Values ? Values[ID<ID>] : ID extends string ? undefined : Values>;
+  path: path;
+  reset: () => Promise<void>;
+  set: (obj: Partial<Values>) => Promise<void>;
 }>
 ```
 
@@ -715,20 +716,16 @@ Creates a caching mechanism for storing and retrieving values.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `params` | `object` | Parameters for configuring the cache. |
-| `params.cwd`? | `string` | Directory to save cache file. Default: System default user config directory. You most likely don't need this. Please don't use it unless you really have to. |
-| `params.id` | `string` | Identifier for the values. |
-| `params.projectName` | `string` | Project name for search cache. You can reuse the same cache for multiple instances. |
-| `params.values` | `Values` | Cache Default Values. |
+| `opts` | `CacheOptions`\<`Values`\> | Parameters for configuring the cache. |
 
 #### Returns
 
 `Promise`\<\{
   `defaultValues`: `values`;
-  `get`: \<`ID`\>(`v`?: `ID`) => `ID` *extends* keyof `Values` ? `Values`\[`ID`\<`ID`\>\] : `Values`;
-  `path`: `config.path`;
-  `reset`: () => `void`;
-  `set`: (`obj`: `Partial`\<`Values`\>) => `void`;
+  `get`: \<`ID`\>(`v`?: `ID`) => `Promise`\<`ID` *extends* keyof `Values` ? `Values`\[`ID`\<`ID`\>\] : `ID` *extends* `string` ? `undefined` : `Values`\>;
+  `path`: `path`;
+  `reset`: () => `Promise`\<`void`\>;
+  `set`: (`obj`: `Partial`\<`Values`\>) => `Promise`\<`void`\>;
  \}\>
 
 - An object with methods to interact with the cache.
@@ -736,10 +733,10 @@ Creates a caching mechanism for storing and retrieving values.
 | Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
 | `defaultValues` | `Values` | values | The default values for the cache. |
-| `get` | \<`ID`\>(`v`?: `ID`) => `ID` *extends* keyof `Values` ? `Values`\[`ID`\<`ID`\>\] : `Values` | - | Retrieve a value from the cache. **Example** `const theme = get('theme'); console.log(theme); // Output: 'light'` |
-| `path` | `string` | config.path | The path to the cache file. |
-| `reset` | () => `void` | - | Resets the cache to its default values. **Example** `reset();` |
-| `set` | (`obj`: `Partial`\<`Values`\>) => `void` | - | Updates the cache with the provided values. Merges the existing cached values with the new partial values and updates the cache. |
+| `get` | \<`ID`\>(`v`?: `ID`) => `Promise`\<`ID` *extends* keyof `Values` ? `Values`\[`ID`\<`ID`\>\] : `ID` *extends* `string` ? `undefined` : `Values`\> | - | Retrieve a value from the cache. **Example** `const theme = get('theme'); console.log(theme); // Output: 'light'` |
+| `path` | `string` | path | The path to the cache file. |
+| `reset` | () => `Promise`\<`void`\> | - | Resets the cache to its default values. **Example** `reset();` |
+| `set` | (`obj`: `Partial`\<`Values`\>) => `Promise`\<`void`\> | - | Updates the cache with the provided values. Merges the existing cached values with the new partial values and updates the cache. |
 
 #### Throws
 
@@ -1166,6 +1163,146 @@ const columnText = columns(data, {
 
 // print columns
 console.log(columnText);
+```
+
+***
+
+### compress()
+
+```ts
+function compress(opts: CompressOptions): Promise<string>
+```
+
+Compresses a file or directory to a specified output directory.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts` | `CompressOptions` | The options object. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+- A promise that resolves to the path of the compressed archive file.
+
+#### Example
+
+```ts
+const compressedFilePath = await compress( {
+  input   : resolve(  'build' ), // Path to the directory or file to compress
+  output  : resolve(  'dist' ), // Directory where the compressed file should be saved
+  name    : 'compressed-archive', // Optional name for the compressed archive file
+  format  : 'zip', // Optional format for the compressed archive file
+} )
+```
+
+***
+
+### compressDir()
+
+```ts
+function compressDir(params: CompressDirOptions): Promise<string>
+```
+
+Compresses a directory to a specified output directory.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `params` | `CompressDirOptions` | The options object. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+- A promise that resolves to the path of the compressed archive file.
+
+#### Example
+
+```ts
+const compressedFilePath = await compressDir( {
+  input   : resolve(  'build' ), // Path to the directory to compress
+  output  : resolve(  'dist' ), // Directory where the compressed file should be saved
+  name    : 'compressed-archive', // Optional name for the compressed archive file
+  format  : 'zip', // Optional format for the compressed archive file
+} )
+```
+
+***
+
+### compressFile()
+
+```ts
+function compressFile(params: CompressFileOptions): Promise<string>
+```
+
+Compresses a file to a specified output directory.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `params` | `CompressFileOptions` | The options object. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+- A promise that resolves to the path of the compressed file.
+
+#### Example
+
+```ts
+const compressedFilePath = await compressFile( {
+  input : resolve( 'file.txt' ),
+  output: resolve( 'compressed' ),
+  name  : 'renamed-compressed-file',
+  format: 'tar',
+  opts  : {
+    tar: {
+      strip: 1,
+    },
+  },
+} )
+```
+
+***
+
+### compressFiles()
+
+```ts
+function compressFiles(params: CompressFilesOptions): Promise<void>
+```
+
+Compresses multiple files matching the given input patterns to a specified output directory.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `params` | `CompressFilesOptions` | The options object. |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+- A promise that resolves when all files have been compressed.
+
+#### Example
+
+```ts
+await compressFiles( {
+  input  : [ 'src/*.js' ],
+  output : 'compressed',
+  format : 'tar',
+  hook   : {
+    beforeFile: (file) => console.log(`Compressing ${file}...`),
+    afterFile : (file) => console.log(`${file} compressed.`),
+  },
+} )
 ```
 
 ***
@@ -1606,10 +1743,10 @@ const userSchema = schemaFn(validate);
 
 ***
 
-### decompressFile()
+### decompress()
 
 ```ts
-function decompressFile(options: DecompresFileOptions): Promise<void>
+function decompress(params: DecompresFileOptions): Promise<string>
 ```
 
 Decompresses an archive file (zip, tar, tgz) to a specified output directory.
@@ -1618,21 +1755,23 @@ Decompresses an archive file (zip, tar, tgz) to a specified output directory.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `options` | `DecompresFileOptions` | The options object. |
+| `params` | `DecompresFileOptions` | The options object. |
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`string`\>
+
+- A promise that resolves to the path of the decompressed file or directory.
 
 #### Example
 
 ```ts
-decompressFile( {
- input   : resolve(  'downloads', 'example-file.zip' ), // Path to the compressed file
- output  : resolve(  'decompressed' ), // Directory where the file should be decompressed
- newName : 'renamed-decompressed-file', // New name for the decompressed file or directory (optional)
- remove  : true, // Remove the original compressed file after decompression
- } )
+await decompressFile( {
+  input   : resolve(  'downloads', 'example-file.zip' ), // Path to the compressed file
+  output  : resolve(  'decompressed' ),                  // Directory where the file should be decompressed
+  newName : 'renamed-decompressed-file',                 // New name for the decompressed file or directory (optional)
+  remove  : true,                                        // Remove the original compressed file after decompression
+} )
 ```
 
 ***
@@ -2365,8 +2504,7 @@ The values of the flag if it exists, or undefined.
 function getBaseName(path: string, suffix?: string): string
 ```
 
-Return the last portion of a path. Similar to the Unix basename command.
-Often used to extract the file name from a fully qualified path.
+Returns the last portion of a path.
 
 #### Parameters
 
@@ -2378,6 +2516,13 @@ Often used to extract the file name from a fully qualified path.
 #### Returns
 
 `string`
+
+#### Example
+
+```ts
+getBaseName('/path/file.txt') // 'file.txt'
+getBaseName('/path/file.txt', '.txt') // 'file'
+```
 
 #### Throws
 
@@ -2814,7 +2959,7 @@ getCurrentDir()
 function getDirName(path: string): string
 ```
 
-Return the directory name of a path. Similar to the Unix dirname command.
+Returns the directory name of a path.
 
 #### Parameters
 
@@ -2825,6 +2970,12 @@ Return the directory name of a path. Similar to the Unix dirname command.
 #### Returns
 
 `string`
+
+#### Example
+
+```ts
+getDirName('/path/to/file.txt') // '/path/to'
+```
 
 #### Throws
 
@@ -2871,8 +3022,7 @@ The directory structure as a string.
 function getExtName(path: string): string
 ```
 
-Return the extension of the path, from the last '.' to end of string in the last portion of the path.
-If there is no '.' in the last portion of the path or the first character of it is '.', then it returns an empty string.
+Returns the file extension of a path.
 
 #### Parameters
 
@@ -2883,6 +3033,12 @@ If there is no '.' in the last portion of the path or the first character of it 
 #### Returns
 
 `string`
+
+#### Example
+
+```ts
+getExtName('file.txt') // '.txt'
+```
 
 #### Throws
 
@@ -3297,7 +3453,7 @@ console.log( object1, object2, object3 )
 ### getObjectFromCSVContent()
 
 ```ts
-function getObjectFromCSVContent<Res>(content: string, options: Options): Promise<Res>
+function getObjectFromCSVContent<Res>(content: string, options: ParserOptionsArgs): Promise<Res>
 ```
 
 #### Type Parameters
@@ -3311,7 +3467,7 @@ function getObjectFromCSVContent<Res>(content: string, options: Options): Promis
 | Parameter | Type |
 | ------ | ------ |
 | `content` | `string` |
-| `options` | `Options` |
+| `options` | `ParserOptionsArgs` |
 
 #### Returns
 
@@ -5140,6 +5296,22 @@ Determines the operating system.
 
 ***
 
+### getRandomUUID()
+
+```ts
+function getRandomUUID(): `${string}-${string}-${string}-${string}-${string}`
+```
+
+Generates a random UUID.
+
+#### Returns
+
+\`$\{string\}-$\{string\}-$\{string\}-$\{string\}-$\{string\}\`
+
+- The generated UUID.
+
+***
+
 ### getStringFlagValue()
 
 ```ts
@@ -5286,6 +5458,51 @@ function getStringType(value: string): "path" | "text" | "url"
 #### Returns
 
 `"path"` \| `"text"` \| `"url"`
+
+***
+
+### getSystemEnvPaths()
+
+```ts
+function getSystemEnvPaths(__namedParameters: {
+  name: string;
+  suffix: 'nodejs';
+ }): {
+  cache: string;
+  config: string;
+  data: string;
+  log: string;
+  temp: string;
+}
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `__namedParameters` | `object` |
+| `__namedParameters.name` | `string` |
+| `__namedParameters.suffix`? | `string` |
+
+#### Returns
+
+```ts
+{
+  cache: string;
+  config: string;
+  data: string;
+  log: string;
+  temp: string;
+}
+```
+
+| Name | Type |
+| ------ | ------ |
+| `cache` | `string` |
+| `config` | `string` |
+| `data` | `string` |
+| `log` | `string` |
+| `temp` | `string` |
 
 ***
 
@@ -5560,9 +5777,7 @@ Indents a given string by prefixing each line with a given prefix
 function isAbsolutePath(path: string): boolean
 ```
 
-Determines whether \{path\} is an absolute path. An absolute path will always resolve to the same location, regardless of the working directory.
-
-If the given \{path\} is a zero-length string, `false` will be returned.
+Determines whether a path is absolute.
 
 #### Parameters
 
@@ -5573,6 +5788,13 @@ If the given \{path\} is a zero-length string, `false` will be returned.
 #### Returns
 
 `boolean`
+
+#### Example
+
+```ts
+isAbsolutePath('/usr/bin') // true
+isAbsolutePath('file.txt') // false
+```
 
 #### Throws
 
@@ -5944,8 +6166,7 @@ Converts a Markdown input to a terminal formatted string.
 function normalizePath(path: string): string
 ```
 
-Normalize a string path, reducing '..' and '.' parts.
-When multiple slashes are found, they're replaced by a single one; when the path contains a trailing slash, it is preserved. On Windows backslashes are used.
+Normalizes a path, resolving '..', '.', and redundant separators.
 
 #### Parameters
 
@@ -5956,6 +6177,12 @@ When multiple slashes are found, they're replaced by a single one; when the path
 #### Returns
 
 `string`
+
+#### Example
+
+```ts
+normalizePath('foo//bar/../baz') // 'foo/baz'
+```
 
 #### Throws
 
@@ -6760,8 +6987,7 @@ try {
 function relativePath(from: string, to: string): string
 ```
 
-Solve the relative path from \{from\} to \{to\} based on the current working directory.
-At times we have two absolute paths, and we need to derive the relative path from one to the other. This is actually the reverse transform of path.resolve.
+Determines the relative path from one location to another.
 
 #### Parameters
 
@@ -6773,6 +6999,12 @@ At times we have two absolute paths, and we need to derive the relative path fro
 #### Returns
 
 `string`
+
+#### Example
+
+```ts
+relativePath('/data/source', '/data/source/project') // 'project'
+```
 
 #### Throws
 
@@ -6950,6 +7182,49 @@ try {
 
 ***
 
+### renamePath()
+
+```ts
+function renamePath(oldPath: PathLike, newPath: PathLike): Promise<void>
+```
+
+Renames (moves) a file or directory asynchronously.
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `oldPath` | `PathLike` |
+| `newPath` | `PathLike` |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+Resolves when the operation is complete.
+
+Fulfills with `undefined` upon success.
+
+#### Param
+
+The current name or path of the file/directory.
+
+#### Param
+
+The new name or path for the file/directory.
+
+#### Example
+
+```ts
+await renamePath('./old-name.txt', './new-name.txt')
+```
+
+#### Since
+
+v10.0.0
+
+***
+
 ### replaceConsole()
 
 ```ts
@@ -7115,14 +7390,7 @@ versionOut.stop();
 function resolvePath(...paths: string[]): string
 ```
 
-The right-most parameter is considered \{to\}. Other parameters are considered an array of \{from\}.
-
-Starting from leftmost \{from\} parameter, resolves \{to\} to an absolute path.
-
-If \{to\} isn't already absolute, \{from\} arguments are prepended in right to left order,
-until an absolute path is found. If after using all \{from\} paths still no absolute path is found,
-the current working directory is used as well. The resulting path is normalized,
-and trailing slashes are removed unless the path gets resolved to the root directory.
+Resolves a sequence of paths or path segments into an absolute path.
 
 #### Parameters
 
@@ -7133,6 +7401,12 @@ and trailing slashes are removed unless the path gets resolved to the root direc
 #### Returns
 
 `string`
+
+#### Example
+
+```ts
+resolvePath('foo', 'bar') // '/absolute/path/foo/bar'
+```
 
 #### Throws
 
@@ -7781,46 +8055,6 @@ import { writeFileContent } from '@dovenv/utils'
 
 await writeFileContent('./greetFile.txt', 'Hello')
 ```
-
-***
-
-### zipFile()
-
-```ts
-function zipFile(options: ZipFileOptions): Promise<void>
-```
-
-Zips the specified file and saves it to the output directory.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `options` | `ZipFileOptions` | An object with properties. |
-
-#### Returns
-
-`Promise`\<`void`\>
-
-***
-
-### zipFilesInDirectory()
-
-```ts
-function zipFilesInDirectory(options: ZipDirOptions): Promise<void>
-```
-
-Zips the files in the specified source directory and saves them to the output directory.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `options` | `ZipDirOptions` | An object with properties. |
-
-#### Returns
-
-`Promise`\<`void`\>
 
 ***
 
@@ -8761,8 +8995,8 @@ const csv: {
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `deserialize` | \<`Res`\>(`content`: `string`, `options`: `Options`) => `Promise`\<`Res`\> | getObjectFromCSVContent |
-| `serialize` | \<`I`\>(`obj`: `I`, `options`?: `Options`) => `Promise`\<`string`\> | object2csv |
+| `deserialize` | \<`Res`\>(`content`: `string`, `options`: `ParserOptionsArgs`) => `Promise`\<`Res`\> | getObjectFromCSVContent |
+| `serialize` | \<`I`\>(`obj`: `I`, `options`: `FormatterOptionsArgs`\<`any`, `any`\>) => `Promise`\<`string`\> | object2csv |
 
 ***
 
@@ -9068,4 +9302,6 @@ const yaml: {
 
 ## Namespaces
 
+- [align](namespaces/align.md)
+- [ansiEscapes](namespaces/ansiEscapes.md)
 - [md](namespaces/md.md)

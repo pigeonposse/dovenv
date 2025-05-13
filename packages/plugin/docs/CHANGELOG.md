@@ -1,5 +1,14 @@
 # @dovenv/docs
 
+## 1.5.2
+
+### Patch Changes
+
+- performance, and feats
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.2
+
 ## 1.5.1
 
 ### Patch Changes
