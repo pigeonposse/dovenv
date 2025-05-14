@@ -2,19 +2,68 @@
 import {
 	existsPath,
 	joinPath,
+	relativePath,
+	deepmergeCustom,
 } from '@dovenv/core/utils'
 import {
 	createAppleSplashScreens,
 	minimal2023Preset,
 } from '@vite-pwa/assets-generator/config'
-import { PwaOptions } from '@vite-pwa/vitepress'
-
 import {
-	DocsData,
-	RequiredDocsConfig,
-} from '../../config/types'
+	VitePluginPWAAPI,
+	VitePWA,
+} from 'vite-plugin-pwa'
 
-export const setPWA = async ( conf: RequiredDocsConfig, data: DocsData ):Promise<PwaOptions | undefined> => {
+import { ConfigResponse } from '../../config/types'
+
+import type { PwaOptions } from './types'
+import type { UserConfig } from 'vitepress'
+
+const merge = deepmergeCustom<PwaOptions>( {} )
+/**
+ * Configuration for auto PWA assets generation.
+ *
+ * **Requires**: `@vite-pwa/assets-generator`.
+ *
+ * @type {PwaOptions['pwaAssets']}
+ * @example
+ * const docsConfig = {
+ *  pwa: {
+ *    pwaAssets: autoPWAConfig
+ *  }
+ * }
+ */
+export const autoPWAConfig: PwaOptions['pwaAssets'] = {
+	image                 : 'public/logo.png',
+	overrideManifestIcons : true,
+	includeHtmlHeadLinks  : true,
+	preset                : {
+		...minimal2023Preset,
+		appleSplashScreens : createAppleSplashScreens( {
+			padding       : 0.3,
+			resizeOptions : {
+				fit        : 'contain',
+				background : 'white',
+			},
+			darkResizeOptions : {
+				fit        : 'contain',
+				background : 'black',
+			},
+			linkMediaOptions : {
+				log            : true,
+				addMediaScreen : true,
+				xhtml          : true,
+			},
+		}, [ 'iPad Air 9.7"' ] ),
+	},
+}
+
+export const getPWAConfig = async ( opts: ConfigResponse ):Promise<PwaOptions | undefined> => {
+
+	const {
+		config: conf,
+		data,
+	} = opts
 
 	if ( !conf || !data ) {
 
@@ -30,7 +79,7 @@ export const setPWA = async ( conf: RequiredDocsConfig, data: DocsData ):Promise
 	// const imageRelative = relativePath( data.srcDir, imageDir )
 
 	console.debug( [
-		'PWA',
+		'PWA [paths]',
 		{
 			out : data.outDir,
 			src : data.srcDir,
@@ -47,39 +96,29 @@ export const setPWA = async ( conf: RequiredDocsConfig, data: DocsData ):Promise
 
 	}
 
-	return {
+	let res: PwaOptions = {
 		pwaAssets : {
-			image  : image,
-			preset : {
-				...minimal2023Preset,
-				appleSplashScreens : createAppleSplashScreens( {
-					padding       : 0.3,
-					resizeOptions : {
-						fit        : 'contain',
-						background : 'white',
-					},
-					darkResizeOptions : {
-						fit        : 'contain',
-						background : 'black',
-					},
-					linkMediaOptions : {
-						log            : true,
-						addMediaScreen : true,
-						xhtml          : true,
-					},
-				}, [ 'iPad Air 9.7"' ] ),
+			...autoPWAConfig,
+			image,
+			integration : {
+				baseUrl   : '/',
+				publicDir : joinPath( data.srcDir, 'public' ),
+				outDir    : data.outDir,
 			},
 		},
-		// mode           : 'development',
+		mode           : 'development',
 		injectRegister : 'script-defer',
 		registerType   : 'autoUpdate',
-		workbox        : { globPatterns: [ '**/*.{css,js,html,svg,png,ico,txt,woff2}' ] },
-		injectManifest : { globPatterns: [ '**/*.{js,css,ico,png,svg,webp,woff,woff2}' ] },
-
+		strategies     : 'generateSW',
+		workbox        : {
+			globDirectory : relativePath( process.cwd(), data.srcDir ),
+			globPatterns  : [ '**/*.{css,js,html,svg,png,ico,txt,woff2}' ],
+			swDest        : joinPath( data.outDir, 'sw.js' ),
+		},
 		// experimental : { includeAllowlist: true },
 		devOptions : {
 			enabled          : true,
-			suppressWarnings : true,
+			// suppressWarnings : true,
 			navigateFallback : '/',
 		},
 		manifest : {
@@ -89,9 +128,166 @@ export const setPWA = async ( conf: RequiredDocsConfig, data: DocsData ):Promise
 			start_url        : '/?source=pwa',
 			theme_color      : conf.styles?.color?.primary,
 			background_color : conf.styles?.color?.dark?.bg,
+			id               : data.devMode ? undefined : conf.url,
+			display          : 'standalone',
 		},
-		outDir : data.outDir,
+		outDir : relativePath( process.cwd(), data.outDir ),
 		// srcDir : data.srcDir,
+	}
+
+	if ( conf.pwa ) res = merge( res, conf.pwa )
+	console.debug( [ 'PWA [config]', res ] )
+
+	return res
+
+}
+
+export const vitepressPluginPWA = async (
+	opts : ConfigResponse,
+): Promise<Pick<UserConfig, 'vite' | 'transformHead' | 'buildEnd'>> => {
+
+	const {
+		config, data,
+	} = opts
+
+	if ( config.pwa === false ) return {
+		vite          : undefined,
+		transformHead : undefined,
+		buildEnd      : undefined,
+	}
+
+	let api: VitePluginPWAAPI | undefined
+
+	/**
+	 * version of https://github.com/vite-pwa/vitepress/blob/main/src/integration.ts
+	 */
+	return {
+		vite : { plugins : [
+			...VitePWA( await getPWAConfig( {
+				config,
+				data,
+			} ) ),
+			{
+				name    : 'vite-plugin-pwa:vitepress',
+				apply   : 'build',
+				enforce : 'post',
+				configResolved( resolvedViteConfig ) {
+
+					if ( !resolvedViteConfig.build.ssr )
+						api = resolvedViteConfig.plugins.find( p => p.name === 'vite-plugin-pwa' )?.api
+
+				},
+			},
+			{
+				name    : 'vite-plugin-pwa:pwa-assets:vitepress',
+				apply   : 'serve',
+				enforce : 'pre',
+				configResolved( resolvedViteConfig ) {
+
+					if ( !resolvedViteConfig.build.ssr )
+						api = resolvedViteConfig.plugins.find( p => p.name === 'vite-plugin-pwa' )?.api
+
+				},
+				async handleHotUpdate( {
+					file, server,
+				} ) {
+
+					const pwaAssetsGenerator = await api?.pwaAssetsGenerator()
+					if ( await pwaAssetsGenerator?.checkHotUpdate( file ) )
+						await server.restart()
+
+				},
+			},
+		] },
+		transformHead : async context => {
+
+			const assetsGenerator = await api?.pwaAssetsGenerator()
+			if ( assetsGenerator ) {
+
+				const htmlAssets = assetsGenerator.resolveHtmlAssets()
+				if ( htmlAssets.themeColor )
+					context.head.push( [
+						'meta',
+						{
+							name    : 'theme-color',
+							content : htmlAssets.themeColor.content,
+						},
+					] )
+				for ( const link of htmlAssets.links )
+					context.head.push( [ 'link', { ...link } ] )
+
+			}
+			const webManifestData = api?.webManifestData()
+			if ( webManifestData ) {
+
+				const href = webManifestData.href
+				if ( webManifestData.useCredentials )
+					context.head.push( [
+						'link',
+						{
+							rel         : 'manifest',
+							href,
+							crossorigin : 'use-credentials',
+						},
+					] )
+				else
+					context.head.push( [
+						'link',
+						{
+							rel : 'manifest',
+							href,
+						},
+					] )
+
+			}
+			const registerSWData = api?.registerSWData()
+			if ( registerSWData && registerSWData.shouldRegisterSW ) {
+
+				if ( registerSWData.mode === 'inline' ) {
+
+					context.head.push( [
+						'script',
+						{ id: 'vite-plugin-pwa:inline-sw' },
+						`if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('${registerSWData.inlinePath}', { scope: '${registerSWData.scope}' })})}`,
+					] )
+
+				}
+				else {
+
+					if ( registerSWData.mode === 'script-defer' ) {
+
+						context.head.push( [
+							'script',
+							{
+								id    : 'vite-plugin-pwa:register-sw',
+								defer : 'defer',
+								src   : registerSWData.registerPath,
+							},
+						] )
+
+					}
+					else {
+
+						context.head.push( [
+							'script',
+							{
+								id  : 'vite-plugin-pwa:register-sw',
+								src : registerSWData.registerPath,
+							},
+						] )
+
+					}
+
+				}
+
+			}
+
+			return context.head
+
+		},
+		buildEnd : async _s => {
+
+		},
 	}
 
 }

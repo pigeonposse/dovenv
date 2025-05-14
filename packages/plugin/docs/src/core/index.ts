@@ -1,4 +1,4 @@
-
+import { getCommandUtils } from '@dovenv/core'
 import {
 	replaceStd,
 	deprecatedAlerts,
@@ -6,13 +6,13 @@ import {
 
 import { DocsParams }    from './types'
 import { VITEPRESS_DIR } from '../.vitepress/config'
-import { homepage }      from '../_shared/const'
 import {
 	name,
 	version,
 	vitepressVersion,
+	homepage,
 } from '../_shared/const'
-import { setConfigGlobals } from '../config/main'
+import { setConfigGlobals } from '../config'
 
 export class DocsCore {
 
@@ -75,6 +75,9 @@ export class DocsCore {
 			]
 
 			console.debug( { 'docs-cli-argv': this.utils.process.argv } )
+
+			this.utils.prompt.log.info( `${this.utils.style.info.b( type )} process starting...\n` )
+
 			// @ts-ignore
 			await import( 'vitepress/dist/node/cli.js' )
 			this.utils.process.argv = oldArgv
@@ -161,3 +164,21 @@ export class DocsCore {
 	}
 
 }
+
+/**
+ * Creates DOCUMENTATION instance.
+ *
+ * @param   {Omit<DocsParams, 'utils'>}             [args]  - Optional arguments excluding 'utils'.
+ * @param   {Parameters<typeof getCommandUtils>[0]} [utils] - Optional utilities parameters.
+ * @returns {Promise<DocsCore>}                             A promise that resolves to an instance of DocsCore.
+ */
+export const docs = async ( args?: Omit<DocsParams, 'utils'>, utils?: Parameters<typeof getCommandUtils>[0] ) => {
+
+	const core = new DocsCore( {
+		...args,
+		utils : await getCommandUtils( utils ),
+	} )
+	return core
+
+}
+

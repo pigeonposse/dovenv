@@ -1,9 +1,8 @@
 
-import { createMergeDataFn } from '@dovenv/core/utils'
-
-import { autoPWAConfig } from './config/default'
+import { autoPWAConfig } from './.vitepress/pwa'
+import { defineConfig }  from './config'
 import { getPkgConfig }  from './config/pkg'
-import { docs }          from './lib'
+import { docs }          from './core'
 import { docsPlugin }    from './plugin'
 
 import type { DocsConfig } from './config/types'
@@ -23,15 +22,8 @@ export {
 	docsPlugin,
 	autoPWAConfig,
 	getPkgConfig,
+	defineConfig,
 }
 
 export default docsPlugin
-
-/**
- * Defines a configuration object for the dovenv documentation plugin.
- *
- * @param   {( DocsConfig | DocsConfig[] )[]} config - The configuration object.
- * @returns {DocsConfig}                             The defined configuration object.
- */
-export const defineConfig = createMergeDataFn<DocsConfig>()
 

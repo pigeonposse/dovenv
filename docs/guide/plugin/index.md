@@ -1,16 +1,16 @@
 # 🔌 Plugins
 
+## 🤖 Ai
+
+AI plugin for dovenv
+
+- [Read more](/guide/plugin/ai)
+
 ## 🔄 Convert
 
 Convert utils for dovenv
 
 - [Read more](/guide/plugin/convert)
-
-## 📚 Docs
-
-Documentation utils for dovenv
-
-- [Read more](/guide/plugin/docs)
 
 ## 💡 Examples
 
@@ -18,11 +18,11 @@ Tools for Examples files/directories for dovenv
 
 - [Read more](/guide/plugin/examples)
 
-## 🤖 Ai
+## 📚 Docs
 
-AI plugin for dovenv
+Documentation utils for dovenv
 
-- [Read more](/guide/plugin/ai)
+- [Read more](/guide/plugin/docs)
 
 ## 🧹 Lint
 

@@ -4,8 +4,8 @@ import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { LlmsConfig }          from 'vitepress-plugin-llmstxt'
 
 import type { Meta }            from '../.vitepress/meta/types'
+import type { PwaOptions }      from '../.vitepress/pwa/types'
 import type { DeepNonNullable } from '@dovenv/core/utils'
-import type { PwaOptions }      from '@vite-pwa/vitepress'
 import type {
 	DefaultTheme,
 	UserConfig,

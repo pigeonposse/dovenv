@@ -1,7 +1,7 @@
 import { defineConfig as defineDovenvConfig } from '@dovenv/core'
 
 import { globals }  from './_shared/const'
-import { DocsCore } from './core/main'
+import { DocsCore } from './core'
 
 import type { DocsParams } from './core/types'
 

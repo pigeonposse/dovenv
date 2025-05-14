@@ -3,7 +3,6 @@
  */
 
 import ViteRestart             from 'vite-plugin-restart'
-import { type UserConfig }     from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import llmstxtPlugin           from 'vitepress-plugin-llmstxt'
 import { RssPlugin }           from 'vitepress-plugin-rss'
@@ -17,12 +16,13 @@ import { setNav }     from './nav/main'
 import { setSidebar } from './sidebar/main'
 
 import type { ConfigResponse } from '../config/types'
+import type {  UserConfig }    from 'vitepress'
 
-export const vite = ( {
+export const vite = async ( {
 	config: conf, data,
-}: ConfigResponse ): UserConfig['vite'] => {
+}: ConfigResponse ): Promise<UserConfig> => {
 
-	return {
+	return { vite : {
 		optimizeDeps : { exclude: [ 'virtual:group-icons.css' ] },
 		server       : { fs: { strict: false } },
 		// this can be remove for fix build icon and twoslash comments
@@ -112,7 +112,6 @@ export const vite = ( {
 				},
 
 			},
-
 			...( conf.groupIcon === false ? [] : [ groupIconVitePlugin( conf.groupIcon ) ] ),
 			...( conf.rss ? [ RssPlugin( conf.rss ) ] : [] ),
 			ViteRestart( {
@@ -121,6 +120,6 @@ export const vite = ( {
 			} ),
 			...( conf.llms === false ? [] : [ llmstxtPlugin( conf.llms ) ] ),
 		],
-	}
+	} }
 
 }

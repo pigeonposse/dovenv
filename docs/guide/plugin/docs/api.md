@@ -33,18 +33,22 @@ function docs(args?: Omit<DocsParams, "utils">, utils?: {
 }): Promise<DocsCore>
 ```
 
+Creates DOCUMENTATION instance.
+
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `args`? | `Omit`\<[`DocsParams`](#docsparams), `"utils"`\> | - |
-| `utils`? | `object` | - |
+| `args`? | `Omit`\<[`DocsParams`](#docsparams), `"utils"`\> | Optional arguments excluding 'utils'. |
+| `utils`? | `object` | Optional utilities parameters. |
 | `utils.pkg`? | `Record`\<`string`, `unknown`\> | Optional package.json content as an object. |
 | `utils.wsDir`? | `string` | The workspace directory path. **Default** `process.cwd()` |
 
 #### Returns
 
 `Promise`\<`DocsCore`\>
+
+A promise that resolves to an instance of DocsCore.
 
 ***
 

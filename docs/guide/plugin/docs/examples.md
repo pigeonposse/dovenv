@@ -166,44 +166,17 @@ export default defineConfig(
 				},
 			},
 		},
+		// meta      : { autoImage: true },
 		twoslash  : false,
 		vitepress : {
+			sitemap         : { hostname: 'https://dovenv.pigeonposse.com' },
 			ignoreDeadLinks : true,
-			vite            : { build : {
-				chunkSizeWarningLimit : 800,
-				rollupOptions         : { output : { manualChunks( id ) {
-
-					if ( id.includes( 'node_modules' ) ) return 'vendor'
-
-					return null
-
-				} } },
-			} },
+			vite            : { build: { chunkSizeWarningLimit: 1000 } },
 		},
-
-		// meta : { onPage : ( { context: c } ) => {
-
-		// 	// console.log( 'onPage',c.pageData.title, c.title )
-		// 	return [
-		// 		[
-		// 			'meta',
-		// 			{
-		// 				property : 'og:title',
-		// 				content  : c.pageData.title.length > 0 ? c.pageData.title : c.title,
-		// 			},
-		// 		],
-		// 	]
-
-		// } },
-
-		// pwa : { pwaAssets : {
-		// 	image  : '/public/logo.png',
-		// } },
 		links : [
 			{
 				text  : 'Project',
 				desc  : 'See more information about the project',
-				// icon  : 'home',
 				items : [
 					{
 						text : 'Website',

@@ -2,13 +2,15 @@ import {
 	copyDir,
 	existsPath,
 	joinPath,
-	removePathIfExist,
+	removeDirIfExist,
+	process,
 } from '@dovenv/core/utils'
 
 import {
 	DocsData,
 	RequiredDocsConfig,
 } from './types'
+import { registerCleanup } from '../_shared/utils'
 
 export const validateConfig = async ( {
 	config, data,
@@ -39,10 +41,11 @@ export const validateConfig = async ( {
 		} )
 
 		data.srcDir = data.tempDir
-		process.on( 'exit', async () => {
 
-			console.debug( 'Remove temp dir' )
-			await removePathIfExist( data.tempDir )
+		registerCleanup( async () => {
+
+			console.debug( `Remove if exist temporary dir: ${data.tempDir}` )
+			await removeDirIfExist( data.tempDir )
 
 		} )
 

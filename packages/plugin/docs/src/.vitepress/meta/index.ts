@@ -9,27 +9,32 @@ import {
 } from '@dovenv/core/utils'
 
 import { createOGImage } from './og-image'
+import {
+	errorMark,
+	okMark,
+} from '../../_shared/utils'
 
-import type {
-	DocsData,
-	RequiredDocsConfig,
-} from '../../config/types'
-import type { UserConfig } from 'vitepress'
+import type { ConfigResponse } from '../../config/types'
+import type { UserConfig }     from 'vitepress'
 
 const bannerName = 'banner.png'
 const ogName     = 'og.png'
-const getHead    = ( conf:RequiredDocsConfig, imagepath?:string ): NonNullable<UserConfig['head']> => {
+
+type Conf = ConfigResponse['config']
+type Meta = NonNullable<Conf['meta']>
+
+const getHead = ( conf: Conf, imagepath?:string ): NonNullable<UserConfig['head']> => {
 
 	try {
 
-		const shared: NonNullable<RequiredDocsConfig['meta']>['shared'] = {
+		const shared: Meta['shared'] = {
 			image       : conf.meta?.shared?.image || ( conf.url ? joinUrl( conf.url, imagepath || bannerName ) : undefined ),
 			title       : conf.meta?.shared?.title || conf.name,
 			description : conf.meta?.shared?.description || conf.desc,
 			url         : conf.meta?.shared?.url || conf.url,
 		}
 
-		const og: NonNullable<RequiredDocsConfig['meta']>['og']           = typeof conf.meta?.og === 'boolean'
+		const og: Meta['og']           = typeof conf.meta?.og === 'boolean'
 			? false
 			: {
 				image       : conf.meta?.og?.image || shared.image,
@@ -39,7 +44,7 @@ const getHead    = ( conf:RequiredDocsConfig, imagepath?:string ): NonNullable<U
 				type        : conf.meta?.og?.type || 'website',
 				siteName    : conf.meta?.og?.siteName || conf.name,
 			}
-		const twitter: NonNullable<RequiredDocsConfig['meta']>['twitter'] = typeof conf.meta?.twitter === 'boolean'
+		const twitter: Meta['twitter'] = typeof conf.meta?.twitter === 'boolean'
 			? false
 			: {
 				image       : conf.meta?.twitter?.image || shared.image,
@@ -58,7 +63,7 @@ const getHead    = ( conf:RequiredDocsConfig, imagepath?:string ): NonNullable<U
 			...( !og
 				? []
 				: Object.entries( og )
-					.map( ( [ key, value ] ) => ( !value
+					.map( ( [ key, value ] ) => ( value
 						? [
 							'meta',
 							{
@@ -94,18 +99,25 @@ const getHead    = ( conf:RequiredDocsConfig, imagepath?:string ): NonNullable<U
 	}
 	catch ( e ) {
 
-		console.error( ' ❌ Error getting meta:', e instanceof Error ? e.message : e || 'Unknown error' )
+		console.error( `${errorMark} Error getting meta:`, e instanceof Error ? e.message : e || 'Unknown error' )
 		return []
 
 	}
 
 }
+type MetaRes = Required<Pick<UserConfig, 'transformHead' | 'buildEnd' | 'head'>>
+export const vitepressMetaPlugin = async (
+	opts :ConfigResponse,
+): Promise<MetaRes> => {
 
-export const vitepressMetaPlugin = async ( conf:RequiredDocsConfig, data: DocsData ): Promise<Required<Pick<UserConfig, 'transformHead' | 'buildEnd' | 'head'>>> => {
+	const {
+		config: conf,
+		data,
+	} = opts
 
 	const existsBanner = async () => await existsFile( joinPath( data.srcDir, 'public', bannerName ) )
 	const autoImage    = conf.meta?.autoImage === false ? false : ( conf.meta?.autoImage || !( await existsBanner() ) )
-	return {
+	const res: MetaRes = {
 		head          : getHead( conf, autoImage ? ogName : undefined ),
 		transformHead : async context => {
 
@@ -122,7 +134,7 @@ export const vitepressMetaPlugin = async ( conf:RequiredDocsConfig, data: DocsDa
 			}
 			catch ( e ) {
 
-				console.error( ' ❌ Error transforming meta:', e instanceof Error ? e.message : e || 'Unknown error' )
+				console.error( `${errorMark} Error transforming meta:`, e instanceof Error ? e.message : e || 'Unknown error' )
 
 			}
 
@@ -134,7 +146,7 @@ export const vitepressMetaPlugin = async ( conf:RequiredDocsConfig, data: DocsDa
 				if ( !autoImage ) return
 				const time = performance()
 				console.log()
-				console.log( `⏳ Creating og image...` )
+				console.log( `${okMark} Creating og image...` )
 				const output    = joinPath( s.outDir, ogName )
 				const logoInput = joinPath( s.outDir, conf.logo || conf.favicon )
 				const exists    = await existsFile( logoInput )
@@ -152,13 +164,14 @@ export const vitepressMetaPlugin = async ( conf:RequiredDocsConfig, data: DocsDa
 					},
 					radius : conf.styles.radius,
 				}, autoImage === true ? {} : autoImage ) )
-				console.log( `🎉 Created og image:`, '\n  - input:' + output, '\n  - time: ' + time.prettyStop() )
+
+				console.log( `${okMark} Created og image:\n  - input: ${output}\n  - time: ${time.prettyStop()}` )
 				console.log()
 
 			}
 			catch ( e ) {
 
-				console.error( ' ❌ Error creating og image:', e instanceof Error ? e.message : e || 'Unknown error' )
+				console.error( `${errorMark} Error creating og image:`, e instanceof Error ? e.message : e || 'Unknown error' )
 				console.log()
 
 			}
@@ -166,5 +179,7 @@ export const vitepressMetaPlugin = async ( conf:RequiredDocsConfig, data: DocsDa
 		},
 
 	}
+	// console.dir( res, { depth: null } )
+	return res
 
 }

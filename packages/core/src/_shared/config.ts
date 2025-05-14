@@ -29,7 +29,11 @@ const ERROR       = {
 
 class ErrorConfig extends TypedError<ObjectValues<typeof ERROR>, { data: string }> {}
 
-const pathsNames = [ 'dovenv/main', 'dovenv.config' ]
+const pathsNames = [
+	'dovenv/main',
+	'dovenv/index',
+	'dovenv.config',
+]
 const root       = process.cwd()
 const exts       = CONFIG_EXTS
 

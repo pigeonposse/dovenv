@@ -7,26 +7,6 @@ import type {
 	DocsConfig,
 	RequiredDocsConfig,
 } from './types'
-import type { PwaOptions } from '@vite-pwa/vitepress'
-
-/**
- * Configuration for auto PWA assets generation.
- *
- * **Requires**: `@vite-pwa/assets-generator`.
- *
- * @type {PwaOptions['pwaAssets']}
- * @example
- * const docsConfig = {
- *  pwa: {
- *    pwaAssets: autoPWAConfig
- *  }
- * }
- */
-export const autoPWAConfig: PwaOptions['pwaAssets'] = {
-	image                 : 'public/logo.png',
-	overrideManifestIcons : true,
-	includeHtmlHeadLinks  : true,
-}
 
 export const getRepoConf = ( repoURL?: string ): DocsConfig => {
 
@@ -54,32 +34,6 @@ export const getUrlConf = ( url?: string, name?: string, lang?: string, desc?: s
 			ignoreHome  : true,
 		}
 		: undefined,
-	// pwa : {
-
-	// 	pwaAssets : {
-
-	// 		image  : '/logo.png',
-	// 		preset : minimal2023Preset,
-	// 	},
-	// 	mode           : 'development',
-	// 	injectRegister : 'script-defer',
-	// 	registerType   : 'autoUpdate',
-	// 	workbox        : { globPatterns: [ '**/*.{css,js,html,svg,png,ico,txt,woff2}' ] },
-	// 	experimental   : { includeAllowlist: true },
-	// 	devOptions     : {
-	// 		enabled          : true,
-	// 		suppressWarnings : true,
-	// 		navigateFallback : '/',
-	// 	},
-	// 	manifest : {
-	// 		description      : desc,
-	// 		name             : name,
-	// 		short_name       : name,
-	// 		start_url        : '/?source=pwa',
-	// 		theme_color      : styles?.color?.primary,
-	// 		background_color : styles?.color?.dark?.bg,
-	// 	},
-	// },
 } )
 
 export const fixedDefConf: Omit<RequiredDocsConfig, 'styles'> = {

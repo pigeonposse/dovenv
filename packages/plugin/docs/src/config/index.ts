@@ -17,6 +17,7 @@ import {
 	isDev,
 	fileURLToPath,
 	color,
+	createMergeDataFn,
 } from '@dovenv/core/utils'
 
 import { mergeConfig }    from './_utils'
@@ -254,3 +255,11 @@ export class Config {
 	}
 
 }
+
+/**
+ * Defines a configuration object for the dovenv documentation plugin.
+ *
+ * @param   {( DocsConfig | DocsConfig[] )[]} config - The configuration object.
+ * @returns {DocsConfig}                             The defined configuration object.
+ */
+export const defineConfig = createMergeDataFn<DocsConfig>()
