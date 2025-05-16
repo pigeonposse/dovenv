@@ -12,8 +12,6 @@ import chromaJS                      from 'chroma-js'
 import { highlight as highlightCli } from 'cli-highlight'
 import gradientString                from 'gradient-string'
 
-import { _styledeps } from './_deps'
-
 import type {
 	GradientColors,
 	GradientOpts,
@@ -88,7 +86,6 @@ export const color: Color = chalk
  */
 export const gradient = ( txt: string, colors: GradientColors, opts?: GradientOpts ) => {
 
-	// @ts-ignore: todo
-	return gradientString( ...colors ).multiline( txt, opts )
+	return gradientString( colors, opts ).multiline( txt )
 
 }

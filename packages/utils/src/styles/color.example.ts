@@ -3,7 +3,10 @@ import {
 	getCurrentDir,
 	joinPath,
 } from '../sys'
-import { highlight } from './color'
+import {
+	highlight,
+	gradient,
+} from './color'
 
 const currDir       = await getCurrentDir( import.meta.url )
 const pkgDir        = joinPath( currDir, '..', '..' )
@@ -15,3 +18,8 @@ const CONTENT       = await highlight( readmeContent, {
 
 } )
 console.log( CONTENT )
+console.log( gradient( 'Lorem ipsun', [
+	'red',
+	'yellow',
+	'green',
+] ) )

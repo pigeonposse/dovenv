@@ -2,9 +2,11 @@
 import figures      from 'figures'
 import terminalLink from 'terminal-link'
 
-import { _styledeps } from './_deps'
-
 import type { Fonts } from './types'
+
+import { LazyLoader } from '@/sys/loader'
+
+export const _styledeps = new LazyLoader( { figlet: async () => ( await import( 'figlet' ) ).default } )
 
 /**
  * Export types that can be used from outside.
