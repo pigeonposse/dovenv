@@ -10,6 +10,7 @@ This is a simple example that not use paths
 
 import { defineConfig } from '@dovenv/core'
 import {
+	asciiFont,
 	ensureDir,
 	geMDTocString,
 	getCurrentDir,
@@ -30,6 +31,7 @@ export default defineConfig( [
 	{ const : {
 		pkg,
 		wsDir,
+		mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
 	} },
 	templatesPlugin( { test : {
 		input   : `{{partial.content}}`,
@@ -39,7 +41,8 @@ export default defineConfig( [
 				hook  : {
 					before : async data => {
 
-						data.content = await incrementMdHeaders( data.content )
+						data.content  = await incrementMdHeaders( data.content )
+						data.content += '\n\n<!-- {{const.mark}} -->'
 						return data
 
 					},
@@ -160,7 +163,7 @@ export default defineConfig( [
 	{ const : {
 		pkg,
 		wsDir,
-		mark : `\n${asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
+		mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
 		...paths,
 	} },
 	templatesPlugin( { test : {

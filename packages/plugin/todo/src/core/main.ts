@@ -13,20 +13,18 @@ import {
 	writeFile,
 	getDirName,
 	ensureDir,
+	LazyLoader,
 } from '@dovenv/core/utils'
-import {
-	isExtensionSupported,
-	parse,
-	report,
-} from 'leasot'
 
 import { homepage } from '../../package.json'
 
 import type { Config }       from './types'
 import type { CommandUtils } from '@dovenv/core'
+import type { parse }        from 'leasot'
 
 type TodoComments = Awaited<ReturnType<typeof parse>>
 
+const _deps = new LazyLoader( { leasot: () => import( 'leasot' ) } )
 export class Todo {
 
 	opts  : Config | undefined
@@ -48,6 +46,9 @@ export class Todo {
 
 	async #fn( pattern?: string[] ): Promise<TodoComments | undefined> {
 
+		const {
+			parse, isExtensionSupported, report,
+		} = await _deps.get( 'leasot' )
 		const keys = await this.utils.getOptsKeys( {
 			input : this.opts,
 			pattern,

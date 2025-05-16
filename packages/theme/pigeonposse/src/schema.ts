@@ -21,7 +21,7 @@ export const pigeonSchemas = defineConfig( { check : { 'pigeonposse-consts' : {
 			throw new Error( 'Must exist [wsDir] or [workspaceDir] string const in dovenv configuration' )
 		if ( !config?.const?.pkg || typeof config.const.pkg !== 'object' )
 			throw new Error( 'Must exist [pkg] const in dovenv configuration' )
-		if ( !config.const?.mark || typeof config.const.mark !== 'string' )
+		if ( !config.const?.mark )
 			throw new Error( 'Must exist [mark] const in dovenv config.\nThis must be a text, for example a watermark, a trademark, or a simple text about the project.' )
 
 		await validate( z.object( {

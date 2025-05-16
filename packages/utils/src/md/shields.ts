@@ -1,18 +1,18 @@
 /* eslint-disable jsdoc/check-param-names */
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
-import { makeBadge } from 'badge-maker'
 
 import type { Format } from 'badge-maker'
 
-import { joinUrl } from '@/string'
+import { joinUrl }    from '@/string'
+import { LazyLoader } from '@/sys'
 
 type MdLink = {
 	name    : string
 	URL     : string
 	imgURL? : string
 }
-
+const loader = new LazyLoader( { 'badge-maker': async () => ( await import( 'badge-maker' ) ).makeBadge } )
 /**
  * Creates a Markdown link or image from a name and URL.
  *
@@ -55,7 +55,8 @@ export const createMdLinks = (
  *
  * @see https://www.npmjs.com/package/badge-maker
  */
-export const createBadgeSVG = makeBadge
+export const createBadgeSVG = async ( f: Format ) =>
+	( await loader.get( 'badge-maker' ) )( f )
 
 type BadgeURL = {
 	// general

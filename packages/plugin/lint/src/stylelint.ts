@@ -1,13 +1,21 @@
-import stylelint from 'stylelint'
-// @ts-ignore
-import stylelintFormatter from 'stylelint-formatter-pretty'
+
+import { LazyLoader } from '@dovenv/core/utils'
 
 import {
 	CMDS,
 	LintSuper,
 } from './_shared'
 
+import type stylelint from 'stylelint'
+
 export type StylelintConfig = stylelint.LinterOptions
+type Formatter = keyof typeof stylelint.formatters
+
+const _deps = new LazyLoader( {
+	stylelint : async () => ( await import( 'stylelint' ) ).default,
+	// @ts-ignore
+	formatter : async () => ( await import( 'stylelintFormatter' ) ).default as Formatter,
+} )
 
 export class StyleLint extends LintSuper<StylelintConfig> {
 
@@ -22,10 +30,11 @@ export class StyleLint extends LintSuper<StylelintConfig> {
 		this.opts =  Object.keys( this.opts ).length ? this.opts : undefined
 
 		if ( !( await this.utils.ensureOpts( { input: this.opts } ) ) ) return
-
-		const lint = await stylelint.lint( {
+		const stylelint = await _deps.get( 'stylelint' )
+		const formatter = await _deps.get( 'formatter' )
+		const lint      = await stylelint.lint( {
 			...this.opts,
-			formatter : stylelintFormatter,
+			formatter,
 		} )
 
 		if ( lint.errored ) console.error( lint.report )

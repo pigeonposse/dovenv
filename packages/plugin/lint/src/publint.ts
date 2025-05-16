@@ -1,21 +1,29 @@
-import { resolvePath } from '@dovenv/core/utils'
 import {
-	Options,
-	publint,
-} from 'publint'
-import { formatMessage } from 'publint/utils'
+	LazyLoader,
+	resolvePath,
+} from '@dovenv/core/utils'
 
 import {
 	CMDS,
 	LintSuper,
 } from './_shared'
 
+import type { Options } from 'publint'
+
 export type PubLintOpts = Options & { title?: string }
 export type PubLintConfig = Record<string, PubLintOpts>
+
+const _deps = new LazyLoader( {
+	publint       : async () => ( await import( 'publint' ) ).publint,
+	formatMessage : async () => ( await import( 'publint/utils' ) ).formatMessage,
+} )
 
 export class PubLint extends LintSuper<PubLintConfig> {
 
 	async #exec( opts?: PubLintOpts ) {
+
+		const publint       = await _deps.get( 'publint' )
+		const formatMessage = await _deps.get( 'formatMessage' )
 
 		const {
 			messages, pkg,

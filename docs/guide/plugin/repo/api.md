@@ -1593,10 +1593,10 @@ ask(): Promise<{}>
 
 ```ts
 getPkgVersion(npm: boolean, showPrivate: boolean): Promise<{
-  name: string;
-  npm: string;
-  private: boolean;
-  version: string;
+  name: pkg.name;
+  npm: npmVersion;
+  private: pkgPrivate;
+  version: pkg.version;
 }[]>
 ```
 
@@ -1610,10 +1610,10 @@ getPkgVersion(npm: boolean, showPrivate: boolean): Promise<{
 ###### Returns
 
 `Promise`\<\{
-  `name`: `string`;
-  `npm`: `string`;
-  `private`: `boolean`;
-  `version`: `string`;
+  `name`: `pkg.name`;
+  `npm`: `npmVersion`;
+  `private`: `pkgPrivate`;
+  `version`: `pkg.version`;
  \}[]\>
 
 ##### getSize()

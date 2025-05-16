@@ -24,15 +24,24 @@ export class Eslint extends LintSuper<EslintConfig> {
 			} = this.utils
 			if ( res?.stdout ) process.stdout.write( res.stdout )
 			if ( res?.stderr ) process.stderr.write( res?.stderr )
-			if ( res?.stdout?.trim() === '' && res?.stderr?.trim() === '' ) process.stdout.write( style.success.h( 'Succesfully linted!\n' ) )
+			if ( res?.stdout?.trim() === '' && res?.stderr?.trim() === '' )
+				this.utils.prompt.log.success( style.success.h( 'Succesfully linted!\n' ) )
 
 		}
 
-		flags = this.opts?.flags ? [ ...( ( !flags || flags.length ) ? [] : flags ), ...this.opts.flags ] : flags
+		const flagsSet = new Set( [
+			...( flags || [] ),
+			...( this.opts?.flags || [] ),
+			'--color',
+		] )
 
-		const cmd = `eslint ${flags?.join( ' ' ) || ''}${flags?.includes( '--color' ) ? ' ' : ' --color'}`
-		console.debug( { cmd } )
-		// await exec( cmd )
+		const cmd = [ 'eslint', ...[ ...flagsSet ] ].join( ' ' )
+		console.debug( {
+			extraFlags : flags,
+			cmd,
+		} )
+
+		this.utils.prompt.log.info( this.utils.style.info.msg( 'ESLINT', `Exec: ${cmd}\n\n` ) )
 		const [ error, res ] = await catchError( execChild( cmd ) )
 		const stderr         = res?.stderr && res?.stderr.trim() === '' ? undefined : res?.stderr
 		const stdout         = res?.stdout && res?.stdout.trim() === '' ? undefined : res?.stdout

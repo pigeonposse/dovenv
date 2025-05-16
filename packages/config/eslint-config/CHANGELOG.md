@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.3
+
+### Patch Changes
+
+- improve perf, add and remove feats
+
 ## 1.5.2
 
 ### Patch Changes

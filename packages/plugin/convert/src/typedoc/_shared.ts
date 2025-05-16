@@ -2,20 +2,17 @@ import {
 	existsFile,
 	getObjectFromJSONFile,
 	joinPath,
+	LazyLoader,
 	readFile,
 	writeFile,
 } from '@dovenv/core/utils'
-import {
-	Application,
-	RendererEvent,
-	TSConfigReader,
-} from 'typedoc'
 
 import { ConvertSuper } from '../_shared/main'
 
 import type { TypescriptSharedProps } from './types'
 import type { TypeDocOptions }        from 'typedoc'
 
+const _typedocDeps = new LazyLoader( { typedoc: () => import( 'typedoc' ) } )
 export class TypescriptSuper<Props extends TypescriptSharedProps> extends ConvertSuper<Props> {
 
 	constructor( props: Props ) {
@@ -121,8 +118,10 @@ export class TypescriptSuper<Props extends TypescriptSharedProps> extends Conver
 			tsconfig    : tsConfig,
 
 		}
-
-		const app = await Application.bootstrapWithPlugins(
+		const {
+			Application, TSConfigReader, RendererEvent,
+		} = await _typedocDeps.get( 'typedoc' )
+		const app       = await Application.bootstrapWithPlugins(
 			appConfig,
 			tsConfig ? [ new TSConfigReader() ] : undefined,
 		)

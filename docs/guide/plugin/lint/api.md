@@ -485,8 +485,3 @@ type Config: {
 ### default
 
 Renames and re-exports [lintPlugin](#lintplugin)
-
-## Namespaces
-
-- [dovenvEslintConfig](namespaces/dovenvEslintConfig.md)
-- [dovenvStylelintConfig](namespaces/dovenvStylelintConfig.md)

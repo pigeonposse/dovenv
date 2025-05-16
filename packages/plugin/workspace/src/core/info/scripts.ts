@@ -46,7 +46,23 @@ export class Scripts extends Super implements InfoInterface {
 					: [] ),
 			]
 
-			const content = this.utils.style.table( tableContent, { singleLine: true } )
+			const content = this.utils.style.table( tableContent, { chars : {
+				'top'          : '',
+				'top-mid'      : '',
+				'top-left'     : '',
+				'top-right'    : '',
+				'bottom'       : '',
+				'bottom-mid'   : '',
+				'bottom-left'  : '',
+				'bottom-right' : '',
+				'left'         : '',
+				'left-mid'     : '',
+				'mid'          : '',
+				'mid-mid'      : '',
+				'right'        : '',
+				'right-mid'    : '',
+				'middle'       : '',
+			} } )
 
 			res += this.utils.style.box( {
 				data   : content,

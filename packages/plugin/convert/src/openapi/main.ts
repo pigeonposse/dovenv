@@ -18,9 +18,9 @@ export type Openapi2MarkdownProps = ConvertPropsSuper & {
 	 * Openapi options.
 	 */
 	opts?: {
-	/**
-	 * Sort titles by atoz.
-	 */
+		/**
+		 * Sort titles by atoz.
+		 */
 		sort? : boolean
 	}
 }

@@ -177,8 +177,8 @@ export class CommandStyle {
 		return table(
 			data,
 			{
-				drawHorizontalLine : () => false,
-				drawVerticalLine   : () => false,
+				wrapOnWordBoundary : true,
+				wordWrap           : true,
 				...( opts || {} ),
 			},
 		)

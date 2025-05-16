@@ -33,7 +33,7 @@ export default defineConfig( [
 	{ const : {
 		pkg,
 		wsDir,
-		mark : `\n${asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
+		mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
 		...paths,
 	} },
 	templatesPlugin( { test : {

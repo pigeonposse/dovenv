@@ -30,7 +30,7 @@ export class Typescript2Markdown extends TypescriptSuper<Typescript2MarkdownProp
 			entryFileName         : 'index',
 			fileExtension         : '.md',
 			outputFileStrategy    : 'modules',
-			// flattenOutputFiles        : false,
+			// flattenOutputFiles    : false,
 			// hidePageHeader        : true,
 			// hidePageTitle         : true,
 			// hideGroupHeadings     : true,

@@ -81,21 +81,21 @@ export const schema2zod = async ( params: Schema2zod ) => {
 export const schema2object = <R extends object>( schema: string ): R =>
 	JSON.parse( schema )
 
-/**
- * Converts a TypeScript type to a JSON schema.
- *
- * @param   {Ts2Schema}       params - Options.
- * @returns {Promise<object>}        The JSON schema.
- * @example
- * const jsonSchema = await ts2schema({
- *   config: {
- *     path: 'path/to/MyType.ts',
- *     type: 'MyType',
- *   },
- * })
- *
- * console.log(jsonSchema)
- */
+// /**
+//  * Converts a TypeScript type to a JSON schema.
+//  *
+//  * @param   {Ts2Schema}       params - Options.
+//  * @returns {Promise<object>}        The JSON schema.
+//  * @example
+//  * const jsonSchema = await ts2schema({
+//  *   config: {
+//  *     path: 'path/to/MyType.ts',
+//  *     type: 'MyType',
+//  *   },
+//  * })
+//  *
+//  * console.log(jsonSchema)
+//  */
 // export const ts2schema = async ( params: Ts2Schema ): Promise<SchemaObject> => {
 
 // 	return await createGenerator( params.config ).createSchema( params.config.type )

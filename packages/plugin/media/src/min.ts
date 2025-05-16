@@ -1,12 +1,13 @@
 
-import imagemin         from 'imagemin'
-import imageminGif      from 'imagemin-gifsicle'
-import imageminJpegtran from 'imagemin-jpegtran'
-import imageminOptipng  from 'imagemin-optipng'
-import imageminSvgo     from 'imagemin-svgo'
-import imageminWebp     from 'imagemin-webp'
+import { LazyLoader } from '@dovenv/core/utils'
 
 import { Core } from './core'
+
+import type imageminGif      from 'imagemin-gifsicle'
+import type imageminJpegtran from 'imagemin-jpegtran'
+import type imageminOptipng  from 'imagemin-optipng'
+import type imageminSvgo     from 'imagemin-svgo'
+import type imageminWebp     from 'imagemin-webp'
 
 export type WebpOpts = Parameters<typeof imageminWebp>[0]
 
@@ -27,20 +28,30 @@ export type ImageMinConfigValue = {
 	}
 }
 export type ImageMinConfig = { [key: string]: ImageMinConfigValue }
+const _deps = new LazyLoader( {
+	imagemin         : async () => ( await import( 'imagemin' ) ).default,
+	imageminGif      : async () => ( await import( 'imagemin-gifsicle' ) ).default,
+	imageminJpegtran : async () => ( await import( 'imagemin-jpegtran' ) ).default,
+	imageminOptipng  : async () => ( await import( 'imagemin-optipng' ) ).default,
+	imageminSvgo     : async () => ( await import( 'imagemin-svgo' ) ).default,
+	imageminWebp     : async () => ( await import( 'imagemin-webp' ) ).default,
+} )
 
 export class ImageMin extends Core<ImageMinConfig> {
 
 	async exec( conf: ImageMinConfigValue ) {
 
+		const imagemin = await _deps.get( 'imagemin' )
+
 		await imagemin( conf.input, {
 			// @ts-ignore
 			destination : conf.output || this.utils.process.cwd(),
 			plugins     : [
-				...( !conf.opts?.gif ? [] : [ imageminGif( conf.opts.gif === true ? {} : conf.opts.gif ) ] ),
-				...( !conf.opts?.jpeg ? [] : [ imageminJpegtran( conf.opts.jpeg === true ? {} : conf.opts.jpeg ) ] ),
-				...( !conf.opts?.png ? [] : [ imageminOptipng( conf.opts.png === true ? {} : conf.opts.png ) ] ),
-				...( !conf.opts?.svg ? [] : [ imageminSvgo( conf.opts.svg === true ? {} : conf.opts.svg ) ] ),
-				...( !conf.opts?.webp ? [] : [ imageminWebp( conf.opts.webp === true ? {} : conf.opts.webp ) ] ),
+				...( !conf.opts?.gif ? [] : [ ( await _deps.get( 'imageminGif' ) )( conf.opts.gif === true ? {} : conf.opts.gif ) ] ),
+				...( !conf.opts?.jpeg ? [] : [ ( await _deps.get( 'imageminJpegtran' ) )( conf.opts.jpeg === true ? {} : conf.opts.jpeg ) ] ),
+				...( !conf.opts?.png ? [] : [ ( await _deps.get( 'imageminOptipng' ) )( conf.opts.png === true ? {} : conf.opts.png ) ] ),
+				...( !conf.opts?.svg ? [] : [ ( await _deps.get( 'imageminSvgo' ) )( conf.opts.svg === true ? {} : conf.opts.svg ) ] ),
+				...( !conf.opts?.webp ? [] : [ ( await _deps.get( 'imageminWebp' ) )( conf.opts.webp === true ? {} : conf.opts.webp ) ] ),
 			],
 		} )
 

@@ -6,13 +6,14 @@ import {
 	exec,
 	getObjectFromFile,
 	getPackageVersion,
+	LazyLoader,
 } from '@dovenv/core/utils'
-import { Sizium } from '@sizium/core'
 
 import { Repo } from '../_super/main'
 
 import type { PackageJSON } from '@dovenv/core/utils'
 
+const _deps = new LazyLoader( { sizium: () => import( '@sizium/core' ) } )
 export class Packages extends Repo {
 
 	async #exec( args?: string[] ) {
@@ -65,34 +66,30 @@ export class Packages extends Repo {
 	async getPkgVersion( npm = true, showPrivate = true ) {
 
 		const paths = await this.utils.getPkgPaths()
-		const res: {
-			name    : string
-			version : string
-			npm?    : string
-			private : boolean
-		}[] = []
+		// execute in parallel
+		const res = ( await Promise.all(
+			paths.map( async pkgPath => {
 
-		for ( const pkgPath of paths ) {
+				const pkg = await getObjectFromFile<PackageJSON>( pkgPath )
 
-			const pkg = await getObjectFromFile<PackageJSON>( pkgPath )
+				const pkgPrivate = !!pkg.private && pkg.private !== 'false'
 
-			const pkgPrivate = pkg.private && ( pkg.private !== 'false' ) ? true : false
+				if ( pkgPrivate && !showPrivate ) return null
+				if ( !pkg.name || !pkg.version ) return null
 
-			if ( pkgPrivate && !showPrivate ) continue
+				const [ _, npmVersion ] = npm && !pkgPrivate
+					? await catchError( getPackageVersion( pkg.name ) )
+					: [ undefined, undefined ]
 
-			if ( !( pkg.name && pkg.version ) ) continue
+				return {
+					name    : pkg.name,
+					version : pkg.version,
+					npm     : npmVersion,
+					private : pkgPrivate,
+				}
 
-			const [ _, npmVersion ] = npm && !pkgPrivate ? await catchError( getPackageVersion( pkg.name ) ) : [ undefined, undefined ]
-
-			res.push( {
-				name    : pkg.name,
-				version : pkg.version,
-				npm     : npmVersion,
-				private : pkgPrivate,
-			} )
-
-		}
-
+			} ),
+		) ).filter( v => !!v )
 		return res
 
 	}
@@ -282,8 +279,9 @@ export class Packages extends Repo {
 
 	async getSize( name: string = './' ) {
 
-		const pkg  = new Sizium( name )
-		const type = pkg.inputType
+		const { Sizium } = await _deps.get( 'sizium' )
+		const pkg        = new Sizium( name )
+		const type       = pkg.inputType
 
 		const {
 			packageNum,

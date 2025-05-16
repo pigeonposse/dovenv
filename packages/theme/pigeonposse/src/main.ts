@@ -154,6 +154,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 							...content.devDependencies || {},
 							...content.dependencies || {},
 						}
+
 						Object.entries( deps ).forEach( ( [ k, v ] ) => {
 
 							if ( v?.startsWith( '^' ) ) throw new Error( utils.style.error.msg(
@@ -241,18 +242,13 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 		getPigeonposseData( core ),
 		pigeonposseWebPlugin( web ),
 		{ alias : {
-			'docs-assets' : {
-				desc : 'Create documentation assets based on the path "docs/public/logo.png"',
-				cmd  : async ( { exec } ) =>
-					await exec.current( 'docs generate-assets --flag=\\"--preset minimal\\" --flag=\\"docs/public/logo.png\\"' ),
-			},
-			'binarium' : {
+			binarium : {
 				desc : 'Create executables of your Node|Deno|Bun projects',
 				cmd  : async ( {
 					exec, data, opts,
 				} ) => await exec.command( `${data.pkgManagerCmds.exec} binarium ${opts?.join( ' ' ) || ''}` ),
 			},
-			'unbuild' : {
+			unbuild : {
 				desc : 'Build libraries for your Node|Deno|Bun projects',
 				cmd  : async ( {
 					exec, data, opts,
@@ -314,7 +310,7 @@ export const pigeonposseMonorepoTheme = ( params?: MonorepoConfig ) => {
 
 	return defineConfig(
 		pigeonposseTheme( deepmerge( defaultConf, restParams ) ),
-		typeof predocs === 'boolean' && predocs === false ? { } : predocsPlugin( predocs ),
+		predocs === false ? { } : predocsPlugin( predocs ),
 	)
 
 }

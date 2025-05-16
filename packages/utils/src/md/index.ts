@@ -1,9 +1,5 @@
-import { Marked }      from 'marked'
-import rehypeParse     from 'rehype-parse'
-import rehypeRemark    from 'rehype-remark'
-import remarkStringify from 'remark-stringify'
-import { unified }     from 'unified'
 
+import { deps }           from './_deps'
 import { markedTerminal } from './terminal'
 
 import type { MarkedExtension } from 'marked'
@@ -13,7 +9,7 @@ import { fetch2string }  from '@/sys/content'
 import { readFile }      from '@/sys/super'
 
 export * from './shields'
-export * as md from './parser'
+export * from './parser'
 
 const _getInput = async ( input: string ) => {
 
@@ -73,6 +69,7 @@ export const getHTML = async ( path: string ): Promise<string> => {
 export const md2html = async ( input: string ) => {
 
 	input        = await _getInput( input )
+	const Marked = await deps.get( 'marked' )
 	const marked = new Marked( )
 	return await marked.parse( input )
 
@@ -106,8 +103,8 @@ type Md2TerminalOpts = {
  */
 export const md2terminal = async ( input: string, opts?: Md2TerminalOpts ): Promise<string> => {
 
-	input = await _getInput( input )
-
+	input        = await _getInput( input )
+	const Marked = await deps.get( 'marked' )
 	const marked = new Marked( )
 	// Register markedTerminal extension with the options if provided
 	marked.use( markedTerminal( opts?.renderer, opts?.highlight ) as MarkedExtension )
@@ -129,9 +126,12 @@ export const md2terminal = async ( input: string, opts?: Md2TerminalOpts ): Prom
  */
 export const html2md = async ( input: string ) => {
 
-	input = await _getInput( input )
-
-	const file = await unified()
+	input                 = await _getInput( input )
+	const rehypeParse     = await deps.get( 'rehype-parse' )
+	const rehypeRemark    = await deps.get( 'rehype-remark' )
+	const remarkStringify = await deps.get( 'remark-stringify' )
+	const unified         = await deps.get( 'unified' )
+	const file            = await unified()
 		.use( rehypeParse )
 		.use( rehypeRemark )
 		.use( remarkStringify )
@@ -229,8 +229,8 @@ export const incrementMdHeaders = ( content: string ) => {
  */
 export const getMDToc = async ( input: string ) => {
 
-	input = await _getInput( input )
-
+	input        = await _getInput( input )
+	const Marked = await deps.get( 'marked' )
 	const marked = new Marked( )
 	const tokens = marked.lexer( input )
 	const index: {

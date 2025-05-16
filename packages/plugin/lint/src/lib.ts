@@ -1,6 +1,3 @@
-import * as dovenvEslintConfig from '@dovenv/eslint-config'
-// @ts-ignore
-import * as dovenvStylelintConfig from '@dovenv/stylelint-config'
 
 import {
 	CMDS,
@@ -10,13 +7,13 @@ import { CommitLint } from './commitlint'
 import { Eslint }     from './eslint'
 import { PubLint }    from './publint'
 import { StagedLint } from './staged'
-import { StyleLint }  from './style'
+import { StyleLint }  from './stylelint'
 
 import type { CommitlintConfig } from './commitlint'
 import type { EslintConfig }     from './eslint'
 import type { PubLintConfig }    from './publint'
 import type { LintStagedConfig } from './staged'
-import type { StylelintConfig }  from './style'
+import type { StylelintConfig }  from './stylelint'
 
 export {
 	CommitLint,
@@ -24,8 +21,6 @@ export {
 	StagedLint,
 	PubLint,
 	StyleLint,
-	dovenvEslintConfig,
-	dovenvStylelintConfig,
 }
 
 export type Config = {

@@ -1,7 +1,6 @@
 /* eslint-disable jsdoc/require-param-type */
 /* eslint-disable jsdoc/require-returns-type */
 
-import { CommandUtils } from '@dovenv/core'
 import {
 	ensureDir,
 	existsFile,
@@ -13,7 +12,8 @@ import {
 
 import { homepage } from '../package.json'
 
-import type { Config } from './types'
+import type { Config }       from './types'
+import type { CommandUtils } from '@dovenv/core'
 
 type Data = Parameters<NonNullable<NonNullable<Config[number]['hook']>['before']>>[0]
 type ReplaceContent = Pick<Config[number], 'transform' | 'hook' | 'opts'>
@@ -123,10 +123,29 @@ export class Templates {
 	 */
 	async get( data: Config[number] ) {
 
+		const rawConst = this.utils.config?.const ?? {}
+		const title    = data.title ? ( this.utils.style.badge( data.title ) + ' ' ) : ''
+
+		const generalConst: Record<string, unknown> = Object.fromEntries(
+			await Promise.all(
+				Object.entries( rawConst ).map( async ( [ key, value ] ) => {
+
+					if ( typeof value === 'function' ) {
+
+						const result = await value()
+						return [ key, result ]
+
+					}
+					return [ key, value ]
+
+				} ),
+			),
+		)
+
 		let res: Data = {
 			content : await getStringFrom( data.input ),
 			const   : {
-				...( this.utils.config?.const || {} ),
+				...generalConst,
 				...data.const,
 			},
 			utils  : this.utils,
@@ -164,10 +183,10 @@ export class Templates {
 
 				await ensureDir( getDirName( out ) )
 				await writeFile( out, res.content )
-				this.utils.prompt.log.success( this.utils.style.info.msg( 'Overwrite content to', out ) )
+				this.utils.prompt.log.success( title + this.utils.style.info.msg( 'Overwrite content to', out ) )
 
 			}
-			else this.utils.prompt.log.info( this.utils.style.info.p( 'output not overwritten' ) )
+			else this.utils.prompt.log.info( title + this.utils.style.info.p( 'output not overwritten' ) )
 			// this.utils.prompt.log.success( this.utils.style.success.msg( ` ✨ Successful!` ) )
 			// this.utils.prompt.log.step( '' )
 
@@ -189,8 +208,11 @@ export class Templates {
 		for ( const key of keys ) {
 
 			const opt = this.opts[key]
-			console.log( this.utils.style.info.h( `${this.utils.style.badge( key )} template` ) )
-			res[key] = await this.get( opt )
+
+			res[key] = await this.get( {
+				title : key,
+				...opt,
+			} )
 
 		}
 		return res

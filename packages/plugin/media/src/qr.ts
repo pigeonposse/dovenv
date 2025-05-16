@@ -3,6 +3,9 @@ import { qrcode } from '@dovenv/core/utils'
 import { Core } from './core'
 
 type QRcodeOptsValue = {
+	/**
+	 * QR input.
+	 */
 	input : string
 	/**
 	 * QR size.

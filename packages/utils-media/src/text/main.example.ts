@@ -9,11 +9,10 @@ import {
 } from '@dovenv/utils'
 
 import { text2image } from './main'
-
-// import { image } from '../image/main'
+import { image }      from '../image/main'
 
 const ascii = {
-	1 : font( 'Hello, World!', '3-D' ),
+	1 : await font( 'Pigeon Posse 🕊️', '3-D' ),
 	2 : `                                                            
           11ttttffffffffLLLLLLLLLLLLLLLLffffffffttCC        
         ttttffffffffLLLLLLLLLLLLLLLLLLLLLLLLLLffff11        
@@ -37,10 +36,15 @@ const ascii = {
 `,
 	3 : `Hello, World! ${icon.ellipsis}`,
 }
+console.log( ...Object.values( ascii ) )
+
+const IMG = await image( { input: 'https://avatars.githubusercontent.com/u/111685953' } )
+console.log( IMG )
 
 const buildDir = joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', 'build' )
 
 await ensureDir( buildDir )
+
 for ( const key in ascii ) {
 
 	// @ts-ignore
@@ -51,4 +55,3 @@ for ( const key in ascii ) {
 
 }
 
-// console.log( IMG )

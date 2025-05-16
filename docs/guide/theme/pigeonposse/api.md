@@ -636,7 +636,7 @@ const template: {
 - [convert](namespaces/convert.md)
 - [docs](namespaces/docs.md)
 - [examples](namespaces/examples.md)
-- [lint](namespaces/lint/index.md)
+- [lint](namespaces/lint.md)
 - [repo](namespaces/repo.md)
 - [templates](namespaces/templates.md)
 - [todo](namespaces/todo.md)

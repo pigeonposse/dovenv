@@ -1,14 +1,27 @@
-import remarkParse     from 'remark-parse'
-import remarkStringify from 'remark-stringify'
-import { unified }     from 'unified'
+import { deps } from './_deps'
 
 import type { Processor } from 'unified'
 
 import { Any } from '@/ts'
 
-const processor = unified().use( remarkParse ).use( remarkStringify )
 type MarkdownObject = ReturnType<Processor['parse']>
 
-export const deserialize = ( str: string ): MarkdownObject => processor.parse( str )
+export type MDParser = {
+	deserialize : ( str: string ) => MarkdownObject
+	serialize   : ( obj: MarkdownObject ) => string
+}
+export const mdParser = async (): Promise<MDParser> => {
 
-export const serialize = ( obj: MarkdownObject ): string => processor.stringify( obj as Any )
+	const unified         = await deps.get( 'unified' )
+	const remarkParse     = await deps.get( 'remark-parse' )
+	const remarkStringify = await deps.get( 'remark-stringify' )
+
+	const processor = unified().use( remarkParse ).use( remarkStringify )
+
+	return {
+		deserialize : str => processor.parse( str ),
+		serialize   : obj => processor.stringify( obj as Any ),
+	}
+
+}
+

@@ -1,16 +1,16 @@
-import format              from '@commitlint/format'
-import lint                from '@commitlint/lint'
-import load                from '@commitlint/load'
-import read                from '@commitlint/read'
-import { deepmergeCustom } from '@dovenv/core/utils'
-import gitEmojiConfig      from 'commitlint-config-gitmoji'
+
+import {
+	deepmergeCustom,
+	LazyLoader,
+} from '@dovenv/core/utils'
 
 import {
 	CMDS,
 	LintSuper,
 } from './_shared'
 
-type UserConfig = Exclude<Parameters<typeof load>[0], undefined>
+type Load = typeof import( '@commitlint/load' ).default
+type UserConfig = Exclude<Parameters<Load>[0], undefined>
 
 export type CommitlintConfig = {
 	/**
@@ -29,6 +29,14 @@ export type CommitlintConfig = {
 	gitmoji? : boolean
 }
 
+const _deps = new LazyLoader( {
+	'@commitlint/format'        : async () => ( await import( '@commitlint/format' ) ).default,
+	'@commitlint/lint'          : async () => ( await import( '@commitlint/lint' ) ).default,
+	'@commitlint/read'          : async () => ( await import( '@commitlint/read' ) ).default,
+	'@commitlint/load'          : async () => ( await import( '@commitlint/load' ) ).default,
+	'commitlint-config-gitmoji' : async () => ( await import( 'commitlint-config-gitmoji' ) ).default,
+} )
+
 export class CommitLint extends LintSuper<CommitlintConfig> {
 
 	#selectParserOpts = ( parserPreset: UserConfig['parserPreset'] ) => {
@@ -43,6 +51,11 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 
 	async #fn( userMsg?: string ) {
 
+		const format = await _deps.get( '@commitlint/format' )
+		const lint   = await _deps.get( '@commitlint/lint' )
+		const load   = await _deps.get( '@commitlint/load' )
+		const read   = await _deps.get( '@commitlint/read' )
+
 		const defaultConfig: UserConfig = ( this.opts?.config )
 			? this.opts?.config
 			: { rules : { 'header-max-length' : [
@@ -54,7 +67,7 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 		const merge      = deepmergeCustom<UserConfig>( { mergeArrays: false } )
 		const userConfig = merge(
 			defaultConfig,
-			this.opts?.gitmoji ? gitEmojiConfig : {},
+			this.opts?.gitmoji ? await _deps.get( 'commitlint-config-gitmoji' ) : {},
 		)
 
 		const config = await load( userConfig )

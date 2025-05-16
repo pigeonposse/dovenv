@@ -15,8 +15,8 @@ import {
 
 import convertPlugin from '../../src/main'
 
-const pkgDir = joinPath( getCurrentDir( import.meta.url ), '..' )
-
+const pkgDir = joinPath( getCurrentDir( import.meta.url ), '..', '..' )
+const input  = 'examples/simple/recourses/file.ts'
 export default defineConfig( { const: { pkgDir } }, convertPlugin( {
 	1 : {
 		type   : 'jsdoc2md',
@@ -43,7 +43,7 @@ export default defineConfig( { const: { pkgDir } }, convertPlugin( {
 	},
 	5 : {
 		type   : 'ts2md',
-		input  : 'examples/recourses/file.ts',
+		input,
 		output : 'build/5',
 		opts   : { typedocMarkdown: { entryFileName: 'EXAMPLE_5' } },
 	},
@@ -55,10 +55,8 @@ export default defineConfig( { const: { pkgDir } }, convertPlugin( {
 
 			if ( !( config.const?.pkgDir && typeof config.const.pkgDir === 'string' ) ) throw Error( 'Must exist pkgDir const' )
 
-			const input = joinPath( config.const.pkgDir, 'examples/recourses/file.ts' )
-
 			await run.ts2md( {
-				input,
+				input  : joinPath( config.const.pkgDir, input ),
 				output : 'build/6',
 				opts   : { typedocMarkdown: { entryFileName: 'EXAMPLE_6' } },
 			} )

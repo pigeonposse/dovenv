@@ -5,6 +5,7 @@ import type { replacePlaceholders } from '@dovenv/core/utils'
 
 type ReplaceOpts = Parameters<typeof replacePlaceholders>[0]
 type Params = ReplaceOpts['params']
+
 type Data = {
 	/** Input content */
 	content : string
@@ -24,6 +25,7 @@ type Opts = ReplaceOpts['opts'] & {
 	overwrite? : boolean | 'ask'
 }
 type Response<V> = Promise<V> | V
+
 type SharedHooks = {
 	/**
 	 * Before create template.
@@ -55,13 +57,19 @@ type SharedHooks = {
 }
 
 type ConfigValue = {
+	/** Template title */
+	title?     : string
 	/** Input of template (path or string) */
 	input      : string
 	/** Constants for templates. */
 	const?     : Params
+	/** Custom transform function */
 	transform? : ReplaceOpts['transform']
 	/** Custom options */
 	opts?      : Opts
+	/**
+	 * Shared hooks
+	 */
 	hook?      : SharedHooks & {
 		/**
 		 * After create partials

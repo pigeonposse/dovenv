@@ -9,8 +9,10 @@ import {
 } from '@vibrant/color'
 import chalk                         from 'chalk'
 import chromaJS                      from 'chroma-js'
-import { highlight as cliHighlight } from 'cli-highlight'
+import { highlight as highlightCli } from 'cli-highlight'
 import gradientString                from 'gradient-string'
+
+import { _styledeps } from './_deps'
 
 import type {
 	GradientColors,
@@ -60,7 +62,8 @@ export const colorConversion = {
  * const highlightedCode = highlight(code, { language: 'javascript' });
  * console.log(highlightedCode);
  */
-export const highlight = ( code: string, opts?: HighlightOpts ): string => cliHighlight( code, opts )
+export const highlight = ( code: string, opts?: HighlightOpts ): string =>
+	highlightCli( code, opts )
 
 /**
  * Provides colors for terminal output.

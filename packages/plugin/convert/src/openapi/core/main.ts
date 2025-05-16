@@ -10,10 +10,10 @@
  */
 
 import {
+	LazyLoader,
 	writeFile,
 	yaml as YAML,
 } from '@dovenv/core/utils'
-import converter from 'swagger2openapi'
 
 import type {
 	OpenAPIV2,
@@ -21,6 +21,8 @@ import type {
 } from 'openapi-types'
 
 type References = { [key: string]: unknown }
+
+const _deps = new LazyLoader( { swagger2openapi: async () => ( await import( 'swagger2openapi' ) ).default } )
 
 const readDocument = async <T>( src: string ): Promise<T | null> => {
 
@@ -672,6 +674,8 @@ export const convertMarkdown = async (
 		return
 
 	}
+	const converter = await _deps.get( 'swagger2openapi' )
+
 	const apiDocument = createApiDocument(
 		'openapi' in document
 			? document

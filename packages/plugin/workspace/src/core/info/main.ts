@@ -47,9 +47,9 @@ export class Info extends Super {
 		const scripts      = await this.scripts.get()
 
 		const content = [
-			[ 'Monorepo', this.utils.isMonorepo() ],
-			[ 'Runtime', this.utils.getRuntime() ],
-			[ 'Package manager', this.utils.getPkgManager() ],
+			[ 'Monorepo', this.utils.monorepo ],
+			[ 'Runtime', this.utils.runtime ],
+			[ 'Package manager', this.utils.packageManager ],
 			[ 'Package Num', pkgNum ],
 			[
 				'Package Paths',

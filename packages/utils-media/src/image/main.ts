@@ -96,7 +96,8 @@ export const image2ascii = async ( params: Image2AsciiProps ) => {
 export const image = async ( params: ImageProps ) : Promise<string> => {
 
 	const {
-		input, ...options
+		input,
+		...options
 	} = params
 
 	const inputBuffer = await _getMediaInput( input )

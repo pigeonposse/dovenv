@@ -1,6 +1,8 @@
-import figlet       from 'figlet'
+
 import figures      from 'figures'
 import terminalLink from 'terminal-link'
+
+import { _styledeps } from './_deps'
 
 import type { Fonts } from './types'
 
@@ -27,15 +29,16 @@ export const icon = figures
 /**
  * Generates ASCII art text using the specified font.
  *
- * @param   {string} txt    - The text to render as ASCII art.
- * @param   {Fonts}  [font] - The font to use for rendering. Defaults to 'Standard'.
- * @returns {string}        - The ASCII art text.
+ * @param   {string}           txt    - The text to render as ASCII art.
+ * @param   {Fonts}            [font] - The font to use for rendering. Defaults to 'Standard'.
+ * @returns { Promise<string>}        - The ASCII art text.
  * @example
- * const asciiText = asciiFont('Hello, World!', '3-D');
+ * const asciiText = await asciiFont('Hello, World!', '3-D');
  * console.log(asciiText);
  */
-export const asciiFont = ( txt: string, font: Fonts = 'Standard' ): string => {
+export const asciiFont = async ( txt: string, font: Fonts = 'Standard' ): Promise<string> => {
 
+	const figlet = await _styledeps.get( 'figlet' )
 	return figlet.textSync( txt, {
 		font,
 		horizontalLayout : 'default',

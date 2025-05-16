@@ -2,13 +2,15 @@ import boxen                       from 'boxen'
 import Table                       from 'cli-table3'
 import { TableConstructorOptions } from 'cli-table3'
 import columnify                   from 'columnify'
-import { table as tableFunct }     from 'table'
+// import { table as tableFunct }     from 'table'
 
-import type { Options }         from 'boxen'
-import type { TableUserConfig } from 'table'
+import type { Options } from 'boxen'
+// import type { TableUserConfig } from 'table'
 
-export type TableData = unknown[][]
-export type TableOpts = TableUserConfig
+export type TableData = string[][]
+// export type TableOpts = TableUserConfig
+
+export type TableOpts = TableConstructorOptions
 export type BoxOpts = Options
 export type ColumnOpts = columnify.GlobalOptions
 export type ColumnData = Record<string, unknown> | Record<string, unknown>[]
@@ -33,7 +35,14 @@ export { Table }
  * const tableText = table(data);
  * console.log(tableText);
  */
-export const table = ( data: TableData, options?: TableOpts ): string => tableFunct( data, options )
+export const table = ( data: TableData, options?: TableConstructorOptions ): string => {
+
+	const _table = new Table( options )
+	_table.push( ...data )
+
+	return _table.toString()
+
+}
 
 /**
  * Creates a styled box around the provided text.
@@ -84,4 +93,5 @@ export const box = ( text: string, options?: BoxOpts ): string => boxen( text, o
  * // print columns
  * console.log(columnText);
  */
-export const columns = <Data extends ColumnData>( data: Data, options?: ColumnOpts ): string => columnify( data, options )
+export const columns = <Data extends ColumnData>( data: Data, options?: ColumnOpts ): string =>
+	columnify( data, options )

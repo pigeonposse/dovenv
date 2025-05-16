@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.3
+
+### Patch Changes
+
+- improve perf, add and remove feats
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.3
+  - @dovenv/eslint-config@1.5.3
+  - @dovenv/theme-banda@1.5.3
+  - @dovenv/core@1.5.3
+
 ## 1.5.2
 
 ### Patch Changes

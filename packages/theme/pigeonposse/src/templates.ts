@@ -71,9 +71,9 @@ docs/dev-dist
 **/docs/dev-dist
 **/.wrangler/**
 `,
-	eslintConfig : `import {lint} from '@dovenv/theme-pigeonposse'
+	eslintConfig : `import {setConfig} from '@dovenv/theme-pigeonposse/eslint'
 
-export default lint.dovenvEslintConfig.setConfig( [
+export default setConfig( [
 	general   : 'js',
 	toml      : true,
 	json      : true,

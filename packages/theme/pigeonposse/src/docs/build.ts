@@ -7,7 +7,6 @@ import {
 	joinUrl,
 	existsFile,
 	geMDTocString,
-	color,
 	capitalize,
 	deepmerge,
 	readFile,
@@ -60,13 +59,11 @@ export class Predocs {
 	#examples
 	#templates
 	#convert
-	#pkgData  : PkgData | undefined
 	#wsPkg
 	#corePkg
-	#pkgPaths : string[] | undefined
 	#coreDir
 	#REPO_URL
-	#mdInfo   : undefined | MarkdownInfo
+	#mdInfo : undefined | MarkdownInfo
 
 	projectName
 	title = 'predocs'
@@ -76,7 +73,6 @@ export class Predocs {
 	partial
 	opts            : PredocsConfig | undefined
 	protected utils : CommandUtils
-	protected getLogTitle
 
 	constructor( {
 		opts, utils,
@@ -92,17 +88,17 @@ export class Predocs {
 		const { Templates } = templates
 		const { Convert }   = convert
 		const { config }    = this.utils
-		this.#examples      = new Examples( { utils } )
-		this.#templates     = new Templates( { utils } )
-		this.#convert       = new Convert( )
-		this.#pkgData       = undefined
-		this.#wsPkg         = ( this.utils.pkg || {} ) as PackageJSON
-		this.#corePkg       = ( config?.const?.corePkg || config?.const?.pkg ) as PackageJSON
-		this.#coreDir       = config?.const?.coreDir as string || joinPath( this.utils.wsDir, 'packages', 'core' )
-		this.#REPO_URL      = typeof config?.const?.REPO_URL === 'string' ? config.const.REPO_URL : ''
+
+		this.#examples  = new Examples( { utils } )
+		this.#templates = new Templates( { utils } )
+		this.#convert   = new Convert( )
+
+		this.#wsPkg    = ( this.utils.pkg || {} ) as PackageJSON
+		this.#corePkg  = ( config?.const?.corePkg || config?.const?.pkg ) as PackageJSON
+		this.#coreDir  = config?.const?.coreDir as string || joinPath( this.utils.wsDir, 'packages', 'core' )
+		this.#REPO_URL = typeof config?.const?.REPO_URL === 'string' ? config.const.REPO_URL : ''
 
 		this.projectName = this.#wsPkg.extra.productName || this.#wsPkg.extra.id || this.#wsPkg.name
-		this.getLogTitle = ( t: string ) => `${color.inverse( ` ${t} ` )}`
 		this.#EMOJI      = getEmojiList( this.opts?.emoji )
 
 		this.template = templateConstructor( this.#EMOJI )
@@ -115,19 +111,9 @@ export class Predocs {
 
 	}
 
-	async #getPkgPaths(): Promise<string[]> {
-
-		if ( this.#pkgPaths ) return this.#pkgPaths
-
-		return await this.utils.getPkgPaths()
-
-	}
-
 	async #getPublicPkgData(): Promise<PkgData> {
 
-		if ( this.#pkgData ) return this.#pkgData
-
-		const pkgPaths = await this.#getPkgPaths()
+		const pkgPaths = await this.utils.getPkgPaths()
 		const data     = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
 		console.debug( data )
 		return data
@@ -215,8 +201,6 @@ export class Predocs {
 
 	async setIndexFile( config?: PredocsConfig['index'] ) {
 
-		this.utils.prompt.log.info( this.getLogTitle( 'index file' ) )
-
 		config              = deepmerge( this.opts?.index || {}, config || {} )
 		const data          = await this.#getPublicPkgData()
 		const docsIndexFile = joinPath( data.docsDir, FILE_NAME.INDEX )
@@ -224,6 +208,7 @@ export class Predocs {
 		const groups        = Object.keys( groupedData )
 
 		await this.#templates.get( {
+			title   : 'index file',
 			input   : config?.creationTemplate ? this.template.docsIndexWithCreate : this.template.docsIndex,
 			output  : docsIndexFile,
 			const   : { libPkg: this.#corePkg },
@@ -314,27 +299,22 @@ export class Predocs {
 
 			} },
 		} )
-		this.utils.prompt.log.step( '' )
 
 	}
 
 	async setContributorsFile( ) {
 
-		this.utils.prompt.log.info( this.getLogTitle( 'contributors file' ) )
 		const data = await this.#getPublicPkgData()
 
 		await this.#templates.get( {
+			title  : 'contributors file',
 			input  : this.template.docsContributors,
 			output : joinPath( data.docsDir, FILE_NAME.CONTRIBUTORS ),
 		} )
 
-		this.utils.prompt.log.step( '' )
-
 	}
 
 	async setGuideSectionIndexFile( config: PredocsConfig['guideSection'] = {} ) {
-
-		this.utils.prompt.log.info( this.getLogTitle( 'guide section index file' ) )
 
 		config         = deepmerge( this.opts?.guideSection || {}, config || {} )
 		const data     = await this.#getPublicPkgData( )
@@ -357,32 +337,25 @@ export class Predocs {
 				path,
 				content,
 			)
-			this.utils.prompt.log.success( this.utils.style.info.msg( 'Overwrite content to', path ) )
+			this.utils.prompt.log.success( this.utils.style.info.badge( 'guide section index file' ) + ' ' + this.utils.style.info.msg( 'Overwrite content to', path ) )
 
 		}
-		this.utils.prompt.log.step( '' )
 
 	}
 
 	async setGuideIndexFile( ) {
 
-		this.utils.prompt.log.info( this.getLogTitle( 'guide index file' ) )
-
 		const data        = await this.#getPublicPkgData( )
 		const guideDir    = data.docsGuideDir
 		const wsIndexFile = joinPath( this.#coreDir, 'docs', FILE_NAME.GUIDE )
-
-		if ( await existsFile( wsIndexFile ) ) {
-
-			await this.#templates.get( {
-				input  : wsIndexFile,
-				output : joinPath( guideDir, FILE_NAME.INDEX ),
-				const  : { libPkg: this.#corePkg },
-			} )
-
-		}
-		else this.utils.prompt.log.info( 'Guide index file does not exist in: ' + wsIndexFile )
-		this.utils.prompt.log.step( '' )
+		const title       = 'guide index file'
+		if ( await existsFile( wsIndexFile ) ) await this.#templates.get( {
+			title,
+			input  : wsIndexFile,
+			output : joinPath( guideDir, FILE_NAME.INDEX ),
+			const  : { libPkg: this.#corePkg },
+		} )
+		else this.utils.prompt.log.info( this.utils.style.info.badge( title ) + ' Guide index file does not exist in: ' + wsIndexFile )
 
 	}
 
@@ -405,44 +378,43 @@ export class Predocs {
 
 	}
 
-	async setPkgFiles() {
+	async #setPkgFile( {
+		publicPkg, info,
+	}:{
+		publicPkg : PkgData['data'][number]
+		info      : MarkdownInfo
+	} ) {
 
-		const data       = await this.#getPublicPkgData( )
-		const publicPkgs = data.data
-		const info       = await this.getMarkdownInfo()
+		await ensureDir( publicPkg.docs.dir )
 
-		for ( const publicPkg of publicPkgs ) {
+		//////////////////////////////////////////////////////////////////////////////
+		// PACKAGE.JSON (OVERRIDE)
 
-			this.utils.prompt.log.info( this.getLogTitle( publicPkg.name || '' ) )
+		const data = {
+			...publicPkg.data,
+			homepage   : joinUrl( this.#wsPkg.homepage || '', publicPkg.docs.urlPath.index ),
+			repository : {
+				type      : 'git',
+				url       : this.#REPO_URL,
+				directory : publicPkg.package.relativeDir,
+			},
+			license : this.#wsPkg.license,
+			funding : this.#wsPkg.funding,
+			bugs    : this.#wsPkg.bugs,
+			...( this.#wsPkg.author ? { author: this.#wsPkg.author } : {} ),
+		}
 
-			await ensureDir( publicPkg.docs.dir )
+		await writeFile(
+			publicPkg.package.packageJsonFile,
+			JSON.stringify( data, undefined, '\t' ) + '\n',
+		)
 
-			//////////////////////////////////////////////////////////////////////////////
-			// PACKAGE.JSON (OVERRIDE)
-
-			const data = {
-				...publicPkg.data,
-				homepage   : joinUrl( this.#wsPkg.homepage || '', publicPkg.docs.urlPath.index ),
-				repository : {
-					type      : 'git',
-					url       : this.#REPO_URL,
-					directory : publicPkg.package.relativeDir,
-				},
-				license : this.#wsPkg.license,
-				funding : this.#wsPkg.funding,
-				bugs    : this.#wsPkg.bugs,
-				...( this.#wsPkg.author ? { author: this.#wsPkg.author } : {} ),
-			}
-
-			await writeFile(
-				publicPkg.package.packageJsonFile,
-				JSON.stringify( data, undefined, '\t' ) + '\n',
-			)
-
-			//////////////////////////////////////////////////////////////////////////////
-			// INDEX (DOCS)
+		//////////////////////////////////////////////////////////////////////////////
+		// INDEX (DOCS)
+		try {
 
 			await this.#templates.get( {
+				title   : publicPkg.name || '',
 				input   : publicPkg.package.docsFile ? publicPkg.package.docsFile : `# ${publicPkg.name}\n\n${publicPkg.data.description}\n\n{{partial.installation}}\n`,
 				output  : publicPkg.docs.indexFile,
 				const   : { libPkg: publicPkg.data },
@@ -461,8 +433,16 @@ export class Predocs {
 				} },
 			} )
 
-			//////////////////////////////////////////////////////////////////////////////
-			// EXAMPLES (DOCS)
+		}
+		catch ( e ) {
+
+			throw new Error( `Failed to generate index.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+		}
+
+		//////////////////////////////////////////////////////////////////////////////
+		// EXAMPLES (DOCS)
+		try {
 
 			if ( publicPkg.docs.examplesFile && publicPkg.package.examplesConfigFile )
 				await this.#examples.fromConfig( {
@@ -471,8 +451,17 @@ export class Predocs {
 					title  : `\`${publicPkg.name}\` - Examples`,
 				} )
 
-			//////////////////////////////////////////////////////////////////////////////
-			// API (DOCS)
+		}
+		catch ( e ) {
+
+			throw new Error( `Failed to generate examples.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+		}
+
+		//////////////////////////////////////////////////////////////////////////////
+		// API (DOCS)
+
+		try {
 
 			if ( publicPkg.docs.apiFile && publicPkg.package.isTs ) {
 
@@ -485,7 +474,6 @@ export class Predocs {
 						typedocMarkdown : {
 							hidePageHeader : true,
 							hidePageTitle  : true,
-
 						},
 					},
 				} )
@@ -497,8 +485,18 @@ export class Predocs {
 
 			}
 
+		}
+		catch ( e ) {
+
+			throw new Error( `Failed to generate api.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+		}
+
+		try {
+
 			//////////////////////////////////////////////////////////////////////////////
 			// README (REPO)
+
 			let content               = '',
 				precontent            = ''
 			const readmedocsPath      = joinPath( this.#coreDir, 'docs', FILE_NAME.README )
@@ -568,7 +566,41 @@ export class Predocs {
 			//////////////////////////////////////////////////////////////////////////////
 			if ( publicPkg.id === ID.core )
 				await setReadmeFile( this.template.readmePkg, joinPath( this.utils.wsDir, FILE_NAME.README ) )
-			this.utils.prompt.log.step( '' )
+
+		}
+		catch ( e ) {
+
+			throw new Error( `Failed to generate readme.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+		}
+
+	}
+
+	async setPkgFiles() {
+
+		const publicPkgs = ( await this.#getPublicPkgData( ) ).data
+		const info       = await this.getMarkdownInfo()
+		for ( const publicPkg of publicPkgs ) {
+
+			// await Promise.all(
+			// 	publicPkgs.map( async publicPkg => {
+
+			try {
+
+				await this.#setPkgFile( {
+					publicPkg,
+					info,
+				} )
+
+			}
+			catch ( e ) {
+
+				throw new Error( `Failed in package ${publicPkg.name}.\n Error: ${e instanceof Error ? e.message : e?.toString()}\n` )
+
+			}
+
+			// } ),
+			// )
 
 		}
 

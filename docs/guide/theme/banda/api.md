@@ -83,7 +83,7 @@ type Config: {
 | `convert`? | [`Config`](namespaces/convert.md#config) | Convert configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/convert - https://www.npmjs.com/package/@dovenv/convert |
 | `docs`? | [`Config`](namespaces/docs.md#config) | Documentation configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/docs - https://www.npmjs.com/package/@dovenv/docs |
 | `examples`? | [`Config`](namespaces/examples.md#config) | Examples configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/examples - https://www.npmjs.com/package/@dovenv/examples |
-| `lint`? | [`Config`](namespaces/lint/index.md#config) | Lint configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/lint - https://www.npmjs.com/package/@dovenv/lint |
+| `lint`? | [`Config`](namespaces/lint.md#config) | Lint configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/lint - https://www.npmjs.com/package/@dovenv/lint |
 | `repo`? | `Parameters`\<*typeof* [`default`](namespaces/repo.md#default)\>\[`0`\] | Repository configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/repo - https://www.npmjs.com/package/@dovenv/repo |
 | `templates`? | [`Config`](namespaces/templates.md#config) | Templates configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/templates - https://www.npmjs.com/package/@dovenv/templates |
 | `todo`? | [`Config`](namespaces/todo.md#config) | To-Do configuration. **See** - https://dovenv.pigeonposse.com/guide/plugin/todo - https://www.npmjs.com/package/@dovenv/todo |
@@ -100,7 +100,7 @@ Renames and re-exports [bandaTheme](#bandatheme)
 - [convert](namespaces/convert.md)
 - [docs](namespaces/docs.md)
 - [examples](namespaces/examples.md)
-- [lint](namespaces/lint/index.md)
+- [lint](namespaces/lint.md)
 - [repo](namespaces/repo.md)
 - [templates](namespaces/templates.md)
 - [todo](namespaces/todo.md)

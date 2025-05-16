@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/lint",
-	"version": "1.5.2",
+	"version": "1.5.3",
 	"description": "Lint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -67,8 +67,6 @@
 		"@commitlint/lint": "19.8.1",
 		"@commitlint/load": "19.8.1",
 		"@commitlint/read": "19.8.1",
-		"@dovenv/eslint-config": "workspace:*",
-		"@dovenv/stylelint-config": "workspace:*",
 		"commitlint-config-gitmoji": "2.3.1",
 		"lint-staged": "15.5.2",
 		"publint": "0.3.12",
@@ -77,7 +75,9 @@
 	},
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",
-		"@dovenv/repo-config": "workspace:*"
+		"@dovenv/eslint-config": "workspace:*",
+		"@dovenv/repo-config": "workspace:*",
+		"@dovenv/stylelint-config": "workspace:*"
 	},
 	"peerDependencies": {
 		"@dovenv/core": "workspace:*"

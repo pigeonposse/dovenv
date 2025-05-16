@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/theme-pigeonposse",
-	"version": "1.5.2",
+	"version": "1.5.3",
 	"description": "A dovenv configuration and tools for Pigeonposse team",
 	"keywords": [
 		"aio",
@@ -42,6 +42,26 @@
 				"types": "./dist/main.d.cts",
 				"default": "./dist/main.cjs"
 			}
+		},
+		"./eslint": {
+			"import": {
+				"types": "./dist/eslint.d.mts",
+				"default": "./dist/eslint.mjs"
+			},
+			"require": {
+				"types": "./dist/eslint.d.cts",
+				"default": "./dist/eslint.cjs"
+			}
+		},
+		"./stylelint": {
+			"import": {
+				"types": "./dist/stylelint.d.mts",
+				"default": "./dist/stylelint.mjs"
+			},
+			"require": {
+				"types": "./dist/stylelint.d.cts",
+				"default": "./dist/stylelint.cjs"
+			}
 		}
 	},
 	"main": "dist/main.mjs",
@@ -56,6 +76,8 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
+		"@dovenv/eslint-config": "workspace:*",
+		"@dovenv/stylelint-config": "workspace:*",
 		"@dovenv/theme-banda": "workspace:*"
 	},
 	"devDependencies": {

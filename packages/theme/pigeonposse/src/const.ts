@@ -76,8 +76,8 @@ export const getPigeonposseData = ( params: ConstsConfig = {} ): Record<string, 
 			`[${person.name}](${person.url || '#'})`,
 		).join( ', ' ) || ''
 
-	const mark = `
-${asciiFont( pkg.extra?.collective?.id ? `${pkg.extra.collective.id}\n-------\n${name}` : name, 'ANSI Shadow' )}
+	const mark = async () => `
+${await asciiFont( pkg.extra?.collective?.id ? `${pkg.extra.collective.id}\n-------\n${name}` : name, 'ANSI Shadow' )}
 - Author: [${pkg.author?.name}](${pkg.author?.url || '#'})
 ${pkg.contributors?.length
 		? ` - Contributors: ${processPeople( pkg.contributors )}`

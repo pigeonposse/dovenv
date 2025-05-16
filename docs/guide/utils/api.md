@@ -2,6 +2,69 @@
 
 ## Classes
 
+### LazyLoader\<O\>
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `O` *extends* `Record`\<`string`, () => `Promise`\<`unknown`\>\> |
+
+#### Constructors
+
+##### new LazyLoader()
+
+```ts
+new LazyLoader<O>(resources: O, options: LazyLoaderOptions): LazyLoader<O>
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `resources` | `O` |
+| `options` | `LazyLoaderOptions` |
+
+###### Returns
+
+[`LazyLoader`](#lazyloadero)\<`O`\>
+
+#### Methods
+
+##### get()
+
+```ts
+get<K>(key: K): Promise<Awaited<ReturnType<O[K]>>>
+```
+
+Retrieves a resource by its key, loading it if necessary and caching the result.
+
+###### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `K` *extends* `string` \| `number` \| `symbol` |
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `key` | `K` | The key of the resource to load. |
+
+###### Returns
+
+`Promise`\<`Awaited`\<`ReturnType`\<`O`\[`K`\]\>\>\>
+
+The loaded resource.
+
+#### Properties
+
+| Property | Type |
+| ------ | ------ |
+| `options` | `LazyLoaderOptions` |
+
+***
+
 ### PackageManagerData
 
 #### Accessors
@@ -631,7 +694,7 @@ Normalization ensures that differences like trailing slashes or redundant path s
 ### asciiFont()
 
 ```ts
-function asciiFont(txt: string, font?: Fonts): string
+function asciiFont(txt: string, font?: Fonts): Promise<string>
 ```
 
 Generates ASCII art text using the specified font.
@@ -645,14 +708,14 @@ Generates ASCII art text using the specified font.
 
 #### Returns
 
-`string`
+`Promise`\<`string`\>
 
 - The ASCII art text.
 
 #### Example
 
 ```ts
-const asciiText = asciiFont('Hello, World!', '3-D');
+const asciiText = await asciiFont('Hello, World!', '3-D');
 console.log(asciiText);
 ```
 
@@ -1392,7 +1455,7 @@ const copyResult = await copyFile({
 ### createBadgeSVG()
 
 ```ts
-function createBadgeSVG(format: Format): string
+function createBadgeSVG(f: Format): Promise<string>
 ```
 
 Cheate shields.io SVGs.
@@ -1401,11 +1464,11 @@ Cheate shields.io SVGs.
 
 | Parameter | Type |
 | ------ | ------ |
-| `format` | `Format` |
+| `f` | `Format` |
 
 #### Returns
 
-`string`
+`Promise`\<`string`\>
 
 #### See
 
@@ -6160,6 +6223,18 @@ Converts a Markdown input to a terminal formatted string.
 
 ***
 
+### mdParser()
+
+```ts
+function mdParser(): Promise<MDParser>
+```
+
+#### Returns
+
+`Promise`\<[`MDParser`](#mdparser-1)\>
+
+***
+
 ### normalizePath()
 
 ```ts
@@ -7798,7 +7873,7 @@ setTimeout(() => {
 ### table()
 
 ```ts
-function table(data: TableData, options?: TableUserConfig): string
+function table(data: TableData, options?: TableConstructorOptions): string
 ```
 
 Generates a text-based table from the provided data array.
@@ -7808,7 +7883,7 @@ Generates a text-based table from the provided data array.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `data` | [`TableData`](#tabledata) | The data to display in the table. |
-| `options`? | `TableUserConfig` | Optional configuration options for the table. |
+| `options`? | `TableConstructorOptions` | Optional configuration options for the table. |
 
 #### Returns
 
@@ -7952,10 +8027,10 @@ function writeFile(
    file: PathLike | FileHandle, 
    data: 
   | string
-  | Stream
   | ArrayBufferView<ArrayBufferLike>
   | Iterable<string | ArrayBufferView<ArrayBufferLike>, any, any>
-  | AsyncIterable<string | ArrayBufferView<ArrayBufferLike>, any, any>, 
+  | AsyncIterable<string | ArrayBufferView<ArrayBufferLike>, any, any>
+  | Stream, 
 options?: null | BufferEncoding | ObjectEncodingOptions & {} & Abortable): Promise<void>
 ```
 
@@ -8010,7 +8085,7 @@ system requests but rather the internal buffering `fs.writeFile` performs.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `file` | `PathLike` \| `FileHandle` | filename or `FileHandle` |
-| `data` | \| `string` \| `Stream` \| `ArrayBufferView`\<`ArrayBufferLike`\> \| `Iterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> \| `AsyncIterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> | - |
+| `data` | \| `string` \| `ArrayBufferView`\<`ArrayBufferLike`\> \| `Iterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> \| `AsyncIterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> \| `Stream` | - |
 | `options`? | `null` \| `BufferEncoding` \| `ObjectEncodingOptions` & \{\} & `Abortable` | - |
 
 #### Returns
@@ -8387,6 +8462,24 @@ type GradientOpts: {
 ```ts
 type HighlightOpts: Parameters<typeof highlight>[1];
 ```
+
+***
+
+### MDParser
+
+```ts
+type MDParser: {
+  deserialize: (str: string) => MarkdownObject;
+  serialize: (obj: MarkdownObject) => string;
+};
+```
+
+#### Type declaration
+
+| Name | Type |
+| ------ | ------ |
+| `deserialize` | (`str`: `string`) => `MarkdownObject` |
+| `serialize` | (`obj`: `MarkdownObject`) => `string` |
 
 ***
 
@@ -8813,7 +8906,7 @@ type Runtime: typeof RUNTIME[keyof typeof RUNTIME];
 ### TableData
 
 ```ts
-type TableData: unknown[][];
+type TableData: string[][];
 ```
 
 ***
@@ -8821,7 +8914,7 @@ type TableData: unknown[][];
 ### TableOpts
 
 ```ts
-type TableOpts: TableUserConfig;
+type TableOpts: TableConstructorOptions;
 ```
 
 ***
@@ -9144,7 +9237,7 @@ const promptLine: {
     };
   number: (opts: NumberParams) => Promise<string | symbol>;
   table: (opts: {
-     opts: TableUserConfig;
+     opts: TableConstructorOptions;
      type: PromptLineMethod;
      value: TableData;
     }) => void;
@@ -9160,7 +9253,7 @@ const promptLine: {
 | `log` | \{ `errorWithExit`: (`m`: `string`) => `never`; \} |
 | `log.errorWithExit` | (`m`: `string`) => `never` |
 | `number` | (`opts`: [`NumberParams`](#numberparams)) => `Promise`\<`string` \| `symbol`\> |
-| `table` | (`opts`: \{ `opts`: `TableUserConfig`; `type`: [`PromptLineMethod`](#promptlinemethod); `value`: [`TableData`](#tabledata); \}) => `void` |
+| `table` | (`opts`: \{ `opts`: `TableConstructorOptions`; `type`: [`PromptLineMethod`](#promptlinemethod); `value`: [`TableData`](#tabledata); \}) => `void` |
 
 ***
 
@@ -9304,4 +9397,3 @@ const yaml: {
 
 - [align](namespaces/align.md)
 - [ansiEscapes](namespaces/ansiEscapes.md)
-- [md](namespaces/md.md)

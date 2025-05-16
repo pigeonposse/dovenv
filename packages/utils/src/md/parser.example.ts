@@ -1,9 +1,10 @@
 import {
 	createBadgeURL,
 	createMdLinks,
-	md,
-} from './main'
+	mdParser,
+} from '.'
 
+const md = await mdParser()
 // Define the badges
 const badges = [
 	{

@@ -39,10 +39,16 @@ export const lintPlugin = ( conf?: Config ): DovenvConfig => ( { custom : { lint
 		},
 		[CMDS.eslint] : {
 			desc : 'Lint JS/TS/MD/JSON/YAML.. files',
-			opts : { fix : {
-				desc : 'Fix errors',
-				type : 'boolean',
-			} },
+			opts : {
+				fix : {
+					desc : 'Fix errors',
+					type : 'boolean',
+				},
+				flags : {
+					desc : 'Eslint custom flags',
+					type : 'array',
+				},
+			},
 		},
 		[CMDS.commitlint] : {
 			desc : 'Lint commit messages',
@@ -111,7 +117,7 @@ export const lintPlugin = ( conf?: Config ): DovenvConfig => ( { custom : { lint
 		else if ( cmds?.includes( CMDS.stylelint ) )
 			await lint.stylelint( opts?.files as string[], opts?.fix as boolean )
 		else if ( cmds?.includes( CMDS.eslint ) )
-			await lint.eslint( opts?.fix ? [ '--fix' ] : [] )
+			await lint.eslint( opts?.fix ? [ '--fix' ] : ( opts?.flags ? opts?.flags as string[] : [] ) )
 		else if ( cmds?.includes( CMDS.commitlint ) )
 			await lint.commitlint( opts?.message as string )
 		else if ( cmds?.includes( CMDS.publint ) )

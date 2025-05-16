@@ -1,4 +1,4 @@
-import lintStaged from 'lint-staged'
+import { LazyLoader } from '@dovenv/core/utils'
 
 import {
 	CMDS,
@@ -7,6 +7,8 @@ import {
 
 export type LintStagedConfig = Record<string, string>
 
+const _deps = new LazyLoader( { 'lint-staged': async () => ( await import( 'lint-staged' ) ).default } )
+
 export class StagedLint extends LintSuper<LintStagedConfig> {
 
 	async #fn() {
@@ -14,6 +16,8 @@ export class StagedLint extends LintSuper<LintStagedConfig> {
 		if ( !( await this.utils.ensureOpts( { input: this.opts } ) ) ) return
 
 		console.debug( { lintStagedConf: this.opts } )
+		const lintStaged = await _deps.get( 'lint-staged' )
+
 		const res = await lintStaged( {
 			config : this.opts,
 			shell  : true,

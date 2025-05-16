@@ -13,11 +13,10 @@ import {
 	getStringFrom,
 	getStringType,
 	joinPath,
+	LazyLoader,
 	relativePath,
 	writeFile,
 } from '@dovenv/core/utils'
-// @ts-ignore
-import jsdoc from 'jsdoc-api'
 
 import * as consts  from './const'
 import { schema }   from './schema'
@@ -34,7 +33,8 @@ import type {
 import type { Any } from '@dovenv/core/utils'
 
 type ExampleConfig = NonNullable<ExampleConfigFileProps['config']>
-
+// @ts-ignore
+const _deps = new LazyLoader( { jsdoc: async () => ( await import( 'jsdoc-api' ) ).default as Any } )
 export class Examples {
 
 	const = consts
@@ -251,6 +251,7 @@ export class Examples {
 		} = data
 
 		console.debug( { data } )
+		const jsdoc     = await _deps.get( 'jsdoc' )
 		const jsdocData = await jsdoc.explain( {
 			files : input.map( p => relativePath( this.utils.process.cwd(), p ) ),
 			cache : false,
