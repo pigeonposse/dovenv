@@ -9,7 +9,6 @@ import {
 	writeFile,
 	getDirName,
 	ensureDir,
-	LazyLoader,
 	readFiles,
 } from '@dovenv/core/utils'
 
@@ -24,8 +23,6 @@ type TodoComment = {
 	text : string
 	tag  : string
 }
-
-const _deps = new LazyLoader( { leasot: () => import( 'leasot' ) } )
 
 export class Todo {
 
