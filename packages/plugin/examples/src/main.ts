@@ -21,13 +21,15 @@ export const examplesPlugin = ( conf?: Config ): DovenvConfig => {
 			desc  : 'Key pattern',
 			type  : 'array',
 		} },
-		fn : async ( { utils } ) => {
+		fn : async ( {
+			utils, opts,
+		} ) => {
 
 			const temp = new Examples( {
 				opts : conf,
 				utils,
 			} )
-			await temp.run()
+			await temp.run( opts?.key as string[] )
 
 		},
 	} } }

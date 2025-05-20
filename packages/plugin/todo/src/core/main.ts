@@ -6,25 +6,27 @@
  * @todo Fix for accept "- [ ]" as custom tag without comments.
  */
 import {
-	getExtName,
-	getPaths,
-	readFile,
-	relativePath,
 	writeFile,
 	getDirName,
 	ensureDir,
 	LazyLoader,
+	readFiles,
 } from '@dovenv/core/utils'
 
 import { homepage } from '../../package.json'
 
 import type { Config }       from './types'
 import type { CommandUtils } from '@dovenv/core'
-import type { parse }        from 'leasot'
 
-type TodoComments = Awaited<ReturnType<typeof parse>>
+type TodoComment = {
+	file : string
+	line : number
+	text : string
+	tag  : string
+}
 
 const _deps = new LazyLoader( { leasot: () => import( 'leasot' ) } )
+
 export class Todo {
 
 	opts  : Config | undefined
@@ -44,96 +46,137 @@ export class Todo {
 
 	}
 
-	async #fn( pattern?: string[] ): Promise<TodoComments | undefined> {
+	async #extractTodos( content: string, path: string, tags: string[] ): Promise<TodoComment[]> {
 
-		const {
-			parse, isExtensionSupported, report,
-		} = await _deps.get( 'leasot' )
-		const keys = await this.utils.getOptsKeys( {
+		const tagRegex = new RegExp( `(${tags.map( t => t.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ) ).join( '|' )})`, 'i' )
+
+		const todos = await Promise.all( content.split( '\n' ).map( async ( line, i ) => {
+
+			const match = tagRegex.exec( line )
+			if ( match ) return {
+				file : path,
+				line : i + 1,
+				text : line.replace( match[0], '' ).trim(),
+				tag  : match[0],
+			}
+			else return
+
+		} ) )
+
+		return todos.filter( v => v !== undefined )
+
+	}
+
+	#formatMarkdown( todos: TodoComment[] ): string {
+
+		return todos.map( todo =>
+			`- **${todo.file}:${todo.line}** — ${todo.text}` ).join( '\n' )
+
+	}
+
+	#formatCli( todos: TodoComment[] ): string {
+
+		const table =   todos.map( todo => this.utils.style.table( [
+			[ this.utils.style.section.b( 'tag ' ), todo.tag ],
+			[ this.utils.style.section.b( 'description ' ), todo.text ],
+			[ this.utils.style.section.b( 'path ' ), this.utils.style.p( todo.file + ':' + todo.line ) ],
+		], { chars : {
+			'top'          : '',
+			'top-mid'      : '',
+			'top-left'     : '',
+			'top-right'    : '',
+			'bottom'       : '',
+			'bottom-mid'   : '',
+			'bottom-left'  : '',
+			'bottom-right' : '',
+			'left'         : '',
+			'left-mid'     : '',
+			'mid'          : '',
+			'mid-mid'      : '',
+			'right'        : '',
+			'right-mid'    : '',
+			'middle'       : '',
+		} } ) )
+
+		return table.join( '\n\n' )
+
+	}
+
+	async #fn( pattern?: string[] ): Promise<TodoComment[] | undefined> {
+
+		// const defaultType             = '.md'
+		const defaultTags             = [
+			'@todo',
+			'@fixme',
+			'- [ ]',
+		]
+		const resTotal: TodoComment[] = []
+
+		await this.utils.mapOpts( {
 			input : this.opts,
 			pattern,
-		} )
-		if ( !keys || !this.opts ) return
+			cb    : async ( {
+				value, log,
+			} ) => {
 
-		const defaultType            = '.md'
-		const resTotal: TodoComments = []
+				const res: TodoComment[] = []
 
-		for ( const key of keys ) {
+				await readFiles( value.input, {
+					inputOpts : {
+						gitignore : true,
+						onlyFiles : true,
+						dot       : true,
+						cwd       : this.utils.wsDir,
+						...value.inputOpts,
+					},
+					hook : { onFile : async ( {
+						path, content,
+					} ) => {
 
-			const res: TodoComments = []
-			console.log( '\n' + this.utils.style.info.h( `TODOs for ${this.utils.style.badge( key )} key` ) )
+						// const filetype = getExtName( path )
 
-			const opts  = this.opts[key]
-			const paths = await getPaths( opts.input, {
-				gitignore : true,
-				onlyFiles : true,
-				dot       : true,
-				...opts.inputOpts,
-			} )
+						const tags = value.customTags ?? defaultTags
 
-			console.debug( { paths } )
+						const todos = await this.#extractTodos( content, path, tags )
 
-			for ( const path of paths ) {
+						if ( todos.length > 0 ) res.push( ...todos )
 
-				const content = await readFile( path, 'utf-8' )
-				let filetype  = getExtName( path )
-
-				// if ( !filetype ) console.warn( 'path has no file type', path )
-
-				const fileTypeSupported = isExtensionSupported( filetype )
-				if ( !fileTypeSupported ) {
-
-					console.warn( 'path has invalid file type', path )
-					filetype = defaultType
-
-				}
-				const todos = await parse( content, {
-					filename   : relativePath( this.utils.process.cwd(), path ),
-					extension  : filetype || defaultType,
-					customTags : ( opts.customTags
-						? opts.customTags
-						: [
-							'TODO',
-							'@todo',
-							'@fixme',
-							'- [ ]',
-						] ),
+					} },
 				} )
 
-				if ( todos.length === 0 ) continue
+				if ( res.length > 0 && value.output ) {
 
-				res.push( ...todos )
+					const output = this.#formatMarkdown( res )
+					const outDir = getDirName( value.output )
+					await ensureDir( outDir )
+					await writeFile( value.output, output, 'utf-8' )
 
-			}
+				}
 
-			if ( res.length > 0 && opts.output ) {
+				if ( res.length > 0 ) {
 
-				const output = await report( res, 'markdown', { padding: 2 } )
-				const outDir = getDirName( opts.output )
-				await ensureDir( outDir )
-				await writeFile( opts.output, output, 'utf-8' )
+					const output =  this.#formatCli( res )
 
-			}
+					if ( output && output.length > 0 ) {
 
-			if ( res.length > 0 ) {
+						log.info( 'TODOs found' )
+						console.log( '\n' + output + '\n' )
 
-				const output = await report( res, 'table', { padding: 2 } )
+					}
 
-				if ( output && output.length > 0 )
-					console.log( output )
+				}
 
-			}
+				if ( res.length === 0 ) log.info( 'No TODOs found' )
+				else resTotal.push( ...res )
 
-			if ( res.length === 0 ) console.log( '\n' + this.utils.style.error.msg( 'No TODOs found' ) )
-			else resTotal.push( ...res )
-
-		}
+			},
+		} )
 
 		return resTotal
 
 	}
 
-	async run( pattern?: string[] ): Promise<TodoComments | undefined> {
+	async run( pattern?: string[] ): Promise<TodoComment[] | undefined> {
 
 		return await this.utils.catchFn( this.#fn( pattern ) )
 

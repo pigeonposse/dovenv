@@ -19,21 +19,9 @@ export class Constant extends Command<ConstConfig> {
 
 	}
 
-	async #getValue( key: unknown ) {
+	async #getValue( key?: string ) {
 
-		if ( !( this.opts && typeof key === 'string' && key in this.opts ) ) return
-
-		const value = this.opts[key]
-
-		if ( typeof value === 'function' ) {
-
-			const [ e, result ] = await this.catchError( ( async () => await value() )() )
-
-			if ( !e ) return result
-			return 'Error setting value of ' + key + ':\n' + e.message
-
-		}
-		else return value
+		return await this.utils.getConsts( key )
 
 	}
 
@@ -68,26 +56,13 @@ export class Constant extends Command<ConstConfig> {
 
 		if ( !userKeys || !userKeys.length ) return
 
-		for ( const key of userKeys ) {
-
-			await set( key )
-
-		}
+		await Promise.all( userKeys.map( key => set( key ) ) )
 
 	}
 
-	async get(): Promise<Record<string, unknown>> {
+	async get() {
 
-		if ( !this.opts ) return {}
-
-		await this.validateSchema( this.opts )
-
-		const entries = await Promise.all( Object.entries( this.opts ).map(
-			async ( [ key ] ) => [ key, await this.#getValue( key ) ],
-		) )
-
-		const res = Object.fromEntries( entries )
-		return res
+		return await this.utils.getConsts( undefined )
 
 	}
 

@@ -343,6 +343,59 @@ export function validateHomeDir( path: string ): string {
 export const readFile = nodeReadFile
 
 /**
+ * Reads multiple files based on specified glob patterns and returns their contents.
+ *
+ * @param   {Parameters<typeof getPaths>[0]}               patterns           - The glob patterns to match file paths.
+ * @param   {object}                                       [opts]             - Optional configurations.
+ * @param   {Parameters<typeof getPaths>[1]}               [opts.inputOpts]   - Optional options for glob pattern matching.
+ * @param   {object}                                       [opts.hook]        - Optional hooks for handling file data.
+ * @param   {Function}                                     [opts.hook.onFile] - A callback function invoked for each file's path and content.
+ * @returns {Promise<{ path: string, content: string }[]>}                    - A promise that resolves to an array of objects containing file paths and their contents.
+ * @throws {Error} If an error occurs while reading any file.
+ */
+export const readFiles = async (
+	patterns : Parameters<typeof getPaths>[0],
+	opts?: {
+		inputOpts? : Parameters<typeof getPaths>[1]
+		hook?: { onFile? : ( data: {
+			path    : string
+			content : string
+		} ) => void | Promise<void> }
+	},
+) => {
+
+	const filePaths = await getPaths( patterns, {
+		dot       : true,
+		...opts?.inputOpts,
+		onlyFiles : true,
+	} )
+
+	return await Promise.all( filePaths.map( async path => {
+
+		try {
+
+			const content = await readFile( path, 'utf8' )
+			const data    = {
+				path,
+				content,
+			}
+
+			await opts?.hook?.onFile?.( data )
+
+			return data
+
+		}
+		catch ( error ) {
+
+			throw new Error( `Error reading file ${path}: ${error instanceof Error ? error.message : error?.toString()}` )
+
+		}
+
+	} ) )
+
+}
+
+/**
  * Removes a directory and its contents if it exists.
  *
  * @param {string} path - The path of the directory to remove.

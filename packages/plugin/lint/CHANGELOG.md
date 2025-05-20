@@ -1,5 +1,14 @@
 # @dovenv/lint
 
+## 1.5.4
+
+### Patch Changes
+
+- up deps, increase perf
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.4
+
 ## 1.5.3
 
 ### Patch Changes

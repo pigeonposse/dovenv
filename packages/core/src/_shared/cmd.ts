@@ -27,6 +27,7 @@ import {
 
 import * as consts      from './const'
 import { CommandStyle } from './style'
+import { ConstValue }   from '../core/const/types'
 
 import type { Config } from '../types'
 import type {
@@ -36,6 +37,8 @@ import type {
 	ValidateAnyType,
 } from '@dovenv/utils'
 import type { PackageJSON } from '@dovenv/utils'
+
+type ConfigConst = NonNullable<NonNullable<CommandSuper['config']>['const']>
 
 /**
  * Class for setting up Dovenv command utilities.
@@ -578,7 +581,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 			if ( !opts?.forceExec )
 				console.info( `"${name}" is not installed or not detected in "node_modules"` )
 
-			const cmds = this.getPkgManagerCmds()
+			const cmds = this.packageManager.cmds
 			const cmd  = `${cmds.exec} ${name}@${opts?.remoteVersion || 'latest'} ${flags}`
 
 			console.info( this.style.info.msg( `Execute:`, cmd ), '\n' )
@@ -769,6 +772,46 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 	}
 
+	async getConsts<K extends keyof ConfigConst | undefined>( key?: K ):
+	Promise<
+		K extends keyof ConfigConst
+			? ConstValue
+			: Record<keyof ConfigConst, ConstValue>
+	> {
+
+		const values   = this.config?.const || {}
+		const getConst = async ( key:string ) => {
+
+			if ( !( values && typeof key === 'string' && key in values ) ) return
+
+			const value = values[key]
+
+			if ( typeof value === 'function' ) {
+
+				const [ e, result ] = await catchError( ( async () => await value() )() )
+
+				if ( !e ) return result
+				return 'Error setting value of ' + key + ':\n' + e.message
+
+			}
+			else return value
+
+		}
+		// @ts-ignore
+		if ( key ) return await getConst( key ) as ConstValue | undefined
+
+		return Object.fromEntries(
+			await Promise.all(
+				Object.entries( values ).map( async ( [ key ] ) => {
+
+					return [ key, getConst( key ) ]
+
+				} ),
+			),
+		) as Record<keyof ConfigConst, ConstValue>
+
+	}
+
 	/**
 	 * Exits the process with a status code of 1, indicating an error.
 	 */
@@ -776,6 +819,91 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 		// this.process.exitCode = 1
 		this.process.exit( 1 )
+
+	}
+
+	logGroup( k?:string ) {
+
+		const logConstructor = ( type: 'info' | 'success' | 'warn' | 'error', key?: string ) =>
+			( t: string, m?: string ) => this.prompt.log[type](
+				this.style[type].badge( this.title ) + ( key ? this.style[type].b( ` (${key}) ` ) : ' ' ) + ( !m
+					? this.style[type].p( t )
+					: this.style[type].msg( t, m )
+				),
+			)
+		return {
+			info    : logConstructor( 'info', k ),
+			success : logConstructor( 'success', k ),
+			warn    : logConstructor( 'warn', k ),
+			error   : logConstructor( 'error', k ),
+			step    : ( m?:string ) => this.prompt.log.step( m || '' ),
+		}
+
+	}
+
+	/**
+	 * Executes a callback function in parallel for each key-value pair in the input object
+	 * that matches a specified pattern.
+	 *
+	 * @template V - A record type representing the input object's key-value pairs.
+	 * @template P - A string or array of strings used as a pattern to filter the keys.
+	 * @template R - The type of the result returned by the callback function.
+	 * @param   {object}                       opts         - The options object.
+	 * @param   {V}                            opts.input   - The input object containing key-value pairs to process.
+	 * @param   {P}                            opts.pattern - An optional pattern to filter the keys to be processed.
+	 * @param   {Function}                     opts.cb      - A callback function executed for each matching key-value pair.
+	 *                                                      The callback receives an object containing the key, value, and a logger.
+	 * @returns {Promise<{[K in keyof V]: R}>}              A promise that resolves to an object containing the results
+	 *                                                      of the callback execution for each key.
+	 */
+
+	async mapOpts<
+		V extends Record<string, unknown>,
+		P extends string | string[] | undefined,
+		R,
+	>( opts: {
+		input?   : V
+		pattern? : P
+		/**
+		 * A callback function executed for each matching key-value pair.
+		 */
+		cb      : ( <K extends keyof V>( opts: {
+			key   : K
+			value : V[K]
+			/**
+			 * Logger
+			 */
+			log   : ReturnType<CommandSuper['logGroup']>
+		} ) => Promise<R> )
+	} ) {
+
+		const {
+			input, pattern, cb,
+		} = opts
+
+		const keys = ( await this.getOptsKeys( {
+			input,
+			pattern,
+		} ) as ( keyof V )[] ) ?? []
+
+		if ( !input ) return {}
+
+		const results = await Promise.all( keys.map( async key => {
+
+			const log = this.logGroup( String( key ) )
+
+			log.info( '🏁', 'Starting...' )
+			const result = await cb( {
+				key,
+				value : input[key],
+				log,
+			} )
+			log.success( '✨', 'Finished Successfully\n' )
+
+			return [ key, result ] as [keyof V, R]
+
+		} ) )
+		return Object.fromEntries( results ) as { [K in keyof V]?: R }
 
 	}
 

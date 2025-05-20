@@ -9,8 +9,10 @@ import { Command } from '../_shared/main'
 type CheckType = typeof TYPE[keyof typeof TYPE]
 
 type CheckShared = {
+	/** Title of your check */
+	title? : string
 	/** Description of your check */
-	desc? : string
+	desc?  : string
 }
 type Utils = Command['utils']
 export type CheckDir = CheckShared & {

@@ -1,24 +1,21 @@
-/* eslint-disable @stylistic/object-curly-newline */
-import {
-	readFile,
-} from '@dovenv/utils'
+
+import { readFiles } from '@dovenv/utils'
 
 import { TYPE }   from './const'
 import { schema } from './schema'
-import { CheckConfig,
+import {
+	CheckConfig,
 	CheckCustom,
 	CheckDir,
-	CheckFile } from './types'
+	CheckFile,
+} from './types'
 import { Command } from '../_shared/main'
 
-import type {
-	ArgvParsed,
-} from '../../_shared/types'
+import type { ArgvParsed } from '../../_shared/types'
 
 export class Check extends Command<CheckConfig> {
 
 	argv
-	load
 
 	constructor( argv : ArgvParsed ) {
 
@@ -27,11 +24,10 @@ export class Check extends Command<CheckConfig> {
 		this.utils.title = 'check'
 		this.argv        = argv
 		this.schema      = schema( this.utils.validate )
-		this.load        = this.utils.spinner()
 
 	}
 
-	async #validateWrap( fn: Promise<void> | void ) {
+	async #validateWrap( fn: Promise<void> | void, log: ReturnType<Check['utils']['logGroup']> ) {
 
 		try {
 
@@ -40,100 +36,145 @@ export class Check extends Command<CheckConfig> {
 		}
 		catch ( e ) {
 
-			this.load.fail( this.utils.style.error.msg( ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
-			// this.load.fail( `${color.red( `${key}:` )} ` + ( e instanceof Error ? e.message : JSON.stringify( e ) ) )
+			log.error( this.utils.style.error.msg( e instanceof Error ? e.message : JSON.stringify( e ) ) )
 			this.utils.exitWithError()
 
 		}
 
 	}
 
+	/**
+	 * Runs a file check.
+	 *
+	 * It retrieves the paths using the prop.patterns and calls the prop.validateAll
+	 * function with all the paths if it exists. If the prop.validate property is
+	 * present, it will be called for each file.
+	 *
+	 * Logs warnings if no files match the patterns or if no validation function is
+	 * provided. Logs success if all file checks are passed.
+	 *
+	 * @param   {CheckFile}     prop - The file check to run.
+	 * @returns {Promise<void>}
+	 */
 	async file( prop: CheckFile ) {
 
-		const paths = ( await this.utils.getPaths( prop.patterns, {
-			onlyFiles : true,
-		} ) )
+		const type = '[file]'
+		const log  = this.utils.logGroup( prop.title )
+
+		log.info( type, prop.desc || '' )
+
+		const paths = ( await this.utils.getPaths( prop.patterns, { onlyFiles: true } ) )
 
 		if ( !paths.length ) {
 
-			this.load.warn( this.utils.style.warn.msg( 'No files matched the patterns' ) )
+			log.warn( type, 'No files matched the patterns' )
 			return
 
 		}
 		if ( !prop.validateAll && !prop.validate ) {
 
-			this.load.warn( this.utils.style.warn.msg( 'Skipped because no validate function exists' ) )
+			log.warn( type, 'Skipped because no validate function exists' )
 			return
 
 		}
 
-		if ( prop.validateAll )
-			await this.#validateWrap( prop.validateAll( {
+		if ( prop.validateAll ) await this.#validateWrap(
+			prop.validateAll( {
 				paths,
 				utils : this.utils,
-			} ) )
+			} ),
+			log,
+		)
 
-		if ( prop.validate ) {
+		if ( prop.validate )
+			await readFiles( prop.patterns, { hook : { onFile : async ( {
+				path, content,
+			} ) => {
 
-			for ( const path of paths ) {
-
-				const content = await readFile( path )
 				await this.#validateWrap(
-					prop.validate( {
+					prop.validate?.( {
 						path,
 						content : content.toString(),
 						utils   : this.utils,
 					} ),
+					log,
 				)
 
-			}
+			} } } )
 
-		}
-		this.load.succeed( this.utils.style.success.msg( 'All file checks passed' ) )
+		log.success( type, 'All file checks passed' )
 
 	}
 
+	/**
+	 * Runs a directory check.
+	 *
+	 * It will get the paths using the prop.patterns and it will
+	 * call the prop.validateAll function with all the paths.
+	 *
+	 * Then, if the prop.validate property exists, it will call it
+	 * for each path.
+	 *
+	 * @param   {CheckDir}      prop - The check to run.
+	 * @returns {Promise<void>}
+	 */
 	async dir( prop: CheckDir ) {
 
-		const paths = ( await this.utils.getPaths( prop.patterns, {
-			onlyDirectories : true,
-		} ) )
+		const type = '[dir]'
+		const log  = this.utils.logGroup( prop.title )
+
+		log.info( type, prop.desc || '' )
+
+		const paths = ( await this.utils.getPaths( prop.patterns, { onlyDirectories: true } ) )
 
 		if ( !paths.length ) {
 
-			this.load.warn( this.utils.style.warn.msg( 'No directories matched the patterns' ) )
+			log.warn( type, 'No directories matched the patterns' )
 			return
 
 		}
 		if ( !prop.validateAll && !prop.validate ) {
 
-			this.load.warn( this.utils.style.warn.msg( 'Skipped because no validate function exists' ) )
+			log.warn( type, 'Skipped because no validate function exists' )
 			return
 
 		}
-		if ( prop.validateAll )
-			await this.#validateWrap( prop.validateAll( {
+		if ( prop.validateAll ) await this.#validateWrap(
+			prop.validateAll( {
 				paths,
 				utils : this.utils,
-			} ) )
+			} ),
+			log,
+		)
 
-		if ( prop.validate ) {
-
-			for ( const path of paths ) {
-
-				await this.#validateWrap( prop.validate( {
-					path,
-					utils : this.utils,
-				} ) )
-
-			}
-
-		}
-		this.load.succeed( this.utils.style.success.msg( 'All directory checks passed' ) )
+		if ( prop.validate ) await Promise.all(
+			paths.map( path => this.#validateWrap( prop.validate?.( {
+				path,
+				utils : this.utils,
+			} ), log ) ),
+		)
+		log.success( type, 'All directory checks passed' )
 
 	}
 
+	/**
+	 * Runs a custom check.
+	 *
+	 * The check function will receive an object with two properties:
+	 * - `utils`: An object with some useful functions.
+	 * - `run`: An object with two methods:
+	 * - `dir`: A method to run a directory check.
+	 * - `file`: A method to run a file check.
+	 *
+	 * @param   {CheckCustom}   prop - The check to run.
+	 * @returns {Promise<void>}
+	 */
 	async custom( prop: CheckCustom ) {
+
+		const type = '[custom]'
+		const log  = this.utils.logGroup( prop.title )
+
+		log.info( type, prop.desc || '' )
 
 		await this.#validateWrap( prop.fn( {
 			utils : this.utils,
@@ -141,25 +182,35 @@ export class Check extends Command<CheckConfig> {
 				dir  : this.dir.bind( this ),
 				file : this.file.bind( this ),
 			},
-		} ) )
-		this.load.succeed( this.utils.style.success.msg( 'Check function succesfully passed' ) )
+		} ), log )
+		log.success( type, 'Check function succesfully passed' )
 
 	}
 
+	/**
+	 * Runs multiple checks.
+	 *
+	 * It will run all the checks defined in the props object,
+	 * and it will respect the order of the keys in the object.
+	 *
+	 * If no keys are provided in the argv, it will be skipped.
+	 *
+	 * @param   {CheckConfig}   props - The checks to run.
+	 * @returns {Promise<void>}
+	 */
 	async multiple( props: CheckConfig ) {
 
 		const userKeys = this.getKeysFromArgv( Object.keys( props ), this.argv )
 		if ( !userKeys || !userKeys.length ) return
-		const { style } = this.utils
-		for ( const key of userKeys ) {
 
-			const prop = props[key]
+		const log = this.utils.logGroup( 'Multiple checks' )
 
-			console.log(
-				style.info.h1( key ),
-				style.info.b( `(${prop.type})` ),
-				prop.desc ? style.info.p( prop.desc ) : '',
-			)
+		await Promise.all( userKeys.map( async key => {
+
+			const prop =  {
+				title : key,
+				...props[key],
+			}
 
 			if ( prop.type === TYPE.DIR )
 				await this.dir( prop )
@@ -167,10 +218,11 @@ export class Check extends Command<CheckConfig> {
 				await this.file( prop )
 			else if ( prop.type === TYPE.CUSTOM )
 				await this.custom( prop )
-			else console.warn( style.warn.p( `Unexpected or not provided type in ${style.badge( key )}` ) )
-			console.log()
+			else log.warn( `Unexpected or not provided type in ${this.utils.style.badge( key )}` )
 
-		}
+		} ) )
+		log.step( )
+		log.success( '✨', 'Checks for ' + this.utils.style.b( userKeys.join( ', ' ) ) + ' passed successfully!' )
 
 	}
 

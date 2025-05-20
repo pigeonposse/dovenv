@@ -124,7 +124,7 @@ export class Templates {
 	async get( data: Config[number] ) {
 
 		const rawConst = this.utils.config?.const ?? {}
-		const title    = data.title ? ( this.utils.style.badge( data.title ) + ' ' ) : ''
+		const log      = this.utils.logGroup( data.title )
 
 		const generalConst: Record<string, unknown> = Object.fromEntries(
 			await Promise.all(
@@ -183,12 +183,10 @@ export class Templates {
 
 				await ensureDir( getDirName( out ) )
 				await writeFile( out, res.content )
-				this.utils.prompt.log.success( title + this.utils.style.info.msg( 'Overwrite content to', out ) )
+				log.success( 'Overwrite content to', out )
 
 			}
-			else this.utils.prompt.log.info( title + this.utils.style.info.p( 'output not overwritten' ) )
-			// this.utils.prompt.log.success( this.utils.style.success.msg( ` ✨ Successful!` ) )
-			// this.utils.prompt.log.step( '' )
+			else log.info( 'output not overwritten' )
 
 		}
 
@@ -198,24 +196,16 @@ export class Templates {
 
 	async #fn( pattern?: string[] ) {
 
-		const keys = await this.utils.getOptsKeys( {
+		return await this.utils.mapOpts( {
 			input : this.opts,
 			pattern,
-		} )
-		if ( !keys || !this.opts ) return
-
-		const res: Record<string, string> = {}
-		for ( const key of keys ) {
-
-			const opt = this.opts[key]
-
-			res[key] = await this.get( {
+			cb    : async ( {
+				value, key,
+			} ) => await this.get( {
 				title : key,
-				...opt,
-			} )
-
-		}
-		return res
+				...value,
+			} ),
+		} )
 
 	}
 

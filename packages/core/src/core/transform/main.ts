@@ -13,7 +13,6 @@ import type { ArgvParsed } from '../../_shared/types'
 export class Transform extends Command<TransformConfig> {
 
 	argv
-	load
 
 	constructor( argv : ArgvParsed ) {
 
@@ -22,7 +21,6 @@ export class Transform extends Command<TransformConfig> {
 		this.argv        = argv
 		this.utils.title = 'transform'
 		this.schema      = schema( this.utils.validate ).optional()
-		this.load        = this.utils.spinner()
 
 	}
 
@@ -33,9 +31,10 @@ export class Transform extends Command<TransformConfig> {
 		const userKeys = this.getKeysFromArgv( Object.keys( props ), this.argv )
 		if ( !userKeys || !userKeys.length ) return
 
-		for ( const key of userKeys ) {
+		await Promise.all( userKeys.map( async key => {
 
-			this.load.start( this.utils.style.info.msg( key, 'Transforming...' ) )
+			const log = this.utils.logGroup( key )
+			log.info( '🏁', 'Staring...' )
 
 			try {
 
@@ -60,21 +59,21 @@ export class Transform extends Command<TransformConfig> {
 					} )
 					if ( !newContent ) continue
 					await writeFileContent( i, newContent )
-					this.load.text = this.utils.style.info.msg( key, `[${i}] successfully transformed` )
+					log.info( `[${i}] successfully transformed` )
 
 				}
-				this.load.succeed( this.utils.style.success.msg( key, 'Inputs successfully transformed' ) )
+				log.success( 'Inputs successfully transformed' )
 
 			}
 			catch ( e ) {
 
-				this.load.fail( this.utils.style.error.msg( key, 'Transformation failed. ' + ( e instanceof Error ? e.message : JSON.stringify( e ) ) ) )
+				log.error( 'Transformation failed. ' + ( e instanceof Error ? e.message : JSON.stringify( e ) ) )
 
 				this.utils.exitWithError()
 
 			}
 
-		}
+		} ) )
 
 	}
 

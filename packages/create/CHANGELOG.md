@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.5.4
+
+### Patch Changes
+
+- up deps, increase perf
+
 ## 1.5.3
 
 ### Patch Changes

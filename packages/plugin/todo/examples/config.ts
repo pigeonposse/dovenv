@@ -17,9 +17,9 @@ export default defineConfig( todoPlugin( {
 		inputOpts : { cwd: wsDir },
 	},
 	docs : {
-		input      : [ joinPath( wsDir, 'docs/**/*.md' ) ],
+		input     : [ joinPath( wsDir, 'docs/todo/*.md' ) ],
 		// output    : joinPath( buildDir, 'TODO.md' ),
-		customTags : [ '\\- \\[ \\] \\s*' ],
-		inputOpts  : { cwd: wsDir },
+		// customTags : [ '\\- \\[ \\] \\s*' ],
+		inputOpts : { cwd: wsDir },
 	},
 } ) )

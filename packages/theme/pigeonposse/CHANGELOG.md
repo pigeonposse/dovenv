@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.4
+
+### Patch Changes
+
+- up deps, increase perf
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.4
+  - @dovenv/eslint-config@1.5.4
+  - @dovenv/stylelint-config@1.5.4
+  - @dovenv/theme-banda@1.5.4
+
 ## 1.5.3
 
 ### Patch Changes

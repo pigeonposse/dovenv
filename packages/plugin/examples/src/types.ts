@@ -3,9 +3,11 @@
 import type { TYPE }                   from './const'
 import type { schema }                 from './schema'
 import type { Config as DovenvConfig } from '@dovenv/core'
-import type { getPaths,
+import type {
+	getPaths,
 	Prettify,
-	ValidateInfer } from '@dovenv/core/utils'
+	ValidateInfer,
+} from '@dovenv/core/utils'
 
 type ExampleProps = { [key in string]: {
 	/**
@@ -108,7 +110,9 @@ export type ExampleCustomProps = {
 	} ) => Promise<unknown>
 }
 type Set<T extends ExampleType, V extends object> = ( {
-	/** Type of configuration */
+	/**
+	 * Type of configuration
+	 */
 	type : T
 } & V )
 

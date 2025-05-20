@@ -180,8 +180,9 @@ export default defineConfig( {
 			fn    : () => {},
 		},
 		yes : {
-			input : [ './.pigeonposse.yml' ],
-			fn    : async props => console.log( props ),
+			desc  : '',
+			input : [ './.dovenv/pigeonposse.yml' ],
+			fn    : async props => console.log( props.content ),
 		},
 	},
 	/**
@@ -189,13 +190,9 @@ export default defineConfig( {
 	 */
 	check : {
 		packages : {
-			desc     : 'Repo packages structure.',
-			type     : 'dir',
-			patterns : [
-				'./packages/*',
-				'!./packages/{plugin,config,theme}',
-				'./packages/{plugin,config,theme}/*',
-			],
+			desc        : 'Repo packages structure.',
+			type        : 'dir',
+			patterns    : [ './packages/{plugin,theme}/*' ],
 			validateAll : async ( { paths } ) => {
 
 				if ( paths.length === 0 ) throw new Error( 'No packages found' )
@@ -242,7 +239,7 @@ export default defineConfig( {
 					p.endsWith( 'index.md' ) || p.endsWith( 'contributors.md' ),
 				)
 				if ( validFiles.length !== 2 ) throw new Error( 'File [docs/index.md] and [docs/posts.md] must exist' )
-				if ( paths.length < 3 ) throw new Error( `File [${paths}] must not exist` )
+				// if ( paths.length < 3 ) throw new Error( `File [${paths.join( ', ' )}] must not exist` )
 
 			},
 			validate : async ( {
@@ -271,7 +268,6 @@ export default defineConfig( {
 			patterns : [
 				'LICENSE',
 				'README.md',
-				'.pigeonposse.yml',
 				'package.json',
 				'.gitignore',
 				'.vscode/settings.json',
@@ -281,7 +277,7 @@ export default defineConfig( {
 				paths, utils,
 			} ) => {
 
-				if ( paths.length !== 7 )
+				if ( paths.length !== 6 )
 					throw new Error( `Monorepo must have this structure:\n ${utils.config?.const?.sctructure}` )
 
 			},

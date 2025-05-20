@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.4
+
+### Patch Changes
+
+- up deps, increase perf
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.4
+  - @dovenv/workspace@1.5.4
+  - @dovenv/examples@1.5.4
+  - @dovenv/lint@1.5.4
+  - @dovenv/repo@1.5.4
+  - @dovenv/todo@1.5.4
+  - @dovenv/core@1.5.4
+  - @dovenv/convert@1.5.4
+  - @dovenv/docs@1.5.4
+
 ## 1.5.3
 
 ### Patch Changes

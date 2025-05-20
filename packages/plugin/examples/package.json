@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "1.5.3",
+	"version": "1.5.4",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"aio",
@@ -60,8 +60,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"jsdoc-api": "9.3.4",
-		"leasot": "14.4.0"
+		"comment-parser": "1.4.1"
 	},
 	"devDependencies": {
 		"@dovenv/core": "workspace:*",

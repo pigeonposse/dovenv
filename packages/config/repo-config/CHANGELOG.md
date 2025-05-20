@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.2
+
+### Patch Changes
+
+- up deps, increase perf
+
 ## 1.5.1
 
 ### Patch Changes

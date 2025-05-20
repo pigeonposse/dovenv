@@ -8,7 +8,7 @@ const infoSchema = v.object( {
 	outro : v.string().optional(),
 } )
 
-export const exampleSchema = v.object( {
+const exampleSchema = v.object( {
 	title : v.string().optional(),
 	desc  : v.string().optional(),
 	outro : v.string().optional(),

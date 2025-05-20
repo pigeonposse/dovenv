@@ -33,10 +33,10 @@ export default defineConfig(
 			opts   : { cwd: utilsDir },
 			output : joinPath( buildDir, 'EXAMPLE_PATH.md' ),
 		},
-		// jsdoc : {
-		// 	type   : 'jsdoc',
-		// 	input  : [ joinPath( utilsDir, 'dist/*' ) ],
-		// 	output : joinPath( buildDir, 'EXAMPLE_JSDOC.md' ),
-		// },
+		jsdoc : {
+			type   : 'jsdoc',
+			input  : [ joinPath( utilsDir, 'dist/*.mts' ) ],
+			output : joinPath( buildDir, 'EXAMPLE_JSDOC.md' ),
+		},
 	} ),
 )

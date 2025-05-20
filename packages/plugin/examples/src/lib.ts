@@ -10,11 +10,13 @@ import {
 	getExtName,
 	getObjectFrom,
 	getPaths,
+	getRandomUUID,
 	getStringFrom,
 	getStringType,
 	joinPath,
 	LazyLoader,
-	relativePath,
+	readFiles,
+	truncate,
 	writeFile,
 } from '@dovenv/core/utils'
 
@@ -33,8 +35,10 @@ import type {
 import type { Any } from '@dovenv/core/utils'
 
 type ExampleConfig = NonNullable<ExampleConfigFileProps['config']>
+
 // @ts-ignore
-const _deps = new LazyLoader( { jsdoc: async () => ( await import( 'jsdoc-api' ) ).default as Any } )
+const _deps = new LazyLoader( { commentParser: async () => ( await import( 'comment-parser' ) ).parse } )
+
 export class Examples {
 
 	const = consts
@@ -145,29 +149,6 @@ export class Examples {
 
 	}
 
-	async #fn( pattern?: string[] ) {
-
-		const keys = await this.utils.getOptsKeys( {
-			input : this.opts,
-			pattern,
-		} )
-		if ( !keys || !this.opts ) return
-
-		const res: Record<string, string> = {}
-		const { style }                   = this.utils
-
-		for ( const key of keys ) {
-
-			const opt = this.opts[key]
-			console.log( style.info.h( `Example for ${style.badge( key )} key` ) )
-			res[key] = await this.get( opt )
-			console.log( '\n', style.success.msg( ` ✨ Successful!` ), '\n' )
-
-		}
-		return res
-
-	}
-
 	async fromConfig( data: ExampleConfigFileProps ) {
 
 		const {
@@ -236,48 +217,66 @@ export class Examples {
 	 */
 	async fromJsdoc( data:ExampleJsdocProps ) {
 
-		interface Value {
-			examples : string
-			meta : {
-				path     : string
-				filename : string
-			}
-			name?        : string
-			description? : string
-		}
-
 		const {
-			output, input, title, desc,
+			output, input, title, desc, opts,
 		} = data
 
+		const parser = await _deps.get( 'commentParser' )
+
 		console.debug( { data } )
-		const jsdoc     = await _deps.get( 'jsdoc' )
-		const jsdocData = await jsdoc.explain( {
-			files : input.map( p => relativePath( this.utils.process.cwd(), p ) ),
-			cache : false,
-		} ) as Value[]
+		const examples: ExampleConfig[number]['data'] = { }
+		await readFiles( input, {
+			inputOpts : opts,
+			hook      : { onFile : async ( {
+				content, path,
+			} ) => {
 
-		console.debug( { jsdocData } )
+				const parsed   = parser( content )
+				const filename = getBaseName( path )
+				const ext      = getExtName( path ).replace( '.', '' ) || 'js'
+				const type     = [
+					'ts',
+					'mts',
+					'cts',
+				].includes( ext )
+					? 'ts'
+					: [
+						'js',
+						'jts',
+						'jts',
+					].includes( ext )
+						? 'js'
+						: ext
+				for ( const block of parsed ) {
 
-		const examples = jsdocData.filter( doc => doc.examples )
-			.map( doc => ( {
-				title : doc.name || doc.meta.filename,
-				input : doc.examples,
-				desc  : doc.description,
-				type  : getExtName( doc.meta.path ).replace( '.', '' ) || 'ts',
-			} ) ).reduce( ( acc, example ) => {
+					const exampleTag = block.tags.find( tag => tag.tag === 'example' )
+					if ( exampleTag && exampleTag.description ) {
 
-				// @ts-ignore
-				acc[example.title] = example
-				return acc
+						const nameTag        = block.tags.find( tag => tag.tag === 'name' )
+						const descriptionTag = block.tags.find( tag => tag.tag === 'description' )
+						const exampleTitle   = block.description || nameTag?.name || descriptionTag?.name || filename
 
-			}, {} as ExampleConfig[number]['data'] )
+						examples[getRandomUUID()] = {
+							input : exampleTag.source.map( v => v.tokens.postDelimiter.substring( 1 ) + v.tokens.description ).join( '\n' ).trim(),
+							desc  : block.description || descriptionTag?.description,
+							type,
+							title : truncate( exampleTitle, 100 ),
+						}
+
+					}
+
+				}
+
+			} },
+		} )
+
+		console.debug( { examples } )
 
 		const content = await this.#createExampleContent( { data: examples } )
 		if ( !content || content.trim() == '' ) {
 
 			console.log()
-			console.warn( this.utils.style.warn.msg( 'No JSODC examples retrived' ) )
+			console.warn( this.utils.style.warn.msg( 'No JSDOC examples retrived' ) )
 			return ''
 
 		}
@@ -379,7 +378,19 @@ export class Examples {
 
 		if ( handlers[type] ) return await handlers[type]( props )
 
-		throw new Error( 'You needd to set one type: ' + Object.values( T ).join( ', ' ) )
+		throw new Error( 'You need to set one type: ' + Object.values( T ).join( ', ' ) )
+
+	}
+
+	async #fn( pattern?: string[] ) {
+
+		const res = await this.utils.mapOpts( {
+			input : this.opts,
+			pattern,
+			cb    : async ( { value } ) => await this.get( value ),
+		} )
+
+		return res
 
 	}
 

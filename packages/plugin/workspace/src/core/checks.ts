@@ -61,8 +61,6 @@ export class Checks extends Super {
 
 		}
 
-		console.log( this.utils.style.success.h( 'Check passed for schema' ) )
-
 	}
 
 	async #structure( value: CheckPkgValue ) {
@@ -89,10 +87,6 @@ export class Checks extends Super {
 				}
 
 			}
-
-			console.log( this.utils.style.success.h(
-				'Custom check passed',
-			) )
 
 		}
 		const set = async ( data: CheckPattern, exists = false ) => {
