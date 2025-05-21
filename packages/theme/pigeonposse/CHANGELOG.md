@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.7
+
+### Patch Changes
+
+- update from repo: pkg size output
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.7
+  - @dovenv/stylelint-config@1.5.7
+  - @dovenv/core@1.5.7
+  - @dovenv/theme-banda@1.5.7
+
 ## 1.5.6
 
 ### Patch Changes

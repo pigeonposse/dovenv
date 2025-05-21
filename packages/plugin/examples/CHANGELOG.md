@@ -1,5 +1,14 @@
 # @dovenv/examples
 
+## 1.5.7
+
+### Patch Changes
+
+- update from repo: pkg size output
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.7
+
 ## 1.5.6
 
 ### Patch Changes

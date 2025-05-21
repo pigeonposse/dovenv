@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.7
+
+### Patch Changes
+
+- update from repo: pkg size output
+
 ## 1.5.6
 
 ### Patch Changes

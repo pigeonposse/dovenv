@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.5
+
+### Patch Changes
+
+- update from repo: pkg size output
+
 ## 1.5.4
 
 ### Patch Changes
