@@ -51,7 +51,13 @@ import type {
 
 type MdInfoKey = keyof ReturnType<typeof getPublicPackageByType>
 type MarkdownInfo = { more: string } & { [key in MdInfoKey]? : string }
-
+type SkipOpts = {
+	pkg?      : boolean
+	index?    : boolean
+	readme?   : boolean
+	api?      : boolean
+	examples? : boolean
+}
 type Emoji = ObjectValues<NonNullable<ReturnType<typeof getEmojiList>>> | string
 
 export class Predocs {
@@ -383,204 +389,230 @@ export class Predocs {
 	}
 
 	async #setPkgFile( {
-		publicPkg, info,
+		publicPkg, info, skip,
 	}:{
 		publicPkg : PkgData['data'][number]
 		info      : MarkdownInfo
+		skip?     : SkipOpts
 	} ) {
 
 		await ensureDir( publicPkg.docs.dir )
 
 		//////////////////////////////////////////////////////////////////////////////
 		// PACKAGE.JSON (OVERRIDE)
+		if ( !skip?.pkg ) {
 
-		const data = {
-			...publicPkg.data,
-			homepage   : joinUrl( this.#wsPkg.homepage || '', publicPkg.docs.urlPath.index ),
-			repository : {
-				type      : 'git',
-				url       : this.#REPO_URL,
-				directory : publicPkg.package.relativeDir,
-			},
-			license : this.#wsPkg.license,
-			funding : this.#wsPkg.funding,
-			bugs    : this.#wsPkg.bugs,
-			...( this.#wsPkg.author ? { author: this.#wsPkg.author } : {} ),
+			const data = {
+				...publicPkg.data,
+				homepage   : joinUrl( publicPkg.data.homepage || '', publicPkg.docs.urlPath.index ),
+				repository : {
+					type      : this.#REPO_URL.startsWith( 'git+' ) ? 'git' : 'https',
+					url       : this.#REPO_URL,
+					directory : publicPkg.package.relativeDir,
+				},
+				license : this.#wsPkg.license,
+				funding : this.#wsPkg.funding,
+				bugs    : this.#wsPkg.bugs,
+				...( this.#wsPkg.author ? { author: this.#wsPkg.author } : {} ),
+			}
+
+			await writeFile(
+				publicPkg.package.packageJsonFile,
+				JSON.stringify( data, undefined, '\t' ) + '\n',
+			)
+
 		}
-
-		await writeFile(
-			publicPkg.package.packageJsonFile,
-			JSON.stringify( data, undefined, '\t' ) + '\n',
-		)
 
 		//////////////////////////////////////////////////////////////////////////////
 		// INDEX (DOCS)
-		try {
+		if ( !skip?.index ) {
 
-			await this.#templates.get( {
-				title   : publicPkg.name || '',
-				input   : publicPkg.package.docsFile ? publicPkg.package.docsFile : `# ${publicPkg.name}\n\n${publicPkg.data.description}\n\n{{partial.installation}}\n`,
-				output  : publicPkg.docs.indexFile,
-				const   : { libPkg: publicPkg.data },
-				partial : { installation: { input: this.partial.installationGroup } },
-				hook    : { afterPartials : async data => {
+			try {
 
-					let finalcontent = this.#setMdTitle( `More`, this.#EMOJI?.more )
+				await this.#templates.get( {
+					title   : publicPkg.name || '',
+					input   : publicPkg.package.docsFile ? publicPkg.package.docsFile : `# ${publicPkg.name}\n\n${publicPkg.data.description}\n\n{{partial.installation}}\n`,
+					output  : publicPkg.docs.indexFile,
+					const   : { libPkg: publicPkg.data },
+					partial : { installation: { input: this.partial.installationGroup } },
+					hook    : { afterPartials : async data => {
 
-					if ( publicPkg.docs.examplesFile ) finalcontent += this.#setMdLink( 'Examples', FILE_NAME.EXAMPLES, this.#EMOJI?.examples ) + '\n'
-					if ( publicPkg.docs.apiFile ) finalcontent += this.#setMdLink( 'API Docs', FILE_NAME.API, this.#EMOJI?.api ) + '\n'
-					finalcontent += this.#setMdLink( 'NPM', `https://www.npmjs.com/package/${publicPkg.data.name}`, this.#EMOJI?.package ) + '\n'
-					data.content += '\n' + finalcontent
+						let finalcontent = this.#setMdTitle( `More`, this.#EMOJI?.more )
 
-					return data
+						if ( publicPkg.docs.examplesFile ) finalcontent += this.#setMdLink( 'Examples', FILE_NAME.EXAMPLES, this.#EMOJI?.examples ) + '\n'
+						if ( publicPkg.docs.apiFile ) finalcontent += this.#setMdLink( 'API Docs', FILE_NAME.API, this.#EMOJI?.api ) + '\n'
+						finalcontent += this.#setMdLink( 'NPM', `https://www.npmjs.com/package/${publicPkg.data.name}`, this.#EMOJI?.package ) + '\n'
+						data.content += '\n' + finalcontent
 
-				} },
-			} )
+						return data
 
-		}
-		catch ( e ) {
+					} },
+				} )
 
-			throw new Error( `Failed to generate index.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			}
+			catch ( e ) {
+
+				throw new Error( `Failed to generate index.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+			}
 
 		}
 
 		//////////////////////////////////////////////////////////////////////////////
 		// EXAMPLES (DOCS)
-		try {
+		if ( !skip?.examples ) {
 
-			if ( publicPkg.docs.examplesFile && publicPkg.package.examplesConfigFile )
-				await this.#examples.fromConfig( {
-					input  : publicPkg.package.examplesConfigFile,
-					output : publicPkg.docs.examplesFile,
-					title  : `\`${publicPkg.name}\` - Examples`,
-				} )
+			try {
 
-		}
-		catch ( e ) {
-
-			throw new Error( `Failed to generate examples.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
-
-		}
-
-		//////////////////////////////////////////////////////////////////////////////
-		// API (DOCS)
-
-		try {
-
-			if ( publicPkg.docs.apiFile && publicPkg.package.isTs ) {
-
-				const ts2md = await this.#convert.ts2md( {
-					input : [ publicPkg.package.srcFile ],
-					opts  : {
-						tsconfigPath    : publicPkg.package.tsconfigFile,
-						packageJsonPath : publicPkg.package.packageJsonFile,
-						typedoc         : { logLevel: 'Error' },
-						typedocMarkdown : {
-							hidePageHeader : true,
-							hidePageTitle  : true,
-						},
-					},
-				} )
-
-				const apiContent = ts2md[0].content
-					.replaceAll( '](index.md#', '](#' ) // this is because typedoc adds index.md# to the links
-
-				await writeFile( publicPkg.docs.apiFile, `# \`${publicPkg.name}\` - API documentation\n\n` + apiContent )
-
-			}
-
-		}
-		catch ( e ) {
-
-			throw new Error( `Failed to generate api.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
-
-		}
-
-		try {
-
-			//////////////////////////////////////////////////////////////////////////////
-			// README (REPO)
-
-			let content               = '',
-				precontent            = ''
-			const readmedocsPath      = joinPath( this.#coreDir, 'docs', FILE_NAME.README )
-			const readmedocsLowerPath = joinPath( this.#coreDir, 'docs', FILE_NAME.README.toLowerCase() )
-
-			if ( await existsFile( readmedocsPath ) )
-				content += await readFile( readmedocsPath ) + '\n'
-			else if ( await existsFile( readmedocsLowerPath ) )
-				content += await readFile( readmedocsLowerPath ) + '\n'
-
-			if ( publicPkg.id === ID.core ) {
-
-				const wsDocsPath = joinPath( this.#coreDir, 'docs', FILE_NAME.WS )
-
-				precontent += await existsFile( wsDocsPath ) ? ( await readFile( wsDocsPath ) + '\n' ) : ''
-
-			}
-			content += info.more
-
-			const localPkgBanner  = this.utils.pkg?.extra?.bannerURL && typeof this.utils.pkg?.extra?.bannerURL === 'string' ? this.utils.pkg?.extra?.bannerURL as string : undefined
-			const localBanner     = joinPath( this.utils.wsDir, 'docs/public/banner.png' )
-			const remoteBannerURL = joinUrl( this.#REPO_URL, 'blob/main/docs/public/banner.png?raw=true' )
-			const bannerUrl       = localPkgBanner ? localPkgBanner : ( await existsFile( localBanner ) ? remoteBannerURL : undefined )
-
-			const banner = bannerUrl
-				? `[![BANNER](${bannerUrl})](${this.#corePkg.homepage})`
-				: ''
-
-			const contributorHtml = undefined //await this.#getContributorsHTML()
-
-			const setReadmeFile = async ( i:string, o: string ) => await this.#templates.get( {
-				input  : i,
-				output : o,
-				const  : {
-					libPkg       : publicPkg.data,
-					info,
-					title        : publicPkg.title,
-					desc         : publicPkg.data.description,
-					banner       : banner,
-					contributors : contributorHtml ? `## Contributors\n\n${contributorHtml}` : '',
-				},
-				partial : {
-					footer       : { input: this.partial.footer },
-					content      : { input: content },
-					precontent   : { input: precontent },
-					installation : { input: this.partial.installation },
-				},
-				hook : { afterPartials : async data => {
-
-					// console.log( data )
-					data.const.toc = await geMDTocString( {
-						input           : data.content,
-						title           : 'Table of contents',
-						removeH1        : true,
-						maxHeadingLevel : 4,
+				if ( publicPkg.docs.examplesFile && publicPkg.package.examplesConfigFile )
+					await this.#examples.fromConfig( {
+						input  : publicPkg.package.examplesConfigFile,
+						output : publicPkg.docs.examplesFile,
+						title  : `\`${publicPkg.name}\` - Examples`,
 					} )
 
-					return data
+			}
+			catch ( e ) {
 
-				} },
-			} )
+				throw new Error( `Failed to generate examples.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
 
-			await setReadmeFile( this.template.readmePkg, publicPkg.package.readmeFile )
-
-			//////////////////////////////////////////////////////////////////////////////
-			// WORKSPACE README
-			//////////////////////////////////////////////////////////////////////////////
-			if ( publicPkg.id === ID.core )
-				await setReadmeFile( this.template.readmePkg, joinPath( this.utils.wsDir, FILE_NAME.README ) )
+			}
 
 		}
-		catch ( e ) {
+		//////////////////////////////////////////////////////////////////////////////
+		// API (DOCS)
+		if ( !skip?.api ) {
 
-			throw new Error( `Failed to generate readme.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			try {
+
+				if ( publicPkg.docs.apiFile && publicPkg.package.isTs ) {
+
+					const ts2md = await this.#convert.ts2md( {
+						input : [ publicPkg.package.srcFile ],
+						opts  : {
+							tsconfigPath    : publicPkg.package.tsconfigFile,
+							packageJsonPath : publicPkg.package.packageJsonFile,
+							typedoc         : { logLevel: 'Error' },
+							typedocMarkdown : {
+								hidePageHeader : true,
+								hidePageTitle  : true,
+							},
+						},
+					} )
+
+					const apiContent = ts2md[0].content
+						.replaceAll( '](index.md#', '](#' ) // this is because typedoc adds index.md# to the links
+
+					await writeFile( publicPkg.docs.apiFile, `# \`${publicPkg.name}\` - API documentation\n\n` + apiContent )
+
+				}
+
+			}
+			catch ( e ) {
+
+				throw new Error( `Failed to generate api.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+			}
+
+		}
+
+		if ( !skip?.readme ) {
+
+			try {
+
+				//////////////////////////////////////////////////////////////////////////////
+				// README (REPO)
+
+				let content               = '',
+					precontent            = ''
+				const readmedocsPath      = joinPath( this.#coreDir, 'docs', FILE_NAME.README )
+				const readmedocsLowerPath = joinPath( this.#coreDir, 'docs', FILE_NAME.README.toLowerCase() )
+
+				if ( await existsFile( readmedocsPath ) )
+					content += await readFile( readmedocsPath ) + '\n'
+				else if ( await existsFile( readmedocsLowerPath ) )
+					content += await readFile( readmedocsLowerPath ) + '\n'
+
+				if ( publicPkg.id === ID.core ) {
+
+					const wsDocsPath = joinPath( this.#coreDir, 'docs', FILE_NAME.WS )
+
+					precontent += await existsFile( wsDocsPath ) ? ( await readFile( wsDocsPath ) + '\n' ) : ''
+
+				}
+				content += info.more
+
+				const localPkgBanner  = this.utils.pkg?.extra?.bannerURL && typeof this.utils.pkg?.extra?.bannerURL === 'string' ? this.utils.pkg?.extra?.bannerURL as string : undefined
+				const localBanner     = joinPath( this.utils.wsDir, 'docs/public/banner.png' )
+				const remoteBannerURL = joinUrl( this.#REPO_URL, 'blob/main/docs/public/banner.png?raw=true' )
+				const bannerUrl       = localPkgBanner ? localPkgBanner : ( await existsFile( localBanner ) ? remoteBannerURL : undefined )
+
+				const banner = bannerUrl
+					? `[![BANNER](${bannerUrl})](${this.#corePkg.homepage})`
+					: ''
+
+				const contributorHtml = undefined //await this.#getContributorsHTML()
+
+				const setReadmeFile = async ( i:string, o: string ) => await this.#templates.get( {
+					input  : i,
+					output : o,
+					const  : {
+						libPkg       : publicPkg.data,
+						info,
+						title        : publicPkg.title,
+						desc         : publicPkg.data.description,
+						banner       : banner,
+						contributors : contributorHtml ? `## Contributors\n\n${contributorHtml}` : '',
+					},
+					partial : {
+						footer       : { input: this.partial.footer },
+						content      : { input: content },
+						precontent   : { input: precontent },
+						installation : { input: this.partial.installation },
+					},
+					hook : { afterPartials : async data => {
+
+						// console.log( data )
+						data.const.toc = await geMDTocString( {
+							input           : data.content,
+							title           : 'Table of contents',
+							removeH1        : true,
+							maxHeadingLevel : 4,
+						} )
+
+						return data
+
+					} },
+				} )
+
+				await setReadmeFile( this.template.readmePkg, publicPkg.package.readmeFile )
+
+				//////////////////////////////////////////////////////////////////////////////
+				// WORKSPACE README
+				//////////////////////////////////////////////////////////////////////////////
+				if ( publicPkg.id === ID.core )
+					await setReadmeFile( this.template.readmePkg, joinPath( this.utils.wsDir, FILE_NAME.README ) )
+
+			}
+			catch ( e ) {
+
+				throw new Error( `Failed to generate readme.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+			}
 
 		}
 
 	}
 
-	async setPkgFiles() {
+	/**
+	 *
+	 * Set the files for each package in the workspace.
+	 *
+	 * @param   {object}        [opts]      - Options.
+	 * @param   {SkipOpts}      [opts.skip] - Skip options.
+	 * @returns {Promise<void>}
+	 */
+	async setPkgFiles( opts?: { skip?: SkipOpts } ) {
 
 		const publicPkgs = ( await this.#getPublicPkgData( ) ).data
 		const info       = await this.getMarkdownInfo()
@@ -591,6 +623,7 @@ export class Predocs {
 				await this.#setPkgFile( {
 					publicPkg,
 					info,
+					skip : opts?.skip,
 				} )
 
 			}

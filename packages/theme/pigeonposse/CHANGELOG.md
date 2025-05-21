@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.6
+
+### Patch Changes
+
+- add opts in predocs
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.6
+  - @dovenv/stylelint-config@1.5.6
+  - @dovenv/core@1.5.6
+  - @dovenv/theme-banda@1.5.6
+
 ## 1.5.5
 
 ### Patch Changes

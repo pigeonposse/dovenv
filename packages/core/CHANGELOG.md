@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.6
+
+### Patch Changes
+
+- add opts in predocs
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.6
+
 ## 1.5.5
 
 ### Patch Changes

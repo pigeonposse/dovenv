@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.6
+
+### Patch Changes
+
+- add opts in predocs
+
+- Updated dependencies []:
+  - @dovenv/repo@1.5.6
+  - @dovenv/core@1.5.6
+  - @dovenv/convert@1.5.6
+  - @dovenv/docs@1.5.6
+  - @dovenv/examples@1.5.6
+  - @dovenv/lint@1.5.6
+  - @dovenv/templates@1.5.6
+  - @dovenv/todo@1.5.6
+  - @dovenv/workspace@1.5.6
+
 ## 1.5.5
 
 ### Patch Changes

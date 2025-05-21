@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.4
+
+### Patch Changes
+
+- add opts in predocs
+
 ## 1.5.3
 
 ### Patch Changes

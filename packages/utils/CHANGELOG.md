@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.5.6
+
+### Patch Changes
+
+- add opts in predocs
+
 ## 1.5.5
 
 ### Patch Changes

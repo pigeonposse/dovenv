@@ -479,8 +479,8 @@ importers:
         specifier: 2.29.4
         version: 2.29.4
       '@sizium/core':
-        specifier: 0.0.6
-        version: 0.0.6
+        specifier: 0.0.8
+        version: 0.0.8
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -3324,8 +3324,8 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@sizium/core@0.0.6':
-    resolution: {integrity: sha512-11xI5LxnklLyIQjGFfTlpecjl4CFxGA80TPQK03wLehiPpb4b9nNnwz/Nn2H2ncMOnpDgx7Sxdb0iYmiuVki3w==}
+  '@sizium/core@0.0.8':
+    resolution: {integrity: sha512-hOTBRieVldSWfy9ei1/ukIUj4Qe4VbN8rFxQDE/90dXOetV156N/GMVz8YOO09P5VUhym/HcDz5eQBpITsgHyg==}
 
   '@smithy/is-array-buffer@2.2.0':
     resolution: {integrity: sha512-GGP3O9QFD24uGeAXYUjwSTXARoqpZykHadOmA8G5vfJPK0/DC67qa//0qvqrJzL1xc8WQWX7/yc7fwudjPHPhA==}
@@ -8728,13 +8728,13 @@ packages:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  semver@7.6.3:
-    resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
+  semver@7.7.1:
+    resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
     engines: {node: '>=10'}
     hasBin: true
 
-  semver@7.7.1:
-    resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
+  semver@7.7.2:
+    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -13361,9 +13361,9 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@sizium/core@0.0.6':
+  '@sizium/core@0.0.8':
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.2
 
   '@smithy/is-array-buffer@2.2.0':
     dependencies:
@@ -19561,9 +19561,9 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.6.3: {}
-
   semver@7.7.1: {}
+
+  semver@7.7.2: {}
 
   send@1.2.0:
     dependencies:
