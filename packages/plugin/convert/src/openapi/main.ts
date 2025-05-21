@@ -10,6 +10,7 @@ import { convertMarkdown } from './core/main'
 
 import type {
 	ConvertPropsSuper,
+	ConvertResponse,
 	ConvertSuperInterface,
 } from '../_shared/types'
 
@@ -36,20 +37,18 @@ export class Openapi2Markdown extends ConvertSuper<Openapi2MarkdownProps> implem
 
 	}
 
-	async run() {
+	async run(): Promise<ConvertResponse> {
 
 		// need to fake argv because a issue with openapi-to-md
 		const oldArgv = process.argv
 
-		const input = await this._getContent( this.props.input )
-		console.debug( { input } )
 		const out = await this._getOutput()
-		const dir = out.dir
-		const res = []
 
-		for ( const i of input ) {
+		const res: ConvertResponse = []
 
-			const path = joinPath( dir, i.id + '.md' )
+		await this._forEachContent( this.props.input, async i => {
+
+			const path = joinPath( out.dir, i.id + '.md' )
 
 			await convertMarkdown( i.content, path, this.props.opts?.sort )
 			res.push( {
@@ -57,7 +56,7 @@ export class Openapi2Markdown extends ConvertSuper<Openapi2MarkdownProps> implem
 				content : await readFile( path, 'utf-8' ),
 			} )
 
-		}
+		} )
 
 		await out.rmTempIfExist()
 		process.argv = oldArgv

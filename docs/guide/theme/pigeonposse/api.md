@@ -361,15 +361,19 @@ The generated markdown links.
 function predocsPlugin(opts?: PredocsConfig): Config
 ```
 
+Create package docs simultaneously.
+
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `opts`? | [`PredocsConfig`](#predocsconfig) |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | [`PredocsConfig`](#predocsconfig) | Optional opts to pass to [Predocs](#predocs). |
 
 #### Returns
 
 `Config`
+
+- Dovenv plugin config.
 
 ***
 

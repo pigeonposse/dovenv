@@ -38,7 +38,7 @@ deno add @dovenv/core
 
 ## Features
 
-### 2. Check Commands
+### Check
 
 Check commands validate workspace structure, ensuring required files or directories exist and follow expected patterns.
 
@@ -86,7 +86,7 @@ This validates the structure of the `packages` directory and ensures required fi
 
 ---
 
-### 3. Transform Commands
+### Transform
 
 Transform commands allow you to process and modify specific files. For example, adding a watermark or replacing placeholders in templates.
 
@@ -134,7 +134,7 @@ This command appends a custom ASCII watermark to the `README.md` file.
 
 ---
 
-### Alias Commands
+### Aliases
 
 #### Configuration
 
@@ -144,8 +144,8 @@ import {defineConfig} from '@dovenv/core'
 export default defineConfig({
 alias: {
   deps: {
- desc: 'List pacakge dependencies',
- cmd: 'pnpm list --depth=0',
+	desc: 'List pacakge dependencies',
+	cmd: 'pnpm list --depth=0',
   },
 }
 })
@@ -155,6 +155,37 @@ alias: {
 
 ```bash
 dovenv x deps
+```
+
+---
+
+### Constants
+
+#### Configuration
+
+```ts twoslash
+import {defineConfig} from '@dovenv/core'
+
+export default defineConfig({
+const: {
+  hello: 'world',
+  foo: 'bar',
+}
+})
+```
+
+#### Example Usage
+
+##### View all constants
+
+```bash
+dovenv const view
+```
+
+##### View specific constant(s)
+
+```bash
+dovenv const view -k hello
 ```
 
 ---

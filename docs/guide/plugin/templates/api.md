@@ -70,7 +70,7 @@ list(pattern?: string[]): Promise<void>
 ##### run()
 
 ```ts
-run(pattern?: string[]): Promise<undefined | Record<string, string>>
+run(pattern?: string[]): Promise<undefined | {}>
 ```
 
 Process templates from the configuration object.
@@ -83,7 +83,7 @@ Process templates from the configuration object.
 
 ###### Returns
 
-`Promise`\<`undefined` \| `Record`\<`string`, `string`\>\>
+`Promise`\<`undefined` \| \{\}\>
 
 A promise that resolves to an object containing the content of each processed template.
 

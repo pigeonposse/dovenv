@@ -11,4 +11,10 @@ export default defineConfig( pigeonposseMonorepoTheme( {
 		metaURL : import.meta.url,
 		path    : '../../../../',
 	} ),
+	docs : async _c => {
+
+		console.dir( { _c } )
+		return { name: 'dovenv' }
+
+	},
 } ) )

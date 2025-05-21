@@ -1,5 +1,14 @@
 # @dovenv/docs
 
+## 1.5.5
+
+### Patch Changes
+
+- Fix predocs issues, add docs
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.5
+
 ## 1.5.4
 
 ### Patch Changes

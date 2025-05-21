@@ -75,12 +75,12 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 				utils, run,
 			} ) => {
 
-				const pkgs = await utils.getPkgsData()
+				const pkgs = new Set( await utils.getPkgsData() )
 				const pack = utils.packageManager.value
 
-				for ( const pkg of pkgs ) {
+				pkgs.forEach( async pkg => {
 
-					if ( pkg.content.private === true ) continue
+					if ( pkg.content.private === true ) return
 
 					await run.publint( {
 						title  : pkg.id,
@@ -89,7 +89,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 						strict : true,
 					} )
 
-				}
+				} )
 
 			} },
 		},
@@ -150,12 +150,12 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 						content, path, utils,
 					} ) => {
 
-						const deps = {
+						const deps = new Set( Object.entries( {
 							...content.devDependencies || {},
 							...content.dependencies || {},
-						}
+						} ) )
 
-						Object.entries( deps ).forEach( ( [ k, v ] ) => {
+						deps.forEach( ( [ k, v ] ) => {
 
 							if ( v?.startsWith( '^' ) ) throw new Error( utils.style.error.msg(
 								path,

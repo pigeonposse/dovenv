@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.5.5
+
+### Patch Changes
+
+- Fix predocs issues, add docs
+
 ## 1.5.4
 
 ### Patch Changes

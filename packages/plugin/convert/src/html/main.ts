@@ -8,6 +8,7 @@ import { ConvertSuper } from '../_shared/main'
 
 import type {
 	ConvertPropsSuper,
+	ConvertResponse,
 	ConvertSuperInterface,
 } from '../_shared/types'
 
@@ -27,9 +28,9 @@ export class Html2Markdown extends ConvertSuper<Html2MarkdownProps> {
 
 	async run() {
 
-		const input = await this._getContent( this.props.input )
-		const res   = []
-		for ( const i of input ) {
+		const res: ConvertResponse = []
+
+		await this._forEachContent( this.props.input, async i => {
 
 			const content = await html2md( i.content )
 			res.push( {
@@ -38,7 +39,7 @@ export class Html2Markdown extends ConvertSuper<Html2MarkdownProps> {
 			} )
 			if ( this.props.output ) await this._writeOutput( this.props.output, i.id, content )
 
-		}
+		} )
 
 		return res
 
@@ -57,11 +58,11 @@ export class Markdown2Html extends ConvertSuper<Markdown2HtmlProps> implements C
 
 	}
 
-	async run() {
+	async run(): Promise<ConvertResponse> {
 
-		const input = await this._getContent( this.props.input )
-		const res   = []
-		for ( const i of input ) {
+		const res: ConvertResponse = []
+
+		await this._forEachContent( this.props.input, async i => {
 
 			const content = await md2html( i.content )
 			res.push( {
@@ -70,7 +71,7 @@ export class Markdown2Html extends ConvertSuper<Markdown2HtmlProps> implements C
 			} )
 			if ( this.props.output ) await this._writeOutput( this.props.output, i.id, content )
 
-		}
+		} )
 
 		return res
 

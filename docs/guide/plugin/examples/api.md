@@ -218,7 +218,7 @@ A promise that resolves to the processed content as a string.
 ##### run()
 
 ```ts
-run(pattern?: string[]): Promise<undefined | Record<string, string>>
+run(pattern?: string[]): Promise<undefined | {}>
 ```
 
 Process examples from the configuration object.
@@ -231,7 +231,7 @@ Process examples from the configuration object.
 
 ###### Returns
 
-`Promise`\<`undefined` \| `Record`\<`string`, `string`\>\>
+`Promise`\<`undefined` \| \{\}\>
 
 A promise that resolves to an object containing the content of each processed example.
 

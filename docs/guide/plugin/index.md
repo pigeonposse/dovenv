@@ -18,18 +18,6 @@ Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
 
-## 🎥 Media
-
-Media configuration for dovenv
-
-- [Read more](/guide/plugin/media)
-
-## 🗃️ Repo
-
-Repository tools for any runtime
-
-- [Read more](/guide/plugin/repo)
-
 ## 💡 Examples
 
 Tools for Examples files/directories for dovenv
@@ -41,6 +29,18 @@ Tools for Examples files/directories for dovenv
 Lint configuration for dovenv
 
 - [Read more](/guide/plugin/lint)
+
+## 🎥 Media
+
+Media configuration for dovenv
+
+- [Read more](/guide/plugin/media)
+
+## 🗃️ Repo
+
+Repository tools for any runtime
+
+- [Read more](/guide/plugin/repo)
 
 ## 🖼️ Templates
 

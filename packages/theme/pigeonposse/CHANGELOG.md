@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.5
+
+### Patch Changes
+
+- Fix predocs issues, add docs
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.5
+  - @dovenv/eslint-config@1.5.5
+  - @dovenv/theme-banda@1.5.5
+  - @dovenv/core@1.5.5
+
 ## 1.5.4
 
 ### Patch Changes

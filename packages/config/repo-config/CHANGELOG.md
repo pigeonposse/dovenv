@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.3
+
+### Patch Changes
+
+- Fix predocs issues, add docs
+
 ## 1.5.2
 
 ### Patch Changes

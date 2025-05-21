@@ -8,7 +8,8 @@ import { resolve } from 'node:path'
 
 import core from '../../../.dovenv/const.js'
 
-export default defineConfig(
+const conf = defineConfig(
+
 	pigeonposseMonorepoTheme( {
 		core,
 		docs : async utils => {
@@ -47,3 +48,5 @@ export default defineConfig(
 		},
 	} ),
 )
+// console.dir( conf )
+export default conf

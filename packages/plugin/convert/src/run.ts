@@ -1,6 +1,7 @@
 
 import { CommandUtils } from '@dovenv/core'
 import {
+	Any,
 	type ObjectValues,
 	type Prettify,
 } from '@dovenv/core/utils'
@@ -163,38 +164,29 @@ export class MultipleConvert {
 
 	async #fn( pattern?: string[] ) {
 
-		const keys = await this.utils.getOptsKeys( {
+		type Res = { [k in string]: Awaited<ReturnType<ObjectValues<ConvertInterface>>> }
+		const res: Res = await this.utils.mapOpts( {
 			input : this.opts,
 			pattern,
+			cb    : async ( {
+				value, log,
+			} ) => {
+
+				const {
+					type,
+					...restProps
+				} = value
+
+				console.debug( { props: value } )
+
+				const res = await this.convert[type]( restProps as Any )
+				if ( 'output' in restProps && restProps.output )
+					log.success( `Output written to: ${this.utils.style.a( this.utils.getWsPath( restProps.output ) )}` )
+				return res
+
+			},
 		} )
 
-		if ( !keys || typeof keys === 'string' || !this.opts ) return
-
-		const { style } = this.utils
-
-		const res: { [k in string]: Awaited<ReturnType<ObjectValues<ConvertInterface>>> } = {}
-
-		for ( const key of keys ) {
-
-			const props = this.opts[key]
-			const {
-				type,
-				...restProps
-			} = props
-
-			console.log(
-				style.info.h( `Convert ${style.badge( key )} key` ),
-				style.info.p( '(' + type + ')' ),
-				'\n',
-			)
-
-			console.debug( { props } )
-			// @ts-ignore
-			res[key] = await this.convert[type]( restProps )
-
-			console.log( style.success.msg( `✨ Successful conversion` ), '\n' )
-
-		}
 		return res
 
 	}

@@ -114,7 +114,8 @@ export class Predocs {
 	async #getPublicPkgData(): Promise<PkgData> {
 
 		const pkgPaths = await this.utils.getPkgPaths()
-		const data     = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
+
+		const data = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
 		console.debug( data )
 		return data
 
@@ -149,9 +150,9 @@ export class Predocs {
 
 		const res: MarkdownInfo = { more: this.#setMdTitle( 'More', this.#EMOJI?.more ) }
 
-		for ( const [ type, items ] of Object.entries( publicPkgGrouped ) ) {
+		const tasks = Object.entries( publicPkgGrouped ).map( async ( [ type, items ] ) => {
 
-			if ( !Array.isArray( items ) || !items.length ) continue
+			if ( !Array.isArray( items ) || !items.length ) return
 
 			if ( type === TYPE.lib ) {
 
@@ -192,7 +193,9 @@ export class Predocs {
 
 			}
 
-		}
+		} )
+
+		await Promise.all( tasks )
 
 		this.#mdInfo = res
 		return res
@@ -318,17 +321,16 @@ export class Predocs {
 
 		config         = deepmerge( this.opts?.guideSection || {}, config || {} )
 		const data     = await this.#getPublicPkgData( )
-		const guideDir = data.docsGuideDir
 		const info     = await this.getMarkdownInfo()
-
-		for ( const key of Object.keys( info ) ) {
+		const guideDir = data.docsGuideDir
+		const tasks    = Object.keys( info ).map( async key => {
 
 			const v = key as PkgType
-			if ( v === TYPE.lib ) continue
-			if ( !Object.values( TYPE ).includes( v ) || config.none?.includes( v ) ) continue
+			if ( v === TYPE.lib ) return
+			if ( !Object.values( TYPE ).includes( v ) || config.none?.includes( v ) ) return
 
 			const content = v in info ? info[v] : undefined
-			if ( !content ) continue
+			if ( !content ) return
 			const dir = joinPath( guideDir, v )
 
 			await ensureDir( dir )
@@ -339,7 +341,9 @@ export class Predocs {
 			)
 			this.utils.prompt.log.success( this.utils.style.info.badge( 'guide section index file' ) + ' ' + this.utils.style.info.msg( 'Overwrite content to', path ) )
 
-		}
+		} )
+
+		await Promise.all( tasks )
 
 	}
 
@@ -580,10 +584,7 @@ export class Predocs {
 
 		const publicPkgs = ( await this.#getPublicPkgData( ) ).data
 		const info       = await this.getMarkdownInfo()
-		for ( const publicPkg of publicPkgs ) {
-
-			// await Promise.all(
-			// 	publicPkgs.map( async publicPkg => {
+		const tasks      = publicPkgs.map( async publicPkg => {
 
 			try {
 
@@ -599,10 +600,8 @@ export class Predocs {
 
 			}
 
-			// } ),
-			// )
-
-		}
+		} )
+		await Promise.all( tasks )
 
 	}
 
@@ -632,10 +631,20 @@ export class Predocs {
 
 }
 
+/**
+ * Create package docs simultaneously.
+ *
+ * @param   {PredocsConfig}                       [opts] - Optional opts to pass to {@link Predocs}.
+ * @returns {import('@dovenv/core').DovenvConfig}        - Dovenv plugin config.
+ */
 export const predocsPlugin = ( opts?: PredocsConfig ) => defineConfig( { custom : { predocs : {
 	desc : 'Create package docs simultaneously',
 	fn   : async ( { utils } ) => {
 
+		// console.dir( {
+		// 	opts,
+		// 	utils,
+		// } )
 		const predocs = new Predocs( {
 			opts,
 			utils,

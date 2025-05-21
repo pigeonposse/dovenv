@@ -5,7 +5,6 @@ import {
 	existsFile,
 	capitalize,
 } from '@dovenv/core/utils'
-import { dirname } from 'path'
 
 import { extractLastTwoPathsSeparately } from './_utils'
 import {
@@ -51,7 +50,7 @@ export const getPublicPackageData = async (
 
 			const pkgData = await getObjectFromJSONFile<PackageJSON>( p )
 			if ( !pkgData || pkgData.private ) return
-			const extract = extractLastTwoPathsSeparately( dirname( p ) )
+			const extract = extractLastTwoPathsSeparately( getDirName( p ) )
 			if ( !extract ) throw new Error( `Unexpected error extracting last two paths separately from "${p}"` )
 
 			const parentDir = extract.first as PkgType
@@ -160,11 +159,6 @@ export const getPublicPackageByType = ( data: PkgData['data'] ): GroupedData => 
 		}
 
 	} )
-
-	// const {
-	// 	config,
-	// 	...rest
-	// } = grouped
 
 	return grouped
 

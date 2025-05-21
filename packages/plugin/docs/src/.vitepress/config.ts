@@ -73,7 +73,7 @@ export default async () => {
 			siteTitle   : conf.name.toUpperCase(),
 			search      : { provider: 'local' },
 			editLink    : conf.repoURL ? { pattern: joinUrl( conf.repoURL, 'edit', 'main', conf.docsPath, '/:path' ) } : undefined,
-			outline     : 'deep',
+			outline     : [ 2, 3 ],
 			nav         : setNav( { conf } ),
 			sidebar     : conf.sidebar,
 			// @ts-ignore: for empty socialLinks

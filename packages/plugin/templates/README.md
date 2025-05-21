@@ -7,7 +7,7 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com)
+[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com/guide/core)
 
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
@@ -50,10 +50,10 @@ deno add @dovenv/templates
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
   - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
-  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
+  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
@@ -61,8 +61,8 @@ deno add @dovenv/templates
   - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
   - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
 - 🎨 [Theme](https://dovenv.pigeonposse.com/guide/theme)
-  - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
   - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
+  - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
 
 
 ---

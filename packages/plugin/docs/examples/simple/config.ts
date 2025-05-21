@@ -15,5 +15,5 @@ export default defineConfig( docsPlugin( {
 	output    : relativePath( process.cwd(), joinPath( pkgDir, 'build', 'simple' ) ),
 	name      : 'simple-example',
 	vitepress : { sitemap: { hostname: 'https://dovenv.pigeonposse.com' } },
-	llms      : { indexTOC: true },
+	llms      : { llmsFile: { indexTOC: true } },
 } ) )

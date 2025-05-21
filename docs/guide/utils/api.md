@@ -7056,6 +7056,50 @@ try {
 
 ***
 
+### readFiles()
+
+```ts
+function readFiles(patterns: string | readonly string[], opts?: {
+  hook: {
+     onFile: (data: {
+        content: string;
+        path: string;
+       }) => void | Promise<void>;
+    };
+  inputOpts: Options;
+ }): Promise<{
+  content: string;
+  path: string;
+}[]>
+```
+
+Reads multiple files based on specified glob patterns and returns their contents.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `patterns` | `string` \| readonly `string`[] | The glob patterns to match file paths. |
+| `opts`? | `object` | Optional configurations. |
+| `opts.hook`? | `object` | Optional hooks for handling file data. |
+| `opts.hook.onFile`? | (`data`: \{ `content`: `string`; `path`: `string`; \}) => `void` \| `Promise`\<`void`\> | - |
+| `opts.inputOpts`? | `Options` | Optional options for glob pattern matching. |
+
+#### Returns
+
+`Promise`\<\{
+  `content`: `string`;
+  `path`: `string`;
+ \}[]\>
+
+- A promise that resolves to an array of objects containing file paths and their contents.
+
+#### Throws
+
+If an error occurs while reading any file.
+
+***
+
 ### relativePath()
 
 ```ts
@@ -8027,10 +8071,10 @@ function writeFile(
    file: PathLike | FileHandle, 
    data: 
   | string
+  | Stream
   | ArrayBufferView<ArrayBufferLike>
   | Iterable<string | ArrayBufferView<ArrayBufferLike>, any, any>
-  | AsyncIterable<string | ArrayBufferView<ArrayBufferLike>, any, any>
-  | Stream, 
+  | AsyncIterable<string | ArrayBufferView<ArrayBufferLike>, any, any>, 
 options?: null | BufferEncoding | ObjectEncodingOptions & {} & Abortable): Promise<void>
 ```
 
@@ -8085,7 +8129,7 @@ system requests but rather the internal buffering `fs.writeFile` performs.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `file` | `PathLike` \| `FileHandle` | filename or `FileHandle` |
-| `data` | \| `string` \| `ArrayBufferView`\<`ArrayBufferLike`\> \| `Iterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> \| `AsyncIterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> \| `Stream` | - |
+| `data` | \| `string` \| `Stream` \| `ArrayBufferView`\<`ArrayBufferLike`\> \| `Iterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> \| `AsyncIterable`\<string \| ArrayBufferView\<ArrayBufferLike\>, `any`, `any`\> | - |
 | `options`? | `null` \| `BufferEncoding` \| `ObjectEncodingOptions` & \{\} & `Abortable` | - |
 
 #### Returns
@@ -9046,6 +9090,22 @@ type WorkspaceParams: {
 | `pkg` | [`PackageJSON`](#packagejson) |
 
 ## Variables
+
+### \_styledeps
+
+```ts
+const _styledeps: LazyLoader<{
+  figlet: () => Promise<typeof figlet>;
+}>;
+```
+
+#### Type declaration
+
+| Name | Type |
+| ------ | ------ |
+| `figlet` | () => `Promise`\<*typeof* `figlet`\> |
+
+***
 
 ### colorConversion
 

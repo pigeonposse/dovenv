@@ -6,6 +6,7 @@ import { ConvertSuper } from '../_shared/main'
 
 import type {
 	ConvertPropsSuper,
+	ConvertResponse,
 	ConvertSuperInterface,
 } from '../_shared/types'
 import type jsdoc2md from 'jsdoc-to-markdown'
@@ -31,12 +32,11 @@ export class Jsdoc2Markdown extends ConvertSuper<Jsdoc2MarkdownProps> implements
 
 	}
 
-	async run() {
+	async run(): Promise<ConvertResponse> {
 
-		const input    = await this._getContent( this.props.input )
-		const jsdoc2md = await _jsdocDeps.get( 'jsdoc2md' )
-		const res      = []
-		for ( const i of input ) {
+		const jsdoc2md             = await _jsdocDeps.get( 'jsdoc2md' )
+		const res: ConvertResponse = []
+		await this._forEachContent( this.props.input, async i => {
 
 			const data    = await jsdoc2md.getTemplateData( { files: i.content } )
 			const content = await jsdoc2md.render( {
@@ -50,7 +50,7 @@ export class Jsdoc2Markdown extends ConvertSuper<Jsdoc2MarkdownProps> implements
 				content,
 			} )
 
-		}
+		} )
 
 		return res
 

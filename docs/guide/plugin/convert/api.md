@@ -39,22 +39,10 @@ custom(params: {
   fn: (data: {
      config: Config;
      run: {
-        html2md: (params: ConvertPropsSuper) => Promise<{
-           content: string;
-           id: i.id;
-          }[]>;
-        jsdoc2md: (params: Jsdoc2MarkdownProps) => Promise<{
-           content: string;
-           id: i.id;
-          }[]>;
-        md2html: (params: ConvertPropsSuper) => Promise<{
-           content: string;
-           id: i.id;
-          }[]>;
-        openapi2md: (params: Openapi2MarkdownProps) => Promise<{
-           content: string;
-           id: i.id;
-          }[]>;
+        html2md: (params: ConvertPropsSuper) => Promise<ConvertResponse>;
+        jsdoc2md: (params: Jsdoc2MarkdownProps) => Promise<ConvertResponse>;
+        md2html: (params: ConvertPropsSuper) => Promise<ConvertResponse>;
+        openapi2md: (params: Openapi2MarkdownProps) => Promise<ConvertResponse>;
         ts2html: (params: {
            input: string | string[];
            opts: {
@@ -102,7 +90,7 @@ custom(params: {
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `params` | `object` | - |
-| `params.fn` | (`data`: \{ `config`: `Config`; `run`: \{ `html2md`: (`params`: `ConvertPropsSuper`) => `Promise`\<\{ `content`: `string`; `id`: `i.id`; \}[]\>; `jsdoc2md`: (`params`: `Jsdoc2MarkdownProps`) => `Promise`\<\{ `content`: `string`; `id`: `i.id`; \}[]\>; `md2html`: (`params`: `ConvertPropsSuper`) => `Promise`\<\{ `content`: `string`; `id`: `i.id`; \}[]\>; `openapi2md`: (`params`: `Openapi2MarkdownProps`) => `Promise`\<\{ `content`: `string`; `id`: `i.id`; \}[]\>; `ts2html`: (`params`: \{ `input`: `string` \| `string`[]; `opts`: \{ `hooks`: \{ `after`: ... \| ...; `before`: ... \| ...; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<...\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<..., ...\>\>; \}; `output`: `string`; \}) => `Promise`\<\{ `content`: `string`; `id`: `path`; \}[]\>; `ts2md`: (`params`: \{ `input`: `string` \| `string`[]; `opts`: \{ `hooks`: \{ `after`: ... \| ...; `before`: ... \| ...; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<...\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<..., ...\>\>; `typedocMarkdown`: `Partial`\<`PluginOptions`\>; \}; `output`: `string`; \}) => `Promise`\<\{ `content`: `string`; `id`: `path`; \}[]\>; \}; \}) => `Promise`\<`void`\> | Function to run your conversion. |
+| `params.fn` | (`data`: \{ `config`: `Config`; `run`: \{ `html2md`: (`params`: `ConvertPropsSuper`) => `Promise`\<`ConvertResponse`\>; `jsdoc2md`: (`params`: `Jsdoc2MarkdownProps`) => `Promise`\<`ConvertResponse`\>; `md2html`: (`params`: `ConvertPropsSuper`) => `Promise`\<`ConvertResponse`\>; `openapi2md`: (`params`: `Openapi2MarkdownProps`) => `Promise`\<`ConvertResponse`\>; `ts2html`: (`params`: \{ `input`: `string` \| `string`[]; `opts`: \{ `hooks`: \{ `after`: ... \| ...; `before`: ... \| ...; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<...\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<..., ...\>\>; \}; `output`: `string`; \}) => `Promise`\<\{ `content`: `string`; `id`: `path`; \}[]\>; `ts2md`: (`params`: \{ `input`: `string` \| `string`[]; `opts`: \{ `hooks`: \{ `after`: ... \| ...; `before`: ... \| ...; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<...\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<..., ...\>\>; `typedocMarkdown`: `Partial`\<`PluginOptions`\>; \}; `output`: `string`; \}) => `Promise`\<\{ `content`: `string`; `id`: `path`; \}[]\>; \}; \}) => `Promise`\<`void`\> | Function to run your conversion. |
 
 ###### Returns
 
@@ -115,10 +103,7 @@ custom(params: {
 ##### html2md()
 
 ```ts
-html2md(params: ConvertPropsSuper): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+html2md(params: ConvertPropsSuper): Promise<ConvertResponse>
 ```
 
 ###### Parameters
@@ -129,10 +114,7 @@ html2md(params: ConvertPropsSuper): Promise<{
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 
@@ -141,10 +123,7 @@ html2md(params: ConvertPropsSuper): Promise<{
 ##### jsdoc2md()
 
 ```ts
-jsdoc2md(params: Jsdoc2MarkdownProps): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+jsdoc2md(params: Jsdoc2MarkdownProps): Promise<ConvertResponse>
 ```
 
 ###### Parameters
@@ -155,10 +134,7 @@ jsdoc2md(params: Jsdoc2MarkdownProps): Promise<{
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 
@@ -167,10 +143,7 @@ jsdoc2md(params: Jsdoc2MarkdownProps): Promise<{
 ##### md2html()
 
 ```ts
-md2html(params: ConvertPropsSuper): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+md2html(params: ConvertPropsSuper): Promise<ConvertResponse>
 ```
 
 ###### Parameters
@@ -181,10 +154,7 @@ md2html(params: ConvertPropsSuper): Promise<{
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 
@@ -193,10 +163,7 @@ md2html(params: ConvertPropsSuper): Promise<{
 ##### openapi2md()
 
 ```ts
-openapi2md(params: Openapi2MarkdownProps): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+openapi2md(params: Openapi2MarkdownProps): Promise<ConvertResponse>
 ```
 
 ###### Parameters
@@ -207,10 +174,7 @@ openapi2md(params: Openapi2MarkdownProps): Promise<{
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 
@@ -361,18 +325,12 @@ new Html2Markdown(props: ConvertPropsSuper): Html2Markdown
 ##### run()
 
 ```ts
-run(): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+run(): Promise<ConvertResponse>
 ```
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 #### Properties
 
@@ -419,18 +377,12 @@ new Jsdoc2Markdown(props: Jsdoc2MarkdownProps): Jsdoc2Markdown
 ##### run()
 
 ```ts
-run(): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+run(): Promise<ConvertResponse>
 ```
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 
@@ -481,18 +433,12 @@ new Markdown2Html(props: ConvertPropsSuper): Markdown2Html
 ##### run()
 
 ```ts
-run(): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+run(): Promise<ConvertResponse>
 ```
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 
@@ -536,7 +482,7 @@ new MultipleConvert(__namedParameters: {
 ##### run()
 
 ```ts
-run(pattern?: string[]): Promise<undefined | {}>
+run(pattern?: string[]): Promise<undefined | Res>
 ```
 
 ###### Parameters
@@ -547,7 +493,7 @@ run(pattern?: string[]): Promise<undefined | {}>
 
 ###### Returns
 
-`Promise`\<`undefined` \| \{\}\>
+`Promise`\<`undefined` \| `Res`\>
 
 #### Properties
 
@@ -596,18 +542,12 @@ new Openapi2Markdown(props: Openapi2MarkdownProps): Openapi2Markdown
 ##### run()
 
 ```ts
-run(): Promise<{
-  content: string;
-  id: i.id;
-}[]>
+run(): Promise<ConvertResponse>
 ```
 
 ###### Returns
 
-`Promise`\<\{
-  `content`: `string`;
-  `id`: `i.id`;
- \}[]\>
+`Promise`\<`ConvertResponse`\>
 
 ###### Implementation of
 

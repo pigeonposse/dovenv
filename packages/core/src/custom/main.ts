@@ -33,7 +33,10 @@ export class Custom extends Command<CustomConfig> {
 
 	#setCMDs( props: CustomConfig ) {
 
-		for ( const [ key, prop ] of Object.entries( props ) ) {
+		const entries = new Set( Object.entries( props ) )
+		const help    = ( level?: string ) => this.cli.showHelp( level || 'log' )
+
+		entries.forEach( ( [ key, prop ] ) => {
 
 			// is not necesary
 			// const coreCMDS = Object.values( this.consts.CMD ) as string[]
@@ -41,7 +44,6 @@ export class Custom extends Command<CustomConfig> {
 			// if ( !isCore && coreCMDS.includes( key ) )
 			// 	throw new this.Error( `Command ${key} is used in core configuration. Please change it!` )
 
-			const help = ( level?: string ) => this.cli.showHelp( level || 'log' )
 			// @ts-ignore
 			this.cli.command( {
 				command : key,
@@ -52,7 +54,7 @@ export class Custom extends Command<CustomConfig> {
 
 			} )
 
-		}
+		} )
 
 	}
 
@@ -66,7 +68,8 @@ export class Custom extends Command<CustomConfig> {
 		}
 		if ( prop.cmds ) {
 
-			for ( const [ key, cmd ] of Object.entries( prop.cmds ) ) {
+			const entries = new Set( Object.entries( prop.cmds ) )
+			entries.forEach( ( [ key, cmd ] ) => {
 
 				// @ts-ignore
 				argv.command( {
@@ -80,7 +83,7 @@ export class Custom extends Command<CustomConfig> {
 
 				} )
 
-			}
+			} )
 
 		}
 		if ( prop.examples )

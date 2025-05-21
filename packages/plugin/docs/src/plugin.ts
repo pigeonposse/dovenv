@@ -5,21 +5,39 @@ import { DocsCore } from './core'
 
 import type { DocsParams } from './core/types'
 
+const FLAGS = {
+	PORT        : 'port',
+	CONFIG_PATH : 'config-path',
+	PKG_PATH    : 'package-path',
+	FLAG        : 'flag',
+
+} as const
+
+const CMDS = {
+	DOCS            : 'docs',
+	DEV             : 'dev',
+	BUILD           : 'build',
+	PREVIEW         : 'preview',
+	PUBLISH_CF      : 'publish-cf',
+	GENERATE_ASSETS : 'generate-assets',
+} as const
+
 const opts = {
-	'port' : {
+	[FLAGS.PORT] : {
 		type : 'number',
 		desc : 'Port to listen on',
 	},
-	'config-path' : {
+	[FLAGS.CONFIG_PATH] : {
 		type : 'string',
 		desc : 'Docs config path',
 	},
-	'pkg-path' : {
+	[FLAGS.PKG_PATH] : {
 		type : 'string',
 		desc : 'Custom packageJSON path',
 	},
 } as const
 
+const exampleGenerateAssets = `$0 ${CMDS.DOCS} ${CMDS.GENERATE_ASSETS} --${FLAGS.FLAG}="--preset=minimal" --${FLAGS.FLAG}=public/logo.svg`
 /**
  * Define a `dovenv` configuration that creates a documentation site for your workspace.
  *
@@ -28,39 +46,39 @@ const opts = {
  */
 export const docsPlugin = ( config: DocsParams['config'] = {} ) => defineDovenvConfig( {
 	// @ts-ignore
-	const  : { [globals.DOVENV_DOCS_CONFIG]: config },
-	custom : { docs : {
+	const  : { [globals.DOVENV_DOCS_CONFIG]: typeof config === 'function' ? u => u ? config( u ) : undefined : config },
+	custom : { [CMDS.DOCS] : {
 		desc : 'Create documentation pages',
 		cmds : {
-			'dev' : {
+			[CMDS.DEV] : {
 				desc : 'Run the documentation dev server',
 				opts,
 			},
-			'build' : {
+			[CMDS.BUILD] : {
 				desc : 'Build the documentation',
 				opts,
 			},
-			'preview' : {
+			[CMDS.PREVIEW] : {
 				desc : 'Preview the documentation',
 				opts,
 			},
-			'publish-cf' : {
+			[CMDS.PUBLISH_CF] : {
 				desc : 'Publish documentation to Cloudflare pages',
 				opts : {
 					dir  : { desc: 'Directory of documentation build' },
 					name : { desc: 'Project name' },
 				},
 			},
-			'generate-assets' : {
+			[CMDS.GENERATE_ASSETS] : {
 				desc : 'Generate assets for PWA',
-				opts : { flag : {
+				opts : { [FLAGS.FLAG] : {
 					type  : 'array',
 					alias : 'f',
 					desc  : 'flags for pass to "@vite-pwa/assets-generator" cli',
 				} },
 				examples : [
 					{
-						cmd  : '$0 docs generate-assets --flag="--preset=minimal" --flag=public/logo.svg',
+						cmd  : exampleGenerateAssets,
 						desc : 'Generate assets',
 					},
 					{
@@ -72,11 +90,11 @@ export const docsPlugin = ( config: DocsParams['config'] = {} ) => defineDovenvC
 		},
 		examples : [
 			{
-				cmd  : '$0 docs dev --port 1312',
+				cmd  : `$0 ${CMDS.DOCS} ${CMDS.DEV} --${FLAGS.PORT}=1312`,
 				desc : 'Run dev server with custom port',
 			},
 			{
-				cmd  : '$0 docs generate-assets --flag="--preset=minimal" --flag=public/logo.svg',
+				cmd  : exampleGenerateAssets,
 				desc : 'Generate assets',
 			},
 		],
@@ -88,21 +106,21 @@ export const docsPlugin = ( config: DocsParams['config'] = {} ) => defineDovenvC
 			const docs = new DocsCore( {
 				utils,
 				opts : {
-					port            : opts?.port as number,
-					configPath      : opts?.['config-path'] as string,
-					packageJsonPath : opts?.['package-path'] as string,
+					port            : opts?.[FLAGS.PORT] as number,
+					configPath      : opts?.[FLAGS.CONFIG_PATH] as string,
+					packageJsonPath : opts?.[FLAGS.PKG_PATH] as string,
 					debug           : opts?.verbose as boolean,
 				},
 			} )
 
-			if ( cmds?.includes( 'dev' ) ) await docs.dev()
-			else if ( cmds?.includes( 'build' ) ) await docs.build()
-			else if ( cmds?.includes( 'preview' ) ) await docs.preview()
-			else if ( cmds?.includes( 'publish-cf' ) && opts?.dir && opts?.name ) await docs.publishToCloudflare( {
+			if ( cmds?.includes( CMDS.DEV ) ) await docs.dev()
+			else if ( cmds?.includes( CMDS.BUILD ) ) await docs.build()
+			else if ( cmds?.includes( CMDS.PREVIEW ) ) await docs.preview()
+			else if ( cmds?.includes( CMDS.PUBLISH_CF ) && opts?.dir && opts?.name ) await docs.publishToCloudflare( {
 				dir  : opts.dir as string,
 				name : opts.name as string,
 			} )
-			else if ( cmds?.includes( 'generate-assets' ) ) await docs.generatePWAassets( opts?.flag as string[] )
+			else if ( cmds?.includes( CMDS.GENERATE_ASSETS ) ) await docs.generatePWAassets( opts?.[FLAGS.FLAG] as string[] )
 			else showHelp()
 
 		},
