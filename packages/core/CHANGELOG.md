@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.8
+
+### Patch Changes
+
+- add contributors in Predocs, fix contributors in repo, improve perf
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.8
+
 ## 1.5.7
 
 ### Patch Changes

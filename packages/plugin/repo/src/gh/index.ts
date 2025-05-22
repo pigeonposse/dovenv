@@ -4,18 +4,19 @@ import { GitHubCreate }   from './create'
 import { GitHubInfo }     from './info'
 import { GitHubWorkflow } from './workflow'
 
-import type { Config as GitHubConfig } from '../_super/types'
 import type {
+	ConfigSuper as GitHubConfig,
 	CommandUtils,
-	Config as DovenvConfig,
-} from '@dovenv/core'
+	DovenvConfig,
+} from '../_super/types'
 
-const CMD       = {
+const CMD = {
 	DOWNLOAD : 'download',
 	WORKFLOW : 'workflow',
 	INFO     : 'info',
 	CREATE   : 'create',
 } as const
+
 const CMD_ALIAS = { WORKFLOW: 'wf' }
 
 class GitHub {
@@ -61,14 +62,7 @@ class GitHub {
 
 }
 
-export {
-	GitHubWorkflow,
-	GitHubInfo,
-	GitHubConfig,
-	GitHub,
-}
-
-export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
+const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 
 	const res: DovenvConfig['custom'] = { gh : {
 		desc : 'GitHub Repo commands and configuration',
@@ -146,3 +140,11 @@ export const ghPlugin = ( conf?: GitHubConfig ): DovenvConfig => {
 	return { custom: res }
 
 }
+
+export {
+	GitHubWorkflow,
+	GitHubInfo,
+	GitHub,
+	ghPlugin,
+}
+export type { GitHubConfig }

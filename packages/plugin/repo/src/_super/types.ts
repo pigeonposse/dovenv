@@ -1,4 +1,16 @@
-export type Config = {
+import type {
+	Config as DovenvConfig,
+	CommandUtils,
+} from '@dovenv/core'
+import type { PackageJSON } from '@dovenv/core/utils'
+
+export {
+	DovenvConfig,
+	PackageJSON,
+	CommandUtils,
+}
+
+export type ConfigSuper = {
 	/**
 	 * Name of the repository.
 	 *
@@ -49,3 +61,4 @@ export type Config = {
 	defaultBranch?         : string
 
 }
+

@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/object-curly-newline */
-import type { Config } from '../_super/types'
+import type { ConfigSuper } from '../_super/types'
 
-export type GitConfig = Config & {
+export type GitConfig = ConfigSuper & {
 	/** Commit configuration */
 	commit? : {
 		/**

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/convert",
-	"version": "1.5.7",
+	"version": "1.5.8",
 	"description": "Convert utils for dovenv",
 	"keywords": [
 		"aio",
@@ -17,13 +17,13 @@
 		"pigeonposse",
 		"pp"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/convert",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert/guide/plugin/convert",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"
 	},
 	"repository": {
-		"type": "git",
+		"type": "https",
 		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/plugin/convert"
 	},

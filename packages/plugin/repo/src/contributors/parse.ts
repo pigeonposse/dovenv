@@ -1,8 +1,8 @@
-import type {
-	Contributor,
-	Role,
-} from './fn'
-import type { PackageJSON } from '@dovenv/core/utils'
+import { PackageJSON } from '@dovenv/core/utils'
+
+import { CONTRIBUTOR_ROLE } from './const'
+
+import type { ContributorsOpts } from './types'
 
 const extractGithubUsername = ( input: string ): string => {
 
@@ -16,41 +16,43 @@ const extractGithubUsername = ( input: string ): string => {
 
 }
 
-export const package2Contributors = ( pkg: PackageJSON ): {
-	role   : Role
-	member : Contributor[]
-} => {
+/**
+ * Converts a package's author, contributors, and maintainers information into
+ * a structured format of contributors and their roles.
+ *
+ * @param   {PackageJSON}      pkg    - The package JSON containing author, contributors, and maintainers data.
+ * @param   {ContributorsOpts} [opts] - Optional contributors options.
+ * @returns {object}                  An object containing:
+ *                                    - `role`: An object defining various contributor roles with their names and emojis.
+ *                                    - `member`: An array of contributors with details like role, GitHub username, name, and URL.
+ */
+export const package2Contributors = ( pkg: PackageJSON, opts?: ContributorsOpts ): ContributorsOpts | undefined => {
 
-	const members: Contributor[] = []
-	const role: Role             = {
-		author : {
-			name  : 'Author',
-			emoji : '💼',
-		},
-		contributor : {
-			name  : 'Contributor',
-			emoji : '🧑‍💻',
-		},
-		mantainer : {
-			name  : 'Mantainer',
-			emoji : '🚧',
-		},
+	if ( !pkg ) throw new Error( 'No package provided' )
+
+	const members: ContributorsOpts['member'] = opts?.member || [ ]
+
+	const role: ContributorsOpts['role'] = {
+		author      : CONTRIBUTOR_ROLE.author,
+		contributor : CONTRIBUTOR_ROLE.contributor,
+		mantainer   : CONTRIBUTOR_ROLE.mantainer,
+		...( opts?.role || {} ),
 	}
-	const parts                  = {
+
+	const sections = {
 		contributors : pkg.contributors || [],
 		author       : pkg.author ? [ pkg.author ] : [],
 		maintainers  : pkg.maintainers || [],
 	}
-	for ( let index = 0; index < Object.keys( parts ).length; index++ ) {
 
-		const key = Object.keys( parts )[index] as keyof typeof parts
+	for ( const [ roleKey, contributors ] of Object.entries( sections ) ) {
 
-		parts[key].map( contributor => {
+		for ( const contributor of contributors ) {
 
 			if ( typeof contributor === 'string' ) {
 
 				members.push( {
-					role       : key,
+					role       : roleKey,
 					ghUsername : contributor,
 					name       : contributor,
 				} )
@@ -59,13 +61,11 @@ export const package2Contributors = ( pkg: PackageJSON ): {
 			else {
 
 				const {
-					name,
-					url,
-					email,
+					name, url, email,
 				} = contributor
 				const ghUsername = extractGithubUsername( url || email || '' )
 				members.push( {
-					role : key,
+					role : roleKey,
 					ghUsername,
 					name : name || ghUsername,
 					url,
@@ -73,13 +73,15 @@ export const package2Contributors = ( pkg: PackageJSON ): {
 
 			}
 
-		} )
+		}
 
 	}
 
-	return {
-		role,
-		member : members,
-	}
+	return members.length
+		? {
+			role,
+			member : members,
+		}
+		: undefined
 
 }

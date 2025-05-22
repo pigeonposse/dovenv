@@ -1,49 +1,23 @@
-/* eslint-disable @stylistic/object-curly-newline */
-import {
-	defineConfig,
-	type Config as DovenvConfig,
-} from '@dovenv/core'
 
-import { type Role }          from './contributors/fn'
-import { contributorsPlugin } from './contributors/main'
-import { ghPlugin }           from './gh/main'
-import { gitPlugin }          from './git/main'
-import { pkgPlugin }          from './pkg/main'
+export * from './git/index'
+export * from './gh/index'
 
-import type { Config as RepoConfig } from './_super/types'
-import type { ContributorsConfig }   from './contributors/main'
-import type { GitConfig }            from './git/types'
+export {
+	Packages,
+	pkgPlugin,
+} from './pkg/index'
+export type { PackageConfig } from './pkg/index'
 
-export * from './pkg/main'
-export * from './git/main'
-export * from './gh/main'
-export * from './contributors/main'
+export { CONTRIBUTOR_ROLE } from './contributors/const'
+export { package2Contributors } from './contributors/parse'
+export { contributorsPlugin } from './contributors/plugin'
+export { Contributors } from './contributors/core'
+export type {
+	Members,
+	Role,
+	ContributorsConfig,
+} from './contributors/types'
 
-export type Config<I extends string, R extends Role<I>> = RepoConfig & GitConfig & {
-	/** Contributors configuration */
-	contributors? : ContributorsConfig<I, R>
-}
-
-/**
- * Dovenv plugin for managing a repository.
- *
- * @param   {Config}       opts - Optional configuration.
- * @returns {DovenvConfig}      - The plugin configuration.
- */
-export const repoPlugin = <Contr extends string, R extends Role<Contr>>( opts?: Config<Contr, R> ): DovenvConfig => {
-
-	const {
-		contributors,
-		...generalConf
-	} = opts || {}
-
-	return defineConfig( [
-		contributorsPlugin( contributors ),
-		ghPlugin( generalConf ),
-		gitPlugin( generalConf ),
-		pkgPlugin( generalConf ),
-	] )
-
-}
-
-export default repoPlugin
+export { repoPlugin } from './plugin'
+export { default } from './plugin'
+export type { Config } from './plugin'

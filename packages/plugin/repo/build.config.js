@@ -1,15 +1,4 @@
+import { config }            from '@dovenv/repo-config/unbuild'
 import { defineBuildConfig } from 'unbuild'
 
-import { config } from '../../config/repo-config/build.config'
-
-export default defineBuildConfig( [
-	{
-		...config,
-		entries   : [ './src/main' ],
-		externals : [
-			'@dovenv/core',
-			'@clack/prompts',
-			'chalk',
-		],
-	},
-] )
+export default defineBuildConfig( [ { ...config } ] )

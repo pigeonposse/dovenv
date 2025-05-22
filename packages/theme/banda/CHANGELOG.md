@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.8
+
+### Patch Changes
+
+- add contributors in Predocs, fix contributors in repo, improve perf
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.8
+  - @dovenv/workspace@1.5.8
+  - @dovenv/examples@1.5.8
+  - @dovenv/convert@1.5.8
+  - @dovenv/docs@1.5.8
+  - @dovenv/lint@1.5.8
+  - @dovenv/repo@1.5.8
+  - @dovenv/todo@1.5.8
+  - @dovenv/core@1.5.8
+
 ## 1.5.7
 
 ### Patch Changes

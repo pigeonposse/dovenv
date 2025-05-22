@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "1.5.7",
+	"version": "1.5.8",
 	"description": "Eslint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -15,13 +15,13 @@
 		"ruleset",
 		"rulesets"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/config/eslint-config",
+	"homepage": "https://dovenv.pigeonposse.com/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config/guide/config/eslint-config",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"
 	},
 	"repository": {
-		"type": "git",
+		"type": "https",
 		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/config/eslint-config"
 	},

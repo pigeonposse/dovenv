@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.8
+
+### Patch Changes
+
+- add contributors in Predocs, fix contributors in repo, improve perf
+
 ## 1.5.7
 
 ### Patch Changes

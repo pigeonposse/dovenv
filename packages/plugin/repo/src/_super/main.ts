@@ -7,10 +7,12 @@ import {
 
 import { homepage } from '../../package.json'
 
-import type { Config }       from './types'
-import type { CommandUtils } from '@dovenv/core'
+import type {
+	ConfigSuper,
+	CommandUtils,
+} from './types'
 
-export class Repo<C extends Config = Config> {
+export class Repo<C extends ConfigSuper = ConfigSuper> {
 
 	protected utils : CommandUtils
 	opts

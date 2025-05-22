@@ -4,7 +4,6 @@ import {
 	getCurrentDir,
 	joinPath,
 } from '@dovenv/core/utils'
-// import { lintPlugin } from '@dovenv/lint'
 
 import pkg            from '../../../../package.json'
 import { repoPlugin } from '../src/main'
@@ -21,7 +20,7 @@ export default defineConfig( [
 			role : {
 				author : {
 					name  : 'Author',
-					emoji : '👨‍💻',
+					emoji : '👑',
 				},
 				organization : {
 					name  : 'Organization',
@@ -35,10 +34,10 @@ export default defineConfig( [
 			member : [
 				{
 					role       : 'author',
-					ghUsername : 'dovenv',
-					name       : 'Dovenv',
-					avatar     : 'https://github.com/dovenv.png',
-					url        : 'https://github.com/dovenv',
+					ghUsername : 'angelespejo',
+					name       : 'Angelespejo',
+					avatar     : 'https://github.com/angelespejo.png',
+					url        : 'https://github.com/angelespejo',
 				},
 				{
 					role       : 'organization',

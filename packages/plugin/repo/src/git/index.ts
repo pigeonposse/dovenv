@@ -9,20 +9,10 @@ import { GitPull }   from './pull'
 import { GitPush }   from './push'
 import { Repo }      from '../_super/main'
 
-import type { GitConfig }              from './types'
-import type { Config as DovenvConfig } from '@dovenv/core'
+import type { GitConfig }    from './types'
+import type { DovenvConfig } from '../_super/types'
 
-export {
-	GitAdd,
-	GitBranch,
-	GitCommit,
-	Husky,
-	GitPull,
-	GitPush,
-	GitInit,
-}
-
-export class Git extends Repo<GitConfig> {
+class Git extends Repo<GitConfig> {
 
 	add        : GitAdd
 	branch     : GitBranch
@@ -69,7 +59,33 @@ const CMD    = {
 	init   : 'init',
 } as const
 
-export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
+/**
+ * Dovenv plugin for managing a repository.
+ *
+ * @param   {GitConfig}    [conf] - Optional configuration.
+ * @returns {DovenvConfig}        - The plugin configuration.
+ * @example
+ * import { defineConfig } from '@dovenv/core'
+ * import { gitPlugin } from '@dovenv/plugin/repo'
+ *
+ * export default defineConfig( [
+ *   gitPlugin( {
+ *     commit : {
+ *       types : [
+ *         { value: 'feat', title: 'A new feature' },
+ *         { value: 'fix', title: 'A bug fix' },
+ *       ],
+ *       scopes : [
+ *         { value: 'core', title: 'Core' },
+ *         { value: 'package', title: 'Package' },
+ *         { value: 'env', title: 'Environment' },
+ *         { value: 'all', title: 'All' },
+ *       ],
+ *     },
+ *   } ),
+ * ] )
+ */
+const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 
 	const res: DovenvConfig['custom'] = { git : {
 		desc : 'Git commands (add, commit, branch, pull, push...)',
@@ -164,3 +180,16 @@ export const gitPlugin = ( conf?: GitConfig ): DovenvConfig => {
 	return { custom: res }
 
 }
+
+export {
+	GitAdd,
+	GitBranch,
+	GitCommit,
+	Husky,
+	GitPull,
+	GitPush,
+	GitInit,
+	Git,
+	gitPlugin,
+}
+export type { GitConfig }

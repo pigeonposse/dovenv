@@ -2,153 +2,168 @@
 
 ## Classes
 
-### Contributors\<ID, R\>
+### Contributors\<R\>
 
 #### Type Parameters
 
-| Type Parameter |
-| ------ |
-| `ID` *extends* `string` |
-| `R` *extends* `Role`\<`ID`\> |
+| Type Parameter | Default type |
+| ------ | ------ |
+| `R` *extends* `RoleMap` | [`Role`](#role-1) |
 
 #### Constructors
 
 ##### new Contributors()
 
 ```ts
-new Contributors<ID, R>(opts?: {
-  member: Contributor<Extract<keyof R, string>>[];
-  role: R;
-}): Contributors<ID, R>
+new Contributors<R>(config?: ContributorsParams<R>): Contributors<R>
 ```
 
 ###### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `opts`? | `object` |
-| `opts.member`? | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] |
-| `opts.role`? | `R` |
+| `config`? | `ContributorsParams`\<`R`\> |
 
 ###### Returns
 
-[`Contributors`](#contributorsid-r)\<`ID`, `R`\>
+[`Contributors`](#contributorsr)\<`R`\>
 
 #### Methods
 
 ##### filterByRole()
 
 ```ts
-filterByRole(role: keyof ID[]): Promise<undefined | {
-  member: Contributor<Extract<keyof R, string>>[];
-  role: R;
-}>
+filterByRole(role: RoleKey[]): Promise<undefined | ContributorsOpts>
 ```
+
+Filter the contributors by role using a list of role IDs.
 
 ###### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `role` | keyof `ID`[] |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `role` | `RoleKey`[] | Role IDs to filter by. |
 
 ###### Returns
 
-`Promise`\<`undefined` \| \{
-  `member`: `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[];
-  `role`: `R`;
- \}\>
+`Promise`\<`undefined` \| `ContributorsOpts`\>
+
+- The filtered contributors.
 
 ##### filterByRolePattern()
 
 ```ts
-filterByRolePattern(pattern: string[]): Promise<undefined | {
-  member: Contributor<Extract<keyof R, string>>[];
-  role: R;
-}>
+filterByRolePattern(pattern: string[]): Promise<undefined | ContributorsOpts>
 ```
+
+Filter the contributors by role using a pattern.
+
+Uses the `getMatch` utility to filter the role IDs using the provided pattern.
+The filtered role IDs are then passed to the `filterByRole` method.
 
 ###### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `pattern` | `string`[] |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `pattern` | `string`[] | Pattern to filter the role IDs with. |
 
 ###### Returns
 
-`Promise`\<`undefined` \| \{
-  `member`: `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[];
-  `role`: `R`;
- \}\>
+`Promise`\<`undefined` \| `ContributorsOpts`\>
+
+- The filtered contributors.
 
 ##### getHtmlContent()
 
 ```ts
-getHtmlContent(opts?: {
-  member: Contributor<Extract<keyof R, string>>[];
-  role: R;
-}): Promise<string>
+getHtmlContent(opts?: ContributorsGetOpts): Promise<string>
 ```
+
+Retrieves the HTML content of a table containing the contributors.
+
+Optionally takes an object with the same shape as the class constructor options.
+If the `role` or `member` properties are not provided, they default to the class constructor options.
 
 ###### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `opts`? | `object` |
-| `opts.member`? | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] |
-| `opts.role`? | `R` |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `ContributorsGetOpts` | Options object. |
 
 ###### Returns
 
 `Promise`\<`string`\>
 
-##### getMembers()
+- The HTML content of the contributors table.
+
+##### getMarkdownContent()
 
 ```ts
-getMembers(): Promise<Contributor<Extract<keyof R, string>>[]>
+getMarkdownContent(opts?: ContributorsGetOpts): Promise<string>
 ```
+
+Converts the HTML content of the contributors table to Markdown.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `ContributorsGetOpts` | Options object. |
 
 ###### Returns
 
-`Promise`\<`Contributor`\<`Extract`\<keyof `R`, `string`\>\>[]\>
+`Promise`\<`string`\>
 
-##### getRoles()
+- The Markdown content of the contributors table.
+
+##### getTerminalContent()
 
 ```ts
-getRoles(): Promise<R>
+getTerminalContent(opts?: ContributorsGetOpts): Promise<string>
 ```
+
+Retrieves the contributors table content formatted for the terminal.
+
+Optionally takes an object with the same shape as the class constructor options.
+If the `role` or `member` properties are not provided, they default to the class constructor options.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `ContributorsGetOpts` | Options object. |
 
 ###### Returns
 
-`Promise`\<`R`\>
+`Promise`\<`string`\>
+
+- The terminal-formatted content of the contributors table.
 
 ##### showTerminalOutput()
 
 ```ts
-showTerminalOutput(opts?: {
-  member: Contributor<Extract<keyof R, string>>[];
-  role: R;
-}): Promise<void>
+showTerminalOutput(opts?: ContributorsGetOpts): Promise<void>
 ```
+
+Logs the contributors table as a formatted string to the terminal.
 
 ###### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `opts`? | `object` |
-| `opts.member`? | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] |
-| `opts.role`? | `R` |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `ContributorsGetOpts` | Options object. |
 
 ###### Returns
 
 `Promise`\<`void`\>
 
+- The result of logging the contributors table.
+
 #### Properties
 
 | Property | Type |
 | ------ | ------ |
-| `opts` | \{ `member`: `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[]; `role`: `R`; \} |
-| `opts.member` | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] |
-| `opts.role` | `R` |
+| `opts` | `undefined` \| `ContributorsOpts` |
 
 ***
 
@@ -156,7 +171,7 @@ showTerminalOutput(opts?: {
 
 #### Extends
 
-- `Repo`\<`GitConfig`\>
+- `Repo`\<[`GitConfig`](#gitconfig)\>
 
 #### Constructors
 
@@ -174,7 +189,7 @@ new Git(data: {
 | Parameter | Type |
 | ------ | ------ |
 | `data` | `object` |
-| `data.opts`? | `GitConfig` |
+| `data.opts`? | [`GitConfig`](#gitconfig) |
 | `data.utils` | `CommandSuper` |
 
 ###### Returns
@@ -224,7 +239,7 @@ initGH(): Promise<void>
 | `commit` | [`GitCommit`](#gitcommit) | - |
 | `husky` | [`Husky`](#husky) | - |
 | `initialize` | [`GitInit`](#gitinit) | - |
-| `opts` | `undefined` \| `GitConfig` | `Repo.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `Repo.opts` |
 | `pull` | [`GitPull`](#gitpull) | - |
 | `push` | [`GitPush`](#gitpush) | - |
 
@@ -252,7 +267,7 @@ new GitAdd(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -353,7 +368,7 @@ run(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 
 ***
 
@@ -379,7 +394,7 @@ new GitBranch(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -611,7 +626,7 @@ Switch to an existing branch.
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 
 ***
 
@@ -637,7 +652,7 @@ new GitCommit(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -786,7 +801,7 @@ run(): Promise<undefined | string>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 | `scopes` | `undefined` \| \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | - |
 | `types` | `undefined` \| \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | - |
 
@@ -800,7 +815,7 @@ run(): Promise<undefined | string>
 
 ```ts
 new GitHub(__namedParameters: {
-  opts: GitHubConfig;
+  opts: PackageConfig;
   utils: CommandSuper;
  }): GitHub
 ```
@@ -810,7 +825,7 @@ new GitHub(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -842,7 +857,7 @@ download(input: string, output: string): Promise<void>
 | ------ | ------ |
 | `create` | `GitHubCreate` |
 | `info` | [`GitHubInfo`](#githubinfo) |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) |
+| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) |
 | `workflow` | [`GitHubWorkflow`](#githubworkflow) |
 
 ***
@@ -859,7 +874,7 @@ download(input: string, output: string): Promise<void>
 
 ```ts
 new GitHubInfo(__namedParameters: {
-  opts: GitHubConfig;
+  opts: PackageConfig;
   utils: CommandSuper;
  }): GitHubInfo
 ```
@@ -869,7 +884,7 @@ new GitHubInfo(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -888,7 +903,7 @@ new GitHubInfo(__namedParameters: {
 getRepoList(opts?: {
   archived: boolean;
   fork: boolean;
-  visibility: "private" | "public" | "internal";
+  visibility: "public" | "private" | "internal";
  }): Promise<{
   desc: undefined | string;
   homepage: undefined | string;
@@ -906,7 +921,7 @@ getRepoList(opts?: {
 | `opts`? | `object` |
 | `opts.archived`? | `boolean` |
 | `opts.fork`? | `boolean` |
-| `opts.visibility`? | `"private"` \| `"public"` \| `"internal"` |
+| `opts.visibility`? | `"public"` \| `"private"` \| `"internal"` |
 
 ###### Returns
 
@@ -985,7 +1000,7 @@ viewAll(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `GHSuper.opts` |
+| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) | `GHSuper.opts` |
 
 ***
 
@@ -1001,7 +1016,7 @@ viewAll(): Promise<void>
 
 ```ts
 new GitHubWorkflow(__namedParameters: {
-  opts: GitHubConfig;
+  opts: PackageConfig;
   utils: CommandSuper;
  }): GitHubWorkflow
 ```
@@ -1011,7 +1026,7 @@ new GitHubWorkflow(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1030,7 +1045,7 @@ new GitHubWorkflow(__namedParameters: {
 getRepoList(opts?: {
   archived: boolean;
   fork: boolean;
-  visibility: "private" | "public" | "internal";
+  visibility: "public" | "private" | "internal";
  }): Promise<{
   desc: undefined | string;
   homepage: undefined | string;
@@ -1048,7 +1063,7 @@ getRepoList(opts?: {
 | `opts`? | `object` |
 | `opts.archived`? | `boolean` |
 | `opts.fork`? | `boolean` |
-| `opts.visibility`? | `"private"` \| `"public"` \| `"internal"` |
+| `opts.visibility`? | `"public"` \| `"private"` \| `"internal"` |
 
 ###### Returns
 
@@ -1117,7 +1132,7 @@ run(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `GHSuper.opts` |
+| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) | `GHSuper.opts` |
 
 ***
 
@@ -1143,7 +1158,7 @@ new GitInit(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1228,7 +1243,7 @@ run(silent: boolean): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 
 ***
 
@@ -1254,7 +1269,7 @@ new GitPull(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1323,7 +1338,7 @@ run(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 
 ***
 
@@ -1349,7 +1364,7 @@ new GitPush(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1445,7 +1460,7 @@ run(opts?: {
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 
 ***
 
@@ -1471,7 +1486,7 @@ new Husky(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | `GitConfig` |
+| `__namedParameters.opts`? | [`GitConfig`](#gitconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1540,7 +1555,7 @@ run(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| `GitConfig` | `GitSuper.opts` |
+| `opts` | `undefined` \| [`GitConfig`](#gitconfig) | `GitSuper.opts` |
 
 ***
 
@@ -1556,7 +1571,7 @@ run(): Promise<void>
 
 ```ts
 new Packages(__namedParameters: {
-  opts: GitHubConfig;
+  opts: PackageConfig;
   utils: CommandSuper;
  }): Packages
 ```
@@ -1566,7 +1581,7 @@ new Packages(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
+| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1726,46 +1741,49 @@ version(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `Repo.opts` |
+| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) | `Repo.opts` |
 
 ## Functions
 
 ### contributorsPlugin()
 
 ```ts
-function contributorsPlugin<ID, R>(conf?: ContributorsConfig<ID, R>): Config
+function contributorsPlugin<R>(conf?: ContributorsConfig<R>): Config
 ```
+
+Dovenv plugin for managing workspace contributors.
 
 #### Type Parameters
 
-| Type Parameter |
-| ------ |
-| `ID` *extends* `string` |
-| `R` *extends* `Role`\<`ID`\> |
+| Type Parameter | Default type |
+| ------ | ------ |
+| `R` *extends* `RoleMap` | `RoleMap` |
 
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `conf`? | [`ContributorsConfig`](#contributorsconfigid-r)\<`ID`, `R`\> |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `conf`? | [`ContributorsConfig`](#contributorsconfigr)\<`R`\> | Optional configuration. |
 
 #### Returns
 
 `Config`
+
+- The plugin configuration.
 
 ***
 
 ### ghPlugin()
 
 ```ts
-function ghPlugin(conf?: GitHubConfig): Config
+function ghPlugin(conf?: PackageConfig): Config
 ```
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `conf`? | [`GitHubConfig`](#githubconfig) |
+| `conf`? | [`PackageConfig`](#packageconfig) |
 
 #### Returns
 
@@ -1779,15 +1797,43 @@ function ghPlugin(conf?: GitHubConfig): Config
 function gitPlugin(conf?: GitConfig): Config
 ```
 
+Dovenv plugin for managing a repository.
+
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `conf`? | `GitConfig` |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `conf`? | [`GitConfig`](#gitconfig) | Optional configuration. |
 
 #### Returns
 
 `Config`
+
+- The plugin configuration.
+
+#### Example
+
+```ts
+import { defineConfig } from '@dovenv/core'
+import { gitPlugin } from '@dovenv/plugin/repo'
+
+export default defineConfig( [
+  gitPlugin( {
+    commit : {
+      types : [
+        { value: 'feat', title: 'A new feature' },
+        { value: 'fix', title: 'A bug fix' },
+      ],
+      scopes : [
+        { value: 'core', title: 'Core' },
+        { value: 'package', title: 'Package' },
+        { value: 'env', title: 'Environment' },
+        { value: 'all', title: 'All' },
+      ],
+    },
+  } ),
+] )
+```
 
 ***
 
@@ -1798,75 +1844,70 @@ function package2Contributors(pkg: {
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "error" | "ignore" | "warn";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "error" | "ignore" | "warn";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "error" | "ignore" | "warn";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "error" | "ignore" | "warn";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "error" | "ignore" | "warn";
         version: string;
        };
     };
- }): {
-  member: Contributor[];
-  role: Role;
-}
+ }, opts?: ContributorsOpts): undefined | ContributorsOpts
 ```
+
+Converts a package's author, contributors, and maintainers information into
+a structured format of contributors and their roles.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `pkg` | `object` | - |
+| `pkg` | `object` | The package JSON containing author, contributors, and maintainers data. |
 | `pkg.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `pkg.devEngines.cpu`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"ignore"` \| `"warn"`; `version`: `string`; \} | - |
+| `pkg.devEngines.libc`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"ignore"` \| `"warn"`; `version`: `string`; \} | - |
+| `pkg.devEngines.os`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"ignore"` \| `"warn"`; `version`: `string`; \} | - |
+| `pkg.devEngines.packageManager`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"ignore"` \| `"warn"`; `version`: `string`; \} | - |
+| `pkg.devEngines.runtime`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"ignore"` \| `"warn"`; `version`: `string`; \} | - |
+| `opts`? | `ContributorsOpts` | Optional contributors options. |
 
 #### Returns
 
-```ts
-{
-  member: Contributor[];
-  role: Role;
-}
-```
+`undefined` \| `ContributorsOpts`
 
-| Name | Type |
-| ------ | ------ |
-| `member` | `Contributor`[] |
-| `role` | `Role` |
+An object containing:
+                                   - `role`: An object defining various contributor roles with their names and emojis.
+                                   - `member`: An array of contributors with details like role, GitHub username, name, and URL.
 
 ***
 
 ### pkgPlugin()
 
 ```ts
-function pkgPlugin(conf?: GitHubConfig): Config
+function pkgPlugin(conf?: PackageConfig): Config
 ```
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `conf`? | [`GitHubConfig`](#githubconfig) |
+| `conf`? | [`PackageConfig`](#packageconfig) |
 
 #### Returns
 
@@ -1877,23 +1918,22 @@ function pkgPlugin(conf?: GitHubConfig): Config
 ### repoPlugin()
 
 ```ts
-function repoPlugin<Contr, R>(opts?: Config<Contr, R>): Config
+function repoPlugin<R>(opts?: Config<R>): Config
 ```
 
 Dovenv plugin for managing a repository.
 
 #### Type Parameters
 
-| Type Parameter |
-| ------ |
-| `Contr` *extends* `string` |
-| `R` *extends* `Role`\<`Contr`\> |
+| Type Parameter | Default type |
+| ------ | ------ |
+| `R` *extends* `RoleMap` | `RoleMap` |
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `opts`? | [`Config`](#configi-r)\<`Contr`, `R`\> | Optional configuration. |
+| `opts`? | [`Config`](#configr)\<`R`\> | Optional configuration. |
 
 #### Returns
 
@@ -1903,11 +1943,11 @@ Dovenv plugin for managing a repository.
 
 ## Type Aliases
 
-### Config\<I, R\>
+### Config\<R\>
 
 ```ts
-type Config<I, R>: GitHubConfig & GitConfig & {
-  contributors: ContributorsConfig<I, R>;
+type Config<R>: PackageConfig & GitConfig & {
+  contributors: ContributorsConfig<R>;
 };
 ```
 
@@ -1915,22 +1955,21 @@ type Config<I, R>: GitHubConfig & GitConfig & {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `contributors`? | [`ContributorsConfig`](#contributorsconfigid-r)\<`I`, `R`\> | Contributors configuration |
+| `contributors`? | [`ContributorsConfig`](#contributorsconfigr)\<`R`\> | Contributors configuration |
 
 #### Type Parameters
 
 | Type Parameter |
 | ------ |
-| `I` *extends* `string` |
-| `R` *extends* `Role`\<`I`\> |
+| `R` *extends* [`Role`](#role-1) |
 
 ***
 
-### ContributorsConfig\<ID, R\>
+### ContributorsConfig\<R\>
 
 ```ts
-type ContributorsConfig<ID, R>: {
-  member: Contributor<Extract<keyof R, string>>[];
+type ContributorsConfig<R>: {
+  member: Members<keyof R>;
   role: R;
 };
 ```
@@ -1939,22 +1978,79 @@ type ContributorsConfig<ID, R>: {
 
 | Type Parameter |
 | ------ |
-| `ID` *extends* `string` |
-| `R` *extends* `Role`\<`ID`\> |
+| `R` *extends* [`Role`](#role-1) |
 
 #### Type declaration
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `member` | `Contributor`\<`Extract`\<keyof `R`, `string`\>\>[] | Set contributor members. **Example** `[ { ghUsername: 'angelespejo', name: 'Angelo', role: 'author' }, { ghUsername: 'pigeonposse', name: 'PigeonPosse', role: 'organization' }, ]` |
+| `member` | [`Members`](#membersid)\<keyof `R`\> | Set contributor members. **Example** `[ { ghUsername: 'angelespejo', name: 'Angelo', role: 'author' }, { ghUsername: 'pigeonposse', name: 'PigeonPosse', role: 'organization' }, ]` |
 | `role` | `R` | Set contributor roles. **Example** `{ 	 * owner: { name: 'Owner', emoji: '👑' }, 	 * developer: { name: 'Developer', emoji: '🤝' }, 	 * organization: { name: 'Organization', emoji: '🏢' }, 	 * sponsor: { name: 'Sponsor', emoji: '🤝' }, 	 * translator: { name: 'Translator', emoji: '🌏' } 	 * },` |
 
 ***
 
-### GitHubConfig
+### GitConfig
 
 ```ts
-type GitHubConfig: {
+type GitConfig: PackageConfig & {
+  commit: {
+     scopes: {
+        desc: string;
+        title: string;
+        value: string;
+       }[];
+     types: {
+        desc: string;
+        title: string;
+        value: string;
+       }[];
+    };
+  husky: {
+     path: string;
+    };
+  pull: unknown;
+  push: unknown;
+};
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `commit`? | \{ `scopes`: \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[]; `types`: \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[]; \} | Commit configuration |
+| `commit.scopes`? | \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | Scope of commit message. **Example** `[ 	{value: 'core'}, 	{value: 'package'}, 	{value: 'env'}, 	{value: 'all'} ]` |
+| `commit.types`? | \{ `desc`: `string`; `title`: `string`; `value`: `string`; \}[] | Type of commit message. Add types for your commits. **Example** `[ {value: 'feat', title: 'A new feature'}, {value: 'fix', title: 'A bug fix'} ]` |
+| `husky`? | \{ `path`: `string`; \} | Husky configuration **Link** https://typicode.github.io/husky/ |
+| `husky.path` | `string` | The path to set the '.husky' directory. **Default** `'.dovenv/.husky'` |
+| `pull`? | `unknown` | Pull configuration |
+| `push`? | `unknown` | Push configuration |
+
+***
+
+### Members\<ID\>
+
+```ts
+type Members<ID>: {
+  avatar: string;
+  ghUsername: string;
+  name: string;
+  role: ID;
+  url: string;
+ }[];
+```
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `ID` *extends* `RoleKey` |
+
+***
+
+### PackageConfig
+
+```ts
+type PackageConfig: {
   defaultBranch: string;
   desc: string;
   homepageURL: string;
@@ -1981,11 +2077,23 @@ type GitHubConfig: {
 | `workflowDefaultInputs`? | `string` | Workflow default inputs. |
 | `workflowsDir`? | `string` | Path to .github/workflows directory. |
 
+***
+
+### Role
+
+```ts
+type Role: RoleMap;
+```
+
 ## References
 
 ### default
 
 Renames and re-exports [repoPlugin](#repoplugin)
+
+### GitHubConfig
+
+Renames and re-exports [PackageConfig](#packageconfig)
 
 ## Variables
 
@@ -1998,6 +2106,11 @@ const CONTRIBUTOR_ROLE: {
      emoji: '👑';
      name: 'Author';
     };
+  contributor: {
+     desc: 'Contributor for the development of the project. Code, docs, etc.';
+     emoji: '💻';
+     name: 'Contributor';
+    };
   designer: {
      desc: 'Contributor for the design of the project. Images, icons, etc.';
      emoji: '💄';
@@ -2005,46 +2118,67 @@ const CONTRIBUTOR_ROLE: {
     };
   developer: {
      desc: 'Contributor for the development of the project. Code, docs, etc.';
-     emoji: '👨‍💻';
+     emoji: '💻';
      name: 'Developer';
     };
+  mantainer: {
+     desc: 'Maintainer of the project. Code, docs, etc.';
+     emoji: '🚧';
+     name: 'Mantainer';
+    };
   organization: {
+     desc: 'Organization of the project.';
      emoji: '🏢';
      name: 'Organization';
     };
   sponsor: {
+     desc: 'Sponsor of the project.';
      emoji: '🤝';
      name: 'Sponsor';
     };
   translator: {
+     desc: 'Translator for the project.';
      emoji: '🌏';
      name: 'Translator';
     };
 };
 ```
 
+Contributor roles object with their names and emojis.
+
 #### Type declaration
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
 | `author` | \{ `desc`: `'Author of the project.'`; `emoji`: `'👑'`; `name`: `'Author'`; \} | - |
-| `author.desc` | `string` | 'Author of the project.' |
-| `author.emoji` | `string` | '👑' |
-| `author.name` | `string` | 'Author' |
+| `author.desc` | `"Author of the project."` | 'Author of the project.' |
+| `author.emoji` | `"👑"` | '👑' |
+| `author.name` | `"Author"` | 'Author' |
+| `contributor` | \{ `desc`: `'Contributor for the development of the project. Code, docs, etc.'`; `emoji`: `'💻'`; `name`: `'Contributor'`; \} | - |
+| `contributor.desc` | `"Contributor for the development of the project. Code, docs, etc."` | 'Contributor for the development of the project. Code, docs, etc.' |
+| `contributor.emoji` | `"💻"` | '💻' |
+| `contributor.name` | `"Contributor"` | 'Contributor' |
 | `designer` | \{ `desc`: `'Contributor for the design of the project. Images, icons, etc.'`; `emoji`: `'💄'`; `name`: `'Designer'`; \} | - |
-| `designer.desc` | `string` | 'Contributor for the design of the project. Images, icons, etc.' |
-| `designer.emoji` | `string` | '💄' |
-| `designer.name` | `string` | 'Designer' |
-| `developer` | \{ `desc`: `'Contributor for the development of the project. Code, docs, etc.'`; `emoji`: `'👨‍💻'`; `name`: `'Developer'`; \} | - |
-| `developer.desc` | `string` | 'Contributor for the development of the project. Code, docs, etc.' |
-| `developer.emoji` | `string` | '👨‍💻' |
-| `developer.name` | `string` | 'Developer' |
-| `organization` | \{ `emoji`: `'🏢'`; `name`: `'Organization'`; \} | - |
-| `organization.emoji` | `string` | '🏢' |
-| `organization.name` | `string` | 'Organization' |
-| `sponsor` | \{ `emoji`: `'🤝'`; `name`: `'Sponsor'`; \} | - |
-| `sponsor.emoji` | `string` | '🤝' |
-| `sponsor.name` | `string` | 'Sponsor' |
-| `translator` | \{ `emoji`: `'🌏'`; `name`: `'Translator'`; \} | - |
-| `translator.emoji` | `string` | '🌏' |
-| `translator.name` | `string` | 'Translator' |
+| `designer.desc` | `"Contributor for the design of the project. Images, icons, etc."` | 'Contributor for the design of the project. Images, icons, etc.' |
+| `designer.emoji` | `"💄"` | '💄' |
+| `designer.name` | `"Designer"` | 'Designer' |
+| `developer` | \{ `desc`: `'Contributor for the development of the project. Code, docs, etc.'`; `emoji`: `'💻'`; `name`: `'Developer'`; \} | - |
+| `developer.desc` | `"Contributor for the development of the project. Code, docs, etc."` | 'Contributor for the development of the project. Code, docs, etc.' |
+| `developer.emoji` | `"💻"` | '💻' |
+| `developer.name` | `"Developer"` | 'Developer' |
+| `mantainer` | \{ `desc`: `'Maintainer of the project. Code, docs, etc.'`; `emoji`: `'🚧'`; `name`: `'Mantainer'`; \} | - |
+| `mantainer.desc` | `"Maintainer of the project. Code, docs, etc."` | 'Maintainer of the project. Code, docs, etc.' |
+| `mantainer.emoji` | `"🚧"` | '🚧' |
+| `mantainer.name` | `"Mantainer"` | 'Mantainer' |
+| `organization` | \{ `desc`: `'Organization of the project.'`; `emoji`: `'🏢'`; `name`: `'Organization'`; \} | - |
+| `organization.desc` | `"Organization of the project."` | 'Organization of the project.' |
+| `organization.emoji` | `"🏢"` | '🏢' |
+| `organization.name` | `"Organization"` | 'Organization' |
+| `sponsor` | \{ `desc`: `'Sponsor of the project.'`; `emoji`: `'🤝'`; `name`: `'Sponsor'`; \} | - |
+| `sponsor.desc` | `"Sponsor of the project."` | 'Sponsor of the project.' |
+| `sponsor.emoji` | `"🤝"` | '🤝' |
+| `sponsor.name` | `"Sponsor"` | 'Sponsor' |
+| `translator` | \{ `desc`: `'Translator for the project.'`; `emoji`: `'🌏'`; `name`: `'Translator'`; \} | - |
+| `translator.desc` | `"Translator for the project."` | 'Translator for the project.' |
+| `translator.emoji` | `"🌏"` | '🌏' |
+| `translator.name` | `"Translator"` | 'Translator' |

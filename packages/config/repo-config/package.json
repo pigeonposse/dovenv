@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/repo-config",
-	"version": "1.5.5",
+	"version": "1.5.6",
 	"private": true,
 	"description": "Config for dovenv repositories",
 	"homepage": "https://dovenv.pigeonposse.com/guide/config/repo-config",
@@ -27,5 +27,9 @@
 	"exports": {
 		"./tsconfig.json": "./tsconfig.json",
 		"./unbuild": "./build.config.js"
-	}
+	},
+	"files": [
+		"build.config.js",
+		"tsconfig.json"
+	]
 }

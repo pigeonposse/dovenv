@@ -13,7 +13,6 @@ export default defineConfig( pigeonposseMonorepoTheme( {
 	} ),
 	docs : async _c => {
 
-		console.dir( { _c } )
 		return { name: 'dovenv' }
 
 	},

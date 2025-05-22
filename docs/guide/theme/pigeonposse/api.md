@@ -35,25 +35,187 @@ new Predocs(__namedParameters: {
 getMarkdownInfo(): Promise<MarkdownInfo>
 ```
 
+Retrieves and constructs the Markdown information for the packages.
+
+- If the Markdown information is already available, it returns the cached result.
+- Otherwise, it fetches the public package data and groups them by type.
+- For each group, it constructs a structured Markdown content that includes
+titles, descriptions, and links for each package.
+
 ###### Returns
 
 `Promise`\<`MarkdownInfo`\>
 
+A promise that resolves to an object containing
+                                 the Markdown content for each package type.
+
+##### getWorkspacePublicPackagesData()
+
+```ts
+getWorkspacePublicPackagesData(): Promise<{
+  data: {
+     devEngines: {
+        cpu: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        libc: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        os: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        packageManager: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        runtime: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+       };
+    };
+  docs: {
+     apiFile: string;
+     dir: string;
+     examplesFile: string;
+     indexFile: string;
+     urlPath: {
+        api: string;
+        examples: string;
+        index: string;
+       };
+    };
+  emojiId: string;
+  emojiType: string;
+  id: string;
+  name: string;
+  package: {
+     dir: string;
+     docsFile: string;
+     examplesConfigFile: string;
+     isTs: boolean;
+     packageJsonFile: string;
+     readmeFile: string;
+     relativeDir: string;
+     srcFile: string;
+     tsconfigFile: string;
+    };
+  pathID: string;
+  repoURL: string;
+  title: string;
+  type: PkgType;
+}[]>
+```
+
+Returns the public packages data for the workspace.
+
+###### Returns
+
+`Promise`\<\{
+  `data`: \{
+     `devEngines`: \{
+        `cpu`: `undefined` \| \{
+           `name`: `string`;
+           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
+           `version`: `string`;
+          \};
+        `libc`: `undefined` \| \{
+           `name`: `string`;
+           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
+           `version`: `string`;
+          \};
+        `os`: `undefined` \| \{
+           `name`: `string`;
+           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
+           `version`: `string`;
+          \};
+        `packageManager`: `undefined` \| \{
+           `name`: `string`;
+           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
+           `version`: `string`;
+          \};
+        `runtime`: `undefined` \| \{
+           `name`: `string`;
+           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
+           `version`: `string`;
+          \};
+       \};
+    \};
+  `docs`: \{
+     `apiFile`: `string`;
+     `dir`: `string`;
+     `examplesFile`: `string`;
+     `indexFile`: `string`;
+     `urlPath`: \{
+        `api`: `string`;
+        `examples`: `string`;
+        `index`: `string`;
+       \};
+    \};
+  `emojiId`: `string`;
+  `emojiType`: `string`;
+  `id`: `string`;
+  `name`: `string`;
+  `package`: \{
+     `dir`: `string`;
+     `docsFile`: `string`;
+     `examplesConfigFile`: `string`;
+     `isTs`: `boolean`;
+     `packageJsonFile`: `string`;
+     `readmeFile`: `string`;
+     `relativeDir`: `string`;
+     `srcFile`: `string`;
+     `tsconfigFile`: `string`;
+    \};
+  `pathID`: `string`;
+  `repoURL`: `string`;
+  `title`: `string`;
+  `type`: [`PkgType`](#pkgtype);
+ \}[]\>
+
+An array of public package data objects.
+
 ##### run()
 
 ```ts
-run(): Promise<void>
+run(opts?: RunOpts): Promise<void>
 ```
+
+Create package docs simultaneously.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `RunOpts` | Optional options. |
 
 ###### Returns
 
 `Promise`\<`void`\>
 
+- Resolves when all docs are created.
+
 ##### setContributorsFile()
 
 ```ts
-setContributorsFile(): Promise<void>
+setContributorsFile(opts?: ContributorsFileOpts): Promise<void>
 ```
+
+Generates and writes a contributors file using the specified template.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `ContributorsFileOpts` | Optional configuration for generating the contributors file. Can include additional properties to pass to the template. |
 
 ###### Returns
 
@@ -62,8 +224,21 @@ setContributorsFile(): Promise<void>
 ##### setGuideIndexFile()
 
 ```ts
-setGuideIndexFile(): Promise<void>
+setGuideIndexFile(opts?: GuideIndexFileOpts): Promise<void>
 ```
+
+Sets the guide index file in the documentation directory.
+
+This method checks if a workspace index file exists within the core directory.
+If it exists, it uses the templates to generate the guide index file and writes
+it to the documentation guide directory. If the file does not exist, an info
+message is logged.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `GuideIndexFileOpts` | Optional configuration for template properties. |
 
 ###### Returns
 
@@ -72,25 +247,30 @@ setGuideIndexFile(): Promise<void>
 ##### setGuideSectionIndexFile()
 
 ```ts
-setGuideSectionIndexFile(config: undefined | {
+setGuideSectionIndexFile(opts?: {
   none: string[] | PkgType[];
 }): Promise<void>
 ```
 
+Writes the guide section index files.
+
 ###### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `config` | `undefined` \| \{ `none`: `string`[] \| [`PkgType`](#pkgtype)[]; \} |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `object` | The options object. |
+| `opts.none`? | `string`[] \| [`PkgType`](#pkgtype)[] | - |
 
 ###### Returns
 
 `Promise`\<`void`\>
 
+An empty fulfilled promise.
+
 ##### setIndexFile()
 
 ```ts
-setIndexFile(config?: {
+setIndexFile(opts?: {
   content: string;
   creationTemplate: boolean;
   custom: Record<string, unknown>;
@@ -99,44 +279,242 @@ setIndexFile(config?: {
 }): Promise<void>
 ```
 
+Writes the index file to the documentation root directory.
+
+This file is the entry point for users to access the documentation.
+It is a generated file that is rewritten every time the documentation is built.
+
 ###### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `config`? | `object` | - |
-| `config.content`? | `string` | Add content after frontmatter |
-| `config.creationTemplate`? | `boolean` | Change template to `creation` template |
-| `config.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page. **See** https://vitepress.dev/reference/default-theme-home-page |
-| `config.noAction`? | `boolean` | Remove default action |
-| `config.noFeatures`? | `boolean` | Remove default features |
+| `opts`? | `object` | The options object. |
+| `opts.content`? | `string` | Add content after frontmatter |
+| `opts.creationTemplate`? | `boolean` | Change template to `creation` template |
+| `opts.custom`? | `Record`\<`string`, `unknown`\> | Add custom content to index doc page. **See** https://vitepress.dev/reference/default-theme-home-page |
+| `opts.noAction`? | `boolean` | Remove default action |
+| `opts.noFeatures`? | `boolean` | Remove default features |
 
 ###### Returns
 
 `Promise`\<`void`\>
 
-##### setPkgFiles()
+An empty fulfilled promise.
+
+##### setPackageApiFile()
 
 ```ts
-setPkgFiles(): Promise<void>
+setPackageApiFile(config: PackageFileConfig, opts?: false | {
+  props: {
+     input: string | string[];
+     opts: {
+        hooks: {
+           after: () => ... | ...;
+           before: () => ... | ...;
+          };
+        name: string;
+        packageJsonPath: string;
+        transform: (content: string) => Promise<string>;
+        tsconfigPath: string;
+        typedoc: Partial<Omit<TypeDocOptions, "plugin" | "tsconfig" | "entryPoints" | "out">>;
+        typedocMarkdown: Partial<PluginOptions>;
+       };
+     output: string;
+    };
+}): Promise<void>
 ```
+
+Generates and writes the API documentation file for a package.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `config` | `PackageFileConfig` | Configuration object containing public package data and markdown info. |
+| `opts`? | `false` \| \{ `props`: \{ `input`: `string` \| `string`[]; `opts`: \{ `hooks`: \{ `after`: () => ... \| ...; `before`: () => ... \| ...; \}; `name`: `string`; `packageJsonPath`: `string`; `transform`: (`content`: `string`) => `Promise`\<`string`\>; `tsconfigPath`: `string`; `typedoc`: `Partial`\<`Omit`\<`TypeDocOptions`, `"plugin"` \| `"tsconfig"` \| `"entryPoints"` \| `"out"`\>\>; `typedocMarkdown`: `Partial`\<`PluginOptions`\>; \}; `output`: `string`; \}; \} | Optional configuration properties for the API file generation. If set to `false`, the function exits without processing. |
 
 ###### Returns
 
 `Promise`\<`void`\>
+
+###### Throws
+
+Throws an error if the API documentation generation fails.
+
+##### setPackageExamplesFile()
+
+```ts
+setPackageExamplesFile(config: PackageFileConfig, opts?: false | {
+  props: Config;
+}): Promise<void>
+```
+
+Generates a file with examples.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `config` | `PackageFileConfig` | The public package configuration. |
+| `opts`? | `false` \| \{ `props`: [`Config`](namespaces/examples.md#config); \} | The options to pass to the examples plugin. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+###### Example
+
+```ts
+const predocs = new Predocs()
+const publicPkgs = await predocs.getWorkspacePublicPackageData( )
+const info = await predocs.getMarkdownInfo()
+for ( const publicPkg of publicPkgs ) {
+  await predocs.setPackageExamplesFile( { publicPkg, info } )
+}
+```
+
+##### setPackageFiles()
+
+```ts
+setPackageFiles(opts?: PackageFileOpts): Promise<void>
+```
+
+Set the files for each package in the workspace.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `opts`? | `PackageFileOpts` | Options. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+##### setPackageIndexFile()
+
+```ts
+setPackageIndexFile(config: PackageFileConfig, opts?: false | {
+  props: Config;
+}): Promise<void>
+```
+
+Sets the index file for the package in the documentation directory.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `config` | `PackageFileConfig` | Configuration for the package file. |
+| `opts`? | `false` \| \{ `props`: [`Config`](namespaces/templates.md#config); \} | Optional configuration for the package file. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+###### Example
+
+```ts
+const predocs = new Predocs()
+const publicPkgs = await predocs.getWorkspacePublicPackageData( )
+const info = await predocs.getMarkdownInfo()
+
+for ( const publicPkg of publicPkgs ) {
+  await predocs.setPackageIndexFile( { publicPkg, info } )
+}
+```
+
+##### setPackageJSONFile()
+
+```ts
+setPackageJSONFile(config: PackageFileConfig, opts?: false | {
+  props: {
+     devEngines: {
+        cpu: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        libc: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        os: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        packageManager: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+        runtime: undefined | {
+           name: string;
+           onFail: "warn" | "error" | "ignore";
+           version: string;
+          };
+       };
+    };
+}): Promise<void>
+```
+
+Writes the package.json file for the documentation package.
+
+This method sets the `homepage`, `repository`, `license`, `funding`, and `bugs` fields
+in the package.json file. It also copies the `author` field from the workspace package.json
+if it exists. If the PackageFileOpts.packages option is set to `false`, the method does nothing.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `config` | `PackageFileConfig` | Configuration for the package file. |
+| `opts`? | `false` \| \{ `props`: \{ `devEngines`: \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; \}; \}; \} | Optional configuration for the package file. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+##### setPackageReadmeFile()
+
+```ts
+setPackageReadmeFile(config: PackageFileConfig, opts?: false | {
+  props: Config;
+}): Promise<void>
+```
+
+Generates and writes the README file for a package.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `config` | `PackageFileConfig` | Configuration object containing public package data and markdown info. |
+| `opts`? | `false` \| \{ `props`: [`Config`](namespaces/templates.md#config); \} | Optional configuration properties for the README generation. If set to `false`, the function exits without processing. |
+
+###### Returns
+
+`Promise`\<`void`\>
+
+###### Throws
+
+Throws an error if the README generation fails.
 
 #### Properties
 
 | Property | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | - |
-| `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | - |
+| `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | General Configuration options |
+| `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | Object containing partials strings |
 | `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library. **required const**: libPkg. |
 | `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library. **required const**: libPkg. |
 | `partial.footer` | `string` | `undefined` | Returns the footer for the documentation. **required const**: pkg, socialBadges, mark, contributors. |
 | `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library. **required const**: libPkg. |
 | `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library. **required const**: libPkg. |
-| `projectName` | `any` | `undefined` | - |
-| `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | - |
+| `projectName` | `string` | `undefined` | The name of the project |
+| `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | Object containing templates strings |
 | `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark. |
 | `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
 | `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |

@@ -2,13 +2,11 @@ import {
 	existsDir,
 	joinPath,
 } from '@dovenv/core/utils'
-import { exec } from 'child_process'
+import { exec } from 'node:child_process'
 
-import { GitSuper } from './_super'
-import {
-	GitAdd,
-	GitCommit,
-} from '../git/main'
+import { GitSuper }  from './_super'
+import { GitAdd }    from './add'
+import { GitCommit } from './commit'
 
 export class GitInit extends GitSuper {
 

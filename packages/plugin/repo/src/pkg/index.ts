@@ -1,7 +1,9 @@
 import { Packages } from './fn'
 
-import type { Config }                 from '../_super/types'
-import type { Config as DovenvConfig } from '@dovenv/core'
+import type {
+	ConfigSuper as PackageConfig,
+	DovenvConfig,
+} from '../_super/types'
 
 const CMD = {
 	release     : 'release',
@@ -14,9 +16,7 @@ const CMD = {
 	size        : 'size',
 } as const
 
-export { Packages }
-
-export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
+const pkgPlugin = ( conf?: PackageConfig ): DovenvConfig => {
 
 	return { custom : { pkg : {
 		desc : 'Packages commands: update, publish...',
@@ -79,3 +79,9 @@ export const pkgPlugin = ( conf?: Config ): DovenvConfig => {
 	} } }
 
 }
+
+export {
+	Packages,
+	pkgPlugin,
+}
+export type { PackageConfig }

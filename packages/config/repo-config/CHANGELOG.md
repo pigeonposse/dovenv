@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.6
+
+### Patch Changes
+
+- add contributors in Predocs, fix contributors in repo, improve perf
+
 ## 1.5.5
 
 ### Patch Changes

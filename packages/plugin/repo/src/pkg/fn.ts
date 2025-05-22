@@ -11,9 +11,10 @@ import {
 
 import { Repo } from '../_super/main'
 
-import type { PackageJSON } from '@dovenv/core/utils'
+import type { PackageJSON } from '../_super/types'
 
 const _deps = new LazyLoader( { sizium: () => import( '@sizium/core' ) } )
+
 export class Packages extends Repo {
 
 	async #exec( args?: string[] ) {

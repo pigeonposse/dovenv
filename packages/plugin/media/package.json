@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/media",
-	"version": "1.5.7",
+	"version": "1.5.8",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"aio",
@@ -11,13 +11,13 @@
 		"pigeonposse",
 		"pp"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/media",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media/guide/plugin/media",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"
 	},
 	"repository": {
-		"type": "git",
+		"type": "https",
 		"url": "https://github.com/pigeonposse/dovenv/",
 		"directory": "packages/plugin/media"
 	},
