@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/lint",
-	"version": "1.5.9",
+	"version": "1.5.10",
 	"description": "Lint configuration for dovenv",
 	"keywords": [
 		"eslint",

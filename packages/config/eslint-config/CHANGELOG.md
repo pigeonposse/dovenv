@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.10
+
+### Patch Changes
+
+- up contr repo
+
 ## 1.5.9
 
 ### Patch Changes
