@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.5.9
+
+### Patch Changes
+
+- fix contributors table
+
 ## 1.5.8
 
 ### Patch Changes

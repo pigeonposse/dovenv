@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils-media",
-	"version": "1.5.8",
+	"version": "1.5.9",
 	"description": "Extra Media Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -15,7 +15,7 @@
 		"terminal",
 		"utils"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media",
+	"homepage": "https://dovenv.pigeonposse.com/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media/guide/utils-media",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

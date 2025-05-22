@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/lint",
-	"version": "1.5.8",
+	"version": "1.5.9",
 	"description": "Lint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -18,7 +18,7 @@
 		"staged",
 		"stylelint"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint/guide/plugin/lint",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

@@ -119,6 +119,12 @@ export class Contributors<
 		const headerParts: string[]  = []
 		const dividerParts: string[] = []
 
+		if ( showImage ) {
+
+			headerParts.push( ' ' )
+			dividerParts.push( '-----' )
+
+		}
 		if ( showName ) {
 
 			headerParts.push( 'Name' )
@@ -131,12 +137,6 @@ export class Contributors<
 			dividerParts.push( '----' )
 
 		}
-		if ( showImage ) {
-
-			headerParts.push( 'Image' )
-			dividerParts.push( '-----' )
-
-		}
 
 		const header  = `| ${headerParts.join( ' | ' )} |`
 		const divider = `| ${dividerParts.join( ' | ' )} |`
@@ -144,11 +144,16 @@ export class Contributors<
 		const rows: string[] = member.map( m => {
 
 			const profileUrl = m.url || `https://github.com/${m.ghUsername}`
-			const avatarUrl  = m.avatar || `https://github.com/${m.ghUsername}.png?s=75`
+			const avatarUrl  = m.avatar || `https://github.com/${m.ghUsername}.png?size=72`
 			const memberRole = role[m.role]
 
 			const columns: string[] = []
 
+			if ( showImage ) {
+
+				columns.push( `![${m.name}](${avatarUrl})` )
+
+			}
 			if ( showName ) {
 
 				columns.push( `[${m.name}](${profileUrl})` )
@@ -162,12 +167,6 @@ export class Contributors<
 
 			}
 
-			if ( showImage ) {
-
-				columns.push( `![${m.name}](${avatarUrl})` )
-
-			}
-
 			return `| ${columns.join( ' | ' )} |`
 
 		} )
@@ -178,7 +177,7 @@ export class Contributors<
 			header,
 			divider,
 			...rows,
-		].join( '\n' )
+		].join( '\n' ).trim()
 
 	}
 

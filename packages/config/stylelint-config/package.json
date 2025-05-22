@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/stylelint-config",
-	"version": "1.5.8",
+	"version": "1.5.9",
 	"description": "Stylelint configuration for dovenv",
 	"keywords": [
 		"config",
@@ -15,7 +15,7 @@
 		"setup",
 		"stylelint"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config",
+	"homepage": "https://dovenv.pigeonposse.com/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config/guide/config/stylelint-config",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

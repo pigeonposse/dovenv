@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "1.5.8",
+	"version": "1.5.9",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -11,7 +11,7 @@
 		"pp",
 		"server"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs/guide/plugin/docs",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

@@ -12,11 +12,11 @@ Convert utils for dovenv
 
 - [Read more](/guide/plugin/convert)
 
-## 💡 Examples
+## 📚 Docs
 
-Tools for Examples files/directories for dovenv
+Documentation utils for dovenv
 
-- [Read more](/guide/plugin/examples)
+- [Read more](/guide/plugin/docs)
 
 ## 🧹 Lint
 
@@ -30,17 +30,17 @@ Media configuration for dovenv
 
 - [Read more](/guide/plugin/media)
 
-## 📚 Docs
-
-Documentation utils for dovenv
-
-- [Read more](/guide/plugin/docs)
-
 ## 🗃️ Repo
 
 Repository tools for any runtime
 
 - [Read more](/guide/plugin/repo)
+
+## 💡 Examples
+
+Tools for Examples files/directories for dovenv
+
+- [Read more](/guide/plugin/examples)
 
 ## 🖼️ Templates
 

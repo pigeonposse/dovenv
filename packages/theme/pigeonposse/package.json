@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/theme-pigeonposse",
-	"version": "1.5.8",
+	"version": "1.5.9",
 	"description": "A dovenv configuration and tools for Pigeonposse team",
 	"keywords": [
 		"aio",
@@ -11,7 +11,7 @@
 		"pp",
 		"theme"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse",
+	"homepage": "https://dovenv.pigeonposse.com/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse/guide/theme/pigeonposse",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

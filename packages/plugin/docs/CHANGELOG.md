@@ -1,5 +1,14 @@
 # @dovenv/docs
 
+## 1.5.9
+
+### Patch Changes
+
+- fix contributors table
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.9
+
 ## 1.5.8
 
 ### Patch Changes

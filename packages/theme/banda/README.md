@@ -49,11 +49,11 @@ deno add @dovenv/theme-banda
 - 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
   - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
-  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
+  - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
-  - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
   - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
+  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)
@@ -97,10 +97,10 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 
 ## Contributors
 
-| Name | Role | Image |
-| ---- | ---- | ----- |
-| [Angelo](https://github.com/angelespejo) | 👑 Author | ![Angelo](https://github.com/angelespejo.png?s=75) |
-| [PigeonPosse](https://github.com/pigeonposse) | 🏢 Organization | ![PigeonPosse](https://github.com/pigeonposse.png?s=75) |
+|   | Name | Role |
+| ----- | ---- | ---- |
+| ![Angelo](https://github.com/angelespejo.png?size=72) | [Angelo](https://github.com/angelespejo) | 👑 Author |
+| ![PigeonPosse](https://github.com/pigeonposse.png?size=72) | [PigeonPosse](https://github.com/pigeonposse) | 🏢 Organization |
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
 [![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com/about)

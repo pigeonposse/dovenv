@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.5.9
+
+### Patch Changes
+
+- fix contributors table
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.9
+
 ## 1.5.8
 
 ### Patch Changes

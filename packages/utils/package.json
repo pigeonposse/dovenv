@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "1.5.8",
+	"version": "1.5.9",
 	"description": "Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -18,7 +18,7 @@
 		"terminal",
 		"utils"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils",
+	"homepage": "https://dovenv.pigeonposse.com/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils/guide/utils",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"
