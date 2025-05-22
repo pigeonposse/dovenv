@@ -139,9 +139,10 @@ This software is licensed with __[{{const.pkg.license}}]({{const.pkg.extra.licen
 
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)]({{const.pkg.extra.collective.gh}})
 
----
 
 {{const.contributors}}
+
+---
 
 {{const.socialBadges}}
 

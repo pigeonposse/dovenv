@@ -93,7 +93,6 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 
 [![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
 
----
 
 ## Contributors
 
@@ -101,6 +100,8 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 | ----- | ---- | ---- |
 | ![Angelo](https://github.com/angelespejo.png?size=72) | [Angelo](https://github.com/angelespejo) | 👑 Author |
 | ![PigeonPosse](https://github.com/pigeonposse.png?size=72) | [PigeonPosse](https://github.com/pigeonposse) | 🏢 Organization |
+
+---
 
 [![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
 [![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com/about)
