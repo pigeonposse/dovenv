@@ -53,6 +53,7 @@
 		"build:extra": "pnpm -F create-dovenv build",
 		"build:plugin": "pnpm -F './packages/plugin/**' --parallel build",
 		"build:theme": "pnpm -F './packages/theme/**' build",
+		"lint:commit": "node --run . -- lint commitlint",
 		"lint:eslint": "node --run . -- lint eslint",
 		"lint:pkg": "node --run . -- lint custom -k pkg",
 		"lint:staged": "node --run . -- lint staged --silent",

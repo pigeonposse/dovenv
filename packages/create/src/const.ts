@@ -26,10 +26,10 @@ const {
 	getDirName,
 	fileURLToPath,
 } = sys
-const isDev        = process.env.NODE_ENV !== 'production'
+// const isDev        = process.env.NODE_ENV !== 'production'
 const name         = extra.id
 const currentDir   = join( getDirName( fileURLToPath( import.meta.url ) ) )
-const dataDir      = join( currentDir, '..', isDev ? '..' : '', 'data' )
+const dataDir      = join( currentDir, '..', '', 'data' )
 const templatesDir = join( dataDir, 'templates' )
 const partialsDir  = join( dataDir, 'partials' )
 const SELECT_NONE  = 'none' as const

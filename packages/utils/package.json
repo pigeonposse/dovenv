@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "1.5.12",
+	"version": "1.5.13",
 	"description": "Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -67,8 +67,8 @@
 	},
 	"dependencies": {
 		"@cfworker/json-schema": "4.1.1",
-		"@clack/core": "0.4.2",
-		"@clack/prompts": "0.10.1",
+		"@clack/core": "0.5.0",
+		"@clack/prompts": "0.11.0",
 		"@schemastore/package": "0.0.10",
 		"@vibrant/color": "4.0.0",
 		"badge-maker": "4.1.0",

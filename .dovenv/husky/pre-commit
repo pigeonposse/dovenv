@@ -9,6 +9,6 @@
 
 echo '🚀 Precommit'
 echo
-pnpm test:check-ws
+node --run test:check-ws
 echo
-node --run . -- lint staged --silent
+node --run lint:staged

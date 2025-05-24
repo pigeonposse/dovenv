@@ -62,9 +62,9 @@ export const core = new CreatiumCore( {
 			fn   : ( ) => {
 
 				const tableData = [ [ 'Version', version ], [ 'Documentation', homepage ] ]
-				const content   = `${table( [ [ description, '' ] ], styleOpt.table )}\n${table( tableData, styleOpt.table )}`
-				const value     = color.dim( content )
+					.map( v => [ color.dim( color.bold( v[0] ) ), color.dim( color.italic( v[1] ) ) ] )
 
+				const value = `${table( [ [ color.dim( description ) ], [ '' ] ], styleOpt.table )}\n${table( tableData, styleOpt.table )}\n`
 				prompt.box( {
 					value : value,
 					opts  : styleOpt.box,
@@ -72,6 +72,7 @@ export const core = new CreatiumCore( {
 
 			},
 		},
+
 		output : {
 			type  : 'output',
 			alias : [ 'o' ],
@@ -160,6 +161,8 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 		// Copy the partials
 
 		spinner.message( 'Copying partials' )
+
+		// await ensureDir( output )
 
 		await copyDir( {
 			input : PARTIAL_DIR.workspace,
