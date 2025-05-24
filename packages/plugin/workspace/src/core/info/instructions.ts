@@ -14,7 +14,7 @@ export class Instructions extends Super implements InfoInterface {
 		const opts = this.opts?.info?.instructions
 		if ( !opts ) return undefined
 		const content = await getMD( opts )
-		return await md2terminal( content )
+		return ( await md2terminal( content ) ).trim( ) + '\n'
 
 	}
 

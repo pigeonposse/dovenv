@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "1.5.11",
+	"version": "1.5.12",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"aio",
@@ -11,7 +11,7 @@
 		"pigeonposse",
 		"pp"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples/guide/plugin/examples",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/examples",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

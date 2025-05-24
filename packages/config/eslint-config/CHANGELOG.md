@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.12
+
+### Patch Changes
+
+- up ws plugin, fix predocs cmd in theme-pigeonposse
+
 ## 1.5.11
 
 ### Patch Changes

@@ -826,7 +826,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 
 		const logConstructor = ( type: 'info' | 'success' | 'warn' | 'error', key?: string ) =>
 			( t: string, m?: string ) => this.prompt.log[type](
-				this.style[type].badge( this.title ) + ( key ? this.style[type].b( ` (${key}) ` ) : ' ' ) + ( !m
+				this.style.info.badge( this.title ) + ( key ? this.style[type].b( ` (${key}) ` ) : ' ' ) + ( !m
 					? this.style[type].p( t )
 					: this.style[type].msg( t, m )
 				),

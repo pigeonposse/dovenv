@@ -18,17 +18,17 @@ Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
 
-## 🧹 Lint
-
-Lint configuration for dovenv
-
-- [Read more](/guide/plugin/lint)
-
 ## 🎥 Media
 
 Media configuration for dovenv
 
 - [Read more](/guide/plugin/media)
+
+## 🧹 Lint
+
+Lint configuration for dovenv
+
+- [Read more](/guide/plugin/lint)
 
 ## 🗃️ Repo
 

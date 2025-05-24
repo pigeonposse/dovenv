@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.12
+
+### Patch Changes
+
+- up ws plugin, fix predocs cmd in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.12
+  - @dovenv/workspace@1.5.12
+  - @dovenv/examples@1.5.12
+  - @dovenv/convert@1.5.12
+  - @dovenv/docs@1.5.12
+  - @dovenv/lint@1.5.12
+  - @dovenv/repo@1.5.12
+  - @dovenv/todo@1.5.12
+  - @dovenv/core@1.5.12
+
 ## 1.5.11
 
 ### Patch Changes

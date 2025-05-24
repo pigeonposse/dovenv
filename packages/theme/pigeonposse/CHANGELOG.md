@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.12
+
+### Patch Changes
+
+- up ws plugin, fix predocs cmd in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.12
+  - @dovenv/eslint-config@1.5.12
+  - @dovenv/theme-banda@1.5.12
+  - @dovenv/core@1.5.12
+
 ## 1.5.11
 
 ### Patch Changes

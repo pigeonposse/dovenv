@@ -34,7 +34,7 @@ export class Scripts extends Super implements InfoInterface {
 
 				for ( const key in data.scripts ) {
 
-					scripts.push( [ this.utils.style.section.lk( key ), this.utils.style.section.lv( data.scripts[key] || '' ) ] )
+					scripts.push( [ this.utils.style.section.b( key ), this.utils.style.section.lv( data.scripts[key] || '' ) ] )
 
 				}
 
@@ -76,7 +76,7 @@ export class Scripts extends Super implements InfoInterface {
 		return this.utils.style.box( {
 			data   : res,
 			border : false,
-		} )
+		} ) + '\n'
 
 	}
 

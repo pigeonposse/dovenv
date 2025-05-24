@@ -815,7 +815,7 @@ run(): Promise<undefined | string>
 
 ```ts
 new GitHub(__namedParameters: {
-  opts: PackageConfig;
+  opts: GitHubConfig;
   utils: CommandSuper;
  }): GitHub
 ```
@@ -825,7 +825,7 @@ new GitHub(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -857,7 +857,7 @@ download(input: string, output: string): Promise<void>
 | ------ | ------ |
 | `create` | `GitHubCreate` |
 | `info` | [`GitHubInfo`](#githubinfo) |
-| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) |
 | `workflow` | [`GitHubWorkflow`](#githubworkflow) |
 
 ***
@@ -874,7 +874,7 @@ download(input: string, output: string): Promise<void>
 
 ```ts
 new GitHubInfo(__namedParameters: {
-  opts: PackageConfig;
+  opts: GitHubConfig;
   utils: CommandSuper;
  }): GitHubInfo
 ```
@@ -884,7 +884,7 @@ new GitHubInfo(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1000,7 +1000,7 @@ viewAll(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) | `GHSuper.opts` |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `GHSuper.opts` |
 
 ***
 
@@ -1016,7 +1016,7 @@ viewAll(): Promise<void>
 
 ```ts
 new GitHubWorkflow(__namedParameters: {
-  opts: PackageConfig;
+  opts: GitHubConfig;
   utils: CommandSuper;
  }): GitHubWorkflow
 ```
@@ -1026,7 +1026,7 @@ new GitHubWorkflow(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1132,7 +1132,7 @@ run(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) | `GHSuper.opts` |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `GHSuper.opts` |
 
 ***
 
@@ -1571,7 +1571,7 @@ run(): Promise<void>
 
 ```ts
 new Packages(__namedParameters: {
-  opts: PackageConfig;
+  opts: GitHubConfig;
   utils: CommandSuper;
  }): Packages
 ```
@@ -1581,7 +1581,7 @@ new Packages(__namedParameters: {
 | Parameter | Type |
 | ------ | ------ |
 | `__namedParameters` | `object` |
-| `__namedParameters.opts`? | [`PackageConfig`](#packageconfig) |
+| `__namedParameters.opts`? | [`GitHubConfig`](#githubconfig) |
 | `__namedParameters.utils` | `CommandSuper` |
 
 ###### Returns
@@ -1634,7 +1634,10 @@ getPkgVersion(npm: boolean, showPrivate: boolean): Promise<{
 ##### getSize()
 
 ```ts
-getSize(name: string): Promise<void>
+getSize(name: string): Promise<{
+  data: SiziumResponse;
+  inputType: pkg.inputType;
+}>
 ```
 
 ###### Parameters
@@ -1645,7 +1648,42 @@ getSize(name: string): Promise<void>
 
 ###### Returns
 
-`Promise`\<`void`\>
+`Promise`\<\{
+  `data`: `SiziumResponse`;
+  `inputType`: `pkg.inputType`;
+ \}\>
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `data` | `SiziumResponse` | - |
+| `inputType` | `"string"` \| `"url"` \| `"json"` \| `"path"` | pkg.inputType |
+
+##### getSizeData()
+
+```ts
+getSizeData(name: string): Promise<{
+  data: SiziumResponse;
+  inputType: pkg.inputType;
+}>
+```
+
+###### Parameters
+
+| Parameter | Type | Default value |
+| ------ | ------ | ------ |
+| `name` | `string` | `'./'` |
+
+###### Returns
+
+`Promise`\<\{
+  `data`: `SiziumResponse`;
+  `inputType`: `pkg.inputType`;
+ \}\>
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `data` | `SiziumResponse` | - |
+| `inputType` | `"string"` \| `"url"` \| `"json"` \| `"path"` | pkg.inputType |
 
 ##### init()
 
@@ -1741,7 +1779,7 @@ version(): Promise<void>
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| `opts` | `undefined` \| [`PackageConfig`](#packageconfig) | `Repo.opts` |
+| `opts` | `undefined` \| [`GitHubConfig`](#githubconfig) | `Repo.opts` |
 
 ## Functions
 
@@ -1776,14 +1814,14 @@ Dovenv plugin for managing workspace contributors.
 ### ghPlugin()
 
 ```ts
-function ghPlugin(conf?: PackageConfig): Config
+function ghPlugin(conf?: GitHubConfig): Config
 ```
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `conf`? | [`PackageConfig`](#packageconfig) |
+| `conf`? | [`GitHubConfig`](#githubconfig) |
 
 #### Returns
 
@@ -1900,14 +1938,14 @@ An object containing:
 ### pkgPlugin()
 
 ```ts
-function pkgPlugin(conf?: PackageConfig): Config
+function pkgPlugin(conf?: GitHubConfig): Config
 ```
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `conf`? | [`PackageConfig`](#packageconfig) |
+| `conf`? | [`GitHubConfig`](#githubconfig) |
 
 #### Returns
 
@@ -1946,7 +1984,7 @@ Dovenv plugin for managing a repository.
 ### Config\<R\>
 
 ```ts
-type Config<R>: PackageConfig & GitConfig & {
+type Config<R>: GitHubConfig & GitConfig & {
   contributors: ContributorsConfig<R>;
 };
 ```
@@ -1992,7 +2030,7 @@ type ContributorsConfig<R>: {
 ### GitConfig
 
 ```ts
-type GitConfig: PackageConfig & {
+type GitConfig: GitHubConfig & {
   commit: {
      scopes: {
         desc: string;
@@ -2027,30 +2065,10 @@ type GitConfig: PackageConfig & {
 
 ***
 
-### Members\<ID\>
+### GitHubConfig
 
 ```ts
-type Members<ID>: {
-  avatar: string;
-  ghUsername: string;
-  name: string;
-  role: ID;
-  url: string;
- }[];
-```
-
-#### Type Parameters
-
-| Type Parameter |
-| ------ |
-| `ID` *extends* `RoleKey` |
-
-***
-
-### PackageConfig
-
-```ts
-type PackageConfig: {
+type GitHubConfig: {
   defaultBranch: string;
   desc: string;
   homepageURL: string;
@@ -2079,6 +2097,26 @@ type PackageConfig: {
 
 ***
 
+### Members\<ID\>
+
+```ts
+type Members<ID>: {
+  avatar: string;
+  ghUsername: string;
+  name: string;
+  role: ID;
+  url: string;
+ }[];
+```
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `ID` *extends* `RoleKey` |
+
+***
+
 ### Role
 
 ```ts
@@ -2091,9 +2129,9 @@ type Role: RoleMap;
 
 Renames and re-exports [repoPlugin](#repoplugin)
 
-### GitHubConfig
+### PackageConfig
 
-Renames and re-exports [PackageConfig](#packageconfig)
+Renames and re-exports [GitHubConfig](#githubconfig)
 
 ## Variables
 

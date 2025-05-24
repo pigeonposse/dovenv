@@ -23,14 +23,6 @@ const config = setConfig(
 			'**/packages/config/**/tests/**',
 		],
 	},
-	// c => ([
-	// 	...c,
-	// 	{
-	// 		rules: {
-	// 			'@stylistic/object-curly-newline'    : [ 'error', { minProperties: 2, TSPropertySignature: {minProperties: 1} } ]
-	// 		},
-	// 	}
-	// ])
 )
 
 export default config

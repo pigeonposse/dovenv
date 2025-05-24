@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/workspace",
-	"version": "1.5.11",
+	"version": "1.5.12",
 	"description": "A dovenv plugin with utilities for the workspace",
 	"keywords": [
 		"aio",
@@ -14,7 +14,7 @@
 		"utils",
 		"workspace"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace/guide/plugin/workspace",
+	"homepage": "https://dovenv.pigeonposse.com/guide/plugin/workspace",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

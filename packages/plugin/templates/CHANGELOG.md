@@ -1,5 +1,14 @@
 # @dovenv/templates
 
+## 1.5.12
+
+### Patch Changes
+
+- up ws plugin, fix predocs cmd in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.12
+
 ## 1.5.11
 
 ### Patch Changes

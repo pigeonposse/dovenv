@@ -52,134 +52,14 @@ A promise that resolves to an object containing
 ##### getWorkspacePublicPackagesData()
 
 ```ts
-getWorkspacePublicPackagesData(): Promise<{
-  data: {
-     devEngines: {
-        cpu: undefined | {
-           name: string;
-           onFail: "warn" | "error" | "ignore";
-           version: string;
-          };
-        libc: undefined | {
-           name: string;
-           onFail: "warn" | "error" | "ignore";
-           version: string;
-          };
-        os: undefined | {
-           name: string;
-           onFail: "warn" | "error" | "ignore";
-           version: string;
-          };
-        packageManager: undefined | {
-           name: string;
-           onFail: "warn" | "error" | "ignore";
-           version: string;
-          };
-        runtime: undefined | {
-           name: string;
-           onFail: "warn" | "error" | "ignore";
-           version: string;
-          };
-       };
-    };
-  docs: {
-     apiFile: string;
-     dir: string;
-     examplesFile: string;
-     indexFile: string;
-     urlPath: {
-        api: string;
-        examples: string;
-        index: string;
-       };
-    };
-  emojiId: string;
-  emojiType: string;
-  id: string;
-  name: string;
-  package: {
-     dir: string;
-     docsFile: string;
-     examplesConfigFile: string;
-     isTs: boolean;
-     packageJsonFile: string;
-     readmeFile: string;
-     relativeDir: string;
-     srcFile: string;
-     tsconfigFile: string;
-    };
-  pathID: string;
-  repoURL: string;
-  title: string;
-  type: PkgType;
-}[]>
+getWorkspacePublicPackagesData(): Promise<PkgData>
 ```
 
 Returns the public packages data for the workspace.
 
 ###### Returns
 
-`Promise`\<\{
-  `data`: \{
-     `devEngines`: \{
-        `cpu`: `undefined` \| \{
-           `name`: `string`;
-           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
-           `version`: `string`;
-          \};
-        `libc`: `undefined` \| \{
-           `name`: `string`;
-           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
-           `version`: `string`;
-          \};
-        `os`: `undefined` \| \{
-           `name`: `string`;
-           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
-           `version`: `string`;
-          \};
-        `packageManager`: `undefined` \| \{
-           `name`: `string`;
-           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
-           `version`: `string`;
-          \};
-        `runtime`: `undefined` \| \{
-           `name`: `string`;
-           `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
-           `version`: `string`;
-          \};
-       \};
-    \};
-  `docs`: \{
-     `apiFile`: `string`;
-     `dir`: `string`;
-     `examplesFile`: `string`;
-     `indexFile`: `string`;
-     `urlPath`: \{
-        `api`: `string`;
-        `examples`: `string`;
-        `index`: `string`;
-       \};
-    \};
-  `emojiId`: `string`;
-  `emojiType`: `string`;
-  `id`: `string`;
-  `name`: `string`;
-  `package`: \{
-     `dir`: `string`;
-     `docsFile`: `string`;
-     `examplesConfigFile`: `string`;
-     `isTs`: `boolean`;
-     `packageJsonFile`: `string`;
-     `readmeFile`: `string`;
-     `relativeDir`: `string`;
-     `srcFile`: `string`;
-     `tsconfigFile`: `string`;
-    \};
-  `pathID`: `string`;
-  `repoURL`: `string`;
-  `title`: `string`;
-  `type`: [`PkgType`](#pkgtype);
- \}[]\>
+`Promise`\<[`PkgData`](#pkgdata)\>
 
 An array of public package data objects.
 

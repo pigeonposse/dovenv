@@ -70,6 +70,7 @@ type PackageFileOpts = {
 }
 
 type PackageFileConfig = {
+	wsData    : PkgData
 	publicPkg : PkgData['data'][number]
 	info      : MarkdownInfo
 }
@@ -92,7 +93,8 @@ export class Predocs {
 	#coreDir
 	#REPO_URL
 	#EMOJI
-	#mdInfo : undefined | MarkdownInfo
+	#mdInfo            : MarkdownInfo | undefined
+	#publicPackageData : PkgData | undefined
 
 	protected utils : CommandUtils
 
@@ -154,16 +156,6 @@ export class Predocs {
 
 	}
 
-	async #getPublicPkgData(): Promise<PkgData> {
-
-		const pkgPaths = await this.utils.getPkgPaths()
-
-		const data = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
-		console.debug( data )
-		return data
-
-	}
-
 	#setMdTitle( v:string, i?: string | Emoji, h?: number ) {
 
 		if ( !h ) h = 2
@@ -181,6 +173,29 @@ export class Predocs {
 	#setMdLink( name:string, url:string, i?: string | Emoji ) {
 
 		return i ? `- ${i} [${name}](${url})` : `- [${name}](${url})`
+
+	}
+
+	async #getPublicPkgData(): Promise<PkgData> {
+
+		if ( this.#publicPackageData ) return this.#publicPackageData
+
+		const pkgPaths = await this.utils.getPkgPaths()
+
+		const data = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
+		console.debug( data )
+		return data
+
+	}
+
+	/**
+	 * Returns the public packages data for the workspace.
+	 *
+	 * @returns {Promise<PkgData>} An array of public package data objects.
+	 */
+	async getWorkspacePublicPackagesData(): Promise<PkgData> {
+
+		return await this.#getPublicPkgData( )
 
 	}
 
@@ -253,17 +268,6 @@ export class Predocs {
 
 		this.#mdInfo = res
 		return res
-
-	}
-
-	/**
-	 * Returns the public packages data for the workspace.
-	 *
-	 * @returns {Promise<PkgData['data']>} An array of public package data objects.
-	 */
-	async getWorkspacePublicPackagesData(): Promise<PkgData['data']> {
-
-		return ( await this.#getPublicPkgData( ) ).data
 
 	}
 
@@ -515,7 +519,7 @@ export class Predocs {
 
 			const data = {
 				...publicPkg.data,
-				homepage   : joinUrl( publicPkg.data.homepage || '', publicPkg.docs.urlPath.index ),
+				homepage   : joinUrl( config.wsData.url || '', publicPkg.docs.urlPath.index ),
 				repository : {
 					type      : this.#REPO_URL.startsWith( 'git+' ) ? 'git' : 'https',
 					url       : this.#REPO_URL,
@@ -816,13 +820,16 @@ export class Predocs {
 	 */
 	async setPackageFiles( opts?: PackageFileOpts ) {
 
-		const publicPkgs = await this.getWorkspacePublicPackagesData()
+		const wsData = await this.getWorkspacePublicPackagesData()
+
+		const publicPkgs = wsData.data
 		const info       = await this.getMarkdownInfo()
 		const tasks      = publicPkgs.map( async publicPkg => {
 
 			try {
 
 				await this.#setPkgFile( {
+					wsData,
 					publicPkg,
 					info,
 				}, opts )

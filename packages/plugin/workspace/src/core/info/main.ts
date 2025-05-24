@@ -48,8 +48,8 @@ export class Info extends Super {
 
 		const content = [
 			[ 'Monorepo', this.utils.monorepo ],
-			[ 'Runtime', this.utils.runtime ],
-			[ 'Package manager', this.utils.packageManager ],
+			[ 'Runtime', this.utils.runtime.value ],
+			[ 'Package manager', this.utils.packageManager.value ],
 			[ 'Package Num', pkgNum ],
 			[
 				'Package Paths',
@@ -64,9 +64,9 @@ export class Info extends Super {
 			[ 'Files', size?.files ],
 			[ 'Words', size?.words ],
 			[ 'Chars', size?.chars ],
+			[ 'Useful commands', cmds ? '\n' + cmds : 'none' ],
 			[ 'Scripts', scripts ? '\n' + scripts : 'none' ],
 			[ 'Instructions', instructions ? '\n\n' + instructions : 'none' ],
-			[ 'Useful commands', cmds ? '\n' + cmds : 'none' ],
 			[ 'Donate', await this.donate.get() ],
 		]
 

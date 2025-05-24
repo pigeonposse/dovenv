@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.5.11",
+	"version": "1.5.12",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"aio",
@@ -17,7 +17,7 @@
 		"toolkit",
 		"workspace"
 	],
-	"homepage": "https://dovenv.pigeonposse.com/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core/guide/core",
+	"homepage": "https://dovenv.pigeonposse.com/guide/core",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/dovenv/issues",
 		"email": "dev@pigeonposse.com"

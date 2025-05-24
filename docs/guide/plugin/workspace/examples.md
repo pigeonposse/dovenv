@@ -128,6 +128,14 @@ export default defineConfig(
 				},
 			},
 		} },
+		// custom : { paths : {
+		// 	desc : 'Print paths',
+		// 	fn   : async ( { utils } ) => {
+
+		// 		console.log( ( await utils.getPkgPaths() ).join( '\n' ) )
+
+		// 	},
+		// } },
 	} ),
 )
 

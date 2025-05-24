@@ -55,16 +55,6 @@ check(): Promise<void>
 
 `Promise`\<`void`\>
 
-##### custom()
-
-```ts
-custom(): Promise<void>
-```
-
-###### Returns
-
-`Promise`\<`void`\>
-
 ##### donate()
 
 ```ts
@@ -230,7 +220,7 @@ type Config: {
           }) => Promise<ValidateAnyType | void> | ValidateAnyType | void;
        }>>;
     };
-  custom: { [key in string]: Function };
+  custom: NonNullable<CommandUtils["config"]>["custom"];
   info: {
      instructions: string;
      structure: object;
@@ -255,7 +245,7 @@ type Config: {
 | ------ | ------ | ------ |
 | `check`? | \{ `pkg`: `Record`\<`string`, `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>\>; \} | - |
 | `check.pkg`? | `Record`\<`string`, `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>\> | Checks for workspace package(s). |
-| `custom`? | `{ [key in string]: Function }` | Custom configration for ws |
+| `custom`? | `NonNullable`\<`CommandUtils`\[`"config"`\]\>\[`"custom"`\] | Custom configration for ws |
 | `info`? | \{ `instructions`: `string`; `structure`: `object`; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace. |
 | `info.instructions`? | `string` | Instructions for the workspace. Must be markdown format. Accepts string, URL or path. **Example** `## Pre-requisites project needs the following tools to work: - `node` > 20 installed - `pnpm` > 9 installed - `gh` > 2 installed - `git` > 2 installed ## Init workspace pnpm install` |
 | `info.structure`? | `object` | Structure of the workspace. |
