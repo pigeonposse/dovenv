@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/convert",
-	"version": "1.5.10",
+	"version": "1.5.11",
 	"description": "Convert utils for dovenv",
 	"keywords": [
 		"aio",

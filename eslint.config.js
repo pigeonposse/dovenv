@@ -1,6 +1,6 @@
-import * as dovenv from './packages/config/eslint-config/dist/main.mjs'
+import { setConfig } from './packages/config/eslint-config/dist/main.mjs'
 
-const config = dovenv.setConfig(
+const config = setConfig(
 	{
 		general   : 'ts',
 		vue       : true,

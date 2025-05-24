@@ -479,8 +479,8 @@ importers:
         specifier: 2.29.4
         version: 2.29.4
       '@sizium/core':
-        specifier: 0.0.9
-        version: 0.0.9
+        specifier: 0.0.11
+        version: 0.0.11
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -3428,8 +3428,8 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@sizium/core@0.0.9':
-    resolution: {integrity: sha512-hgKUGX/zZ65ynU70gv527Hdmi4Zp+PxNMWW8Drq7BidlTX2XA16pnMJsxOedaUprwIU/MZiaPQcg1fSqlOUFKQ==}
+  '@sizium/core@0.0.11':
+    resolution: {integrity: sha512-mGvhrLoAFYBRRLfLfkj3r8kTJ/yQkmhTbmkWelR8kS01vRmzZz6SGAPjpnI4nfFug+UdCtgtt5pBWxM2VDUrLg==}
 
   '@smithy/is-array-buffer@2.2.0':
     resolution: {integrity: sha512-GGP3O9QFD24uGeAXYUjwSTXARoqpZykHadOmA8G5vfJPK0/DC67qa//0qvqrJzL1xc8WQWX7/yc7fwudjPHPhA==}
@@ -13598,7 +13598,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@sizium/core@0.0.9':
+  '@sizium/core@0.0.11':
     dependencies:
       semver: 7.7.2
 

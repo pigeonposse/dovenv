@@ -3,7 +3,6 @@ import {
 	exec,
 	getPaths,
 	joinPath,
-	onStd,
 	removeDirIfExist,
 } from '@dovenv/core/utils'
 
@@ -11,53 +10,96 @@ import { Super } from './_super/main'
 
 export class Execute extends Super {
 
-	// Method forremove errors from output
-	output = onStd( {
-		type : 'stderr',
-		fn   : () => '',
-	} )
+	#cmds = this.utils.packageManager.cmds
 
-	async #audit() {
+	// async #execConstructor( cmd: string ) {
 
-		this._sectionTitle( 'Audition' )
+	// 	try {
 
-		const cmd = this.utils.getPkgManagerCmds()
-		this.output.start()
-		await exec( cmd.audit )
-			.catch( () => '' )
-		this.output.stop()
+	// 		const {
+	// 			stdout, stderr,
+	// 		} = await execAsync( cmd, { cwd: this.utils.wsDir } )
 
-	}
+	// 		return {
+	// 			stderr : stderr.length ? stderr : undefined,
+	// 			stdout : stdout.length ? stdout : undefined,
+	// 		}
 
-	async #auditFix() {
+	// 	}
+	// 	catch ( err: Any ) {
 
-		this._sectionTitle( 'Fix Audition' )
+	// 		// THIS IS FOR PNPM
 
-		const cmd = this.utils.getPkgManagerCmds()
+	// 		if ( err?.stdout || err?.stderr )
+	// 			return {
+	// 				stderr : err.stderr.length && typeof err.stderr === 'string' ? err.stderr as string : undefined,
+	// 				stdout : err.stdout.length && typeof err.stdout === 'string' ? err.stdout as string : undefined,
+	// 			}
 
-		this.output.start()
-		await exec( cmd.auditFix )
-			.catch( () => '' )
-		this.output.stop()
+	// 		return { stderr: err instanceof Error ? err.message : 'Unknown error' }
+
+	// 	}
+
+	// }
+
+	async #exec( title: string, cmd: string ) {
+
+		this._sectionTitle( title )
+		const errors   = []
+		const logError = console.error
+		try {
+
+			console.error = data => errors.push( data )
+			await exec( cmd )
+
+		}
+		catch ( err ) {
+
+			errors.push( err )
+
+		}
+
+		if ( errors.length ) {
+
+			const mappedErrors = errors.map( e => {
+
+				// this is for pnpm
+				// @ts-ignore
+				const isError = !!( e?.stdout || e?.stderr )
+				if ( !isError ) return { isError }
+				return {
+					isError : true,
+					error   : e instanceof Error ? e : new Error( 'Unknown error' ),
+				}
+
+			} )
+
+			for ( const e of mappedErrors ) if ( e.isError ) console.error( e.error?.message )
+
+		}
+		console.error = logError
 
 	}
 
 	async #outdated() {
 
-		this._sectionTitle( 'Packages outdated' )
+		await this.#exec( 'Packages outdated', this.#cmds.outdated )
 
-		const cmd = this.utils.getPkgManagerCmds()
+	}
 
-		this.output.start()
-		await exec( cmd.outdated )
-			.catch( () => '' )
-		this.output.stop()
+	async #audit() {
+
+		await this.#exec( 'Audition', this.#cmds.audit )
+
+	}
+
+	async #auditFix() {
+
+		await this.#exec( 'Fix Audition', this.#cmds.auditFix )
 
 	}
 
 	async #auditAndOutdated( fix?: boolean ) {
-
-		const cmd = this.utils.getPkgManagerCmds()
 
 		if ( fix ) await this.#auditFix()
 		else {
@@ -66,8 +108,8 @@ export class Execute extends Super {
 			await this.#outdated()
 
 			console.log( )
-			console.log( this.utils.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${cmd.auditFix}` ) )
-			console.log( this.utils.style.section.li( 'For outdated dependencies use', cmd.upDeps ) )
+			console.log( this.utils.style.section.li( 'For fix audit use', `dovenv ws audit --fix | ${this.#cmds.auditFix}` ) )
+			console.log( this.utils.style.section.li( 'For outdated dependencies use', this.#cmds.upDeps ) )
 			console.log( )
 
 		}
@@ -85,17 +127,14 @@ export class Execute extends Super {
 			ignore          : [ '**/node_modules/**/node_modules' ],
 		} )
 
-		if ( paths ) for ( const path of paths ) {
+		if ( paths ) await Promise.all( paths.map( async path => {
 
 			console.info( `Removing ${path}` )
 			await removeDirIfExist( path )
 
-		}
+		} ) )
 
-		const cmds = this.utils.getPkgManagerCmds()
-		// await exec( 'pnpm store prune' )
-		// await exec( 'pnpm cache delete' )
-		await exec( cmds.install )
+		await exec( this.utils.packageManager.cmds.install )
 
 		if ( this.opts?.reinstall?.hook?.after ) await this.opts.reinstall.hook.after()
 

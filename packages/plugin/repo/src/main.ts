@@ -1,12 +1,7 @@
 
-export * from './git/index'
-export * from './gh/index'
-
-export {
-	Packages,
-	pkgPlugin,
-} from './pkg/index'
-export type { PackageConfig } from './pkg/index'
+export * from './git'
+export * from './gh'
+export * from './pkg'
 
 export { CONTRIBUTOR_ROLE } from './contributors/const'
 export { package2Contributors } from './contributors/parse'

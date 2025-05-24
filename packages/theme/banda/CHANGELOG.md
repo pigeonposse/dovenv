@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.11
+
+### Patch Changes
+
+- improve performance in ws plugin. add feats, up deps. no breaking changes
+
+- Updated dependencies []:
+  - @dovenv/workspace@1.5.11
+  - @dovenv/repo@1.5.11
+  - @dovenv/core@1.5.11
+  - @dovenv/convert@1.5.11
+  - @dovenv/docs@1.5.11
+  - @dovenv/examples@1.5.11
+  - @dovenv/lint@1.5.11
+  - @dovenv/templates@1.5.11
+  - @dovenv/todo@1.5.11
+
 ## 1.5.10
 
 ### Patch Changes

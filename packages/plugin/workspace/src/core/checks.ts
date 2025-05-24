@@ -21,21 +21,20 @@ export class Checks extends Super {
 
 	async #schemaPKG( value: CheckPkgValue ) {
 
-		const type = value
-		if ( !type?.schema ) return
+		if ( !value?.schema ) return
 
 		const pkgs = await this.utils.getPkgsData()
 
-		for ( const pkg of pkgs ) {
+		await Promise.all( pkgs.map( async pkg => {
 
-			const schema = await type.schema( {
+			const schema = await value.schema?.( {
 				v       : validate,
 				path    : pkg.packagePath,
 				content : pkg.content,
 				utils   : this.utils,
 			} )
 
-			if ( !schema ) continue
+			if ( !schema ) return
 
 			const result = schema.safeParse( pkg.content )
 			if ( !result.success ) {
@@ -59,7 +58,7 @@ export class Checks extends Super {
 
 			}
 
-		}
+		} ) )
 
 	}
 
@@ -68,30 +67,11 @@ export class Checks extends Super {
 		const type = value
 		if ( !type ) return
 
-		const pkgs   = await this.utils.getPkgsData()
-		const custom = async () => {
+		const pkgs = await this.utils.getPkgsData()
 
-			for ( const pkg of pkgs ) {
-
-				const cbData = {
-					dir     : pkg.dir,
-					path    : pkg.packagePath,
-					content : pkg.content,
-					utils   : this.utils,
-				}
-
-				if ( type?.custom ) {
-
-					await type.custom( cbData )
-
-				}
-
-			}
-
-		}
 		const set = async ( data: CheckPattern, exists = false ) => {
 
-			for ( const pkg of pkgs ) {
+			await Promise.all( pkgs.map( async pkg => {
 
 				const cbData = {
 					dir     : pkg.dir,
@@ -104,7 +84,7 @@ export class Checks extends Super {
 					? await data( cbData )
 					: data
 
-				if ( !res ) continue
+				if ( !res ) return
 
 				const patternOpts: Parameters<typeof getPaths>[1] = {
 					cwd       : pkg.dir,
@@ -133,11 +113,11 @@ export class Checks extends Super {
 
 					}
 
-					for ( const path of paths ) {
+					await Promise.all( paths.map( async path => {
 
 						const existsCurr = await existsFile( joinPath( pkg.dir, path ) )
 
-						if ( existsCurr === exists ) continue
+						if ( existsCurr === exists ) return
 
 						const structurePath = await getPathsTree( {
 							input       : res,
@@ -153,17 +133,24 @@ export class Checks extends Super {
 
 						throw new Error( errorMsg )
 
-					}
+					} ) )
 
 				}
 
-			}
+			} ) )
 
 		}
 
 		if ( type?.include ) await set( type.include, true )
 		if ( type?.exclude ) await set( type.exclude, false )
-		if ( type?.custom ) await custom()
+		if ( type?.custom ) await Promise.all(
+			pkgs.map( async pkg => await type.custom?.( {
+				dir     : pkg.dir,
+				path    : pkg.packagePath,
+				content : pkg.content,
+				utils   : this.utils,
+			} ) ),
+		)
 
 		if ( type?.include || type?.exclude ) console.log( this.utils.style.success.h(
 			'Check passed for routes (include/exclude)',
@@ -175,28 +162,23 @@ export class Checks extends Super {
 
 		await this.#structure( opt )
 		await this.#schemaPKG( opt )
-		console.log()
 
 	}
 
 	async #fn( pattern?: string[] ) {
 
-		// this._title( 'Checks workspace structure' )
 		const input = this.opts?.check?.pkg
-		const keys  = await this.utils.getOptsKeys( {
+		await this.utils.mapOpts( {
 			input,
 			pattern,
+			cb : async ( { value } ) => {
+
+				if ( !value ) return
+
+				await this.runOne( value )
+
+			},
 		} )
-
-		if ( !keys || !this.opts ) return
-		for ( const key of keys ) {
-
-			const opt = input?.[key]
-			if ( !opt ) continue
-
-			await this.runOne( opt )
-
-		}
 
 	}
 

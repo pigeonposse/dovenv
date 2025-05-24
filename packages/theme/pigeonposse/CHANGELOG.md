@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.11
+
+### Patch Changes
+
+- improve performance in ws plugin. add feats, up deps. no breaking changes
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.11
+  - @dovenv/stylelint-config@1.5.11
+  - @dovenv/core@1.5.11
+  - @dovenv/theme-banda@1.5.11
+
 ## 1.5.10
 
 ### Patch Changes

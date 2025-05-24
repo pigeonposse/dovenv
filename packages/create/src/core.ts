@@ -33,7 +33,8 @@ import type { CustomParams } from './types'
 export type CreateTemplateParams = Omit<Awaited<ReturnType<typeof core.cli>>, 'plugin' | 'theme' | 'lang'> & CustomParams
 
 const {
-	color, table,
+	color,
+	table,
 } = style
 const {
 	copyDir,

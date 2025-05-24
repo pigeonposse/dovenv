@@ -149,12 +149,6 @@ export type Config = {
 		}
 	}
 	/** Custom configration for ws */
-	custom?: {
-		[key in string]: ( data: {
-			getPkgPaths   : CommandUtils['getPkgPaths']
-			getRuntime    : CommandUtils['getRuntime']
-			getPkgManager : CommandUtils['getPkgManager']
-		} ) => Promise<unknown>
-	}
+	custom? : NonNullable<CommandUtils['config']>['custom']
 }
 

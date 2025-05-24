@@ -9,6 +9,7 @@ import {
 import {
 	mergeConfig as mergeBandaConfig,
 	bandaTheme,
+	repo,
 } from '@dovenv/theme-banda'
 import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
@@ -233,6 +234,32 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 						} )
 
 					},
+				},
+			} },
+			custom : { size : {
+				desc : 'Size of your workspace',
+				fn   : async ( { utils } ) => {
+
+					const paths        = await utils.getPkgPaths()
+					const { Packages } = repo
+					const packages     = new Packages( { utils } )
+					const total        = {
+						mb        : 0,
+						count     : 0,
+						installed : 0,
+					}
+					await Promise.all( paths.map( async path => {
+
+						const res = await packages.getSize( path )
+
+						total.mb += res.data.sizeMB
+						total.count++
+						total.installed += res.data.packageNum
+
+					} ) )
+
+					console.log( `\n\nPackages: ${total.count}\nPackages Installed: ${total.installed}\nTotal size: ${total.mb.toFixed( 2 )} mb` )
+
 				},
 			} },
 		},

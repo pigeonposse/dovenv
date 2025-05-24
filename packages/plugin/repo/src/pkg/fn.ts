@@ -91,6 +91,7 @@ export class Packages extends Repo {
 
 			} ),
 		) ).filter( v => !!v )
+
 		return res
 
 	}
@@ -278,28 +279,40 @@ export class Packages extends Repo {
 
 	}
 
-	async getSize( name: string = './' ) {
+	async getSizeData( name: string = './' ) {
 
 		const { Sizium } = await _deps.get( 'sizium' )
 		const pkg        = new Sizium( name )
-		const type       = pkg.inputType
+
+		return {
+			data      : await pkg.get(),
+			inputType : pkg.inputType,
+		}
+
+	}
+
+	async getSize( name: string = './' ) {
+
+		const pkg  = await this.getSizeData( name )
+		const type = pkg.inputType
 
 		const {
 			packageNum,
 			size,
 			id,
 			packages,
-		} = await pkg.get()
+		} = pkg.data
 
 		const isLocal = type !== 'string'
-		const getSize = ( v: number ) => `${( v / ( 1024 * 1024 ) ).toFixed( 3 )}mb (${( v / 1024 ).toFixed( 3 )}kb)`
+		const getSize = ( v: number ) => `${( v / ( 1024 * 1024 ) ).toFixed( 2 )}mb (${( v / 1024 ).toFixed( 2 )}kb)`
 		let data      = this.utils.style.table( [
 			[ 'Name', this.utils.style.info.b( id ) ],
 			[ 'Packages Installed', this.utils.style.p( packageNum ) ],
 			[ 'Local package', this.utils.style.p( isLocal ) ],
-			[ '', '' ],
+			[ '', '' ], // Empty line
 			[ 'Unpacked size', this.utils.style.p( getSize( packages[0].unpackedSize ) ) ],
 			[ 'Total size', this.utils.style.success.p( getSize( size ) ) ],
+			[ '', '' ], // Empty line
 		], { chars : {
 			'top'          : '',
 			'top-mid'      : '',
@@ -322,6 +335,8 @@ export class Packages extends Repo {
 			data += '\n' + this.utils.style.p( `\nView more details in ${this.utils.style.a( `https://sizium.pigeonposse.com/?s=${name}` )}\n` )
 
 		this.utils.prompt.log.message( data )
+
+		return pkg
 
 	}
 

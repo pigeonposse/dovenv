@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.5.11
+
+### Patch Changes
+
+- improve performance in ws plugin. add feats, up deps. no breaking changes
+
 ## 1.5.10
 
 ### Patch Changes

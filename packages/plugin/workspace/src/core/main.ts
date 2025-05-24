@@ -1,6 +1,5 @@
 
 import { Checks }  from './checks'
-import { Custom }  from './custom'
 import { Execute } from './exec'
 import { Info }    from './info/main'
 
@@ -12,7 +11,7 @@ export class Workspace {
 	#info
 	#check
 	#exec
-	#custom
+
 	opts            : Config | undefined
 	protected utils : CommandUtils
 
@@ -23,12 +22,11 @@ export class Workspace {
 		utils : CommandUtils
 	} ) {
 
-		this.opts    = opts
-		this.utils   = utils
-		this.#info   = new Info( opts, utils )
-		this.#check  = new Checks( opts, utils )
-		this.#exec   = new Execute( opts, utils )
-		this.#custom = new Custom( opts, utils )
+		this.opts   = opts
+		this.utils  = utils
+		this.#info  = new Info( opts, utils )
+		this.#check = new Checks( opts, utils )
+		this.#exec  = new Execute( opts, utils )
 
 	}
 
@@ -102,12 +100,6 @@ export class Workspace {
 	async structure() {
 
 		await this.#info.structure.run()
-
-	}
-
-	async custom() {
-
-		await this.#custom.run()
 
 	}
 
