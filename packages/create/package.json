@@ -1,6 +1,6 @@
 {
 	"name": "create-dovenv",
-	"version": "1.5.14",
+	"version": "1.5.15",
 	"description": "Create dovenv project template",
 	"keywords": [
 		"cli",
@@ -59,7 +59,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"creatium": "0.1.15",
+		"creatium": "0.1.16",
 		"latest-version": "9.0.0"
 	},
 	"devDependencies": {

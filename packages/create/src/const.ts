@@ -20,15 +20,16 @@ import themePigeonPosseMeta from '../../theme/pigeonposse/package.json'
 import utilsMeta            from '../../utils/package.json'
 import { version }          from '../package.json'
 import { mapObject }        from './_utils'
-import { dataDir }          from '../data/index.js'
 
-const { joinPath: join } = sys
+const {
+	joinPath: join,
+	getClosestPackageDir,
+	getCurrentDir,
+} = sys
 
 const name = extra.id
 
-const templatesDir = join( dataDir, 'templates' )
-const partialsDir  = join( dataDir, 'partials' )
-const SELECT_NONE  = 'none' as const
+const SELECT_NONE = 'none' as const
 
 export {
 	version,
@@ -64,20 +65,22 @@ export const LANGUAGE = {
 
 export const CORE_BIN_NAME = Object.keys( CORE_META.bin )[0] || CORE_META.name
 
-export const PROJECT_PATH = {
-	dataDir,
-	templatesDir,
-	partialsDir,
-} as const
+export const GET_PARTIAL_DIR = async () => {
 
-export const PARTIAL_DIR = {
-	workspace    : join( partialsDir, 'workspace' ),
-	monorepo     : join( partialsDir, 'monorepo' ),
-	monorepoPnpm : join( partialsDir, 'monorepo-pnpm' ),
-	srcJS        : join( partialsDir, 'src-js' ),
-	srcTS        : join( partialsDir, 'src-ts' ),
-	lint         : join( partialsDir, 'lint' ),
-} as const
+	const packageDir  = await getClosestPackageDir( getCurrentDir( import.meta.url ) )
+	const dataDir     = join( packageDir, 'data' )
+	const partialsDir = join( dataDir, 'partials' )
+
+	return {
+		workspace    : join( partialsDir, 'workspace' ),
+		monorepo     : join( partialsDir, 'monorepo' ),
+		monorepoPnpm : join( partialsDir, 'monorepo-pnpm' ),
+		srcJS        : join( partialsDir, 'src-js' ),
+		srcTS        : join( partialsDir, 'src-ts' ),
+		lint         : join( partialsDir, 'lint' ),
+	}
+
+}
 
 const mapID = <T extends Record<string, unknown>>( obj: T ) => ( {
 	...mapObject( obj, ( _v, k ) => k ) as ( { [key in keyof T]: key } ),
@@ -86,4 +89,4 @@ const mapID = <T extends Record<string, unknown>>( obj: T ) => ( {
 
 export const PLUGIN_ID = mapID( PLUGIN_META )
 export const THEME_ID = mapID( THEME_META )
-export const PARTIAL_ID = mapID( PARTIAL_DIR )
+

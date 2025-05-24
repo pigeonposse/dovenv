@@ -1,5 +1,14 @@
 # @dovenv/repo
 
+## 1.5.15
+
+### Patch Changes
+
+- fix create pkg
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.15
+
 ## 1.5.14
 
 ### Patch Changes

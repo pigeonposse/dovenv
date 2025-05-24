@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/todo",
-	"version": "1.5.14",
+	"version": "1.5.15",
 	"description": "TODO tools for dovenv",
 	"keywords": [
 		"aio",

@@ -14,7 +14,7 @@ import {
 	mapObject,
 } from './_utils'
 import {
-	PARTIAL_DIR,
+	GET_PARTIAL_DIR,
 	THEME_META,
 	version,
 	homepage,
@@ -161,7 +161,7 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 		// Copy the partials
 
 		spinner.message( 'Copying partials' )
-
+		const PARTIAL_DIR = await GET_PARTIAL_DIR()
 		// await ensureDir( output )
 
 		await copyDir( {

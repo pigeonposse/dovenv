@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.15
+
+### Patch Changes
+
+- fix create pkg
+
 ## 1.5.14
 
 ### Patch Changes

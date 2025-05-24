@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "1.5.14",
+	"version": "1.5.15",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"aio",
