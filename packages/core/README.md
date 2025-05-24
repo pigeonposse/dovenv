@@ -7,7 +7,7 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com)
+[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com/guide/core)
 
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
@@ -16,6 +16,7 @@ Quickly and easily set up your environment for your code projects
 
 ## Table of contents
 
+- [What is `dovenv`?](#what-is-dovenv)
 - [🔑 Installation](#-installation)
 - [➕ More](#-more)
 - [👨‍💻 Development](#-development)
@@ -23,6 +24,14 @@ Quickly and easily set up your environment for your code projects
 - [📜 License](#-license)
 - [✨ About us](#-about-us)
 
+
+## What is `dovenv`?
+
+**Dovenv** is a toolkit to make your code workspace robust, easier and cleaner.
+
+**Simplify Your Development Workflow**.
+
+Get your code projects up and running quickly and easily with our comprehensive toolkit. Designed to make your workspace more robust, efficient, and organized, our toolkit offers a range of features to streamline your development process.
 
 
 
@@ -48,12 +57,12 @@ deno add @dovenv/core
 - [Utils-media](https://dovenv.pigeonposse.com/guide/utils-media)
 - 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
-  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
-  - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
-  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
+  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
+  - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
+  - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)

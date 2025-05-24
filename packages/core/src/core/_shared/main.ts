@@ -48,7 +48,7 @@ export class Command<Opts = undefined> {
 		const {
 			style, title,
 		} = this.utils
-		console.log( `\n${style.section.h1( title )} ${style.section.p( `Done in ${time}` )}\n` )
+		console.log( `\n${style.section.h1( title )} ${style.section.msg( 'Elapsed time:', time )}\n` )
 
 	}
 

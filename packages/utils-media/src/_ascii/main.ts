@@ -49,15 +49,16 @@ export const ascii2image = async ( {
 	const image = new Jimp( width, height, bgColor )
 
 	// Render each line of ASCII onto the image
-	lines.forEach( ( line, y ) => {
+	for ( let y = 0; y < lines.length; y++ ) {
 
+		const line = lines[y]
 		image.print( font, 0, y * calculatedCharHeight, {
 			text       : line,
 			alignmentX : Jimp.HORIZONTAL_ALIGN_LEFT,
 			alignmentY : Jimp.VERTICAL_ALIGN_TOP,
 		} )
 
-	} )
+	}
 
 	return await image.getBufferAsync( Jimp.MIME_PNG )
 

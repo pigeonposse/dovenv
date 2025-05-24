@@ -2869,6 +2869,54 @@ The value of the flag if it exists and matches one of the given values, or undef
 
 ***
 
+### getClosestPackageDir()
+
+```ts
+function getClosestPackageDir(startDir?: string): Promise<string>
+```
+
+Finds the closest package directory by traversing up the directory tree.
+
+#### Parameters
+
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `startDir`? | `string` | `'./'` | Directory to start searching from. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+Absolute path to the closest package directory.
+
+***
+
+### getClosestPackageJsonPath()
+
+```ts
+function getClosestPackageJsonPath(startDir?: string): Promise<string>
+```
+
+Finds the closest package.json by traversing up the directory tree.
+
+#### Parameters
+
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `startDir`? | `string` | `'./'` | Directory to start searching from. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+Absolute path to the closest package.json.
+
+#### Throws
+
+If no package.json is found.
+
+***
+
 ### getCmd()
 
 ```ts

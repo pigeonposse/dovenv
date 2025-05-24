@@ -240,7 +240,7 @@ export const getMDToc = async ( input: string ) => {
 	}[]  = []
 
 	// Iterate over all tokens and extract the headers
-	tokens.forEach( token => {
+	for ( const token of tokens ) {
 
 		if ( token.type === 'heading' ) {
 
@@ -256,7 +256,7 @@ export const getMDToc = async ( input: string ) => {
 
 		}
 
-	} )
+	}
 
 	return index
 
@@ -336,6 +336,7 @@ export const geMDTocString = async ( opts : MdTocStringOpts ): Promise<string> =
 	}
 
 	// Generate the TOC in Markdown format
+
 	filteredByMaxLevel.forEach( ( item, index ) => {
 
 		// Adjust indent based on the base level

@@ -39,23 +39,23 @@ features:
 ::: code-group
 
 ```bash [npm]
-npm install dovenv-monorepo
+npm install @dovenv/core
 ```
 
 ```bash [pnpm]
-pnpm install dovenv-monorepo
+pnpm install @dovenv/core
 ```
 
 ```bash [yarn]
-yarn add dovenv-monorepo
+yarn add @dovenv/core
 ```
 
 ```bash [bun]
-bun add dovenv-monorepo
+bun add @dovenv/core
 ```
 
 ```bash [deno]
-deno add dovenv-monorepo
+deno add @dovenv/core
 ```
 
 :::

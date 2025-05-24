@@ -61,7 +61,7 @@ export const onStd = ( opts: onStdOpts ) => {
 	 */
 	const start = () => {
 
-		types.forEach( intercept )
+		for ( const type of types ) intercept( type )
 
 	}
 
@@ -70,7 +70,7 @@ export const onStd = ( opts: onStdOpts ) => {
 	 */
 	const stop = () => {
 
-		types.forEach( type => {
+		for ( const type of types ) {
 
 			if ( originalWrites[type] ) {
 
@@ -78,7 +78,7 @@ export const onStd = ( opts: onStdOpts ) => {
 
 			}
 
-		} )
+		}
 
 	}
 

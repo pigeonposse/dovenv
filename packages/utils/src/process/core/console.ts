@@ -60,7 +60,7 @@ export const onConsole = ( opts: onConsoleOpts ) => {
 	 */
 	const start = () => {
 
-		types.forEach( intercept )
+		for ( const type of types ) intercept( type )
 
 	}
 	/**
@@ -69,12 +69,11 @@ export const onConsole = ( opts: onConsoleOpts ) => {
 	 */
 	const stop = () => {
 
-		types.forEach( type => {
+		for ( const type of types ) {
 
-			if ( originalMethods[type] )
-				console[type] = originalMethods[type]!
+			if ( originalMethods[type] ) console[type] = originalMethods[type]!
 
-		} )
+		}
 
 	}
 

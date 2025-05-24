@@ -133,15 +133,11 @@ export const getPathsStructure = async ( props: PathsStructureParams ): Promise<
 
 		const structure: Record<string, unknown> = {}
 
-		paths.forEach( path => {
+		for ( const path of paths ) {
 
 			const parts = path.split( '/' )
 
-			if ( parts.length > depth ) {
-
-				parts.length = depth
-
-			}
+			if ( parts.length > depth ) parts.length = depth
 
 			// @ts-ignore
 			parts.reduce( ( subAcc, part, index ) => {
@@ -151,7 +147,7 @@ export const getPathsStructure = async ( props: PathsStructureParams ): Promise<
 
 			}, structure )
 
-		} )
+		}
 
 		return structure
 

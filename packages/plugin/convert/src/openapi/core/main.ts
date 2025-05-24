@@ -83,15 +83,13 @@ const createApiDocument = ( document: OpenAPIV3.Document ): ApiDocument => {
 	if ( 'components' in document && document.components ) {
 
 		const { components } = document
-		Object.entries( components ).forEach( ( [ key, value ] ) => {
 
-			Object.entries( value ).forEach( ( [ key2, value ] ) => {
+		for ( const [ key, value ] of Object.entries( components ) ) {
 
-				references[`#/components/${key}/${key2}`] = value
+			for ( const [ key2, val ] of Object.entries( value ) )
+				references[`#/components/${key}/${key2}`] = val
 
-			} )
-
-		} )
+		}
 
 	}
 	return {

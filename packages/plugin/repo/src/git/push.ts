@@ -128,11 +128,10 @@ export class GitPush extends GitSuper {
 				[data.origin] : async () => await branchInstance.askSelectBranch( cached[data.origin] || defaultBranch ),
 				'add-res'     : async ( { results } ) => {
 
-					const res = {
-						// @ts-ignore
-						[data.add]    : results[data.add] as string,
-						// @ts-ignore
-						[data.origin] : results[data.origin] as string,
+					const answers =  results as unknown as Partial<typeof defaultData>
+					const res     = {
+						[data.add]    : answers[data.add] as string,
+						[data.origin] : answers[data.origin] as string,
 					}
 
 					await cache.set( res )

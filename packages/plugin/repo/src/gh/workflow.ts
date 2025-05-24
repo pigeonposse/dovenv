@@ -102,7 +102,7 @@ export class GitHubWorkflow extends GHSuper {
 
 					try {
 
-						const answers = results as unknown as Record<string, string>
+						const answers = results as unknown as Partial<typeof defaultData>
 
 						let formattedInputs = ''
 						if ( answers.inputs && answers.inputs.trim() !== '' ) {
@@ -128,7 +128,10 @@ export class GitHubWorkflow extends GHSuper {
 
 						}
 
-						await cache.set( answers )
+						await cache.set( {
+							[data.file]   : answers.file,
+							[data.inputs] : answers.inputs || '',
+						} )
 						const createdWorkflow = await execChild( `gh workflow run ${answers.file}.yml ${formattedInputs}` )
 						if ( createdWorkflow.stderr ) throw Error( 'Error creating workflow' )
 

@@ -163,7 +163,7 @@ export class GitCommit extends GitSuper {
 			list     : async p => {
 
 				const prompt = {
-					type : async () => {
+					[data.type] : async () => {
 
 						const result = ( types )
 							? await p.select( {
@@ -180,7 +180,7 @@ export class GitCommit extends GitSuper {
 						return result
 
 					},
-					scope : async () => {
+					[data.scope] : async () => {
 
 						const result = ( scopes )
 							? await p.select( {
@@ -198,7 +198,7 @@ export class GitCommit extends GitSuper {
 						return result
 
 					},
-					message : async () => {
+					[data.msg] : async () => {
 
 						const result = await p.text( {
 							message     : 'Commit message',
