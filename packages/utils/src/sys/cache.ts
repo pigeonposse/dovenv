@@ -89,15 +89,14 @@ export const cache = async <Values extends Record<string, unknown>>( opts: Cache
 		suffix,
 	} ).config
 
-	const path                  = joinPath( dir, `config.json` )
-	const exists                = await existsFile( path )
+	const configPath            = joinPath( dir, `config.json` )
 	const defaultValues         = { [id]: values }
 	const merge                 = deepmergeCustom<Config>( { mergeArrays: false } )
 	const getCachedDataFromFile = async () => {
 
 		try {
 
-			const data = await getObjectFromJSONFile<Config>( path )
+			const data = await getObjectFromJSONFile<Config>( configPath )
 			return data
 
 		}
@@ -108,16 +107,23 @@ export const cache = async <Values extends Record<string, unknown>>( opts: Cache
 		}
 
 	}
-	let cachedData = exists ? await getCachedDataFromFile( ) : defaultValues
+	const getCachedData = async () => {
+
+		const exists = await existsFile( configPath )
+		if ( !exists ) await ensureDir( dir )
+		return exists ? await getCachedDataFromFile( ) : defaultValues
+
+	}
+	let cachedData = await getCachedData( )
 
 	const set = async ( obj: Partial<Values> ) => {
 
-		const exists = await existsFile( path )
-		if ( !exists ) await ensureDir( dir )
+		// Is necessary to read the file again to avoid race conditions
+		const instantCachedData = await getCachedData( )
 		// Merge the new values with the existing cached data
-		const updatedData = merge( cachedData, { [id]: obj } ) as Config
+		const updatedData = merge( instantCachedData, { [id]: obj } ) as Config
 		// Write the updated data to the cache file
-		await writeFile( path, JSON.stringify( updatedData, null, 2 ) )
+		await writeFile( configPath, JSON.stringify( updatedData, null, 2 ) )
 
 		cachedData = updatedData
 
@@ -140,25 +146,10 @@ export const cache = async <Values extends Record<string, unknown>>( opts: Cache
 
 	}
 
-	// const rm = async () => {
-
-	// 	if ( exists ) {
-
-	// 		const {
-	// 			[id]: removed,
-	// 			...remainingData
-	// 		} = cachedData
-
-	// 		cachedData = remainingData as Config
-	// 		await writeFile( path, JSON.stringify( cachedData, null, 2 ) )
-
-	// 	}
-
-	// }
-
 	const reset = async () => await set( values )
 
-	if ( !exists ) await set( values )
+	if ( !( await existsFile( configPath ) ) ) await set( values )
+
 	else {
 
 		const updatedData = merge( { [id]: values }, cachedData ) as Config
@@ -195,7 +186,7 @@ export const cache = async <Values extends Record<string, unknown>>( opts: Cache
 		/**
 		 * The path to the cache file.
 		 */
-		path          : path,
+		path          : configPath,
 	}
 
 }
