@@ -1,5 +1,14 @@
 # @dovenv/ai
 
+## 1.5.17
+
+### Patch Changes
+
+- up create pkg
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.17
+
 ## 1.5.16
 
 ### Patch Changes

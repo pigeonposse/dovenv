@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.17
+
+### Patch Changes
+
+- up create pkg
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.17
+  - @dovenv/convert@1.5.17
+  - @dovenv/docs@1.5.17
+  - @dovenv/examples@1.5.17
+  - @dovenv/lint@1.5.17
+  - @dovenv/repo@1.5.17
+  - @dovenv/templates@1.5.17
+  - @dovenv/todo@1.5.17
+  - @dovenv/workspace@1.5.17
+
 ## 1.5.16
 
 ### Patch Changes

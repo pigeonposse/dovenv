@@ -250,12 +250,21 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 
 		if ( lang === LANGUAGE.ts ) {
 
-			pkg.devDependencies = {
-				...pkg.devDependencies,
-				'@types/node' : await latestVersion( '@types/node' ),
-				'tslib'       : await latestVersion( 'tslib' ),
-				'tsx'         : await latestVersion( 'tsx' ),
-				'typescript'  : await latestVersion( 'typescript' ),
+			try {
+
+				pkg.devDependencies = {
+					...pkg.devDependencies,
+					'@types/node' : await latestVersion( '@types/node' ),
+					'tslib'       : await latestVersion( 'tslib' ),
+					'tsx'         : await latestVersion( 'tsx' ),
+					'typescript'  : await latestVersion( 'typescript' ),
+				}
+
+			}
+			catch ( _e ) {
+
+				console.warn( 'Error getting latest versions for typescript dependencies' )
+
 			}
 
 		}
