@@ -1,5 +1,3 @@
-// utils.mjs
-
 /**
  * Adds two numbers together.
  *

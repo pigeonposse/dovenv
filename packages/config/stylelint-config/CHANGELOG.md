@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.16
+
+### Patch Changes
+
+- Update deps
+
 ## 1.5.15
 
 ### Patch Changes

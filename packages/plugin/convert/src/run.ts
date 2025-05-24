@@ -10,13 +10,13 @@ import { homepage } from '../package.json'
 import {
 	Html2Markdown,
 	Markdown2Html,
-} from './html/main'
-import { Jsdoc2Markdown }   from './jsdoc/main'
-import { Openapi2Markdown } from './openapi/main'
+} from './html'
+import { Jsdoc2Markdown }   from './jsdoc'
+import { Openapi2Markdown } from './openapi'
 import {
 	Typescript2Html,
 	Typescript2Markdown,
-} from './typedoc/main'
+} from './typedoc'
 
 import type { methods }                from './_shared/const'
 import type { Config as DovenvConfig } from '@dovenv/core'

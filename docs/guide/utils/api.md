@@ -761,7 +761,7 @@ console.log(boxedText);
 function cache<Values>(opts: CacheOptions<Values>): Promise<{
   defaultValues: values;
   get: <ID>(v?: ID) => Promise<ID extends keyof Values ? Values[ID<ID>] : ID extends string ? undefined : Values>;
-  path: path;
+  path: configPath;
   reset: () => Promise<void>;
   set: (obj: Partial<Values>) => Promise<void>;
 }>
@@ -786,7 +786,7 @@ Creates a caching mechanism for storing and retrieving values.
 `Promise`\<\{
   `defaultValues`: `values`;
   `get`: \<`ID`\>(`v`?: `ID`) => `Promise`\<`ID` *extends* keyof `Values` ? `Values`\[`ID`\<`ID`\>\] : `ID` *extends* `string` ? `undefined` : `Values`\>;
-  `path`: `path`;
+  `path`: `configPath`;
   `reset`: () => `Promise`\<`void`\>;
   `set`: (`obj`: `Partial`\<`Values`\>) => `Promise`\<`void`\>;
  \}\>
@@ -797,7 +797,7 @@ Creates a caching mechanism for storing and retrieving values.
 | ------ | ------ | ------ | ------ |
 | `defaultValues` | `Values` | values | The default values for the cache. |
 | `get` | \<`ID`\>(`v`?: `ID`) => `Promise`\<`ID` *extends* keyof `Values` ? `Values`\[`ID`\<`ID`\>\] : `ID` *extends* `string` ? `undefined` : `Values`\> | - | Retrieve a value from the cache. **Example** `const theme = get('theme'); console.log(theme); // Output: 'light'` |
-| `path` | `string` | path | The path to the cache file. |
+| `path` | `string` | configPath | The path to the cache file. |
 | `reset` | () => `Promise`\<`void`\> | - | Resets the cache to its default values. **Example** `reset();` |
 | `set` | (`obj`: `Partial`\<`Values`\>) => `Promise`\<`void`\> | - | Updates the cache with the provided values. Merges the existing cached values with the new partial values and updates the cache. |
 
@@ -5486,12 +5486,9 @@ console.log( stringFromYamlUrl, stringFromJSON )
 ### getStringsFrom()
 
 ```ts
-function getStringsFrom(patterns: string[]): Promise<({
-  content: string;
-  id: string;
-  path: path;
-  type: "path";
- } | {
+function getStringsFrom(patterns: string[], opts?: {
+  path: undefined | Options;
+ }): Promise<({
   content: string;
   id: string;
   path: pattern;
@@ -5511,15 +5508,12 @@ Fetches all strings from a given patterns (URLs or paths).
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `patterns` | `string`[] | An array of strings with URLs or paths. |
+| `opts`? | `object` | An optional object with options. |
+| `opts.path`? | `undefined` \| `Options` | An optional object with path options. |
 
 #### Returns
 
 `Promise`\<(\{
-  `content`: `string`;
-  `id`: `string`;
-  `path`: `path`;
-  `type`: `"path"`;
- \} \| \{
   `content`: `string`;
   `id`: `string`;
   `path`: `pattern`;

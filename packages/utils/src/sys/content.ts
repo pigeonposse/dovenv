@@ -1,4 +1,5 @@
 import {
+	getBaseName,
 	getDirName,
 	getPaths,
 	readFile,
@@ -90,8 +91,10 @@ export const getStringFrom = async ( input: string ) => {
  *
  * Fetches all strings from a given patterns (URLs or paths).
  *
- * @param   {string[]}          patterns - An array of strings with URLs or paths.
- * @returns {Promise<object[]>}          - The fetched content.
+ * @param   {string[]}          patterns  - An array of strings with URLs or paths.
+ * @param   {object}            opts      - An optional object with options.
+ * @param   {object}            opts.path - An optional object with path options.
+ * @returns {Promise<object[]>}           - The fetched content.
  * @throws {Error} If there is an error fetching content from the URLs or paths.
  * @example import { getStringsFrom } from '@dovenv/utils'
  *
@@ -104,7 +107,7 @@ export const getStringFrom = async ( input: string ) => {
  * const data = await getStringsFrom(patterns);
  * console.log(data);
  */
-export const getStringsFrom = async ( patterns: string[] ) => {
+export const getStringsFrom = async ( patterns: string[], opts?: { path: Parameters<typeof getPaths>[1] } ) => {
 
 	const res = []
 
@@ -115,22 +118,21 @@ export const getStringsFrom = async ( patterns: string[] ) => {
 
 		if ( type === 'path' ) {
 
-			const paths = await getPaths( pattern )
-			for ( const path of paths ) res.push( {
+			const paths = await getPaths( pattern, opts?.path )
+			await Promise.all( paths.map( async path => res.push( {
 				type,
 				path    : path,
-				id      : `${getDirName( path )}`,
+				id      : getBaseName( getDirName( path ) ),
 				content : await getFileText( path ),
-			} )
+			} ) ) )
 
 		}
-		else if ( type === 'url' )
-			res.push( {
-				type,
-				path    : pattern,
-				id      : `${type}-${( new URL( pattern ) ).hostname}-${index}`,
-				content : await fetch2string( pattern ),
-			} )
+		else if ( type === 'url' ) res.push( {
+			type,
+			path    : pattern,
+			id      : `${type}-${( new URL( pattern ) ).hostname}-${index}`,
+			content : await fetch2string( pattern ),
+		} )
 		else res.push( {
 			type,
 			id      : `${type}-${index}`,

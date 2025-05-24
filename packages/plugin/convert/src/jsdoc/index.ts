@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
 import { LazyLoader } from '@dovenv/core/utils'
 
@@ -11,15 +10,8 @@ import type {
 } from '../_shared/types'
 import type jsdoc2md from 'jsdoc-to-markdown'
 
-const _jsdocDeps = new LazyLoader( {
-	jsdoc2md : async () => ( await import( 'jsdoc-to-markdown' ) ).default,
-} )
-export type Jsdoc2MarkdownProps = ConvertPropsSuper & {
-	/**
-	 * Jsdoc options.
-	 */
-	opts? : jsdoc2md.RenderOptions | jsdoc2md.JsdocOptions
-}
+const _jsdocDeps = new LazyLoader( { jsdoc2md: async () => ( await import( 'jsdoc-to-markdown' ) ).default } )
+export type Jsdoc2MarkdownProps = ConvertPropsSuper & { opts?: jsdoc2md.RenderOptions | jsdoc2md.JsdocOptions }
 
 export class Jsdoc2Markdown extends ConvertSuper<Jsdoc2MarkdownProps> implements ConvertSuperInterface {
 
@@ -36,13 +28,21 @@ export class Jsdoc2Markdown extends ConvertSuper<Jsdoc2MarkdownProps> implements
 
 		const jsdoc2md             = await _jsdocDeps.get( 'jsdoc2md' )
 		const res: ConvertResponse = []
+
 		await this._forEachContent( this.props.input, async i => {
 
-			const data    = await jsdoc2md.getTemplateData( { files: i.content } )
 			const content = await jsdoc2md.render( {
-				data,
+				// must be source because is content string
+				'source'        : i.content,
+				'no-cache'      : true,
+				'heading-depth' : 2,
 				...( this.props?.opts ? this.props.opts : {} ),
 			} )
+
+			// console.dir( {
+			// 	content,
+			// 	i,
+			// }, { depth: null } )
 			if ( this.props.output ) await this._writeOutput( this.props.output, i.id + '.md', content )
 
 			res.push( {

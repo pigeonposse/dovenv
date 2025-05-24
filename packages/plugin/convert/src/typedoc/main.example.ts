@@ -6,7 +6,7 @@ import {
 import {
 	Typescript2Markdown,
 	Typescript2Html,
-} from './main'
+} from './index'
 
 const pkgDir          = joinPath( getCurrentDir( import.meta.url ), '..', '..' )
 const utilsLibDir     = joinPath( pkgDir, '..', '..', 'utils' )

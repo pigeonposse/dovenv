@@ -21,21 +21,25 @@ export class ConvertSuper<Props extends ConvertPropsSuper> {
 
 	}
 
-	protected async _getContent( input: string[] | string ) {
+	protected async _getContent( input: string[] | string, opts?: Parameters<typeof getStringsFrom>[1] ) {
 
 		return await getStringsFrom(
 			typeof input === 'string'
 				? [ input ]
 				: input,
+			opts,
 		)
 
 	}
 
-	protected async _forEachContent( input: string[] | string, cb: ( data: Awaited<ReturnType<typeof getStringsFrom>>[number] ) => Promise<void> ) {
+	protected async _forEachContent(
+		input: string[] | string,
+		cb: ( data: Awaited<ReturnType<typeof getStringsFrom>>[number] ) => Promise<void>,
+		opts?: Parameters<typeof getStringsFrom>[1],
+	) {
 
-		const inputs = await this._getContent( input )
-
-		await Promise.all( inputs.map( async i => await cb( i ) ) )
+		const inputs = await this._getContent( input, opts )
+		return await Promise.all( inputs.map( async i => await cb( i ) ) )
 
 	}
 
