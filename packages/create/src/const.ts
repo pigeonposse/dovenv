@@ -20,16 +20,12 @@ import themePigeonPosseMeta from '../../theme/pigeonposse/package.json'
 import utilsMeta            from '../../utils/package.json'
 import { version }          from '../package.json'
 import { mapObject }        from './_utils'
+import { dataDir }          from '../data/index.js'
 
-const {
-	joinPath: join,
-	getDirName,
-	fileURLToPath,
-} = sys
-// const isDev        = process.env.NODE_ENV !== 'production'
-const name         = extra.id
-const currentDir   = join( getDirName( fileURLToPath( import.meta.url ) ) )
-const dataDir      = join( currentDir, '..', '', 'data' )
+const { joinPath: join } = sys
+
+const name = extra.id
+
 const templatesDir = join( dataDir, 'templates' )
 const partialsDir  = join( dataDir, 'partials' )
 const SELECT_NONE  = 'none' as const

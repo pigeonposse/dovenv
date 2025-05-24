@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.14
+
+### Patch Changes
+
+- fix create pkg
+
 ## 1.5.13
 
 ### Patch Changes
