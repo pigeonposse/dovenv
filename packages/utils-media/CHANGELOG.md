@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.5.18
+
+### Patch Changes
+
+- up deps from create pkg
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.18
+
 ## 1.5.17
 
 ### Patch Changes

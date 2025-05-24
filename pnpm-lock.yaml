@@ -196,8 +196,8 @@ importers:
   packages/create:
     dependencies:
       creatium:
-        specifier: 0.1.16
-        version: 0.1.16
+        specifier: 0.1.17
+        version: 0.1.17
       latest-version:
         specifier: 9.0.0
         version: 9.0.0
@@ -4689,8 +4689,8 @@ packages:
       typescript:
         optional: true
 
-  creatium@0.1.16:
-    resolution: {integrity: sha512-nHpPjUfaZO/HOGm1BrDoTjegrfsDELPj6BSLWaS9HtIQeBjIbmR4450epK64p209CMaQ5mi71ojf//Q0/+8V6g==}
+  creatium@0.1.17:
+    resolution: {integrity: sha512-x6pq1UnWAjpwCqnCE/2YuhIOK0SRdHxCKMjkDSMeNfkj1Nf9LX9XNtsmfRst3Gr0+1DM3Hv09z/dtHbcbT4ijg==}
 
   cross-spawn@6.0.6:
     resolution: {integrity: sha512-VqCUuhcd1iB+dsv8gxPttb5iZh/D0iubSP21g36KXdEuf6I5JiioesUVjpCdHV9MZRUfVFlvwtIUyPfxo5trtw==}
@@ -14837,7 +14837,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  creatium@0.1.16:
+  creatium@0.1.17:
     dependencies:
       '@clack/core': 0.5.0
       '@clack/prompts': 0.11.0

@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.5.18
+
+### Patch Changes
+
+- up deps from create pkg
+
 ## 1.5.17
 
 ### Patch Changes
