@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.19
+
+### Patch Changes
+
+- Change deps of utils for ligthweight alternatives, up deps
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.19
+  - @dovenv/workspace@1.5.19
+  - @dovenv/examples@1.5.19
+  - @dovenv/convert@1.5.19
+  - @dovenv/docs@1.5.19
+  - @dovenv/lint@1.5.19
+  - @dovenv/repo@1.5.19
+  - @dovenv/todo@1.5.19
+  - @dovenv/core@1.5.19
+
 ## 1.5.18
 
 ### Patch Changes

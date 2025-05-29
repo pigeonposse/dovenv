@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.19
+
+### Patch Changes
+
+- Change deps of utils for ligthweight alternatives, up deps
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.19
+
 ## 1.5.18
 
 ### Patch Changes

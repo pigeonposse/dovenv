@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/workspace",
-	"version": "1.5.18",
+	"version": "1.5.19",
 	"description": "A dovenv plugin with utilities for the workspace",
 	"keywords": [
 		"aio",

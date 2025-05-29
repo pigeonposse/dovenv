@@ -10,7 +10,7 @@ import { ascii2image } from './main'
 // import { image } from '../image/main'
 
 const ascii = {
-	1 : await font( 'Hello, World!', '3-D' ),
+	1 : await font( 'Hello, World!', '3-d' ),
 	2 : `                                                            
           11ttttffffffffLLLLLLLLLLLLLLLLffffffffttCC        
         ttttffffffffLLLLLLLLLLLLLLLLLLLLLLLLLLffff11        
@@ -35,7 +35,7 @@ const ascii = {
 	3 : `Hello, World!`,
 }
 
-const buildDir = joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', 'build' )
+const buildDir = joinPath( getCurrentDir( import.meta.url ), '..', '..', 'build' )
 
 await ensureDir( buildDir )
 for ( const key in ascii ) {

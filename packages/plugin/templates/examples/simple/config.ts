@@ -22,7 +22,7 @@ export default defineConfig( [
 	{ const : {
 		pkg,
 		wsDir,
-		mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ANSI Shadow' )}\n`,
+		mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ansi--shadow' )}\n`,
 	} },
 	templatesPlugin( { test : {
 		input   : `{{partial.content}}`,

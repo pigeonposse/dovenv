@@ -18,17 +18,17 @@ Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
 
-## 💡 Examples
-
-Tools for Examples files/directories for dovenv
-
-- [Read more](/guide/plugin/examples)
-
 ## 🧹 Lint
 
 Lint configuration for dovenv
 
 - [Read more](/guide/plugin/lint)
+
+## 💡 Examples
+
+Tools for Examples files/directories for dovenv
+
+- [Read more](/guide/plugin/examples)
 
 ## 🎥 Media
 

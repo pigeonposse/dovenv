@@ -50,8 +50,8 @@ deno add @dovenv/utils-media
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
   - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
+  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
   - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
@@ -61,8 +61,8 @@ deno add @dovenv/utils-media
   - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
   - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
 - 🎨 [Theme](https://dovenv.pigeonposse.com/guide/theme)
-  - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
   - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
+  - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
 
 
 ---

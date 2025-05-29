@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.5.19
+
+### Patch Changes
+
+- Change deps of utils for ligthweight alternatives, up deps
+
 ## 1.5.18
 
 ### Patch Changes

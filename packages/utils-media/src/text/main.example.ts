@@ -12,7 +12,7 @@ import { text2image } from './main'
 import { image }      from '../image/main'
 
 const ascii = {
-	1 : await font( 'Pigeon Posse 🕊️', '3-D' ),
+	1 : await font( 'Pigeon Posse 🕊️', 'ansi--shadow' ),
 	2 : `                                                            
           11ttttffffffffLLLLLLLLLLLLLLLLffffffffttCC        
         ttttffffffffLLLLLLLLLLLLLLLLLLLLLLLLLLffff11        

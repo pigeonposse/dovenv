@@ -224,7 +224,7 @@ export default defineConfig( {
 		version,
 		pkg,
 		wsDir,
-		mark       : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ANSI Shadow' )}\n`,
+		mark       : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ansi--shadow' )}\n`,
 		sctructure : '\n' + box( setDirTree( { structure : {
 			'.vscode' : {
 				'settings.json'   : null,

@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.19
+
+### Patch Changes
+
+- Change deps of utils for ligthweight alternatives, up deps
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.19
+  - @dovenv/eslint-config@1.5.19
+  - @dovenv/theme-banda@1.5.19
+  - @dovenv/core@1.5.19
+
 ## 1.5.18
 
 ### Patch Changes

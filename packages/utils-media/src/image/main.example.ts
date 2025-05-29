@@ -9,8 +9,8 @@ console.log( await svg2terminal( {
 		resvg   : { textRendering: 2 },
 	},
 	// asciiOutput: true,
-	width  : '30%',
-	height : '30%',
+	width  : '60%',
+	height : '60%',
 } ) )
 
 console.log( await image( {
