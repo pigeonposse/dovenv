@@ -27,21 +27,19 @@ const results = await promptLineGroup( {
 		table : () => p.table( {
 			value : [
 				[
-					[
-						'0A',
-						'0B',
-						'0C',
-					],
-					[
-						'1A',
-						'1B',
-						'1C',
-					],
-					[
-						'2A',
-						'2B',
-						'2C',
-					],
+					'0A',
+					'0B',
+					'0C',
+				],
+				[
+					'1A',
+					'1B',
+					'1C',
+				],
+				[
+					'2A',
+					'2B',
+					'2C',
 				],
 			],
 			type : 'error',

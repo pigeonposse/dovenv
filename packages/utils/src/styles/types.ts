@@ -3,6 +3,9 @@ import type FontArray     from '@ascii-kit/fonts'
 import type chalk         from 'chalk'
 import type { highlight } from 'cli-highlight'
 
+import { Prettify } from '@/ts'
+
+export type Colors = Prettify<keyof typeof chalk>
 export type Color = typeof chalk
 export type HighlightOpts = Parameters<typeof highlight>[1]
 export type FontName = typeof FontArray[number]

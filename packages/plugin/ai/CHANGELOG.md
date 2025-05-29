@@ -1,5 +1,14 @@
 # @dovenv/ai
 
+## 1.5.20
+
+### Patch Changes
+
+- up anf change deps, any broken change
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.20
+
 ## 1.5.19
 
 ### Patch Changes

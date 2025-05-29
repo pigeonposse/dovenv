@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.20
+
+### Patch Changes
+
+- up anf change deps, any broken change
+
 ## 1.5.19
 
 ### Patch Changes

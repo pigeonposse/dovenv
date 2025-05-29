@@ -1,4 +1,4 @@
-import { box } from './table'
+import { box } from './box'
 
 import { terminalSize } from '@/process/core'
 
@@ -36,7 +36,7 @@ const createLine = ( props: CreateLine ) => {
 	const width       = x100( columns, widthPercent )
 
 	return box( '', {
-		title       : title === '' ? undefined : title,
+		headerText  : title === '' ? undefined : title,
 		borderStyle : {
 			top         : lineChar,
 			topLeft     : '',
@@ -47,13 +47,12 @@ const createLine = ( props: CreateLine ) => {
 			bottomLeft  : '',
 			bottom      : '',
 		},
-		dimBorder      : props.lineDim,
-		borderColor    : lineColor,
-		titleAlignment : titleAlign,
-		float          : align,
-		padding        : 0,
-		margin         : 0,
-		width          : width,
+		borderColor     : lineColor,
+		headerAlignment : titleAlign,
+		float           : align,
+		padding         : 0,
+		margin          : 0,
+		width           : width,
 	} ).trimEnd()
 
 }

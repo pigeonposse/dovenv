@@ -2,6 +2,7 @@ import {
 	getDirTree,
 	getPathsTree,
 } from '.'
+import { color } from '../../src/styles'
 
 console.log( await getDirTree( {
 	input : process.cwd(),
@@ -22,17 +23,14 @@ console.log( await getDirTree( {
 
 	// },
 } ) )
-
-console.log(
-	await getPathsTree( {
-		input       : [ '*', 'packages/*/*' ],
-		name        : 'my-project',
-		// max         : 2,
-		sort        : 'ztoa',
-		patternOpts : {
-			dot       : false,
-			gitignore : true,
-			onlyFiles : true,
-		},
-	} ),
-)
+console.log( color.blue.bold.inverse( ' my-project ' ) + '\n' )
+console.log( await getPathsTree( {
+	input       : [ '*', 'packages/*/*' ],
+	// max         : 2,
+	sort        : 'ztoa',
+	patternOpts : {
+		dot       : false,
+		gitignore : true,
+		onlyFiles : true,
+	},
+} ) )

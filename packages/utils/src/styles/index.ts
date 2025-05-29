@@ -7,5 +7,5 @@
 export * from './color'
 export * from './text'
 export * from './table'
+export * from './box'
 export * from './line'
-

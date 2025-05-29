@@ -23,24 +23,24 @@ export class GitHubWorkflow extends GHSuper {
 		if ( !workflowsDir ) return console.warn( `No workflows dir provided. You need to provide a workflows dir` )
 
 		console.debug( { workflowsDir } )
-		const fileNames = await getPaths( [ workflowsDir + '/*.yml' ], { onlyFiles: true } )
-		const color     = this.utils.style.color
-		let content     = ( fileNames && fileNames.length )
-			? await getDirTree( {
-				name  : '.github/workflows\n',
-				input : workflowsDir,
-			} )
-			: color.cyan( `No workflows found it!` )
 
-		content  += '\n' + ( color.cyan( `PATH: ` ) + this.utils.style.p( relativePath( this.utils.process.cwd(), workflowsDir ) ) )
-		content  += ( repoURL ) ? '\n' + color.cyan( `URL: ` ) + this.utils.style.p( this.utils.style.a( repoURL ) ) : ''
-		const res = box( content, {
+		const fileNames = await getPaths( [ workflowsDir + '/*.yml' ], { onlyFiles: true } )
+		const style     = this.utils.style
+		const wfDir     = relativePath( this.utils.process.cwd(), workflowsDir )
+
+		const content = style.info.b( wfDir ) + '\n\n'
+			+ ( ( fileNames && fileNames.length )
+				? await getDirTree( { input: workflowsDir } )
+				: style.warn.p( `No workflows found it!` )
+			).split( '\n' ).map( l => '  ' + l ).join( '\n' )
+			+ '\n'
+			+ style.info.li( `PATH:`, wfDir )
+			+ ( repoURL ? '\n' + style.info.li( `URL:`, style.info.a( repoURL ) ) : '' )
+
+		console.log( box( content, {
 			padding     : 1,
-			dimBorder   : true,
-			borderColor : 'gray',
 			borderStyle : 'none',
-		} )
-		console.log( res )
+		} ) )
 
 	}
 

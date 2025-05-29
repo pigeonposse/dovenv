@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/media",
-	"version": "1.5.19",
+	"version": "1.5.20",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"aio",

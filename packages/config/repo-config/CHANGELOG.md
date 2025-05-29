@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.19
+
+### Patch Changes
+
+- up anf change deps, any broken change
+
 ## 1.5.18
 
 ### Patch Changes

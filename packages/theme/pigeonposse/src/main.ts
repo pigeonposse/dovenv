@@ -128,7 +128,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 					},
 				],
 				instructions : '# Development guide\n\n> No instructions yet.',
-				structure    : { workspace : {
+				structure    : {
 					'.dovenv'  : { 'main.{js,ts}': null },
 					'docs'     : { '*.md': null },
 					'packages' : { '*' : {
@@ -142,7 +142,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 					'LICENSE'      : null,
 					'package.json' : null,
 					'README.md'    : null,
-				} },
+				},
 			},
 			check : { pkg : {
 				deps : {

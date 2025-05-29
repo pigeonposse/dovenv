@@ -1,11 +1,8 @@
-import { color }     from './color'
-import {
-	box,
-	Table,
-	// table,
-}   from './table'
+import { box }          from './box'
+import { color }        from './color'
+import { Table }        from './table'
 import { icon }         from './text'
-import { terminalSize } from '../main'
+import { terminalSize } from '../process'
 
 const { columns } = terminalSize( )
 const lineChar    = icon.line
@@ -44,7 +41,7 @@ const tableContent = ( new Table( {
 tableData.body.forEach( row => tableContent.push( row ) )
 
 console.log( box( tableContent.toString(), {
-	title       : color.inverse( ' Table in a box ' ),
+	headerText  : color.inverse( ' Table in a box ' ),
 	borderStyle : {
 		top         : lineChar,
 		topLeft     : lineChar,
@@ -55,12 +52,12 @@ console.log( box( tableContent.toString(), {
 		bottomLeft  : '',
 		bottom      : '',
 	},
-	borderColor    : 'blue',
-	titleAlignment : 'center',
-	float          : 'center',
-	padding        : 0,
-	margin         : 0,
-	width          : columns,
+	borderColor     : border => color.red( border ),
+	headerAlignment : 'center',
+	float           : 'center',
+	padding         : 0,
+	margin          : 0,
+	width           : columns,
 	// fullscreen     : width => [ width, 0 ],
 } ).trimEnd() )
 

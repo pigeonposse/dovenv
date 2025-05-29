@@ -10,7 +10,7 @@ const define  = ( props: LineProps ) => {
 	console.log( line( {
 		title      : color.inverse( ' Value ' ),
 		lineChar   : icon.dot,
-		lineColor  : 'grey',
+		lineColor  : b => color.gray( b ),
 		titleAlign : 'right',
 	} ) + '\n' )
 	console.log( )
@@ -42,7 +42,7 @@ for ( const v of values ) {
 	define( {
 		title      : color.green( 'Hello World' ),
 		lineChar   : icon.line,
-		lineColor  : 'green',
+		lineColor  : b => color.green( b ),
 		titleAlign : v,
 	} )
 
@@ -92,7 +92,7 @@ for ( const v of values2 ) {
 	define( {
 		title      : color.inverse( ' Hello World ' ),
 		lineChar   : icon.cross,
-		lineColor  : 'blue',
+		lineColor  : b => color.blue( b ),
 		titleAlign : v[0],
 		align      : v[1],
 		width      : v[2],
@@ -161,9 +161,9 @@ for ( const v of values3 ) {
 		width      : v[2],
 	} )
 	define( {
-		title      : color.inverse( ' Hello World ' ).trim(),
+		title      : color.red.inverse( ' Hello World ' ).trim(),
 		lineChar   : icon.triangleDown,
-		lineColor  : 'red',
+		lineColor  : b => color.red( b ),
 		titleAlign : v[0],
 		align      : v[1],
 		width      : v[2],

@@ -3,13 +3,13 @@ import {
 	existsFile,
 	joinPath,
 	setDirTree,
-	box,
 	getObjectFrom,
 	readFile,
 	getCurrentDir,
 	getPaths,
 	getBaseName,
 	asciiFont,
+	color,
 } from '@dovenv/utils'
 
 import pkg              from '../../../package.json'
@@ -27,7 +27,7 @@ export default defineConfig( {
 		pkg,
 		wsDir,
 		mark       : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ansi--shadow' )}\n`,
-		sctructure : '\n' + box( setDirTree( { structure : {
+		sctructure : `\n${color.bold.inverse( ' Workspace Structure ' )}\n\n` + setDirTree( { structure : {
 			'.vscode' : {
 				'settings.json'   : null,
 				'extensions.json' : null,
@@ -39,14 +39,7 @@ export default defineConfig( {
 			'LICENSE'          : null,
 			'package.json'     : null,
 			'README.md'        : null,
-		} } ), {
-			padding     : 1,
-			// titleAlignment : 'center',
-			title       : 'Workspace Structure',
-			borderStyle : 'none',
-			borderColor : 'gray',
-			dimBorder   : true,
-		} ),
+		} } ).split( '\n' ).map( line => '  ' + line ).join( '\n' ),
 		custom : async () => {
 
 			const res = await getObjectFrom<{ web: Record<string, unknown>[] }>(

@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.5.20
+
+### Patch Changes
+
+- up anf change deps, any broken change
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.20
+
 ## 1.5.19
 
 ### Patch Changes

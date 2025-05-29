@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "1.5.19",
+	"version": "1.5.20",
 	"description": "Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -66,14 +66,15 @@
 		"marked": "15.0.12"
 	},
 	"dependencies": {
-		"@ascii-kit/font": "0.0.4",
+		"@ascii-kit/font": "0.0.5",
+		"@ascii-kit/qr": "0.0.5",
+		"@ascii-kit/tree": "0.0.5",
 		"@cfworker/json-schema": "4.1.1",
 		"@clack/core": "0.5.0",
 		"@clack/prompts": "0.11.0",
 		"@schemastore/package": "0.0.10",
 		"@vibrant/color": "4.0.0",
-		"badge-maker": "4.1.0",
-		"boxen": "8.0.1",
+		"@visulima/boxen": "1.0.30",
 		"chalk": "5.4.1",
 		"chroma-js": "3.1.2",
 		"cli-highlight": "2.1.11",
@@ -103,7 +104,6 @@
 		"ora": "8.2.0",
 		"pngjs": "7.0.0",
 		"pretty-ms": "9.2.0",
-		"qrcode-terminal": "0.12.0",
 		"quantize": "1.0.2",
 		"rehype-parse": "9.0.1",
 		"rehype-remark": "10.0.1",
@@ -135,7 +135,6 @@
 		"@types/js-yaml": "4.0.9",
 		"@types/node-localstorage": "1.3.3",
 		"@types/pngjs": "6.0.5",
-		"@types/qrcode-terminal": "0.12.2",
 		"@types/quantize": "1.0.2",
 		"@types/yargs": "17.0.33"
 	},

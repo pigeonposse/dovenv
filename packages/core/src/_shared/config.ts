@@ -17,7 +17,10 @@ import {
 	HELP_URL,
 } from './const'
 
-import type { ObjectValues } from '@dovenv/utils'
+import type {
+	BoxOptions,
+	ObjectValues,
+} from '@dovenv/utils'
 
 const TITLE_ERROR = color.inverse( ` ${icon.cross} Configuration Error ` )
 const ERROR       = {
@@ -42,10 +45,11 @@ const paths = pathsNames
 	.sort( a => a.startsWith( '.' ) ? -1 : 1 )
 	.map( file => joinPath( root, file ) )
 
-const boxProps  = {
-	dimBorder   : true,
-	padding     : 1,
-	borderStyle : {
+const boxProps: BoxOptions = {
+	headerTextColor : b => color.dim( b ),
+	borderColor     : b => color.dim( b ),
+	padding         : 1,
+	borderStyle     : {
 		bottom      : icon.line,
 		top         : icon.line,
 		left        : '',
@@ -56,17 +60,17 @@ const boxProps  = {
 		topLeft     : icon.line,
 	},
 }
-const erroStack = ( err: Error ) => {
+const erroStack            = ( err: Error ) => {
 
 	let res = ''
 
 	if ( err.cause ) res += `\n${box( color.dim.italic( err.cause.toString() ), {
-		title : 'Cause',
+		headerText : 'Cause',
 		...boxProps,
 	} )}`
 
 	res += `\n${box( color.dim.italic( err.stack ), {
-		title : 'Details',
+		headerText : 'Details',
 		...boxProps,
 	} )}\n`
 
@@ -80,7 +84,7 @@ const errorInfo           = box( `${icon.dot} You can create a configuration fil
 ${[ ...pathsNames.map( p => `.${p}` ), ...pathsNames ].map( p => indent( `${icon.dot} ${color.dim.italic( p.replace( root, '.' ) + `.{${exts.join( ',' )}}` )}` ) ).join( '\n' )}
 
 ${errorInfoConfigPath}`, {
-	title : 'Info',
+	headerText : 'Info',
 	...boxProps,
 } ) + '\n'
 

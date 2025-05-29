@@ -4,6 +4,7 @@ import {
 	_stringify,
 	_svgToBuffer,
 } from './core'
+import { createBadgeSVG } from './shields'
 import {
 	_getMediaInput,
 	_getMediaInputString,
@@ -19,6 +20,7 @@ import type {
 	SvgProps,
 } from './types'
 
+export { createBadgeSVG }
 /**
  * Converts an SVG to an image buffer.
  *

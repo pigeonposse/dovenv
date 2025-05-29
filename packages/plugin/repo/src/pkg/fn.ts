@@ -114,7 +114,6 @@ export class Packages extends Repo {
 				opts  : {
 					borderStyle : 'none',
 					padding     : 0,
-					dimBorder   : true,
 				},
 			} )
 
@@ -206,7 +205,6 @@ export class Packages extends Repo {
 						opts  : {
 							borderStyle : 'none',
 							padding     : 0,
-							dimBorder   : true,
 						},
 					} )
 

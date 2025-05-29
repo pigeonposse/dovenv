@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.20
+
+### Patch Changes
+
+- up anf change deps, any broken change
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.20
+  - @dovenv/eslint-config@1.5.20
+  - @dovenv/stylelint-config@1.5.20
+  - @dovenv/theme-banda@1.5.20
+
 ## 1.5.19
 
 ### Patch Changes

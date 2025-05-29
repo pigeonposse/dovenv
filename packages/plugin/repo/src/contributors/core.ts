@@ -149,16 +149,8 @@ export class Contributors<
 
 			const columns: string[] = []
 
-			if ( showImage ) {
-
-				columns.push( `![${m.name}](${avatarUrl})` )
-
-			}
-			if ( showName ) {
-
-				columns.push( `[${m.name}](${profileUrl})` )
-
-			}
+			if ( showImage ) columns.push( `![${m.name}](${avatarUrl})` )
+			if ( showName ) columns.push( `[${m.name}](${profileUrl})` )
 
 			if ( showRole ) {
 

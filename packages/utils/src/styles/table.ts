@@ -1,17 +1,12 @@
-import boxen                       from 'boxen'
-import Table                       from 'cli-table3'
-import { TableConstructorOptions } from 'cli-table3'
-import columnify                   from 'columnify'
-// import { table as tableFunct }     from 'table'
 
-import type { Options } from 'boxen'
-// import type { TableUserConfig } from 'table'
+import Table     from 'cli-table3'
+import columnify from 'columnify'
+
+import type { TableConstructorOptions } from 'cli-table3'
 
 export type TableData = string[][]
-// export type TableOpts = TableUserConfig
-
 export type TableOpts = TableConstructorOptions
-export type BoxOpts = Options
+
 export type ColumnOpts = columnify.GlobalOptions
 export type ColumnData = Record<string, unknown> | Record<string, unknown>[]
 
@@ -43,19 +38,6 @@ export const table = ( data: TableData, options?: TableConstructorOptions ): str
 	return _table.toString()
 
 }
-
-/**
- * Creates a styled box around the provided text.
- *
- * @param   {string}  text      - The text to display inside the box.
- * @param   {BoxOpts} [options] - Optional configuration options for the box.
- * @returns {string}            - The text with the styled box around it.
- * @see https://www.npmjs.com/package/boxen
- * @example
- * const boxedText = box('This is a boxed text', { padding: 1 });
- * console.log(boxedText);
- */
-export const box = ( text: string, options?: BoxOpts ): string => boxen( text, options )
 
 /**
  * Formats data into aligned columns for better readability.

@@ -52,7 +52,6 @@ export class GitHubInfo extends GHSuper {
 				opts  : {
 					borderStyle : 'none',
 					padding     : 0,
-					dimBorder   : true,
 				},
 				type : 'info',
 			} )

@@ -2,17 +2,14 @@
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
 
-import type { Format } from 'badge-maker'
-
-import { joinUrl }    from '@/string'
-import { LazyLoader } from '@/sys'
+import { joinUrl } from '@/string'
 
 type MdLink = {
 	name    : string
 	URL     : string
 	imgURL? : string
 }
-const loader = new LazyLoader( { 'badge-maker': async () => ( await import( 'badge-maker' ) ).makeBadge } )
+
 /**
  * Creates a Markdown link or image from a name and URL.
  *
@@ -50,19 +47,11 @@ export const createMdLinks = (
 
 }
 
-/**
- * Cheate shields.io SVGs.
- *
- * @see https://www.npmjs.com/package/badge-maker
- */
-export const createBadgeSVG = async ( f: Format ) =>
-	( await loader.get( 'badge-maker' ) )( f )
-
 type BadgeURL = {
 	// general
 	path        : string
 	color?      : string
-	style?      : Format['style']
+	style?      : 'plastic' | 'flat' | 'flat-square' | 'for-the-badge' | 'social'
 	host?       : string
 	// label
 	label?      : string

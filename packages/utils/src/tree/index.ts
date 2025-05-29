@@ -1,3 +1,5 @@
+import { TreeContent } from '@ascii-kit/tree'
+
 import { setDirTree } from './set'
 
 import type {
@@ -24,7 +26,7 @@ export { setDirTree }
  * @param   {number}          [opts.max] - Maximum number of child directories to include (default is Infinity).
  * @returns {Promise<object>}            The directory structure as a nested object.
  */
-const getDirStructure = async ( opts: DirStructureParams ): Promise<object> => {
+const getDirStructure = async ( opts: DirStructureParams ): Promise<TreeContent> => {
 
 	if ( !opts.input ) throw new Error( 'The \'input\' path is required.' )
 
@@ -33,14 +35,14 @@ const getDirStructure = async ( opts: DirStructureParams ): Promise<object> => {
 	const sortOrder = opts?.sort || 'atoz' // Default to 'atoz'
 
 	// Helper function to build the structure
-	const _buildStructure = async ( currentPath: string, depth: number ): Promise<object> => {
+	const _buildStructure = async ( currentPath: string, depth: number ): Promise<TreeContent> => {
 
 		// Stop recursion if max depth is reached
 		if ( depth <= 0 ) return {}
 
 		// Read the current directory entries
-		const entries                            = await readDir( currentPath )
-		const structure: Record<string, unknown> = {}
+		const entries                = await readDir( currentPath )
+		const structure: TreeContent = {}
 
 		// Sort entries based on the sort option
 		const sortedEntries = entries.sort( ( a, b ) => {
@@ -51,26 +53,15 @@ const getDirStructure = async ( opts: DirStructureParams ): Promise<object> => {
 		} )
 
 		// Process entries concurrently
-		await Promise.all(
-			sortedEntries.map( async entry => {
+		await Promise.all( sortedEntries.map( async entry => {
 
-				const fullPath = joinPath( currentPath, entry.name )
+			const fullPath = joinPath( currentPath, entry.name )
 
-				if ( entry.isDirectory() ) {
+			if ( entry.isDirectory() )
+				structure[entry.name] = await _buildStructure( fullPath, depth - 1 )
+			else structure[entry.name] = null
 
-					// Recurse into subdirectories only if depth allows
-					structure[entry.name] = await _buildStructure( fullPath, depth - 1 )
-
-				}
-				else {
-
-					// Add files as null
-					structure[entry.name] = null
-
-				}
-
-			} ),
-		)
+		} ) )
 
 		return structure
 
@@ -103,7 +94,7 @@ export const getDirTree = async ( props: PathTreeOpts ): Promise<string> => {
 
 }
 
-export const getPathsStructure = async ( props: PathsStructureParams ): Promise<object> => {
+export const getPathsStructure = async ( props: PathsStructureParams ): Promise<TreeContent> => {
 
 	// example paths => [
 	// 	"pnpm-lock.yaml", "LICENSE", "README.md", "package.json", "eslint.config.js", "pnpm-workspace.yaml",
@@ -127,11 +118,11 @@ export const getPathsStructure = async ( props: PathsStructureParams ): Promise<
 
 	} )
 
-	const buildStructure = ( paths: string[], depth: number ): object => {
+	const buildStructure = ( paths: string[], depth: number ): TreeContent => {
 
 		if ( depth <= 0 ) return {}
 
-		const structure: Record<string, unknown> = {}
+		const structure:TreeContent = {}
 
 		for ( const path of paths ) {
 
@@ -153,8 +144,7 @@ export const getPathsStructure = async ( props: PathsStructureParams ): Promise<
 
 	}
 
-	const structure = buildStructure( sortedPaths, maxDepth )
-	return structure
+	return buildStructure( sortedPaths, maxDepth )
 
 }
 
@@ -163,12 +153,12 @@ export const getPathsTree = async ( props: PatternTreeOpts ) => {
 	const {
 		input, ...rest
 	} = props
+
 	const structure = await getPathsStructure( props )
-	const output    = setDirTree( {
+
+	return setDirTree( {
 		structure,
 		...rest,
 	} )
-
-	return output
 
 }

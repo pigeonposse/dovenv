@@ -10,10 +10,8 @@ import {
 	indent,
 } from '@dovenv/utils'
 
-type ExtractLiterals<T> = T extends string ? ( string extends T ? never : T ) : never
 type Line = NonNullable<Parameters<typeof line>[0]>
-type Color = NonNullable<Line['lineColor']>
-type ColorLiteral = ExtractLiterals<Color>
+type Color = keyof typeof color
 
 const codeConstructor = ( {
 	data,
@@ -28,10 +26,9 @@ const codeConstructor = ( {
 } ) => {
 
 	return box( highlight( data, { language: lang } ), {
-		title,
-		dimBorder : true,
-		borderColor,
-		padding   : {
+		headerText  : title,
+		borderColor : ( b, p, l ) => color.dim( borderColor ? borderColor( b, p, l ) : b ),
+		padding     : {
 			top   : 1,
 			left  : 1,
 			right : 1,
@@ -51,9 +48,9 @@ const codeConstructor = ( {
 
 }
 
-const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof icon[keyof typeof icon] ) => {
+const colorConstructor = ( cValue: Color | undefined, mainIcon?: typeof icon[keyof typeof icon] ) => {
 
-	const c = cValue ? color[cValue] : color
+	const c = cValue ? color[cValue] as typeof color : color
 
 	const title     = ( v:unknown ) => c( mainIcon ? ( mainIcon + ' ' + v ) : v )
 	const desc      = ( v:unknown ) => c.dim( v )
@@ -67,7 +64,7 @@ const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof i
 
 		return `\n${line( {
 			title      : title || title?.trim() !== '' ? title : '',
-			lineColor  : cValue,
+			lineColor  : b => c( b ),
 			titleAlign : titleAlign || 'center',
 			lineChar   : icon.line,
 			lineDim    : dim,
@@ -98,7 +95,7 @@ const colorConstructor = ( cValue: ColorLiteral | undefined, mainIcon?: typeof i
 					data        : codeV,
 					title       : 'Example',
 					lang        : lang,
-					borderColor : cValue,
+					borderColor : b => c( b ),
 				} )
 				: '' ) + ( readmore ? desc( '\n\nRead more: ' + a( readmore ) ) : '' ) + '\n'
 
@@ -198,9 +195,9 @@ export class CommandStyle {
 	} ) {
 
 		return box( data, {
-			title,
-			dimBorder : dim,
-			padding   : {
+			headerText  : title,
+			borderColor : dim ? b => color.dim( b ) : undefined,
+			padding     : {
 				top   : 1,
 				left  : 1,
 				right : 1,

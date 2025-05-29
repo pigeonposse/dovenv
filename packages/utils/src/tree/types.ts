@@ -1,24 +1,14 @@
 /* eslint-disable @stylistic/object-curly-newline */
 
+import { TreeConfig,
+	TreeContent } from '@ascii-kit/tree'
+
 import type { getPaths } from '@/sys/super'
 import type { Prettify } from '@/ts'
 
-export type SetDirTreeStyleParams = {
-	/** Name of the file or folder */
-	name     : string
-	/** Indentation level */
-	indent   : number
-	/** Whether it is the last item in the current level */
-	isLast   : boolean
-	/** Whether it is the first item in the current level */
-	isFirst  : boolean
-	/** Whether it is a folder */
-	isFolder : boolean
-}
 export type SetDirTree = {
-	structure : object
-	name?     : string
-	style?    : ( opts: SetDirTreeStyleParams ) => string
+	structure : TreeContent
+	opts?     : TreeConfig
 }
 type SharedStructure = {
 	/**
