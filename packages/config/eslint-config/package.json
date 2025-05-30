@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "1.5.23",
+	"version": "1.5.24",
 	"description": "Eslint configuration for dovenv",
 	"keywords": [
 		"eslint",

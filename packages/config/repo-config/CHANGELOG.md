@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.23
+
+### Patch Changes
+
+- add more descriptive errors
+
 ## 1.5.22
 
 ### Patch Changes

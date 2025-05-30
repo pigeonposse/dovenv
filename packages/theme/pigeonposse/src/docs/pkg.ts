@@ -40,8 +40,8 @@ export const getPublicPackageData = async (
 	const docsUrl      = wsPkg.extra?.docsURL || wsPkg.extra?.docsUrl || wsPkg.homepage || '/'
 	const name         = wsPkg.extra?.productName || wsPkg.extra.id || wsPkg.name
 
-	if ( !docsUrl ) throw new Error( 'Docs URL not found in wsPkg. Please add "extra.docsURL" or "homepage" to your workspace package.json' )
-	if ( !name ) throw new Error( 'Name not found in wsPkg. Please add "name", "extra.productName" or "extra.id" to your workspace package.json' )
+	if ( !docsUrl ) throw new Error( 'Docs URL not found in workspace package. Please add "extra.docsURL" or "homepage" to your workspace package.json' )
+	if ( !name ) throw new Error( 'Name not found in workspace package. Please add "name", "extra.productName" or "extra.id" to your workspace package.json' )
 
 	return {
 		docsDir,
@@ -94,7 +94,13 @@ export const getPublicPackageData = async (
 			const existsApi      = type == 'config' && !isTs ? false : true
 
 			// @ts-ignore
-			const repo = joinPath( pkgData.repository?.url, 'tree/main', pkgData?.repository?.directory )
+			const repoURL = pkgData.repository?.url || wsPkg.repository?.url
+			// @ts-ignore
+			const repoDir = pkgData.repository?.directory || ''
+
+			if ( !repoURL ) throw new Error( `Repository URL not found in package(${title}) or workspace package. Please add "repository.url"` )
+
+			const repo = joinPath( repoURL, 'tree/main', repoDir )
 
 			const res: PkgData['data'][number] = {
 				type,

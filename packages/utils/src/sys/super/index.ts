@@ -292,7 +292,7 @@ export function joinPath( ...paths: string[] ): string {
 	}
 	catch ( e ) {
 
-		throw new Error( `Failed to join path (${paths.join( ', ' )}): ` + ( e instanceof Error ? e.message : e?.toString() ) )
+		throw new Error( `Failed to join path (${paths.join( ', ' )}):\n - ` + ( e instanceof Error ? e.message : e?.toString() ) )
 
 	}
 

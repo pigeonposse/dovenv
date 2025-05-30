@@ -202,7 +202,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( 'Failed to get workspace public packages data: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+			throw new Error( 'Failed to get workspace public packages data.\n - ' + ( e instanceof Error ? e.message : e?.toString() ) )
 
 		}
 
@@ -283,7 +283,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( 'Failed to get Markdown information: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+			throw new Error( 'Failed to get Markdown information\n - ' + ( e instanceof Error ? e.message : e?.toString() ) )
 
 		}
 
@@ -404,7 +404,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( 'Failed to write index file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+			throw new Error( 'Failed to write index file.\n - ' + ( e instanceof Error ? e.message : e?.toString() ) )
 
 		}
 
@@ -432,7 +432,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( 'Failed to write contributors file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+			throw new Error( 'Failed to write contributors file.\n - ' + ( e instanceof Error ? e.message : e?.toString() ) )
 
 		}
 
@@ -477,7 +477,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( 'Failed to write guide section index file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+			throw new Error( 'Failed to write guide section index file.\n - ' + ( e instanceof Error ? e.message : e?.toString() ) )
 
 		}
 
@@ -514,7 +514,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( 'Failed to write guide index file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+			throw new Error( 'Failed to write guide index file.\n - ' + ( e instanceof Error ? e.message : e?.toString() ) )
 
 		}
 
@@ -594,7 +594,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( `Failed to generate package.json.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			throw new Error( `Failed to generate package.json.\n - ${e instanceof Error ? e.message : e?.toString()}` )
 
 		}
 
@@ -645,7 +645,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( `Failed to generate index.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			throw new Error( `Failed to generate index.\n - ${e instanceof Error ? e.message : e?.toString()}` )
 
 		}
 
@@ -683,7 +683,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( `Failed to generate examples.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			throw new Error( `Failed to generate examples.\n - ${e instanceof Error ? e.message : e?.toString()}` )
 
 		}
 
@@ -730,7 +730,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( `Failed to generate api.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			throw new Error( `Failed to generate api.\n - ${e instanceof Error ? e.message : e?.toString()}` )
 
 		}
 
@@ -831,7 +831,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( `Failed to generate readme.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			throw new Error( `Failed to generate readme.\n - ${e instanceof Error ? e.message : e?.toString()}` )
 
 		}
 
@@ -893,7 +893,7 @@ export class Predocs {
 				}
 				catch ( e ) {
 
-					throw new Error( `Failed in package ${publicPkg.name}.\n Error: ${e instanceof Error ? e.message : e?.toString()}\n` )
+					throw new Error( `Failed in package ${publicPkg.name}.\n - ${e instanceof Error ? e.message : e?.toString()}\n` )
 
 				}
 
@@ -903,7 +903,7 @@ export class Predocs {
 		}
 		catch ( e ) {
 
-			throw new Error( `Failed to generate package files.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+			throw new Error( `Failed to generate package files.\n - ${e instanceof Error ? e.message : e?.toString()}` )
 
 		}
 

@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.24
+
+### Patch Changes
+
+- add more descriptive errors
+
 ## 1.5.23
 
 ### Patch Changes

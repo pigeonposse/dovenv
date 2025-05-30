@@ -1,5 +1,14 @@
 # @dovenv/repo
 
+## 1.5.24
+
+### Patch Changes
+
+- add more descriptive errors
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.24
+
 ## 1.5.23
 
 ### Patch Changes
