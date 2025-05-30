@@ -1,5 +1,14 @@
 # @dovenv/repo
 
+## 1.5.25
+
+### Patch Changes
+
+- Up preodcs cms
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.25
+
 ## 1.5.24
 
 ### Patch Changes

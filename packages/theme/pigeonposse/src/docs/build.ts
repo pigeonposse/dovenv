@@ -17,7 +17,6 @@ import {
 	examples,
 	convert,
 	repo,
-
 } from '@dovenv/theme-banda'
 
 import {
@@ -47,8 +46,6 @@ import type {
 	ObjectValues,
 	PackageJSON,
 } from '@dovenv/core/utils'
-
-// TODO: Add contributors to readmes
 
 type MdInfoKey = keyof ReturnType<typeof getPublicPackageByType>
 type MarkdownInfo = { more: string } & { [key in MdInfoKey]? : string }
@@ -92,7 +89,7 @@ export class Predocs {
 	#corePkg
 	#coreDir
 	#REPO_URL
-	#EMOJI
+
 	#mdInfo            : MarkdownInfo | undefined
 	#publicPackageData : PkgData | undefined
 
@@ -101,18 +98,7 @@ export class Predocs {
 	/**
 	 * The name of the project
 	 */
-	projectName
 	title = 'predocs'
-
-	/**
-	 * Object containing templates strings
-	 */
-	template
-
-	/**
-	 * Object containing partials strings
-	 */
-	partial
 
 	/**
 	 * General Configuration options
@@ -143,16 +129,49 @@ export class Predocs {
 		this.#coreDir  = config?.const?.coreDir as string || joinPath( this.utils.wsDir, 'packages', 'core' )
 		this.#REPO_URL = typeof config?.const?.REPO_URL === 'string' ? config.const.REPO_URL : ''
 
-		this.projectName = ( this.#wsPkg.extra.productName || this.#wsPkg.extra.id || this.#wsPkg.name ) as string
-		this.#EMOJI      = getEmojiList( this.opts?.emoji )
-
-		this.template = templateConstructor( this.#EMOJI )
-		this.partial  = partialConstructor( this.#EMOJI )
-
 		console.debug( {
 			...opts,
 			emojis : this.#EMOJI,
 		} )
+
+	}
+
+	#projectName : string | undefined
+	get projectName() {
+
+		if ( this.#projectName ) return this.#projectName
+		const res = this.#wsPkg?.extra?.productName as string || this.#wsPkg?.extra?.id as string || this.#wsPkg.name
+		if ( !res ) throw new Error( 'Name not found in workspace package. Please add "name", "extra.productName" or "extra.id" to your workspace package.json' )
+		this.#projectName = res
+		return res
+
+	}
+
+	/**
+	 * Object containing templates
+	 *
+	 * @returns {object} - Object containing templates strings
+	 */
+	get template() {
+
+		return templateConstructor( this.#EMOJI )
+
+	}
+
+	/**
+	 * Object containing partials
+	 *
+	 * @returns {object} - Object containing partials strings
+	 */
+	get partial() {
+
+		return partialConstructor( this.#EMOJI )
+
+	}
+
+	get #EMOJI() {
+
+		return getEmojiList( this.opts?.emoji )
 
 	}
 
@@ -181,8 +200,7 @@ export class Predocs {
 		if ( this.#publicPackageData ) return this.#publicPackageData
 
 		const pkgPaths = await this.utils.getPkgPaths()
-
-		const data = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
+		const data     = await getPublicPackageData( pkgPaths, this.utils.wsDir, this.#wsPkg, this.#EMOJI )
 		console.debug( data )
 		return data
 
@@ -307,15 +325,17 @@ export class Predocs {
 			const docsIndexFile = joinPath( data.docsDir, FILE_NAME.INDEX )
 			const groupedData   = getPublicPackageByType( data['data'] )
 			const groups        = Object.keys( groupedData )
+			const partials      = this.partial
+			const templates     = this.template
 
 			await this.#templates.get( {
 				title   : 'index file',
-				input   : opts?.creationTemplate ? this.template.docsIndexWithCreate : this.template.docsIndex,
+				input   : opts?.creationTemplate ? templates.docsIndexWithCreate : templates.docsIndex,
 				output  : docsIndexFile,
 				const   : { libPkg: this.#corePkg },
 				partial : {
-					installationGroup : { input: this.partial.installationGroup },
-					creationGroup     : { input: this.partial.creationGroup },
+					installationGroup : { input: partials.installationGroup },
+					creationGroup     : { input: partials.creationGroup },
 				},
 				hook : { before : async d => {
 
@@ -420,11 +440,12 @@ export class Predocs {
 
 		try {
 
-			const data = await this.#getPublicPkgData()
+			const data      = await this.#getPublicPkgData()
+			const templates = this.template
 
 			await this.#templates.get( {
 				title  : 'contributors file',
-				input  : this.template.docsContributors,
+				input  : templates.docsContributors,
 				output : joinPath( data.docsDir, FILE_NAME.CONTRIBUTORS ),
 				...( opts?.props || {} ),
 			} )
@@ -621,12 +642,13 @@ export class Predocs {
 			if ( opts === false ) return
 
 			const { publicPkg } = config
+			const partials      = this.partial
 			await this.#templates.get( {
 				title   : publicPkg.name || '',
 				input   : publicPkg.package.docsFile ? publicPkg.package.docsFile : `# ${publicPkg.name}\n\n${publicPkg.data.description}\n\n{{partial.installation}}\n`,
 				output  : publicPkg.docs.indexFile,
 				const   : { libPkg: publicPkg.data },
-				partial : { installation: { input: this.partial.installationGroup } },
+				partial : { installation: { input: partials.installationGroup } },
 				hook    : { afterPartials : async data => {
 
 					let finalcontent = this.#setMdTitle( `More`, this.#EMOJI?.more )
@@ -786,7 +808,8 @@ export class Predocs {
 				: ''
 
 			const contributorMd = await this.#getContributorsMarkdown( publicPkg.data )
-
+			const partials      = this.partial
+			const templates     = this.template
 			const setReadmeFile = async ( i:string, o: string ) => await this.#templates.get( {
 				input  : i,
 				output : o,
@@ -799,10 +822,10 @@ export class Predocs {
 					contributors : contributorMd ? contributorMd : '',
 				},
 				partial : {
-					footer       : { input: this.partial.footer },
+					footer       : { input: partials.footer },
 					content      : { input: content },
 					precontent   : { input: precontent },
-					installation : { input: this.partial.installation },
+					installation : { input: partials.installation },
 				},
 				hook : { afterPartials : async data => {
 
@@ -820,13 +843,13 @@ export class Predocs {
 				...( opts?.props || {} ),
 			} )
 
-			await setReadmeFile( this.template.readmePkg, publicPkg.package.readmeFile )
+			await setReadmeFile( templates.readmePkg, publicPkg.package.readmeFile )
 
 			//////////////////////////////////////////////////////////////////////////////
 			// WORKSPACE README
 			//////////////////////////////////////////////////////////////////////////////
 			if ( publicPkg.id === ID.core )
-				await setReadmeFile( this.template.readmePkg, joinPath( this.utils.wsDir, FILE_NAME.README ) )
+				await setReadmeFile( templates.readmePkg, joinPath( this.utils.wsDir, FILE_NAME.README ) )
 
 		}
 		catch ( e ) {

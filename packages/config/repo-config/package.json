@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/repo-config",
-	"version": "1.5.23",
+	"version": "1.5.24",
 	"private": true,
 	"description": "Config for dovenv repositories",
 	"homepage": "https://dovenv.pigeonposse.com/guide/config/repo-config",

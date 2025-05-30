@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.25
+
+### Patch Changes
+
+- Up preodcs cms
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.25
+  - @dovenv/convert@1.5.25
+  - @dovenv/docs@1.5.25
+  - @dovenv/examples@1.5.25
+  - @dovenv/lint@1.5.25
+  - @dovenv/repo@1.5.25
+  - @dovenv/templates@1.5.25
+  - @dovenv/todo@1.5.25
+  - @dovenv/workspace@1.5.25
+
 ## 1.5.24
 
 ### Patch Changes

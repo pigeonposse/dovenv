@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.24
+
+### Patch Changes
+
+- Up preodcs cms
+
 ## 1.5.23
 
 ### Patch Changes

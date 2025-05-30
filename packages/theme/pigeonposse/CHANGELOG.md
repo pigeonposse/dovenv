@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.25
+
+### Patch Changes
+
+- Up preodcs cms
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.25
+  - @dovenv/stylelint-config@1.5.25
+  - @dovenv/core@1.5.25
+  - @dovenv/theme-banda@1.5.25
+
 ## 1.5.24
 
 ### Patch Changes
