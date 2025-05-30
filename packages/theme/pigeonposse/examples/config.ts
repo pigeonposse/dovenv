@@ -5,6 +5,10 @@ import {
 	pigeonposseMonorepoTheme,
 } from '../src/main'
 
+// TYPE.config = 'configuration'
+// // @ts-ignore
+// delete TYPE.plugin
+
 export default defineConfig( pigeonposseMonorepoTheme( {
 	lint : undefined,
 	core : await getWorkspaceConfig( {
@@ -16,4 +20,7 @@ export default defineConfig( pigeonposseMonorepoTheme( {
 		return { name: 'dovenv' }
 
 	},
+	// predocs: async instance => {
+
+	// }
 } ) )

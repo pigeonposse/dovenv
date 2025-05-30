@@ -4,6 +4,93 @@
 
 ### Predocs
 
+#### Accessors
+
+##### partial
+
+###### Get Signature
+
+```ts
+get partial(): {
+  creation: string;
+  creationGroup: string;
+  footer: string;
+  installation: string;
+  installationGroup: string;
+}
+```
+
+Object containing partials
+
+###### Returns
+
+```ts
+{
+  creation: string;
+  creationGroup: string;
+  footer: string;
+  installation: string;
+  installationGroup: string;
+}
+```
+
+- Object containing partials strings
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `creation` | `string` | Returns the creation instructions for the library. **required const**: libPkg. |
+| `creationGroup` | `string` | Returns the creation instructions for the library. **required const**: libPkg. |
+| `footer` | `string` | Returns the footer for the documentation. **required const**: pkg, socialBadges, mark, contributors. |
+| `installation` | `string` | Returns the installation instructions for the library. **required const**: libPkg. |
+| `installationGroup` | `string` | Returns the installation instructions for the library. **required const**: libPkg. |
+
+##### projectName
+
+###### Get Signature
+
+```ts
+get projectName(): string
+```
+
+###### Returns
+
+`string`
+
+##### template
+
+###### Get Signature
+
+```ts
+get template(): {
+  docsContributors: string;
+  docsIndex: string;
+  docsIndexWithCreate: string;
+  readmePkg: string;
+}
+```
+
+Object containing templates
+
+###### Returns
+
+```ts
+{
+  docsContributors: string;
+  docsIndex: string;
+  docsIndexWithCreate: string;
+  readmePkg: string;
+}
+```
+
+- Object containing templates strings
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `docsContributors` | `string` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark. |
+| `docsIndex` | `string` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
+| `docsIndexWithCreate` | `string` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
+| `readmePkg` | `string` | Returns the readme template for a package. **required const**: title, pkg, socialBadges, pkgBadges, toc, banner. **required partial**: installation, toc, content. |
+
 #### Constructors
 
 ##### new Predocs()
@@ -387,19 +474,7 @@ Throws an error if the README generation fails.
 | Property | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
 | `opts` | `undefined` \| [`PredocsConfig`](#predocsconfig) | `undefined` | General Configuration options |
-| `partial` | \{ `creation`: `string`; `creationGroup`: `string`; `footer`: `string`; `installation`: `string`; `installationGroup`: `string`; \} | `undefined` | Object containing partials strings |
-| `partial.creation` | `string` | `undefined` | Returns the creation instructions for the library. **required const**: libPkg. |
-| `partial.creationGroup` | `string` | `undefined` | Returns the creation instructions for the library. **required const**: libPkg. |
-| `partial.footer` | `string` | `undefined` | Returns the footer for the documentation. **required const**: pkg, socialBadges, mark, contributors. |
-| `partial.installation` | `string` | `undefined` | Returns the installation instructions for the library. **required const**: libPkg. |
-| `partial.installationGroup` | `string` | `undefined` | Returns the installation instructions for the library. **required const**: libPkg. |
-| `projectName` | `string` | `undefined` | The name of the project |
-| `template` | \{ `docsContributors`: `string`; `docsIndex`: `string`; `docsIndexWithCreate`: `string`; `readmePkg`: `string`; \} | `undefined` | Object containing templates strings |
-| `template.docsContributors` | `string` | `undefined` | Returns a contributors index template for a `dovenv` docs page. **required const**: templateMark. |
-| `template.docsIndex` | `string` | `undefined` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
-| `template.docsIndexWithCreate` | `string` | `undefined` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
-| `template.readmePkg` | `string` | `undefined` | Returns the readme template for a package. **required const**: title, pkg, socialBadges, pkgBadges, toc, banner. **required partial**: installation, toc, content. |
-| `title` | `string` | `'predocs'` | - |
+| `title` | `string` | `'predocs'` | The name of the project |
 
 ## Functions
 
@@ -616,7 +691,7 @@ The generated markdown links.
 ### predocsPlugin()
 
 ```ts
-function predocsPlugin(opts?: PredocsConfig): Config
+function predocsPlugin(opts?: PredocsConfig | (data: Predocs) => Promise<void>): Config
 ```
 
 Create package docs simultaneously.
@@ -625,7 +700,7 @@ Create package docs simultaneously.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `opts`? | [`PredocsConfig`](#predocsconfig) | Optional opts to pass to [Predocs](#predocs). |
+| `opts`? | [`PredocsConfig`](#predocsconfig) \| (`data`: [`Predocs`](#predocs)) => `Promise`\<`void`\> | Optional opts to pass to [Predocs](#predocs). |
 
 #### Returns
 
@@ -679,7 +754,7 @@ type Config: BandaConfig & {
 
 ```ts
 type MonorepoConfig: Config & {
-  predocs: PredocsConfig | false;
+  predocs: NonNullable<Parameters<typeof predocsPlugin>[0]> | false;
 };
 ```
 
@@ -687,7 +762,7 @@ type MonorepoConfig: Config & {
 
 | Name | Type |
 | ------ | ------ |
-| `predocs`? | [`PredocsConfig`](#predocsconfig) \| `false` |
+| `predocs`? | `NonNullable`\<`Parameters`\<*typeof* [`predocsPlugin`](#predocsplugin)\>\[`0`\]\> \| `false` |
 
 ***
 
@@ -849,6 +924,126 @@ Renames and re-exports [pigeonposseTheme](#pigeonpossetheme)
 
 ## Variables
 
+### EMOJI
+
+```ts
+const EMOJI: {
+  about: '✨';
+  ai: '🤖';
+  api: '📖';
+  blog: '📝';
+  bug: '🐛';
+  cli: '🔢';
+  config: '⚙️';
+  convert: '🔄';
+  core: '🌞';
+  create: '🚀';
+  dev: '👨‍💻';
+  development: '👨‍💻';
+  docker: '🐳';
+  docs: '📚';
+  donate: '❤️';
+  example: '💡';
+  examples: '💡';
+  extension: '🧩';
+  extensions: '🧩';
+  feat: '🌟';
+  feats: '🌟';
+  feature: '🌟';
+  features: '🌟';
+  getStarted: "🏁";
+  index: '📍';
+  info: 'ℹ️';
+  installation: '🔑';
+  library: '📚';
+  license: '📜';
+  lint: '🧹';
+  media: '🎥';
+  more: '➕';
+  package: '📦';
+  plugin: '🔌';
+  preset: '💾';
+  presets: '💾';
+  repo: '🗃️';
+  repos: '🗃️';
+  repository: '🗃️';
+  server: '🗄️';
+  setup: '🎉';
+  template: '🖼️';
+  templates: '🖼️';
+  test: '✅';
+  theme: '🎨';
+  todo: '✅';
+  toolkit: '🧰';
+  tutorial: '🎓';
+  tutorials: '🎓';
+  usage: '📄';
+  utils: '⚒️';
+  web: '🌐';
+  workspace: '📂';
+};
+```
+
+#### Type declaration
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `about` | `"✨"` | '✨' |
+| `ai` | `"🤖"` | '🤖' |
+| `api` | `"📖"` | '📖' |
+| `blog` | `"📝"` | '📝' |
+| `bug` | `"🐛"` | '🐛' |
+| `cli` | `"🔢"` | '🔢' |
+| `config` | `"⚙️"` | '⚙️' |
+| `convert` | `"🔄"` | '🔄' |
+| `core` | `"🌞"` | '🌞' |
+| `create` | `"🚀"` | '🚀' |
+| `dev` | `"👨‍💻"` | '👨‍💻' |
+| `development` | `"👨‍💻"` | '👨‍💻' |
+| `docker` | `"🐳"` | '🐳' |
+| `docs` | `"📚"` | '📚' |
+| `donate` | `"❤️"` | '❤️' |
+| `example` | `"💡"` | '💡' |
+| `examples` | `"💡"` | '💡' |
+| `extension` | `"🧩"` | '🧩' |
+| `extensions` | `"🧩"` | '🧩' |
+| `feat` | `"🌟"` | '🌟' |
+| `feats` | `"🌟"` | '🌟' |
+| `feature` | `"🌟"` | '🌟' |
+| `features` | `"🌟"` | '🌟' |
+| `getStarted` | `"🏁"` | - |
+| `index` | `"📍"` | '📍' |
+| `info` | `"ℹ️"` | 'ℹ️' |
+| `installation` | `"🔑"` | '🔑' |
+| `library` | `"📚"` | '📚' |
+| `license` | `"📜"` | '📜' |
+| `lint` | `"🧹"` | '🧹' |
+| `media` | `"🎥"` | '🎥' |
+| `more` | `"➕"` | '➕' |
+| `package` | `"📦"` | '📦' |
+| `plugin` | `"🔌"` | '🔌' |
+| `preset` | `"💾"` | '💾' |
+| `presets` | `"💾"` | '💾' |
+| `repo` | `"🗃️"` | '🗃️' |
+| `repos` | `"🗃️"` | '🗃️' |
+| `repository` | `"🗃️"` | '🗃️' |
+| `server` | `"🗄️"` | '🗄️' |
+| `setup` | `"🎉"` | '🎉' |
+| `template` | `"🖼️"` | '🖼️' |
+| `templates` | `"🖼️"` | '🖼️' |
+| `test` | `"✅"` | '✅' |
+| `theme` | `"🎨"` | '🎨' |
+| `todo` | `"✅"` | '✅' |
+| `toolkit` | `"🧰"` | '🧰' |
+| `tutorial` | `"🎓"` | '🎓' |
+| `tutorials` | `"🎓"` | '🎓' |
+| `usage` | `"📄"` | '📄' |
+| `utils` | `"⚒️"` | '⚒️' |
+| `web` | `"🌐"` | '🌐' |
+| `workspace` | `"📂"` | '📂' |
+
+***
+
 ### partial
 
 ```ts
@@ -892,6 +1087,30 @@ const template: {
 | `docsIndex` | `string` | Returns a index template for a `dovenv` docs page. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
 | `docsIndexWithCreate` | `string` | Returns a index template for a `dovenv` docs page with project creation instructions. **required const**: templateMark, docsIndex. **required partial**: installationGroup. |
 | `readmePkg` | `string` | Returns the readme template for a package. **required const**: title, pkg, socialBadges, pkgBadges, toc, banner. **required partial**: installation, toc, content. |
+
+***
+
+### TYPE
+
+```ts
+const TYPE: {
+  config: 'config';
+  lib: 'library';
+  plugin: 'plugin';
+  preset: 'preset';
+  theme: 'theme';
+};
+```
+
+#### Type declaration
+
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| `config` | `"config"` | 'config' |
+| `lib` | `"library"` | 'library' |
+| `plugin` | `"plugin"` | 'plugin' |
+| `preset` | `"preset"` | 'preset' |
+| `theme` | `"theme"` | 'theme' |
 
 ## Namespaces
 

@@ -5,6 +5,7 @@ import type {
 import type {
 	PackageJSON,
 	Prettify,
+	setDirTree,
 	Validate,
 	ValidateAnyType,
 } from '@dovenv/core/utils'
@@ -89,7 +90,7 @@ export type Config = {
 		/**
 		 * Structure of the workspace.
 		 */
-		structure? : object
+		structure? : Parameters<typeof setDirTree>[0]['structure']
 
 	}
 	check?: {

@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.5.26
+
+### Patch Changes
+
+- Update predocs
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.26
+
 ## 1.5.25
 
 ### Patch Changes

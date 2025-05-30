@@ -13,9 +13,11 @@ import {
 } from '@dovenv/theme-banda'
 import { type Config as BandaConfig } from '@dovenv/theme-banda'
 
-import { getPigeonposseData }  from './const'
-import { predocsPlugin }       from './docs/build'
-import { EMOJI }               from './docs/emoji'
+import { getPigeonposseData } from './const'
+import {
+	EMOJI,
+	predocsPlugin,
+} from './predocs'
 import { pigeonSchemas }       from './schema'
 import { bandaTemplateConfig } from './templates'
 import {
@@ -28,7 +30,7 @@ import type { ConstsConfig } from './const'
 export * from '@dovenv/theme-banda'
 
 export * from './utils'
-export * from './docs/main'
+export * from './predocs'
 
 export {
 	WebConfig,

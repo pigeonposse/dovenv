@@ -290,19 +290,20 @@ export const execProcess = async ( options : ExecProcessParams ): Promise<void> 
 	} = options
 
 	const isDebugMode = process.argv.includes( '--debug' )
+	const setName     = ( i: string ) => `\n🐦${i} [${name}]`
 	const log :Log    = {
 		debug : data => {
 
-			if ( isDebugMode )console.debug( `\n🐦⬛ [${name}]`, data )
+			if ( isDebugMode ) console.debug( setName( '⬛️' ), data )
 
 		},
-		info    : data => console.log( `\n🐦🟦 [${name}]`, data ),
-		success : data => console.log( `\n🐦✅ [${name}]`, data ),
-		warn    : data => console.warn( `\n🐦🟡 [${name}]`, data ),
-		error   : data => console.error( `\n🐦❌ [${name}] Error: `, data ),
+		info    : data => console.log( setName( '🟦' ), data ),
+		success : data => console.log( setName( '🟢' ), data ),
+		warn    : data => console.warn( setName( '🟡' ), data ),
+		error   : data => console.error( setName( '🔴' ) + ` Error: `, data ),
 		box     : data => console.log( `\n${box( data, {
-			padding : 1,
-			title   : `🐦🟦 [${name}]`,
+			padding    : 1,
+			headerText : setName( '🟦' ).trimStart(),
 		} )}` ),
 	}
 

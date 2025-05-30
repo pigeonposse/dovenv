@@ -7,7 +7,10 @@ export {
 	predocsPlugin,
 	Predocs,
 } from './build'
-export { TYPE }
+export {
+	TYPE,
+	EMOJI,
+}
 export { getSidebar } from './sidebar'
 
 export const template = templateConstructor( EMOJI )

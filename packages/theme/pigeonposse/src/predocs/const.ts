@@ -28,6 +28,10 @@ export const FILE_NAME_BASE = {
 	GUIDE        : 'guide',
 	CONTRIBUTORS : 'contributors',
 	README       : 'README',
+	/**
+	 * must be used for add precontent in README packages
+	 */
+	PRE_README   : 'pre',
 } as const
 
 export const FILE_NAME = addExtension( FILE_NAME_BASE, 'md' )

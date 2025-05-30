@@ -778,11 +778,12 @@ export class Predocs {
 
 			//////////////////////////////////////////////////////////////////////////////
 			// README (REPO)
+			const DOCS_ID = 'docs'
 
 			let content               = '',
 				precontent            = ''
-			const readmedocsPath      = joinPath( this.#coreDir, 'docs', FILE_NAME.README )
-			const readmedocsLowerPath = joinPath( this.#coreDir, 'docs', FILE_NAME.README.toLowerCase() )
+			const readmedocsPath      = joinPath( this.#coreDir, DOCS_ID, FILE_NAME.README )
+			const readmedocsLowerPath = joinPath( this.#coreDir, DOCS_ID, FILE_NAME.README.toLowerCase() )
 
 			if ( await existsFile( readmedocsPath ) )
 				content += await readFile( readmedocsPath ) + '\n'
@@ -791,9 +792,14 @@ export class Predocs {
 
 			if ( publicPkg.id === ID.core ) {
 
-				const wsDocsPath = joinPath( this.#coreDir, 'docs', FILE_NAME.WS )
+				const wsDocsPath = joinPath( this.#coreDir, DOCS_ID, FILE_NAME.WS )
+				precontent      += await existsFile( wsDocsPath ) ? ( await readFile( wsDocsPath ) + '\n' ) : ''
 
-				precontent += await existsFile( wsDocsPath ) ? ( await readFile( wsDocsPath ) + '\n' ) : ''
+			}
+			else {
+
+				const docsPath = joinPath( publicPkg.package.dir, DOCS_ID, FILE_NAME.PRE_README )
+				precontent    += await existsFile( docsPath ) ? ( await readFile( docsPath ) + '\n' ) : ''
 
 			}
 			content += info.more

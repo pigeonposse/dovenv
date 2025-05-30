@@ -10,7 +10,7 @@ import type { PackageJSON } from '@dovenv/core/utils'
 export * from '@dovenv/theme-banda'
 
 export * from './utils'
-export * from './docs/main'
+export * from './predocs'
 
 export type WebConfig = {
 	/**

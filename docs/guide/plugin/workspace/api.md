@@ -223,7 +223,7 @@ type Config: {
   custom: NonNullable<CommandUtils["config"]>["custom"];
   info: {
      instructions: string;
-     structure: object;
+     structure: Parameters<typeof setDirTree>[0]["structure"];
      usefulCmds: {
         cmd: string;
         desc: string;
@@ -246,9 +246,9 @@ type Config: {
 | `check`? | \{ `pkg`: `Record`\<`string`, `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>\>; \} | - |
 | `check.pkg`? | `Record`\<`string`, `Prettify`\<`Sharedcheck` & \{ `schema`: (`opts`: \{ `content`: `PackageJSON`; `path`: `string`; `utils`: `CommandUtils`; `v`: `Validate`; \}) => `Promise`\<`ValidateAnyType` \| `void`\> \| `ValidateAnyType` \| `void`; \}\>\> | Checks for workspace package(s). |
 | `custom`? | `NonNullable`\<`CommandUtils`\[`"config"`\]\>\[`"custom"`\] | Custom configration for ws |
-| `info`? | \{ `instructions`: `string`; `structure`: `object`; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace. |
+| `info`? | \{ `instructions`: `string`; `structure`: `Parameters`\<*typeof* `setDirTree`\>\[`0`\]\[`"structure"`\]; `usefulCmds`: \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[]; \} | Information for the workspace. |
 | `info.instructions`? | `string` | Instructions for the workspace. Must be markdown format. Accepts string, URL or path. **Example** `## Pre-requisites project needs the following tools to work: - `node` > 20 installed - `pnpm` > 9 installed - `gh` > 2 installed - `git` > 2 installed ## Init workspace pnpm install` |
-| `info.structure`? | `object` | Structure of the workspace. |
+| `info.structure`? | `Parameters`\<*typeof* `setDirTree`\>\[`0`\]\[`"structure"`\] | Structure of the workspace. |
 | `info.usefulCmds`? | \{ `cmd`: `string`; `desc`: `string`; `info`: `string`; \}[] | Add more commands to the list of useful commands. **Example** `usefullCmds : [ 	{ 		desc : 'Checks for outdated packages.', 		cmd : 'pnpm -r outdated', 	}, ]` |
 | `reinstall`? | \{ `hook`: \{ `after`: () => `Promise`\<`void`\>; `before`: () => `Promise`\<`void`\>; \}; \} | Reinstall the workspace options |
 | `reinstall.hook`? | \{ `after`: () => `Promise`\<`void`\>; `before`: () => `Promise`\<`void`\>; \} | - |

@@ -1,5 +1,14 @@
 # @dovenv/examples
 
+## 1.5.26
+
+### Patch Changes
+
+- Update predocs
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.26
+
 ## 1.5.25
 
 ### Patch Changes

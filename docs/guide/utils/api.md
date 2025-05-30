@@ -194,27 +194,27 @@ new PackageManagerData(__namedParameters: {
      devEngines: {
         cpu: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         libc: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         os: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         packageManager: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         runtime: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
        };
@@ -229,11 +229,11 @@ new PackageManagerData(__namedParameters: {
 | `__namedParameters` | `object` | - |
 | `__namedParameters.pkg` | `object` | - |
 | `__namedParameters.pkg.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `__namedParameters.pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 ###### Returns
 
@@ -366,27 +366,27 @@ new RuntimeData(__namedParameters: {
      devEngines: {
         cpu: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         libc: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         os: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         packageManager: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
         runtime: undefined | {
            name: string;
-           onFail: "error" | "warn" | "ignore";
+           onFail: "warn" | "error" | "ignore";
            version: string;
           };
        };
@@ -401,11 +401,11 @@ new RuntimeData(__namedParameters: {
 | `__namedParameters` | `object` | - |
 | `__namedParameters.pkg` | `object` | - |
 | `__namedParameters.pkg.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `__namedParameters.pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `__namedParameters.pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `__namedParameters.pkg.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 ###### Returns
 
@@ -699,6 +699,8 @@ function asciiFont(
    fontName: 
   | "reverse"
   | "filter"
+  | "hex"
+  | "italic"
   | "jerusalem"
   | "mshebrew210"
   | "katakana"
@@ -837,7 +839,6 @@ function asciiFont(
   | "georgia11"
   | "greek"
   | "heart--left"
-  | "hex"
   | "henry--3d"
   | "horizontal--left"
   | "hollywood"
@@ -847,7 +848,6 @@ function asciiFont(
   | "invita"
   | "icl-1900"
   | "isometric2"
-  | "italic"
   | "isometric1"
   | "js--block--letters"
   | "js--capital--curves"
@@ -1338,7 +1338,7 @@ Fetches and generates ASCII art text using the specified font name.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `txt` | `string` | The text to render as ASCII art. |
-| `fontName` | \| `"reverse"` \| `"filter"` \| `"jerusalem"` \| `"mshebrew210"` \| `"katakana"` \| `"runyc"` \| `"morse"` \| `"ntgreek"` \| `"moscow"` \| `"runic"` \| `"1row"` \| `"smtengwar"` \| `"tsalagi"` \| `"3-d"` \| `"3d"` \| `"tengwar"` \| `"3d--diagonal"` \| `"3x5"` \| `"3d_diagonal"` \| `"3d-ascii"` \| `"amc--razor"` \| `"4max"` \| `"amc--neko"` \| `"amc--3--liv1"` \| `"amc--aaa01"` \| `"amc--slider"` \| `"amc--slash"` \| `"amc--razor2"` \| `"amc--thin"` \| `"amc--untitled"` \| `"amc--tubes"` \| `"ansi--regular"` \| `"ansi--shadow"` \| `"5lineoblique"` \| `"alphabet"` \| `"alligator"` \| `"b1ff"` \| `"acrobatic"` \| `"banner3-d"` \| `"arrows"` \| `"avatar"` \| `"banner3"` \| `"alpha"` \| `"bear"` \| `"banner4"` \| `"basic"` \| `"benjamin"` \| `"barbwire"` \| `"big--chief"` \| `"banner"` \| `"bell"` \| `"binary"` \| `"big--money-nw"` \| `"big--money-ne"` \| `"bigfig"` \| `"bolger"` \| `"big--money-sw"` \| `"big--money-se"` \| `"bloody"` \| `"broadway--kb"` \| `"braced"` \| `"blocks"` \| `"bright"` \| `"big"` \| `"bulbhead"` \| `"block"` \| `"caligraphy"` \| `"calvin--s"` \| `"broadway"` \| `"catwalk"` \| `"bubble"` \| `"cards"` \| `"chiseled"` \| `"chunky"` \| `"cola"` \| `"coinstak"` \| `"computer"` \| `"caligraphy2"` \| `"contessa"` \| `"contrast"` \| `"crawford"` \| `"crawford2"` \| `"colossal"` \| `"cosmike"` \| `"cursive"` \| `"cygnet"` \| `"cricket"` \| `"crazy"` \| `"cyberlarge"` \| `"cybersmall"` \| `"cybermedium"` \| `"dwhistled"` \| `"decimal"` \| `"dancing--font"` \| `"diamond"` \| `"dos--rebel"` \| `"delta--corps--priest--1"` \| `"doom"` \| `"digital"` \| `"diet--cola"` \| `"double--shorts"` \| `"dr--pepper"` \| `"efti--font"` \| `"ascii--new--roman"` \| `"doh"` \| `"efti--chess"` \| `"efti--robot"` \| `"dot--matrix"` \| `"efti--italic"` \| `"efti--wall"` \| `"efti--water"` \| `"elite"` \| `"efti--piti"` \| `"flipped"` \| `"epic"` \| `"fire--font-s"` \| `"fender"` \| `"def--leppard"` \| `"electronic"` \| `"four--tops"` \| `"fun--faces"` \| `"fire--font-k"` \| `"fuzzy"` \| `"flower--power"` \| `"fun--face"` \| `"glenyn"` \| `"ghoulish"` \| `"ghost"` \| `"fraktur"` \| `"goofy"` \| `"gradient"` \| `"gothic"` \| `"graceful"` \| `"georgi16"` \| `"hieroglyphs"` \| `"heart--right"` \| `"graffiti"` \| `"georgia11"` \| `"greek"` \| `"heart--left"` \| `"hex"` \| `"henry--3d"` \| `"horizontal--left"` \| `"hollywood"` \| `"horizontal--right"` \| `"impossible"` \| `"alligator2"` \| `"invita"` \| `"icl-1900"` \| `"isometric2"` \| `"italic"` \| `"isometric1"` \| `"js--block--letters"` \| `"js--capital--curves"` \| `"js--bracket--letters"` \| `"ivrit"` \| `"isometric3"` \| `"isometric4"` \| `"js--stick--letters"` \| `"jazmine"` \| `"keyboard"` \| `"jacky"` \| `"konto--slant"` \| `"knob"` \| `"konto"` \| `"lcd"` \| `"js--cursive"` \| `"kban"` \| `"line--blocks"` \| `"larry--3d--2"` \| `"amc--3--line"` \| `"lockergnome"` \| `"linux"` \| `"larry--3d"` \| `"madrid"` \| `"double"` \| `"marquee"` \| `"maxfour"` \| `"merlin1"` \| `"mike"` \| `"modular"` \| `"lean"` \| `"mini"` \| `"merlin2"` \| `"morse2"` \| `"mirror"` \| `"muzzle"` \| `"nt--greek"` \| `"nscript"` \| `"nv--script"` \| `"nancyj"` \| `"nancyj-underlined"` \| `"nancyj-fancy"` \| `"nipples"` \| `"octal"` \| `"nancyj-improved"` \| `"o8"` \| `"ogre"` \| `"os2"` \| `"patorjks--cheese"` \| `"old--banner"` \| `"patorjk-hex"` \| `"pawp"` \| `"peaks--slant"` \| `"pebbles"` \| `"mnemonic"` \| `"pepper"` \| `"rammstein"` \| `"puzzle"` \| `"peaks"` \| `"pyramid"` \| `"puffy"` \| `"relief"` \| `"poison"` \| `"red--phoenix"` \| `"rectangles"` \| `"roman"` \| `"danc4"` \| `"rot13"` \| `"rozzo"` \| `"rowan--cap"` \| `"script"` \| `"s--blood"` \| `"serifcap"` \| `"sl--script"` \| `"santa--clara"` \| `"short"` \| `"shimrod"` \| `"shadow"` \| `"small--caps"` \| `"rotated"` \| `"small--isometric1"` \| `"slant"` \| `"small--keyboard"` \| `"slide"` \| `"small--poison"` \| `"small--slant"` \| `"slant--relief"` \| `"small--shadow"` \| `"small--tengwar"` \| `"small--script"` \| `"speed"` \| `"letters"` \| `"small"` \| `"soft"` \| `"stacey"` \| `"stampatello"` \| `"star--wars"` \| `"stforek"` \| `"stampate"` \| `"rounded"` \| `"5--line--oblique"` \| `"stick--letters"` \| `"straight"` \| `"standard"` \| `"stellar"` \| `"stop"` \| `"stronger--than--all"` \| `"swan"` \| `"tanja"` \| `"term"` \| `"sweet"` \| `"the--edge"` \| `"this"` \| `"test1"` \| `"thick"` \| `"thin"` \| `"three--point"` \| `"thorned"` \| `"ticks"` \| `"tinker-toy"` \| `"tiles"` \| `"tombstone"` \| `"tubes-regular"` \| `"ticks--slant"` \| `"train"` \| `"tubular"` \| `"usa--flag"` \| `"trek"` \| `"wavy"` \| `"varsity"` \| `"wet--letter"` \| `"univers"` \| `"wow"` \| `"weird"` \| `"amc3liv1"` \| `"whimsy"` \| `"alligator3"` \| `"amc3line"` \| `"amcrazo2"` \| `"two--point"` \| `"amcslash"` \| `"amcthin"` \| `"amcslder"` \| `"amcneko"` \| `"amcrazor"` \| `"ascii_new_roman"` \| `"amctubes"` \| `"broadway_kb"` \| `"amcaaa01"` \| `"dancingfont"` \| `"bigchief"` \| `"dosrebel"` \| `"dietcola"` \| `"drpepper"` \| `"doubleshorts"` \| `"cosmic"` \| `"calgphy2"` \| `"eftichess"` \| `"eftifont"` \| `"eftipiti"` \| `"eftiwall"` \| `"eftirobot"` \| `"eftiwater"` \| `"flowerpower"` \| `"dotmatrix"` \| `"eftitalic"` \| `"fourtops"` \| `"defleppard"` \| `"fire_font-s"` \| `"halfiwi"` \| `"fire_font-k"` \| `"funface"` \| `"kompaktblk"` \| `"henry3d"` \| `"horizontalleft"` \| `"heart_right"` \| `"kontoslant"` \| `"koholint"` \| `"horizontalright"` \| `"larry3d"` \| `"miniwi"` \| `"lineblocks"` \| `"maxiwi"` \| `"funfaces"` \| `"red_phoenix"` \| `"heart_left"` \| `"lildevil"` \| `"rev"` \| `"rowancap"` \| `"slscript"` \| `"peaksslant"` \| `"sblood"` \| `"santaclara"` \| `"smisome1"` \| `"smallcaps"` \| `"starwars"` \| `"smkeyboard"` \| `"smshadow"` \| `"six-fo"` \| `"smscript"` \| `"smpoison"` \| `"smslant"` \| `"threepoint"` \| `"swampland"` \| `"starstrips"` \| `"ticksslant"` \| `"sub-zero"` \| `"ublk"` \| `"tubes-smushed"` \| `"stencil"` \| `"oldbanner"` \| `"twopoint"` \| `"spliff"` \| `"wetletter"` \| `"twisted"` \| `"usaflag"` \| `"amcun1"` \| `"lil--devil"` \| `"nvscript"` \| `"s-relief"` \| `"l4me"` \| `"5x7"` \| `"5x8"` \| `"6x9"` \| `"briteb"` \| `"6x10"` \| `"britei"` \| `"brite"` \| `"cli8x8"` \| `"clr4x6"` \| `"star--strips"` \| `"chartri"` \| `"clr5x6"` \| `"clr5x10"` \| `"clb8x10"` \| `"clr5x8"` \| `"clr6x10"` \| `"clb8x8"` \| `"clr6x8"` \| `"clr6x6"` \| `"courb"` \| `"clr8x10"` \| `"clr7x8"` \| `"clr8x8"` \| `"cour"` \| `"clr7x10"` \| `"courbi"` \| `"couri"` \| `"helvb"` \| `"helvbi"` \| `"sansbi"` \| `"helvi"` \| `"sbook"` \| `"sans"` \| `"sbookb"` \| `"sansb"` \| `"sbooki"` \| `"sansi"` \| `"ttyb"` \| `"utopiab"` \| `"utopiai"` \| `"sbookbi"` \| `"tty"` \| `"times"` \| `"utopia"` \| `"xbritebi"` \| `"xchartr"` \| `"xbriteb"` \| `"utopiabi"` \| `"xchartri"` \| `"xbritei"` \| `"xcourbi"` \| `"xhelvb"` \| `"xhelv"` \| `"xcouri"` \| `"xcourb"` \| `"xhelvi"` \| `"xsansb"` \| `"xhelvbi"` \| `"xsansi"` \| `"xsans"` \| `"xsbook"` \| `"xtty"` \| `"xsbookb"` \| `"xsbookbi"` \| `"xsbooki"` \| `"xtimes"` \| `"64f1____"` \| `"4x4_offr"` \| `"advenger"` \| `"1943____"` \| `"ascii___"` \| `"xttyb"` \| `"a_zooloo"` \| `"aquaplan"` \| `"asc_____"` \| `"xsansbi"` \| `"atc_gran"` \| `"asslt__m"` \| `"baz__bil"` \| `"atc_____"` \| `"assalt_m"` \| `"battle_s"` \| `"b_m__200"` \| `"beer_pub"` \| `"bubble__"` \| `"battlesh"` \| `"c1______"` \| `"c_ascii_"` \| `"c_consen"` \| `"c2______"` \| `"swamp--land"` \| `"bubble_b"` \| `"char2___"` \| `"char4___"` \| `"char3___"` \| `"charact4"` \| `"charact3"` \| `"charact1"` \| `"charact5"` \| `"charact6"` \| `"coil_cop"` \| `"charact2"` \| `"d_dragon"` \| `"com_sen_"` \| `"convoy__"` \| `"demo_1__"` \| `"deep_str"` \| `"demo_2__"` \| `"dcs_bfmo"` \| `"devilish"` \| `"demo_m__"` \| `"xbrite"` \| `"eca_____"` \| `"druid___"` \| `"ebbs_1__"` \| `"faces_of"` \| `"e__fist_"` \| `"ebbs_2__"` \| `"etcrvs__"` \| `"fantasy_"` \| `"f15_____"` \| `"fairligh"` \| `"fair_mea"` \| `"fbr1____"` \| `"fbr12___"` \| `"fbr_tilt"` \| `"fbr_stri"` \| `"finalass"` \| `"flyn_sh"` \| `"fireing_"` \| `"fp1_____"` \| `"fp2_____"` \| `"funky_dr"` \| `"future_3"` \| `"future_2"` \| `"future_4"` \| `"future_1"` \| `"future_5"` \| `"future_8"` \| `"gauntlet"` \| `"future_7"` \| `"hades___"` \| `"ghost_bo"` \| `"green_be"` \| `"gothic__"` \| `"grand_pr"` \| `"high_noo"` \| `"heavy_me"` \| `"future_6"` \| `"home_pak"` \| `"hills___"` \| `"inc_raw_"` \| `"heroboti"` \| `"hyper___"` \| `"joust___"` \| `"italics_"` \| `"kgames_i"` \| `"krak_out"` \| `"letter_w"` \| `"letterw3"` \| `"kik_star"` \| `"lexible_"` \| `"mad_nurs"` \| `"master_o"` \| `"mayhem_d"` \| `"clb6x10"` \| `"mcg_____"` \| `"britebi"` \| `"modern__"` \| `"xcour"` \| `"nfi1____"` \| `"new_asci"` \| `"mig_ally"` \| `"npn_____"` \| `"relief2"` \| `"outrun__"` \| `"odel_lak"` \| `"p_s_h_m_"` \| `"ok_beer_"` \| `"pacos_pe"` \| `"panther_"` \| `"pawn_ins"` \| `"p_skateb"` \| `"pod_____"` \| `"phonix__"` \| `"rad_phan"` \| `"r2-d2___"` \| `"platoon_"` \| `"rad_____"` \| `"radical_"` \| `"rally_s2"` \| `"rastan__"` \| `"raw_recu"` \| `"rainbow_"` \| `"rally_sp"` \| `"road_rai"` \| `"rampage_"` \| `"ripper_"` \| `"rci_____"` \| `"rockbox_"` \| `"rok_____"` \| `"script__"` \| `"roman___"` \| `"skateord"` \| `"sm______"` \| `"sketch_s"` \| `"skateroc"` \| `"skate_ro"` \| `"space_op"` \| `"spc_demo"` \| `"star_war"` \| `"stencil2"` \| `"stencil1"` \| `"street_s"` \| `"super_te"` \| `"stealth_"` \| `"t__of_ap"` \| `"tav1____"` \| `"subteran"` \| `"tec1____"` \| `"tec_7000"` \| `"tecrvs__"` \| `"taxi____"` \| `"timesofl"` \| `"ti_pan__"` \| `"tsm_____"` \| `"tomahawk"` \| `"triad_st"` \| `"twin_cob"` \| `"ts1_____"` \| `"ugalympi"` \| `"tsn_base"` \| `"war_of_w"` \| `"unarmed_"` \| `"type_set"` \| `"usa_____"` \| `"ucf_fan_"` \| `"usa_pq__"` \| `"vortron_"` \| `"yie-ar__"` \| `"caus_in_"` \| `"yie_ar_k"` \| `"z-pilot_"` \| `"zig_zag_"` \| `"zone7___"` \| `"lazy_jon"` \| `"house_of"` \| `"notie_ca"` \| `"top_duck"` \| `"characte"` \| `"charset_"` \| `"platoon2"` \| `"chartr"` \| `"magic_ma"` \| `"trashman"` \| `"hypa_bal"` \| `"helv"` \| `"char1___"` \| `"fbr2____"` | The name of the font to use for rendering. |
+| `fontName` | \| `"reverse"` \| `"filter"` \| `"hex"` \| `"italic"` \| `"jerusalem"` \| `"mshebrew210"` \| `"katakana"` \| `"runyc"` \| `"morse"` \| `"ntgreek"` \| `"moscow"` \| `"runic"` \| `"1row"` \| `"smtengwar"` \| `"tsalagi"` \| `"3-d"` \| `"3d"` \| `"tengwar"` \| `"3d--diagonal"` \| `"3x5"` \| `"3d_diagonal"` \| `"3d-ascii"` \| `"amc--razor"` \| `"4max"` \| `"amc--neko"` \| `"amc--3--liv1"` \| `"amc--aaa01"` \| `"amc--slider"` \| `"amc--slash"` \| `"amc--razor2"` \| `"amc--thin"` \| `"amc--untitled"` \| `"amc--tubes"` \| `"ansi--regular"` \| `"ansi--shadow"` \| `"5lineoblique"` \| `"alphabet"` \| `"alligator"` \| `"b1ff"` \| `"acrobatic"` \| `"banner3-d"` \| `"arrows"` \| `"avatar"` \| `"banner3"` \| `"alpha"` \| `"bear"` \| `"banner4"` \| `"basic"` \| `"benjamin"` \| `"barbwire"` \| `"big--chief"` \| `"banner"` \| `"bell"` \| `"binary"` \| `"big--money-nw"` \| `"big--money-ne"` \| `"bigfig"` \| `"bolger"` \| `"big--money-sw"` \| `"big--money-se"` \| `"bloody"` \| `"broadway--kb"` \| `"braced"` \| `"blocks"` \| `"bright"` \| `"big"` \| `"bulbhead"` \| `"block"` \| `"caligraphy"` \| `"calvin--s"` \| `"broadway"` \| `"catwalk"` \| `"bubble"` \| `"cards"` \| `"chiseled"` \| `"chunky"` \| `"cola"` \| `"coinstak"` \| `"computer"` \| `"caligraphy2"` \| `"contessa"` \| `"contrast"` \| `"crawford"` \| `"crawford2"` \| `"colossal"` \| `"cosmike"` \| `"cursive"` \| `"cygnet"` \| `"cricket"` \| `"crazy"` \| `"cyberlarge"` \| `"cybersmall"` \| `"cybermedium"` \| `"dwhistled"` \| `"decimal"` \| `"dancing--font"` \| `"diamond"` \| `"dos--rebel"` \| `"delta--corps--priest--1"` \| `"doom"` \| `"digital"` \| `"diet--cola"` \| `"double--shorts"` \| `"dr--pepper"` \| `"efti--font"` \| `"ascii--new--roman"` \| `"doh"` \| `"efti--chess"` \| `"efti--robot"` \| `"dot--matrix"` \| `"efti--italic"` \| `"efti--wall"` \| `"efti--water"` \| `"elite"` \| `"efti--piti"` \| `"flipped"` \| `"epic"` \| `"fire--font-s"` \| `"fender"` \| `"def--leppard"` \| `"electronic"` \| `"four--tops"` \| `"fun--faces"` \| `"fire--font-k"` \| `"fuzzy"` \| `"flower--power"` \| `"fun--face"` \| `"glenyn"` \| `"ghoulish"` \| `"ghost"` \| `"fraktur"` \| `"goofy"` \| `"gradient"` \| `"gothic"` \| `"graceful"` \| `"georgi16"` \| `"hieroglyphs"` \| `"heart--right"` \| `"graffiti"` \| `"georgia11"` \| `"greek"` \| `"heart--left"` \| `"henry--3d"` \| `"horizontal--left"` \| `"hollywood"` \| `"horizontal--right"` \| `"impossible"` \| `"alligator2"` \| `"invita"` \| `"icl-1900"` \| `"isometric2"` \| `"isometric1"` \| `"js--block--letters"` \| `"js--capital--curves"` \| `"js--bracket--letters"` \| `"ivrit"` \| `"isometric3"` \| `"isometric4"` \| `"js--stick--letters"` \| `"jazmine"` \| `"keyboard"` \| `"jacky"` \| `"konto--slant"` \| `"knob"` \| `"konto"` \| `"lcd"` \| `"js--cursive"` \| `"kban"` \| `"line--blocks"` \| `"larry--3d--2"` \| `"amc--3--line"` \| `"lockergnome"` \| `"linux"` \| `"larry--3d"` \| `"madrid"` \| `"double"` \| `"marquee"` \| `"maxfour"` \| `"merlin1"` \| `"mike"` \| `"modular"` \| `"lean"` \| `"mini"` \| `"merlin2"` \| `"morse2"` \| `"mirror"` \| `"muzzle"` \| `"nt--greek"` \| `"nscript"` \| `"nv--script"` \| `"nancyj"` \| `"nancyj-underlined"` \| `"nancyj-fancy"` \| `"nipples"` \| `"octal"` \| `"nancyj-improved"` \| `"o8"` \| `"ogre"` \| `"os2"` \| `"patorjks--cheese"` \| `"old--banner"` \| `"patorjk-hex"` \| `"pawp"` \| `"peaks--slant"` \| `"pebbles"` \| `"mnemonic"` \| `"pepper"` \| `"rammstein"` \| `"puzzle"` \| `"peaks"` \| `"pyramid"` \| `"puffy"` \| `"relief"` \| `"poison"` \| `"red--phoenix"` \| `"rectangles"` \| `"roman"` \| `"danc4"` \| `"rot13"` \| `"rozzo"` \| `"rowan--cap"` \| `"script"` \| `"s--blood"` \| `"serifcap"` \| `"sl--script"` \| `"santa--clara"` \| `"short"` \| `"shimrod"` \| `"shadow"` \| `"small--caps"` \| `"rotated"` \| `"small--isometric1"` \| `"slant"` \| `"small--keyboard"` \| `"slide"` \| `"small--poison"` \| `"small--slant"` \| `"slant--relief"` \| `"small--shadow"` \| `"small--tengwar"` \| `"small--script"` \| `"speed"` \| `"letters"` \| `"small"` \| `"soft"` \| `"stacey"` \| `"stampatello"` \| `"star--wars"` \| `"stforek"` \| `"stampate"` \| `"rounded"` \| `"5--line--oblique"` \| `"stick--letters"` \| `"straight"` \| `"standard"` \| `"stellar"` \| `"stop"` \| `"stronger--than--all"` \| `"swan"` \| `"tanja"` \| `"term"` \| `"sweet"` \| `"the--edge"` \| `"this"` \| `"test1"` \| `"thick"` \| `"thin"` \| `"three--point"` \| `"thorned"` \| `"ticks"` \| `"tinker-toy"` \| `"tiles"` \| `"tombstone"` \| `"tubes-regular"` \| `"ticks--slant"` \| `"train"` \| `"tubular"` \| `"usa--flag"` \| `"trek"` \| `"wavy"` \| `"varsity"` \| `"wet--letter"` \| `"univers"` \| `"wow"` \| `"weird"` \| `"amc3liv1"` \| `"whimsy"` \| `"alligator3"` \| `"amc3line"` \| `"amcrazo2"` \| `"two--point"` \| `"amcslash"` \| `"amcthin"` \| `"amcslder"` \| `"amcneko"` \| `"amcrazor"` \| `"ascii_new_roman"` \| `"amctubes"` \| `"broadway_kb"` \| `"amcaaa01"` \| `"dancingfont"` \| `"bigchief"` \| `"dosrebel"` \| `"dietcola"` \| `"drpepper"` \| `"doubleshorts"` \| `"cosmic"` \| `"calgphy2"` \| `"eftichess"` \| `"eftifont"` \| `"eftipiti"` \| `"eftiwall"` \| `"eftirobot"` \| `"eftiwater"` \| `"flowerpower"` \| `"dotmatrix"` \| `"eftitalic"` \| `"fourtops"` \| `"defleppard"` \| `"fire_font-s"` \| `"halfiwi"` \| `"fire_font-k"` \| `"funface"` \| `"kompaktblk"` \| `"henry3d"` \| `"horizontalleft"` \| `"heart_right"` \| `"kontoslant"` \| `"koholint"` \| `"horizontalright"` \| `"larry3d"` \| `"miniwi"` \| `"lineblocks"` \| `"maxiwi"` \| `"funfaces"` \| `"red_phoenix"` \| `"heart_left"` \| `"lildevil"` \| `"rev"` \| `"rowancap"` \| `"slscript"` \| `"peaksslant"` \| `"sblood"` \| `"santaclara"` \| `"smisome1"` \| `"smallcaps"` \| `"starwars"` \| `"smkeyboard"` \| `"smshadow"` \| `"six-fo"` \| `"smscript"` \| `"smpoison"` \| `"smslant"` \| `"threepoint"` \| `"swampland"` \| `"starstrips"` \| `"ticksslant"` \| `"sub-zero"` \| `"ublk"` \| `"tubes-smushed"` \| `"stencil"` \| `"oldbanner"` \| `"twopoint"` \| `"spliff"` \| `"wetletter"` \| `"twisted"` \| `"usaflag"` \| `"amcun1"` \| `"lil--devil"` \| `"nvscript"` \| `"s-relief"` \| `"l4me"` \| `"5x7"` \| `"5x8"` \| `"6x9"` \| `"briteb"` \| `"6x10"` \| `"britei"` \| `"brite"` \| `"cli8x8"` \| `"clr4x6"` \| `"star--strips"` \| `"chartri"` \| `"clr5x6"` \| `"clr5x10"` \| `"clb8x10"` \| `"clr5x8"` \| `"clr6x10"` \| `"clb8x8"` \| `"clr6x8"` \| `"clr6x6"` \| `"courb"` \| `"clr8x10"` \| `"clr7x8"` \| `"clr8x8"` \| `"cour"` \| `"clr7x10"` \| `"courbi"` \| `"couri"` \| `"helvb"` \| `"helvbi"` \| `"sansbi"` \| `"helvi"` \| `"sbook"` \| `"sans"` \| `"sbookb"` \| `"sansb"` \| `"sbooki"` \| `"sansi"` \| `"ttyb"` \| `"utopiab"` \| `"utopiai"` \| `"sbookbi"` \| `"tty"` \| `"times"` \| `"utopia"` \| `"xbritebi"` \| `"xchartr"` \| `"xbriteb"` \| `"utopiabi"` \| `"xchartri"` \| `"xbritei"` \| `"xcourbi"` \| `"xhelvb"` \| `"xhelv"` \| `"xcouri"` \| `"xcourb"` \| `"xhelvi"` \| `"xsansb"` \| `"xhelvbi"` \| `"xsansi"` \| `"xsans"` \| `"xsbook"` \| `"xtty"` \| `"xsbookb"` \| `"xsbookbi"` \| `"xsbooki"` \| `"xtimes"` \| `"64f1____"` \| `"4x4_offr"` \| `"advenger"` \| `"1943____"` \| `"ascii___"` \| `"xttyb"` \| `"a_zooloo"` \| `"aquaplan"` \| `"asc_____"` \| `"xsansbi"` \| `"atc_gran"` \| `"asslt__m"` \| `"baz__bil"` \| `"atc_____"` \| `"assalt_m"` \| `"battle_s"` \| `"b_m__200"` \| `"beer_pub"` \| `"bubble__"` \| `"battlesh"` \| `"c1______"` \| `"c_ascii_"` \| `"c_consen"` \| `"c2______"` \| `"swamp--land"` \| `"bubble_b"` \| `"char2___"` \| `"char4___"` \| `"char3___"` \| `"charact4"` \| `"charact3"` \| `"charact1"` \| `"charact5"` \| `"charact6"` \| `"coil_cop"` \| `"charact2"` \| `"d_dragon"` \| `"com_sen_"` \| `"convoy__"` \| `"demo_1__"` \| `"deep_str"` \| `"demo_2__"` \| `"dcs_bfmo"` \| `"devilish"` \| `"demo_m__"` \| `"xbrite"` \| `"eca_____"` \| `"druid___"` \| `"ebbs_1__"` \| `"faces_of"` \| `"e__fist_"` \| `"ebbs_2__"` \| `"etcrvs__"` \| `"fantasy_"` \| `"f15_____"` \| `"fairligh"` \| `"fair_mea"` \| `"fbr1____"` \| `"fbr12___"` \| `"fbr_tilt"` \| `"fbr_stri"` \| `"finalass"` \| `"flyn_sh"` \| `"fireing_"` \| `"fp1_____"` \| `"fp2_____"` \| `"funky_dr"` \| `"future_3"` \| `"future_2"` \| `"future_4"` \| `"future_1"` \| `"future_5"` \| `"future_8"` \| `"gauntlet"` \| `"future_7"` \| `"hades___"` \| `"ghost_bo"` \| `"green_be"` \| `"gothic__"` \| `"grand_pr"` \| `"high_noo"` \| `"heavy_me"` \| `"future_6"` \| `"home_pak"` \| `"hills___"` \| `"inc_raw_"` \| `"heroboti"` \| `"hyper___"` \| `"joust___"` \| `"italics_"` \| `"kgames_i"` \| `"krak_out"` \| `"letter_w"` \| `"letterw3"` \| `"kik_star"` \| `"lexible_"` \| `"mad_nurs"` \| `"master_o"` \| `"mayhem_d"` \| `"clb6x10"` \| `"mcg_____"` \| `"britebi"` \| `"modern__"` \| `"xcour"` \| `"nfi1____"` \| `"new_asci"` \| `"mig_ally"` \| `"npn_____"` \| `"relief2"` \| `"outrun__"` \| `"odel_lak"` \| `"p_s_h_m_"` \| `"ok_beer_"` \| `"pacos_pe"` \| `"panther_"` \| `"pawn_ins"` \| `"p_skateb"` \| `"pod_____"` \| `"phonix__"` \| `"rad_phan"` \| `"r2-d2___"` \| `"platoon_"` \| `"rad_____"` \| `"radical_"` \| `"rally_s2"` \| `"rastan__"` \| `"raw_recu"` \| `"rainbow_"` \| `"rally_sp"` \| `"road_rai"` \| `"rampage_"` \| `"ripper_"` \| `"rci_____"` \| `"rockbox_"` \| `"rok_____"` \| `"script__"` \| `"roman___"` \| `"skateord"` \| `"sm______"` \| `"sketch_s"` \| `"skateroc"` \| `"skate_ro"` \| `"space_op"` \| `"spc_demo"` \| `"star_war"` \| `"stencil2"` \| `"stencil1"` \| `"street_s"` \| `"super_te"` \| `"stealth_"` \| `"t__of_ap"` \| `"tav1____"` \| `"subteran"` \| `"tec1____"` \| `"tec_7000"` \| `"tecrvs__"` \| `"taxi____"` \| `"timesofl"` \| `"ti_pan__"` \| `"tsm_____"` \| `"tomahawk"` \| `"triad_st"` \| `"twin_cob"` \| `"ts1_____"` \| `"ugalympi"` \| `"tsn_base"` \| `"war_of_w"` \| `"unarmed_"` \| `"type_set"` \| `"usa_____"` \| `"ucf_fan_"` \| `"usa_pq__"` \| `"vortron_"` \| `"yie-ar__"` \| `"caus_in_"` \| `"yie_ar_k"` \| `"z-pilot_"` \| `"zig_zag_"` \| `"zone7___"` \| `"lazy_jon"` \| `"house_of"` \| `"notie_ca"` \| `"top_duck"` \| `"characte"` \| `"charset_"` \| `"platoon2"` \| `"chartr"` \| `"magic_ma"` \| `"trashman"` \| `"hypa_bal"` \| `"helv"` \| `"char1___"` \| `"fbr2____"` | The name of the font to use for rendering. |
 | `opts`? | `Options` | Optional parameters for font rendering. |
 
 #### Returns
@@ -2084,30 +2084,6 @@ const copyResult = await copyFile({
   output: '/path/to/destination.txt',
 })
 ```
-
-***
-
-### createBadgeSVG()
-
-```ts
-function createBadgeSVG(f: Format): Promise<string>
-```
-
-Cheate shields.io SVGs.
-
-#### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `f` | `Format` |
-
-#### Returns
-
-`Promise`\<`string`\>
-
-#### See
-
-https://www.npmjs.com/package/badge-maker
 
 ***
 
@@ -3735,9 +3711,8 @@ if `path` is not a string.
 function getDirTree(props: {
   input: string;
   max: number;
-  name: string;
+  opts: TreeConfig;
   sort: "atoz" | "ztoa";
-  style: (opts: SetDirTreeStyleParams) => string;
 }): Promise<string>
 ```
 
@@ -3750,9 +3725,8 @@ Generates a string representing the directory structure of a given path.
 | `props` | `object` | Function props. |
 | `props.input` | `string` | The root path of the directory to read. |
 | `props.max`? | `number` | The maximum number of directories to traverse. |
-| `props.name`? | `string` | - |
+| `props.opts`? | `TreeConfig` | - |
 | `props.sort`? | `"atoz"` \| `"ztoa"` | The order to traverse the directories. **Default** `'atoz'` |
-| `props.style`? | (`opts`: `SetDirTreeStyleParams`) => `string` | - |
 
 #### Returns
 
@@ -4808,27 +4782,27 @@ function getPackage(input: PackageInput, opts?: PackageOpts): Promise<{
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -4854,27 +4828,27 @@ If the input is a string, it retrieves the package from the npm registry with th
   `devEngines`: \{
      `cpu`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `libc`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `os`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `packageManager`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `runtime`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
     \};
@@ -4884,12 +4858,12 @@ The package object.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Throws
 
@@ -4937,27 +4911,27 @@ function getPackageFromName(input: string, opts?: PackageRemoteOpts): Promise<{
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -4979,27 +4953,27 @@ Retrieves a package from the npm registry.
   `devEngines`: \{
      `cpu`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `libc`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `os`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `packageManager`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `runtime`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
     \};
@@ -5009,12 +4983,12 @@ The package object.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Throws
 
@@ -5036,27 +5010,27 @@ function getPackageFromPath(input: string): Promise<{
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -5077,27 +5051,27 @@ Retrieves a package from a local file path.
   `devEngines`: \{
      `cpu`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `libc`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `os`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `packageManager`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `runtime`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
     \};
@@ -5107,12 +5081,12 @@ The package object.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Throws
 
@@ -5138,27 +5112,27 @@ function getPackageFromUrl(input: PackageURL, opts?: PackageRemoteOpts): Promise
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -5184,27 +5158,27 @@ Otherwise, the package name is the first part of the path.
   `devEngines`: \{
      `cpu`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `libc`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `os`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `packageManager`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
      `runtime`: `undefined` \| \{
         `name`: `string`;
-        `onFail`: `"error"` \| `"warn"` \| `"ignore"`;
+        `onFail`: `"warn"` \| `"error"` \| `"ignore"`;
         `version`: `string`;
        \};
     \};
@@ -5214,12 +5188,12 @@ The package object.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines`? | \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \}; \} | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
+| `devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Throws
 
@@ -5326,27 +5300,27 @@ function getPackageManagerFromContent(input: {
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -5359,11 +5333,11 @@ function getPackageManagerFromContent(input: {
 | ------ | ------ | ------ |
 | `input` | `object` | - |
 | `input.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `input.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Returns
 
@@ -5492,27 +5466,27 @@ function getPackageRepoUrlFromContent(input: {
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -5530,11 +5504,11 @@ the directory is appended to the URL.
 | ------ | ------ | ------ |
 | `input` | `object` | The package JSON object containing repository information. |
 | `input.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `input.devEngines.cpu`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.libc`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.os`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.packageManager`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.runtime`? | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.cpu`? | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.libc`? | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.os`? | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.packageManager`? | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.runtime`? | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 | `opts`? | [`PackageRepoUrlOpts`](#packagerepourlopts) | Options for URL retrieval. |
 
 #### Returns
@@ -5701,27 +5675,27 @@ function getPackageRuntimeFromContent(input: {
   devEngines: {
      cpu: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      libc: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      os: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      packageManager: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
      runtime: undefined | {
         name: string;
-        onFail: "error" | "warn" | "ignore";
+        onFail: "warn" | "error" | "ignore";
         version: string;
        };
     };
@@ -5734,11 +5708,11 @@ function getPackageRuntimeFromContent(input: {
 | ------ | ------ | ------ |
 | `input` | `object` | - |
 | `input.devEngines`? | `object` | The devEngines field aids engineers working on a codebase to all be using the same tooling. **See** https://docs.npmjs.com/cli/v11/configuring-npm/package-json#devengines |
-| `input.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
-| `input.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"error"` \| `"warn"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.cpu` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.libc` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.os` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.packageManager` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
+| `input.devEngines.runtime` | `undefined` \| \{ `name`: `string`; `onFail`: `"warn"` \| `"error"` \| `"ignore"`; `version`: `string`; \} | - |
 
 #### Returns
 
@@ -5980,7 +5954,7 @@ for await (const path of globbyStream('*.tmp')) {
 ### getPathsStructure()
 
 ```ts
-function getPathsStructure(props: PathsStructureParams): Promise<object>
+function getPathsStructure(props: PathsStructureParams): Promise<TreeContent>
 ```
 
 #### Parameters
@@ -5991,7 +5965,7 @@ function getPathsStructure(props: PathsStructureParams): Promise<object>
 
 #### Returns
 
-`Promise`\<`object`\>
+`Promise`\<`TreeContent`\>
 
 ***
 
@@ -6001,10 +5975,9 @@ function getPathsStructure(props: PathsStructureParams): Promise<object>
 function getPathsTree(props: {
   input: string[];
   max: number;
-  name: string;
+  opts: TreeConfig;
   patternOpts: Options;
   sort: "atoz" | "ztoa";
-  style: (opts: SetDirTreeStyleParams) => string;
 }): Promise<string>
 ```
 
@@ -6015,10 +5988,9 @@ function getPathsTree(props: {
 | `props` | `object` | - |
 | `props.input` | `string`[] | The input paths to process. |
 | `props.max`? | `number` | The maximum number of directories to traverse. |
-| `props.name`? | `string` | - |
+| `props.opts`? | `TreeConfig` | - |
 | `props.patternOpts`? | `Options` | Additional options for the pattern. |
 | `props.sort`? | `"atoz"` \| `"ztoa"` | The order to traverse the directories. **Default** `'atoz'` |
-| `props.style`? | (`opts`: `SetDirTreeStyleParams`) => `string` | - |
 
 #### Returns
 
@@ -7461,41 +7433,6 @@ console.log(answers.name, answers.age)
 
 ***
 
-### qrcode()
-
-```ts
-function qrcode(input: string, opts?: QRcodeOpts): Promise<string>
-```
-
-Generates a QR code string.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `input` | `string` | The input string to generate the QR code from. |
-| `opts`? | [`QRcodeOpts`](#qrcodeopts) | Optional options for generating the QR code. |
-
-#### Returns
-
-`Promise`\<`string`\>
-
-- A promise that resolves with the generated QR code string.
-
-#### Example
-
-```ts
-import { qrcode } from "@dovenv/utils"
-try {
-  const qrString = await qrcode('https://clippo.pigeonposse.com');
-  console.log(qrString);
-} catch (error) {
-  console.error('Error generating QR code:', error);
-}
-```
-
-***
-
 ### readDir()
 
 ```ts
@@ -8500,7 +8437,7 @@ Returns a string representing the content of an object as a directory structure.
 
 A string representing the content of `structure` as a directory structure.
 
-                                   ---.
+                                 ---.
 
 #### Example
 
@@ -8974,10 +8911,10 @@ type Test = AssertEqual<string, string>; // Expected: true
 
 ***
 
-### BoxOpts
+### BoxOptions
 
 ```ts
-type BoxOpts: Options;
+type BoxOptions: NonNullable<Parameters<typeof boxen>[1]>;
 ```
 
 ***
@@ -9618,22 +9555,6 @@ Parameters for configuring a prompt line.
 ```ts
 type PromptParams: Parameters<typeof Enquirer.prompt>[0];
 ```
-
-***
-
-### QRcodeOpts
-
-```ts
-type QRcodeOpts: {
-  small: boolean;
-};
-```
-
-#### Type declaration
-
-| Name | Type |
-| ------ | ------ |
-| `small` | `boolean` |
 
 ***
 

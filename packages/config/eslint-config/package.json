@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/eslint-config",
-	"version": "1.5.25",
+	"version": "1.5.26",
 	"description": "Eslint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -91,7 +91,7 @@
 		"@dovenv/repo-config": "workspace:*",
 		"@types/eslint-plugin-markdown": "2.0.2",
 		"eslint": "9.27.0",
-		"svelte": "5.33.7"
+		"svelte": "5.33.10"
 	},
 	"peerDependencies": {
 		"eslint": ">=9"

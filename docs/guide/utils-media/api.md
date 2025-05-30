@@ -28,6 +28,32 @@ Converts a base64-encoded image string into a Buffer.
 
 ***
 
+### createBadgeSVG()
+
+```ts
+function createBadgeSVG(data: Format): Promise<string>
+```
+
+Cheate shields.io SVGs.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `data` | `Format` | The format of the badge. |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+The SVG code.
+
+#### See
+
+https://www.npmjs.com/package/badge-maker
+
+***
+
 ### gif()
 
 ```ts

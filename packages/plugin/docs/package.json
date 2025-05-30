@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "1.5.25",
+	"version": "1.5.26",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
