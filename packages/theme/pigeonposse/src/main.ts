@@ -23,8 +23,7 @@ import {
 	type WebConfig,
 } from './web'
 
-import type { ConstsConfig }  from './const'
-import type { PredocsConfig } from './docs/types'
+import type { ConstsConfig } from './const'
 
 export * from '@dovenv/theme-banda'
 
@@ -289,7 +288,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 }
 export default pigeonposseTheme
 
-export type MonorepoConfig = Config & { predocs?: PredocsConfig | false }
+export type MonorepoConfig = Config & { predocs?: NonNullable<Parameters<typeof predocsPlugin>[0]> | false }
 
 /**
  * The `pigeonposseMonorepoTheme` for Dovenv.

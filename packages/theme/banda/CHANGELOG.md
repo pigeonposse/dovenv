@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.21
+
+### Patch Changes
+
+- add custom predocs supports in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.21
+  - @dovenv/convert@1.5.21
+  - @dovenv/docs@1.5.21
+  - @dovenv/examples@1.5.21
+  - @dovenv/lint@1.5.21
+  - @dovenv/repo@1.5.21
+  - @dovenv/templates@1.5.21
+  - @dovenv/todo@1.5.21
+  - @dovenv/workspace@1.5.21
+
 ## 1.5.20
 
 ### Patch Changes

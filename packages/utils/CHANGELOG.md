@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.5.21
+
+### Patch Changes
+
+- add custom predocs supports in theme-pigeonposse
+
 ## 1.5.20
 
 ### Patch Changes

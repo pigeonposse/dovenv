@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.20
+
+### Patch Changes
+
+- add custom predocs supports in theme-pigeonposse
+
 ## 1.5.19
 
 ### Patch Changes

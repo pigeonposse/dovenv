@@ -884,14 +884,21 @@ export class Predocs {
  * @param   {PredocsConfig}                       [opts] - Optional opts to pass to {@link Predocs}.
  * @returns {import('@dovenv/core').DovenvConfig}        - Dovenv plugin config.
  */
-export const predocsPlugin = ( opts?: PredocsConfig ) => defineConfig( { custom : { predocs : {
+export const predocsPlugin = ( opts?: PredocsConfig | ( ( data:Predocs ) => Promise<void> ) ) => defineConfig( { custom : { predocs : {
 	desc : 'Create package docs simultaneously',
 	fn   : async ( { utils } ) => {
 
-		// console.dir( {
-		// 	opts,
-		// 	utils,
-		// } )
+		if ( typeof opts === 'function' ) {
+
+			const predocs = new Predocs( {
+				opts : undefined,
+				utils,
+			} )
+			await opts( predocs )
+			return
+
+		}
+
 		const predocs = new Predocs( {
 			opts,
 			utils,

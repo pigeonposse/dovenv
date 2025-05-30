@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.21
+
+### Patch Changes
+
+- add custom predocs supports in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.21
+  - @dovenv/stylelint-config@1.5.21
+  - @dovenv/core@1.5.21
+  - @dovenv/theme-banda@1.5.21
+
 ## 1.5.20
 
 ### Patch Changes
