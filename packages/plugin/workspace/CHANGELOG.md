@@ -1,5 +1,14 @@
 # @dovenv/workspace
 
+## 1.5.22
+
+### Patch Changes
+
+- catch errors in predocs cmd (theme-pigeonposse)
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.22
+
 ## 1.5.21
 
 ### Patch Changes

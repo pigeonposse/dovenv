@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.22
+
+### Patch Changes
+
+- catch errors in predocs cmd (theme-pigeonposse)
+
 ## 1.5.21
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.22
+
+### Patch Changes
+
+- catch errors in predocs cmd (theme-pigeonposse)
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.22
+  - @dovenv/convert@1.5.22
+  - @dovenv/docs@1.5.22
+  - @dovenv/examples@1.5.22
+  - @dovenv/lint@1.5.22
+  - @dovenv/repo@1.5.22
+  - @dovenv/templates@1.5.22
+  - @dovenv/todo@1.5.22
+  - @dovenv/workspace@1.5.22
+
 ## 1.5.21
 
 ### Patch Changes

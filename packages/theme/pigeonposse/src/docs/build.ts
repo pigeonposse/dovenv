@@ -195,7 +195,16 @@ export class Predocs {
 	 */
 	async getWorkspacePublicPackagesData(): Promise<PkgData> {
 
-		return await this.#getPublicPkgData( )
+		try {
+
+			return await this.#getPublicPkgData( )
+
+		}
+		catch ( e ) {
+
+			throw new Error( 'Failed to get workspace public packages data: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+
+		}
 
 	}
 
@@ -212,62 +221,71 @@ export class Predocs {
 	 */
 	async getMarkdownInfo(): Promise<MarkdownInfo> {
 
-		if ( this.#mdInfo ) return this.#mdInfo
+		try {
 
-		const data             = await this.#getPublicPkgData()
-		const publicPkgGrouped = getPublicPackageByType( data.data )
+			if ( this.#mdInfo ) return this.#mdInfo
 
-		const res: MarkdownInfo = { more: this.#setMdTitle( 'More', this.#EMOJI?.more ) }
+			const data             = await this.#getPublicPkgData()
+			const publicPkgGrouped = getPublicPackageByType( data.data )
 
-		const tasks = Object.entries( publicPkgGrouped ).map( async ( [ type, items ] ) => {
+			const res: MarkdownInfo = { more: this.#setMdTitle( 'More', this.#EMOJI?.more ) }
 
-			if ( !Array.isArray( items ) || !items.length ) return
+			const tasks = Object.entries( publicPkgGrouped ).map( async ( [ type, items ] ) => {
 
-			if ( type === TYPE.lib ) {
+				if ( !Array.isArray( items ) || !items.length ) return
 
-				res[type] = this.#setMdTitle( 'Other tools', this.#EMOJI?.['toolkit'] )
-				for ( const item of items ) {
+				if ( type === TYPE.lib ) {
 
-					res.more += this.#setMdLink(
-						capitalize( item.id ),
-						joinUrl( data.url, data.urlGuidePath, item.id ),
-						this.#getEmoji( item.id ),
+					res[type] = this.#setMdTitle( 'Other tools', this.#EMOJI?.['toolkit'] )
+					for ( const item of items ) {
+
+						res.more += this.#setMdLink(
+							capitalize( item.id ),
+							joinUrl( data.url, data.urlGuidePath, item.id ),
+							this.#getEmoji( item.id ),
+						) + '\n'
+
+					}
+
+				}
+				else {
+
+					const titleSection = type + ( type === TYPE.plugin ? 's' : '' )
+					res.more          += this.#setMdLink(
+						capitalize( titleSection ),
+						joinUrl( data.url, data.urlGuidePath, type ),
+						this.#getEmoji( type ),
 					) + '\n'
 
-				}
+					if ( type in publicPkgGrouped )
+						res[type as keyof MarkdownInfo] = this.#setMdTitle( capitalize( titleSection ), this.#EMOJI?.[type], 1 )
 
-			}
-			else {
+					for ( const item of items ) {
 
-				const titleSection = type + ( type === TYPE.plugin ? 's' : '' )
-				res.more          += this.#setMdLink(
-					capitalize( titleSection ),
-					joinUrl( data.url, data.urlGuidePath, type ),
-					this.#getEmoji( type ),
-				) + '\n'
+						const emoj     = this.#getEmoji( item.id )
+						const titleRaw = capitalize( item.id )
+						const title    = this.#setMdTitle( titleRaw, emoj )
 
-				if ( type in publicPkgGrouped )
-					res[type as keyof MarkdownInfo] = this.#setMdTitle( capitalize( titleSection ), this.#EMOJI?.[type], 1 )
+						res[type as keyof typeof res] += `${title}${item.data.description}\n\n- [Read more](${item.docs.urlPath.index})\n\n`
+						res.more                      += `  ${this.#setMdLink( titleRaw, joinUrl( data.url, item.docs.urlPath.index ), emoj )}\n`
 
-				for ( const item of items ) {
-
-					const emoj     = this.#getEmoji( item.id )
-					const titleRaw = capitalize( item.id )
-					const title    = this.#setMdTitle( titleRaw, emoj )
-
-					res[type as keyof typeof res] += `${title}${item.data.description}\n\n- [Read more](${item.docs.urlPath.index})\n\n`
-					res.more                      += `  ${this.#setMdLink( titleRaw, joinUrl( data.url, item.docs.urlPath.index ), emoj )}\n`
+					}
 
 				}
 
-			}
+			} )
 
-		} )
+			await Promise.all( tasks )
 
-		await Promise.all( tasks )
+			this.#mdInfo = res
+			return res
 
-		this.#mdInfo = res
-		return res
+		}
+		catch ( e ) {
+
+			throw new Error( 'Failed to get Markdown information: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+
+		}
 
 	}
 
@@ -282,104 +300,113 @@ export class Predocs {
 	 */
 	async setIndexFile( opts?: IndexFileOpts ) {
 
-		opts                = deepmerge( this.opts?.index || {}, opts || {} )
-		const data          = await this.#getPublicPkgData()
-		const docsIndexFile = joinPath( data.docsDir, FILE_NAME.INDEX )
-		const groupedData   = getPublicPackageByType( data['data'] )
-		const groups        = Object.keys( groupedData )
+		try {
 
-		await this.#templates.get( {
-			title   : 'index file',
-			input   : opts?.creationTemplate ? this.template.docsIndexWithCreate : this.template.docsIndex,
-			output  : docsIndexFile,
-			const   : { libPkg: this.#corePkg },
-			partial : {
-				installationGroup : { input: this.partial.installationGroup },
-				creationGroup     : { input: this.partial.creationGroup },
-			},
-			hook : { before : async d => {
+			opts                = deepmerge( this.opts?.index || {}, opts || {} )
+			const data          = await this.#getPublicPkgData()
+			const docsIndexFile = joinPath( data.docsDir, FILE_NAME.INDEX )
+			const groupedData   = getPublicPackageByType( data['data'] )
+			const groups        = Object.keys( groupedData )
 
-				const existsLogo   = await existsPath( joinPath( data.docsPublicDir, 'logo.png' ) )
-				const name         = this.projectName
-				const layoutConfig = {
-					layout : 'home',
-					hero   : {
-						name    : name.toUpperCase(),
-						tagline : this.#wsPkg.extra.shortDesc,
-						text    : this.#wsPkg.extra.action,
-						image   : existsLogo
-							? {
-								src : '/logo.png',
-								alt : name,
-							}
-							: undefined,
-						actions : opts?.noAction
+			await this.#templates.get( {
+				title   : 'index file',
+				input   : opts?.creationTemplate ? this.template.docsIndexWithCreate : this.template.docsIndex,
+				output  : docsIndexFile,
+				const   : { libPkg: this.#corePkg },
+				partial : {
+					installationGroup : { input: this.partial.installationGroup },
+					creationGroup     : { input: this.partial.creationGroup },
+				},
+				hook : { before : async d => {
+
+					const existsLogo   = await existsPath( joinPath( data.docsPublicDir, 'logo.png' ) )
+					const name         = this.projectName
+					const layoutConfig = {
+						layout : 'home',
+						hero   : {
+							name    : name.toUpperCase(),
+							tagline : this.#wsPkg.extra.shortDesc,
+							text    : this.#wsPkg.extra.action,
+							image   : existsLogo
+								? {
+									src : '/logo.png',
+									alt : name,
+								}
+								: undefined,
+							actions : opts?.noAction
+								? undefined
+								: [
+									{
+										theme : 'brand',
+										text  : 'Get started',
+										link  : `/${docsRoute.guide}`,
+									},
+									{
+										theme : 'alt',
+										text  : 'View on GitHub',
+										link  : this.#REPO_URL,
+									},
+								],
+						},
+						features : opts?.noFeatures
 							? undefined
 							: [
 								{
-									theme : 'brand',
-									text  : 'Get started',
-									link  : `/${docsRoute.guide}`,
+									title   : 'Get started',
+									icon    : this.#EMOJI?.getStarted,
+									details : 'Start your project now',
+									link    : `/${docsRoute.guide}`,
 								},
 								{
-									theme : 'alt',
-									text  : 'View on GitHub',
-									link  : this.#REPO_URL,
+									title   : 'Library / CLI',
+									icon    : this.#EMOJI?.library,
+									details : 'Check the documentation',
+									link    : `/${docsRoute.guide}/${ID.core}`,
 								},
-							],
-					},
-					features : opts?.noFeatures
-						? undefined
-						: [
-							{
-								title   : 'Get started',
-								icon    : this.#EMOJI?.getStarted,
-								details : 'Start your project now',
-								link    : `/${docsRoute.guide}`,
-							},
-							{
-								title   : 'Library / CLI',
-								icon    : this.#EMOJI?.library,
-								details : 'Check the documentation',
-								link    : `/${docsRoute.guide}/${ID.core}`,
-							},
-							groups.includes( ID.plugin )
-								? {
-									title   : 'Plugins',
-									icon    : this.#EMOJI?.plugin,
-									details : 'Check our list of plugins',
-									link    : `/${docsRoute.guide}/${ID.plugin}`,
-								}
-								: undefined,
-							groups.includes( ID.theme )
-								? {
-									title   : 'Themes',
-									icon    : this.#EMOJI?.theme,
-									details : 'Check our list of themes',
-									link    : `/${docsRoute.guide}/${ID.theme}`,
-								}
-								: undefined,
-							groups.includes( ID.preset )
-								? {
-									title   : 'Presets',
-									icon    : this.#EMOJI?.preset,
-									details : 'Check our list of presets',
-									link    : `/${docsRoute.guide}/${ID.preset}`,
-								}
-								: undefined,
-						].filter( d => d !== undefined ),
-				}
+								groups.includes( ID.plugin )
+									? {
+										title   : 'Plugins',
+										icon    : this.#EMOJI?.plugin,
+										details : 'Check our list of plugins',
+										link    : `/${docsRoute.guide}/${ID.plugin}`,
+									}
+									: undefined,
+								groups.includes( ID.theme )
+									? {
+										title   : 'Themes',
+										icon    : this.#EMOJI?.theme,
+										details : 'Check our list of themes',
+										link    : `/${docsRoute.guide}/${ID.theme}`,
+									}
+									: undefined,
+								groups.includes( ID.preset )
+									? {
+										title   : 'Presets',
+										icon    : this.#EMOJI?.preset,
+										details : 'Check our list of presets',
+										link    : `/${docsRoute.guide}/${ID.preset}`,
+									}
+									: undefined,
+							].filter( d => d !== undefined ),
+					}
 
-				const customConfig = opts?.custom || {}
+					const customConfig = opts?.custom || {}
 
-				d.const.docsIndex = yaml.serialize( deepmerge( layoutConfig, customConfig ) )
+					d.const.docsIndex = yaml.serialize( deepmerge( layoutConfig, customConfig ) )
 
-				if ( opts?.content ) d.const.docsIndex += `\n\n${opts.content}`
+					if ( opts?.content ) d.const.docsIndex += `\n\n${opts.content}`
 
-				return d
+					return d
 
-			} },
-		} )
+				} },
+			} )
+
+		}
+		catch ( e ) {
+
+			throw new Error( 'Failed to write index file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+
+		}
 
 	}
 
@@ -391,14 +418,23 @@ export class Predocs {
 	 */
 	async setContributorsFile( opts?: ContributorsFileOpts ) {
 
-		const data = await this.#getPublicPkgData()
+		try {
 
-		await this.#templates.get( {
-			title  : 'contributors file',
-			input  : this.template.docsContributors,
-			output : joinPath( data.docsDir, FILE_NAME.CONTRIBUTORS ),
-			...( opts?.props || {} ),
-		} )
+			const data = await this.#getPublicPkgData()
+
+			await this.#templates.get( {
+				title  : 'contributors file',
+				input  : this.template.docsContributors,
+				output : joinPath( data.docsDir, FILE_NAME.CONTRIBUTORS ),
+				...( opts?.props || {} ),
+			} )
+
+		}
+		catch ( e ) {
+
+			throw new Error( 'Failed to write contributors file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+
+		}
 
 	}
 
@@ -410,31 +446,40 @@ export class Predocs {
 	 */
 	async setGuideSectionIndexFile( opts?: GuideSectionIndexFileOpts ) {
 
-		opts           = deepmerge( this.opts?.guideSection || {}, opts || {} )
-		const data     = await this.#getPublicPkgData( )
-		const info     = await this.getMarkdownInfo()
-		const guideDir = data.docsGuideDir
-		const tasks    = Object.keys( info ).map( async key => {
+		try {
 
-			const v = key as PkgType
-			if ( v === TYPE.lib ) return
-			if ( !Object.values( TYPE ).includes( v ) || opts?.none?.includes( v ) ) return
+			opts           = deepmerge( this.opts?.guideSection || {}, opts || {} )
+			const data     = await this.#getPublicPkgData( )
+			const info     = await this.getMarkdownInfo()
+			const guideDir = data.docsGuideDir
+			const tasks    = Object.keys( info ).map( async key => {
 
-			const content = v in info ? info[v] : undefined
-			if ( !content ) return
-			const dir = joinPath( guideDir, v )
+				const v = key as PkgType
+				if ( v === TYPE.lib ) return
+				if ( !Object.values( TYPE ).includes( v ) || opts?.none?.includes( v ) ) return
 
-			await ensureDir( dir )
-			const path = joinPath( dir, FILE_NAME.INDEX )
-			await writeFile(
-				path,
-				content,
-			)
-			this.utils.prompt.log.success( this.utils.style.info.badge( 'guide section index file' ) + ' ' + this.utils.style.info.msg( 'Overwrite content to', path ) )
+				const content = v in info ? info[v] : undefined
+				if ( !content ) return
+				const dir = joinPath( guideDir, v )
 
-		} )
+				await ensureDir( dir )
+				const path = joinPath( dir, FILE_NAME.INDEX )
+				await writeFile(
+					path,
+					content,
+				)
+				this.utils.prompt.log.success( this.utils.style.info.badge( 'guide section index file' ) + ' ' + this.utils.style.info.msg( 'Overwrite content to', path ) )
 
-		await Promise.all( tasks )
+			} )
+
+			await Promise.all( tasks )
+
+		}
+		catch ( e ) {
+
+			throw new Error( 'Failed to write guide section index file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+
+		}
 
 	}
 
@@ -451,18 +496,27 @@ export class Predocs {
 
 	async setGuideIndexFile( opts?: GuideIndexFileOpts ) {
 
-		const data        = await this.#getPublicPkgData( )
-		const guideDir    = data.docsGuideDir
-		const wsIndexFile = joinPath( this.#coreDir, 'docs', FILE_NAME.GUIDE )
-		const title       = 'guide index file'
-		if ( await existsFile( wsIndexFile ) ) await this.#templates.get( {
-			title,
-			input  : wsIndexFile,
-			output : joinPath( guideDir, FILE_NAME.INDEX ),
-			const  : { libPkg: this.#corePkg },
-			...( opts?.props || {} ),
-		} )
-		else this.utils.prompt.log.info( this.utils.style.info.badge( title ) + ' Guide index file does not exist in: ' + wsIndexFile )
+		try {
+
+			const data        = await this.#getPublicPkgData( )
+			const guideDir    = data.docsGuideDir
+			const wsIndexFile = joinPath( this.#coreDir, 'docs', FILE_NAME.GUIDE )
+			const title       = 'guide index file'
+			if ( await existsFile( wsIndexFile ) ) await this.#templates.get( {
+				title,
+				input  : wsIndexFile,
+				output : joinPath( guideDir, FILE_NAME.INDEX ),
+				const  : { libPkg: this.#corePkg },
+				...( opts?.props || {} ),
+			} )
+			else this.utils.prompt.log.info( this.utils.style.info.badge( title ) + ' Guide index file does not exist in: ' + wsIndexFile )
+
+		}
+		catch ( e ) {
+
+			throw new Error( 'Failed to write guide index file: ' + ( e instanceof Error ? e.message : e?.toString() ) )
+
+		}
 
 	}
 
@@ -820,29 +874,38 @@ export class Predocs {
 	 */
 	async setPackageFiles( opts?: PackageFileOpts ) {
 
-		const wsData = await this.getWorkspacePublicPackagesData()
+		try {
 
-		const publicPkgs = wsData.data
-		const info       = await this.getMarkdownInfo()
-		const tasks      = publicPkgs.map( async publicPkg => {
+			const wsData = await this.getWorkspacePublicPackagesData()
 
-			try {
+			const publicPkgs = wsData.data
+			const info       = await this.getMarkdownInfo()
+			const tasks      = publicPkgs.map( async publicPkg => {
 
-				await this.#setPkgFile( {
-					wsData,
-					publicPkg,
-					info,
-				}, opts )
+				try {
 
-			}
-			catch ( e ) {
+					await this.#setPkgFile( {
+						wsData,
+						publicPkg,
+						info,
+					}, opts )
 
-				throw new Error( `Failed in package ${publicPkg.name}.\n Error: ${e instanceof Error ? e.message : e?.toString()}\n` )
+				}
+				catch ( e ) {
 
-			}
+					throw new Error( `Failed in package ${publicPkg.name}.\n Error: ${e instanceof Error ? e.message : e?.toString()}\n` )
 
-		} )
-		await Promise.all( tasks )
+				}
+
+			} )
+			await Promise.all( tasks )
+
+		}
+		catch ( e ) {
+
+			throw new Error( `Failed to generate package files.\n Error: ${e instanceof Error ? e.message : e?.toString()}` )
+
+		}
 
 	}
 

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/theme-pigeonposse",
-	"version": "1.5.21",
+	"version": "1.5.22",
 	"description": "A dovenv configuration and tools for Pigeonposse team",
 	"keywords": [
 		"aio",

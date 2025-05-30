@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.22
+
+### Patch Changes
+
+- catch errors in predocs cmd (theme-pigeonposse)
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.22
+  - @dovenv/stylelint-config@1.5.22
+  - @dovenv/core@1.5.22
+  - @dovenv/theme-banda@1.5.22
+
 ## 1.5.21
 
 ### Patch Changes
