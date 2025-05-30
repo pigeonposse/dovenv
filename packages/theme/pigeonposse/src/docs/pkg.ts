@@ -32,11 +32,16 @@ export const getPublicPackageData = async (
 	emojis?:ReturnType<typeof getEmojiList>,
 ): Promise<PkgData> => {
 
+	if ( !wsDir ) throw new Error( 'Workspace directory not found' )
+
 	const docsDir      = joinPath( wsDir, 'docs' )
 	const guideDir     = joinPath( docsDir, docsRoute.guide )
 	const packagesPath = 'packages'
 	const docsUrl      = wsPkg.extra?.docsURL || wsPkg.extra?.docsUrl || wsPkg.homepage || '/'
 	const name         = wsPkg.extra?.productName || wsPkg.extra.id || wsPkg.name
+
+	if ( !docsUrl ) throw new Error( 'Docs URL not found in wsPkg. Please add "extra.docsURL" or "homepage" to your workspace package.json' )
+	if ( !name ) throw new Error( 'Name not found in wsPkg. Please add "name", "extra.productName" or "extra.id" to your workspace package.json' )
 
 	return {
 		docsDir,
@@ -102,7 +107,7 @@ export const getPublicPackageData = async (
 				data      : pkgData,
 				repoURL   : repo,
 				package   : {
-					relativeDir        : joinPath( `${packagesPath}/${pathID}` ),
+					relativeDir        : joinPath( packagesPath, pathID ),
 					dir,
 					srcFile            : src,
 					packageJsonFile    : p,
@@ -130,6 +135,7 @@ export const getPublicPackageData = async (
 	}
 
 }
+
 type Lib = typeof TYPE['lib']
 type GroupedData = { [key in ( PkgType )]?: PkgData['data'] } & { [key in Lib]: PkgData['data'] }
 

@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.23
+
+### Patch Changes
+
+- catch error in joinPath fn. Up theme-pigeonposse. any broken change
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.23
+  - @dovenv/convert@1.5.23
+  - @dovenv/docs@1.5.23
+  - @dovenv/examples@1.5.23
+  - @dovenv/lint@1.5.23
+  - @dovenv/repo@1.5.23
+  - @dovenv/templates@1.5.23
+  - @dovenv/todo@1.5.23
+  - @dovenv/workspace@1.5.23
+
 ## 1.5.22
 
 ### Patch Changes

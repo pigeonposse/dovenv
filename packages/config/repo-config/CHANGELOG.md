@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.22
+
+### Patch Changes
+
+- catch error in joinPath fn. Up theme-pigeonposse. any broken change
+
 ## 1.5.21
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.23
+
+### Patch Changes
+
+- catch error in joinPath fn. Up theme-pigeonposse. any broken change
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.23
+
 ## 1.5.22
 
 ### Patch Changes

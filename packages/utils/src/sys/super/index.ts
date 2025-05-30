@@ -285,7 +285,16 @@ export const getCurrentDir = ( path = import.meta.url ) =>
  */
 export function joinPath( ...paths: string[] ): string {
 
-	return join( ...paths )
+	try {
+
+		return join( ...paths )
+
+	}
+	catch ( e ) {
+
+		throw new Error( `Failed to join path (${paths.join( ', ' )}): ` + ( e instanceof Error ? e.message : e?.toString() ) )
+
+	}
 
 }
 

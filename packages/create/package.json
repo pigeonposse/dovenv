@@ -1,6 +1,6 @@
 {
 	"name": "create-dovenv",
-	"version": "1.5.22",
+	"version": "1.5.23",
 	"description": "Create dovenv project template",
 	"keywords": [
 		"cli",

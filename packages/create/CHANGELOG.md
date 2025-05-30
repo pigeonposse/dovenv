@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.5.23
+
+### Patch Changes
+
+- catch error in joinPath fn. Up theme-pigeonposse. any broken change
+
 ## 1.5.22
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.23
+
+### Patch Changes
+
+- catch error in joinPath fn. Up theme-pigeonposse. any broken change
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.23
+  - @dovenv/stylelint-config@1.5.23
+  - @dovenv/core@1.5.23
+  - @dovenv/theme-banda@1.5.23
+
 ## 1.5.22
 
 ### Patch Changes
