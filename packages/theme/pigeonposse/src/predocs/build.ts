@@ -887,7 +887,7 @@ export class Predocs {
 			//////////////////////////////////////////////////////////////////////////
 			// DOCS FILES
 			this.setPackageExamplesFile( config, opts?.examples ),
-			setDocs,
+			setDocs(),
 			/////////////////////////////////////////setDocs/////////////////////////////////
 			// README
 			this.setPackageReadmeFile( config, opts?.readme ),
