@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.27
+
+### Patch Changes
+
+- fix api link in predocs
+
 ## 1.5.26
 
 ### Patch Changes

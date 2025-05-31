@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.5.27
+
+### Patch Changes
+
+- fix api link in predocs
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.27
+
 ## 1.5.26
 
 ### Patch Changes

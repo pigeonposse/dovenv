@@ -91,7 +91,8 @@ export const getPublicPackageData = async (
 			const existsExamples = await existsFile( examplesFile )
 			const existsDocs     = await existsFile( docsFile )
 			const src            = isTs ? srcTs : srcJs
-			const existsApi      = type == 'config' && !isTs ? false : true
+			const existsApi      = !isTs ? false : true
+			// const existsApi      = ( type == 'config' && !isTs ) || !isTs ? false : true
 
 			// @ts-ignore
 			const repoURL = pkgData.repository?.url || wsPkg.repository?.url

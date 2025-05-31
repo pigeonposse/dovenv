@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.25
+
+### Patch Changes
+
+- fix api link in predocs
+
 ## 1.5.24
 
 ### Patch Changes

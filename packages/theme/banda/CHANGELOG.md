@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.27
+
+### Patch Changes
+
+- fix api link in predocs
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.27
+  - @dovenv/workspace@1.5.27
+  - @dovenv/examples@1.5.27
+  - @dovenv/convert@1.5.27
+  - @dovenv/docs@1.5.27
+  - @dovenv/lint@1.5.27
+  - @dovenv/repo@1.5.27
+  - @dovenv/todo@1.5.27
+  - @dovenv/core@1.5.27
+
 ## 1.5.26
 
 ### Patch Changes
