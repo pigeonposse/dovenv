@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.28
+
+### Patch Changes
+
+- Add support in predocs for build only parts
+
 ## 1.5.27
 
 ### Patch Changes

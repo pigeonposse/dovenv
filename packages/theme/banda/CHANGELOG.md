@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.28
+
+### Patch Changes
+
+- Add support in predocs for build only parts
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.28
+  - @dovenv/workspace@1.5.28
+  - @dovenv/examples@1.5.28
+  - @dovenv/convert@1.5.28
+  - @dovenv/docs@1.5.28
+  - @dovenv/lint@1.5.28
+  - @dovenv/repo@1.5.28
+  - @dovenv/todo@1.5.28
+  - @dovenv/core@1.5.28
+
 ## 1.5.27
 
 ### Patch Changes

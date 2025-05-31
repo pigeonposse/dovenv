@@ -1,5 +1,14 @@
 # @dovenv/ai
 
+## 1.5.28
+
+### Patch Changes
+
+- Add support in predocs for build only parts
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.28
+
 ## 1.5.27
 
 ### Patch Changes

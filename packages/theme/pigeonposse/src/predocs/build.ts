@@ -11,6 +11,7 @@ import {
 	deepmerge,
 	readFile,
 	existsPath,
+	kebab2Camel,
 } from '@dovenv/core/utils'
 import {
 	templates,
@@ -72,11 +73,11 @@ type PackageFileConfig = {
 	info      : MarkdownInfo
 }
 type RunOpts = {
-	packages?          : PackageFileOpts
-	guideIndex?        : GuideIndexFileOpts
-	guideSectionIndex? : GuideSectionIndexFileOpts
-	index?             : IndexFileOpts
-	contributors?      : ContributorsFileOpts
+	packages?          : false | PackageFileOpts
+	guideIndex?        : false | GuideIndexFileOpts
+	guideSectionIndex? : false | GuideSectionIndexFileOpts
+	index?             : false | IndexFileOpts
+	contributors?      : false | ContributorsFileOpts
 }
 type Emoji = ObjectValues<NonNullable<ReturnType<typeof getEmojiList>>> | string
 
@@ -944,16 +945,15 @@ export class Predocs {
 		//////////////////////////////////////////////////////////////////////////////
 		// DOCS INDEX
 		//////////////////////////////////////////////////////////////////////////////
-
-		await this.setIndexFile( opts?.index )
-		await this.setGuideIndexFile( opts?.guideIndex )
-		await this.setGuideSectionIndexFile( opts?.guideSectionIndex )
-		await this.setContributorsFile( opts?.contributors )
+		if ( opts?.index !== false ) await this.setIndexFile( opts?.index )
+		if ( opts?.guideIndex !== false ) await this.setGuideIndexFile( opts?.guideIndex )
+		if ( opts?.guideSectionIndex !== false ) await this.setGuideSectionIndexFile( opts?.guideSectionIndex )
+		if ( opts?.contributors !== false ) await this.setContributorsFile( opts?.contributors )
 
 		//////////////////////////////////////////////////////////////////////////////
 		// OWN PACAKGE
 		//////////////////////////////////////////////////////////////////////////////
-		await this.setPackageFiles( opts?.packages )
+		if ( opts?.packages !== false ) await this.setPackageFiles( opts?.packages )
 
 	}
 
@@ -977,26 +977,68 @@ export class Predocs {
  * @param   {PredocsConfig}                       [opts] - Optional opts to pass to {@link Predocs}.
  * @returns {import('@dovenv/core').DovenvConfig}        - Dovenv plugin config.
  */
-export const predocsPlugin = ( opts?: PredocsConfig | ( ( data:Predocs ) => Promise<void> ) ) => defineConfig( { custom : { predocs : {
-	desc : 'Create package docs simultaneously',
-	fn   : async ( { utils } ) => {
+export const predocsPlugin = ( opts?: PredocsConfig | ( ( data:Predocs ) => Promise<void> ) ) => {
 
-		if ( typeof opts === 'function' ) {
+	const predocsPartsObject = {
+		'packages'            : undefined,
+		'guide-index'         : undefined,
+		'guide-section-index' : undefined,
+		'index'               : undefined,
+		'contributors'        : undefined,
+	}
+	const OptsAreFunction    = typeof opts === 'function'
+	return defineConfig( { custom : { predocs : {
+		desc : 'Create package docs simultaneously',
+		opts : !OptsAreFunction
+			? { key : {
+				alias : 'k',
+				desc  : 'Set a pattern of braces to build only those parts. Available keys: (' + Object.keys( predocsPartsObject ).join( ', ' ) + ')',
+				type  : 'array',
+			} }
+			: undefined,
+		fn : async ( {
+			utils, opts: flags,
+		} ) => {
+
+			if ( OptsAreFunction ) {
+
+				const predocs = new Predocs( {
+					opts : undefined,
+					utils,
+				} )
+				await opts( predocs )
+				return
+
+			}
+
+			const getActiveOpts = async (): Promise<Parameters<Predocs['run']>[0]> => {
+
+				if ( !flags?.key ) return
+
+				const keys = await utils.getOptsKeys( {
+					input   : predocsPartsObject,
+					pattern : flags.key as string[],
+				} )
+				// Exit if keys is undefined Because no keys were found and the user dont want build all.
+				if ( !keys ) return utils.process.exit( )
+				const result: Record<string, false | undefined> = {}
+
+				for ( const key in predocsPartsObject )
+					if ( Object.prototype.hasOwnProperty.call( predocsPartsObject, key ) )
+						result[kebab2Camel( key )] = !keys.includes( key ) ? false : undefined
+
+				return result
+
+			}
 
 			const predocs = new Predocs( {
-				opts : undefined,
+				opts,
 				utils,
 			} )
-			await opts( predocs )
-			return
 
-		}
+			await predocs.run( await getActiveOpts() )
 
-		const predocs = new Predocs( {
-			opts,
-			utils,
-		} )
-		await predocs.run()
+		},
+	} } } )
 
-	},
-} } } )
+}

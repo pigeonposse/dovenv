@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/stylelint-config",
-	"version": "1.5.27",
+	"version": "1.5.28",
 	"description": "Stylelint configuration for dovenv",
 	"keywords": [
 		"config",

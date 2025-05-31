@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.26
+
+### Patch Changes
+
+- Add support in predocs for build only parts
+
 ## 1.5.25
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.28
+
+### Patch Changes
+
+- Add support in predocs for build only parts
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.28
+  - @dovenv/eslint-config@1.5.28
+  - @dovenv/theme-banda@1.5.28
+  - @dovenv/core@1.5.28
+
 ## 1.5.27
 
 ### Patch Changes
