@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.5.30
+
+### Patch Changes
+
+- fix litte issues in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.30
+
 ## 1.5.29
 
 ### Patch Changes

@@ -38,8 +38,6 @@ import {
 	getPublicPackageByType,
 	getPublicPackageData,
 } from './pkg'
-import { pkgBadges }   from '../utils'
-import { getRepoName } from './_utils'
 
 import type {
 	PkgData,
@@ -837,10 +835,10 @@ export class Predocs {
 					desc         : publicPkg.data.description,
 					banner       : banner,
 					contributors : contributorMd ? contributorMd : '',
-					pkgBadges    : pkgBadges( {
-						repoName : getRepoName( this.#corePkg ),
-						pkgName  : publicPkg.name,
-					} ),
+					// pkgBadges    : pkgBadges( {
+					// 	repoName : getRepoName( this.#corePkg ),
+					// 	pkgName  : publicPkg.name,
+					// } ),
 					libPkgBadges : createMdLinks( [
 						{
 							URL    : joinUrl( 'https://www.npmjs.com/package', publicPkg.name ),
