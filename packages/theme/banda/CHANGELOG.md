@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.29
+
+### Patch Changes
+
+- add feats to theme-pigeonposse, add dedent and other fuctions to utils
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.29
+  - @dovenv/workspace@1.5.29
+  - @dovenv/examples@1.5.29
+  - @dovenv/convert@1.5.29
+  - @dovenv/docs@1.5.29
+  - @dovenv/lint@1.5.29
+  - @dovenv/repo@1.5.29
+  - @dovenv/todo@1.5.29
+  - @dovenv/core@1.5.29
+
 ## 1.5.28
 
 ### Patch Changes

@@ -3,8 +3,10 @@ import {
 	getPackageRepoUrlFromContent,
 	joinPath,
 	joinUrl,
+	removeEmptyLines,
 } from '@dovenv/core/utils'
 
+import { getRepoName } from './predocs/_utils'
 import {
 	pkgBadges,
 	socialBadges,
@@ -77,7 +79,10 @@ export const getPigeonposseData = ( params: ConstsConfig = {} ): Record<string, 
 		).join( ', ' ) || ''
 
 	const mark = async () => `
-${await asciiFont( pkg.extra?.collective?.id ? `${pkg.extra.collective.id}\n-------\n${name}` : name, 'ansi--shadow' )}
+${removeEmptyLines(
+	await asciiFont( pkg.extra?.collective?.id ? `${pkg.extra.collective.id}\n---------\n${name}` : name, 'ansi--shadow' ),
+)}
+
 - Author: [${pkg.author?.name}](${pkg.author?.url || '#'})
 ${pkg.contributors?.length
 		? ` - Contributors: ${processPeople( pkg.contributors )}`
@@ -119,7 +124,7 @@ ${pkg.maintainers?.length
 			REPO_CORE_URL,
 			pkgBadges : pkgBadges( {
 				pkgName  : pkg.extra?.libraryId || pkg.extra?.libraryID || name,
-				repoName : pkg.extra?.collective?.id + '/' + ( pkg.extra?.repoID || pkg.extra?.repoId ),
+				repoName : getRepoName( pkg ),
 			} ),
 			socialBadges : 'extra' in pkg && pkg.extra?.collective
 				? socialBadges( {

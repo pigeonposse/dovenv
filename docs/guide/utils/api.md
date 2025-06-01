@@ -2450,6 +2450,49 @@ await decompressFile( {
 
 ***
 
+### dedent()
+
+A string tag that strips indentation from multi-line strings.
+
+#### dedent(literals)
+
+```ts
+function dedent(literals: string): string
+```
+
+A string tag that strips indentation from multi-line strings.
+
+##### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `literals` | `string` |
+
+##### Returns
+
+`string`
+
+#### dedent(strings, values)
+
+```ts
+function dedent(strings: TemplateStringsArray, ...values: unknown[]): string
+```
+
+A string tag that strips indentation from multi-line strings.
+
+##### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `strings` | `TemplateStringsArray` |
+| ...`values` | `unknown`[] |
+
+##### Returns
+
+`string`
+
+***
+
 ### delay()
 
 ```ts
@@ -7813,6 +7856,28 @@ await removeDirIfExist('./my/path')
 
 ***
 
+### removeEmptyLines()
+
+```ts
+function removeEmptyLines(text: string): string
+```
+
+Removes lines from a multiline string that are empty or contain only whitespace.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `text` | `string` | The input multiline string. |
+
+#### Returns
+
+`string`
+
+- The string with empty lines removed.
+
+***
+
 ### removeFile()
 
 ```ts
@@ -8959,6 +9024,24 @@ Parameters of the `columns` function from the `@dovenv/utils` module.
 
 ***
 
+### CreateDedent()
+
+```ts
+type CreateDedent: (options: DedentOptions) => Dedent;
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `options` | [`DedentOptions`](#dedentoptions) |
+
+#### Returns
+
+[`Dedent`](#dedent-1)
+
+***
+
 ### DeepNonNullable\<T\>
 
 ```ts
@@ -9721,6 +9804,67 @@ type WorkspaceParams: {
 | Name | Type |
 | ------ | ------ |
 | `pkg` | [`PackageJSON`](#packagejson) |
+
+## Interfaces
+
+### Dedent()
+
+```ts
+interface Dedent(literals: string): string
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `literals` | `string` |
+
+#### Returns
+
+`string`
+
+```ts
+interface Dedent(strings: TemplateStringsArray, ...values: unknown[]): string
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `strings` | `TemplateStringsArray` |
+| ...`values` | `unknown`[] |
+
+#### Returns
+
+`string`
+
+#### Properties
+
+##### withOptions
+
+```ts
+withOptions: CreateDedent;
+```
+
+***
+
+### DedentOptions
+
+Fork from https://github.com/dmnd/dedent/blob/main/src/types.ts
+
+#### Properties
+
+##### escapeSpecialCharacters?
+
+```ts
+optional escapeSpecialCharacters: boolean;
+```
+
+##### trimWhitespace?
+
+```ts
+optional trimWhitespace: boolean;
+```
 
 ## Variables
 

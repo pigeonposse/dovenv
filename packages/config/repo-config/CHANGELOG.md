@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.27
+
+### Patch Changes
+
+- add feats to theme-pigeonposse, add dedent and other fuctions to utils
+
 ## 1.5.26
 
 ### Patch Changes

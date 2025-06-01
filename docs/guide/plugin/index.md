@@ -12,6 +12,12 @@ Convert utils for dovenv
 
 - [Read more](/guide/plugin/convert)
 
+## 📚 Docs
+
+Documentation utils for dovenv
+
+- [Read more](/guide/plugin/docs)
+
 ## 💡 Examples
 
 Tools for Examples files/directories for dovenv
@@ -36,27 +42,21 @@ Repository tools for any runtime
 
 - [Read more](/guide/plugin/repo)
 
-## 📚 Docs
-
-Documentation utils for dovenv
-
-- [Read more](/guide/plugin/docs)
-
 ## 🖼️ Templates
 
 Media configuration for dovenv
 
 - [Read more](/guide/plugin/templates)
 
-## 📂 Workspace
-
-A dovenv plugin with utilities for the workspace
-
-- [Read more](/guide/plugin/workspace)
-
 ## ✅ Todo
 
 TODO tools for dovenv
 
 - [Read more](/guide/plugin/todo)
+
+## 📂 Workspace
+
+A dovenv plugin with utilities for the workspace
+
+- [Read more](/guide/plugin/workspace)
 

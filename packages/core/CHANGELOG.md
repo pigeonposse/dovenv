@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.29
+
+### Patch Changes
+
+- add feats to theme-pigeonposse, add dedent and other fuctions to utils
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.29
+
 ## 1.5.28
 
 ### Patch Changes

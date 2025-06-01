@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.29
+
+### Patch Changes
+
+- add feats to theme-pigeonposse, add dedent and other fuctions to utils
+
 ## 1.5.28
 
 ### Patch Changes

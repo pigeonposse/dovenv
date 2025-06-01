@@ -31,6 +31,7 @@ export const templateConstructor = ( emojis?: EmojiObject | false ) => {
 {{const.banner}}
 
 {{const.pkgBadges}}
+{{const.libPkgBadges}}
 
 {{const.desc}}
 

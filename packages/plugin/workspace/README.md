@@ -7,10 +7,12 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com)
+[![BANNER](https://github.com/pigeonposse/dovenv/blob/main/docs/public/banner.png?raw=true)](https://dovenv.pigeonposse.com/guide/core)
 
-[![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
-[![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
+[![License](https://img.shields.io/github/license?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
+[![Version](https://img.shields.io/npm/v/@dovenv/workspace?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/workspace)
+[![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/@dovenv/workspace?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/@dovenv/workspace)
+[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/workspace/1.5.28?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/workspace)
 
 A dovenv plugin with utilities for the workspace
 
@@ -43,16 +45,16 @@ deno add @dovenv/workspace
 ## ➕ More
 
 - 🌞 [Core](https://dovenv.pigeonposse.com/guide/core)
-- 🚀 [Create](https://dovenv.pigeonposse.com/guide/create)
 - ⚒️ [Utils](https://dovenv.pigeonposse.com/guide/utils)
-- [Utils-media](https://dovenv.pigeonposse.com/guide/utils-media)
+- 🚀 [Create](https://dovenv.pigeonposse.com/guide/create)
+- 📷 [Utils-media](https://dovenv.pigeonposse.com/guide/utils-media)
 - 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
   - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
+  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
-  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
@@ -118,24 +120,16 @@ This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv
 ██╔═══╝ ██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║██╔═══╝ ██║   ██║╚════██║╚════██║██╔══╝  
 ██║     ██║╚██████╔╝███████╗╚██████╔╝██║ ╚████║██║     ╚██████╔╝███████║███████║███████╗
 ╚═╝     ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝
-                                                                                        
-                                                                                        
-                                                                                        
-█████╗█████╗█████╗█████╗█████╗█████╗█████╗                                              
-╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝                                              
-                                                                                        
-                                                                                        
-                                                                                        
+█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗                                  
+╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝                                  
 ██████╗  ██████╗ ██╗   ██╗███████╗███╗   ██╗██╗   ██╗                                   
 ██╔══██╗██╔═══██╗██║   ██║██╔════╝████╗  ██║██║   ██║                                   
 ██║  ██║██║   ██║██║   ██║█████╗  ██╔██╗ ██║██║   ██║                                   
 ██║  ██║██║   ██║╚██╗ ██╔╝██╔══╝  ██║╚██╗██║╚██╗ ██╔╝                                   
 ██████╔╝╚██████╔╝ ╚████╔╝ ███████╗██║ ╚████║ ╚████╔╝                                    
 ╚═════╝  ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝  ╚═══╝                                     
-                                                                                        
+
 - Author: [Angelo](https://github.com/angelespejo)
-
-
 
 -->
 

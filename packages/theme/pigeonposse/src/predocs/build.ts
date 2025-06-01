@@ -12,6 +12,8 @@ import {
 	readFile,
 	existsPath,
 	kebab2Camel,
+	createMdLinks,
+	createBadgeURL,
 } from '@dovenv/core/utils'
 import {
 	templates,
@@ -36,6 +38,8 @@ import {
 	getPublicPackageByType,
 	getPublicPackageData,
 } from './pkg'
+import { pkgBadges }   from '../utils'
+import { getRepoName } from './_utils'
 
 import type {
 	PkgData,
@@ -62,7 +66,13 @@ type ContributorsFileOpts = { props?: Templates['opts'] }
 type PackageFileOpts = {
 	packages? : false | { props?: PackageJSON }
 	index?    : false | { props?: Templates['opts'] }
-	readme?   : false | { props?: Templates['opts'] }
+	readme?   : false | {
+		props?         : Templates['opts']
+		/**
+		 * Constructs Markdown links or images from an array of links.
+		 */
+		markdownLinks? : ( pkg: PkgData['data'][number] ) => NonNullable<Parameters<typeof createMdLinks>[0]>
+	}
 	api?      : false | { props?: Parameters<Convert['ts2md']>['0'] }
 	examples? : false | { props?: Examples['opts'] }
 }
@@ -827,6 +837,34 @@ export class Predocs {
 					desc         : publicPkg.data.description,
 					banner       : banner,
 					contributors : contributorMd ? contributorMd : '',
+					pkgBadges    : pkgBadges( {
+						repoName : getRepoName( this.#corePkg ),
+						pkgName  : publicPkg.name,
+					} ),
+					libPkgBadges : createMdLinks( [
+						{
+							URL    : joinUrl( 'https://www.npmjs.com/package', publicPkg.name ),
+							imgURL : createBadgeURL( {
+								path      : 'bundlejs/size/' + publicPkg.name,
+								style     : 'for-the-badge',
+								color     : 'orange',
+								label     : 'Minimized size',
+								logoColor : 'white',
+							} ),
+							name : 'NPM package minimized gzipped size',
+						},
+						{
+							URL    : joinUrl( 'https://www.npmjs.com/package', publicPkg.name ),
+							imgURL : createBadgeURL( {
+								path      : 'npm/unpacked-size/' + publicPkg.name + '/' + publicPkg.data.version,
+								style     : 'for-the-badge',
+								color     : 'orange',
+								logoColor : 'white',
+							} ),
+							name : 'NPM Unpacked Size',
+						},
+						...( opts?.markdownLinks ? opts.markdownLinks( publicPkg ) : [] ),
+					] ),
 				},
 				partial : {
 					footer       : { input: partials.footer },

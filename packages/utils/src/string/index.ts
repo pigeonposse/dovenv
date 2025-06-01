@@ -9,12 +9,26 @@ export * from './placeholder'
 export * from './count'
 export * from './cases'
 export * from './ansi'
+export * from './dedent'
 
 export {
 	stringWidth,
 	emoji,
 }
 
+/**
+ * Removes lines from a multiline string that are empty or contain only whitespace.
+ *
+ * @param   {string} text - The input multiline string.
+ * @returns {string}      - The string with empty lines removed.
+ */
+export const removeEmptyLines = ( text: string ): string => {
+
+	return text.split( '\n' ) // Split the text into an array of lines
+		.filter( line => line.trim() !== '' ) // Keep only lines that are NOT empty after trimming
+		.join( '\n' ) // Join the remaining lines back together
+
+}
 /**
  * Indents a given string by prefixing each line with a given prefix
  * (default is two spaces).

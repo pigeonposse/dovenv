@@ -8,15 +8,18 @@ import { resolve } from 'node:path'
 
 import core from '../../../.dovenv/const.js'
 
+const emojis = { 'utils-media': '📷' }
+
 const conf = defineConfig(
 
 	pigeonposseMonorepoTheme( {
 		core,
-		docs : async utils => {
+		predocs : { emoji: emojis },
+		docs    : async utils => {
 
 			const sidebar = await getSidebar( {
 				utils,
-				opts : { emojis: { 'utils-media': '📷' } },
+				opts : { emojis },
 			} )
 
 			const pkg    = typeof utils?.config?.const?.pkg === 'object' ? utils.config.const.pkg : {}

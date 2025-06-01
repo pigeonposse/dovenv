@@ -105,6 +105,8 @@ export type SidebarConfig = {
 	 * @default false
 	 */
 	onlyReference? : boolean
-	/** Change, remove or add emojis to sidebar */
+	/**
+	 * Change, remove or add emojis to sidebar
+	 */
 	emojis?        : EmojiObject | false
 }

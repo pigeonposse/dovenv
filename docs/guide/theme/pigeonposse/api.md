@@ -448,6 +448,67 @@ if it exists. If the PackageFileOpts.packages option is set to `false`, the meth
 
 ```ts
 setPackageReadmeFile(config: PackageFileConfig, opts?: false | {
+  markdownLinks: (pkg: {
+     data: {
+        devEngines: {
+           cpu: undefined | {
+              name: string;
+              onFail: ... | ... | ... | ...;
+              version: ... | ...;
+             };
+           libc: undefined | {
+              name: string;
+              onFail: ... | ... | ... | ...;
+              version: ... | ...;
+             };
+           os: undefined | {
+              name: string;
+              onFail: ... | ... | ... | ...;
+              version: ... | ...;
+             };
+           packageManager: undefined | {
+              name: string;
+              onFail: ... | ... | ... | ...;
+              version: ... | ...;
+             };
+           runtime: undefined | {
+              name: string;
+              onFail: ... | ... | ... | ...;
+              version: ... | ...;
+             };
+          };
+       };
+     docs: {
+        apiFile: string;
+        dir: string;
+        examplesFile: string;
+        indexFile: string;
+        urlPath: {
+           api: string;
+           examples: string;
+           index: string;
+          };
+       };
+     emojiId: string;
+     emojiType: string;
+     id: string;
+     name: string;
+     package: {
+        dir: string;
+        docsFile: string;
+        examplesConfigFile: string;
+        isTs: boolean;
+        packageJsonFile: string;
+        readmeFile: string;
+        relativeDir: string;
+        srcFile: string;
+        tsconfigFile: string;
+       };
+     pathID: string;
+     repoURL: string;
+     title: string;
+     type: PkgType;
+    }) => MdLink[];
   props: Config;
 }): Promise<void>
 ```
@@ -459,7 +520,7 @@ Generates and writes the README file for a package.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `config` | `PackageFileConfig` | Configuration object containing public package data and markdown info. |
-| `opts`? | `false` \| \{ `props`: [`Config`](namespaces/templates.md#config); \} | Optional configuration properties for the README generation. If set to `false`, the function exits without processing. |
+| `opts`? | `false` \| \{ `markdownLinks`: (`pkg`: \{ `data`: \{ `devEngines`: \{ `cpu`: `undefined` \| \{ `name`: `string`; `onFail`: ... \| ... \| ... \| ...; `version`: ... \| ...; \}; `libc`: `undefined` \| \{ `name`: `string`; `onFail`: ... \| ... \| ... \| ...; `version`: ... \| ...; \}; `os`: `undefined` \| \{ `name`: `string`; `onFail`: ... \| ... \| ... \| ...; `version`: ... \| ...; \}; `packageManager`: `undefined` \| \{ `name`: `string`; `onFail`: ... \| ... \| ... \| ...; `version`: ... \| ...; \}; `runtime`: `undefined` \| \{ `name`: `string`; `onFail`: ... \| ... \| ... \| ...; `version`: ... \| ...; \}; \}; \}; `docs`: \{ `apiFile`: `string`; `dir`: `string`; `examplesFile`: `string`; `indexFile`: `string`; `urlPath`: \{ `api`: `string`; `examples`: `string`; `index`: `string`; \}; \}; `emojiId`: `string`; `emojiType`: `string`; `id`: `string`; `name`: `string`; `package`: \{ `dir`: `string`; `docsFile`: `string`; `examplesConfigFile`: `string`; `isTs`: `boolean`; `packageJsonFile`: `string`; `readmeFile`: `string`; `relativeDir`: `string`; `srcFile`: `string`; `tsconfigFile`: `string`; \}; `pathID`: `string`; `repoURL`: `string`; `title`: `string`; `type`: [`PkgType`](#pkgtype); \}) => `MdLink`[]; `props`: [`Config`](namespaces/templates.md#config); \} | Optional configuration properties for the README generation. If set to `false`, the function exits without processing. |
 
 ###### Returns
 
