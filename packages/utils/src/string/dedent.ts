@@ -60,11 +60,7 @@ const createDedent = ( options: DedentOptions ) => {
 
 			result += next
 
-			if ( i < values.length ) {
-
-				result += values[i]
-
-			}
+			if ( i < values.length ) result += values[i]
 
 		}
 
@@ -77,17 +73,8 @@ const createDedent = ( options: DedentOptions ) => {
 			if ( m ) {
 
 				const indent = m[1].length
-				if ( !mindent ) {
-
-					// this is the first indented line
-					mindent = indent
-
-				}
-				else {
-
-					mindent = Math.min( mindent, indent )
-
-				}
+				if ( !mindent ) mindent = indent
+				else mindent = Math.min( mindent, indent )
 
 			}
 
@@ -105,18 +92,10 @@ const createDedent = ( options: DedentOptions ) => {
 		}
 
 		// dedent eats leading and trailing whitespace too
-		if ( trimWhitespace ) {
-
-			result = result.trim()
-
-		}
+		if ( trimWhitespace ) result = result.trim()
 
 		// handle escaped newlines at the end to ensure they don't get stripped too
-		if ( escapeSpecialCharacters ) {
-
-			result = result.replace( /\\n/g, '\n' )
-
-		}
+		if ( escapeSpecialCharacters ) result = result.replace( /\\n/g, '\n' )
 
 		return result
 

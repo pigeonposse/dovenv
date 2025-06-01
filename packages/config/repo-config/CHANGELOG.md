@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.28
+
+### Patch Changes
+
+- add feats to utils
+
 ## 1.5.27
 
 ### Patch Changes

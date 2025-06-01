@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.31
+
+### Patch Changes
+
+- add feats to utils
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.5.31
+  - @dovenv/stylelint-config@1.5.31
+  - @dovenv/core@1.5.31
+  - @dovenv/theme-banda@1.5.31
+
 ## 1.5.30
 
 ### Patch Changes

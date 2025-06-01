@@ -1,5 +1,14 @@
 # @dovenv/todo
 
+## 1.5.31
+
+### Patch Changes
+
+- add feats to utils
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.31
+
 ## 1.5.30
 
 ### Patch Changes

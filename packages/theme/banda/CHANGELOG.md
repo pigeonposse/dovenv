@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.31
+
+### Patch Changes
+
+- add feats to utils
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.31
+  - @dovenv/convert@1.5.31
+  - @dovenv/docs@1.5.31
+  - @dovenv/examples@1.5.31
+  - @dovenv/lint@1.5.31
+  - @dovenv/repo@1.5.31
+  - @dovenv/templates@1.5.31
+  - @dovenv/todo@1.5.31
+  - @dovenv/workspace@1.5.31
+
 ## 1.5.30
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @dovenv/eslint-config
 
+## 1.5.31
+
+### Patch Changes
+
+- add feats to utils
+
 ## 1.5.30
 
 ### Patch Changes
