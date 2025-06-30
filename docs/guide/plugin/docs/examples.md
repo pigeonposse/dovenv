@@ -100,7 +100,7 @@ import {
 	fa2svg,
 } from '@dovenv/utils-media/client'
 
-import coreConfig     from '../../../../../.dovenv/main' // Get another configuration for use
+import coreConfig     from '../../../../../.dovenv/main.js' // Get another configuration for use
 import { docsPlugin } from '../../src/main'
 
 const {

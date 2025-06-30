@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "1.5.31",
+	"version": "1.5.32",
 	"description": "Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -66,9 +66,9 @@
 		"marked": "15.0.12"
 	},
 	"dependencies": {
-		"@ascii-kit/font": "0.0.5",
-		"@ascii-kit/qr": "0.0.5",
-		"@ascii-kit/tree": "0.0.5",
+		"@ascii-kit/font": "0.0.6",
+		"@ascii-kit/qr": "0.0.6",
+		"@ascii-kit/tree": "0.0.6",
 		"@cfworker/json-schema": "4.1.1",
 		"@clack/core": "0.5.0",
 		"@clack/prompts": "0.11.0",
@@ -85,7 +85,7 @@
 		"deepmerge-ts": "7.1.5",
 		"enquirer": "2.4.1",
 		"fast-csv": "5.0.2",
-		"fast-xml-parser": "5.2.3",
+		"fast-xml-parser": "5.2.5",
 		"figures": "6.1.0",
 		"github-directory-downloader": "1.3.6",
 		"globby": "14.1.0",
@@ -109,7 +109,7 @@
 		"rehype-remark": "10.0.1",
 		"remark-parse": "11.0.0",
 		"remark-stringify": "11.0.0",
-		"smol-toml": "1.3.4",
+		"smol-toml": "1.4.0",
 		"string-width": "7.2.0",
 		"supports-hyperlinks": "4.1.0",
 		"svgson": "5.3.1",
@@ -119,13 +119,12 @@
 		"tozod": "3.0.0",
 		"unified": "11.0.5",
 		"yargs": "18.0.0",
-		"zod": "3.25.42",
-		"zod-to-json-schema": "3.24.5",
-		"zod-validation-error": "3.4.1",
+		"zod": "3.25.67",
+		"zod-to-json-schema": "3.24.6",
+		"zod-validation-error": "3.5.2",
 		"zodex": "0.18.2"
 	},
 	"devDependencies": {
-		"@ascii-kit/fonts": "0.0.3",
 		"@dovenv/repo-config": "workspace:*",
 		"@types/chroma-js": "3.1.1",
 		"@types/columnify": "1.5.4",

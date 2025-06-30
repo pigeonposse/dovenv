@@ -12,7 +12,7 @@
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
 [![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/@dovenv/examples?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/@dovenv/examples)
-[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/examples/1.5.29?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/examples)
+[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/examples/1.5.31?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/examples)
 
 Tools for Examples files/directories for dovenv
 
@@ -50,8 +50,8 @@ deno add @dovenv/examples
 - 📷 [Utils-media](https://dovenv.pigeonposse.com/guide/utils-media)
 - 🔌 [Plugins](https://dovenv.pigeonposse.com/guide/plugin)
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
-  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
+  - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)

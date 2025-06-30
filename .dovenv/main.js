@@ -5,7 +5,7 @@ import { pigeonposseMonorepoTheme } from '../packages/theme/pigeonposse/dist/mai
 export default defineConfig(
 	pigeonposseMonorepoTheme( {
 		core,
-		// must be added beacuse default value "dovenv lint eslint --fix --silent" because is not installed
+		// must be added beacuse default value "dovenv lint eslint --fix --silent" doesn't work cause dovenv is not installed
 		lint : { staged: { '**/*.{js,ts,jsx,tsx,json}': 'pnpm --silent . lint eslint --fix --silent' } },
 	} ),
 )

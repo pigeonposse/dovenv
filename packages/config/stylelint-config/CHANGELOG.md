@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.5.32
+
+### Patch Changes
+
+- up deps, fix issues in theme-pigeonposse
+
 ## 1.5.31
 
 ### Patch Changes

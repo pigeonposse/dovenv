@@ -6,17 +6,17 @@ AI plugin for dovenv
 
 - [Read more](/guide/plugin/ai)
 
-## 🔄 Convert
-
-Convert utils for dovenv
-
-- [Read more](/guide/plugin/convert)
-
 ## 📚 Docs
 
 Documentation utils for dovenv
 
 - [Read more](/guide/plugin/docs)
+
+## 🔄 Convert
+
+Convert utils for dovenv
+
+- [Read more](/guide/plugin/convert)
 
 ## 💡 Examples
 

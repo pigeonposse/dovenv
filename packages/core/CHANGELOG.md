@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.32
+
+### Patch Changes
+
+- up deps, fix issues in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.32
+
 ## 1.5.31
 
 ### Patch Changes

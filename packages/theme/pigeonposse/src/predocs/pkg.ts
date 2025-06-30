@@ -76,8 +76,10 @@ export const getPublicPackageData = async (
 			const pathID = type !== TYPE.lib ? ( `${type}/${id}` ) : id
 
 			const dir            = getDirName( p )
-			const srcTs          = joinPath( dir, 'src', 'main.ts' )
-			const srcJs          = joinPath( dir, 'src', 'main.js' )
+			const srcMainTs      = joinPath( dir, 'src', 'main.ts' )
+			const srcIndexTs     = joinPath( dir, 'src', 'index.ts' )
+			const srcMainJs      = joinPath( dir, 'src', 'main.js' )
+			const srcIndexJs     = joinPath( dir, 'src', 'index.js' )
 			const tsconfigPath   = joinPath( dir, 'tsconfig.json' )
 			const readmePath     = joinPath( dir, FILE_NAME.README )
 			const docsDir        = joinPath( guideDir, pathID )
@@ -87,11 +89,14 @@ export const getPublicPackageData = async (
 			const indexPath      = joinPath( docsDir, FILE_NAME.INDEX )
 			const examplesFile   = joinPath( dir, 'examples', 'info.yml' )
 			const docsFile       = joinPath( dir, 'docs', FILE_NAME.INDEX )
-			const isTs           = await existsFile( srcTs )
+			const isTsMain       = await existsFile( srcMainTs )
+			const isJsIndex      = await existsFile( srcIndexJs )
+			const isTsIndex      = await existsFile( srcIndexTs )
 			const existsExamples = await existsFile( examplesFile )
 			const existsDocs     = await existsFile( docsFile )
-			const src            = isTs ? srcTs : srcJs
-			const existsApi      = !isTs ? false : true
+			const src            = isTsMain ? srcMainTs : isTsIndex ? srcIndexTs : isJsIndex ? srcIndexJs : srcMainJs
+			const isTs           = isTsMain || isTsIndex
+			const existsApi      = isTs ? true : false
 			// const existsApi      = ( type == 'config' && !isTs ) || !isTs ? false : true
 
 			// @ts-ignore

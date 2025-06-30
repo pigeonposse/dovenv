@@ -7859,22 +7859,24 @@ await removeDirIfExist('./my/path')
 ### removeEmptyLines()
 
 ```ts
-function removeEmptyLines(text: string): string
+function removeEmptyLines(text: string, options?: RemoveEmptyLinesOptions): string
 ```
 
-Removes lines from a multiline string that are empty or contain only whitespace.
+Removes lines from a multiline string based on specified conditions,
+such as handling consecutive empty lines, leading, and trailing empty lines.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `text` | `string` | The input multiline string. |
+| `options`? | [`RemoveEmptyLinesOptions`](#removeemptylinesoptions) | Optional configuration for removing lines. |
 
 #### Returns
 
 `string`
 
-- The string with empty lines removed.
+- The string with empty lines processed according to the options.
 
 ***
 
@@ -9638,6 +9640,28 @@ Parameters for configuring a prompt line.
 ```ts
 type PromptParams: Parameters<typeof Enquirer.prompt>[0];
 ```
+
+***
+
+### RemoveEmptyLinesOptions
+
+```ts
+type RemoveEmptyLinesOptions: {
+  maxConsecutive: number;
+  trimEnd: boolean;
+  trimStart: boolean;
+};
+```
+
+Defines the options for filtering empty lines.
+
+#### Type declaration
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `maxConsecutive`? | `number` | The maximum number of consecutive empty lines to allow. - 0: Removes all consecutive empty lines (default). - 1: Allows a single empty line between content. - Any number N: Allows up to N empty lines. |
+| `trimEnd`? | `boolean` | Whether to remove trailing empty lines. **Default** `false` |
+| `trimStart`? | `boolean` | Whether to remove leading empty lines. **Default** `false` |
 
 ***
 

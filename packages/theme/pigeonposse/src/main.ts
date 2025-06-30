@@ -130,7 +130,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 				],
 				instructions : '# Development guide\n\n> No instructions yet.',
 				structure    : {
-					'.dovenv'  : { 'main.{js,ts}': null },
+					'.dovenv'  : { '{main,index}.{js,ts}': null },
 					'docs'     : { '*.md': null },
 					'packages' : { '*' : {
 						'src'          : { '**': null },
@@ -190,7 +190,7 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 							'LICENSE',
 							'package.json',
 							'README.md',
-							'.dovenv/main' + ext,
+							'.dovenv/{main,index}' + ext,
 						]
 
 						//'examples/**/*' + ext,

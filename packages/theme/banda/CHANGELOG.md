@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.32
+
+### Patch Changes
+
+- up deps, fix issues in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.32
+  - @dovenv/workspace@1.5.32
+  - @dovenv/examples@1.5.32
+  - @dovenv/convert@1.5.32
+  - @dovenv/docs@1.5.32
+  - @dovenv/lint@1.5.32
+  - @dovenv/repo@1.5.32
+  - @dovenv/todo@1.5.32
+  - @dovenv/core@1.5.32
+
 ## 1.5.31
 
 ### Patch Changes
