@@ -1,5 +1,11 @@
 # create-dovenv
 
+## 1.5.33
+
+### Patch Changes
+
+- fix relativePath in theme-pigeonposse
+
 ## 1.5.32
 
 ### Patch Changes

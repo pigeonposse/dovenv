@@ -1,5 +1,14 @@
 # @dovenv/workspace
 
+## 1.5.33
+
+### Patch Changes
+
+- fix relativePath in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/core@1.5.33
+
 ## 1.5.32
 
 ### Patch Changes

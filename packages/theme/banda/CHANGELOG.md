@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.33
+
+### Patch Changes
+
+- fix relativePath in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/templates@1.5.33
+  - @dovenv/workspace@1.5.33
+  - @dovenv/examples@1.5.33
+  - @dovenv/convert@1.5.33
+  - @dovenv/docs@1.5.33
+  - @dovenv/lint@1.5.33
+  - @dovenv/repo@1.5.33
+  - @dovenv/todo@1.5.33
+  - @dovenv/core@1.5.33
+
 ## 1.5.32
 
 ### Patch Changes

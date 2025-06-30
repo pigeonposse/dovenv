@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.5.32",
+	"version": "1.5.33",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"aio",

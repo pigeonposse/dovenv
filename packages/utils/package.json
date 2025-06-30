@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils",
-	"version": "1.5.32",
+	"version": "1.5.33",
 	"description": "Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -125,6 +125,7 @@
 		"zodex": "0.18.2"
 	},
 	"devDependencies": {
+		"@ascii-kit/fonts": "0.0.6",
 		"@dovenv/repo-config": "workspace:*",
 		"@types/chroma-js": "3.1.1",
 		"@types/columnify": "1.5.4",

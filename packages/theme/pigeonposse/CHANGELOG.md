@@ -1,5 +1,17 @@
 # @dovenv/theme-pigeonposse
 
+## 1.5.33
+
+### Patch Changes
+
+- fix relativePath in theme-pigeonposse
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.5.33
+  - @dovenv/eslint-config@1.5.33
+  - @dovenv/theme-banda@1.5.33
+  - @dovenv/core@1.5.33
+
 ## 1.5.32
 
 ### Patch Changes

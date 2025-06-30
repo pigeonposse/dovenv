@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/repo",
-	"version": "1.5.32",
+	"version": "1.5.33",
 	"description": "Repository tools for any runtime",
 	"keywords": [
 		"aio",

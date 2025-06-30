@@ -4,6 +4,7 @@ import {
 	joinPath,
 	existsFile,
 	capitalize,
+	relativePath,
 } from '@dovenv/core/utils'
 
 import { extractLastTwoPathsSeparately } from './_utils'
@@ -55,7 +56,8 @@ export const getPublicPackageData = async (
 
 			const pkgData = await getObjectFromJSONFile<PackageJSON>( p )
 			if ( !pkgData || pkgData.private ) return
-			const extract = extractLastTwoPathsSeparately( getDirName( p ) )
+			const pkgDir  = getDirName( p )
+			const extract = extractLastTwoPathsSeparately( pkgDir )
 			if ( !extract ) throw new Error( `Unexpected error extracting last two paths separately from "${p}"` )
 
 			const parentDir = extract.first as PkgType
@@ -119,7 +121,7 @@ export const getPublicPackageData = async (
 				data      : pkgData,
 				repoURL   : repo,
 				package   : {
-					relativeDir        : joinPath( packagesPath, pathID ),
+					relativeDir        : relativePath( wsDir, pkgDir ),
 					dir,
 					srcFile            : src,
 					packageJsonFile    : p,
