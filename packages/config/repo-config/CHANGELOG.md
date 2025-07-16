@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.29
+
+### Patch Changes
+
+- add examples schema description
+
 ## 1.5.28
 
 ### Patch Changes

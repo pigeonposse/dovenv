@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.34
+
+### Patch Changes
+
+- add examples schema description
+
+- Updated dependencies []:
+  - @dovenv/examples@1.5.34
+  - @dovenv/core@1.5.34
+  - @dovenv/convert@1.5.34
+  - @dovenv/docs@1.5.34
+  - @dovenv/lint@1.5.34
+  - @dovenv/repo@1.5.34
+  - @dovenv/templates@1.5.34
+  - @dovenv/todo@1.5.34
+  - @dovenv/workspace@1.5.34
+
 ## 1.5.33
 
 ### Patch Changes

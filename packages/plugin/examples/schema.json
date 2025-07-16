@@ -4,13 +4,16 @@
 		"type": "object",
 		"properties": {
 			"title": {
-				"type": "string"
+				"type": "string",
+				"description": "Example title"
 			},
 			"desc": {
-				"type": "string"
+				"type": "string",
+				"description": "Example description"
 			},
 			"outro": {
-				"type": "string"
+				"type": "string",
+				"description": "Example outro"
 			},
 			"data": {
 				"type": "object",
@@ -18,19 +21,24 @@
 					"type": "object",
 					"properties": {
 						"input": {
-							"type": "string"
+							"type": "string",
+							"description": "Example input. Can be a file or a string"
 						},
 						"title": {
-							"type": "string"
+							"type": "string",
+							"description": "Example title"
 						},
 						"type": {
-							"type": "string"
+							"type": "string",
+							"description": "Input type. For example: bash, js, ts etc"
 						},
 						"desc": {
-							"type": "string"
+							"type": "string",
+							"description": "Example description"
 						},
 						"outro": {
-							"type": "string"
+							"type": "string",
+							"description": "Example outro"
 						}
 					},
 					"required": [

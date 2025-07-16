@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.5.34
+
+### Patch Changes
+
+- add examples schema description
+
 ## 1.5.33
 
 ### Patch Changes
