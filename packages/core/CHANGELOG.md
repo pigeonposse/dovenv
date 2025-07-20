@@ -1,5 +1,14 @@
 # @dovenv/core
 
+## 1.5.35
+
+### Patch Changes
+
+- change devs
+
+- Updated dependencies []:
+  - @dovenv/utils@1.5.35
+
 ## 1.5.34
 
 ### Patch Changes

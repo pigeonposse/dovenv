@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.5.30
+
+### Patch Changes
+
+- change devs
+
 ## 1.5.29
 
 ### Patch Changes

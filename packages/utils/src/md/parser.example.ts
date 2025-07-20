@@ -1,10 +1,9 @@
 import {
 	createBadgeURL,
 	createMdLinks,
-	mdParser,
+	markdown,
 } from '.'
 
-const md = await mdParser()
 // Define the badges
 const badges = [
 	{
@@ -99,7 +98,7 @@ const badges = [
 // Generate Markdown for badges
 const badgeMarkdown = createMdLinks( badges )
 
-const obj = md.deserialize( `# Dovenv - Utilities
+const obj = await markdown.deserialize( `# Dovenv - Utilities
 
 ${badgeMarkdown}
 
@@ -107,5 +106,5 @@ ${badgeMarkdown}
 
 Toolkit to make your code workspace robust, easier and cleaner.	
 ` )
-const str = md.serialize( obj )
+const str = await markdown.serialize( obj )
 console.log( obj, str )

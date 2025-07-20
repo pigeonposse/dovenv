@@ -1,7 +1,4 @@
-import {
-	parse,
-	stringify,
-} from 'smol-toml'
+import * as toml from '@structium/toml'
 
 import {
 	getFileContent,
@@ -38,12 +35,8 @@ export const getObjectFromTOMLFile = async <Res extends CommonObj = CommonObj>( 
 
 export const getObjectFromTOMLContent = async <Res extends CommonObj = CommonObj>( content: string ) => {
 
-	const r = parse( content ) as Res
-	return r
+	return toml.deserialize<Res>( content )
 
 }
 
-export const toml = {
-	deserialize : getObjectFromTOMLContent,
-	serialize   : ( content: object ) => stringify( content ),
-}
+export { toml }

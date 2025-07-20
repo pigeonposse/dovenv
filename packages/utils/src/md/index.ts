@@ -1,4 +1,9 @@
 
+import {
+	markdown,
+	html,
+} from '@structium/html-markdown'
+
 import { deps }           from './_deps'
 import { markedTerminal } from './terminal'
 
@@ -9,7 +14,11 @@ import { fetch2string }  from '@/sys/content'
 import { readFile }      from '@/sys/super'
 
 export * from './shields'
-export * from './parser'
+
+export {
+	markdown,
+	html,
+}
 
 const _getInput = async ( input: string ) => {
 
@@ -89,6 +98,7 @@ type Md2TerminalOpts = {
 	 */
 	highlight? : Parameters<typeof markedTerminal>[1]
 }
+
 /**
  * Converts a Markdown input to a terminal formatted string.
  *
@@ -126,18 +136,9 @@ export const md2terminal = async ( input: string, opts?: Md2TerminalOpts ): Prom
  */
 export const html2md = async ( input: string ) => {
 
-	input                 = await _getInput( input )
-	const rehypeParse     = await deps.get( 'rehype-parse' )
-	const rehypeRemark    = await deps.get( 'rehype-remark' )
-	const remarkStringify = await deps.get( 'remark-stringify' )
-	const unified         = await deps.get( 'unified' )
-	const file            = await unified()
-		.use( rehypeParse, { fragment: true } )
-		.use( rehypeRemark )
-		.use( remarkStringify )
-		.process( input )
+	input = await _getInput( input )
 
-	return String( file )
+	return html.toMarkdown( input )
 
 }
 
@@ -177,11 +178,7 @@ export const incrementMdHeaders = ( content: string ) => {
 		}
 
 		// Si estamos dentro de un bloque de código, no hacemos nada
-		if ( inCodeBlock ) {
-
-			return line
-
-		}
+		if ( inCodeBlock ) return line
 
 		// Incrementar niveles de encabezado si es un encabezado válido (# ... ###)
 		if ( /^(#{1,6})\s/.test( line ) ) {

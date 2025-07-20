@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.5.35
+
+### Patch Changes
+
+- change devs
+
+- Updated dependencies []:
+  - @dovenv/docs@1.5.35
+  - @dovenv/core@1.5.35
+  - @dovenv/convert@1.5.35
+  - @dovenv/examples@1.5.35
+  - @dovenv/lint@1.5.35
+  - @dovenv/repo@1.5.35
+  - @dovenv/templates@1.5.35
+  - @dovenv/todo@1.5.35
+  - @dovenv/workspace@1.5.35
+
 ## 1.5.34
 
 ### Patch Changes

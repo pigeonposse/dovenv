@@ -1,18 +1,10 @@
 
-import IniLib from 'ini'
+import * as ini from '@structium/ini'
 
 import {
 	getFileContent,
 	type CommonObj,
 } from './_super'
-
-const isHTML = ( input: string ): boolean => {
-
-	// Expresión regular para detectar etiquetas HTML
-	const htmlTagPattern = /<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)/i
-	return htmlTagPattern.test( input.trim() )
-
-}
 
 export const getObjectFromINIFile = async <Res extends CommonObj = CommonObj>( path: string ) => {
 
@@ -33,20 +25,9 @@ export const getObjectFromINIFile = async <Res extends CommonObj = CommonObj>( p
 
 export const getObjectFromINIContent = async <Res extends CommonObj = CommonObj>( content: string ) => {
 
-	const isHTMLContent = isHTML( content )
-	if ( isHTMLContent ) throw new Error( 'Content is HTML' )
-	return IniLib.parse( content ) as Res
+	return await ini.deserialize<Res>( content )
 
 }
 
-const objectToINI = async <I extends CommonObj>( obj: I ): Promise<string> => {
-
-	return IniLib.stringify( obj, { align: true } )
-
-}
-
-export const ini = {
-	deserialize : getObjectFromINIContent,
-	serialize   : objectToINI,
-}
+export { ini }
 

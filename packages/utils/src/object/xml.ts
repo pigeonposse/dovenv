@@ -1,8 +1,5 @@
 
-import {
-	XMLParser,
-	XMLBuilder,
-} from 'fast-xml-parser'
+import * as xml from '@structium/xml'
 
 import {
 	getFileContent,
@@ -46,8 +43,7 @@ export const getObjectFromXMLContent = async <Res extends CommonObj = CommonObj>
 
 	try {
 
-		const parser = new XMLParser()
-		return parser.parse( content ) as Res
+		return xml.deserialize<Res>( content )
 
 	}
 	catch ( error ) {
@@ -59,21 +55,4 @@ export const getObjectFromXMLContent = async <Res extends CommonObj = CommonObj>
 
 }
 
-/**
- * Converts a JavaScript object into an XML string.
- *
- * @template I - The type of the object to be converted.
- * @param   {I}               obj - The object to be converted.
- * @returns {Promise<string>}     - A promise that resolves to the XML string.
- */
-const objectToXML = async <I extends CommonObj = CommonObj>( obj: I ) => {
-
-	const builder = new XMLBuilder()
-	return builder.build( obj )
-
-}
-
-export const xml = {
-	deserialize : getObjectFromXMLContent,
-	serialize   : objectToXML,
-}
+export { xml }

@@ -1,11 +1,3 @@
-import {
-	parse,
-	stringify,
-} from 'svgson'
+import * as svg from '@structium/svg'
 
-export type * as Svg from 'svgson'
-
-export const svg = {
-	deserialize : parse,
-	serialize   : stringify,
-}
+export { svg }

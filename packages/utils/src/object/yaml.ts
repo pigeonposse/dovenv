@@ -1,4 +1,4 @@
-import yamlLib from 'js-yaml'
+import * as yaml from '@structium/yaml'
 
 import {
 	getFileContent,
@@ -35,11 +35,8 @@ export const getObjectFromYAMLFile = async <Res extends CommonObj = CommonObj>( 
 
 export const getObjectFromYAMLContent = async <Res extends CommonObj = CommonObj>( content: string ) => {
 
-	const r = yamlLib.load( content ) as Res
-	return r
+	return await yaml.deserialize<Res>( content )
 
 }
-export const yaml = {
-	deserialize : getObjectFromYAMLContent,
-	serialize   : ( content: object ) => yamlLib.dump( content ),
-}
+
+export { yaml }
