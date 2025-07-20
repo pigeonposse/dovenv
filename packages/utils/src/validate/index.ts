@@ -1,15 +1,16 @@
 import {
+	jsonSchemaToZod,
+	JsonSchema,
+} from 'json-schema-to-zod' // 109KB @see https://pkg-size.dev/json-schema-to-zod@2.6.1
+import {
 	z,
 	ZodError,
-} from 'zod'
-import { fromError } from 'zod-validation-error'
-import {
-	dezerialize,
-	zerialize,
-} from 'zodex' // 1.2MB https://pkg-size.dev/zodex
+	toJSONSchema,
+} from 'zod/v4'
+
+import { toZod } from './types'
 
 import type { Any }     from '@/ts'
-import type { toZod }   from 'tozod'
 import type { ZodType } from 'zod'
 
 /**
@@ -65,7 +66,11 @@ export const createValidateSchema = <Type>(
  */
 export const formatValidationError = ( error: unknown ) => {
 
-	return fromError( error ).toString()
+	if ( error instanceof ValidateError )
+		return validate.prettifyError( error )
+	else if ( error instanceof Error )
+		return error.message
+	return 'Unexpected error'
 
 }
 
@@ -88,16 +93,16 @@ export const validate = z
 /**
  * Serializes and simplifies types into a JSON format.
  *
- * @see https://www.npmjs.com/package/zodex?activeTab=readme
  */
-export const serializeValidation = zerialize
+export const serializeValidation = toJSONSchema
 
-/**
- * Deserializes.
- *
- * @see https://www.npmjs.com/package/zodex?activeTab=readme
- */
-export const deserializeValidation = dezerialize
+export const deserializeValidation =  <R extends ValidateAnyType>( v: JsonSchema ): R => {
+
+	const code     = jsonSchemaToZod( v )
+	const schemaFn = new Function( 'z', 'return ' + code )
+	return schemaFn( z ) as R
+
+}
 
 /**
  * Utility class for data validation.
@@ -110,8 +115,8 @@ export class Validation {
 	Error = ValidateError
 	schema = validate
 	formatError = formatValidationError
-	serialize = zerialize
-	deserialize = dezerialize
+	serialize = serializeValidation
+	deserialize = deserializeValidation
 
 	/**
 	 * Create a union of literal types from an array of strings.

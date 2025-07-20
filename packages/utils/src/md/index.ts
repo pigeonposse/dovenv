@@ -70,7 +70,7 @@ export const md2html = async ( input: string ) => {
 
 	input        = await _getInput( input )
 	const Marked = await deps.get( 'marked' )
-	const marked = new Marked( )
+	const marked = new Marked( { gfm: false /** Important for use with html2terminal */ } )
 	return await marked.parse( input )
 
 }
@@ -132,7 +132,7 @@ export const html2md = async ( input: string ) => {
 	const remarkStringify = await deps.get( 'remark-stringify' )
 	const unified         = await deps.get( 'unified' )
 	const file            = await unified()
-		.use( rehypeParse )
+		.use( rehypeParse, { fragment: true } )
 		.use( rehypeRemark )
 		.use( remarkStringify )
 		.process( input )
@@ -154,10 +154,9 @@ export const html2md = async ( input: string ) => {
  */
 export const html2terminal = async ( input: string ): Promise<string> => {
 
-	input = await _getInput( input )
-	input = await html2md( input )
-
-	return await md2terminal( input )
+	input    = await _getInput( input )
+	const md = await html2md( input )
+	return await md2terminal( md )
 
 }
 

@@ -1,11 +1,16 @@
 
 import {
 	CreatiumCore,
-	prompt,
-	sys,
-	style,
+
 	INSTALLER,
 } from 'creatium'
+import {
+	prompt,
+	copyDir,
+	joinPath as join,
+	color,
+	table,
+} from 'creatium/utils'
 import latestVersion from 'latest-version'
 
 import {
@@ -31,15 +36,6 @@ import {
 import type { CustomParams } from './types'
 
 export type CreateTemplateParams = Omit<Awaited<ReturnType<typeof core.cli>>, 'plugin' | 'theme' | 'lang'> & CustomParams
-
-const {
-	color,
-	table,
-} = style
-const {
-	copyDir,
-	joinPath: join,
-} = sys
 
 const cancelFn = ( ) => {
 

@@ -1,16 +1,11 @@
 import { createValidateSchemaFn } from '@dovenv/utils'
 
-import { AliasesConfig }  from './types'
-import { responseSchema } from '../_shared/schema'
+import type { AliasesConfig } from './types'
 
 export const schema = createValidateSchemaFn<AliasesConfig>( v => v.record(
 	v.string(),
-	v.object( {
+	v.strictObject( {
 		desc : v.string(),
-		cmd  : v.string()
-			.or(
-				v.function()
-					.returns( responseSchema( v.void(), v ) ),
-			),
-	} ).strict(),
+		cmd  : v.any(),
+	} ),
 ) )

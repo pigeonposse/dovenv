@@ -74,7 +74,7 @@
 		"@fortawesome/free-regular-svg-icons": "6.7.2",
 		"@fortawesome/free-solid-svg-icons": "6.7.2",
 		"@resvg/resvg-js": "2.6.2",
-		"badge-maker": "4.1.0",
+		"badge-maker": "5.0.2",
 		"gif-frames": "1.0.1",
 		"jimp-compact": "0.16.1-2",
 		"terminal-image": "3.1.1"

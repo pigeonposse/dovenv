@@ -59,7 +59,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"creatium": "0.1.17",
+		"creatium": "0.2.3",
 		"latest-version": "9.0.0"
 	},
 	"devDependencies": {

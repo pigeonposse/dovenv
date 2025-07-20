@@ -1,4 +1,8 @@
-import { sys } from 'creatium'
+import {
+	joinPath as join,
+	getClosestPackageDir,
+	getCurrentDir,
+} from 'creatium/utils'
 
 import {
 	extra,
@@ -20,12 +24,6 @@ import themePigeonPosseMeta from '../../theme/pigeonposse/package.json'
 import utilsMeta            from '../../utils/package.json'
 import { version }          from '../package.json'
 import { mapObject }        from './_utils'
-
-const {
-	joinPath: join,
-	getClosestPackageDir,
-	getCurrentDir,
-} = sys
 
 const name = extra.id
 

@@ -22,8 +22,7 @@ export const schema = createValidateSchemaFn<CustomConfig>( v => v.record(
 			wrapConsole : v.boolean().optional(),
 			hide        : v.boolean().optional(),
 		} ).optional(),
-		fn : v.function()
-			.returns( v.promise( v.void() ) ),
+		fn : v.any(),
 	} ).strict( ),
 ) )
 

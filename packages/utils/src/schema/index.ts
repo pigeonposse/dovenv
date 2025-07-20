@@ -1,13 +1,7 @@
-import { Validator }       from '@cfworker/json-schema' // 174KB. @see https://pkg-size.dev/@cfworker/json-schema@4.1.1
-import { compile }         from 'json-schema-to-typescript-lite' // 1.4MB. @see https://pkg-size.dev/json-schema-to-typescript-lite@14.1.0
-import { jsonSchemaToZod } from 'json-schema-to-zod' // 109KB @see https://pkg-size.dev/json-schema-to-zod@2.6.1
-// import { createGenerator } from 'ts-json-schema-generator' // 28MB @see https://pkg-size.dev/ts-json-schema-generator@2.4.0
-import { zodToJsonSchema } from 'zod-to-json-schema' // 212KB (911KB with peers). @see https://pkg-size.dev/zod-to-json-schema@3.24.5
+import { Validator } from '@cfworker/json-schema' // 174KB. @see https://pkg-size.dev/@cfworker/json-schema@4.1.1
+import { compile }   from 'json-schema-to-typescript-lite' // 1.4MB. @see https://pkg-size.dev/json-schema-to-typescript-lite@14.1.0
 
-import {
-	validate as jsValidate,
-	ValidateError,
-} from '../validate'
+// import { createGenerator } from 'ts-json-schema-generator' // 28MB @see https://pkg-size.dev/ts-json-schema-generator@2.4.0
 
 import type {
 	Schema2tsProps,
@@ -17,13 +11,19 @@ import type {
 	// Ts2Schema,
 	Zod2schema,
 } from './types'
-import type { ValidateAnyType } from '../validate'
+import type { ValidateAnyType } from '@/validate'
 
 import {
 	catchError,
 	TypedError,
 } from '@/error'
 import { getObjectFrom } from '@/object'
+import {
+	deserializeValidation,
+	validate as jsValidate,
+	ValidateError,
+} from '@/validate'
+import { serializeValidation } from '@/validate' // 212KB (911KB with peers). @see https://pkg-size.dev/zod-to-json-schema@3.24.5
 
 /**
  * Converts a zod schema to a JSON schema.
@@ -42,7 +42,7 @@ import { getObjectFrom } from '@/object'
  */
 export const zod2schema = async ( params: Zod2schema ) => {
 
-	return await zodToJsonSchema( params.schema, params.opts )
+	return await serializeValidation( params.schema, params.opts )
 
 }
 
@@ -61,11 +61,7 @@ export const zod2schema = async ( params: Zod2schema ) => {
  *
  * console.log(zodSchema)
  */
-export const schema2zod = async ( params: Schema2zod ) => {
-
-	return await jsonSchemaToZod( params.schema, params.opts )
-
-}
+export const schema2zod = deserializeValidation
 
 /**
  * Parses a JSON schema string into an object.
@@ -182,7 +178,7 @@ const validateZod = async ( data: string | object, schema: ValidateAnyType ) => 
 	if ( !error ) return result
 
 	if ( error instanceof ValidateError )
-		throw new ValidateSchemaError( ERROR_ID.INVALID_DATA, { data: error.errors } )
+		throw new ValidateSchemaError( ERROR_ID.INVALID_DATA, { data: error } )
 
 	throw new ValidateSchemaError( ERROR_ID.UNEXPECTED, { data: error.message } )
 

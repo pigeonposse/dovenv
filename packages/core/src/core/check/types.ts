@@ -75,9 +75,11 @@ type CheckConfigValue<T extends CheckType, V extends object> = {
 	/** Type of check */
 	type : T
 } & V
-
-export type CheckConfig = Prettify<Record<string,
-	CheckConfigValue<typeof TYPE.FILE, CheckFile>
-	| CheckConfigValue<typeof TYPE.DIR, CheckDir>
-	| CheckConfigValue<typeof TYPE.CUSTOM, CheckCustom>
->>
+export type CheckFileConfig = Prettify<CheckConfigValue<typeof TYPE.FILE, CheckFile>>
+export type CheckDirConfig = Prettify<CheckConfigValue<typeof TYPE.DIR, CheckDir>>
+export type CheckCustomConfig = Prettify<CheckConfigValue<typeof TYPE.CUSTOM, CheckCustom>>
+export type CheckConfig = Record<string,
+	CheckFileConfig
+	| CheckDirConfig
+	| CheckCustomConfig
+>

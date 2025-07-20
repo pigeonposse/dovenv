@@ -46,6 +46,7 @@
 		"+": "run() { pnpm -F @dovenv/\"${@:1}\"; }; run $@",
 		"++": "pnpm -F $@",
 		".": "node packages/core/dist/bin.mjs",
+		"..": "tsx packages/core/src/bin.ts",
 		"build": "pnpm run --sequential \"/build:.*/\"",
 		"build-doc": "pnpm -F @dovenv/_doc build",
 		"build:config": "pnpm -F @dovenv/eslint-config build && pnpm -F @dovenv/stylelint-config build",

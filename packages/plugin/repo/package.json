@@ -63,7 +63,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@changesets/cli": "2.29.4",
+		"@changesets/cli": "2.29.5",
 		"@sizium/core": "0.0.11",
 		"husky": "9.1.7"
 	},

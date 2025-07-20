@@ -1,11 +1,14 @@
-import type { style } from 'creatium'
+import type {
+	table,
+	box,
+} from 'creatium/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any
-type Style = typeof style
+
 type CoreStyleResponse = {
-	table : NonNullable<Parameters<Style['table']>[1]>
-	box   : NonNullable<Parameters<Style['box']>[1]>
+	table : NonNullable<Parameters<typeof table>[1]>
+	box   : NonNullable<Parameters<typeof box>[1]>
 }
 export const mapObject = <T extends Record<string, Any>, R>(
 	obj: T,

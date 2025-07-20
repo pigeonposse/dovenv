@@ -1,44 +1,51 @@
 {
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"type": "object",
+	"propertyNames": {
+		"type": "string"
+	},
 	"additionalProperties": {
 		"type": "object",
 		"properties": {
 			"title": {
-				"type": "string",
-				"description": "Example title"
+				"description": "Example title",
+				"type": "string"
 			},
 			"desc": {
-				"type": "string",
-				"description": "Example description"
+				"description": "Example description",
+				"type": "string"
 			},
 			"outro": {
-				"type": "string",
-				"description": "Example outro"
+				"description": "Example outro",
+				"type": "string"
 			},
 			"data": {
 				"type": "object",
+				"propertyNames": {
+					"type": "string"
+				},
 				"additionalProperties": {
 					"type": "object",
 					"properties": {
 						"input": {
-							"type": "string",
-							"description": "Example input. Can be a file or a string"
+							"description": "Example input. Can be a file or a string",
+							"type": "string"
 						},
 						"title": {
-							"type": "string",
-							"description": "Example title"
+							"description": "Example title",
+							"type": "string"
 						},
 						"type": {
-							"type": "string",
-							"description": "Input type. For example: bash, js, ts etc"
+							"description": "Input type. For example: bash, js, ts etc",
+							"type": "string"
 						},
 						"desc": {
-							"type": "string",
-							"description": "Example description"
+							"description": "Example description",
+							"type": "string"
 						},
 						"outro": {
-							"type": "string",
-							"description": "Example outro"
+							"description": "Example outro",
+							"type": "string"
 						}
 					},
 					"required": [
@@ -52,6 +59,5 @@
 			"data"
 		],
 		"additionalProperties": false
-	},
-	"$schema": "http://json-schema.org/draft-07/schema#"
+	}
 }

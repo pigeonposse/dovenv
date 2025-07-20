@@ -2,6 +2,7 @@
 import {
 	validateSchema,
 	schema2ts,
+	zod2schema,
 	schema2type,
 	schema2zod,
 } from '.'
@@ -100,8 +101,10 @@ console.log( highlight( content, { language: 'ts' } ) )
 console.log( '\ntype:\n\n' )
 console.log( await schema2type( { schema: data.obj.schema } ) )
 console.log( '\nZOD:\n\n' )
-console.log( await schema2zod( { schema: data.obj.schema } ) )
-
+const zodType = await schema2zod( { schema: data.obj.schema } )
+console.log( zodType )
+console.log( '\nZOD 2 Schema:\n\n' )
+console.log( '\n\n', await zod2schema( { schema: zodType } ) )
 console.log()
 console.log( 'Validation:' )
 for ( const [ k, v ] of Object.entries( data ) ) {
