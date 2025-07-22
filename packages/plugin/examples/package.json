@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/examples",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Tools for Examples files/directories for dovenv",
 	"keywords": [
 		"aio",
@@ -37,10 +37,6 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		},
 		"./schema.json": "./schema.json"

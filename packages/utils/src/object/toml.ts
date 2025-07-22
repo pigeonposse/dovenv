@@ -35,7 +35,7 @@ export const getObjectFromTOMLFile = async <Res extends CommonObj = CommonObj>( 
 
 export const getObjectFromTOMLContent = async <Res extends CommonObj = CommonObj>( content: string ) => {
 
-	return toml.deserialize<Res>( content )
+	return await toml.deserialize<Res>( content )
 
 }
 

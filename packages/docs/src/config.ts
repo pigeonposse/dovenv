@@ -17,6 +17,21 @@ const conf = defineConfig(
 		predocs : { emoji: emojis },
 		docs    : async utils => {
 
+			const mark    = async () => {
+
+				try {
+
+					// @ts-ignore
+					return await utils.config?.const?.mark?.() as string
+
+				}
+				catch ( _e ) {
+
+					return ''
+
+				}
+
+			}
 			const sidebar = await getSidebar( {
 				utils,
 				opts : { emojis },
@@ -35,8 +50,17 @@ const conf = defineConfig(
 				version   : core.corePkg?.version,
 				vitepress : {
 					ignoreDeadLinks : true,
-					themeConfig     : { outline: { level: [ 2, 3 ] } },
-					vite            : { build: { chunkSizeWarningLimit: 1000 } },
+					head            : [
+						[
+							'script',
+							{ id: 'dovenv-command' },
+							`
+console.log(\`${( await mark() ).trim()}\n\nDovenv is the multi-tool silver bullet from the Pigeonposse collective.\n\nDiscover other bullets: https://pigeonposse.com/projects\`,);
+      `,
+						],
+					],
+					themeConfig : { outline: { level: [ 2, 3 ] } },
+					vite        : { build: { chunkSizeWarningLimit: 1000 } },
 				},
 				sidebar : {
 					'/guide/'       : sidebar,

@@ -1,28 +1,10 @@
 <script setup>
 
-import { useRoute } from 'vitepress'
-import { computed } from 'vue'
+import { getRouteData } from 'vitepress-plugin-llmstxt/client'
+import { computed }     from 'vue'
 
-const route = useRoute()
+const llmsPath = computed( () => getRouteData()?.path )
 
-const joinUrl = ( ...parts ) => {
-
-	return parts
-		.map( ( part, index ) => {
-
-			return index === 0 ? part.replace( /\/+$/g, '' ) : part.replace( /^\/+|\/+$/g, '' )
-
-		} )
-		.join( '/' )
-
-}
-
-const llmsUrl = computed( () => {
-
-	const path = ( route.path === '/' ? '/index' : route.path.endsWith( '/' ) ? route.path.slice( 0, -1 ) : route.path ) + '.md'
-	return joinUrl( path )
-
-} )
 </script>
 
 <template>
@@ -33,7 +15,7 @@ const llmsUrl = computed( () => {
 		<ul>
 			<li>
 				<a
-					:href="llmsUrl"
+					:href="llmsPath"
 					target="_blank"
 					class="VPLink link"
 				>

@@ -1,6 +1,6 @@
 {
 	"name": "create-dovenv",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Create dovenv project template",
 	"keywords": [
 		"cli",
@@ -37,10 +37,6 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		}
 	},

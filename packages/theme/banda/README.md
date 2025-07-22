@@ -12,7 +12,7 @@
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
 [![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/@dovenv/theme-banda?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/@dovenv/theme-banda)
-[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/theme-banda/1.5.32?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/theme-banda)
+[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/theme-banda/1.5.35?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/theme-banda)
 
 All in One dovenv tools for large and complete repositories
 
@@ -54,8 +54,8 @@ deno add @dovenv/theme-banda
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
   - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
-  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
   - 📂 [Workspace](https://dovenv.pigeonposse.com/guide/plugin/workspace)

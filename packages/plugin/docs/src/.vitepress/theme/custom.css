@@ -38,7 +38,9 @@ video,
 	z-index: 21;
 }
   
-
+.image-container .image-bg {
+	opacity: 0.6;
+}
 .theme {
   background-color: var(--vp-c-bg);
 }

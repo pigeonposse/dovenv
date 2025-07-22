@@ -30,17 +30,17 @@ Lint configuration for dovenv
 
 - [Read more](/guide/plugin/lint)
 
-## 🗃️ Repo
-
-Repository tools for any runtime
-
-- [Read more](/guide/plugin/repo)
-
 ## 🎥 Media
 
 Media configuration for dovenv
 
 - [Read more](/guide/plugin/media)
+
+## 🗃️ Repo
+
+Repository tools for any runtime
+
+- [Read more](/guide/plugin/repo)
 
 ## 🖼️ Templates
 

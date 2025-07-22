@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils-media",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Extra Media Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -41,20 +41,12 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		},
 		"./client": {
 			"import": {
 				"types": "./dist/client.d.mts",
 				"default": "./dist/client.mjs"
-			},
-			"require": {
-				"types": "./dist/client.d.cts",
-				"default": "./dist/client.cjs"
 			}
 		}
 	},

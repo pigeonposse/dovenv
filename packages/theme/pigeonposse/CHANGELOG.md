@@ -1,5 +1,19 @@
 # @dovenv/theme-pigeonposse
 
+## 1.6.0
+
+### Minor Changes
+
+- Remove support for common JS, fix issues
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/stylelint-config@1.6.0
+  - @dovenv/eslint-config@1.6.0
+  - @dovenv/theme-banda@2.0.0
+  - @dovenv/core@1.6.0
+
 ## 1.5.35
 
 ### Patch Changes

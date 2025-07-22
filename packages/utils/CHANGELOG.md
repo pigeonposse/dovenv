@@ -1,5 +1,11 @@
 # @dovenv/utils
 
+## 1.6.0
+
+### Minor Changes
+
+- Remove support for common JS, fix issues
+
 ## 1.5.35
 
 ### Patch Changes

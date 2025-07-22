@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/convert",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Convert utils for dovenv",
 	"keywords": [
 		"aio",
@@ -43,10 +43,6 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		}
 	},
@@ -63,7 +59,7 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"jsdoc-to-markdown": "9.1.1",
+		"jsdoc-to-markdown": "9.1.2",
 		"swagger2openapi": "7.0.8",
 		"typedoc": "0.26.11",
 		"typedoc-plugin-markdown": "4.2.10"

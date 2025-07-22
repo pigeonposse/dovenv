@@ -100,7 +100,7 @@ import {
 	fa2svg,
 } from '@dovenv/utils-media/client'
 
-import coreConfig     from '../../../../../.dovenv/main.js' // Get another configuration for use
+import coreConfig     from '../../../../../.dovenv/index.js' // Get another configuration for use
 import { docsPlugin } from '../../src/main'
 
 const {
@@ -118,7 +118,7 @@ const config = defineConfig(
 		return {
 			input    : '../../../docs',
 			output   : './build/ws',
-			name     : 'dovenvfff',
+			name     : 'dovenv',
 			npmURL   : 'https://www.npmjs.com/package/dovenv',
 			navLinks : [
 				{

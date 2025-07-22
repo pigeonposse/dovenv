@@ -1,5 +1,11 @@
 # @dovenv/repo-config
 
+## 1.6.0
+
+### Minor Changes
+
+- Remove support for common JS, fix issues
+
 ## 1.5.30
 
 ### Patch Changes

@@ -421,7 +421,7 @@ export class Predocs {
 
 					const customConfig = opts?.custom || {}
 
-					d.const.docsIndex = yaml.serialize( deepmerge( layoutConfig, customConfig ) )
+					d.const.docsIndex = await yaml.serialize( deepmerge( layoutConfig, customConfig ) )
 
 					if ( opts?.content ) d.const.docsIndex += `\n\n${opts.content}`
 

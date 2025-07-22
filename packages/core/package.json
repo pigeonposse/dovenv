@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"aio",
@@ -43,20 +43,12 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		},
 		"./utils": {
 			"import": {
 				"types": "./dist/utils.d.mts",
 				"default": "./dist/utils.mjs"
-			},
-			"require": {
-				"types": "./dist/utils.d.cts",
-				"default": "./dist/utils.cjs"
 			}
 		}
 	},

@@ -1,5 +1,16 @@
 # @dovenv/convert
 
+## 1.6.0
+
+### Minor Changes
+
+- Remove support for common JS, fix issues
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dovenv/core@1.6.0
+
 ## 1.5.35
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/docs",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Documentation utils for dovenv",
 	"keywords": [
 		"docs",
@@ -37,10 +37,6 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		}
 	},
@@ -64,19 +60,19 @@
 	},
 	"dependencies": {
 		"@resvg/resvg-js": "2.6.2",
-		"@shikijs/vitepress-twoslash": "3.8.0",
+		"@shikijs/vitepress-twoslash": "3.8.1",
 		"@vite-pwa/assets-generator": "1.0.0",
 		"markdown-it-container": "4.0.0",
 		"markdown-it-task-lists": "2.1.1",
 		"medium-zoom": "1.1.0",
-		"satori": "0.15.2",
+		"satori": "0.16.0",
 		"satori-html": "0.3.2",
 		"vite-plugin-full-reload": "1.2.0",
 		"vite-plugin-pwa": "1.0.1",
 		"vite-plugin-restart": "1.0.0",
 		"vitepress": "1.6.3",
 		"vitepress-plugin-group-icons": "1.6.1",
-		"vitepress-plugin-llmstxt": "0.2.0",
+		"vitepress-plugin-llmstxt": "0.3.2",
 		"vitepress-plugin-rss": "0.3.1",
 		"vue": "3.5.17"
 	},

@@ -572,11 +572,11 @@ const myUnion = createLiteralUnion( ['one', 'two', 'three'] )
 
 | Property | Type | Default value |
 | ------ | ------ | ------ |
-| `deserialize` | (`shape`: `SzType`, `opts`?: `Partial`\<`DezerializerOptions`\>) => `ZodTypes` | `dezerialize` |
-| `Error` | *typeof* `ZodError` | `ValidateError` |
+| `deserialize` | \<`R`\>(`v`: `JsonSchema`) => `R` | `deserializeValidation` |
+| `Error` | `$constructor`\<`ZodError`\<`unknown`\>, `$ZodIssue`[]\> | `ValidateError` |
 | `formatError` | (`error`: `unknown`) => `string` | `formatValidationError` |
 | `schema` | `__module` | `validate` |
-| `serialize` | \<`T`\>(`schema`: `T`, `opts`?: `Partial`\<`ZerializerOptions`\>) => `Zerialize`\<`T`\> | `zerialize` |
+| `serialize` | (`schema`: `$ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\>, `_params`?: `ToJSONSchemaParams`) => `JSONSchema.BaseSchema`(`registry`: `$ZodRegistry`\<\{\}, `$ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\>\>, `_params`?: `RegistryToJSONSchemaParams`) => \{\} | `serializeValidation` |
 
 ## Functions
 
@@ -2566,25 +2566,24 @@ show()
 ### deserializeValidation()
 
 ```ts
-function deserializeValidation(shape: SzType, opts?: Partial<DezerializerOptions>): ZodTypes
+function deserializeValidation<R>(v: JsonSchema): R
 ```
 
-Deserializes.
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `R` *extends* [`ValidateAnyType`](#validateanytype) |
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `shape` | `SzType` |
-| `opts`? | `Partial`\<`DezerializerOptions`\> |
+| `v` | `JsonSchema` |
 
 #### Returns
 
-`ZodTypes`
-
-#### See
-
-https://www.npmjs.com/package/zodex?activeTab=readme
+`R`
 
 ***
 
@@ -4216,7 +4215,7 @@ console.log( object1, object2, object3 )
 ### getObjectFromCSVContent()
 
 ```ts
-function getObjectFromCSVContent<Res>(content: string, options: ParserOptionsArgs): Promise<Res>
+function getObjectFromCSVContent<Res>(content: string, options: Options): Promise<Res>
 ```
 
 #### Type Parameters
@@ -4230,7 +4229,7 @@ function getObjectFromCSVContent<Res>(content: string, options: ParserOptionsArg
 | Parameter | Type |
 | ------ | ------ |
 | `content` | `string` |
-| `options` | `ParserOptionsArgs` |
+| `options` | `Options` |
 
 #### Returns
 
@@ -6915,18 +6914,6 @@ Converts a Markdown input to a terminal formatted string.
 
 ***
 
-### mdParser()
-
-```ts
-function mdParser(): Promise<MDParser>
-```
-
-#### Returns
-
-`Promise`\<[`MDParser`](#mdparser-1)\>
-
-***
-
 ### normalizePath()
 
 ```ts
@@ -8421,20 +8408,26 @@ console.log(typeString);
 ### schema2zod()
 
 ```ts
-function schema2zod(params: Schema2zod): Promise<string>
+function schema2zod<R>(v: JsonSchema): R
 ```
 
 JSON schema to zod type.
 
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `R` *extends* [`ValidateAnyType`](#validateanytype) |
+
 #### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `params` | `Schema2zod` | Options. |
+| Parameter | Type |
+| ------ | ------ |
+| `v` | `JsonSchema` |
 
 #### Returns
 
-`Promise`\<`string`\>
+`R`
 
 - Zodtype in string.
 
@@ -8455,32 +8448,47 @@ console.log(zodSchema)
 
 ### serializeValidation()
 
+Serializes and simplifies types into a JSON format.
+
+#### serializeValidation(schema, _params)
+
 ```ts
-function serializeValidation<T>(schema: T, opts?: Partial<ZerializerOptions>): Zerialize<T>
+function serializeValidation(schema: $ZodType<unknown, unknown, $ZodTypeInternals<unknown, unknown>>, _params?: ToJSONSchemaParams): JSONSchema.BaseSchema
 ```
 
 Serializes and simplifies types into a JSON format.
 
-#### Type Parameters
-
-| Type Parameter |
-| ------ |
-| `T` *extends* `ZodTypes` |
-
-#### Parameters
+##### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `schema` | `T` |
-| `opts`? | `Partial`\<`ZerializerOptions`\> |
+| `schema` | `$ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> |
+| `_params`? | `ToJSONSchemaParams` |
 
-#### Returns
+##### Returns
 
-`Zerialize`\<`T`\>
+`JSONSchema.BaseSchema`
 
-#### See
+#### serializeValidation(registry, _params)
 
-https://www.npmjs.com/package/zodex?activeTab=readme
+```ts
+function serializeValidation(registry: $ZodRegistry<{}, $ZodType<unknown, unknown, $ZodTypeInternals<unknown, unknown>>>, _params?: RegistryToJSONSchemaParams): {}
+```
+
+Serializes and simplifies types into a JSON format.
+
+##### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `registry` | `$ZodRegistry`\<\{\}, `$ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\>\> |
+| `_params`? | `RegistryToJSONSchemaParams` |
+
+##### Returns
+
+```ts
+{}
+```
 
 ***
 
@@ -8896,7 +8904,7 @@ await writeFileContent('./greetFile.txt', 'Hello')
 ### zod2schema()
 
 ```ts
-function zod2schema(params: Zod2schema): Promise<JsonSchema7Type & {}>
+function zod2schema(params: Zod2schema): Promise<JSONSchema>
 ```
 
 Converts a zod schema to a JSON schema.
@@ -8909,7 +8917,7 @@ Converts a zod schema to a JSON schema.
 
 #### Returns
 
-`Promise`\<`JsonSchema7Type` & \{\}\>
+`Promise`\<`JSONSchema`\>
 
 The JSON schema.
 
@@ -9240,24 +9248,6 @@ type GradientOpts: {
 ```ts
 type HighlightOpts: Parameters<typeof highlight>[1];
 ```
-
-***
-
-### MDParser
-
-```ts
-type MDParser: {
-  deserialize: (str: string) => MarkdownObject;
-  serialize: (obj: MarkdownObject) => string;
-};
-```
-
-#### Type declaration
-
-| Name | Type |
-| ------ | ------ |
-| `deserialize` | (`str`: `string`) => `MarkdownObject` |
-| `serialize` | (`obj`: `MarkdownObject`) => `string` |
 
 ***
 
@@ -9936,24 +9926,6 @@ const colorConversion: {
 
 ***
 
-### csv
-
-```ts
-const csv: {
-  deserialize: getObjectFromCSVContent;
-  serialize: object2csv;
-};
-```
-
-#### Type declaration
-
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `deserialize` | \<`Res`\>(`content`: `string`, `options`: `ParserOptionsArgs`) => `Promise`\<`Res`\> | getObjectFromCSVContent |
-| `serialize` | \<`I`\>(`obj`: `I`, `options`: `FormatterOptionsArgs`\<`any`, `any`\>) => `Promise`\<`string`\> | object2csv |
-
-***
-
 ### icon
 
 ```ts
@@ -9976,24 +9948,6 @@ console.log(
   icon.bullet
 )
 ```
-
-***
-
-### ini
-
-```ts
-const ini: {
-  deserialize: getObjectFromINIContent;
-  serialize: objectToINI;
-};
-```
-
-#### Type declaration
-
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `deserialize` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromINIContent |
-| `serialize` | \<`I`\>(`obj`: `I`) => `Promise`\<`string`\> | objectToINI |
 
 ***
 
@@ -10154,42 +10108,6 @@ const promptLineMethods: {
 
 ***
 
-### svg
-
-```ts
-const svg: {
-  deserialize: parse;
-  serialize: stringify;
-};
-```
-
-#### Type declaration
-
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `deserialize` | (`input`: `string`, `options`?: `IParseOptions`) => `Promise`\<`INode`\> | parse |
-| `serialize` | (`ast`: `INode`, `options`?: `IStringifyOptions`) => `string` | stringify |
-
-***
-
-### toml
-
-```ts
-const toml: {
-  deserialize: getObjectFromTOMLContent;
-  serialize: (content: object) => string;
-};
-```
-
-#### Type declaration
-
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `deserialize` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromTOMLContent |
-| `serialize` | (`content`: `object`) => `string` | - |
-
-***
-
 ### validate
 
 ```ts
@@ -10208,7 +10126,7 @@ https://zod.dev/
 ### ValidateError
 
 ```ts
-const ValidateError: typeof ZodError = ZodError;
+const ValidateError: $constructor<ZodError<unknown>, $ZodIssue[]> = ZodError;
 ```
 
 Validate error class.
@@ -10217,42 +10135,6 @@ The validation functions are a wrapper of `zod` functions.
 #### See
 
 https://zod.dev/
-
-***
-
-### xml
-
-```ts
-const xml: {
-  deserialize: getObjectFromXMLContent;
-  serialize: objectToXML;
-};
-```
-
-#### Type declaration
-
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `deserialize` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromXMLContent |
-| `serialize` | \<`I`\>(`obj`: `I`) => `Promise`\<`string`\> | objectToXML |
-
-***
-
-### yaml
-
-```ts
-const yaml: {
-  deserialize: getObjectFromYAMLContent;
-  serialize: (content: object) => string;
-};
-```
-
-#### Type declaration
-
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `deserialize` | \<`Res`\>(`content`: `string`) => `Promise`\<`Res`\> | getObjectFromYAMLContent |
-| `serialize` | (`content`: `object`) => `string` | - |
 
 ## Namespaces
 

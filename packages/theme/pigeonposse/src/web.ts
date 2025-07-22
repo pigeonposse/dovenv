@@ -85,7 +85,7 @@ export const pigeonposseWebPlugin = ( params?: WebConfig ) => {
 						status : 'active',
 					}, params?.values || {} ) }
 
-				const res    = yaml.serialize( deepmerge( data, params?.customValues || {} ) )
+				const res    = await yaml.serialize( deepmerge( data, params?.customValues || {} ) )
 				const schema = `# yaml-language-server: $schema=https://www.unpkg.com/@pigeonposse/api-2025@${params?.version || 'latest'}/dist/schema/config.json`
 				return schema + `\n` + ( c?.templateMark || '' ) + `\n\n` + res
 

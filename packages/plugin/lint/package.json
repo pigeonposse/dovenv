@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/lint",
-	"version": "1.5.35",
+	"version": "1.6.0",
 	"description": "Lint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -44,10 +44,6 @@
 			"import": {
 				"types": "./dist/main.d.mts",
 				"default": "./dist/main.mjs"
-			},
-			"require": {
-				"types": "./dist/main.d.cts",
-				"default": "./dist/main.cjs"
 			}
 		}
 	},
