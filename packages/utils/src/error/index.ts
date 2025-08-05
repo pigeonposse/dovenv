@@ -1,11 +1,11 @@
 /**
  * Catches errors from a promise and returns a tuple indicating success or failure.
  *
- * @template T - The type of the resolved value of the promise.
- * @param   {Promise<T>}                        promise - The promise to handle errors for.
- * @returns {Promise<[undefined, T] | [Error]>}         A promise that resolves to a tuple.
- *                                                      The tuple contains either `[undefined, T]` if the promise is resolved successfully,
- *                                                      or `[Error]` if an error occurs.
+ * @template                                     T       - The type of the resolved value of the promise.
+ * @param    {Promise<T>}                        promise - The promise to handle errors for.
+ * @returns  {Promise<[undefined, T] | [Error]>}         A promise that resolves to a tuple.
+ *                                                       The tuple contains either `[undefined, T]` if the promise is resolved successfully,
+ *                                                       or `[Error]` if an error occurs.
  */
 export const catchError = async <T>( promise: Promise<T> ): Promise<[undefined, T] | [Error]> => {
 

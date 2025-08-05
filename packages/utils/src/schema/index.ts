@@ -66,9 +66,9 @@ export const schema2zod = deserializeValidation
 /**
  * Parses a JSON schema string into an object.
  *
- * @template R - The type of the object to be returned.
- * @param   {string} schema - The JSON schema string to parse.
- * @returns {R}             - The parsed object.
+ * @template          R      - The type of the object to be returned.
+ * @param    {string} schema - The JSON schema string to parse.
+ * @returns  {R}             - The parsed object.
  * @throws {SyntaxError} - If the input string is not a valid JSON.
  * @example
  * const obj = schema2object<{ foo: string }>('{"foo": "bar"}');

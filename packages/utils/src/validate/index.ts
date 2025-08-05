@@ -31,9 +31,9 @@ export type ToValidate<T> = z.ZodType<T, Any, Any>
 /**
  * Creates a validation schema function for a given TypeScript type.
  *
- * @template Type - The expected TypeScript type for the validation schema.
- * @param   {(v: Validate) => ValidateType<Type>} schemaFn - A function that defines the validation schema.
- * @returns {(v: Validate) => ValidateType<Type>}          - A function that returns the validation schema.
+ * @template                                       Type     - The expected TypeScript type for the validation schema.
+ * @param    {(v: Validate) => ValidateType<Type>} schemaFn - A function that defines the validation schema.
+ * @returns  {(v: Validate) => ValidateType<Type>}          - A function that returns the validation schema.
  * @example
  * import {validate} from '@dovenv/utils' // validate = Zod  wrapper
  * type User = { name: string}
@@ -47,9 +47,9 @@ export const createValidateSchemaFn = <Type>(
 /**
  * Creates and immediately returns a validation schema for a given TypeScript type.
  *
- * @template Type - The expected TypeScript type for the validation schema.
- * @param   {(v: Validate) => ValidateType<Type>} schemaFn - A function that defines the validation schema.
- * @returns {ValidateType<Type>}                           - The resulting validation schema.
+ * @template                                       Type     - The expected TypeScript type for the validation schema.
+ * @param    {(v: Validate) => ValidateType<Type>} schemaFn - A function that defines the validation schema.
+ * @returns  {ValidateType<Type>}                           - The resulting validation schema.
  * @example
  * type User = { name: string}
  * const userSchema = createValidateSchema<User>((v) => v.object({ name: v.string().min(3) }));

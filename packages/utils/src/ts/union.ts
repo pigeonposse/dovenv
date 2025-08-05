@@ -19,7 +19,7 @@ export type UnionToIntersection<U> = ( U extends Any
  * Type utility to flatten a union type.
  *
  * @template T - The union type to be flattened.
- * @returns The flattened type.
+ * @returns    The flattened type.
  * @example
  * type UnionType = 'a' | 'b' | 'c'
  * type FlattenedType = FlattenUnion<UnionType> // type FlattenedType = 'a' | 'b' | 'c'

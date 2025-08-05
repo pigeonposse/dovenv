@@ -13,6 +13,8 @@ env:
     DOCS_ID: 'dovenv'
     DOCS_DIR: 'packages/docs/build/docs'
     BUILD_CMD: 'pnpm build && pnpm build-doc'
+permissions:
+  contents: read
 
 ###############################################################################
 # JOBS

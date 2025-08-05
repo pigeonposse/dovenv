@@ -655,11 +655,11 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	/**
 	 * Retrieves matching keys from a given list of values based on a pattern.
 	 *
-	 * @template K - An array of string keys.
-	 * @param   {object}                  props           - The function parameters.
-	 * @param   {K}                       props.input     - The list of available keys.
-	 * @param   {string[]}                [props.pattern] - An optional pattern to filter the keys.
-	 * @returns {K[number][] | undefined}                 The matched keys, or `undefined` if no matches are found.
+	 * @template                           K               - An array of string keys.
+	 * @param    {object}                  props           - The function parameters.
+	 * @param    {K}                       props.input     - The list of available keys.
+	 * @param    {string[]}                [props.pattern] - An optional pattern to filter the keys.
+	 * @returns  {K[number][] | undefined}                 The matched keys, or `undefined` if no matches are found.
 	 */
 	getKeys<K extends string[]>( props: {
 		input    : K
@@ -741,7 +741,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 			? ( string | undefined )
 			: undefined
 			) | undefined
-		> {
+	> {
 
 		if ( !data.name ) data.name = this.title
 
@@ -845,16 +845,16 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * Executes a callback function in parallel for each key-value pair in the input object
 	 * that matches a specified pattern.
 	 *
-	 * @template V - A record type representing the input object's key-value pairs.
-	 * @template P - A string or array of strings used as a pattern to filter the keys.
-	 * @template R - The type of the result returned by the callback function.
-	 * @param   {object}                       opts         - The options object.
-	 * @param   {V}                            opts.input   - The input object containing key-value pairs to process.
-	 * @param   {P}                            opts.pattern - An optional pattern to filter the keys to be processed.
-	 * @param   {Function}                     opts.cb      - A callback function executed for each matching key-value pair.
-	 *                                                      The callback receives an object containing the key, value, and a logger.
-	 * @returns {Promise<{[K in keyof V]: R}>}              A promise that resolves to an object containing the results
-	 *                                                      of the callback execution for each key.
+	 * @template                                V            - A record type representing the input object's key-value pairs.
+	 * @template                                P            - A string or array of strings used as a pattern to filter the keys.
+	 * @template                                R            - The type of the result returned by the callback function.
+	 * @param    {object}                       opts         - The options object.
+	 * @param    {V}                            opts.input   - The input object containing key-value pairs to process.
+	 * @param    {P}                            opts.pattern - An optional pattern to filter the keys to be processed.
+	 * @param    {Function}                     opts.cb      - A callback function executed for each matching key-value pair.
+	 *                                                       The callback receives an object containing the key, value, and a logger.
+	 * @returns  {Promise<{[K in keyof V]: R}>}              A promise that resolves to an object containing the results
+	 *                                                       of the callback execution for each key.
 	 */
 
 	async mapOpts<
@@ -912,10 +912,10 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 *
 	 * If error print in console and exit from process.
 	 *
-	 * @template T - The expected return type.
-	 * @param   {Promise<T>} fn      - The Promise to handle.
-	 * @param   {string}     [title] - Optional title for the error output.
-	 * @returns {Promise<T>}         The resolved value of the Promise.
+	 * @template              T       - The expected return type.
+	 * @param    {Promise<T>} fn      - The Promise to handle.
+	 * @param    {string}     [title] - Optional title for the error output.
+	 * @returns  {Promise<T>}         The resolved value of the Promise.
 	 */
 	async catchFn<Res>( fn: Promise<Res>, title?:string ) {
 

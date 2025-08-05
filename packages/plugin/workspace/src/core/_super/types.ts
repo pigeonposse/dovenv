@@ -26,8 +26,8 @@ type CheckOpts = {
 	/** Dovenv configuration */
 	utils   : CommandUtils
 }
-type PatternCheck = string[] |
-	( ( opts: CheckOpts ) => Promise<string[] | undefined> | ( string[] | undefined ) )
+type PatternCheck = string[]
+	| ( ( opts: CheckOpts ) => Promise<string[] | undefined> | ( string[] | undefined ) )
 
 type Sharedcheck = {
 	desc?    : string
