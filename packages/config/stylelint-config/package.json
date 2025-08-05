@@ -50,8 +50,7 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "unbuild",
-		"test": "stylelint tests/** --fix"
+		"build": "unbuild"
 	},
 	"dependencies": {
 		"postcss-html": "1.8.0",

@@ -1,1 +1,2 @@
-export * from '@dovenv/stylelint-config'
+// Remove support
+// export * from '@dovenv/stylelint-config'
