@@ -1,6 +1,6 @@
 <script setup>
 
-import { useData } from 'vitepress'
+import { useData } from 'vitepress/client'
 
 const formatLink = ( key, link ) => {
 

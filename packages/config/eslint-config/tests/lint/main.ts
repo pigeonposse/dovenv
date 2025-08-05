@@ -3,8 +3,8 @@ import * as eslint from 'eslint'
 const toConsole  =  'holaaaa'
 const toConsole2 =   ( _d: string ) => {}
 const toConsole3 = ( ) => {}
-type DirectiveConfigSchema = | 'allow-with-description' |
-	{ descriptionFormat?: string }
+type DirectiveConfigSchema = | 'allow-with-description'
+	| { descriptionFormat?: string }
 	| boolean
 interface T2 {
 	func  : ( arg: boolean ) => void

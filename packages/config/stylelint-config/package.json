@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/stylelint-config",
-	"version": "1.6.0",
+	"version": "1.6.1",
 	"description": "Stylelint configuration for dovenv",
 	"keywords": [
 		"config",
@@ -57,8 +57,8 @@
 		"postcss-html": "1.8.0",
 		"stylelint-config-html": "1.1.0",
 		"stylelint-config-recess-order": "7.1.0",
-		"stylelint-config-recommended": "16.0.0",
-		"stylelint-config-standard": "38.0.0",
+		"stylelint-config-recommended": "17.0.0",
+		"stylelint-config-standard": "39.0.0",
 		"stylelint-order": "7.0.0"
 	},
 	"devDependencies": {

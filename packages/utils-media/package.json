@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/utils-media",
-	"version": "1.6.0",
+	"version": "1.6.1",
 	"description": "Extra Media Utilities for dovenv",
 	"keywords": [
 		"aio",
@@ -61,13 +61,13 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "6.7.2",
-		"@fortawesome/free-brands-svg-icons": "6.7.2",
-		"@fortawesome/free-regular-svg-icons": "6.7.2",
-		"@fortawesome/free-solid-svg-icons": "6.7.2",
+		"@fortawesome/fontawesome-svg-core": "7.0.0",
+		"@fortawesome/free-brands-svg-icons": "7.0.0",
+		"@fortawesome/free-regular-svg-icons": "7.0.0",
+		"@fortawesome/free-solid-svg-icons": "7.0.0",
 		"@resvg/resvg-js": "2.6.2",
 		"badge-maker": "5.0.2",
-		"gif-frames": "1.0.1",
+		"gifwrap": "0.10.1",
 		"jimp-compact": "0.16.1-2",
 		"terminal-image": "3.1.1"
 	},

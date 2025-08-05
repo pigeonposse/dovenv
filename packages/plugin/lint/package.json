@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/lint",
-	"version": "1.6.0",
+	"version": "1.6.1",
 	"description": "Lint configuration for dovenv",
 	"keywords": [
 		"eslint",
@@ -64,9 +64,9 @@
 		"@commitlint/load": "19.8.1",
 		"@commitlint/read": "19.8.1",
 		"commitlint-config-gitmoji": "2.3.1",
-		"lint-staged": "16.1.2",
+		"lint-staged": "16.1.4",
 		"publint": "0.3.12",
-		"stylelint": "16.21.1",
+		"stylelint": "16.23.0",
 		"stylelint-formatter-pretty": "4.0.1"
 	},
 	"devDependencies": {

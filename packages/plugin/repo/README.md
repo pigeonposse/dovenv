@@ -12,7 +12,7 @@
 [![License](https://img.shields.io/github/license/pigeonposse/dovenv?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/@dovenv/core?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/@dovenv/core)
 [![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/@dovenv/repo?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/@dovenv/repo)
-[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/repo/1.5.35?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/repo)
+[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@dovenv/repo/1.6.0?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@dovenv/repo)
 
 Repository tools for any runtime
 
@@ -52,9 +52,9 @@ deno add @dovenv/repo
   - 🤖 [Ai](https://dovenv.pigeonposse.com/guide/plugin/ai)
   - 🔄 [Convert](https://dovenv.pigeonposse.com/guide/plugin/convert)
   - 📚 [Docs](https://dovenv.pigeonposse.com/guide/plugin/docs)
-  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🧹 [Lint](https://dovenv.pigeonposse.com/guide/plugin/lint)
   - 🎥 [Media](https://dovenv.pigeonposse.com/guide/plugin/media)
+  - 💡 [Examples](https://dovenv.pigeonposse.com/guide/plugin/examples)
   - 🗃️ [Repo](https://dovenv.pigeonposse.com/guide/plugin/repo)
   - 🖼️ [Templates](https://dovenv.pigeonposse.com/guide/plugin/templates)
   - ✅ [Todo](https://dovenv.pigeonposse.com/guide/plugin/todo)
@@ -63,8 +63,8 @@ deno add @dovenv/repo
   - [Eslint-config](https://dovenv.pigeonposse.com/guide/config/eslint-config)
   - [Stylelint-config](https://dovenv.pigeonposse.com/guide/config/stylelint-config)
 - 🎨 [Theme](https://dovenv.pigeonposse.com/guide/theme)
-  - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
   - [Pigeonposse](https://dovenv.pigeonposse.com/guide/theme/pigeonposse)
+  - [Banda](https://dovenv.pigeonposse.com/guide/theme/banda)
 
 
 ---

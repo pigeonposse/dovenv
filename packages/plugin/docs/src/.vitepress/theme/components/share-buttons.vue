@@ -2,7 +2,7 @@
 
 // @see https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/components/VPSocialLinks.vue
 
-import { useData }      from 'vitepress'
+import { useData }      from 'vitepress/client'
 import { VPSocialLink } from 'vitepress/theme'
 
 const FA = {

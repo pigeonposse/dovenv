@@ -1,9 +1,24 @@
 <script setup>
 
-import { getRouteData } from 'vitepress-plugin-llmstxt/client'
-import { computed }     from 'vue'
+import {
+	useRoute,
+	useData,
+} from 'vitepress/client'
+import { useLLMsRouteData } from 'vitepress-plugin-llmstxt/client'
+import {
+	ref,
+	watch,
+} from 'vue'
 
-const llmsPath = computed( () => getRouteData()?.path )
+const data     = useData()
+const route    = useRoute()
+const llmsPath = ref( useLLMsRouteData( route, data )?.path )
+
+watch(
+	route,
+	newValue => llmsPath.value = useLLMsRouteData( newValue, data )?.path,
+	{ immediate: true },
+)
 
 </script>
 

@@ -63,7 +63,7 @@ export type ConfigParams = {
 	/** @default 'js' */
 	general    : 'ts' | 'js'
 	jsdoc      : boolean
-	css        : boolean
+	css        : boolean | Parameters<typeof setCssConfig>[0]
 	html       : boolean
 	md         : boolean
 	json       : boolean
@@ -103,7 +103,9 @@ export const setConfig = (
 	const allConfig = [
 		...( props.general === 'ts' ? tsConfig : jsConfig ),
 		...( props.jsdoc ? jsdocConfig : [] ),
-		...( props.css ? cssConfig : [] ),
+		...( props.css
+			? ( typeof props.css === 'boolean' ? cssConfig : setCssConfig( props.css ) )
+			: [] ),
 		...( props.html ? htmlConfig : [] ),
 		...( props.md ? mdConfig : [] ),
 		...( props.json ? jsonConfig : [] ),

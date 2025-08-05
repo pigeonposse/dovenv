@@ -10,7 +10,6 @@ const FLAGS = {
 	CONFIG_PATH : 'config-path',
 	PKG_PATH    : 'package-path',
 	FLAG        : 'flag',
-
 } as const
 
 const CMDS = {
@@ -38,6 +37,7 @@ const opts = {
 } as const
 
 const exampleGenerateAssets = `$0 ${CMDS.DOCS} ${CMDS.GENERATE_ASSETS} --${FLAGS.FLAG}="--preset=minimal" --${FLAGS.FLAG}=public/logo.svg`
+
 /**
  * Define a `dovenv` configuration that creates a documentation site for your workspace.
  *

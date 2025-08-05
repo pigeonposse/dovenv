@@ -1,5 +1,14 @@
 # @dovenv/media
 
+## 1.6.1
+
+### Patch Changes
+
+- update deps
+
+- Updated dependencies []:
+  - @dovenv/core@1.6.1
+
 ## 1.6.0
 
 ### Minor Changes

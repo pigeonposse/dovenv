@@ -21,23 +21,25 @@ import type {
  * @param   {Gif2ImagesProps['input']} params.input - URL, path, or Buffer containing the GIF image data.
  * @returns {Promise<Buffer[]>}                     - A promise that resolves with an array of buffers, each representing a frame of the GIF.
  */
-export const gif2images = async ( params: Gif2ImagesProps ): Promise<Buffer[]> => {
 
-	const { input }   = params
-	const inputBuffer = await _getMediaInput( input )
-	// @ts-ignore
-	const gifFrames = await import( 'gif-frames' )
-	const frames    = await gifFrames( {
-		url        : inputBuffer,
-		frames     : 'all',
-		outputType : 'png',
-	} )
-	// console.log( { frames } )
-	// @ts-ignore
-	return frames.map( frame => frame.getImage() )
+export const gif2images = async ( { input }: Gif2ImagesProps ): Promise<Buffer[]> => {
+
+	const inputBuffer       = await _getMediaInput( input )
+	const { GifCodec }      = await import( 'gifwrap' )
+	const { default: Jimp } = await import( 'jimp-compact' )
+
+	const codec = new GifCodec()
+	const gif   = await codec.decodeGif( inputBuffer )
+
+	return await Promise.all(
+		gif.frames.map( frame => new Jimp( {
+			data   : Buffer.from( frame.bitmap.data ),
+			width  : frame.bitmap.width,
+			height : frame.bitmap.height,
+		} ) ),
+	)
 
 }
-
 /**
  * Converts each frame of a GIF image to an ASCII string.
  *

@@ -191,7 +191,7 @@ export const setJsConfig = ( params?: JsConfigParams ): Config[] => [
 			'@stylistic/function-call-spacing'   : [ 'error', 'never' ],
 			'@stylistic/object-curly-spacing'    : [ 'error', 'always' ],
 			'@stylistic/object-curly-newline'    : [ 'error', { minProperties: 2 } ],
-			'@stylistic/object-property-newline' : [ 'error', { allowMultiplePropertiesPerLine: false } ],
+			'@stylistic/object-property-newline' : [ 'error', { allowAllPropertiesOnSameLine: false } ],
 			'@stylistic/array-bracket-spacing'   : [ 'error', 'always' ],
 			'@stylistic/array-bracket-newline'   : [
 				'error',

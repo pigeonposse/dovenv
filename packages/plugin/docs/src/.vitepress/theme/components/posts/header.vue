@@ -1,5 +1,5 @@
 <script setup>
-import { useData } from 'vitepress'
+import { useData } from 'vitepress/client'
 
 const { frontmatter } = useData()
 </script>

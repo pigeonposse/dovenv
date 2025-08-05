@@ -2,7 +2,6 @@ import { getCommandUtils } from '@dovenv/core'
 import {
 	replaceStd,
 	deprecatedAlerts,
-	LazyLoader,
 } from '@dovenv/core/utils'
 
 import { DocsParams }    from './types'
@@ -14,9 +13,6 @@ import {
 	homepage,
 } from '../_shared/const'
 import { setConfigGlobals } from '../config'
-
-// @ts-ignore
-const loader = new LazyLoader( { vitepressCli: async () => await import( 'vitepress/dist/node/cli.js' ) } )
 
 export class DocsCore {
 
@@ -82,7 +78,8 @@ export class DocsCore {
 
 			this.utils.prompt.log.info( `${this.utils.style.info.b( type )} process starting...\n` )
 
-			await loader.get( 'vitepressCli' )
+			// @ts-ignore
+			await import( 'vitepress/dist/node/cli.js' )
 			this.utils.process.argv = oldArgv
 
 		}

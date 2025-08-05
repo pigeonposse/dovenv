@@ -1,5 +1,8 @@
-import css                from '@eslint/css'
-import { tailwindSyntax } from '@eslint/css/syntax'
+import css    from '@eslint/css'
+import {
+	tailwind4,
+	tailwind3,
+} from 'tailwind-csstree'
 
 import { FILES } from './const'
 
@@ -13,10 +16,11 @@ type CssRuleKey = keyof typeof css.configs.recommended['rules']
 export type CssConfigParams = ConfigParamsSuper & {
 	/**
 	 * Support for Tailwind CSS.
+	 * If set to `3` or `4`, Tailwind CSS 3 or 4 syntax will be used.
 	 *
 	 * @default false
 	 */
-	tailwind? : boolean
+	tailwind? : boolean | 3 | 4
 	/**
 	 * Support for PostCSS.
 	 *
@@ -57,7 +61,7 @@ export const setCssConfig = ( params?: CssConfigParams ): Config[] => [
 		plugins  : { css },
 		...( params?.tailwind || params?.postcss
 			? { languageOptions : {
-				...( params?.tailwind ? { customSyntax: tailwindSyntax } : {} ),
+				...( params?.tailwind ? { customSyntax: params.tailwind === 3 ? tailwind3 : tailwind4 } : {} ),
 				...( params?.postcss ? { tolerant: true } : {} ),
 			} }
 			: {}
