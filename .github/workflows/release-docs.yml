@@ -30,23 +30,12 @@ jobs:
       # INIT
       #########################################################################
 
-      - name: ⬇️🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-      - name: ⬇️🛎 Checkout
-        uses: actions/checkout@v4
-      - name: ⬇️🥡 Install pnpm
-        uses: pnpm/action-setup@v4
-      - name: ⬇️🟢 Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
+      - uses: ./.github/actions/setup
+        with: 
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 
-      - name: ⬇️📦 Install dependencies
-        run: |
-           export npm_config_build_from_source=false
-           pnpm install --no-frozen-lockfile --ignore-scripts
-           pnpm i -g wrangler
+      - name: Install extra dependencies
+        run: pnpm i -g wrangler
 
       #########################################################################
       # BUILD
