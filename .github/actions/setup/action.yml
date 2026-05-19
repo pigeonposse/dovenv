@@ -1,8 +1,11 @@
 name: "Setup"
 description: "Setup Node.js & PNPM environment and dependencies"
+
 inputs:
   GITHUB_TOKEN:
+    description: Github token
     required: true
+
 runs:
   using: "composite"
   steps:
@@ -31,8 +34,10 @@ runs:
           fi
         env:
             GH_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        shell: bash
 
       - name: ⬇️📦 Install dependencies
         run: |
            export npm_config_build_from_source=false
            pnpm install --no-frozen-lockfile --ignore-scripts
+        shell: bash
