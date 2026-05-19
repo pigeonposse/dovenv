@@ -7,7 +7,8 @@ const formatLink = ( key, link ) => {
 	return key === 'email' ? `mailto:${link}` : link
 
 }
-const { theme }  = useData()
+
+const { theme } = useData()
 
 </script>
 

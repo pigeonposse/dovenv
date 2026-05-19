@@ -16,14 +16,16 @@ export default defineBuildConfig( [
 				outDir : 'dist/.vitepress',
 			},
 		],
-		hooks : { 'build:done' : async () => {
+		hooks : {
+			'build:done' : async () => {
 
-			await copyDir( {
-				input  : resolve( 'src/.vitepress/theme' ),
-				output : resolve( 'dist/.vitepress/theme' ),
-			} )
+				await copyDir( {
+					input  : resolve( 'src/.vitepress/theme' ),
+					output : resolve( 'dist/.vitepress/theme' ),
+				} )
 
-		} },
+			},
+		},
 		externals : [ '@dovenv/core' ],
 	},
 ] )

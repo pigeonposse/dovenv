@@ -1,5 +1,14 @@
 # @dovenv/utils-media
 
+## 1.6.2
+
+### Patch Changes
+
+- fix issues, up depensences for fix vulnerabilities
+
+- Updated dependencies []:
+  - @dovenv/utils@1.6.2
+
 ## 1.6.1
 
 ### Patch Changes

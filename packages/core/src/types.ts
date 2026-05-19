@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
 import type { CMD }             from './_shared/const'
 import type { AliasesConfig }   from './core/aliases/types'

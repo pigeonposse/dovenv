@@ -460,12 +460,14 @@ export const execModulePathWithOutput = async ( {
 	const binPath = await getModulePath( module )
 	return new Promise( ( resolve, reject ) => {
 
-		const child = fork( binPath, args, { stdio : [
-			'pipe',
-			'pipe',
-			'pipe',
-			'ipc',
-		] } )
+		const child = fork( binPath, args, {
+			stdio : [
+				'pipe',
+				'pipe',
+				'pipe',
+				'ipc',
+			],
+		} )
 
 		let stdout = '',
 			stderr = ''

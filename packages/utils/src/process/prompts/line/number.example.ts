@@ -1,9 +1,6 @@
-import number from './number'
+import { promptLine } from '@dovenv/utils'
 
-const p = await number( {
-	message   : 'What is your age?',
-	errorText : 'failed',
-} )
+const result = await promptLine.number( { message: 'What is your age?' } )
 
-console.log( p )
+console.log( { result } )
 

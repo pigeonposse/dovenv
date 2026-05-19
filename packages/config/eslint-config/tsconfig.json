@@ -1,5 +1,10 @@
 {
 	"extends": "./node_modules/@dovenv/repo-config/tsconfig.json",
+	"compilerOptions": {
+		"types": [
+			"node"
+		],
+	},
 	"include": [
 		"./src",
 	]

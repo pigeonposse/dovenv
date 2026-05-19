@@ -9,10 +9,12 @@ import pkg            from '../../../../package.json'
 import { repoPlugin } from '../src/main'
 
 export default defineConfig( [
-	{ const : {
-		pkg,
-		workspaceDir : joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
-	} },
+	{
+		const : {
+			pkg,
+			workspaceDir : joinPath( getCurrentDir( import.meta.url ), '..', '..', '..', '..' ),
+		},
+	},
 	// lintPlugin( { commitlint: { gitmoji: true } } ),
 	repoPlugin( {
 		URL          : 'https://github.com/pigeonposse/dovenv',

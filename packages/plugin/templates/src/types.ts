@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
 import type { CommandUtils }        from '@dovenv/core'
 import type { replacePlaceholders } from '@dovenv/core/utils'

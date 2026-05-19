@@ -17,10 +17,18 @@ describe( 'ESLint configuration', () => {
 		} )
 
 		const results = await eslint.lintFiles( lintFiles )
+		const errors  = results
+			.map( r => r.errorCount
+				? {
+					errorPath : r.filePath,
+					messages  : r.messages,
+				}
+				: undefined )
+			.filter( item => item !== undefined )
 
-		const errorCount = results.reduce( ( count, result ) => count + result.errorCount, 0 )
+		if ( errors.length ) console.dir( errors, { depth: null } )
 
-		expect( errorCount ).toBe( 0 )
+		expect( errors.length ).toBe( 0 )
 
 	}, 20000 )
 
@@ -42,6 +50,7 @@ describe( 'ESLint configuration', () => {
 		}
 		catch ( error ) {
 
+			// @ts-ignore
 			expect( error.message ).toContain( 'Could not find "invented-rule"' )
 
 		}

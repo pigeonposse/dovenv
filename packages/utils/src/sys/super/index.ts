@@ -292,7 +292,7 @@ export function joinPath( ...paths: string[] ): string {
 	}
 	catch ( e ) {
 
-		throw new Error( `Failed to join path (${paths.join( ', ' )}):\n - ` + ( e instanceof Error ? e.message : e?.toString() ) )
+		throw new Error( `Failed to join path (${paths.join( ', ' )}):\n - ` + ( e instanceof Error ? e.message : e?.toString() ), { cause: e } )
 
 	}
 
@@ -394,9 +394,9 @@ export const readFiles = async (
 			return data
 
 		}
-		catch ( error ) {
+		catch ( e ) {
 
-			throw new Error( `Error reading file ${path}: ${error instanceof Error ? error.message : error?.toString()}` )
+			throw new Error( `Error reading file ${path}: ${e instanceof Error ? e.message : e?.toString()}`, { cause: e } )
 
 		}
 
@@ -428,10 +428,10 @@ export async function removeDir( path: string ): Promise<void> {
 		} )
 
 	}
-	catch ( error ) {
+	catch ( e ) {
 
 		// @ts-ignore
-		throw new Error( `Error removing ${path}: ${error.message}` )
+		throw new Error( `Error removing ${path}: ${error.message}`, { cause: e } )
 
 	}
 
@@ -546,9 +546,9 @@ export async function createDir( path: string ): Promise<void> {
 		await mkdir( path, { recursive: true } )
 
 	}
-	catch ( error ) {
+	catch ( e ) {
 
-		throw Error( `Error creating the directory: ${error}` )
+		throw Error( `Error creating the directory: ${e}`, { cause: e } )
 
 	}
 

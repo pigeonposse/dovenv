@@ -33,4 +33,6 @@ export const getObjectFromCSVContent = async <Res extends CommonCSV = CommonCSV>
 
 }
 
-export { csv }
+export {
+	csv,
+}

@@ -14,7 +14,7 @@ type Formatter = keyof typeof stylelint.formatters
 const _deps = new LazyLoader( {
 	stylelint : async () => ( await import( 'stylelint' ) ).default,
 	// @ts-ignore
-	formatter : async () => ( await import( 'stylelintFormatter' ) ).default as Formatter,
+	formatter : async () => ( await import( 'stylelint-formatter-pretty' ) ).default as Formatter,
 } )
 
 export class StyleLint extends LintSuper<StylelintConfig> {

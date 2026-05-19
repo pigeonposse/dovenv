@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
 type LazyLoaderOptions = {
 	/**

@@ -6,8 +6,6 @@ import pluginAlignAssigments from 'eslint-plugin-align-assignments'
 // @ts-ignore
 import pluginAlignImport from 'eslint-plugin-align-import'
 // @ts-ignore
-import pluginCanonical from 'eslint-plugin-canonical'
-// @ts-ignore
 import importPlugin from 'eslint-plugin-import'
 // @ts-ignore
 import pluginPromise from 'eslint-plugin-promise'
@@ -25,14 +23,20 @@ import type {
 	ConfigParamsSuper,
 } from './_types'
 
-export { globals }
+export {
+	globals,
+}
 
 export const setTsConfigDir = ( tsconfigRootDir = import.meta.dirname ): Config => {
 
-	return { languageOptions : { parserOptions : {
-		projectService : true,
-		tsconfigRootDir,
-	} } }
+	return {
+		languageOptions : {
+			parserOptions : {
+				projectService : true,
+				tsconfigRootDir,
+			},
+		},
+	}
 
 }
 
@@ -57,17 +61,19 @@ const alignedRules: Config['rules'] = {
 	],
 	'@stylistic/no-multi-spaces' : [
 		'error',
-		{ exceptions : {
-			ImportDeclaration    : true, // import x    from '...'
-			VariableDeclarator   : true, // const x     = ...
-			AssignmentExpression : true, // x           = ...
-			TSPropertySignature  : true, // type X = { a?: string }
-			PropertyDefinition   : true, // class X { x }
-		// PropertyDeclaration  : true, // class X { x }
-		// Property             : true, // object properties
-		// TSTypeLiteral        : true, // type X = { a: string }
-		// TSInterfaceBody      : true, // interface X { a: string }
-		} },
+		{
+			exceptions : {
+				ImportDeclaration    : true, // import x    from '...'
+				VariableDeclarator   : true, // const x     = ...
+				AssignmentExpression : true, // x           = ...
+				TSPropertySignature  : true, // type X = { a?: string }
+				PropertyDefinition   : true, // class X { x }
+				// PropertyDeclaration  : true, // class X { x }
+				// Property             : true, // object properties
+				// TSTypeLiteral        : true, // type X = { a: string }
+				// TSInterfaceBody      : true, // interface X { a: string }
+			},
+		},
 	],
 	'@stylistic/type-annotation-spacing' : 'off',
 }
@@ -102,21 +108,24 @@ export const setJsConfig = ( params?: JsConfigParams ): Config[] => [
 			sourceType : 'module',
 		},
 	},
-	{ plugins : {
-		...pluginPromise.configs['flat/recommended'].plugins,
-		...stylistic.configs['recommended'].plugins,
-		'import'            : fixupPluginRules( importPlugin ),
-		'canonical'         : fixupPluginRules( pluginCanonical ),
-		'align-import'      : fixupPluginRules( pluginAlignImport as Any ),
-		'align-assignments' : fixupPluginRules( pluginAlignAssigments as Any ),
-	} },
+	{
+		plugins : {
+			...pluginPromise.configs['flat/recommended'].plugins,
+			...stylistic.configs['recommended'].plugins,
+			'import'            : fixupPluginRules( importPlugin ),
+			'align-import'      : fixupPluginRules( pluginAlignImport as Any ),
+			'align-assignments' : fixupPluginRules( pluginAlignAssigments as Any ),
+		},
+	},
 	{
 		files           : FILES_WITH_JS_OR_TS,
-		languageOptions : { globals : {
-			...globals.browser,
-			...globals.node,
-			...globals.jquery,
-		} },
+		languageOptions : {
+			globals : {
+				...globals.browser,
+				...globals.node,
+				...globals.jquery,
+			},
+		},
 		rules : {
 			...eslint.configs.recommended.rules,
 			...stylistic.configs['recommended'].rules,
@@ -186,11 +195,28 @@ export const setJsConfig = ( params?: JsConfigParams ): Config[] => [
 					maxBOF : 1,
 				},
 			],
-			'@stylistic/padded-blocks'           : [ 'error', 'always' ],
-			'@stylistic/space-in-parens'         : [ 'error', 'always' ],
-			'@stylistic/function-call-spacing'   : [ 'error', 'never' ],
-			'@stylistic/object-curly-spacing'    : [ 'error', 'always' ],
-			'@stylistic/object-curly-newline'    : [ 'error', { minProperties: 2 } ],
+			'@stylistic/padded-blocks'         : [ 'error', 'always' ],
+			'@stylistic/space-in-parens'       : [ 'error', 'always' ],
+			'@stylistic/function-call-spacing' : [ 'error', 'never' ],
+			'@stylistic/object-curly-spacing'  : [ 'error', 'always' ],
+			'@stylistic/object-curly-newline'  : [
+				'error',
+				{
+					ObjectExpression : {
+						minProperties : 2,
+						multiline     : true,
+					},
+					ObjectPattern : {
+						minProperties : 2,
+						multiline     : true,
+					},
+					ImportDeclaration : {
+						minProperties : 2,
+						multiline     : true,
+					},
+					ExportDeclaration : 'always',
+				},
+			],
 			'@stylistic/object-property-newline' : [ 'error', { allowAllPropertiesOnSameLine: false } ],
 			'@stylistic/array-bracket-spacing'   : [ 'error', 'always' ],
 			'@stylistic/array-bracket-newline'   : [
@@ -246,8 +272,6 @@ export const setJsConfig = ( params?: JsConfigParams ): Config[] => [
 			'align-import/align-import'           : 'error',
 			'align-import/trim-import'            : 'error',
 			'align-assignments/align-assignments' : [ 'error' ],
-			'canonical/import-specifier-newline'  : 'error',
-			'canonical/export-specifier-newline'  : 'error',
 			...alignedRules,
 			...( params?.rules || {} ),
 		},

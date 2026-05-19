@@ -19,55 +19,61 @@ const wsDir    = joinPath( pkgDir, '..', '..', '..' )
 const buildDir = joinPath( pkgDir, 'build', 'simple' )
 
 export default defineConfig( [
-	{ const : {
-		pkg,
-		wsDir,
-		mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ansi--shadow' )}\n`,
-	} },
-	templatesPlugin( { test : {
-		input   : `{{partial.content}}`,
-		partial : {
-			readme : {
-				input : joinPath( wsDir, 'README.md' ),
-				hook  : {
-					before : async data => {
+	{
+		const : {
+			pkg,
+			wsDir,
+			mark : async () => `\n${await asciiFont( `pigeonposse\n-------\n${pkg.extra.id}`, 'ansi--shadow' )}\n`,
+		},
+	},
+	templatesPlugin( {
+		test : {
+			input   : `{{partial.content}}`,
+			partial : {
+				readme : {
+					input : joinPath( wsDir, 'README.md' ),
+					hook  : {
+						before : async data => {
 
-						data.content  = await incrementMdHeaders( data.content )
-						data.content += '\n\n<!-- {{const.mark}} -->'
-						return data
+							data.content  = await incrementMdHeaders( data.content )
+							data.content += '\n\n<!-- {{const.mark}} -->'
+							return data
 
-					},
-					after : async data => {
+						},
+						after : async data => {
 
-						const readmeContent = '# custom example of readme\n\n' + data.content
-						await ensureDir( buildDir )
-						await writeFile( joinPath( buildDir, 'test-part-readme.md' ), readmeContent )
-						return data
+							const readmeContent = '# custom example of readme\n\n' + data.content
+							await ensureDir( buildDir )
+							await writeFile( joinPath( buildDir, 'test-part-readme.md' ), readmeContent )
+							return data
 
+						},
 					},
 				},
+				withtoc : {
+					input : `# {{const.pkg.name}}\n\n{{const.toc}}\n\n{{partial.readme}}`,
+					hook  : {
+						after : async data => {
+
+							if ( !data.const ) data.const = {}
+
+							data.const.toc = await geMDTocString( {
+								input           : data.content,
+								title           : 'Table of contents',
+								removeH1        : true,
+								maxHeadingLevel : 4,
+							} )
+							return data
+
+						},
+					},
+				},
+				content : { input: '{{partial.withtoc}}' },
 			},
-			withtoc : {
-				input : `# {{const.pkg.name}}\n\n{{const.toc}}\n\n{{partial.readme}}`,
-				hook  : { after : async data => {
-
-					if ( !data.const ) data.const = {}
-
-					data.const.toc = await geMDTocString( {
-						input           : data.content,
-						title           : 'Table of contents',
-						removeH1        : true,
-						maxHeadingLevel : 4,
-					} )
-					return data
-
-				} },
-			},
-			content : { input: '{{partial.withtoc}}' },
+			// hook : { before : async data => ( console.log( data ), data ),
+			// 	// after  : async data => ( console.log( data ), data ),
+			// },
+			output : joinPath( buildDir, 'test.md' ),
 		},
-		// hook : { before : async data => ( console.log( data ), data ),
-		// 	// after  : async data => ( console.log( data ), data ),
-		// },
-		output : joinPath( buildDir, 'test.md' ),
-	} } ),
+	} ),
 ] )

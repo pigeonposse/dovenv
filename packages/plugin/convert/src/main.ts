@@ -36,25 +36,31 @@ export * from './run'
  */
 export const convertPlugin = ( conf?: Config ): DovenvConfig => {
 
-	return { custom : { convert : {
-		desc : 'Convert files from one format to another (experimental)',
-		opts : { key : {
-			alias : 'k',
-			desc  : 'Key pattern to convert',
-			type  : 'array',
-		} },
-		fn : async ( {
-			utils, opts,
-		} ) => {
+	return {
+		custom : {
+			convert : {
+				desc : 'Convert files from one format to another (experimental)',
+				opts : {
+					key : {
+						alias : 'k',
+						desc  : 'Key pattern to convert',
+						type  : 'array',
+					},
+				},
+				fn : async ( {
+					utils, opts,
+				} ) => {
 
-			const convert = new MultipleConvert( {
-				opts : conf,
-				utils,
-			} )
-			await convert.run( opts?.key as string[] )
+					const convert = new MultipleConvert( {
+						opts : conf,
+						utils,
+					} )
+					await convert.run( opts?.key as string[] )
 
+				},
+			},
 		},
-	} } }
+	}
 
 }
 

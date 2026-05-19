@@ -1,18 +1,18 @@
 
 import type {
-	CLI,
+	EnvAI,
 	Config,
-} from 'env-ai'
+} from '@env-ai/core'
 
-let ENVAI: typeof CLI | undefined = undefined
+let ENVAI: typeof EnvAI | undefined = undefined
 export const run = async ( config: Config ) => {
 
-	if ( !ENVAI ) ENVAI = ( await import( 'env-ai' ) ).CLI
+	if ( !ENVAI ) ENVAI = ( await import( '@env-ai/core' ) ).EnvAI
 	// @ts-ignore
-	const cli          = new ENVAI( {} )
+	const cli          = new ENVAI( config )
 	cli.message.intro  = 'dovenv assistant'
 	cli.message.outro  = 'dovenv assistant completed!'
 	cli.message.cancel = 'dovenv assistant cancelled!'
-	await cli.fn( config )
+	await cli.run( )
 
 }

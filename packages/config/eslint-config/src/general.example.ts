@@ -6,8 +6,8 @@ export type X = {
 	b?   : string
 }
 
-const foo: ()=> string =   () => 'bar'
-const bars: string     = 'foo'
+const foo: () => string = () => 'bar'
+const bars: string      = 'foo'
 class K {
 
 	opts   : string = 'bar'

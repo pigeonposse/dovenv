@@ -1,5 +1,11 @@
 # @dovenv/stylelint-config
 
+## 1.6.2
+
+### Patch Changes
+
+- fix issues, up depensences for fix vulnerabilities
+
 ## 1.6.1
 
 ### Patch Changes

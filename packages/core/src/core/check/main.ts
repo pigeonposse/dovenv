@@ -87,20 +87,24 @@ export class Check extends Command<CheckConfig> {
 		)
 
 		if ( prop.validate )
-			await readFiles( prop.patterns, { hook : { onFile : async ( {
-				path, content,
-			} ) => {
+			await readFiles( prop.patterns, {
+				hook : {
+					onFile : async ( {
+						path, content,
+					} ) => {
 
-				await this.#validateWrap(
-					prop.validate?.( {
-						path,
-						content : content.toString(),
-						utils   : this.utils,
-					} ),
-					log,
-				)
+						await this.#validateWrap(
+							prop.validate?.( {
+								path,
+								content : content.toString(),
+								utils   : this.utils,
+							} ),
+							log,
+						)
 
-			} } } )
+					},
+				},
+			} )
 
 		log.success( type, 'All file checks passed' )
 

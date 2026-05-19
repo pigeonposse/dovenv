@@ -28,10 +28,12 @@ import order from 'stylelint-order'
 import type { Config } from 'stylelint'
 
 recess.plugins = [ order ]
-const init     = { rules : {
-	...recommended.rules,
-	...standard.rules,
-} }
+const init     = {
+	rules : {
+		...recommended.rules,
+		...standard.rules,
+	},
+}
 
 const config: Config = {
 	extends : [

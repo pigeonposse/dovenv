@@ -6,8 +6,8 @@ import type { PromptParams } from './types'
 /**
  * Ask questions to user with prompt function.
  *
- * @param   {PromptParams} props - PromptOptions.
- * @returns {Promise<*>}         - Promise resolving to answers.
+ * @param   {PromptParams}    props - PromptOptions.
+ * @returns {Promise<object>}       - Promise resolving to answers.
  * @see https://www.npmjs.com/package/enquirer
  * @example
  *

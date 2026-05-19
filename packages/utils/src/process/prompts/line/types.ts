@@ -1,4 +1,3 @@
-import type number from './number'
 import type {
 	box,
 	columns,
@@ -6,6 +5,13 @@ import type {
 }              from '../../../styles'
 import type { PromptParams } from '../prompt/types'
 import type * as p           from '@clack/prompts'
+
+import { Prettify } from '@/ts'
+
+export type NumberPrompt = ( opts: NumberParams ) => Promise<number | symbol>
+export type ClackPrompts = Prettify<typeof p & {
+	number : NumberPrompt
+}>
 
 export const promptLineMethods = {
 	message : 'message',
@@ -24,11 +30,11 @@ export type PromptLineMethod = typeof promptLineMethods[keyof typeof promptLineM
  *
  */
 
-export type NumberParams = p.TextOptions & {
+export type NumberParams = Prettify<p.TextOptions & {
 	placeholder?  : number
 	defaultValue? : number
 	errorText?    : string
-}
+}>
 
 /**
  * Parameters of the `table` function from the `@dovenv/utils` module.
@@ -50,12 +56,8 @@ export type ColumnsParams = Parameters<typeof columns>
  */
 export type BoxParams = Parameters<typeof box>
 
-/**
- * Props for canceling a prompt line, including functions from various modules.
- */
-export type PromptLineCancelProps = typeof p & {
-	number : typeof number
-	table   : ( opts:{
+export type PromptLineCustomProps = {
+	table   : ( opts: {
 		value : TableParams[0]
 		opts? : TableParams[1]
 		type? : PromptLineMethod
@@ -65,13 +67,26 @@ export type PromptLineCancelProps = typeof p & {
 		opts? : BoxParams[1]
 		type? : PromptLineMethod
 	} ) => void
-	columns : ( opts:{
+	columns : ( opts: {
 		value : ColumnsParams[0]
 		opts? : ColumnsParams[1]
 		type? : PromptLineMethod
 	} ) => void
 }
+/**
+ * Props for canceling a prompt line, including functions from various modules.
+ */
+export type PromptLineCancelProps = ClackPrompts & PromptLineCustomProps
 
+export type PromptLineProps = Prettify<
+	Omit<ClackPrompts, 'box'>
+	& PromptLineCustomProps
+	& {
+		log: Prettify<ClackPrompts['log'] & {
+			errorWithExit : ( m: string ) => void
+		}>
+	}
+>
 /**
  * Props for executing a prompt line, extending `PromptLineCancelProps` with typePrompt.
  */

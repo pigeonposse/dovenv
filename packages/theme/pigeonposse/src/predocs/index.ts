@@ -11,7 +11,9 @@ export {
 	TYPE,
 	EMOJI,
 }
-export { getSidebar } from './sidebar'
+export {
+	getSidebar,
+} from './sidebar'
 
 export const template = templateConstructor( EMOJI )
 export const partial = partialConstructor( EMOJI )

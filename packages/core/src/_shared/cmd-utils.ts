@@ -44,9 +44,11 @@ export const getCommandUtils = async ( data?:{
 		pkg          = await getObjectFromFile<Record<string, unknown>>( pkgDir )
 
 	}
-	return new CommandSuper( { const : {
-		wsDir : dir,
-		pkg   : pkg,
-	} } )
+	return new CommandSuper( {
+		const : {
+			wsDir : dir,
+			pkg   : pkg,
+		},
+	} )
 
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/stylelint-config",
-	"version": "1.6.1",
+	"version": "1.6.2",
 	"description": "Stylelint configuration for dovenv",
 	"keywords": [
 		"config",
@@ -50,18 +50,20 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "unbuild"
+		"build": "unbuild",
+		"dev": "stylelint tests"
 	},
 	"dependencies": {
-		"postcss-html": "1.8.0",
+		"postcss-html": "1.8.1",
 		"stylelint-config-html": "1.1.0",
-		"stylelint-config-recess-order": "7.1.0",
-		"stylelint-config-recommended": "17.0.0",
-		"stylelint-config-standard": "39.0.0",
-		"stylelint-order": "7.0.0"
+		"stylelint-config-recess-order": "7.7.0",
+		"stylelint-config-recommended": "18.0.0",
+		"stylelint-config-standard": "40.0.0",
+		"stylelint-order": "8.1.1"
 	},
 	"devDependencies": {
-		"@dovenv/repo-config": "workspace:*"
+		"@dovenv/repo-config": "workspace:*",
+		"stylelint": "17.11.1"
 	},
 	"peerDependencies": {
 		"stylelint": ">=16.14.1"

@@ -58,11 +58,15 @@ export class CommitLint extends LintSuper<CommitlintConfig> {
 
 		const defaultConfig: UserConfig = ( this.opts?.config )
 			? this.opts?.config
-			: { rules : { 'header-max-length' : [
-				0,
-				'always',
-				100,
-			] } }
+			: {
+				rules : {
+					'header-max-length' : [
+						0,
+						'always',
+						100,
+					],
+				},
+			}
 
 		const merge      = deepmergeCustom<UserConfig>( { mergeArrays: false } )
 		const userConfig = merge(

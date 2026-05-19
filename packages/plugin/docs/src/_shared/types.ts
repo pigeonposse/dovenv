@@ -1,2 +1,4 @@
-export type { PackageJSON } from '@dovenv/core/utils'
+export type {
+	PackageJSON,
+} from '@dovenv/core/utils'
 

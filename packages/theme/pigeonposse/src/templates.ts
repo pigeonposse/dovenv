@@ -227,40 +227,42 @@ registry=https://registry.npmjs.org/`,
 `,
 }
 
-export const bandaTemplateConfig: BandaConfig = { templates : {
-	'pp-gitignore' : {
-		input  : wsGeneralTemplates.gitignore,
-		output : './.gitignore',
-		opts   : { overwrite: 'ask' },
+export const bandaTemplateConfig: BandaConfig = {
+	templates : {
+		'pp-gitignore' : {
+			input  : wsGeneralTemplates.gitignore,
+			output : './.gitignore',
+			opts   : { overwrite: 'ask' },
+		},
+		'pp-eslint' : {
+			input  : wsGeneralTemplates.eslintConfig,
+			output : './eslint.config.js',
+			opts   : { overwrite: 'ask' },
+		},
+		'pp-editorconfig' : {
+			input  : wsGeneralTemplates.editorconfig,
+			output : './.editorconfig',
+			opts   : { overwrite: 'ask' },
+		},
+		'pp-npmrc' : {
+			input  : wsGeneralTemplates.npmrc,
+			output : './.npmrc',
+			opts   : { overwrite: 'ask' },
+		},
+		'pp-changeset' : {
+			input  : wsGeneralTemplates.changeset,
+			output : './.changeset/config.json',
+			opts   : { overwrite: 'ask' },
+		},
+		'pp-vscode-settings' : {
+			input  : wsGeneralTemplates.vscodeSettings,
+			output : './.vscode/settings.json',
+			opts   : { overwrite: 'ask' },
+		},
+		'pp-vscode-extensions' : {
+			input  : wsGeneralTemplates.vscodeExtensions,
+			output : './.vscode/extensions.json',
+			opts   : { overwrite: 'ask' },
+		},
 	},
-	'pp-eslint' : {
-		input  : wsGeneralTemplates.eslintConfig,
-		output : './eslint.config.js',
-		opts   : { overwrite: 'ask' },
-	},
-	'pp-editorconfig' : {
-		input  : wsGeneralTemplates.editorconfig,
-		output : './.editorconfig',
-		opts   : { overwrite: 'ask' },
-	},
-	'pp-npmrc' : {
-		input  : wsGeneralTemplates.npmrc,
-		output : './.npmrc',
-		opts   : { overwrite: 'ask' },
-	},
-	'pp-changeset' : {
-		input  : wsGeneralTemplates.changeset,
-		output : './.changeset/config.json',
-		opts   : { overwrite: 'ask' },
-	},
-	'pp-vscode-settings' : {
-		input  : wsGeneralTemplates.vscodeSettings,
-		output : './.vscode/settings.json',
-		opts   : { overwrite: 'ask' },
-	},
-	'pp-vscode-extensions' : {
-		input  : wsGeneralTemplates.vscodeExtensions,
-		output : './.vscode/extensions.json',
-		opts   : { overwrite: 'ask' },
-	},
-} }
+}

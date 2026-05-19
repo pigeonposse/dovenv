@@ -66,10 +66,14 @@ const data     = {
 				version     : '1.0.0',
 				description : 'API Description',
 			},
-			'paths' : { '/example' : { get : {
-				summary   : 'Example endpoint',
-				responses : { 200: { description: 'Success response' } },
-			} } },
+			'paths' : {
+				'/example' : {
+					get : {
+						summary   : 'Example endpoint',
+						responses : { 200: { description: 'Success response' } },
+					},
+				},
+			},
 			'x-tagGroups' : [
 				{
 					'name'   : 'group1',
@@ -77,16 +81,18 @@ const data     = {
 				},
 			],
 		},
-		invalidData : { 'x-tagGroups' : [
-			{
-				'name'   : 'group1',
-				'x-tags' : [ 'tag1', 'tag2' ],
-			},
-			{
-				'name'   : 'group2',
-				'x-tags' : [ 'tag1', 'tag2' ],
-			},
-		] },
+		invalidData : {
+			'x-tagGroups' : [
+				{
+					'name'   : 'group1',
+					'x-tags' : [ 'tag1', 'tag2' ],
+				},
+				{
+					'name'   : 'group2',
+					'x-tags' : [ 'tag1', 'tag2' ],
+				},
+			],
+		},
 	},
 }
 const content  = await schema2ts( {
@@ -113,10 +119,12 @@ for ( const [ k, v ] of Object.entries( data ) ) {
 	const [ error ]   = await catchError( validateSchema( v.invalidData, v.schema ) )
 	// @ts-ignore
 	const getError = ( e: unknown ) => JSON.stringify( e?.data?.data, undefined, 2 ) || e?.message
-	console.log( { [k] : {
-		data  : data || getError( _ ),
-		error : getError( error ),
-	} } )
+	console.log( {
+		[k] : {
+			data  : data || getError( _ ),
+			error : getError( error ),
+		},
+	} )
 
 }
 

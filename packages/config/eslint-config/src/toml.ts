@@ -14,6 +14,7 @@ export type TomlConfigParams = ConfigParamsSuper
  *
  * @param   {TomlConfigParams} [params] - Parameters to customize the config.
  * @returns {Config[]}                  - The generated TOML ESLint config.
+ * @see https://ota-meshi.github.io/eslint-plugin-toml/rules/
  * @example
  * // Generates a basic TOML ESLint config.
  * const config = setTomlConfig()
@@ -51,6 +52,7 @@ export const setTomlConfig = ( params?: TomlConfigParams ): Config[] => [
  * TOML ESLINT CONFIG.
  *
  * @see https://www.npmjs.com/package/eslint-plugin-toml
+ * @see https://ota-meshi.github.io/eslint-plugin-toml/rules/
  */
 export const tomlConfig = setTomlConfig()
 

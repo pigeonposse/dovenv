@@ -20,113 +20,123 @@ export * from './lib'
  *
  *                                Examples include linting CSS files, JS files, commit messages, and staged files.
  */
-export const lintPlugin = ( conf?: Config ): DovenvConfig => ( { custom : { lint : {
-	desc : 'Linter tools',
-	cmds : {
-		[CMDS.staged]    : { desc: 'Lint staged git files' },
-		[CMDS.stylelint] : {
-			desc : 'Lint CSS/SCSS/LESS/SASS/PostCSS files configuration',
-			opts : {
-				fix : {
-					desc : 'Fix stylelint errors',
-					type : 'boolean',
+export const lintPlugin = ( conf?: Config ): DovenvConfig => ( {
+	custom : {
+		lint : {
+			desc : 'Linter tools',
+			cmds : {
+				[CMDS.staged]    : { desc: 'Lint staged git files' },
+				[CMDS.stylelint] : {
+					desc : 'Lint CSS/SCSS/LESS/SASS/PostCSS files configuration',
+					opts : {
+						fix : {
+							desc : 'Fix stylelint errors',
+							type : 'boolean',
+						},
+						files : {
+							desc : 'Files to lint',
+							type : 'array',
+						},
+					},
 				},
-				files : {
-					desc : 'Files to lint',
-					type : 'array',
+				[CMDS.eslint] : {
+					desc : 'Lint JS/TS/MD/JSON/YAML.. files',
+					opts : {
+						fix : {
+							desc : 'Fix errors',
+							type : 'boolean',
+						},
+						flags : {
+							desc : 'Eslint custom flags',
+							type : 'array',
+						},
+					},
 				},
+				[CMDS.commitlint] : {
+					desc : 'Lint commit messages',
+					opts : {
+						message : {
+							desc  : 'Set your commit message here. If is not provided, it will be read the last commit message',
+							type  : 'string',
+							alias : 'm',
+						},
+					},
+					examples : [
+						{
+							cmd  : `$0 lint ${CMDS.commitlint} --message "Message to commit"`,
+							desc : 'Lint commit specific message',
+						},
+						{
+							cmd  : `$0 lint ${CMDS.commitlint}`,
+							desc : 'Lint last commit last message',
+						},
+					],
+				},
+				[CMDS.publint] : {
+					desc : 'PubLint',
+					opts : {
+						key : {
+							alias : 'k',
+							desc  : 'Key pattern',
+							type  : 'array',
+						},
+					},
+				},
+				[CMDS.custom] : {
+					desc : 'Custom lint function',
+					opts : {
+						key : {
+							alias : 'k',
+							desc  : 'Key pattern',
+							type  : 'array',
+						},
+					},
+				},
+
 			},
-		},
-		[CMDS.eslint] : {
-			desc : 'Lint JS/TS/MD/JSON/YAML.. files',
-			opts : {
-				fix : {
-					desc : 'Fix errors',
-					type : 'boolean',
-				},
-				flags : {
-					desc : 'Eslint custom flags',
-					type : 'array',
-				},
-			},
-		},
-		[CMDS.commitlint] : {
-			desc : 'Lint commit messages',
-			opts : { message : {
-				desc  : 'Set your commit message here. If is not provided, it will be read the last commit message',
-				type  : 'string',
-				alias : 'm',
-			} },
 			examples : [
 				{
-					cmd  : `$0 lint ${CMDS.commitlint} --message "Message to commit"`,
-					desc : 'Lint commit specific message',
+					cmd  : `$0 lint ${CMDS.stylelint}`,
+					desc : 'Lint css/postcss files',
+				},
+				{
+					cmd  : `$0 lint ${CMDS.eslint}`,
+					desc : 'Lint JS/TS/MD/JSON/YAML.. files',
 				},
 				{
 					cmd  : `$0 lint ${CMDS.commitlint}`,
-					desc : 'Lint last commit last message',
+					desc : 'Lint commit message',
+				},
+				{
+					cmd  : `$0 lint ${CMDS.publint}`,
+					desc : 'PubLint (Lint if a package is published right)',
+				},
+				{
+					cmd  : `$0 lint ${CMDS.staged}`,
+					desc : 'Lint staged files',
 				},
 			],
-		},
-		[CMDS.publint] : {
-			desc : 'PubLint',
-			opts : { key : {
-				alias : 'k',
-				desc  : 'Key pattern',
-				type  : 'array',
-			} },
-		},
-		[CMDS.custom] : {
-			desc : 'Custom lint function',
-			opts : { key : {
-				alias : 'k',
-				desc  : 'Key pattern',
-				type  : 'array',
-			} },
-		},
+			fn : async ( {
+				opts, cmds, showHelp, utils,
+			} ) => {
 
+				const lint = new Lint( conf, utils )
+				if ( cmds?.includes( CMDS.staged ) ) await lint.staged( )
+				else if ( cmds?.includes( CMDS.stylelint ) )
+					await lint.stylelint( opts?.files as string[], opts?.fix as boolean )
+				else if ( cmds?.includes( CMDS.eslint ) )
+					await lint.eslint( opts?.fix ? [ '--fix' ] : ( opts?.flags ? opts?.flags as string[] : [] ) )
+				else if ( cmds?.includes( CMDS.commitlint ) )
+					await lint.commitlint( opts?.message as string )
+				else if ( cmds?.includes( CMDS.publint ) )
+					await lint.publint( opts?.key as string[] )
+				else if ( cmds?.includes( CMDS.custom ) )
+					await lint.custom( opts?.key as string[] )
+				else showHelp( )
+
+			},
+		},
 	},
-	examples : [
-		{
-			cmd  : `$0 lint ${CMDS.stylelint}`,
-			desc : 'Lint css/postcss files',
-		},
-		{
-			cmd  : `$0 lint ${CMDS.eslint}`,
-			desc : 'Lint JS/TS/MD/JSON/YAML.. files',
-		},
-		{
-			cmd  : `$0 lint ${CMDS.commitlint}`,
-			desc : 'Lint commit message',
-		},
-		{
-			cmd  : `$0 lint ${CMDS.publint}`,
-			desc : 'PubLint (Lint if a package is published right)',
-		},
-		{
-			cmd  : `$0 lint ${CMDS.staged}`,
-			desc : 'Lint staged files',
-		},
-	],
-	fn : async ( {
-		opts, cmds, showHelp, utils,
-	} ) => {
-
-		const lint = new Lint( conf, utils )
-		if ( cmds?.includes( CMDS.staged ) ) await lint.staged( )
-		else if ( cmds?.includes( CMDS.stylelint ) )
-			await lint.stylelint( opts?.files as string[], opts?.fix as boolean )
-		else if ( cmds?.includes( CMDS.eslint ) )
-			await lint.eslint( opts?.fix ? [ '--fix' ] : ( opts?.flags ? opts?.flags as string[] : [] ) )
-		else if ( cmds?.includes( CMDS.commitlint ) )
-			await lint.commitlint( opts?.message as string )
-		else if ( cmds?.includes( CMDS.publint ) )
-			await lint.publint( opts?.key as string[] )
-		else if ( cmds?.includes( CMDS.custom ) )
-			await lint.custom( opts?.key as string[] )
-		else showHelp( )
-
-	},
-} } } )
+} )
 
 export default lintPlugin

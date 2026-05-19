@@ -33,7 +33,7 @@
 		"svelte",
 		"vue"
 	],
-	"javascript.updateImportsOnFileMove.enabled": "always",
+	"js/ts.updateImportsOnFileMove.enabled": "always",
 	"[markdown]": {
 		"editor.formatOnSave": true,
 		"editor.formatOnPaste": true
@@ -45,5 +45,5 @@
 		},
 	},
 	"editor.tabSize": 4,
-	"typescript.tsdk": "node_modules/typescript/lib"
+	"js/ts.tsdk.path": "node_modules/typescript/lib"
 }

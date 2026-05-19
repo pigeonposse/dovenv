@@ -62,103 +62,109 @@ type Config = {
  */
 export const mediaPlugin = ( conf?: Config ) => {
 
-	const data: DovenvConfig = { custom : { media : {
-		desc : 'Media Tools for your workspace',
-		cmds : {
-			[CMDS.codeImage] : { desc: 'Generate code image' },
-			[CMDS.min]       : { desc: 'Minify images' },
-			[CMDS.qr]        : {
-				desc : 'Generate QR code in terminal',
-				opts : {
-					input : {
-						desc  : 'Input to generate QR code',
-						alias : 'i',
-						type  : 'string',
-					// demandOption : true,
-					},
-					size : {
-						desc    : 'Set QR small in screen',
-						choices : [ 'medium', 'large' ],
-					},
-				},
-			},
-			[CMDS.termGif] : {
-				desc : 'Create gifs of your terminal',
+	const data: DovenvConfig = {
+		custom : {
+			media : {
+				desc : 'Media Tools for your workspace',
 				cmds : {
-					config : { desc: 'Create a configuration file for your record' },
-					record : { desc: 'Record your terminal' },
-					render : { desc: 'Convert to gif' },
+					[CMDS.codeImage] : { desc: 'Generate code image' },
+					[CMDS.min]       : { desc: 'Minify images' },
+					[CMDS.qr]        : {
+						desc : 'Generate QR code in terminal',
+						opts : {
+							input : {
+								desc  : 'Input to generate QR code',
+								alias : 'i',
+								type  : 'string',
+								// demandOption : true,
+							},
+							size : {
+								desc    : 'Set QR small in screen',
+								choices : [ 'medium', 'large' ],
+							},
+						},
+					},
+					[CMDS.termGif] : {
+						desc : 'Create gifs of your terminal',
+						cmds : {
+							config : { desc: 'Create a configuration file for your record' },
+							record : { desc: 'Record your terminal' },
+							render : { desc: 'Convert to gif' },
+						},
+						examples : [
+							{
+								cmd  : `$0 media ${CMDS.termGif} config`,
+								desc : 'Create configuration file',
+							},
+							{
+								cmd  : `$0 media ${CMDS.termGif} record -k <ID>`,
+								desc : 'Record your terminal',
+							},
+							{
+								cmd  : `$0 media ${CMDS.termGif} render -k <ID>`,
+								desc : 'Convert your term recording into a gif',
+							},
+						],
+					},
 				},
-				examples : [
-					{
-						cmd  : `$0 media ${CMDS.termGif} config`,
-						desc : 'Create configuration file',
+				opts : {
+					key : {
+						type  : 'array',
+						alias : 'k',
+						desc  : 'pattern to match keys in configuration',
 					},
-					{
-						cmd  : `$0 media ${CMDS.termGif} record -k <ID>`,
-						desc : 'Record your terminal',
-					},
-					{
-						cmd  : `$0 media ${CMDS.termGif} render -k <ID>`,
-						desc : 'Convert your term recording into a gif',
-					},
-				],
+				},
+				fn : async ( {
+					opts, cmds, showHelp, utils,
+				} ) => {
+
+					let userKeys = opts?.key as string[] | undefined
+
+					if ( cmds?.includes( CMDS.codeImage ) ) {
+
+						const ci = new CodeImage( CMDS.codeImage, conf?.[CMDS.codeImage], utils )
+						await ci.run( userKeys )
+
+					}
+					else if ( cmds?.includes( CMDS.min ) ) {
+
+						const ci = new ImageMin( CMDS.min, conf?.[CMDS.min], utils )
+						await ci.run( userKeys )
+
+					}
+					else if ( cmds?.includes( CMDS.qr ) ) {
+
+						const qr = new QRcode( CMDS.qr, conf?.[CMDS.qr], utils )
+						if ( opts?.input ) {
+
+							if ( !userKeys ) userKeys = []
+							if ( !qr.opts ) qr.opts = {}
+							userKeys.push( 'cli' )
+							qr.opts['cli'] =  {
+								input : opts.input as string,
+								size  : opts?.size && [ 'medium', 'large' ].includes( opts.size as string ) ? opts.size as ( 'medium' | 'large' ) : undefined,
+							}
+
+						}
+						await qr.run( userKeys )
+
+					}
+					else if ( cmds?.includes( CMDS.termGif ) ) {
+
+						const ins = new TerminalGif( CMDS.termGif, conf?.[CMDS.termGif], utils )
+
+						if ( cmds?.includes( 'config' ) ) await ins.createConfig()
+						else if ( cmds?.includes( 'record' ) ) await ins.run( userKeys, 'record' )
+						else if ( cmds?.includes( 'render' ) ) await ins.run( userKeys, 'render' )
+						else showHelp( )
+
+					}
+					else showHelp( )
+
+				},
 			},
 		},
-		opts : { key : {
-			type  : 'array',
-			alias : 'k',
-			desc  : 'pattern to match keys in configuration',
-		} },
-		fn : async ( {
-			opts, cmds, showHelp, utils,
-		} ) => {
-
-			let userKeys = opts?.key as string[] | undefined
-
-			if ( cmds?.includes( CMDS.codeImage ) ) {
-
-				const ci = new CodeImage( CMDS.codeImage, conf?.[CMDS.codeImage], utils )
-				await ci.run( userKeys )
-
-			}
-			else if ( cmds?.includes( CMDS.min ) ) {
-
-				const ci = new ImageMin( CMDS.min, conf?.[CMDS.min], utils )
-				await ci.run( userKeys )
-
-			}
-			else if ( cmds?.includes( CMDS.qr ) ) {
-
-				const qr = new QRcode( CMDS.qr, conf?.[CMDS.qr], utils )
-				if ( opts?.input ) {
-
-					if ( !userKeys ) userKeys = []
-					if ( !qr.opts ) qr.opts = {}
-					userKeys.push( 'cli' )
-					qr.opts['cli'] =  {
-						input : opts.input as string,
-						size  : opts?.size && [ 'medium', 'large' ].includes( opts.size as string ) ? opts.size as ( 'medium' | 'large' ) : undefined,
-					}
-
-				}
-				await qr.run( userKeys )
-
-			}
-			else if ( cmds?.includes( CMDS.termGif ) ) {
-
-				const ins = new TerminalGif( CMDS.termGif, conf?.[CMDS.termGif], utils )
-
-				if ( cmds?.includes( 'config' ) ) await ins.createConfig()
-				else if ( cmds?.includes( 'record' ) ) await ins.run( userKeys, 'record' )
-				else if ( cmds?.includes( 'render' ) ) await ins.run( userKeys, 'render' )
-				else showHelp( )
-
-			}
-			else showHelp( )
-
-		},
-	} } }
+	}
 
 	return data
 

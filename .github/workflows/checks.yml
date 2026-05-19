@@ -14,7 +14,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
-  NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_DOVENV_ACCESS_TOKEN }}
 permissions:
   contents: write # to create release (changesets/action)
   pull-requests: write # to create pull request (changesets/action)
@@ -38,13 +38,13 @@ jobs:
       - name: ⬇️🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
       - name: ⬇️🛎 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: ⬇️🥡 Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
       - name: ⬇️🟢 Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 22.12.0
+          node-version: 24.12.0
           cache: 'pnpm'
 
       - name: 🐙😺 Check GitHub API Rate Limit
@@ -61,26 +61,6 @@ jobs:
         env:
             GH_TOKEN: ${{ env.GITHUB_TOKEN }}
 
-    ############################### W ALL DEPS ################################
-    #   - name: 🛠 Install System Dependencies for canvas and imagemin npm deps
-    #     run: |
-    #       sudo apt-get update
-    #       sudo apt-get install -y \
-    #         build-essential \
-    #         libcairo2-dev \
-    #         libpango1.0-dev \
-    #         libjpeg-dev \
-    #         libgif-dev \
-    #         librsvg2-dev \
-    #         libpng-dev \
-    #         zlib1g-dev \
-    #         libimagequant-dev \
-    #         nasm
-    #   - name: ⬇️📦 Install dependencies
-    #     run: |
-    #        export npm_config_build_from_source=false
-    #        pnpm install --no-frozen-lockfile
-
       - name: ⬇️📦 Install dependencies
         run: |
            export npm_config_build_from_source=false
@@ -88,17 +68,17 @@ jobs:
 
       # Playwright binaries
       - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$( node -e "console.log(require('./package.json').devDependencies['@playwright/test'])" )" >> $GITHUB_ENV
+        id: playwright_data
+        run: echo "version=$( node -e "console.log(require('./package.json').devDependencies['@playwright/test'])" )" >> $GITHUB_OUTPUT
       - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
+        uses: actions/cache@v5
+        id: playwright_cache
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          key: ${{ runner.os }}-playwright-${{ steps.playwright_data.outputs.version }}
       - name: ⬇️🌐 Install Playwright Browsers
-        run: pnpx playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpx playwright install chromium --with-deps
+        if: steps.playwright_cache.outputs.cache-hit != 'true'
 
       #########################################################################
       # BUILD
@@ -137,8 +117,8 @@ jobs:
         uses: changesets/action@v1
         with:
           title: "chore(release): version packages 🦋"
-          version: pnpm . pkg version --silent
-          publish: pnpm . pkg publish --silent
+          version: pnpm - pkg version --silent
+          publish: pnpm - pkg publish --silent
           commit: "chore(release): version packages 🦋 [skip ci]"
           createGithubReleases: true
         env:
@@ -178,7 +158,7 @@ jobs:
 
       - name: ℹ️🐙😺➡️ Update repo info
         if: steps.check_package_json.outputs.stdout != 'No changes in package.json'
-        run: pnpm . gh info update
+        run: pnpm - gh info update
         continue-on-error: true
 
       - name: 📚🐙😺➡️ Call to workflow for deploy Documentation

@@ -27,19 +27,21 @@ export default defineConfig( {
 		pkg,
 		wsDir,
 		mark       : `\n${asciiFont( `pigeonposse\n-------\n${pkg.name}`, 'ansi--shadow' )}\n`,
-		sctructure : `\n${color.bold.inverse( ' Workspace Structure ' )}\n\n` + setDirTree( { structure : {
-			'.vscode' : {
-				'settings.json'   : null,
-				'extensions.json' : null,
+		sctructure : `\n${color.bold.inverse( ' Workspace Structure ' )}\n\n` + setDirTree( {
+			structure : {
+				'.vscode' : {
+					'settings.json'   : null,
+					'extensions.json' : null,
+				},
+				'docs'             : { '*.md': null },
+				'packages'         : { '**': null },
+				'.gitignore'       : null,
+				'.pigeonposse.yml' : null,
+				'LICENSE'          : null,
+				'package.json'     : null,
+				'README.md'        : null,
 			},
-			'docs'             : { '*.md': null },
-			'packages'         : { '**': null },
-			'.gitignore'       : null,
-			'.pigeonposse.yml' : null,
-			'LICENSE'          : null,
-			'package.json'     : null,
-			'README.md'        : null,
-		} } ).split( '\n' ).map( line => '  ' + line ).join( '\n' ),
+		} ).split( '\n' ).map( line => '  ' + line ).join( '\n' ),
 		custom : async () => {
 
 			const res = await getObjectFrom<{ web: Record<string, unknown>[] }>(
@@ -83,10 +85,12 @@ export default defineConfig( {
 			desc : 'Say hello to username',
 			cmds : {
 				hello : {
-					opts : { short : {
-						type : 'boolean',
-						desc : 'Say hello to username in short form',
-					} },
+					opts : {
+						short : {
+							type : 'boolean',
+							desc : 'Say hello to username in short form',
+						},
+					},
 					desc : 'Say hello to username',
 					cmds : {
 						es : { desc: 'Say hello to username in Spanish' },
@@ -100,11 +104,13 @@ export default defineConfig( {
 					],
 				},
 				bye : {
-					opts : { time : {
-						type  : 'boolean',
-						alias : 't',
-						desc  : 'Say goodbye to username in short form',
-					} },
+					opts : {
+						time : {
+							type  : 'boolean',
+							alias : 't',
+							desc  : 'Say goodbye to username in short form',
+						},
+					},
 					desc : 'Say goodbye to username',
 					cmds : {
 						es : { desc: 'Say goodbye to username in Spanish' },
@@ -160,10 +166,12 @@ export default defineConfig( {
 	/**
 	 * Create a alias for `struture` command.
 	 */
-	alias : { struct : {
-		desc : 'Set structure for the workspace',
-		cmd  : 'dovenv structure --silent',
-	} },
+	alias : {
+		struct : {
+			desc : 'Set structure for the workspace',
+			cmd  : 'dovenv structure --silent',
+		},
+	},
 	/**
 	 * Configuration for the transform command.
 	 */

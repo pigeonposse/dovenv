@@ -406,7 +406,7 @@ const outputObject = (
 
 		output += outputRefComment( schemas, nowLevel )
 		output
-      += outputObject(
+			+= outputObject(
 				apiDocument,
 				name,
 				apiObject.items,
@@ -518,7 +518,7 @@ const outputParameters = (
 	if ( p['body'] ) {
 
 		output
-      += '#### Parameters(Body)\n\n' + outputParamSchemas( apiDocument, p['body'] )
+			+= '#### Parameters(Body)\n\n' + outputParamSchemas( apiDocument, p['body'] )
 
 	}
 	if ( p['header'] ) {

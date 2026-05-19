@@ -28,8 +28,10 @@ export const includeGitIgnore = ( gitIgnorePath = resolve( '.gitignore' ) ): Con
  * 	'./public/*',
  * ])
  */
-export const setIgnoreConfig = ( paths: string[] ): Config => ( { ignores : [
-	...paths,
-	'**/static/*',
-	'**/public/*',
-] } )
+export const setIgnoreConfig = ( paths: string[] ): Config => ( {
+	ignores : [
+		...paths,
+		'**/static/*',
+		'**/public/*',
+	],
+} )

@@ -68,6 +68,7 @@ export default async () => {
 				},
 			],
 		],
+
 		themeConfig : {
 			logo        : conf.logo,
 			siteTitle   : conf.name.toUpperCase(),

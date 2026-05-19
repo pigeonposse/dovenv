@@ -20,47 +20,49 @@
 </template>
 
 <script>
-export default { props : {
-	title : {
-		type     : String,
-		required : true,
-	},
-	excerpt : {
-		type     : String,
-		required : true,
-	},
-	image : {
-		type     : String,
-		required : true,
-	},
-	date : {
-		type     : String,
-		required : true,
-	},
-	// eslint-disable-next-line vue/require-default-prop, vue/require-prop-types
-	author : {
-		name : {
+export default {
+	props : {
+		title : {
 			type     : String,
 			required : true,
 		},
-		github : {
+		excerpt : {
 			type     : String,
 			required : true,
 		},
-		url : {
+		image : {
+			type     : String,
+			required : true,
+		},
+		date : {
+			type     : String,
+			required : true,
+		},
+		// eslint-disable-next-line vue/require-default-prop, vue/require-prop-types
+		author : {
+			name : {
+				type     : String,
+				required : true,
+			},
+			github : {
+				type     : String,
+				required : true,
+			},
+			url : {
+				type     : String,
+				required : true,
+			},
+		},
+		category : {
+			type     : String,
+			required : true,
+		},
+		href : {
 			type     : String,
 			required : true,
 		},
 	},
-	category : {
-		type     : String,
-		required : true,
-	},
-	href : {
-		type     : String,
-		required : true,
-	},
-} }
+}
 </script>
 <style scoped>
 .card {

@@ -35,6 +35,7 @@ export const setHtmlConfig = ( params?: HtmlConfigParmas ): Config[] => [
 		...html.configs['flat/recommended'] as Config,
 		files : [ FILES.HTML ],
 		rules : {
+			...html.configs['flat/recommended']['rules'],
 			'@html-eslint/indent'               : [ 'error', 'tab' ],
 			'@html-eslint/sort-attrs'           : [ 'error' ],
 			'@html-eslint/quotes'               : [ 'error', 'double' ],
@@ -42,11 +43,13 @@ export const setHtmlConfig = ( params?: HtmlConfigParmas ): Config[] => [
 			'@html-eslint/attrs-newline'        : 'error',
 			'@html-eslint/no-script-style-type' : 'error',
 			'@html-eslint/no-duplicate-id'      : 'error',
+			'@html-eslint/no-duplicate-class'   : 'error',
 			'@html-eslint/no-obsolete-tags'     : 'error',
 			'@html-eslint/require-li-container' : 'error',
 			'@html-eslint/no-multiple-h1'       : 'error',
 			'@html-eslint/require-closing-tags' : 'error',
 			'@html-eslint/lowercase'            : 'error',
+			'@html-eslint/class-spacing'        : 'error',
 			'@html-eslint/require-attrs'        : [
 				'error',
 				{

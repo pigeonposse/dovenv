@@ -1,7 +1,3 @@
-
-// import Documate from '@documate/vue'
-// //
-// import '@documate/vue/dist/style.css'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import '@shikijs/vitepress-twoslash/style.css'
 import mediumZoom          from 'medium-zoom'
@@ -11,7 +7,6 @@ import {
 	onMounted,
 	h,
 	Fragment,
-	// render,
 }    from 'vue'
 
 // import BackToTop     from './components/back-to-top.vue'
@@ -27,7 +22,8 @@ import PostTopBar    from './components/posts/top-bar.vue'
 import ShareButtons  from './components/share-buttons.vue'
 import './custom.css'
 
-/** @type {import('vitepress').Theme} */
+import type { Theme } from 'vitepress'
+
 export default {
 	extends : DefaultTheme,
 
@@ -59,14 +55,17 @@ export default {
 		} )
 
 	},
-	async enhanceApp( { app } ) {
+	async enhanceApp( context ) {
 
+		const { app } = context
 		app.component( 'ShareButtons', ShareButtons )
 		app.component( 'Posts', Posts )
 		app.component( 'posts', PostsLayout )
 		app.component( 'links', LinksLayout )
 		app.component( 'contributors', Contributtors )
-		app.use( TwoslashFloatingVue )
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		app.use( TwoslashFloatingVue as any )
 
 		// if ( typeof window === 'undefined' ) return
 
@@ -84,5 +83,5 @@ export default {
 		// } )
 
 	},
-}
+} satisfies Theme
 

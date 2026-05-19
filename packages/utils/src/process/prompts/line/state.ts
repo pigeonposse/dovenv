@@ -3,9 +3,9 @@ import process from 'node:process'
 
 import { color } from '../../../styles'
 
-import type { State } from '@clack/core'
+import type { symbol as Symbol } from '@clack/prompts'
 
-export { State }
+export type State = Parameters<typeof Symbol>[0]
 
 const isUnicodeSupported = () => {
 

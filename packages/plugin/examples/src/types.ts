@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
 import type { TYPE }                   from './const'
 import type { schema }                 from './schema'

@@ -15,7 +15,9 @@ import {
 	getPaths,
 } from '@/sys/super'
 
-export { setDirTree }
+export {
+	setDirTree,
+}
 
 /**
  * Generates an object representing the directory structure of a given path.

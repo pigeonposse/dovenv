@@ -3,24 +3,28 @@
 
 import * as p from '@clack/prompts'
 
-import number             from './number'
-import { symbol  }        from './state'
+import { number }         from './number'
+import { symbol }         from './state'
 import {
 	promptLineMethods,
 	type PromptLineParams,
 } from './types'
 import { process }                       from '../../core'
-import { promptGroup as promptEnquirer } from '../prompt/main'
+import { promptGroup as promptEnquirer } from '../prompt'
 
-import type { State }                 from './state'
-import type { PromptLineCancelProps } from './types'
-import type { PromptParams }          from '../prompt/types'
+import type { State } from './state'
+import type {
+	ClackPrompts, PromptLineCustomProps,
+	PromptLineProps,
+} from './types'
+import type { PromptParams } from '../prompt/types'
 
 import {
 	box,
 	columns,
 	table,
 } from '@/styles'
+import { Any } from '@/ts'
 
 const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 
@@ -55,7 +59,7 @@ const enquirer2clack = async ( props: PromptParams, onCancel?: () => void ) => {
 
 }
 
-const printOptions: Pick<PromptLineCancelProps, 'table' | 'columns' | 'box'> = {
+const printOptions: PromptLineCustomProps = {
 	/**
 	 * Logs a table in the prompt line.
 	 */
@@ -76,10 +80,12 @@ const printOptions: Pick<PromptLineCancelProps, 'table' | 'columns' | 'box'> = {
 	} ) => p.log[type]( box( value, opts ) ),
 }
 
-export const promptLineCore: typeof p = p
-export const promptLineEnquirer = enquirer2clack
+export const promptLineCore: ClackPrompts = {
+	...p,
+	number,
+}
 
-export const promptLine = {
+export const promptLine: PromptLineProps = {
 	...promptLineCore,
 	log : {
 		...promptLineCore.log,
@@ -91,16 +97,17 @@ export const promptLine = {
 
 		},
 	},
-	number,
 	...printOptions,
 }
+
+export const promptLineEnquirer = enquirer2clack
 
 /**
  *
  * Define a group of prompts to be displayed and return a results of objects within the group.
  *
  * @param   {PromptLineParams} params - PromptLine options .
- * @returns {Promise<*>}              - Object with answers.
+ * @returns {Promise<object>}         - Object with answers.
  * @example
  * import { promptLineGroup } from "@dovenv/utils"
  *
@@ -134,7 +141,7 @@ export async function promptLineGroup<T>( params: PromptLineParams<T> ) {
 
 	}
 
-	const typePrompt = ( props: PromptParams ) => enquirer2clack( props, () => params.onCancel?.( promptLine ) )
+	const typePrompt = ( props: PromptParams ) => enquirer2clack( props, () => params.onCancel?.( promptLine as Any ) )
 
 	const all = {
 		...promptLine,
@@ -144,7 +151,7 @@ export async function promptLineGroup<T>( params: PromptLineParams<T> ) {
 	if ( params.intro ) all.intro( params.intro )
 	// @ts-ignore
 	const list    = await params.list( all )
-	const results = await all.group<T>( list, { onCancel: () => params.onCancel?.( all ) } )
+	const results = await all.group<T>( list, { onCancel: () => params.onCancel?.( all as Any ) } )
 
 	if ( params.outro ) {
 

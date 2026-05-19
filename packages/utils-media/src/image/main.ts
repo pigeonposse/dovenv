@@ -7,7 +7,10 @@
 
 import { writeFileContent } from '@dovenv/utils'
 import { Buffer }           from 'node:buffer'
-import terminalImage        from 'terminal-image' // 47MB @see https://pkg-size.dev/terminal-image
+// Terminal image size: 29MB
+// @see https://pkg-size.dev/terminal-image
+// @see https://sizium.pigeonposse.com/?sort=size&s=terminal-image
+import terminalImage from 'terminal-image'
 
 import {
 	_getMediaInput,

@@ -17,10 +17,12 @@ const utilsDir    = joinPath( packagesDir, 'utils' )
 const buildDir    = joinPath( pkgDir, 'build', 'simple' )
 
 export default defineConfig(
-	{ const : {
-		pkg,
-		wsDir,
-	} },
+	{
+		const : {
+			pkg,
+			wsDir,
+		},
+	},
 	examplesPlugin( {
 		config : {
 			type   : 'config',

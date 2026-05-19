@@ -8,6 +8,8 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig( [
 	{
 		...config,
-		alias : { '@': fileURLToPath( new URL( './src', import.meta.url ) ) },
+		failOnWarn  : false,
+		declaration : 'compatible',
+		alias       : { '@': fileURLToPath( new URL( './src', import.meta.url ) ) },
 	},
 ] )

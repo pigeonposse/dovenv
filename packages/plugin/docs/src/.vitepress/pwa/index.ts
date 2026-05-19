@@ -162,43 +162,45 @@ export const vitepressPluginPWA = async (
 	 * version of https://github.com/vite-pwa/vitepress/blob/main/src/integration.ts
 	 */
 	return {
-		vite : { plugins : [
-			...VitePWA( await getPWAConfig( {
-				config,
-				data,
-			} ) ),
-			{
-				name    : 'vite-plugin-pwa:vitepress',
-				apply   : 'build',
-				enforce : 'post',
-				configResolved( resolvedViteConfig ) {
+		vite : {
+			plugins : [
+				...VitePWA( await getPWAConfig( {
+					config,
+					data,
+				} ) ),
+				{
+					name    : 'vite-plugin-pwa:vitepress',
+					apply   : 'build',
+					enforce : 'post',
+					configResolved( resolvedViteConfig ) {
 
-					if ( !resolvedViteConfig.build.ssr )
-						api = resolvedViteConfig.plugins.find( p => p.name === 'vite-plugin-pwa' )?.api
+						if ( !resolvedViteConfig.build.ssr )
+							api = resolvedViteConfig.plugins.find( p => p.name === 'vite-plugin-pwa' )?.api
 
+					},
 				},
-			},
-			{
-				name    : 'vite-plugin-pwa:pwa-assets:vitepress',
-				apply   : 'serve',
-				enforce : 'pre',
-				configResolved( resolvedViteConfig ) {
+				{
+					name    : 'vite-plugin-pwa:pwa-assets:vitepress',
+					apply   : 'serve',
+					enforce : 'pre',
+					configResolved( resolvedViteConfig ) {
 
-					if ( !resolvedViteConfig.build.ssr )
-						api = resolvedViteConfig.plugins.find( p => p.name === 'vite-plugin-pwa' )?.api
+						if ( !resolvedViteConfig.build.ssr )
+							api = resolvedViteConfig.plugins.find( p => p.name === 'vite-plugin-pwa' )?.api
 
+					},
+					async handleHotUpdate( {
+						file, server,
+					} ) {
+
+						const pwaAssetsGenerator = await api?.pwaAssetsGenerator()
+						if ( await pwaAssetsGenerator?.checkHotUpdate( file ) )
+							await server.restart()
+
+					},
 				},
-				async handleHotUpdate( {
-					file, server,
-				} ) {
-
-					const pwaAssetsGenerator = await api?.pwaAssetsGenerator()
-					if ( await pwaAssetsGenerator?.checkHotUpdate( file ) )
-						await server.restart()
-
-				},
-			},
-		] },
+			],
+		},
 		transformHead : async context => {
 
 			const assetsGenerator = await api?.pwaAssetsGenerator()

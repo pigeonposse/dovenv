@@ -16,7 +16,9 @@ import {
 	PackageURL,
 } from './types'
 
-export type { PackageManagerData }
+export type {
+	PackageManagerData,
+}
 class PackageManagerData {
 
 	#pkg

@@ -21,23 +21,25 @@ export class UsefulCmds extends Super implements InfoInterface {
 				[ 'Command', this.utils.style.section.b( cmd.cmd ) ],
 				[ 'Description', cmd.desc ],
 				...( cmd.info ? [ [ 'Info', this.utils.style.section.a( cmd.info ) ] ] : [] ),
-			], { chars : {
-				'top'          : '',
-				'top-mid'      : '',
-				'top-left'     : '',
-				'top-right'    : '',
-				'bottom'       : '',
-				'bottom-mid'   : '',
-				'bottom-left'  : '',
-				'bottom-right' : '',
-				'left'         : '',
-				'left-mid'     : '',
-				'mid'          : '',
-				'mid-mid'      : '',
-				'right'        : '',
-				'right-mid'    : '',
-				'middle'       : '',
-			} } ) + '\n'
+			], {
+				chars : {
+					'top'          : '',
+					'top-mid'      : '',
+					'top-left'     : '',
+					'top-right'    : '',
+					'bottom'       : '',
+					'bottom-mid'   : '',
+					'bottom-left'  : '',
+					'bottom-right' : '',
+					'left'         : '',
+					'left-mid'     : '',
+					'mid'          : '',
+					'mid-mid'      : '',
+					'right'        : '',
+					'right-mid'    : '',
+					'middle'       : '',
+				},
+			} ) + '\n'
 
 			if ( index !== lastIndex ) data += '\n\n'
 

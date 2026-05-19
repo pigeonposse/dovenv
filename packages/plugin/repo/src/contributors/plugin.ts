@@ -16,42 +16,48 @@ export const contributorsPlugin = <R extends Role = Role>( conf?: ContributorsCo
 
 	return {
 		const  : conf ? { contributors: conf } : undefined,
-		custom : { contributors : {
-			desc : 'Toolkit for workspace contributors',
-			cmds : { list : {
-				desc : 'List workspace contributors',
-				opts : { role : {
-					type : 'array',
-					desc : 'Contributor role pattern',
-				} },
-			} },
-			fn : async ( {
-				cmds, showHelp, opts, utils,
-			} ) => {
+		custom : {
+			contributors : {
+				desc : 'Toolkit for workspace contributors',
+				cmds : {
+					list : {
+						desc : 'List workspace contributors',
+						opts : {
+							role : {
+								type : 'array',
+								desc : 'Contributor role pattern',
+							},
+						},
+					},
+				},
+				fn : async ( {
+					cmds, showHelp, opts, utils,
+				} ) => {
 
-				const con =  new Contributors<Role>( {
-					opts : conf,
-					utils,
-				} )
+					const con =  new Contributors<Role>( {
+						opts : conf,
+						utils,
+					} )
 
-				if ( cmds?.includes( 'list' ) ) {
+					if ( cmds?.includes( 'list' ) ) {
 
-					if ( opts?.role ) {
+						if ( opts?.role ) {
 
-						const members = await con.filterByRolePattern( opts.role as string[] )
-						await con.showTerminalOutput( {
-							...members,
-							content : { image: false },
-						} )
+							const members = await con.filterByRolePattern( opts.role as string[] )
+							await con.showTerminalOutput( {
+								...members,
+								content : { image: false },
+							} )
+
+						}
+						else await con.showTerminalOutput( { content: { image: false } } )
 
 					}
-					else await con.showTerminalOutput( { content: { image: false } } )
+					else showHelp()
 
-				}
-				else showHelp()
-
+				},
 			},
-		} },
+		},
 	}
 
 }

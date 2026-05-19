@@ -174,11 +174,13 @@ const updateBtns = () => {
 
 }
 export default {
-	props : { type : {
-		type      : String,
-		validator : value => [ 'page', 'sidebar' ].includes( value ),
-		default   : 'page',
-	} },
+	props : {
+		type : {
+			type      : String,
+			validator : value => [ 'page', 'sidebar' ].includes( value ),
+			default   : 'page',
+		},
+	},
 	mounted() {
 
 		updateBtns()

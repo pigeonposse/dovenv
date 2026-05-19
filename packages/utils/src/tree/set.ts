@@ -37,17 +37,19 @@ import { color } from '@/styles'
 export const setDirTree = ( opts: SetDirTree ): string => {
 
 	const res = new Tree( opts.structure, {
-		hook : { onData : data => {
+		hook : {
+			onData : data => {
 
-			data.name    = color[!data.isFile ? 'blue' : 'green']( data.name )
-			data.pattern = {
-				indent   : color.gray.dim( data.pattern.indent ),
-				line     : color.gray.dim( data.pattern.line ),
-				lastLine : color.gray.dim( data.pattern.lastLine ),
-			}
-			return data
+				data.name    = color[!data.isFile ? 'blue' : 'green']( data.name )
+				data.pattern = {
+					indent   : color.gray.dim( data.pattern.indent ),
+					line     : color.gray.dim( data.pattern.line ),
+					lastLine : color.gray.dim( data.pattern.lastLine ),
+				}
+				return data
 
-		} },
+			},
+		},
 		...( opts || {} ),
 	} )
 	return res.generate()

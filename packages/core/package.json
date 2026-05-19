@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/core",
-	"version": "1.6.1",
+	"version": "1.6.2",
 	"description": "Quickly and easily set up your environment for your code projects",
 	"keywords": [
 		"aio",
@@ -69,8 +69,8 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@dovenv/utils": "workspace:*",
-		"tiny-updater": "3.5.3"
+		"@clippium/updater": "1.0.3",
+		"@dovenv/utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@dovenv/repo-config": "workspace:*"

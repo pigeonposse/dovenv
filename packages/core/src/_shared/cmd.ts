@@ -1,4 +1,4 @@
-/* eslint-disable jsdoc/check-tag-names */
+
 import {
 	process,
 	logger,
@@ -234,14 +234,16 @@ export class CommandSuper {
 			}
 			const copy                     = this.log.options.reporters
 			this.log.options.reporters     = [
-				{ log : ( logObj, ctx ) => {
+				{
+					log : ( logObj, ctx ) => {
 
-					if ( logObj.type === 'debug' ) this.onDebug( ...logObj.args )
-					else if ( logObj.type === 'warn' ) this.onWarn( ...logObj.args )
-					else if ( logObj.type === 'error' ) this.onError( ...logObj.args )
-					else copy[0].log( logObj, ctx )
+						if ( logObj.type === 'debug' ) this.onDebug( ...logObj.args )
+						else if ( logObj.type === 'warn' ) this.onWarn( ...logObj.args )
+						else if ( logObj.type === 'error' ) this.onError( ...logObj.args )
+						else copy[0].log( logObj, ctx )
 
-				} },
+					},
+				},
 			]
 
 			if ( getBooleanFlagValue( consts.GLOBAL_OPTIONS.VERBOSE.key ) )
@@ -619,7 +621,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * @param   {boolean}         [opts.showValid]   - Show valid schema data on Error. Default: false.
 	 * @param   {boolean}         [opts.validSchema] - Set a custom valid schema
 	 * @returns {unknown}                            The validated data.
-	 * @throws If the data is invalid, an error is generated with a human-readable description.
+	 * @throws {Error} If the data is invalid, an error is generated with a human-readable description.
 	 */
 	async validateSchema<D = unknown>( schema: ValidateAnyType, data: D, opts?: {
 		showValid?   : boolean
@@ -851,7 +853,7 @@ Add ${this.style.b( 'engines' )} to your package.json (${joinPath( this.wsDir, '
 	 * @param    {object}                       opts         - The options object.
 	 * @param    {V}                            opts.input   - The input object containing key-value pairs to process.
 	 * @param    {P}                            opts.pattern - An optional pattern to filter the keys to be processed.
-	 * @param    {Function}                     opts.cb      - A callback function executed for each matching key-value pair.
+	 * @param    {() => Promise}                opts.cb      - A callback function executed for each matching key-value pair.
 	 *                                                       The callback receives an object containing the key, value, and a logger.
 	 * @returns  {Promise<{[K in keyof V]: R}>}              A promise that resolves to an object containing the results
 	 *                                                       of the callback execution for each key.

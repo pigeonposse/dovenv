@@ -190,6 +190,7 @@ export class TypescriptSuper<Props extends TypescriptSharedProps> extends Conver
 					const transformedRes = await props.transform( preContent )
 					if ( transformedRes && typeof transformedRes === 'string' && transformedRes !== '' ) {
 
+						// eslint-disable-next-line no-useless-assignment
 						if ( !content ) content = preContent
 						content = transformedRes
 

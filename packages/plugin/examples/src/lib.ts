@@ -36,7 +36,6 @@ import type { Any } from '@dovenv/core/utils'
 
 type ExampleConfig = NonNullable<ExampleConfigFileProps['config']>
 
-// @ts-ignore
 const _deps = new LazyLoader( { commentParser: async () => ( await import( 'comment-parser' ) ).parse } )
 
 export class Examples {
@@ -227,47 +226,49 @@ export class Examples {
 		const examples: ExampleConfig[number]['data'] = { }
 		await readFiles( input, {
 			inputOpts : opts,
-			hook      : { onFile : async ( {
-				content, path,
-			} ) => {
+			hook      : {
+				onFile : async ( {
+					content, path,
+				} ) => {
 
-				const parsed   = parser( content )
-				const filename = getBaseName( path )
-				const ext      = getExtName( path ).replace( '.', '' ) || 'js'
-				const type     = [
-					'ts',
-					'mts',
-					'cts',
-				].includes( ext )
-					? 'ts'
-					: [
-						'js',
-						'jts',
-						'jts',
+					const parsed   = parser( content )
+					const filename = getBaseName( path )
+					const ext      = getExtName( path ).replace( '.', '' ) || 'js'
+					const type     = [
+						'ts',
+						'mts',
+						'cts',
 					].includes( ext )
-						? 'js'
-						: ext
-				for ( const block of parsed ) {
+						? 'ts'
+						: [
+							'js',
+							'jts',
+							'jts',
+						].includes( ext )
+							? 'js'
+							: ext
+					for ( const block of parsed ) {
 
-					const exampleTag = block.tags.find( tag => tag.tag === 'example' )
-					if ( exampleTag && exampleTag.description ) {
+						const exampleTag = block.tags.find( tag => tag.tag === 'example' )
+						if ( exampleTag && exampleTag.description ) {
 
-						const nameTag        = block.tags.find( tag => tag.tag === 'name' )
-						const descriptionTag = block.tags.find( tag => tag.tag === 'description' )
-						const exampleTitle   = block.description || nameTag?.name || descriptionTag?.name || filename
+							const nameTag        = block.tags.find( tag => tag.tag === 'name' )
+							const descriptionTag = block.tags.find( tag => tag.tag === 'description' )
+							const exampleTitle   = block.description || nameTag?.name || descriptionTag?.name || filename
 
-						examples[getRandomUUID()] = {
-							input : exampleTag.source.map( v => v.tokens.postDelimiter.substring( 1 ) + v.tokens.description ).join( '\n' ).trim(),
-							desc  : block.description || descriptionTag?.description,
-							type,
-							title : truncate( exampleTitle, 100 ),
+							examples[getRandomUUID()] = {
+								input : exampleTag.source.map( v => v.tokens.postDelimiter.substring( 1 ) + v.tokens.description ).join( '\n' ).trim(),
+								desc  : block.description || descriptionTag?.description,
+								type,
+								title : truncate( exampleTitle, 100 ),
+							}
+
 						}
 
 					}
 
-				}
-
-			} },
+				},
+			},
 		} )
 
 		console.debug( { examples } )

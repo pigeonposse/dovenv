@@ -3,6 +3,7 @@ import {
 	getCurrentDir,
 	joinPath,
 	relativePath,
+	process,
 } from '@dovenv/core/utils'
 
 import { docsPlugin } from '../../src/main'

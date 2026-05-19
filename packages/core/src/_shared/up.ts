@@ -1,12 +1,11 @@
-import updater from 'tiny-updater'
+import { Updater } from '@clippium/updater'
 
 export const updateNotifier = ( name: string, version: string ) => {
 
-	const opts = {
+	const up = new Updater( {
 		name,
 		version,
-		ttl : 86_400_000,
-	}
-	return { notify: () => updater( opts ) }
+	} )
+	return { notify: () => up.notify( ) }
 
 }

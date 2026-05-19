@@ -4,10 +4,12 @@ await createCLI( {
 	name    : 'TEST',
 	version : '1',
 	// examples : COMMAD?.examples,
-	cmds    : { k : {
-		desc : 'say hello',
-		fn   : async d => console.log( d ),
-	} },
+	cmds    : {
+		k : {
+			desc : 'say hello',
+			fn   : async d => console.log( d ),
+		},
+	},
 	// cmds : COMMAD?.cmds
 	// 	? Object.fromEntries( Object.entries( COMMAD.cmds ).map( ( [ key, value ] ) => [
 	// 		key,

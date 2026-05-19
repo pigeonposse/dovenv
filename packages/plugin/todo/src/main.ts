@@ -24,26 +24,32 @@ export {
  */
 export const todoPlugin = ( params?: Config ): DovenvConfig => {
 
-	return { custom : { todo : {
-		desc : 'Toolkit for Workspace TODOs',
-		opts : { key : {
-			alias : 'k',
-			desc  : 'Key pattern to get TODOs',
-			type  : 'array',
-		} },
-		fn : async ( {
-			opts, utils,
-		} ) => {
+	return {
+		custom : {
+			todo : {
+				desc : 'Toolkit for Workspace TODOs',
+				opts : {
+					key : {
+						alias : 'k',
+						desc  : 'Key pattern to get TODOs',
+						type  : 'array',
+					},
+				},
+				fn : async ( {
+					opts, utils,
+				} ) => {
 
-			const todo = new Todo( {
-				opts : params,
-				utils,
-			} )
-			const keys = opts?.key as string[] | undefined
-			await todo.run( keys )
+					const todo = new Todo( {
+						opts : params,
+						utils,
+					} )
+					const keys = opts?.key as string[] | undefined
+					await todo.run( keys )
 
+				},
+			},
 		},
-	} } }
+	}
 
 }
 

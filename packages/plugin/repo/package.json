@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/repo",
-	"version": "1.6.1",
+	"version": "1.6.2",
 	"description": "Repository tools for any runtime",
 	"keywords": [
 		"aio",
@@ -59,8 +59,8 @@
 		"test": "vitest run -r src --passWithNoTests"
 	},
 	"dependencies": {
-		"@changesets/cli": "2.29.5",
-		"@sizium/core": "0.2.3",
+		"@changesets/cli": "~2.31.0",
+		"@sizium/core": "~2.0.6",
 		"husky": "9.1.7"
 	},
 	"devDependencies": {

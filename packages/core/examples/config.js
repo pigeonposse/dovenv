@@ -9,19 +9,21 @@ const setStructure = () => {
 
 	try {
 
-		console.log( '\n' + box( setDirTree( { structure : {
-			'.vscode' : {
-				'settings.json'   : null,
-				'extensions.json' : null,
+		console.log( '\n' + box( setDirTree( {
+			structure : {
+				'.vscode' : {
+					'settings.json'   : null,
+					'extensions.json' : null,
+				},
+				'docs'             : { '*.md': null },
+				'packages'         : { '**': null },
+				'.gitignore'       : null,
+				'.pigeonposse.yml' : null,
+				'LICENSE'          : null,
+				'package.json'     : null,
+				'README.md'        : null,
 			},
-			'docs'             : { '*.md': null },
-			'packages'         : { '**': null },
-			'.gitignore'       : null,
-			'.pigeonposse.yml' : null,
-			'LICENSE'          : null,
-			'package.json'     : null,
-			'README.md'        : null,
-		} } ),
+		} ),
 		{
 			padding     : 1,
 			title       : 'Workspace Structure',
@@ -43,8 +45,10 @@ const setStructure = () => {
 export default defineConfig( {
 	name   : 'PROJECT WORKSPACE',
 	desc   : 'This is a project workspace example',
-	custom : { structure : {
-		desc : 'Set structure for the workspace',
-		fn   : async () => setStructure(),
-	} },
+	custom : {
+		structure : {
+			desc : 'Set structure for the workspace',
+			fn   : async () => setStructure(),
+		},
+	},
 } )

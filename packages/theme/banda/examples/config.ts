@@ -16,14 +16,18 @@ import { bandaTheme } from '../src/main'
 
 export default defineConfig( bandaTheme( {
 	lint      : undefined,
-	workspace : { info : { instructions : `## Pre-requisites
+	workspace : {
+		info : {
+			instructions : `## Pre-requisites
 project needs the following tools to work:
 - "node" > 20 installed
 - "pnpm" > 9 installed
 - "gh" > 2 installed
 - "git" > 2 installed
 ## Init workspace
-pnpm install` } },
+pnpm install`,
+		},
+	},
 	// media : {
 	// 	min : {
 	// 		images : {

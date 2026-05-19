@@ -173,8 +173,6 @@ export const createOGImage = async ( opts: OgImageOpts ) => {
     ></div>
     <img
       src="${opts.image}"
-      width="${imageWidth}"
-      height="${imageWidth}"
       style="
         position: absolute;
         top: 50%;

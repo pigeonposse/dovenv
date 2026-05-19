@@ -4,7 +4,9 @@ import type { Config }                 from './types'
 import type { Config as DovenvConfig } from '@dovenv/core'
 
 export type * from './types'
-export { Examples }
+export {
+	Examples,
+}
 
 /**
  * A plugin for `dovenv` providing tools for managing example paths.
@@ -14,25 +16,31 @@ export { Examples }
  */
 export const examplesPlugin = ( conf?: Config ): DovenvConfig => {
 
-	return { custom : { examples : {
-		desc : 'Toolkit for managing example paths',
-		opts : { key : {
-			alias : 'k',
-			desc  : 'Key pattern',
-			type  : 'array',
-		} },
-		fn : async ( {
-			utils, opts,
-		} ) => {
+	return {
+		custom : {
+			examples : {
+				desc : 'Toolkit for managing example paths',
+				opts : {
+					key : {
+						alias : 'k',
+						desc  : 'Key pattern',
+						type  : 'array',
+					},
+				},
+				fn : async ( {
+					utils, opts,
+				} ) => {
 
-			const temp = new Examples( {
-				opts : conf,
-				utils,
-			} )
-			await temp.run( opts?.key as string[] )
+					const temp = new Examples( {
+						opts : conf,
+						utils,
+					} )
+					await temp.run( opts?.key as string[] )
 
+				},
+			},
 		},
-	} } }
+	}
 
 }
 

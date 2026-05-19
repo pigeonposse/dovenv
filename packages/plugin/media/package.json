@@ -1,6 +1,6 @@
 {
 	"name": "@dovenv/media",
-	"version": "1.6.1",
+	"version": "1.6.2",
 	"description": "Media configuration for dovenv",
 	"keywords": [
 		"aio",
@@ -57,7 +57,7 @@
 		"imagemin-gifsicle": "7.0.0",
 		"imagemin-jpegtran": "8.0.0",
 		"imagemin-optipng": "8.0.0",
-		"imagemin-svgo": "11.0.1",
+		"imagemin-svgo": "12.0.0",
 		"imagemin-webp": "8.0.0",
 		"terminalizer": "0.12.0"
 	},

@@ -29,10 +29,12 @@ export const CONFIG_EXTS = [
 	'cts',
 ] as const
 
-export const OPTIONS = { KEY : {
-	key   : 'key',
-	alias : 'k',
-} } as const
+export const OPTIONS = {
+	KEY : {
+		key   : 'key',
+		alias : 'k',
+	},
+} as const
 export const GLOBAL_OPTIONS = {
 	VERSION : {
 		key   : 'version',

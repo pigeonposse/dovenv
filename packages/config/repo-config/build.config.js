@@ -8,7 +8,7 @@ export const config = {
 		emitCJS            : false,
 		esbuild            : {
 			minify : true,
-			target : 'node20',
+			target : 'node22',
 		},
 	},
 	failOnWarn : true,

@@ -39,4 +39,6 @@ export const getObjectFromYAMLContent = async <Res extends CommonObj = CommonObj
 
 }
 
-export { yaml }
+export {
+	yaml,
+}

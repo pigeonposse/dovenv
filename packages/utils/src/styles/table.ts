@@ -10,8 +10,12 @@ export type TableOpts = TableConstructorOptions
 export type ColumnOpts = columnify.GlobalOptions
 export type ColumnData = Record<string, unknown> | Record<string, unknown>[]
 
-export type { TableConstructorOptions }
-export { Table }
+export type {
+	TableConstructorOptions,
+}
+export {
+	Table,
+}
 
 /**
  * Generates a text-based table from the provided data array.

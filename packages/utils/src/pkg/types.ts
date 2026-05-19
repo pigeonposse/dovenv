@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import {
 	PKG_MANAGER,
 	RUNTIME,

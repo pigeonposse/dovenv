@@ -10,8 +10,9 @@ const port                         = 13124
 const config: PlaywrightTestConfig = {
 	webServer : {
 		command : `tsx examples/ws/main.ts docs dev --port=${port}`,
-		port,
+		url     : `http://localhost:${port}`,
 	},
+	use       : { baseURL: `http://localhost:${port}` },
 	testDir   : 'tests',
 	testMatch : /(.+\.)?(test|spec)\.[jt]s/,
 }

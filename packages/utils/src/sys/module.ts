@@ -74,7 +74,7 @@ export const getModulePath = async ( {
 			throw e
 
 		}
-		throw new Error( `It could not be located ${joinPath( id, ...( path || [] ) )}.` + eInfo )
+		throw new Error( `It could not be located ${joinPath( id, ...( path || [] ) )}.` + eInfo, { cause: e } )
 
 	}
 

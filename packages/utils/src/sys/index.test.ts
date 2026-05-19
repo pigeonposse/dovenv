@@ -49,10 +49,10 @@ describe( 'FS - fetchContent', () => {
 
 	it( 'should fetch text content from a URL', async () => {
 
-		const url     = 'https://example.com'
+		const url     = 'https://raw.githubusercontent.com/pigeonposse/dovenv/refs/heads/main/.dovenv/index.js'
 		const content = await fs.fetch2string( url )
 		expect( typeof content ).toBe( 'string' )
-		expect( content ).toContain( 'Example Domain' )
+		expect( content ).toContain( 'defineConfig' )
 
 	} )
 

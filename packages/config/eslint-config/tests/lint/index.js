@@ -84,3 +84,6 @@ catch ( _e ) {
 
 }
 
+export {
+	logf, toConsole, toConsole2, toConsole3,
+}

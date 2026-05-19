@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import { Prettify } from './super'
 
 import type { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'

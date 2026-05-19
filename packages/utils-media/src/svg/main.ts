@@ -20,7 +20,9 @@ import type {
 	SvgProps,
 } from './types'
 
-export { createBadgeSVG }
+export {
+	createBadgeSVG,
+}
 /**
  * Converts an SVG to an image buffer.
  *

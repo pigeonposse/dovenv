@@ -15,6 +15,9 @@ import type {
 } from '../config/types'
 
 export const vitepressVersion = dependencies.vitepress
+	.replace( '~', '' )
+	.replace( '^', '' )
+
 export const globals = {
 	DOVENV_CONFIG_PATH      : 'DOVENV_CONFIG_PATH',
 	DOVENV_UTILS            : 'DOVENV_UTILS',

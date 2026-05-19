@@ -24,7 +24,9 @@ import type {
 	Params,
 } from './types'
 
-export { CONSTS }
+export {
+	CONSTS,
+}
 
 /**
  * Instance `Dovenv`.
@@ -116,11 +118,13 @@ export class Dovenv {
 
 		await _createCliConstructor( {
 			args,
-			opts : { [GLOBAL_OPTIONS.CONFIG.key] : {
-				alias : GLOBAL_OPTIONS.CONFIG.alias,
-				desc  : 'Dovenv configuration file path',
-				type  : 'string',
-			} },
+			opts : {
+				[GLOBAL_OPTIONS.CONFIG.key] : {
+					alias : GLOBAL_OPTIONS.CONFIG.alias,
+					desc  : 'Dovenv configuration file path',
+					type  : 'string',
+				},
+			},
 			hook : async ( {
 				cli, argv,
 			} ) => {
@@ -128,11 +132,13 @@ export class Dovenv {
 				const defaultCmds: CustomConfig = {
 					[CMD.CHECK] : {
 						desc : 'Make rules from your workspaces files or directories',
-						opts : { [OPTIONS.KEY.key] : {
-							alias : OPTIONS.KEY.alias,
-							desc  : 'Set key patterns for check',
-							type  : 'array',
-						} },
+						opts : {
+							[OPTIONS.KEY.key] : {
+								alias : OPTIONS.KEY.alias,
+								desc  : 'Set key patterns for check',
+								type  : 'array',
+							},
+						},
 						fn : async argv => {
 
 							const instance = new Check( argv )
@@ -146,11 +152,13 @@ export class Dovenv {
 							view : { desc: 'View all constants' },
 							add  : { desc: 'Add new constant' },
 						},
-						opts : { [OPTIONS.KEY.key] : {
-							alias : OPTIONS.KEY.alias,
-							desc  : 'Set key patterns of your constants for viewed',
-							type  : 'array',
-						} },
+						opts : {
+							[OPTIONS.KEY.key] : {
+								alias : OPTIONS.KEY.alias,
+								desc  : 'Set key patterns of your constants for viewed',
+								type  : 'array',
+							},
+						},
 						examples : [
 							{
 								desc : 'View all constants',
@@ -170,11 +178,13 @@ export class Dovenv {
 					},
 					[CMD.TRANSFORM] : {
 						desc : 'Transform your workspaces paths',
-						opts : { [OPTIONS.KEY.key] : {
-							alias : OPTIONS.KEY.alias,
-							desc  : 'Set key patterns of your transforms',
-							type  : 'array',
-						} },
+						opts : {
+							[OPTIONS.KEY.key] : {
+								alias : OPTIONS.KEY.alias,
+								desc  : 'Set key patterns of your transforms',
+								type  : 'array',
+							},
+						},
 						examples : [
 							{
 								desc : 'Transform all',

@@ -1,6 +1,6 @@
-import jsonc       from 'eslint-plugin-jsonc'
-import packageJson from 'eslint-plugin-package-json'
-import jsoncParser from 'jsonc-eslint-parser'
+import jsonc            from 'eslint-plugin-jsonc'
+import packageJson      from 'eslint-plugin-package-json'
+import * as jsoncParser from 'jsonc-eslint-parser'
 
 import { FILES } from './const'
 
@@ -51,8 +51,9 @@ export const setPackageJsonConfig = ( params?: PackageJsonConfigParams ): Config
 					],
 				},
 			],
-			'package-json/no-redundant-files' : 'error',
-			'package-json/require-version'    : 'off',
+			'package-json/no-redundant-files'  : 'error',
+			'package-json/require-version'     : 'off',
+			'package-json/require-sideEffects' : [ 'off' ],
 			...( params?.rules || {} ),
 		},
 	},

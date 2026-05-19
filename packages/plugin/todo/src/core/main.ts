@@ -77,23 +77,25 @@ export class Todo {
 			[ this.utils.style.section.b( 'tag ' ), todo.tag ],
 			[ this.utils.style.section.b( 'description ' ), todo.text ],
 			[ this.utils.style.section.b( 'path ' ), this.utils.style.p( todo.file + ':' + todo.line ) ],
-		], { chars : {
-			'top'          : '',
-			'top-mid'      : '',
-			'top-left'     : '',
-			'top-right'    : '',
-			'bottom'       : '',
-			'bottom-mid'   : '',
-			'bottom-left'  : '',
-			'bottom-right' : '',
-			'left'         : '',
-			'left-mid'     : '',
-			'mid'          : '',
-			'mid-mid'      : '',
-			'right'        : '',
-			'right-mid'    : '',
-			'middle'       : '',
-		} } ) )
+		], {
+			chars : {
+				'top'          : '',
+				'top-mid'      : '',
+				'top-left'     : '',
+				'top-right'    : '',
+				'bottom'       : '',
+				'bottom-mid'   : '',
+				'bottom-left'  : '',
+				'bottom-right' : '',
+				'left'         : '',
+				'left-mid'     : '',
+				'mid'          : '',
+				'mid-mid'      : '',
+				'right'        : '',
+				'right-mid'    : '',
+				'middle'       : '',
+			},
+		} ) )
 
 		return table.join( '\n\n' )
 
@@ -126,19 +128,21 @@ export class Todo {
 						cwd       : this.utils.wsDir,
 						...value.inputOpts,
 					},
-					hook : { onFile : async ( {
-						path, content,
-					} ) => {
+					hook : {
+						onFile : async ( {
+							path, content,
+						} ) => {
 
-						// const filetype = getExtName( path )
+							// const filetype = getExtName( path )
 
-						const tags = value.customTags ?? defaultTags
+							const tags = value.customTags ?? defaultTags
 
-						const todos = await this.#extractTodos( content, path, tags )
+							const todos = await this.#extractTodos( content, path, tags )
 
-						if ( todos.length > 0 ) res.push( ...todos )
+							if ( todos.length > 0 ) res.push( ...todos )
 
-					} },
+						},
+					},
 				} )
 
 				if ( res.length > 0 && value.output ) {

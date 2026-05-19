@@ -1,5 +1,16 @@
 # @dovenv/theme-pigeonposse
 
+## 1.6.2
+
+### Patch Changes
+
+- fix issues, up depensences for fix vulnerabilities
+
+- Updated dependencies []:
+  - @dovenv/eslint-config@1.6.2
+  - @dovenv/theme-banda@1.6.2
+  - @dovenv/core@1.6.2
+
 ## 1.6.1
 
 ### Patch Changes

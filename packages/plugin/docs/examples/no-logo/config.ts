@@ -35,16 +35,18 @@ export default defineConfig( docsPlugin( {
 	output : relativePath( process.cwd(), joinPath( pkgDir, 'build', name ) ),
 	name,
 	// input  : './docs',
-	styles : { color : {
-		primary   : '#e10c68',
-		secondary : '#fc8c2f',
-		terciary  : '#1d9bf7',
-		dark      : {
-			bg     : '#000',
-			bgAlt  : '#0b0b0d',
-			bgSoft : '#0d0c10',
+	styles : {
+		color : {
+			primary   : '#e10c68',
+			secondary : '#fc8c2f',
+			terciary  : '#1d9bf7',
+			dark      : {
+				bg     : '#000',
+				bgAlt  : '#0b0b0d',
+				bgSoft : '#0d0c10',
+			},
 		},
-	} },
+	},
 	css : `
 // .vp-doc p:has( > a) {
 // display: flex;

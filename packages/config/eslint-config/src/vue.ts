@@ -38,6 +38,7 @@ export const setVueConfig = (): Config[] => [
  * VUE ESLINT CONFIG.
  *
  * @see https://www.npmjs.com/package/eslint-plugin-vue
+ * @see https://eslint.vuejs.org/rules/
  */
 export const vueConfig = setVueConfig()
 

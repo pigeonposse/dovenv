@@ -39,4 +39,6 @@ export const getObjectFromTOMLContent = async <Res extends CommonObj = CommonObj
 
 }
 
-export { toml }
+export {
+	toml,
+}

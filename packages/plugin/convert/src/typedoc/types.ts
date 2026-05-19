@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import type { ConvertPropsSuper } from '../_shared/types'
 import type { Prettify }          from '@dovenv/core/utils'
 import type { TypeDocOptions }    from 'typedoc'

@@ -55,4 +55,6 @@ export const getObjectFromXMLContent = async <Res extends CommonObj = CommonObj>
 
 }
 
-export { xml }
+export {
+	xml,
+}

@@ -73,27 +73,29 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 	const config = mergeBandaConfig( {
 		lint : {
 			staged : params?.lint?.staged || { '**/*.{js,ts,jsx,tsx,json}': 'dovenv lint eslint --fix --silent' },
-			custom : { pkg : async ( {
-				utils, run,
-			} ) => {
+			custom : {
+				pkg : async ( {
+					utils, run,
+				} ) => {
 
-				const pkgs = await utils.getPkgsData()
-				const pack = utils.packageManager.value
+					const pkgs = await utils.getPkgsData()
+					const pack = utils.packageManager.value
 
-				await Promise.all( pkgs.map( async pkg => {
+					await Promise.all( pkgs.map( async pkg => {
 
-					if ( pkg.content.private === true ) return
+						if ( pkg.content.private === true ) return
 
-					await run.publint( {
-						title  : pkg.id,
-						pack,
-						pkgDir : pkg.dir,
-						strict : true,
-					} )
+						await run.publint( {
+							title  : pkg.id,
+							pack,
+							pkgDir : pkg.dir,
+							strict : true,
+						} )
 
-				} ) )
+					} ) )
 
-			} },
+				},
+			},
 		},
 		workspace : {
 			info : {
@@ -132,157 +134,165 @@ export const pigeonposseTheme = ( params?: Config ): DovenvConfig => {
 				structure    : {
 					'.dovenv'  : { '{main,index}.{js,ts}': null },
 					'docs'     : { '*.md': null },
-					'packages' : { '*' : {
-						'src'          : { '**': null },
-						'examples'     : { '**': null },
-						'tests'        : { '**': null },
-						'README.md'    : null,
-						'package.json' : null,
-					} },
+					'packages' : {
+						'*' : {
+							'src'          : { '**': null },
+							'examples'     : { '**': null },
+							'tests'        : { '**': null },
+							'README.md'    : null,
+							'package.json' : null,
+						},
+					},
 					'.gitignore'   : null,
 					'LICENSE'      : null,
 					'package.json' : null,
 					'README.md'    : null,
 				},
 			},
-			check : { pkg : {
-				deps : {
-					desc   : 'Static dependencies',
-					custom : async ( {
-						content, path, utils,
-					} ) => {
+			check : {
+				pkg : {
+					deps : {
+						desc   : 'Static dependencies',
+						custom : async ( {
+							content, path, utils,
+						} ) => {
 
-						const deps = Object.entries( {
-							...content.devDependencies || {},
-							...content.dependencies || {},
-						} )
+							const deps = Object.entries( {
+								...content.devDependencies || {},
+								...content.dependencies || {},
+							} )
 
-						for ( const [ k, v ] of deps ) {
+							for ( const [ k, v ] of deps ) {
 
-							if ( v?.startsWith( '^' ) ) throw new Error( utils.style.error.msg(
-								path,
-								`\n\nThe dependency version [${utils.style.error.b( k )}] (${v}) should be static for better version control and a more stable project.\n`,
-							) )
+								if ( v?.startsWith( '^' ) ) throw new Error( utils.style.error.msg(
+									path,
+									`\n\nThe dependency version [${utils.style.error.b( k )}] (${v}) should be static for better version control and a more stable project.\n`,
+								) )
 
+							}
+
+						},
+					},
+					files : {
+						desc    : 'Allowed and disallowed files',
+						include : ( {
+							path, utils, content,
+						} ) => {
+
+							const ext    = '.{js,ts,mts,cts,cjs,mjs}'
+							const shared = [ 'package.json', 'README.md' ]
+							const wsDir  = typeof utils.config?.const?.workspaceDir === 'string'
+								? utils.config.const.workspaceDir
+								: ''
+							const isWs   = arePathsEqual( getDirName( path ), wsDir )
+
+							if ( content.private ) return shared
+
+							else if ( isWs && content.workspaces ) return [ 'docs/index.md', ...shared ]
+							else if ( isWs ) return [
+								'packages/*',
+								'.gitignore',
+								'LICENSE',
+								'package.json',
+								'README.md',
+								'.dovenv/{main,index}' + ext,
+							]
+
+							//'examples/**/*' + ext,
+							return [ 'src/*' + ext, ...shared ]
+
+						},
+
+						exclude : ( {
+							dir, utils,
+						} ) => {
+
+							const wsDir = typeof utils.config?.const?.workspaceDir === 'string'
+								? utils.config.const.workspaceDir
+								: ''
+							if ( arePathsEqual( dir, wsDir ) )
+								return [ 'src/*' ]
+
+						},
+					},
+					packagejsom : {
+						desc   : 'package.json schema',
+						schema : ( {
+							v, content, path,
+						} ) => {
+
+							if ( !content ) throw new Error( `No data in ${path}` )
+							if ( 'private' in content ) return
+
+							if ( !content?.keywords?.includes( 'pp' ) || !content?.keywords?.includes( 'pigeonposse' ) )
+								throw new Error( `You must add "pigeonposse" and "pp" keywords in ${path}` )
+
+							return v.object( {
+								name          : v.string(),
+								version       : v.string(),
+								description   : v.string(),
+								files         : v.array( v.string() ),
+								keywords      : v.array( v.string() ),
+								publishConfig : v.object( {
+									access   : v.literal( 'public' ),
+									registry : v.string(),
+								} ),
+							} )
+
+						},
+					},
+				},
+			},
+			custom : {
+				size : {
+					desc : 'Size of your workspace',
+					fn   : async ( { utils } ) => {
+
+						const paths        = await utils.getPkgPaths()
+						const { Packages } = repo
+						const packages     = new Packages( { utils } )
+						const total        = {
+							mb        : 0,
+							count     : 0,
+							installed : 0,
 						}
+						await Promise.all( paths.map( async path => {
+
+							const res = await packages.getSize( path )
+
+							total.mb += res.data.sizeMB
+							total.count++
+							total.installed += res.data.packageNum
+
+						} ) )
+
+						console.log( `\n\nPackages: ${total.count}\nPackages Installed: ${total.installed}\nTotal size: ${total.mb.toFixed( 2 )} mb` )
 
 					},
 				},
-				files : {
-					desc    : 'Allowed and disallowed files',
-					include : ( {
-						path, utils, content,
-					} ) => {
-
-						const ext    = '.{js,ts,mts,cts,cjs,mjs}'
-						const shared = [ 'package.json', 'README.md' ]
-						const wsDir  = typeof utils.config?.const?.workspaceDir === 'string'
-							? utils.config.const.workspaceDir
-							: ''
-						const isWs   = arePathsEqual( getDirName( path ), wsDir )
-
-						if ( content.private ) return shared
-
-						else if ( isWs && content.workspaces ) return [ 'docs/index.md', ...shared ]
-						else if ( isWs ) return [
-							'packages/*',
-							'.gitignore',
-							'LICENSE',
-							'package.json',
-							'README.md',
-							'.dovenv/{main,index}' + ext,
-						]
-
-						//'examples/**/*' + ext,
-						return [ 'src/*' + ext, ...shared ]
-
-					},
-
-					exclude : ( {
-						dir, utils,
-					} ) => {
-
-						const wsDir = typeof utils.config?.const?.workspaceDir === 'string'
-							? utils.config.const.workspaceDir
-							: ''
-						if ( arePathsEqual( dir, wsDir ) )
-							return [ 'src/*' ]
-
-					},
-				},
-				packagejsom : {
-					desc   : 'package.json schema',
-					schema : ( {
-						v, content, path,
-					} ) => {
-
-						if ( !content ) throw new Error( `No data in ${path}` )
-						if ( 'private' in content ) return
-
-						if ( !content?.keywords?.includes( 'pp' ) || !content?.keywords?.includes( 'pigeonposse' ) )
-							throw new Error( `You must add "pigeonposse" and "pp" keywords in ${path}` )
-
-						return v.object( {
-							name          : v.string(),
-							version       : v.string(),
-							description   : v.string(),
-							files         : v.array( v.string() ),
-							keywords      : v.array( v.string() ),
-							publishConfig : v.object( {
-								access   : v.literal( 'public' ),
-								registry : v.string(),
-							} ),
-						} )
-
-					},
-				},
-			} },
-			custom : { size : {
-				desc : 'Size of your workspace',
-				fn   : async ( { utils } ) => {
-
-					const paths        = await utils.getPkgPaths()
-					const { Packages } = repo
-					const packages     = new Packages( { utils } )
-					const total        = {
-						mb        : 0,
-						count     : 0,
-						installed : 0,
-					}
-					await Promise.all( paths.map( async path => {
-
-						const res = await packages.getSize( path )
-
-						total.mb += res.data.sizeMB
-						total.count++
-						total.installed += res.data.packageNum
-
-					} ) )
-
-					console.log( `\n\nPackages: ${total.count}\nPackages Installed: ${total.installed}\nTotal size: ${total.mb.toFixed( 2 )} mb` )
-
-				},
-			} },
+			},
 		},
 	}, bandaTemplateConfig, bandaConf )
 
 	return defineConfig(
 		getPigeonposseData( core ),
 		pigeonposseWebPlugin( web ),
-		{ alias : {
-			binarium : {
-				desc : 'Create executables of your Node|Deno|Bun projects',
-				cmd  : async ( {
-					exec, data, opts,
-				} ) => await exec.command( `${data.pkgManagerCmds.exec} binarium ${opts?.join( ' ' ) || ''}` ),
+		{
+			alias : {
+				binarium : {
+					desc : 'Create executables of your Node|Deno|Bun projects',
+					cmd  : async ( {
+						exec, data, opts,
+					} ) => await exec.command( `${data.pkgManagerCmds.exec} binarium ${opts?.join( ' ' ) || ''}` ),
+				},
+				unbuild : {
+					desc : 'Build libraries for your Node|Deno|Bun projects',
+					cmd  : async ( {
+						exec, data, opts,
+					} ) => await exec.command( `${data.pkgManagerCmds.exec} unbuild ${opts?.join( ' ' ) || ''}` ),
+				},
 			},
-			unbuild : {
-				desc : 'Build libraries for your Node|Deno|Bun projects',
-				cmd  : async ( {
-					exec, data, opts,
-				} ) => await exec.command( `${data.pkgManagerCmds.exec} unbuild ${opts?.join( ' ' ) || ''}` ),
-			},
-		} },
+		},
 		pigeonSchemas,
 		bandaTheme( config ),
 	)
@@ -308,32 +318,38 @@ export const pigeonposseMonorepoTheme = ( params?: MonorepoConfig ) => {
 	} = params || {}
 
 	const defaultConf: Config = ( !restParams?.repo?.commit?.scopes )
-		? { repo : { commit : { scopes : [
-			{
-				value : 'core',
-				desc  : `Core package ${EMOJI.core}`,
+		? {
+			repo : {
+				commit : {
+					scopes : [
+						{
+							value : 'core',
+							desc  : `Core package ${EMOJI.core}`,
+						},
+						{
+							value : 'plugin',
+							desc  : `Plugin package(s) ${EMOJI.plugin}`,
+						},
+						{
+							value : 'theme',
+							desc  : `Theme package(s) ${EMOJI.theme}`,
+						},
+						{
+							value : 'utils',
+							desc  : `Utils package(s) ${EMOJI.utils}`,
+						},
+						{
+							value : 'all',
+							desc  : `All package(s) ${EMOJI.package}`,
+						},
+						{
+							value : 'env',
+							desc  : 'Only development environment',
+						},
+					],
+				},
 			},
-			{
-				value : 'plugin',
-				desc  : `Plugin package(s) ${EMOJI.plugin}`,
-			},
-			{
-				value : 'theme',
-				desc  : `Theme package(s) ${EMOJI.theme}`,
-			},
-			{
-				value : 'utils',
-				desc  : `Utils package(s) ${EMOJI.utils}`,
-			},
-			{
-				value : 'all',
-				desc  : `All package(s) ${EMOJI.package}`,
-			},
-			{
-				value : 'env',
-				desc  : 'Only development environment',
-			},
-		] } } }
+		}
 		: {}
 
 	return defineConfig(

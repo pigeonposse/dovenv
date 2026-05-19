@@ -3,12 +3,16 @@ import process      from 'node:process'
 import terminalSize from 'terminal-size'
 
 export * from './env'
-export { process }
+export {
+	process,
+}
 
 export * from './std'
 export * from './console'
 
-export { terminalSize }
+export {
+	terminalSize,
+}
 
 /**
  * Checks if the environment is a development environment.

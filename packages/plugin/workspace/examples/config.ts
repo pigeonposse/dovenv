@@ -16,10 +16,12 @@ const pkgPath      = joinPath( workspaceDir, 'package.json' )
 const pkg          = await getObjectFromJSONFile<PackageJSON>( pkgPath )
 
 export default defineConfig(
-	{ const : {
-		pkg,
-		workspaceDir : workspaceDir,
-	} },
+	{
+		const : {
+			pkg,
+			workspaceDir : workspaceDir,
+		},
+	},
 	workspacePlugin( {
 		// exec : { binarium: { desc: 'Tool to create executables of your Node, Deno or Bun projects' } },
 		info : {
@@ -55,70 +57,80 @@ export default defineConfig(
 				},
 			],
 			instructions : '# Development guide\n\n> No instructions yet.',
-			structure    : { dovenv : {
-				docs     : { '*.md': null },
-				packages : {
-					'config' : { '*' : {
-						'README.md'    : null,
-						'package.json' : null,
-					} },
-					'theme' : { '*' : {
-						'README.md'    : null,
-						'package.json' : null,
-					} },
-					'plugin' : { '*' : {
-						'README.md'    : null,
-						'package.json' : null,
-					} },
-					'*' : {
-						'README.md'    : null,
-						'package.json' : null,
+			structure    : {
+				dovenv : {
+					docs     : { '*.md': null },
+					packages : {
+						'config' : {
+							'*' : {
+								'README.md'    : null,
+								'package.json' : null,
+							},
+						},
+						'theme' : {
+							'*' : {
+								'README.md'    : null,
+								'package.json' : null,
+							},
+						},
+						'plugin' : {
+							'*' : {
+								'README.md'    : null,
+								'package.json' : null,
+							},
+						},
+						'*' : {
+							'README.md'    : null,
+							'package.json' : null,
+						},
 					},
 				},
-			} },
+			},
 		},
-		check : { pkg : {
-			packageJSON : {
-				desc   : 'Check package(s) structure',
-				schema : ( {
-					v, content,
-				} ) => {
+		check : {
+			pkg : {
+				packageJSON : {
+					desc   : 'Check package(s) structure',
+					schema : ( {
+						v, content,
+					} ) => {
 
-					if ( content.private === true ) return undefined
-					if ( content.name !== 'dovenv-monorepo' ) return v.object( {
-						name    : v.string(),
-						version : v.string(),
-					} )
-					else return v.object( { extra: v.object( {} ) } )
+						if ( content.private === true ) return undefined
+						if ( content.name !== 'dovenv-monorepo' ) return v.object( {
+							name    : v.string(),
+							version : v.string(),
+						} )
+						else return v.object( { extra: v.object( {} ) } )
 
+					},
+				},
+				files : {
+					include : ( {
+						path, content,
+					} ) => {
+
+						if ( content.private === true ) return []
+						const shared = [ 'package.json', 'README.md' ]
+
+						if ( path.includes( '/config/' ) ) return shared
+						else if ( path === pkgPath ) return [ 'docs/index.md', ...shared ]
+
+						return [
+							'src/*{.js,.ts}',
+							'examples/**/*{.js,.ts}',
+							...shared,
+						]
+
+					},
+					exclude : ( { dir } ) => {
+
+						if ( arePathsEqual( dir, workspaceDir ) )
+							return [ 'src/*' ]
+
+					},
 				},
 			},
-			files : {
-				include : ( {
-					path, content,
-				} ) => {
-
-					if ( content.private === true ) return []
-					const shared = [ 'package.json', 'README.md' ]
-
-					if ( path.includes( '/config/' ) ) return shared
-					else if ( path === pkgPath ) return [ 'docs/index.md', ...shared ]
-
-					return [
-						'src/*{.js,.ts}',
-						'examples/**/*{.js,.ts}',
-						...shared,
-					]
-
-				},
-				exclude : ( { dir } ) => {
-
-					if ( arePathsEqual( dir, workspaceDir ) )
-						return [ 'src/*' ]
-
-				},
-			},
-		} },
+		},
 		// custom : { paths : {
 		// 	desc : 'Print paths',
 		// 	fn   : async ( { utils } ) => {

@@ -311,23 +311,25 @@ export class Packages extends Repo {
 			[ 'Unpacked size', this.utils.style.p( getSize( packages[0].unpackedSize ) ) ],
 			[ 'Total size', this.utils.style.success.p( getSize( size ) ) ],
 			[ '', '' ], // Empty line
-		], { chars : {
-			'top'          : '',
-			'top-mid'      : '',
-			'top-left'     : '',
-			'top-right'    : '',
-			'bottom'       : '',
-			'bottom-mid'   : '',
-			'bottom-left'  : '',
-			'bottom-right' : '',
-			'left'         : '',
-			'left-mid'     : '',
-			'mid'          : '',
-			'mid-mid'      : '',
-			'right'        : '',
-			'right-mid'    : '',
-			'middle'       : '',
-		} } )
+		], {
+			chars : {
+				'top'          : '',
+				'top-mid'      : '',
+				'top-left'     : '',
+				'top-right'    : '',
+				'bottom'       : '',
+				'bottom-mid'   : '',
+				'bottom-left'  : '',
+				'bottom-right' : '',
+				'left'         : '',
+				'left-mid'     : '',
+				'mid'          : '',
+				'mid-mid'      : '',
+				'right'        : '',
+				'right-mid'    : '',
+				'middle'       : '',
+			},
+		} )
 
 		if ( !isLocal )
 			data += '\n' + this.utils.style.p( `\nView more details in ${this.utils.style.a( `https://sizium.pigeonposse.com/?s=${name}` )}\n` )

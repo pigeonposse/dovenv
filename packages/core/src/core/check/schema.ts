@@ -14,16 +14,16 @@ const checkFile   = createValidateSchemaFn<CheckFileConfig>( v => v.object( {
 	desc        : v.string().optional(),
 	type        : v.literal( TYPE.FILE ),
 	patterns    : v.array( v.string() ).nonempty(),
-	validateAll : v.any(),
-	validate    : v.any(),
+	validateAll : v.any().optional(),
+	validate    : v.any().optional(),
 } ) )
 const checkDir    = createValidateSchemaFn<CheckDirConfig>( v => v.strictObject( {
 	title       : v.string().optional(),
 	desc        : v.string().optional(),
 	type        : v.literal( TYPE.DIR ),
 	patterns    : v.array( v.string() ).nonempty(),
-	validateAll : v.any(),
-	validate    : v.any(),
+	validateAll : v.any().optional(),
+	validate    : v.any().optional(),
 } ) )
 const checkCustom = createValidateSchemaFn<CheckCustomConfig>( v => v.strictObject( {
 	title : v.string().optional(),

@@ -13,7 +13,9 @@ import {
 	Runtime,
 } from './types'
 
-export type { RuntimeData }
+export type {
+	RuntimeData,
+}
 class RuntimeData {
 
 	#pkg

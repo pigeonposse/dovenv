@@ -1,3 +1,5 @@
+import { defineConfig } from 'eslint/config'
+
 import { setConfig } from './packages/config/eslint-config/dist/main.mjs'
 
 const config = setConfig(
@@ -25,4 +27,9 @@ const config = setConfig(
 	},
 )
 
-export default config
+export default defineConfig( ...config, {
+	rules : {
+		'preserve-caught-error'                   : 'off',
+		'package-json/no-redundant-publishConfig' : 'off',
+	},
+} )

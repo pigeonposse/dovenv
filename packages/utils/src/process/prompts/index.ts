@@ -1,6 +1,6 @@
 
-export * from './line/main'
+export * from './line'
 export type * from './line/types'
 
-export * from './prompt/main'
+export * from './prompt'
 export type * from './prompt/types'

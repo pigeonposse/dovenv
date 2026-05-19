@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import type { Prettify } from '@dovenv/utils'
 
 export type MediaInput = string | Buffer

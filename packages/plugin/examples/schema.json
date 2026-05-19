@@ -28,8 +28,8 @@
 					"type": "object",
 					"properties": {
 						"input": {
-							"description": "Example input. Can be a file or a string",
-							"type": "string"
+							"type": "string",
+							"description": "Example input. Can be a file or a string"
 						},
 						"title": {
 							"description": "Example title",

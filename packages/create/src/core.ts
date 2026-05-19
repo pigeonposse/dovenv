@@ -209,7 +209,7 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 		if ( theme && theme !== THEME_ID.none ) {
 
 			// @ts-ignore
-			const data = THEME_META[theme] as typeof THEME_META[ keyof typeof THEME_META]
+			const data = THEME_META[theme] as typeof THEME_META[keyof typeof THEME_META]
 
 			pkg.devDependencies = {
 				...pkg.devDependencies,
@@ -228,7 +228,7 @@ export const createTemplate = async ( params: CreateTemplateParams ) => {
 			for ( const key of plugin ) {
 
 				// @ts-ignore
-				const data = PLUGIN_META[key] as typeof PLUGIN_META[ keyof typeof PLUGIN_META]
+				const data = PLUGIN_META[key] as typeof PLUGIN_META[keyof typeof PLUGIN_META]
 
 				pkg.devDependencies = {
 					...pkg.devDependencies,

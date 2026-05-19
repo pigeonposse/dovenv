@@ -58,12 +58,15 @@ export const setCssConfig = ( params?: CssConfigParams ): Config[] => [
 	{
 		files    : [ FILES.CSS ],
 		language : 'css/css',
-		plugins  : { css },
+		// @ts-ignore
+		plugins  : { css: css },
 		...( params?.tailwind || params?.postcss
-			? { languageOptions : {
-				...( params?.tailwind ? { customSyntax: params.tailwind === 3 ? tailwind3 : tailwind4 } : {} ),
-				...( params?.postcss ? { tolerant: true } : {} ),
-			} }
+			? {
+				languageOptions : {
+					...( params?.tailwind ? { customSyntax: params.tailwind === 3 ? tailwind3 : tailwind4 } : {} ),
+					...( params?.postcss ? { tolerant: true } : {} ),
+				},
+			}
 			: {}
 		),
 		rules : {

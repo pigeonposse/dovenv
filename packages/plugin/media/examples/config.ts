@@ -47,15 +47,19 @@ export default defineConfig(
 			},
 		},
 		/** Generate terminal gifs */
-		termgif : { test : {
-			configPath : joinPath( termFolder, 'test.yml' ),
-			output     : joinPath( buildFolder, 'test-record' ),
-		// command    : 'zsh',
-		// quality    : 100,
-		} },
-		qr : { pigeonposse : {
-			input : 'https://pigeonposse.com/',
-			size  : 'large',
-		} },
+		termgif : {
+			test : {
+				configPath : joinPath( termFolder, 'test.yml' ),
+				output     : joinPath( buildFolder, 'test-record' ),
+				// command    : 'zsh',
+				// quality    : 100,
+			},
+		},
+		qr : {
+			pigeonposse : {
+				input : 'https://pigeonposse.com/',
+				size  : 'large',
+			},
+		},
 
 	} ) )

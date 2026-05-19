@@ -128,7 +128,7 @@ export type Config = {
 					content : PackageJSON
 					/** Dovenv utilities */
 					utils   : CommandUtils
-				} )=> Promise<ValidateAnyType | void> | ( ValidateAnyType | void )
+				} ) => Promise<ValidateAnyType | void> | ( ValidateAnyType | void )
 			}>
 		>
 	}

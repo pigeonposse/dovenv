@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/object-curly-newline */
 
 import type { CommandUtils } from '../_shared/cmd-utils'
 import type {

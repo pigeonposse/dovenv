@@ -1,6 +1,9 @@
 import supportsHyperlinks from 'supports-hyperlinks'
 
-export { supportsHyperlinks }
+export {
+	supportsHyperlinks,
+}
+
 export * from './core'
 export * from './exec'
 export * from './cli'

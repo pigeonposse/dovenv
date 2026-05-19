@@ -21,9 +21,10 @@ const config = defineConfig(
 
 		// console.log( _c ? Object.values( _c ).length : 'No exists config' )
 		return {
-			input    : '../../../docs',
-			output   : './build/ws',
-			name     : 'dovenv',
+			input  : '../../../docs',
+			output : './build/ws',
+			name   : 'dovenv',
+
 			npmURL   : 'https://www.npmjs.com/package/dovenv',
 			navLinks : [
 				{

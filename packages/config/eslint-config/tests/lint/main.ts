@@ -119,3 +119,6 @@ catch ( _e ) {
 
 }
 
+export {
+	array, logf, toConsole, toConsole2, toConsole3,
+}

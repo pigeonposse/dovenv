@@ -63,18 +63,20 @@ export const setSvelteConfig = async ( params?: Partial<SvelteParams> ): Promise
 		} ),
 		{
 			files           : [ FILES.SVELTE, FILES.SVELTE_FILE ],
-			languageOptions : { parserOptions : {
-				...( params?.ts
-					? {
-						projectService      : true,
-						extraFileExtensions : [ '.svelte' ], // Add support for additional file extensions, such as .svelte
-						parser              : ts.parser,
-						...( typeof params.ts === 'boolean' ? {} : params.ts ),
-					}
-					: {}
-				),
-				svelteConfig : params?.svelteConfig,
-			} },
+			languageOptions : {
+				parserOptions : {
+					...( params?.ts
+						? {
+							projectService      : true,
+							extraFileExtensions : [ '.svelte' ], // Add support for additional file extensions, such as .svelte
+							parser              : ts.parser,
+							...( typeof params.ts === 'boolean' ? {} : params.ts ),
+						}
+						: {}
+					),
+					svelteConfig : params?.svelteConfig,
+				},
+			},
 		},
 		{
 			files : [ FILES.SVELTE ],

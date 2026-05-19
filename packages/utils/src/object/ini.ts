@@ -29,5 +29,7 @@ export const getObjectFromINIContent = async <Res extends CommonObj = CommonObj>
 
 }
 
-export { ini }
+export {
+	ini,
+}
 

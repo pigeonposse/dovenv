@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { LlmsConfig }          from 'vitepress-plugin-llmstxt'

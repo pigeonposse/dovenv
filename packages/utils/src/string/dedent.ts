@@ -108,4 +108,6 @@ const createDedent = ( options: DedentOptions ) => {
  */
 const dedent: Dedent = createDedent( {} )
 
-export { dedent }
+export {
+	dedent,
+}

@@ -9,13 +9,15 @@ import type {
 
 import { LazyLoader } from '@/sys/loader'
 
-export const _styledeps = new LazyLoader( { font: async () => ( await import( '@ascii-kit/font' ) ).Font } )
-
 /**
  * Export types that can be used from outside.
  *
  */
-export { FontName }
+export {
+	FontName,
+}
+
+const _styledeps = new LazyLoader( { font: async () => ( await import( '@ascii-kit/font' ) ).Font } )
 
 /**
  * Unicode symbols with fallbacks for older terminals.

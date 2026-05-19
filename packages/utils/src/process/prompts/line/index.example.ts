@@ -1,5 +1,6 @@
-import { promptLineGroup } from './main'
-import { color }           from '../../../styles/color'
+import {
+	promptLineGroup, color,
+} from '@dovenv/utils'
 
 // log.verbose = true
 // log.error( 'es un error' )

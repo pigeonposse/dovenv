@@ -231,7 +231,7 @@ Renderer.prototype.listitem = function ( text ) {
 					) {
 
 						item.tokens[0].tokens[0].text
-              = checkbox + ' ' + item.tokens[0].tokens[0].text
+							= checkbox + ' ' + item.tokens[0].tokens[0].text
 
 					}
 
@@ -458,17 +458,10 @@ Renderer.prototype.link = function ( href, title, text ) {
 
 	if ( supportsHyperlinks.stdout ) {
 
-		let link = ''
-		if ( text ) {
+		const link = text
+			? this.o.href( this.emoji( text ) )
+			: this.o.href( href )
 
-			link = this.o.href( this.emoji( text ) )
-
-		}
-		else {
-
-			link = this.o.href( href )
-
-		}
 		out = ansiEscapes.link(
 			link,
 			href
@@ -702,7 +695,7 @@ function indentify( indent, text ) {
 const BULLET_POINT_REGEX   = '\\*'
 const NUMBERED_POINT_REGEX = '\\d+\\.'
 const POINT_REGEX
-  = '(?:' + [ BULLET_POINT_REGEX, NUMBERED_POINT_REGEX ].join( '|' ) + ')'
+	= '(?:' + [ BULLET_POINT_REGEX, NUMBERED_POINT_REGEX ].join( '|' ) + ')'
 
 // Prevents nested lists from joining their parent list's last line
 function fixNestedLists( body, indent ) {

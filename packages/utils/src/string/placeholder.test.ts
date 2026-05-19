@@ -87,17 +87,19 @@ describe( 'replacePlaceholders', () => {
 		const content = 'hello {{const.name}} {{const.info.secondName}}. Your friend is {{const.info.more[0].friend}}. You are a {{const.info.more[1]}} and a {{const.info.more[2]}}.'
 		const result  = await replacePlaceholders( {
 			content,
-			params : { const : {
-				name : 'Alice',
-				info : {
-					secondName : 'Copper',
-					more       : [
-						{ friend: 'Tony' },
-						'rockstar',
-						'pimp',
-					],
+			params : {
+				const : {
+					name : 'Alice',
+					info : {
+						secondName : 'Copper',
+						more       : [
+							{ friend: 'Tony' },
+							'rockstar',
+							'pimp',
+						],
+					},
 				},
-			} },
+			},
 		} )
 		expect( result ).toBe( 'hello Alice Copper. Your friend is Tony. You are a rockstar and a pimp.' )
 
@@ -107,21 +109,25 @@ describe( 'replacePlaceholders', () => {
 		const content = 'hello [[const.name]] [[const.info.secondName]]. Your friend is [[const.info.more[0].friend ]]. You are a [[const.info.more[1] ]] and a [[const.info.more[2] ]].'
 		const result  = await replacePlaceholders( {
 			content,
-			params : { const : {
-				name : 'Alice',
-				info : {
-					secondName : 'Copper',
-					more       : [
-						{ friend: 'Tony' },
-						'rockstar',
-						'pimp',
-					],
+			params : {
+				const : {
+					name : 'Alice',
+					info : {
+						secondName : 'Copper',
+						more       : [
+							{ friend: 'Tony' },
+							'rockstar',
+							'pimp',
+						],
+					},
 				},
-			} },
-			opts : { mark : {
-				prefix : '[[',
-				suffix : ']]',
-			} },
+			},
+			opts : {
+				mark : {
+					prefix : '[[',
+					suffix : ']]',
+				},
+			},
 		} )
 		expect( result ).toBe( 'hello Alice Copper. Your friend is Tony. You are a rockstar and a pimp.' )
 

@@ -1,5 +1,22 @@
 # @dovenv/theme-banda
 
+## 1.6.2
+
+### Patch Changes
+
+- fix issues, up depensences for fix vulnerabilities
+
+- Updated dependencies []:
+  - @dovenv/templates@1.6.2
+  - @dovenv/workspace@1.6.2
+  - @dovenv/examples@1.6.2
+  - @dovenv/convert@1.6.2
+  - @dovenv/docs@1.6.2
+  - @dovenv/lint@1.6.2
+  - @dovenv/repo@1.6.2
+  - @dovenv/todo@1.6.2
+  - @dovenv/core@1.6.2
+
 ## 1.6.1
 
 ### Patch Changes

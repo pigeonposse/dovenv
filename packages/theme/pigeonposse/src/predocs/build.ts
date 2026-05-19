@@ -346,88 +346,90 @@ export class Predocs {
 					installationGroup : { input: partials.installationGroup },
 					creationGroup     : { input: partials.creationGroup },
 				},
-				hook : { before : async d => {
+				hook : {
+					before : async d => {
 
-					const existsLogo   = await existsPath( joinPath( data.docsPublicDir, 'logo.png' ) )
-					const name         = this.projectName
-					const layoutConfig = {
-						layout : 'home',
-						hero   : {
-							name    : name.toUpperCase(),
-							tagline : this.#wsPkg.extra.shortDesc,
-							text    : this.#wsPkg.extra.action,
-							image   : existsLogo
-								? {
-									src : '/logo.png',
-									alt : name,
-								}
-								: undefined,
-							actions : opts?.noAction
+						const existsLogo   = await existsPath( joinPath( data.docsPublicDir, 'logo.png' ) )
+						const name         = this.projectName
+						const layoutConfig = {
+							layout : 'home',
+							hero   : {
+								name    : name.toUpperCase(),
+								tagline : this.#wsPkg.extra.shortDesc,
+								text    : this.#wsPkg.extra.action,
+								image   : existsLogo
+									? {
+										src : '/logo.png',
+										alt : name,
+									}
+									: undefined,
+								actions : opts?.noAction
+									? undefined
+									: [
+										{
+											theme : 'brand',
+											text  : 'Get started',
+											link  : `/${docsRoute.guide}`,
+										},
+										{
+											theme : 'alt',
+											text  : 'View on GitHub',
+											link  : this.#REPO_URL,
+										},
+									],
+							},
+							features : opts?.noFeatures
 								? undefined
 								: [
 									{
-										theme : 'brand',
-										text  : 'Get started',
-										link  : `/${docsRoute.guide}`,
+										title   : 'Get started',
+										icon    : this.#EMOJI?.getStarted,
+										details : 'Start your project now',
+										link    : `/${docsRoute.guide}`,
 									},
 									{
-										theme : 'alt',
-										text  : 'View on GitHub',
-										link  : this.#REPO_URL,
+										title   : 'Library / CLI',
+										icon    : this.#EMOJI?.library,
+										details : 'Check the documentation',
+										link    : `/${docsRoute.guide}/${ID.core}`,
 									},
-								],
-						},
-						features : opts?.noFeatures
-							? undefined
-							: [
-								{
-									title   : 'Get started',
-									icon    : this.#EMOJI?.getStarted,
-									details : 'Start your project now',
-									link    : `/${docsRoute.guide}`,
-								},
-								{
-									title   : 'Library / CLI',
-									icon    : this.#EMOJI?.library,
-									details : 'Check the documentation',
-									link    : `/${docsRoute.guide}/${ID.core}`,
-								},
-								groups.includes( ID.plugin )
-									? {
-										title   : 'Plugins',
-										icon    : this.#EMOJI?.plugin,
-										details : 'Check our list of plugins',
-										link    : `/${docsRoute.guide}/${ID.plugin}`,
-									}
-									: undefined,
-								groups.includes( ID.theme )
-									? {
-										title   : 'Themes',
-										icon    : this.#EMOJI?.theme,
-										details : 'Check our list of themes',
-										link    : `/${docsRoute.guide}/${ID.theme}`,
-									}
-									: undefined,
-								groups.includes( ID.preset )
-									? {
-										title   : 'Presets',
-										icon    : this.#EMOJI?.preset,
-										details : 'Check our list of presets',
-										link    : `/${docsRoute.guide}/${ID.preset}`,
-									}
-									: undefined,
-							].filter( d => d !== undefined ),
-					}
+									groups.includes( ID.plugin )
+										? {
+											title   : 'Plugins',
+											icon    : this.#EMOJI?.plugin,
+											details : 'Check our list of plugins',
+											link    : `/${docsRoute.guide}/${ID.plugin}`,
+										}
+										: undefined,
+									groups.includes( ID.theme )
+										? {
+											title   : 'Themes',
+											icon    : this.#EMOJI?.theme,
+											details : 'Check our list of themes',
+											link    : `/${docsRoute.guide}/${ID.theme}`,
+										}
+										: undefined,
+									groups.includes( ID.preset )
+										? {
+											title   : 'Presets',
+											icon    : this.#EMOJI?.preset,
+											details : 'Check our list of presets',
+											link    : `/${docsRoute.guide}/${ID.preset}`,
+										}
+										: undefined,
+								].filter( d => d !== undefined ),
+						}
 
-					const customConfig = opts?.custom || {}
+						const customConfig = opts?.custom || {}
 
-					d.const.docsIndex = await yaml.serialize( deepmerge( layoutConfig, customConfig ) )
+						d.const.docsIndex = await yaml.serialize( deepmerge( layoutConfig, customConfig ) )
 
-					if ( opts?.content ) d.const.docsIndex += `\n\n${opts.content}`
+						if ( opts?.content ) d.const.docsIndex += `\n\n${opts.content}`
 
-					return d
+						return d
 
-				} },
+					},
+				},
 			} )
 
 		}
@@ -658,18 +660,20 @@ export class Predocs {
 				output  : publicPkg.docs.indexFile,
 				const   : { libPkg: publicPkg.data },
 				partial : { installation: { input: partials.installationGroup } },
-				hook    : { afterPartials : async data => {
+				hook    : {
+					afterPartials : async data => {
 
-					let finalcontent = this.#setMdTitle( `More`, this.#EMOJI?.more )
+						let finalcontent = this.#setMdTitle( `More`, this.#EMOJI?.more )
 
-					if ( publicPkg.docs.examplesFile ) finalcontent += this.#setMdLink( 'Examples', FILE_NAME.EXAMPLES, this.#EMOJI?.examples ) + '\n'
-					if ( publicPkg.docs.apiFile ) finalcontent += this.#setMdLink( 'API Docs', FILE_NAME.API, this.#EMOJI?.api ) + '\n'
-					finalcontent += this.#setMdLink( 'NPM', `https://www.npmjs.com/package/${publicPkg.data.name}`, this.#EMOJI?.package ) + '\n'
-					data.content += '\n' + finalcontent
+						if ( publicPkg.docs.examplesFile ) finalcontent += this.#setMdLink( 'Examples', FILE_NAME.EXAMPLES, this.#EMOJI?.examples ) + '\n'
+						if ( publicPkg.docs.apiFile ) finalcontent += this.#setMdLink( 'API Docs', FILE_NAME.API, this.#EMOJI?.api ) + '\n'
+						finalcontent += this.#setMdLink( 'NPM', `https://www.npmjs.com/package/${publicPkg.data.name}`, this.#EMOJI?.package ) + '\n'
+						data.content += '\n' + finalcontent
 
-					return data
+						return data
 
-				} },
+					},
+				},
 				...( opts?.props || {} ),
 			} )
 
@@ -870,19 +874,21 @@ export class Predocs {
 					precontent   : { input: precontent },
 					installation : { input: partials.installation },
 				},
-				hook : { afterPartials : async data => {
+				hook : {
+					afterPartials : async data => {
 
-					// console.log( data )
-					data.const.toc = await geMDTocString( {
-						input           : data.content,
-						title           : 'Table of contents',
-						removeH1        : true,
-						maxHeadingLevel : 4,
-					} )
+						// console.log( data )
+						data.const.toc = await geMDTocString( {
+							input           : data.content,
+							title           : 'Table of contents',
+							removeH1        : true,
+							maxHeadingLevel : 4,
+						} )
 
-					return data
+						return data
 
-				} },
+					},
+				},
 				...( opts?.props || {} ),
 			} )
 
@@ -1023,58 +1029,64 @@ export const predocsPlugin = ( opts?: PredocsConfig | ( ( data:Predocs ) => Prom
 		'contributors'        : undefined,
 	}
 	const OptsAreFunction    = typeof opts === 'function'
-	return defineConfig( { custom : { predocs : {
-		desc : 'Create package docs simultaneously',
-		opts : !OptsAreFunction
-			? { key : {
-				alias : 'k',
-				desc  : 'Set a pattern of braces to build only those parts. Available keys: (' + Object.keys( predocsPartsObject ).join( ', ' ) + ')',
-				type  : 'array',
-			} }
-			: undefined,
-		fn : async ( {
-			utils, opts: flags,
-		} ) => {
+	return defineConfig( {
+		custom : {
+			predocs : {
+				desc : 'Create package docs simultaneously',
+				opts : !OptsAreFunction
+					? {
+						key : {
+							alias : 'k',
+							desc  : 'Set a pattern of braces to build only those parts. Available keys: (' + Object.keys( predocsPartsObject ).join( ', ' ) + ')',
+							type  : 'array',
+						},
+					}
+					: undefined,
+				fn : async ( {
+					utils, opts: flags,
+				} ) => {
 
-			if ( OptsAreFunction ) {
+					if ( OptsAreFunction ) {
 
-				const predocs = new Predocs( {
-					opts : undefined,
-					utils,
-				} )
-				await opts( predocs )
-				return
+						const predocs = new Predocs( {
+							opts : undefined,
+							utils,
+						} )
+						await opts( predocs )
+						return
 
-			}
+					}
 
-			const getActiveOpts = async (): Promise<Parameters<Predocs['run']>[0]> => {
+					const getActiveOpts = async (): Promise<Parameters<Predocs['run']>[0]> => {
 
-				if ( !flags?.key ) return
+						if ( !flags?.key ) return
 
-				const keys = await utils.getOptsKeys( {
-					input   : predocsPartsObject,
-					pattern : flags.key as string[],
-				} )
-				// Exit if keys is undefined Because no keys were found and the user dont want build all.
-				if ( !keys ) return utils.process.exit( )
-				const result: Record<string, false | undefined> = {}
+						const keys = await utils.getOptsKeys( {
+							input   : predocsPartsObject,
+							pattern : flags.key as string[],
+						} )
+						// Exit if keys is undefined Because no keys were found and the user dont want build all.
+						if ( !keys ) return utils.process.exit( )
+						const result: Record<string, false | undefined> = {}
 
-				for ( const key in predocsPartsObject )
-					if ( Object.prototype.hasOwnProperty.call( predocsPartsObject, key ) )
-						result[kebab2Camel( key )] = !keys.includes( key ) ? false : undefined
+						for ( const key in predocsPartsObject )
+							if ( Object.prototype.hasOwnProperty.call( predocsPartsObject, key ) )
+								result[kebab2Camel( key )] = !keys.includes( key ) ? false : undefined
 
-				return result
+						return result
 
-			}
+					}
 
-			const predocs = new Predocs( {
-				opts,
-				utils,
-			} )
+					const predocs = new Predocs( {
+						opts,
+						utils,
+					} )
 
-			await predocs.run( await getActiveOpts() )
+					await predocs.run( await getActiveOpts() )
 
+				},
+			},
 		},
-	} } } )
+	} )
 
 }
