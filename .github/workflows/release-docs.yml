@@ -29,8 +29,8 @@ jobs:
       #########################################################################
       # INIT
       #########################################################################
-
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup/
         with: 
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 
