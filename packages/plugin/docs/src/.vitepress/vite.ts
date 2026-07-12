@@ -6,6 +6,7 @@ import ViteRestart             from 'vite-plugin-restart'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import llmstxtPlugin           from 'vitepress-plugin-llmstxt'
 import { RssPlugin }           from 'vitepress-plugin-rss'
+import sizePlugin              from 'vitepress-plugin-size'
 
 import {
 	getGlobals,
@@ -120,6 +121,7 @@ export const vite = async ( {
 					restart : [ ...( conf?.server?.restartFiles ? conf.server.restartFiles : [] ) ],
 				} ),
 				...( conf.llms === false ? [] : [ llmstxtPlugin( conf.llms ) ] ),
+				sizePlugin(),
 			],
 		},
 	}

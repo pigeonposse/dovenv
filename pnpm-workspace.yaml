@@ -102,6 +102,8 @@ minimumReleaseAgeExclude:
   - tar@7.5.10
   - tar@7.5.11
   - tar@7.5.4
+  - vitepress-plugin-llmstxt@0.5.2
+  - vitepress-plugin-size@1.0.1
 
 overrides:
   axios@<1.12.0: '>=1.12.0'
